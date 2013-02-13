@@ -4,18 +4,31 @@
 	<groupId>org</groupId>
 	<artifactId>stackexchange2twitter</artifactId>
 	<version>0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>stackexchange</name>
 	<url>https://github.com/eugenp/stackexchange2twitter</url>
 	<description>Twitter bot posting Top Questions from StackExchange API</description>
 
 	<dependencies>
 
+		<!-- internal -->
+
+		<dependency>
+			<groupId>org</groupId>
+			<artifactId>stackexchange</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
+
 		<!-- spring -->
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+			<version>3.2.1.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
 			<version>3.2.1.RELEASE</version>
 		</dependency>
 		<dependency>
@@ -26,8 +39,11 @@
 
 		<!-- util -->
 
-		<!-- <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
-			<version>14.0-rc2</version> </dependency> -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>14.0-rc2</version>
+		</dependency>
 
 		<!-- marshalling -->
 
