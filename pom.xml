@@ -11,16 +11,20 @@
 
 	<dependencies>
 
+		<!-- spring -->
+
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.3-alpha1</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.2.1.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.directory.studio</groupId>
-			<artifactId>org.apache.commons.io</artifactId>
-			<version>2.4</version>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-twitter</artifactId>
+			<version>1.0.3.RELEASE</version>
 		</dependency>
+
+		<!-- util -->
 
 		<!-- <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> 
 			<version>14.0-rc2</version> </dependency> -->
