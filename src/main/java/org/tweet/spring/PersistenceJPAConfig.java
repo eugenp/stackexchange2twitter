@@ -4,12 +4,13 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -20,30 +21,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ImportResource("classpath*:*secPersistenceConfig.xml")
-@ComponentScan({ "org.rest.sec.persistence" })
+@ImportResource("classpath*:*persistenceConfig.xml")
+@ComponentScan({ "org.tweet.stackexchange.persistence" })
 @PropertySource({ "classpath:persistence-${persistenceTarget:h2}.properties" })
 public class PersistenceJPAConfig {
 
-    @Value("${jdbc.driverClassName}")
-    private String driverClassName;
-    @Value("${jdbc.url}")
-    private String url;
-    @Value("${jpa.generateDdl}")
-    boolean jpaGenerateDdl;
-
-    // Hibernate specific
-    @Value("${hibernate.dialect}")
-    String hibernateDialect;
-    @Value("${hibernate.show_sql}")
-    boolean hibernateShowSql;
-    @Value("${hibernate.hbm2ddl.auto}")
-    String hibernateHbm2ddlAuto;
-
-    @Value("${jdbc.username}")
-    private String jdbcUsername;
-    @Value("${jdbc.password}")
-    private String jdbcPassword;
+    @Autowired
+    private Environment env;
 
     public PersistenceJPAConfig() {
         super();
@@ -55,14 +39,14 @@ public class PersistenceJPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(restDataSource());
-        factoryBean.setPackagesToScan(new String[] { "org.rest" });
+        factoryBean.setPackagesToScan(new String[] { "org.tweet" });
 
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter() {
             {
                 // setDatabase( Database.H2 ); // TODO: is this necessary
-                setDatabasePlatform(hibernateDialect);
-                setShowSql(hibernateShowSql);
-                setGenerateDdl(jpaGenerateDdl);
+                setDatabasePlatform(env.getProperty("hibernate.dialect"));
+                setShowSql(env.getProperty("hibernate.show_sql", Boolean.class));
+                setGenerateDdl(env.getProperty("jpa.generateDdl", Boolean.class));
             }
         };
         factoryBean.setJpaVendorAdapter(vendorAdapter);
@@ -75,10 +59,10 @@ public class PersistenceJPAConfig {
     @Bean
     public DataSource restDataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(jdbcUsername);
-        dataSource.setPassword(jdbcPassword);
+        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+        dataSource.setUrl(env.getProperty("jdbc.url"));
+        dataSource.setUsername(env.getProperty("jdbc.username"));
+        dataSource.setPassword(env.getProperty("jdbc.password"));
         return dataSource;
     }
 
@@ -100,7 +84,7 @@ public class PersistenceJPAConfig {
         return new Properties() {
             {
                 // use this to inject additional properties in the EntityManager
-                setProperty("hibernate.hbm2ddl.auto", hibernateHbm2ddlAuto);
+                setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
                 setProperty("hibernate.ejb.naming_strategy", org.hibernate.cfg.ImprovedNamingStrategy.class.getName());
             }
         };
