@@ -13,11 +13,11 @@
 
 		<!-- internal -->
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org</groupId>
 			<artifactId>stackexchange</artifactId>
 			<version>0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- spring -->
 

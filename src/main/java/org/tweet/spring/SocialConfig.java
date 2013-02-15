@@ -26,10 +26,10 @@ import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 @ComponentScan({ "org.tweet.twitter" })
 public class SocialConfig {
 
-    private static final String CONSUMER_KEY = "2jXUgs9QmrNzdzRzglDBTg";
-    private static final String CONSUMER_SECRET = "XipjDslY6bqhulUW0IHbAEIqHgkk0IWOfwg4OljU";
-    // private static final String ACCESS_TOKEN = "885FD806-5F5D-44D5-89A8-6E505E293EAF";
-    // private static final String ACCESS_TOKEN_SECRET = "FCB33A3B-397A-45B3-818F-41BB410C5AE5";
+    public static final String CONSUMER_KEY = "2jXUgs9QmrNzdzRzglDBTg";
+    public static final String CONSUMER_SECRET = "XipjDslY6bqhulUW0IHbAEIqHgkk0IWOfwg4OljU";
+    public static final String ACCESS_TOKEN = "1169459593-tWD1l9Ni7Ocy3EdcHkM0WF7SGfbpXsbX9NAAi3f";
+    public static final String ACCESS_TOKEN_SECRET = "2zjY7iPCm8PDcPfrQvKjdU5No3SXgkuluncqYgBBc";
 
     @Autowired
     private Environment environment;
