@@ -13,7 +13,7 @@ import org.tweet.twitter.TwitterService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { SocialConfig.class, ContextConfig.class, PersistenceJPAConfig.class, StackexchangeConfig.class })
-public class TweetStackexchangeServiceLiveTest {
+public class TweetServiceLiveTest {
 
     @Autowired
     private TwitterService twitterService;

@@ -3,9 +3,10 @@ package org.tweet.stackexchange;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
+import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
+import org.tweet.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.TwitterService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +23,9 @@ public class TweetStackexchangeService {
     @Autowired
     private QuestionsApi questionsApi;
 
+    @Autowired
+    private IQuestionTweetJpaDAO questionTweetApi;
+
     public TweetStackexchangeService() {
         super();
     }
@@ -29,12 +33,33 @@ public class TweetStackexchangeService {
     // API
 
     // 6 hours
-    @Scheduled(fixedRate = 21600000)
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
         final String questionsAsJson = questionsApi.questions(100);
         final ObjectMapper mapper = new ObjectMapper();
         final JsonNode rootNode = mapper.readTree(questionsAsJson);
         final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
+        for (final JsonNode question : questionsArray) {
+            if (!hasThisQuestionAlreadyBeenTweeted(question)) {
+                tweet(question);
+                break;
+            }
+        }
     }
 
+    // util
+
+    private boolean hasThisQuestionAlreadyBeenTweeted(final JsonNode question) {
+        final String questionId = question.get("question_id").toString();
+        final QuestionTweet existingTweet = questionTweetApi.findByQuestionId(questionId);
+
+        return existingTweet != null;
+    }
+
+    private void tweet(final JsonNode question) {
+        final String title = question.get("title").toString();
+        final String link = question.get("link").toString();
+        final String fullTweet = title.subSequence(1, title.length() - 1) + " - " + link.subSequence(1, link.length() - 1);
+
+        twitterService.tweet(fullTweet);
+    }
 }

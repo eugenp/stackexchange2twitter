@@ -14,6 +14,7 @@ public class QuestionTweet {
     @Column(name = "PRIV_ID")
     private long id;
 
+    @Column(nullable = false, unique = true)
     private String questionId;
 
     public QuestionTweet() {

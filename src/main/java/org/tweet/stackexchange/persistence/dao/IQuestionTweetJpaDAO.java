@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
 
 public interface IQuestionTweetJpaDAO extends JpaRepository<QuestionTweet, Long>, JpaSpecificationExecutor<QuestionTweet> {
-    //
+
+    public QuestionTweet findByQuestionId(final String questionId);
+
 }
