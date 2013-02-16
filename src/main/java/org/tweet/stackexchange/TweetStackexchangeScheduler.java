@@ -20,8 +20,8 @@ public class TweetStackexchangeScheduler {
 
     // API
 
-    // 6 hours
-    @Scheduled(fixedRate = 21600000)
+    // 12 hours = 1000 * 60 * 60 * 12
+    @Scheduled(fixedRate = 43200000)
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
         service.tweetStackExchangeTopQuestion();
     }
