@@ -212,6 +212,9 @@
 					<excludes>
 						<exclude>**/*LiveTest.java</exclude>
 					</excludes>
+					<systemPropertyVariables>
+						<persistenceTarget>h2</persistenceTarget>
+					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 
