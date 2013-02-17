@@ -46,6 +46,7 @@ public class TweetStackexchangeService {
             if (!hasThisQuestionAlreadyBeenTweeted(question)) {
                 logger.info("Tweeting Question: title= {} with id= {}", question.get("title"), question.get("question_id"));
                 tweet(question);
+                markQuestionTweeted(question);
                 break;
             }
         }
@@ -53,19 +54,25 @@ public class TweetStackexchangeService {
 
     // util
 
-    private boolean hasThisQuestionAlreadyBeenTweeted(final JsonNode question) {
+    private final boolean hasThisQuestionAlreadyBeenTweeted(final JsonNode question) {
         final String questionId = question.get("question_id").toString();
         final QuestionTweet existingTweet = questionTweetApi.findByQuestionId(questionId);
 
         return existingTweet != null;
     }
 
-    private void tweet(final JsonNode question) {
+    private final void tweet(final JsonNode question) {
         final String title = question.get("title").toString();
         final String link = question.get("link").toString();
         final String fullTweet = title.subSequence(1, title.length() - 1) + " - " + link.subSequence(1, link.length() - 1);
 
         twitterService.tweet(fullTweet);
+    }
+
+    private final void markQuestionTweeted(final JsonNode question) {
+        final String questionId = question.get("question_id").toString();
+        final QuestionTweet questionTweet = new QuestionTweet(questionId);
+        questionTweetApi.save(questionTweet);
     }
 
 }
