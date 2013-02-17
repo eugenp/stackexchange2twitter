@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
+import org.stackexchange.api.constants.Site;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.TwitterService;
@@ -36,17 +37,16 @@ public class TweetStackexchangeService {
     // API
 
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
-        final String questionsAsJson = questionsApi.questions(100);
+        final String siteQuestionsRawJson = questionsApi.questions(100, Site.serverfault);
 
-        final ObjectMapper mapper = new ObjectMapper();
-        final JsonNode rootNode = mapper.readTree(questionsAsJson);
-        final ArrayNode questionsArray = (ArrayNode) rootNode.get("items");
-        for (final JsonNode question : questionsArray) {
-            logger.debug("Considering to tweet question with id=" + question.get("question_id"));
-            if (!hasThisQuestionAlreadyBeenTweeted(question)) {
-                logger.info("Tweeting Question: title= {} with id= {}", question.get("title"), question.get("question_id"));
-                tweet(question);
-                markQuestionTweeted(question);
+        final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
+        final ArrayNode siteQuestionsJsonArray = (ArrayNode) siteQuestionsJson.get("items");
+        for (final JsonNode questionJson : siteQuestionsJsonArray) {
+            logger.debug("Considering to tweet question with id=" + questionJson.get(QuestionsApi.QUESTION_ID));
+            if (!hasThisQuestionAlreadyBeenTweeted(questionJson)) {
+                logger.info("Tweeting Question: title= {} with id= {}", questionJson.get(QuestionsApi.TITLE), questionJson.get(QuestionsApi.QUESTION_ID));
+                tweet(questionJson);
+                markQuestionTweeted(questionJson);
                 break;
             }
         }
@@ -55,22 +55,22 @@ public class TweetStackexchangeService {
     // util
 
     private final boolean hasThisQuestionAlreadyBeenTweeted(final JsonNode question) {
-        final String questionId = question.get("question_id").toString();
+        final String questionId = question.get(QuestionsApi.QUESTION_ID).toString();
         final QuestionTweet existingTweet = questionTweetApi.findByQuestionId(questionId);
 
         return existingTweet != null;
     }
 
     private final void tweet(final JsonNode question) {
-        final String title = question.get("title").toString();
-        final String link = question.get("link").toString();
+        final String title = question.get(QuestionsApi.TITLE).toString();
+        final String link = question.get(QuestionsApi.LINK).toString();
         final String fullTweet = title.subSequence(1, title.length() - 1) + " - " + link.subSequence(1, link.length() - 1);
 
         twitterService.tweet(fullTweet);
     }
 
     private final void markQuestionTweeted(final JsonNode question) {
-        final String questionId = question.get("question_id").toString();
+        final String questionId = question.get(QuestionsApi.QUESTION_ID).toString();
         final QuestionTweet questionTweet = new QuestionTweet(questionId);
         questionTweetApi.save(questionTweet);
     }

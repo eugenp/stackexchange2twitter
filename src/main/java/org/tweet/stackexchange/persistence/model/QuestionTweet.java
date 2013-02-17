@@ -23,6 +23,7 @@ public class QuestionTweet {
 
     public QuestionTweet(final String questionId) {
         super();
+
         this.questionId = questionId;
     }
 
