@@ -213,7 +213,7 @@
 						<exclude>**/*LiveTest.java</exclude>
 					</excludes>
 					<systemPropertyVariables>
-						<persistenceTarget>h2</persistenceTarget>
+						<persistenceTarget>test</persistenceTarget>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
