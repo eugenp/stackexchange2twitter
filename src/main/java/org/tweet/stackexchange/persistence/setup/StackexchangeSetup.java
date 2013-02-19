@@ -49,7 +49,7 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
             logger.info("Executing Setup");
             eventPublisher.publishEvent(new BeforeSetupEvent(this));
 
-            if (env.getProperty("setup.active", Boolean.class)) {
+            if (env.getProperty("setup.do", Boolean.class)) {
                 recreateTwittedQuestions();
             }
 
@@ -60,13 +60,13 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
 
     // util
 
-    private final void recreateTwittedQuestions() {
+    final void recreateTwittedQuestions() {
         final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty("ServerFaultBest.done"));
         final String[] questionIds = tweetedQuestions.split(",");
         recreateTwitterQuestions(questionIds);
     }
 
-    private final void recreateTwitterQuestions(final String[] questionIds) {
+    final void recreateTwitterQuestions(final String[] questionIds) {
         for (final String questionId : questionIds) {
             final QuestionTweet questionTweet = new QuestionTweet(questionId, MyTwitterAccounts.SERVERFAULT_BEST);
             questionTweetApi.save(questionTweet);
