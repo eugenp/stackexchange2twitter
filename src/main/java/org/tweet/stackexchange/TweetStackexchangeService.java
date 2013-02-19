@@ -38,7 +38,7 @@ public class TweetStackexchangeService {
     // API
 
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
-        final String siteQuestionsRawJson = questionsApi.questions(100, Site.serverfault);
+        final String siteQuestionsRawJson = questionsApi.questions(70, Site.serverfault);
 
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
         final ArrayNode siteQuestionsJsonArray = (ArrayNode) siteQuestionsJson.get("items");
