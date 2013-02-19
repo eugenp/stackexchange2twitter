@@ -10,6 +10,7 @@ import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.Site;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
+import org.tweet.stackexchange.util.MyTwitterAccounts;
 import org.tweet.twitter.service.TwitterService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -71,7 +72,7 @@ public class TweetStackexchangeService {
 
     private final void markQuestionTweeted(final JsonNode question) {
         final String questionId = question.get(QuestionsApi.QUESTION_ID).toString();
-        final QuestionTweet questionTweet = new QuestionTweet(questionId);
+        final QuestionTweet questionTweet = new QuestionTweet(questionId, MyTwitterAccounts.SERVERFAULT_BEST);
         questionTweetApi.save(questionTweet);
     }
 

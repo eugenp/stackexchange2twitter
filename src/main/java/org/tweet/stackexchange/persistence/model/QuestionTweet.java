@@ -19,14 +19,17 @@ public class QuestionTweet implements IEntity {
     @Column(nullable = false, unique = true)
     private String questionId;
 
+    private String account;
+
     public QuestionTweet() {
         super();
     }
 
-    public QuestionTweet(final String questionId) {
+    public QuestionTweet(final String questionId, final String account) {
         super();
 
         this.questionId = questionId;
+        this.account = account;
     }
 
     // API
@@ -48,12 +51,21 @@ public class QuestionTweet implements IEntity {
         this.questionId = questionId;
     }
 
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(final String account) {
+        this.account = account;
+    }
+
     //
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((account == null) ? 0 : account.hashCode());
         result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
         return result;
     }
@@ -67,6 +79,11 @@ public class QuestionTweet implements IEntity {
         if (getClass() != obj.getClass())
             return false;
         final QuestionTweet other = (QuestionTweet) obj;
+        if (account == null) {
+            if (other.account != null)
+                return false;
+        } else if (!account.equals(other.account))
+            return false;
         if (questionId == null) {
             if (other.questionId != null)
                 return false;
@@ -77,7 +94,9 @@ public class QuestionTweet implements IEntity {
 
     @Override
     public String toString() {
-        return "QuestionTweet [questionId=" + questionId + "]";
+        final StringBuilder builder = new StringBuilder();
+        builder.append("QuestionTweet [questionId=").append(questionId).append(", account=").append(account).append("]");
+        return builder.toString();
     }
 
 }

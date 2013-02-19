@@ -7,8 +7,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
+import org.tweet.stackexchange.persistence.model.QuestionTweet;
+import org.tweet.stackexchange.util.MyTwitterAccounts;
+
+import com.google.common.base.Preconditions;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
@@ -19,6 +25,12 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
 
     @Autowired
     private ApplicationContext eventPublisher;
+
+    @Autowired
+    private Environment env;
+
+    @Autowired
+    private IQuestionTweetJpaDAO questionTweetApi;
 
     public StackexchangeSetup() {
         super();
@@ -37,10 +49,23 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
             logger.info("Executing Setup");
             eventPublisher.publishEvent(new BeforeSetupEvent(this));
 
-            // createFoos();
+            if (env.getProperty("setup.active", Boolean.class)) {
+                recreateTwittedQuestions();
+            }
 
             setupDone = true;
             logger.info("Setup Done");
+        }
+    }
+
+    // util
+
+    private void recreateTwittedQuestions() {
+        final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty("ServerFaultBest.done"));
+        final String[] questionIds = tweetedQuestions.split(",");
+        for (final String questionId : questionIds) {
+            final QuestionTweet questionTweet = new QuestionTweet(questionId, MyTwitterAccounts.SERVERFAULT_BEST);
+            questionTweetApi.save(questionTweet);
         }
     }
 
