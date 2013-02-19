@@ -60,15 +60,17 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
 
     // util
 
-    private void recreateTwittedQuestions() {
+    private final void recreateTwittedQuestions() {
         final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty("ServerFaultBest.done"));
         final String[] questionIds = tweetedQuestions.split(",");
+        recreateTwitterQuestions(questionIds);
+    }
+
+    private final void recreateTwitterQuestions(final String[] questionIds) {
         for (final String questionId : questionIds) {
             final QuestionTweet questionTweet = new QuestionTweet(questionId, MyTwitterAccounts.SERVERFAULT_BEST);
             questionTweetApi.save(questionTweet);
         }
     }
-
-    //
 
 }
