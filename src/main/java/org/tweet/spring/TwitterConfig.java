@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.impl.TwitterTemplate;
@@ -15,15 +16,11 @@ import org.springframework.social.twitter.api.impl.TwitterTemplate;
  */
 @Configuration
 @ComponentScan({ "org.tweet.twitter" })
+@PropertySource({ "classpath:twitter.properties" })
 public class TwitterConfig {
 
-    private static final String CONSUMER_KEY = "2jXUgs9QmrNzdzRzglDBTg";
-    private static final String CONSUMER_SECRET = "XipjDslY6bqhulUW0IHbAEIqHgkk0IWOfwg4OljU";
-    private static final String ACCESS_TOKEN = "1169459593-tWD1l9Ni7Ocy3EdcHkM0WF7SGfbpXsbX9NAAi3f";
-    private static final String ACCESS_TOKEN_SECRET = "2zjY7iPCm8PDcPfrQvKjdU5No3SXgkuluncqYgBBc";
-
     @Autowired
-    private Environment environment;
+    private Environment env;
 
     public TwitterConfig() {
         super();
@@ -33,10 +30,10 @@ public class TwitterConfig {
 
     @Bean
     public Twitter twitter() {
-        final TwitterTemplate twitterTemplate = new TwitterTemplate(TwitterConfig.CONSUMER_KEY, TwitterConfig.CONSUMER_SECRET, TwitterConfig.ACCESS_TOKEN, TwitterConfig.ACCESS_TOKEN_SECRET);
+        final TwitterTemplate twitterTemplate = new TwitterTemplate(env.getProperty("ServerFaultBest.consumerKey"), env.getProperty("ServerFaultBest.consumerSecret"), env.getProperty("ServerFaultBest.accessToken"),
+                env.getProperty("ServerFaultBest.accessTokenSecret"));
         return twitterTemplate;
     }
-
     // http://stackoverflow.com/questions/7968641/spring-social-twitter-oauth
 
 }
