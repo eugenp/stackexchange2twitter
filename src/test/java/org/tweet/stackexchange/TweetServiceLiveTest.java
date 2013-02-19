@@ -9,7 +9,7 @@ import org.tweet.spring.ContextConfig;
 import org.tweet.spring.PersistenceJPAConfig;
 import org.tweet.spring.SocialConfig;
 import org.tweet.spring.StackexchangeConfig;
-import org.tweet.twitter.TwitterService;
+import org.tweet.twitter.service.TwitterService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { SocialConfig.class, ContextConfig.class, PersistenceJPAConfig.class, StackexchangeConfig.class })

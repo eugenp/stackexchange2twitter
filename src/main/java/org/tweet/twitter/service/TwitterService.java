@@ -1,4 +1,4 @@
-package org.tweet.twitter;
+package org.tweet.twitter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Twitter;

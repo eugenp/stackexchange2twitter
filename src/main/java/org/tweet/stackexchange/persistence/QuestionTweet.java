@@ -1,4 +1,4 @@
-package org.tweet.stackexchange.persistence.model;
+package org.tweet.stackexchange.persistence;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,12 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.tweet.common.persistence.IEntity;
+
 @Entity
-public class QuestionTweet {
+public class QuestionTweet implements IEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "PRIV_ID")
+    @Column(name = "QT_ID")
     private long id;
 
     @Column(nullable = false, unique = true)
@@ -29,6 +31,7 @@ public class QuestionTweet {
 
     // API
 
+    @Override
     public long getId() {
         return id;
     }

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.Site;
+import org.tweet.stackexchange.persistence.QuestionTweet;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
-import org.tweet.stackexchange.persistence.model.QuestionTweet;
-import org.tweet.twitter.TwitterService;
+import org.tweet.twitter.service.TwitterService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
