@@ -1,6 +1,8 @@
 package org.tweet.stackexchange.persistence.setup;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.tweet.spring.PersistenceJPATestConfig;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
+import org.tweet.stackexchange.persistence.model.QuestionTweet;
+import org.tweet.stackexchange.util.MyTwitterAccounts;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPATestConfig.class })
@@ -46,7 +50,7 @@ public class StackexchangeSetupPersistenceIntegrationTest {
         final String idOfQuestion = randomNumeric(3);
         stackexchangeSetup.recreateTwitterQuestions(new String[] { idOfQuestion, randomNumeric(3) });
         final IQuestionTweetJpaDAO questionTweetJpaDAO = beanFactory.getBean(IQuestionTweetJpaDAO.class);
-        // assertThat(actual, matcher)questionTweetJpaDAO.findAll().contains(new QuestionTweet(idOfQuestion, MyTwitterAccounts.SERVERFAULT_BEST));
+        assertThat(questionTweetJpaDAO.findAll(), hasItem(new QuestionTweet(idOfQuestion, MyTwitterAccounts.SERVERFAULT_BEST)));
     }
 
 }

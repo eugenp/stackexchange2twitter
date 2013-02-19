@@ -7,7 +7,7 @@ import org.tweet.common.spring.PersistenceJPACommonConfig;
 
 @Configuration
 @Import(PersistenceJPACommonConfig.class)
-@PropertySource({ "classpath:persistence-${persistenceTarget:mysql}.properties", "classpath:setup.properties" })
+@PropertySource({ "classpath:persistence-${persistenceTarget:prod}.properties", "classpath:setup.properties" })
 public class PersistenceJPAConfig {
 
     public PersistenceJPAConfig() {

@@ -7,7 +7,7 @@ import org.tweet.common.spring.PersistenceJPACommonConfig;
 
 @Configuration
 @Import(PersistenceJPACommonConfig.class)
-@PropertySource({ "classpath:persistence-${persistenceTarget:h2}.properties", "classpath:setup.properties" })
+@PropertySource({ "classpath:persistence-${persistenceTarget:test}.properties", "classpath:setup.properties" })
 public class PersistenceJPATestConfig {
 
     public PersistenceJPATestConfig() {
