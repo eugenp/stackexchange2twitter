@@ -15,7 +15,7 @@ import org.springframework.social.twitter.api.impl.TwitterTemplate;
  */
 @Configuration
 @ComponentScan({ "org.tweet.twitter" })
-public class SocialConfig {
+public class TwitterConfig {
 
     private static final String CONSUMER_KEY = "2jXUgs9QmrNzdzRzglDBTg";
     private static final String CONSUMER_SECRET = "XipjDslY6bqhulUW0IHbAEIqHgkk0IWOfwg4OljU";
@@ -25,7 +25,7 @@ public class SocialConfig {
     @Autowired
     private Environment environment;
 
-    public SocialConfig() {
+    public TwitterConfig() {
         super();
     }
 
@@ -33,7 +33,7 @@ public class SocialConfig {
 
     @Bean
     public Twitter twitter() {
-        final TwitterTemplate twitterTemplate = new TwitterTemplate(SocialConfig.CONSUMER_KEY, SocialConfig.CONSUMER_SECRET, SocialConfig.ACCESS_TOKEN, SocialConfig.ACCESS_TOKEN_SECRET);
+        final TwitterTemplate twitterTemplate = new TwitterTemplate(TwitterConfig.CONSUMER_KEY, TwitterConfig.CONSUMER_SECRET, TwitterConfig.ACCESS_TOKEN, TwitterConfig.ACCESS_TOKEN_SECRET);
         return twitterTemplate;
     }
 

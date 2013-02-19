@@ -6,10 +6,14 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.impl.conn.SchemeRegistryFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.stackexchange.api.client.QuestionsApi;
 
 @Configuration
+@PropertySource({ "classpath:stackexchange.properties" })
 public class StackexchangeConfig {
+
+    //
 
     @Bean
     public QuestionsApi questionsApi() {

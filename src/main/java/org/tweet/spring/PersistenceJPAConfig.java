@@ -21,9 +21,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@ImportResource("classpath*:*persistenceConfig.xml")
+@ImportResource("classpath*:persistenceConfig.xml")
 @ComponentScan({ "org.tweet.stackexchange.persistence" })
-@PropertySource({ "classpath:persistence-${persistenceTarget:mysql}.properties" })
+@PropertySource({ "classpath:persistence-${persistenceTarget:mysql}.properties", "classpath:setup.properties" })
 public class PersistenceJPAConfig {
 
     @Autowired
