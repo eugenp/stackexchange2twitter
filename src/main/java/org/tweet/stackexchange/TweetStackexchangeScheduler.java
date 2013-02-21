@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.stackexchange.api.constants.Site;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
+import org.tweet.stackexchange.util.StackexchangeUtil;
+import org.tweet.stackexchange.util.Tags;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -34,7 +36,11 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionBySite(Site.serverfault, SimpleTwitterAccount.ServerFaultBest.name());
         service.tweetTopQuestionBySite(Site.askubuntu, SimpleTwitterAccount.AskUbuntuBest.name());
-        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name(), "spring");
+        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name(), Tags.spring.name());
+
+        // in progress
+        final Site randomSite = StackexchangeUtil.pickOne(Site.stackoverflow, Site.askubuntu, Site.superuser);
+        service.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tags.bash.name());
 
         logger.info("Finished executing scheduled tweet operations");
     }
