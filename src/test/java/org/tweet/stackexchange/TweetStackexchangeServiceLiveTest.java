@@ -27,7 +27,7 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetStackexchangeService.tweetStackExchangeTopQuestion(Site.serverfault, SimpleTwitterAccount.ServerFaultBest.name());
+        tweetStackexchangeService.tweetStackExchangeTopQuestion(Site.askubuntu, SimpleTwitterAccount.AskUbuntuBest.name());
     }
 
 }
