@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ComponentScan({ "org.tweet.twitter" })
-@PropertySource({ "classpath:twitter.properties" })
+@PropertySource({ "file:///opt/stack/twitter.properties" })
 public class TwitterConfig {
 
     public TwitterConfig() {
