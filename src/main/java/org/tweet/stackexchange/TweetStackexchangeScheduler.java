@@ -28,8 +28,7 @@ public class TweetStackexchangeScheduler {
 
     // API
 
-    // 12 hours = 1000 * 60 * 60 * 12
-    @Scheduled(fixedRate = 43200000)
+    @Scheduled(cron = "0 0 15,22 * * *")
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
 
