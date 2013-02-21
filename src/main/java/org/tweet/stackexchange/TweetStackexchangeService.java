@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.stackexchange.api.client.ApiUris;
 import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.Site;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
@@ -40,15 +41,27 @@ public class TweetStackexchangeService {
 
     // API
 
-    public void tweetStackExchangeTopQuestion(final Site site, final String accountName) throws JsonProcessingException, IOException {
+    public void tweetTopQuestionBySite(final Site site, final String accountName) throws JsonProcessingException, IOException {
         logger.debug("Tweeting from site = {}, on account = {}", site.name(), accountName);
 
         final String siteQuestionsRawJson = questionsApi.questions(70, site);
+        tweetTopQuestion(accountName, siteQuestionsRawJson);
+    }
 
+    public void tweetTopQuestionByTag(final Site site, final String accountName, final String tag) throws JsonProcessingException, IOException {
+        logger.debug("Tweeting from site = {}, on account = {}", site.name(), accountName);
+        final String questionsUriForTag = ApiUris.getTagUri(70, site, tag);
+        final String questionsForTagRawJson = questionsApi.questions(70, questionsUriForTag);
+        tweetTopQuestion(accountName, questionsForTagRawJson);
+    }
+
+    // util
+
+    private void tweetTopQuestion(final String accountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
         final ArrayNode siteQuestionsJsonArray = (ArrayNode) siteQuestionsJson.get("items");
         for (final JsonNode questionJson : siteQuestionsJsonArray) {
-            logger.debug("Considering to tweet question with id=" + questionJson.get(QuestionsApi.QUESTION_ID));
+            logger.debug("Considering to tweet on account = {}, question = {}", accountName, questionJson.get(QuestionsApi.QUESTION_ID));
             if (!hasThisQuestionAlreadyBeenTweeted(questionJson)) {
                 logger.info("Tweeting Question: title= {} with id= {}", questionJson.get(QuestionsApi.TITLE), questionJson.get(QuestionsApi.QUESTION_ID));
                 tweet(questionJson, accountName);
@@ -57,8 +70,6 @@ public class TweetStackexchangeService {
             }
         }
     }
-
-    // util
 
     private final boolean hasThisQuestionAlreadyBeenTweeted(final JsonNode question) {
         final String questionId = question.get(QuestionsApi.QUESTION_ID).toString();

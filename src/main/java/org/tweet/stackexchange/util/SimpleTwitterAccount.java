@@ -1,5 +1,5 @@
 package org.tweet.stackexchange.util;
 
 public enum SimpleTwitterAccount {
-    ServerFaultBest, AskUbuntuBest
+    ServerFaultBest, AskUbuntuBest, BestBash, SpringAtSO
 }

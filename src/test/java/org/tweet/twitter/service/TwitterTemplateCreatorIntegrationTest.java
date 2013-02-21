@@ -34,4 +34,14 @@ public class TwitterTemplateCreatorIntegrationTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.AskUbuntuBest.name());
     }
 
+    @Test
+    public final void givenValidAccount3_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestBash.name());
+    }
+
+    @Test
+    public final void givenValidAccount4_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.SpringAtSO.name());
+    }
+
 }

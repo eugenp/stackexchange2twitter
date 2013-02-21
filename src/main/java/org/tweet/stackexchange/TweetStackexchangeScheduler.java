@@ -33,8 +33,8 @@ public class TweetStackexchangeScheduler {
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
 
-        service.tweetStackExchangeTopQuestion(Site.serverfault, SimpleTwitterAccount.ServerFaultBest.name());
-        service.tweetStackExchangeTopQuestion(Site.askubuntu, SimpleTwitterAccount.AskUbuntuBest.name());
+        service.tweetTopQuestionBySite(Site.serverfault, SimpleTwitterAccount.ServerFaultBest.name());
+        service.tweetTopQuestionBySite(Site.askubuntu, SimpleTwitterAccount.AskUbuntuBest.name());
 
         logger.info("Finished executing scheduled tweet operations");
     }

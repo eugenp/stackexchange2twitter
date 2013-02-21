@@ -27,7 +27,12 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetStackexchangeService.tweetStackExchangeTopQuestion(Site.askubuntu, SimpleTwitterAccount.AskUbuntuBest.name());
+        tweetStackexchangeService.tweetTopQuestionBySite(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name());
+    }
+
+    @Test
+    public final void whenTweetingByTag_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name(), "spring");
     }
 
 }
