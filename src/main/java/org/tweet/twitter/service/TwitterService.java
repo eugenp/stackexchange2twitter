@@ -1,14 +1,10 @@
 package org.tweet.twitter.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TwitterService {
-
-    @Autowired
-    private Twitter twitter;
 
     public TwitterService() {
         super();
@@ -16,7 +12,7 @@ public class TwitterService {
 
     // API
 
-    public void tweet(final String tweetText) {
+    public void tweet(final Twitter twitter, final String tweetText) {
         twitter.timelineOperations().updateStatus(tweetText);
     }
 

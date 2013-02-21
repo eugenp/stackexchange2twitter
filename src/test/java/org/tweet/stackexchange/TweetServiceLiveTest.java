@@ -10,7 +10,9 @@ import org.tweet.spring.ContextConfig;
 import org.tweet.spring.PersistenceJPAConfig;
 import org.tweet.spring.StackexchangeConfig;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.twitter.service.TwitterService;
+import org.tweet.twitter.service.TwitterTemplateCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TwitterConfig.class, ContextConfig.class, PersistenceJPAConfig.class, StackexchangeConfig.class })
@@ -20,11 +22,14 @@ public class TweetServiceLiveTest {
     @Autowired
     private TwitterService twitterService;
 
+    @Autowired
+    TwitterTemplateCreator twitterCreator;
+
     // tests
 
     @Test
     public final void whenTweeting_thenNoExceptions() {
-        twitterService.tweet("First programatic tweet with Spring Social");
+        twitterService.tweet(twitterCreator.getTwitterTemplate(SimpleTwitterAccount.AskUbuntuBest.name()), "First programatic tweet with Spring Social");
     }
 
 }

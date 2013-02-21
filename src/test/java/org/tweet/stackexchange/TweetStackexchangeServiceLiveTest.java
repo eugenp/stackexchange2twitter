@@ -7,10 +7,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.api.constants.Site;
 import org.tweet.spring.ContextConfig;
 import org.tweet.spring.PersistenceJPAConfig;
-import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.StackexchangeConfig;
+import org.tweet.spring.TwitterConfig;
+import org.tweet.stackexchange.util.SimpleTwitterAccount;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -25,7 +27,7 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetStackexchangeService.tweetStackExchangeTopQuestion();
+        tweetStackexchangeService.tweetStackExchangeTopQuestion(Site.serverfault, SimpleTwitterAccount.ServerFaultBest.name());
     }
 
 }

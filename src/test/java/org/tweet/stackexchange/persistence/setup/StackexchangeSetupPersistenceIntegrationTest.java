@@ -15,7 +15,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.tweet.spring.PersistenceJPATestConfig;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
-import org.tweet.stackexchange.util.MyTwitterAccounts;
+import org.tweet.stackexchange.util.SimpleTwitterAccount;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceJPATestConfig.class })
@@ -50,7 +50,7 @@ public class StackexchangeSetupPersistenceIntegrationTest {
         final String idOfQuestion = randomNumeric(3);
         stackexchangeSetup.recreateTwitterQuestions(new String[] { idOfQuestion, randomNumeric(3) });
         final IQuestionTweetJpaDAO questionTweetJpaDAO = beanFactory.getBean(IQuestionTweetJpaDAO.class);
-        assertThat(questionTweetJpaDAO.findAll(), hasItem(new QuestionTweet(idOfQuestion, MyTwitterAccounts.SERVERFAULT_BEST)));
+        assertThat(questionTweetJpaDAO.findAll(), hasItem(new QuestionTweet(idOfQuestion, SimpleTwitterAccount.ServerFaultBest.name())));
     }
 
 }

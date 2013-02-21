@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
-import org.tweet.stackexchange.util.MyTwitterAccounts;
+import org.tweet.stackexchange.util.SimpleTwitterAccount;
 
 import com.google.common.base.Preconditions;
 
@@ -68,7 +68,7 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
 
     final void recreateTwitterQuestions(final String[] questionIds) {
         for (final String questionId : questionIds) {
-            final QuestionTweet questionTweet = new QuestionTweet(questionId, MyTwitterAccounts.SERVERFAULT_BEST);
+            final QuestionTweet questionTweet = new QuestionTweet(questionId, SimpleTwitterAccount.ServerFaultBest.name());
             questionTweetApi.save(questionTweet);
         }
     }
