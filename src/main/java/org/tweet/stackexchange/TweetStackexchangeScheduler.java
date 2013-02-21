@@ -35,6 +35,7 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionBySite(Site.serverfault, SimpleTwitterAccount.ServerFaultBest.name());
         service.tweetTopQuestionBySite(Site.askubuntu, SimpleTwitterAccount.AskUbuntuBest.name());
+        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name(), "spring");
 
         logger.info("Finished executing scheduled tweet operations");
     }
