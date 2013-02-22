@@ -61,7 +61,7 @@ public class TweetStackexchangeService {
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
         final ArrayNode siteQuestionsJsonArray = (ArrayNode) siteQuestionsJson.get("items");
         for (final JsonNode questionJson : siteQuestionsJsonArray) {
-            logger.debug("Considering to tweet on account = {}, question = {}", accountName, questionJson.get(QuestionsApi.QUESTION_ID));
+            logger.debug("Considering to tweet on account= {}, Question= {}", accountName, questionJson.get(QuestionsApi.QUESTION_ID));
             if (!hasThisQuestionAlreadyBeenTweeted(questionJson)) {
                 logger.info("Tweeting Question: title= {} with id= {}", questionJson.get(QuestionsApi.TITLE), questionJson.get(QuestionsApi.QUESTION_ID));
                 tweet(questionJson, accountName);
@@ -81,7 +81,7 @@ public class TweetStackexchangeService {
     private final void tweet(final JsonNode question, final String accountName) {
         final String title = question.get(QuestionsApi.TITLE).toString();
         final String link = question.get(QuestionsApi.LINK).toString();
-        final String fullTweet = title.subSequence(1, title.length() - 1) + " - " + link.subSequence(1, link.length() - 1);
+        final String fullTweet = title.substring(1, title.length() - 1) + " - " + link.substring(1, link.length() - 1);
 
         twitterService.tweet(twitterCreator.getTwitterTemplate(accountName), fullTweet);
     }

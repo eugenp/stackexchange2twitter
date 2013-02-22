@@ -1,5 +1,9 @@
 package org.tweet.stackexchange;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,13 +27,19 @@ public class TweetServiceLiveTest {
     private TwitterService twitterService;
 
     @Autowired
-    TwitterTemplateCreator twitterCreator;
+    private TwitterTemplateCreator twitterCreator;
 
     // tests
 
     @Test
     public final void whenTweeting_thenNoExceptions() {
-        twitterService.tweet(twitterCreator.getTwitterTemplate(SimpleTwitterAccount.AskUbuntuBest.name()), "First programatic tweet with Spring Social");
+        twitterService.tweet(twitterCreator.getTwitterTemplate(SimpleTwitterAccount.BestBash.name()), "What are Unity's keyboard and mouse shortcuts?");
+    }
+
+    @Test
+    public final void whenUnescapingTextWithEscapedApostrophe_thenGoodOutput() {
+        final String unescapedHtml4 = StringEscapeUtils.unescapeHtml4("What are Unity&#39;s keyboard and mouse shortcuts?");
+        assertThat(unescapedHtml4, equalTo("What are Unity's keyboard and mouse shortcuts?"));
     }
 
 }
