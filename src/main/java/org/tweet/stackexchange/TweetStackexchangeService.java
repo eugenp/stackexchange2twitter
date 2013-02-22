@@ -2,6 +2,7 @@ package org.tweet.stackexchange;
 
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,8 @@ public class TweetStackexchangeService {
     }
 
     private final void tweet(final JsonNode question, final String accountName) {
-        final String title = question.get(QuestionsApi.TITLE).toString();
+        final String titleEscaped = question.get(QuestionsApi.TITLE).toString();
+        final String title = StringEscapeUtils.unescapeHtml4(titleEscaped);
         final String link = question.get(QuestionsApi.LINK).toString();
         final String fullTweet = title.substring(1, title.length() - 1) + " - " + link.substring(1, link.length() - 1);
 

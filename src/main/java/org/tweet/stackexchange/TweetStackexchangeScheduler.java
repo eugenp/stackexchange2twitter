@@ -12,7 +12,7 @@ import org.stackexchange.api.constants.Site;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.stackexchange.util.StackexchangeUtil;
-import org.tweet.stackexchange.util.Tags;
+import org.tweet.stackexchange.util.Tag;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -35,12 +35,15 @@ public class TweetStackexchangeScheduler {
         logger.info("Starting to execute scheduled tweet operations");
 
         service.tweetTopQuestionBySite(Site.serverfault, SimpleTwitterAccount.ServerFaultBest.name());
-        service.tweetTopQuestionBySite(Site.askubuntu, SimpleTwitterAccount.AskUbuntuBest.name());
-        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name(), Tags.spring.name());
 
-        // in progress
+        service.tweetTopQuestionBySite(Site.askubuntu, SimpleTwitterAccount.AskUbuntuBest.name());
+
+        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name(), Tag.spring.name());
+
+        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.JavaTopSO.name(), Tag.java.name());
+
         final Site randomSite = StackexchangeUtil.pickOne(Site.stackoverflow, Site.askubuntu, Site.superuser);
-        service.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tags.bash.name());
+        service.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tag.bash.name());
 
         logger.info("Finished executing scheduled tweet operations");
     }

@@ -14,7 +14,7 @@ import org.tweet.spring.StackexchangeConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.stackexchange.util.StackexchangeUtil;
-import org.tweet.stackexchange.util.Tags;
+import org.tweet.stackexchange.util.Tag;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -34,13 +34,18 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweetingByTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name(), "spring");
+        tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.SpringAtSO.name(), Tag.spring.name());
+    }
+
+    @Test
+    public final void whenTweetingByTag2_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.JavaTopSO.name(), Tag.java.name());
     }
 
     @Test
     public final void whenTweetingByRandomTag_thenNoExceptions() throws JsonProcessingException, IOException {
         final Site randomSite = StackexchangeUtil.pickOne(Site.stackoverflow, Site.askubuntu, Site.superuser);
-        tweetStackexchangeService.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tags.bash.name());
+        tweetStackexchangeService.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tag.bash.name());
     }
 
 }

@@ -1,5 +1,5 @@
 package org.tweet.stackexchange.util;
 
-public enum Tags {
-    bash, spring
+public enum Tag {
+    bash, spring, java
 }

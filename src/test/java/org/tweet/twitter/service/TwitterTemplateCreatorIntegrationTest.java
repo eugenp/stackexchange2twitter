@@ -44,4 +44,9 @@ public class TwitterTemplateCreatorIntegrationTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.SpringAtSO.name());
     }
 
+    @Test
+    public final void givenValidAccount5_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.JavaTopSO.name());
+    }
+
 }
