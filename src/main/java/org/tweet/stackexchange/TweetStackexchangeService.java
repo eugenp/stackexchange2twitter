@@ -43,18 +43,29 @@ public class TweetStackexchangeService {
 
     // API
 
-    public void tweetTopQuestionBySite(final Site site, final String accountName) throws JsonProcessingException, IOException {
+    public void tweetTopQuestionBySite(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
         logger.debug("Tweeting from site = {}, on account = {}", site.name(), accountName);
 
-        final String siteQuestionsRawJson = questionsApi.questions(70, site);
-        tweetTopQuestion(accountName, siteQuestionsRawJson);
+        int currentPage = pageToStartWith;
+        boolean tweetSuccessful = false;
+        while (!tweetSuccessful) {
+            final String siteQuestionsRawJson = questionsApi.questions(70, site, currentPage);
+            tweetSuccessful = tweetTopQuestion(accountName, siteQuestionsRawJson);
+            currentPage++;
+        }
     }
 
-    public void tweetTopQuestionByTag(final Site site, final String accountName, final String tag) throws JsonProcessingException, IOException {
+    public void tweetTopQuestionByTag(final Site site, final String accountName, final String tag, final int pageToStartWith) throws JsonProcessingException, IOException {
         logger.debug("Tweeting from site = {}, on account = {}", site.name(), accountName);
-        final String questionsUriForTag = ApiUris.getTagUri(70, site, tag);
-        final String questionsForTagRawJson = questionsApi.questions(70, questionsUriForTag);
-        tweetTopQuestion(accountName, questionsForTagRawJson);
+
+        int currentPage = pageToStartWith;
+        boolean tweetSuccessful = false;
+        while (!tweetSuccessful) {
+            final String questionsUriForTag = ApiUris.getTagUri(70, site, tag, currentPage);
+            final String questionsForTagRawJson = questionsApi.questions(70, questionsUriForTag);
+            tweetSuccessful = tweetTopQuestion(accountName, questionsForTagRawJson);
+            currentPage++;
+        }
     }
 
     // util
