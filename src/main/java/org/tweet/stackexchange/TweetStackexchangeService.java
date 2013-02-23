@@ -14,6 +14,7 @@ import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.service.TwitterTemplateCreator;
+import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -58,38 +59,50 @@ public class TweetStackexchangeService {
 
     // util
 
-    private void tweetTopQuestion(final String accountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
+    private boolean tweetTopQuestion(final String accountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
         final ArrayNode siteQuestionsJsonArray = (ArrayNode) siteQuestionsJson.get("items");
         for (final JsonNode questionJson : siteQuestionsJsonArray) {
-            logger.debug("Considering to tweet on account= {}, Question= {}", accountName, questionJson.get(QuestionsApi.QUESTION_ID));
-            if (!hasThisQuestionAlreadyBeenTweeted(questionJson)) {
-                logger.info("Tweeting Question: title= {} with id= {}", questionJson.get(QuestionsApi.TITLE), questionJson.get(QuestionsApi.QUESTION_ID));
-                tweet(questionJson, accountName);
-                markQuestionTweeted(questionJson, accountName);
-                break;
+            final String questionId = questionJson.get(QuestionsApi.QUESTION_ID).toString();
+            final String title = questionJson.get(QuestionsApi.TITLE).toString();
+            final String link = questionJson.get(QuestionsApi.LINK).toString();
+
+            logger.debug("Considering to tweet on account= {}, Question= {}", accountName, questionId);
+
+            if (!hasThisQuestionAlreadyBeenTweeted(questionId)) {
+                logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
+
+                final boolean success = tryTweet(title, link, accountName);
+                if (!success) {
+                    logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", accountName, title);
+                    continue;
+                }
+                markQuestionTweeted(questionId, accountName);
+                return true;
             }
         }
+
+        return false;
     }
 
-    private final boolean hasThisQuestionAlreadyBeenTweeted(final JsonNode question) {
-        final String questionId = question.get(QuestionsApi.QUESTION_ID).toString();
+    private final boolean hasThisQuestionAlreadyBeenTweeted(final String questionId) {
         final QuestionTweet existingTweet = questionTweetApi.findByQuestionId(questionId);
-
         return existingTweet != null;
     }
 
-    private final void tweet(final JsonNode question, final String accountName) {
-        final String titleEscaped = question.get(QuestionsApi.TITLE).toString();
-        final String title = StringEscapeUtils.unescapeHtml4(titleEscaped);
-        final String link = question.get(QuestionsApi.LINK).toString();
-        final String fullTweet = title.substring(1, title.length() - 1) + " - " + link.substring(1, link.length() - 1);
+    private final boolean tryTweet(final String title, final String link, final String accountName) {
+        final String text = StringEscapeUtils.unescapeHtml4(title);
+        if (!TwitterUtil.isTweetValid(text)) {
+            return false;
+        }
+
+        final String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
 
         twitterService.tweet(twitterCreator.getTwitterTemplate(accountName), fullTweet);
+        return true;
     }
 
-    private final void markQuestionTweeted(final JsonNode question, final String accountName) {
-        final String questionId = question.get(QuestionsApi.QUESTION_ID).toString();
+    private final void markQuestionTweeted(final String questionId, final String accountName) {
         final QuestionTweet questionTweet = new QuestionTweet(questionId, accountName);
         questionTweetApi.save(questionTweet);
     }
