@@ -42,8 +42,15 @@ public class TweetStackexchangeService {
     }
 
     // API
-
     public void tweetTopQuestionBySite(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
+        try {
+            tweetTopQuestionBySiteInternal(site, accountName, pageToStartWith);
+        } catch (final RuntimeException runtimeEx) {
+            logger.error("Unexpected exception: ", runtimeEx);
+        }
+    }
+
+    public void tweetTopQuestionBySiteInternal(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
         logger.debug("Tweeting from site = {}, on account = {}", site.name(), accountName);
 
         int currentPage = pageToStartWith;
