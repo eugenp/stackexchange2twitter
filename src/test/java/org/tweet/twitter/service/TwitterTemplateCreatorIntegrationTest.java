@@ -49,4 +49,9 @@ public class TwitterTemplateCreatorIntegrationTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.JavaTopSO.name());
     }
 
+    @Test
+    public final void givenValidAccount6_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestClojure.name());
+    }
+
 }
