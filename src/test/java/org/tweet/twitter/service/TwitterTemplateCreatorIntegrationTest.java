@@ -54,4 +54,9 @@ public class TwitterTemplateCreatorIntegrationTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestClojure.name());
     }
 
+    @Test
+    public final void givenValidAccount7_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestScala.name());
+    }
+
 }

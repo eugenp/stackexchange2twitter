@@ -30,7 +30,7 @@ public class TweetStackexchangeScheduler {
 
     // API
 
-    @Scheduled(cron = "0 0 17,21 * * *")
+    @Scheduled(cron = "0 0 13,21 * * *")
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
 
@@ -43,6 +43,8 @@ public class TweetStackexchangeScheduler {
         service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.JavaTopSO.name(), Tag.java.name(), 1);
 
         service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestClojure.name(), Tag.clojure.name(), 1);
+
+        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestScala.name(), Tag.scala.name(), 1);
 
         final Site randomSite = StackexchangeUtil.pickOne(Site.stackoverflow, Site.askubuntu, Site.superuser);
         service.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tag.bash.name(), 1);
