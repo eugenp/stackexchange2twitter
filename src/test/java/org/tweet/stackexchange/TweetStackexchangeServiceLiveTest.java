@@ -38,18 +38,23 @@ public class TweetStackexchangeServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingByTag2_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByTagJava_thenNoExceptions() throws JsonProcessingException, IOException {
         tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.JavaTopSO.name(), Tag.java.name(), 1);
     }
 
     @Test
-    public final void whenTweetingByTag3_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByTagClojure_thenNoExceptions() throws JsonProcessingException, IOException {
         tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestClojure.name(), Tag.clojure.name(), 1);
     }
 
     @Test
-    public final void whenTweetingByTag4_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByTagScala_thenNoExceptions() throws JsonProcessingException, IOException {
         tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestScala.name(), Tag.scala.name(), 1);
+    }
+
+    @Test
+    public final void whenTweetingByTagJquery_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.jQueryDaily.name(), Tag.jquery.name(), 1);
     }
 
     @Test

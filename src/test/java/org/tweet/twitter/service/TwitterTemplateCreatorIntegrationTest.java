@@ -25,38 +25,43 @@ public class TwitterTemplateCreatorIntegrationTest {
     }
 
     @Test
-    public final void givenValidAccount1_whenRetrievingTwitterClient_thenNoException() {
+    public final void givenValidAccountServerFaultBest_whenRetrievingTwitterClient_thenNoException() {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.ServerFaultBest.name());
     }
 
     @Test
-    public final void givenValidAccount2_whenRetrievingTwitterClient_thenNoException() {
+    public final void givenValidAccountAskUbuntuBest_whenRetrievingTwitterClient_thenNoException() {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.AskUbuntuBest.name());
     }
 
     @Test
-    public final void givenValidAccount3_whenRetrievingTwitterClient_thenNoException() {
+    public final void givenValidAccountBestBash_whenRetrievingTwitterClient_thenNoException() {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestBash.name());
     }
 
     @Test
-    public final void givenValidAccount4_whenRetrievingTwitterClient_thenNoException() {
+    public final void givenValidAccountSpringAtSO_whenRetrievingTwitterClient_thenNoException() {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.SpringAtSO.name());
     }
 
     @Test
-    public final void givenValidAccount5_whenRetrievingTwitterClient_thenNoException() {
+    public final void givenValidAccountJavaTopSO_whenRetrievingTwitterClient_thenNoException() {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.JavaTopSO.name());
     }
 
     @Test
-    public final void givenValidAccount6_whenRetrievingTwitterClient_thenNoException() {
+    public final void givenValidAccountBestClojure_whenRetrievingTwitterClient_thenNoException() {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestClojure.name());
     }
 
     @Test
-    public final void givenValidAccount7_whenRetrievingTwitterClient_thenNoException() {
+    public final void givenValidAccountBestScala_whenRetrievingTwitterClient_thenNoException() {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestScala.name());
+    }
+
+    @Test
+    public final void givenValidAccountjQueryDaily_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.jQueryDaily.name());
     }
 
 }
