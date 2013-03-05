@@ -64,4 +64,9 @@ public class TwitterTemplateCreatorIntegrationTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.jQueryDaily.name());
     }
 
+    @Test
+    public final void givenValidAccountRESTDaily_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.RESTDaily.name());
+    }
+
 }
