@@ -63,6 +63,21 @@ public class TweetStackexchangeServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingByTagEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestEclipse.name(), Tag.eclipse.name(), 1);
+    }
+
+    @Test
+    public final void whenTweetingByTagGit_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestGit.name(), Tag.git.name(), 1);
+    }
+
+    @Test
+    public final void whenTweetingByTagMaven_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestMaven.name(), Tag.maven.name(), 1);
+    }
+
+    @Test
     public final void whenTweetingByRandomTag_thenNoExceptions() throws JsonProcessingException, IOException {
         final Site randomSite = StackexchangeUtil.pickOne(Site.stackoverflow, Site.askubuntu, Site.superuser);
         tweetStackexchangeService.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tag.bash.name(), 1);

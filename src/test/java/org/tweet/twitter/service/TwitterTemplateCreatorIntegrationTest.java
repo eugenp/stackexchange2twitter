@@ -69,4 +69,19 @@ public class TwitterTemplateCreatorIntegrationTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.RESTDaily.name());
     }
 
+    @Test
+    public final void givenValidAccountBestEclipse_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestEclipse.name());
+    }
+
+    @Test
+    public final void givenValidAccountBestGit_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestGit.name());
+    }
+
+    @Test
+    public final void givenValidAccountBestMaven_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestMaven.name());
+    }
+
 }
