@@ -84,4 +84,14 @@ public class TwitterTemplateCreatorIntegrationTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestMaven.name());
     }
 
+    @Test
+    public final void givenValidAccountBestJPA_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestJPA.name());
+    }
+
+    @Test
+    public final void givenValidAccountBestAlgorithms_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestAlgorithms.name());
+    }
+
 }

@@ -56,6 +56,10 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestMaven.name(), Tag.maven.name(), 1);
 
+        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestJPA.name(), Tag.jpa.name(), 1);
+
+        service.tweetTopQuestionByTag(Site.stackoverflow, SimpleTwitterAccount.BestAlgorithms.name(), Tag.algorithm.name(), 1);
+
         final Site randomSite = StackexchangeUtil.pickOne(Site.stackoverflow, Site.askubuntu, Site.superuser);
         service.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tag.bash.name(), 1);
 
