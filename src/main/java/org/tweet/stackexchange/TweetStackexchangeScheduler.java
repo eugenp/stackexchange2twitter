@@ -30,7 +30,7 @@ public class TweetStackexchangeScheduler {
 
     // API
 
-    @Scheduled(cron = "0 0 13,19 * * *")
+    @Scheduled(cron = "0 0 16,19 * * *")
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
 
