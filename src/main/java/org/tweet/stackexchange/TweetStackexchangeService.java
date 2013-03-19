@@ -51,11 +51,12 @@ public class TweetStackexchangeService {
     }
 
     public void tweetTopQuestionBySiteInternal(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
-        logger.debug("Tweeting from site = {}, on account = {}", site.name(), accountName);
+        logger.debug("Begin trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
+            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
             final String siteQuestionsRawJson = questionsApi.questions(70, site, currentPage);
             tweetSuccessful = tweetTopQuestion(accountName, siteQuestionsRawJson);
             currentPage++;
@@ -63,11 +64,12 @@ public class TweetStackexchangeService {
     }
 
     public void tweetTopQuestionByTag(final Site site, final String accountName, final String tag, final int pageToStartWith) throws JsonProcessingException, IOException {
-        logger.debug("Tweeting from site = {}, on account = {}", site.name(), accountName);
+        logger.debug("Begin trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
+            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
             final String questionsUriForTag = ApiUris.getTagUri(70, site, tag, currentPage);
             final String questionsForTagRawJson = questionsApi.questions(70, questionsUriForTag);
             tweetSuccessful = tweetTopQuestion(accountName, questionsForTagRawJson);
