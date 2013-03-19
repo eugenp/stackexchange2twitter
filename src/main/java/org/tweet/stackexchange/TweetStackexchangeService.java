@@ -57,7 +57,7 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
-            final String siteQuestionsRawJson = questionsApi.questions(70, site, currentPage);
+            final String siteQuestionsRawJson = questionsApi.questions(50, site, currentPage);
             tweetSuccessful = tweetTopQuestion(accountName, siteQuestionsRawJson);
             currentPage++;
         }
@@ -71,7 +71,7 @@ public class TweetStackexchangeService {
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
             final String questionsUriForTag = ApiUris.getTagUri(70, site, tag, currentPage);
-            final String questionsForTagRawJson = questionsApi.questions(70, questionsUriForTag);
+            final String questionsForTagRawJson = questionsApi.questions(50, questionsUriForTag);
             tweetSuccessful = tweetTopQuestion(accountName, questionsForTagRawJson);
             currentPage++;
         }
