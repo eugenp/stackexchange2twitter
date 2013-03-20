@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.stackexchange.api.client.ApiUris;
 import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.Site;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
@@ -20,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.common.base.Preconditions;
 
 @Service
 public class TweetStackexchangeService {
@@ -46,41 +46,43 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteInternal(site, accountName, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception: ", runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site={}: " + site, runtimeEx);
         }
     }
 
     public void tweetTopQuestionBySiteInternal(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
-        logger.debug("Begin trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
+        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
             final String siteQuestionsRawJson = questionsApi.questions(50, site, currentPage);
-            tweetSuccessful = tweetTopQuestion(accountName, siteQuestionsRawJson);
+            tweetSuccessful = tryTweetTopQuestion(accountName, siteQuestionsRawJson);
             currentPage++;
         }
     }
 
     public void tweetTopQuestionByTag(final Site site, final String accountName, final String tag, final int pageToStartWith) throws JsonProcessingException, IOException {
-        logger.debug("Begin trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
+        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
-            final String questionsUriForTag = ApiUris.getTagUri(70, site, tag, currentPage);
-            final String questionsForTagRawJson = questionsApi.questions(50, questionsUriForTag);
-            tweetSuccessful = tweetTopQuestion(accountName, questionsForTagRawJson);
+            final String questionsForTagRawJson = questionsApi.questions(50, site, tag, currentPage);
+            tweetSuccessful = tryTweetTopQuestion(accountName, questionsForTagRawJson);
             currentPage++;
         }
     }
 
     // util
 
-    private boolean tweetTopQuestion(final String accountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
+    private boolean tryTweetTopQuestion(final String accountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
+        if (!isValidQuestions(siteQuestionsJson, accountName)) {
+            return false;
+        }
         final ArrayNode siteQuestionsJsonArray = (ArrayNode) siteQuestionsJson.get("items");
         for (final JsonNode questionJson : siteQuestionsJsonArray) {
             final String questionId = questionJson.get(QuestionsApi.QUESTION_ID).toString();
@@ -125,6 +127,14 @@ public class TweetStackexchangeService {
     private final void markQuestionTweeted(final String questionId, final String accountName) {
         final QuestionTweet questionTweet = new QuestionTweet(questionId, accountName);
         questionTweetApi.save(questionTweet);
+    }
+
+    private final boolean isValidQuestions(final JsonNode siteQuestionsJson, final String accountName) {
+        final JsonNode items = siteQuestionsJson.get("items");
+        Preconditions.checkNotNull(items, "For accountName = " + accountName + ", there are no items (null) in the questions json = " + siteQuestionsJson);
+        Preconditions.checkState(((ArrayNode) siteQuestionsJson.get("items")).size() > 0, "For accountName = " + accountName + ", there are no items (empty) in the questions json = " + siteQuestionsJson);
+
+        return true;
     }
 
 }
