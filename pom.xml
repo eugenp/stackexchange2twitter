@@ -80,6 +80,12 @@
 			<version>${jackson.version}</version>
 		</dependency>
 
+		<dependency>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<groupId>org.codehaus.jackson</groupId>
+			<version>1.9.12</version>
+		</dependency>
+
 		<!-- persistence -->
 		<dependency>
 			<groupId>org.springframework</groupId>

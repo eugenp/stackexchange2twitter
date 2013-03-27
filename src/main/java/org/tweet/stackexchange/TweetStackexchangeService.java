@@ -1,11 +1,14 @@
 package org.tweet.stackexchange;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.Site;
@@ -19,7 +22,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.common.base.Functions;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 @Service
 public class TweetStackexchangeService {
@@ -42,6 +47,9 @@ public class TweetStackexchangeService {
     }
 
     // API
+
+    // write
+
     public void tweetTopQuestionBySite(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteInternal(site, accountName, pageToStartWith);
@@ -74,6 +82,14 @@ public class TweetStackexchangeService {
             tweetSuccessful = tryTweetTopQuestion(accountName, questionsForTagRawJson);
             currentPage++;
         }
+    }
+
+    // read
+
+    public List<String> listTweets(final String accountName) {
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(accountName);
+        final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline();
+        return Lists.transform(userTimeline, Functions.toStringFunction());
     }
 
     // util

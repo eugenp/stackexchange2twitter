@@ -93,4 +93,11 @@ public class TweetStackexchangeServiceLiveTest {
         tweetStackexchangeService.tweetTopQuestionByTag(randomSite, SimpleTwitterAccount.BestBash.name(), Tag.bash.name(), 1);
     }
 
+    // list tweets
+
+    @Test
+    public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
+        System.out.println(tweetStackexchangeService.listTweets(SimpleTwitterAccount.BestJPA.name()));
+    }
+
 }
