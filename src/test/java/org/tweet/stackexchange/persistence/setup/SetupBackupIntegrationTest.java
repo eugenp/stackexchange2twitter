@@ -66,7 +66,21 @@ public class SetupBackupIntegrationTest {
     // util
 
     private void writeToFile(final Map<String, List<Long>> accountToQuestionsMaps) {
-        //
+        for (final String accountName : accountToQuestionsMaps.keySet()) {
+            System.out.println(accountName + "=" + generateValueForAccount(accountToQuestionsMaps.get(accountName)));
+        }
+    }
+
+    private String generateValueForAccount(final List<Long> theIds) {
+        final StringBuilder allQuestionsAsString = new StringBuilder();
+        for (final Long id : theIds) {
+            allQuestionsAsString.append(id);
+            allQuestionsAsString.append(',');
+        }
+
+        allQuestionsAsString.deleteCharAt(allQuestionsAsString.length() - 1);
+
+        return allQuestionsAsString.toString();
     }
 
 }
