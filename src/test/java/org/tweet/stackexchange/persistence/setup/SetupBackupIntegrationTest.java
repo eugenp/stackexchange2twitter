@@ -18,8 +18,6 @@ public class SetupBackupIntegrationTest {
     class TweetRowMapper implements RowMapper<String> {
         @Override
         public final String mapRow(final ResultSet rs, final int line) throws SQLException {
-            // PersonResultSetExtractor extractor = new PersonResultSetExtractor();
-            // return extractor.extractData(rs);
             System.out.println();
             return "";
         }
