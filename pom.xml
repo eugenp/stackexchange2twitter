@@ -287,7 +287,7 @@
 		<!-- maven plugins -->
 		<maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
 		<maven-resources-plugin.version>2.6</maven-resources-plugin.version>
-		<maven-surefire-plugin.version>2.13</maven-surefire-plugin.version>
+		<maven-surefire-plugin.version>2.14</maven-surefire-plugin.version>
 	</properties>
 
 </project>
