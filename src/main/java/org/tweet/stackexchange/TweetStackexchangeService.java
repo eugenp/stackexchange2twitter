@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.base.Functions;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
@@ -89,7 +89,13 @@ public class TweetStackexchangeService {
     public List<String> listTweets(final String accountName) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(accountName);
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline();
-        return Lists.transform(userTimeline, Functions.toStringFunction());
+        final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
+            @Override
+            public final String apply(final Tweet input) {
+                return input.getText();
+            }
+        };
+        return Lists.transform(userTimeline, tweetToStringFunction);
     }
 
     // util

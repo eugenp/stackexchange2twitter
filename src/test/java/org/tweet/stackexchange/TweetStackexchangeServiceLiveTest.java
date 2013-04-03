@@ -1,6 +1,7 @@
 package org.tweet.stackexchange;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -97,7 +98,10 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
-        System.out.println(tweetStackexchangeService.listTweets(SimpleTwitterAccount.BestJPA.name()));
+        final List<String> tweets = tweetStackexchangeService.listTweets(SimpleTwitterAccount.JavaTopSO.name());
+        System.out.println(tweets);
     }
+
+    // util
 
 }
