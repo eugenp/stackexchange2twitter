@@ -1,4 +1,4 @@
-package org.tweet.stackexchange;
+package org.gplus.stackexchange;
 
 import java.io.IOException;
 
@@ -7,24 +7,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.stackexchange.api.constants.Site;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.stackexchange.TweetStackexchangeService;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.stackexchange.util.StackexchangeUtil;
 import org.tweet.stackexchange.util.Tag;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-@Component
+// @Service
 @Profile(SpringProfileUtil.DEPLOYED)
-public class TweetStackexchangeScheduler {
+public class GplusStackexchangeScheduler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private TweetStackexchangeService service;
 
-    public TweetStackexchangeScheduler() {
+    public GplusStackexchangeScheduler() {
         super();
     }
 
