@@ -8,18 +8,17 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.tweet.spring.ContextConfig;
-import org.tweet.spring.PersistenceJPAConfig;
-import org.tweet.spring.StackexchangeConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.service.TwitterTemplateCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class, ContextConfig.class, PersistenceJPAConfig.class, StackexchangeConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, ContextConfig.class })
 @Ignore("by default, there should be no component that is not deployed in production, configured to tweet")
 public class TweetServiceLiveTest {
 
@@ -33,7 +32,8 @@ public class TweetServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() {
-        twitterService.tweet(twitterCreator.getTwitterTemplate(SimpleTwitterAccount.BestBash.name()), "What are Unity's keyboard and mouse shortcuts?");
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(SimpleTwitterAccount.BestBash.name());
+        twitterService.tweet(twitterTemplate, "What are Unity's keyboard and mouse shortcuts?");
     }
 
     @Test

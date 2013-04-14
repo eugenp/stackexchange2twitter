@@ -58,19 +58,6 @@ public class TweetStackexchangeService {
         }
     }
 
-    public void tweetTopQuestionBySiteInternal(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
-        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
-
-        int currentPage = pageToStartWith;
-        boolean tweetSuccessful = false;
-        while (!tweetSuccessful) {
-            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
-            final String siteQuestionsRawJson = questionsApi.questions(50, site, currentPage);
-            tweetSuccessful = tryTweetTopQuestion(accountName, siteQuestionsRawJson);
-            currentPage++;
-        }
-    }
-
     public void tweetTopQuestionByTag(final Site site, final String accountName, final String tag, final int pageToStartWith) throws JsonProcessingException, IOException {
         logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
@@ -100,7 +87,20 @@ public class TweetStackexchangeService {
 
     // util
 
-    private boolean tryTweetTopQuestion(final String accountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
+    private final void tweetTopQuestionBySiteInternal(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
+        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
+
+        int currentPage = pageToStartWith;
+        boolean tweetSuccessful = false;
+        while (!tweetSuccessful) {
+            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
+            final String siteQuestionsRawJson = questionsApi.questions(50, site, currentPage);
+            tweetSuccessful = tryTweetTopQuestion(accountName, siteQuestionsRawJson);
+            currentPage++;
+        }
+    }
+
+    private final boolean tryTweetTopQuestion(final String accountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
         if (!isValidQuestions(siteQuestionsJson, accountName)) {
             return false;
