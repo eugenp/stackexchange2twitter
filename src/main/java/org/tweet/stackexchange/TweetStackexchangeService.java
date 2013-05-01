@@ -82,20 +82,7 @@ public class TweetStackexchangeService {
 
     // util
 
-    private void tweetTopQuestionBySiteAndTagInternal(final Site site, final String tag, final String accountName, final int pageToStartWith) throws IOException, JsonProcessingException {
-        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
-
-        int currentPage = pageToStartWith;
-        boolean tweetSuccessful = false;
-        while (!tweetSuccessful) {
-            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
-            final String questionsForTagRawJson = questionsApi.questions(50, site, tag, currentPage);
-            tweetSuccessful = tryTweetTopQuestion(accountName, questionsForTagRawJson);
-            currentPage++;
-        }
-    }
-
-    private final void tweetTopQuestionBySiteInternal(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
+    final void tweetTopQuestionBySiteInternal(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
         logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
         int currentPage = pageToStartWith;
@@ -103,14 +90,27 @@ public class TweetStackexchangeService {
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
             final String siteQuestionsRawJson = questionsApi.questions(50, site, currentPage);
-            tweetSuccessful = tryTweetTopQuestion(accountName, siteQuestionsRawJson);
+            tweetSuccessful = tryTweetTopQuestion(site, accountName, siteQuestionsRawJson);
             currentPage++;
         }
     }
 
-    private final boolean tryTweetTopQuestion(final String accountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
+    final void tweetTopQuestionBySiteAndTagInternal(final Site site, final String tag, final String accountName, final int pageToStartWith) throws IOException, JsonProcessingException {
+        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
+
+        int currentPage = pageToStartWith;
+        boolean tweetSuccessful = false;
+        while (!tweetSuccessful) {
+            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
+            final String questionsForTagRawJson = questionsApi.questions(50, site, tag, currentPage);
+            tweetSuccessful = tryTweetTopQuestion(site, accountName, questionsForTagRawJson);
+            currentPage++;
+        }
+    }
+
+    private final boolean tryTweetTopQuestion(final Site site, final String twitterAccountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
-        if (!isValidQuestions(siteQuestionsJson, accountName)) {
+        if (!isValidQuestions(siteQuestionsJson, twitterAccountName)) {
             return false;
         }
         final ArrayNode siteQuestionsJsonArray = (ArrayNode) siteQuestionsJson.get("items");
@@ -119,17 +119,17 @@ public class TweetStackexchangeService {
             final String title = questionJson.get(QuestionsApi.TITLE).toString();
             final String link = questionJson.get(QuestionsApi.LINK).toString();
 
-            logger.debug("Considering to tweet on account= {}, Question= {}", accountName, questionId);
+            logger.debug("Considering to tweet on account= {}, Question= {}", twitterAccountName, questionId);
 
             if (!hasThisQuestionAlreadyBeenTweeted(questionId)) {
                 logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
 
-                final boolean success = tryTweet(title, link, accountName);
+                final boolean success = tryTweet(title, link, twitterAccountName);
                 if (!success) {
-                    logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", accountName, title);
+                    logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", twitterAccountName, title);
                     continue;
                 }
-                markQuestionTweeted(questionId, accountName);
+                markQuestionTweeted(site, questionId, twitterAccountName);
                 return true;
             }
         }
@@ -154,7 +154,8 @@ public class TweetStackexchangeService {
         return true;
     }
 
-    private final void markQuestionTweeted(final String questionId, final String accountName) {
+    private final void markQuestionTweeted(final Site site, final String questionId, final String accountName) {
+        // TODO: add site to the question tweet entity
         final QuestionTweet questionTweet = new QuestionTweet(questionId, accountName);
         questionTweetApi.save(questionTweet);
     }
