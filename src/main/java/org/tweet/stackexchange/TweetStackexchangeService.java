@@ -58,7 +58,7 @@ public class TweetStackexchangeService {
         }
     }
 
-    public void tweetTopQuestionByTag(final Site site, final String accountName, final String tag, final int pageToStartWith) throws JsonProcessingException, IOException {
+    public void tweetTopQuestionBySiteAndTag(final Site site, final String tag, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
         logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
         int currentPage = pageToStartWith;
