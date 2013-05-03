@@ -262,8 +262,8 @@
 	<properties>
 
 		<!-- other -->
-		<jackson.version>2.1.4</jackson.version>
-		<mail.version>1.4.6</mail.version>
+		<jackson.version>2.2.0</jackson.version>
+		<mail.version>1.4.7</mail.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
 		<guava.version>14.0.1</guava.version>
 
@@ -272,8 +272,8 @@
 		<spring-social-twitter.version>1.0.3.RELEASE</spring-social-twitter.version>
 
 		<!-- persistence -->
-		<mysql-connector-java.version>5.1.24</mysql-connector-java.version> <!-- latest version on: 19.03.2013 - http://dev.mysql.com/downloads/connector/j/ -->
-		<hibernate.version>4.2.0.Final</hibernate.version>
+		<mysql-connector-java.version>5.1.25</mysql-connector-java.version> <!-- latest version on: 03.05.2013 - http://dev.mysql.com/downloads/connector/j/ -->
+		<hibernate.version>4.2.1.Final</hibernate.version>
 		<hibernate-jpamodelgen.version>1.2.0.Final</hibernate-jpamodelgen.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<querydsl.version>2.9.0</querydsl.version>
@@ -292,9 +292,9 @@
 		<mockito.version>1.9.5</mockito.version>
 
 		<!-- maven plugins -->
-		<maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 		<maven-resources-plugin.version>2.6</maven-resources-plugin.version>
-		<maven-surefire-plugin.version>2.14</maven-surefire-plugin.version>
+		<maven-surefire-plugin.version>2.14.1</maven-surefire-plugin.version>
 	</properties>
 
 	<repositories>
