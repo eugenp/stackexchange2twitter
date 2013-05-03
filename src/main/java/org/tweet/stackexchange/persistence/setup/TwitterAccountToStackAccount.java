@@ -5,7 +5,7 @@ import java.util.List;
 import org.stackexchange.api.constants.StackSite;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
 
-import com.google.api.client.util.Preconditions;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 public final class TwitterAccountToStackAccount {
