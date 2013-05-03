@@ -20,14 +20,14 @@ import org.tweet.stackexchange.util.SimpleTwitterAccount;
 import com.google.common.base.Preconditions;
 
 /**
- * SETUP: </br>
- * - step 1 - export the production DB </br>
- * - clear the local (prod) DB and import the new one locally </br>
- * - run {@link SetupBackupIntegrationTest}, update the setup.properties file with the new values </br>
- * - change, in setup.properties - setup.do=false to setup.do=true </br>
- * -- test locally - erase the local DB, restart the server, check that everything gets created correctly
- * - erase the production DB
- * - restart the server (on production)
+ * <b>SETUP</b>: </p></p>
+ * - export the production DB </p>
+ * - drop the local (prod) DB and import the new one locally </p>
+ * - run {@link SetupBackupIntegrationTest}, update the setup.properties file with the new values </p>
+ * - change, in setup.properties - setup.do=false to setup.do=true </p>
+ * -- test locally - erase the local DB, restart the server, check that everything gets created correctly </p>
+ * - erase the production DB </p>
+ * - restart the server (on production) </p>
  */
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
@@ -54,15 +54,16 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
     @Override
     public final void onApplicationEvent(final ContextRefreshedEvent event) {
         if (!setupDone) {
-            logger.info("Executing Setup");
+            logger.info("Before Setup");
             eventPublisher.publishEvent(new BeforeSetupEvent(this));
 
             if (env.getProperty("setup.do", Boolean.class)) {
+                logger.info("Setup Active - Executing");
                 repersistAllQuestionsOnAllTwitterAccounts();
             }
 
             setupDone = true;
-            logger.info("Setup Done");
+            logger.info("After Setup");
         }
     }
 
@@ -75,7 +76,9 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
     }
 
     private void repersistAllQuestionsOnTwitterAccount(final SimpleTwitterAccount twitterAccount) {
-        final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty(twitterAccount.name() + ".done"));
+        logger.info("Before Setup for twitter account = {}", twitterAccount);
+
+        final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty(twitterAccount.name()), "No Questions in setup.properties: for twitter account" + twitterAccount);
         final String[] questionIds = tweetedQuestions.split(",");
         recreateTwitterQuestions(questionIds, twitterAccount);
     }
@@ -90,7 +93,7 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
         }
 
         for (final String questionId : questionIds) {
-            final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount.name(), site.name());
+            final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount, site);
             questionTweetApi.save(questionTweet);
         }
     }

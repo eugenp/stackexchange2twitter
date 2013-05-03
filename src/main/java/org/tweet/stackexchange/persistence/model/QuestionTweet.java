@@ -6,7 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.stackexchange.api.constants.StackSite;
 import org.tweet.common.persistence.IEntity;
+import org.tweet.stackexchange.util.SimpleTwitterAccount;
 
 @Entity
 public class QuestionTweet implements IEntity {
@@ -23,18 +25,28 @@ public class QuestionTweet implements IEntity {
     private String twitterAccount;
 
     @Column(nullable = true)
-    private String soAccount;
+    private String stackAccount;
 
     public QuestionTweet() {
         super();
     }
 
-    public QuestionTweet(final String questionId, final String twitterAccount, final String soAccount) {
+    public QuestionTweet(final String questionId, final SimpleTwitterAccount twitterAccount, final StackSite stackAccount) {
+        super();
+
+        this.questionId = questionId;
+        this.twitterAccount = twitterAccount.name();
+        if (stackAccount != null) { // optional
+            this.stackAccount = stackAccount.name();
+        }
+    }
+
+    public QuestionTweet(final String questionId, final String twitterAccount, final String stackAccount) {
         super();
 
         this.questionId = questionId;
         this.twitterAccount = twitterAccount;
-        this.soAccount = soAccount;
+        this.stackAccount = stackAccount;
     }
 
     // API
@@ -64,12 +76,12 @@ public class QuestionTweet implements IEntity {
         this.twitterAccount = twitterAccount;
     }
 
-    public String getSoAccount() {
-        return soAccount;
+    public String getStackAccount() {
+        return stackAccount;
     }
 
-    public void setSoAccount(final String soAccount) {
-        this.soAccount = soAccount;
+    public void setStackAccount(final String stackAccount) {
+        this.stackAccount = stackAccount;
     }
 
     //
@@ -79,7 +91,7 @@ public class QuestionTweet implements IEntity {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
-        result = prime * result + ((soAccount == null) ? 0 : soAccount.hashCode());
+        result = prime * result + ((stackAccount == null) ? 0 : stackAccount.hashCode());
         result = prime * result + ((twitterAccount == null) ? 0 : twitterAccount.hashCode());
         return result;
     }
@@ -98,10 +110,10 @@ public class QuestionTweet implements IEntity {
                 return false;
         } else if (!questionId.equals(other.questionId))
             return false;
-        if (soAccount == null) {
-            if (other.soAccount != null)
+        if (stackAccount == null) {
+            if (other.stackAccount != null)
                 return false;
-        } else if (!soAccount.equals(other.soAccount))
+        } else if (!stackAccount.equals(other.stackAccount))
             return false;
         if (twitterAccount == null) {
             if (other.twitterAccount != null)
@@ -113,7 +125,7 @@ public class QuestionTweet implements IEntity {
 
     @Override
     public String toString() {
-        return "QuestionTweet [questionId=" + questionId + ", twitterAccount=" + twitterAccount + ", soAccount=" + soAccount + "]";
+        return "QuestionTweet [questionId=" + questionId + ", twitterAccount=" + twitterAccount + ", stackAccount=" + stackAccount + "]";
     }
 
 }
