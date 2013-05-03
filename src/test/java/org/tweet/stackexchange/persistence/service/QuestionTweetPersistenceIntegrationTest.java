@@ -254,7 +254,7 @@ public class QuestionTweetPersistenceIntegrationTest {
     }
 
     protected QuestionTweet createNewEntity() {
-        return new QuestionTweet(randomAlphabetic(6), randomAlphabetic(6));
+        return new QuestionTweet(randomAlphabetic(6), randomAlphabetic(6), randomAlphabetic(6));
     }
 
     protected QuestionTweet persistNewEntity() {

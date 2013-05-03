@@ -42,15 +42,17 @@ public class StackexchangeSetupPersistenceIntegrationTest {
 
     @Test
     public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
-        stackexchangeSetup.recreateTwitterQuestions(new String[] { randomNumeric(3), randomNumeric(3) });
+        stackexchangeSetup.recreateTwitterQuestions(new String[] { randomNumeric(3), randomNumeric(3) }, SimpleTwitterAccount.ServerFaultBest);
     }
 
     @Test
     public final void whenRecreatingTheTweetedQuestions_thenQuestionsAreCreated() {
         final String idOfQuestion = randomNumeric(3);
-        stackexchangeSetup.recreateTwitterQuestions(new String[] { idOfQuestion, randomNumeric(3) });
+        stackexchangeSetup.recreateTwitterQuestions(new String[] { idOfQuestion, randomNumeric(3) }, SimpleTwitterAccount.ServerFaultBest);
         final IQuestionTweetJpaDAO questionTweetJpaDAO = beanFactory.getBean(IQuestionTweetJpaDAO.class);
-        assertThat(questionTweetJpaDAO.findAll(), hasItem(new QuestionTweet(idOfQuestion, SimpleTwitterAccount.ServerFaultBest.name())));
+
+        final QuestionTweet questionTweet = new QuestionTweet(idOfQuestion, SimpleTwitterAccount.ServerFaultBest.name(), TwitterAccountToStackAccount.twitterAccountToStackSite(SimpleTwitterAccount.ServerFaultBest).name());
+        assertThat(questionTweetJpaDAO.findAll(), hasItem(questionTweet));
     }
 
 }

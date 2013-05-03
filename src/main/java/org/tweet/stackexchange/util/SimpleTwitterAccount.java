@@ -1,5 +1,23 @@
 package org.tweet.stackexchange.util;
 
-public enum SimpleTwitterAccount {
-    ServerFaultBest, AskUbuntuBest, BestBash, SpringAtSO, JavaTopSO, BestClojure, BestScala, jQueryDaily, RESTDaily, BestEclipse, BestGit, BestMaven, BestJPA, BestAlgorithms
+public enum SimpleTwitterAccount {// @formatter:off
+    AskUbuntuBest, 
+    
+    BestAlgorithms, 
+    BestBash, 
+    BestClojure, 
+    BestEclipse, 
+    BestGit, 
+    BestJPA, 
+    BestMaven, 
+    BestScala, 
+    
+    JavaTopSO, 
+    jQueryDaily, 
+    
+    RESTDaily, 
+    
+    ServerFaultBest, 
+    SpringAtSO
 }
+// @formatter:ons

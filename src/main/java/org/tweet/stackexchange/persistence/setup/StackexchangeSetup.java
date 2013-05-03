@@ -1,5 +1,7 @@
 package org.tweet.stackexchange.persistence.setup;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.stackexchange.api.constants.StackSite;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
@@ -16,6 +19,16 @@ import org.tweet.stackexchange.util.SimpleTwitterAccount;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * SETUP: </br>
+ * - step 1 - export the production DB </br>
+ * - clear the local (prod) DB and import the new one locally </br>
+ * - run {@link SetupBackupIntegrationTest}, update the setup.properties file with the new values </br>
+ * - change, in setup.properties - setup.do=false to setup.do=true </br>
+ * -- test locally - erase the local DB, restart the server, check that everything gets created correctly
+ * - erase the production DB
+ * - restart the server (on production)
+ */
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
 public class StackexchangeSetup implements ApplicationListener<ContextRefreshedEvent> {
@@ -38,11 +51,6 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
 
     //
 
-    /**
-     * - note that this is a compromise - the flag makes this bean statefull which can (and will) be avoided in the future by a more advanced mechanism <br>
-     * - the reason for this is that the context is refreshed more than once throughout the lifecycle of the deployable <br>
-     * - alternatives: proper persisted versioning
-     */
     @Override
     public final void onApplicationEvent(final ContextRefreshedEvent event) {
         if (!setupDone) {
@@ -50,7 +58,7 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
             eventPublisher.publishEvent(new BeforeSetupEvent(this));
 
             if (env.getProperty("setup.do", Boolean.class)) {
-                recreateTwittedQuestions();
+                repersistAllQuestionsOnAllTwitterAccounts();
             }
 
             setupDone = true;
@@ -60,15 +68,29 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
 
     // util
 
-    final void recreateTwittedQuestions() {
-        final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty("ServerFaultBest.done"));
-        final String[] questionIds = tweetedQuestions.split(",");
-        recreateTwitterQuestions(questionIds);
+    final void repersistAllQuestionsOnAllTwitterAccounts() {
+        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+            repersistAllQuestionsOnTwitterAccount(twitterAccount);
+        }
     }
 
-    final void recreateTwitterQuestions(final String[] questionIds) {
+    private void repersistAllQuestionsOnTwitterAccount(final SimpleTwitterAccount twitterAccount) {
+        final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty(twitterAccount.name() + ".done"));
+        final String[] questionIds = tweetedQuestions.split(",");
+        recreateTwitterQuestions(questionIds, twitterAccount);
+    }
+
+    final void recreateTwitterQuestions(final String[] questionIds, final SimpleTwitterAccount twitterAccount) {
+        final List<StackSite> stackSitesForTwitterAccount = TwitterAccountToStackAccount.twitterAccountToStackSites(twitterAccount);
+        final StackSite site;
+        if (stackSitesForTwitterAccount.size() == 1) {
+            site = stackSitesForTwitterAccount.get(0);
+        } else {
+            site = null;
+        }
+
         for (final String questionId : questionIds) {
-            final QuestionTweet questionTweet = new QuestionTweet(questionId, SimpleTwitterAccount.ServerFaultBest.name());
+            final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount.name(), site.name());
             questionTweetApi.save(questionTweet);
         }
     }

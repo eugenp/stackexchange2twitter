@@ -11,7 +11,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
-import org.stackexchange.api.constants.Site;
+import org.stackexchange.api.constants.StackSite;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.service.TwitterService;
@@ -50,7 +50,7 @@ public class TweetStackexchangeService {
 
     // write
 
-    public void tweetTopQuestionBySite(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
+    public void tweetTopQuestionBySite(final StackSite site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteInternal(site, accountName, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
@@ -58,7 +58,7 @@ public class TweetStackexchangeService {
         }
     }
 
-    public void tweetTopQuestionBySiteAndTag(final Site site, final String tag, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
+    public void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, tag, accountName, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
@@ -82,7 +82,7 @@ public class TweetStackexchangeService {
 
     // util
 
-    final void tweetTopQuestionBySiteInternal(final Site site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
+    final void tweetTopQuestionBySiteInternal(final StackSite site, final String accountName, final int pageToStartWith) throws JsonProcessingException, IOException {
         logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
         int currentPage = pageToStartWith;
@@ -95,7 +95,7 @@ public class TweetStackexchangeService {
         }
     }
 
-    final void tweetTopQuestionBySiteAndTagInternal(final Site site, final String tag, final String accountName, final int pageToStartWith) throws IOException, JsonProcessingException {
+    final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String tag, final String accountName, final int pageToStartWith) throws IOException, JsonProcessingException {
         logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), accountName, pageToStartWith);
 
         int currentPage = pageToStartWith;
@@ -108,7 +108,7 @@ public class TweetStackexchangeService {
         }
     }
 
-    private final boolean tryTweetTopQuestion(final Site site, final String twitterAccountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
+    private final boolean tryTweetTopQuestion(final StackSite site, final String twitterAccountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
         if (!isValidQuestions(siteQuestionsJson, twitterAccountName)) {
             return false;
@@ -154,9 +154,9 @@ public class TweetStackexchangeService {
         return true;
     }
 
-    private final void markQuestionTweeted(final Site site, final String questionId, final String accountName) {
+    private final void markQuestionTweeted(final StackSite site, final String questionId, final String accountName) {
         // TODO: add site to the question tweet entity
-        final QuestionTweet questionTweet = new QuestionTweet(questionId, accountName);
+        final QuestionTweet questionTweet = new QuestionTweet(questionId, accountName, site.name());
         questionTweetApi.save(questionTweet);
     }
 

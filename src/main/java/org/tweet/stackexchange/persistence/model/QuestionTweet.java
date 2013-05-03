@@ -19,17 +19,22 @@ public class QuestionTweet implements IEntity {
     @Column(nullable = false, unique = true)
     private String questionId;
 
-    private String account;
+    @Column(nullable = false)
+    private String twitterAccount;
+
+    @Column(nullable = true)
+    private String soAccount;
 
     public QuestionTweet() {
         super();
     }
 
-    public QuestionTweet(final String questionId, final String account) {
+    public QuestionTweet(final String questionId, final String twitterAccount, final String soAccount) {
         super();
 
         this.questionId = questionId;
-        this.account = account;
+        this.twitterAccount = twitterAccount;
+        this.soAccount = soAccount;
     }
 
     // API
@@ -51,12 +56,20 @@ public class QuestionTweet implements IEntity {
         this.questionId = questionId;
     }
 
-    public String getAccount() {
-        return account;
+    public String getTwitterAccount() {
+        return twitterAccount;
     }
 
-    public void setAccount(final String account) {
-        this.account = account;
+    public void setTwitterAccount(final String twitterAccount) {
+        this.twitterAccount = twitterAccount;
+    }
+
+    public String getSoAccount() {
+        return soAccount;
+    }
+
+    public void setSoAccount(final String soAccount) {
+        this.soAccount = soAccount;
     }
 
     //
@@ -65,8 +78,9 @@ public class QuestionTweet implements IEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((account == null) ? 0 : account.hashCode());
         result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
+        result = prime * result + ((soAccount == null) ? 0 : soAccount.hashCode());
+        result = prime * result + ((twitterAccount == null) ? 0 : twitterAccount.hashCode());
         return result;
     }
 
@@ -79,24 +93,27 @@ public class QuestionTweet implements IEntity {
         if (getClass() != obj.getClass())
             return false;
         final QuestionTweet other = (QuestionTweet) obj;
-        if (account == null) {
-            if (other.account != null)
-                return false;
-        } else if (!account.equals(other.account))
-            return false;
         if (questionId == null) {
             if (other.questionId != null)
                 return false;
         } else if (!questionId.equals(other.questionId))
+            return false;
+        if (soAccount == null) {
+            if (other.soAccount != null)
+                return false;
+        } else if (!soAccount.equals(other.soAccount))
+            return false;
+        if (twitterAccount == null) {
+            if (other.twitterAccount != null)
+                return false;
+        } else if (!twitterAccount.equals(other.twitterAccount))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("QuestionTweet [questionId=").append(questionId).append(", account=").append(account).append("]");
-        return builder.toString();
+        return "QuestionTweet [questionId=" + questionId + ", twitterAccount=" + twitterAccount + ", soAccount=" + soAccount + "]";
     }
 
 }
