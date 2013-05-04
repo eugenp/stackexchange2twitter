@@ -57,21 +57,21 @@ public class SetupBackupIntegrationTest {
 
     @Test
     public final void whenQuestionsAreRetrievedFromTheDB_thenNoExceptions() {
-        final Map<String, List<Long>> accountToQuestionsMaps = Maps.newHashMap();
-        jdbcTemplate.query("SELECT * FROM question_tweet;", new TweetRowMapper(accountToQuestionsMaps));
+        final Map<String, List<Long>> accountToQuestionsMap = Maps.newHashMap();
+        jdbcTemplate.query("SELECT * FROM question_tweet;", new TweetRowMapper(accountToQuestionsMap));
 
-        writeToFile(accountToQuestionsMaps);
+        listOut(accountToQuestionsMap);
     }
 
     // util
 
-    private void writeToFile(final Map<String, List<Long>> accountToQuestionsMaps) {
-        for (final String accountName : accountToQuestionsMaps.keySet()) {
-            System.out.println(accountName + "=" + generateValueForAccount(accountToQuestionsMaps.get(accountName)));
+    private void listOut(final Map<String, List<Long>> accountToQuestionsMap) {
+        for (final String accountName : accountToQuestionsMap.keySet()) {
+            System.out.println(accountName + "=" + valuesAsCsv(accountToQuestionsMap.get(accountName)));
         }
     }
 
-    private String generateValueForAccount(final List<Long> theIds) {
+    private String valuesAsCsv(final List<Long> theIds) {
         final StringBuilder allQuestionsAsString = new StringBuilder();
         for (final Long id : theIds) {
             allQuestionsAsString.append(id);

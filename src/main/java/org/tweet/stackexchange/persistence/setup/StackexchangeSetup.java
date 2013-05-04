@@ -71,19 +71,19 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
 
     final void repersistAllQuestionsOnAllTwitterAccounts() {
         for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
-            repersistAllQuestionsOnTwitterAccount(twitterAccount);
+            recreateAllQuestionsOnTwitterAccount(twitterAccount);
         }
     }
 
-    private void repersistAllQuestionsOnTwitterAccount(final SimpleTwitterAccount twitterAccount) {
+    private void recreateAllQuestionsOnTwitterAccount(final SimpleTwitterAccount twitterAccount) {
         logger.info("Before Setup for twitter account = {}", twitterAccount);
 
         final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty(twitterAccount.name()), "No Questions in setup.properties: for twitter account" + twitterAccount);
         final String[] questionIds = tweetedQuestions.split(",");
-        recreateTwitterQuestions(questionIds, twitterAccount);
+        recreateQuestions(questionIds, twitterAccount);
     }
 
-    final void recreateTwitterQuestions(final String[] questionIds, final SimpleTwitterAccount twitterAccount) {
+    final void recreateQuestions(final String[] questionIds, final SimpleTwitterAccount twitterAccount) {
         final List<StackSite> stackSitesForTwitterAccount = TwitterAccountToStackAccount.twitterAccountToStackSites(twitterAccount);
         final StackSite site;
         if (stackSitesForTwitterAccount.size() == 1) {
