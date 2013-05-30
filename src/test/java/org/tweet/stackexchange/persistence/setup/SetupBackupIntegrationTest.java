@@ -23,9 +23,11 @@ public class SetupBackupIntegrationTest {
 
     class TweetRowMapper implements RowMapper<String> {
         private final Map<String, List<Long>> accountToQuestions;
+        private int count;
 
         public TweetRowMapper(final Map<String, List<Long>> accountToQuestions) {
             super();
+            count = 0;
             this.accountToQuestions = accountToQuestions;
         }
 
@@ -33,13 +35,18 @@ public class SetupBackupIntegrationTest {
         public final String mapRow(final ResultSet rs, final int line) throws SQLException {
             final String questionIdAsString = rs.getString("question_id");
             final long questionId = Long.parseLong(questionIdAsString);
-            final String account = rs.getString("account");
+            final String account = rs.getString("twitter_account");
 
             if (accountToQuestions.get(account) == null) {
                 accountToQuestions.put(account, Lists.<Long> newArrayList());
             }
             accountToQuestions.get(account).add(questionId);
+            count++;
             return "";
+        }
+
+        public final int getCount() {
+            return count;
         }
     }
 
@@ -58,9 +65,11 @@ public class SetupBackupIntegrationTest {
     @Test
     public final void whenQuestionsAreRetrievedFromTheDB_thenNoExceptions() {
         final Map<String, List<Long>> accountToQuestionsMap = Maps.newHashMap();
-        jdbcTemplate.query("SELECT * FROM question_tweet;", new TweetRowMapper(accountToQuestionsMap));
+        final TweetRowMapper tweetRowMapper = new TweetRowMapper(accountToQuestionsMap);
+        jdbcTemplate.query("SELECT * FROM question_tweet;", tweetRowMapper);
 
         listOut(accountToQuestionsMap);
+        System.out.println("Processed: " + tweetRowMapper.getCount());
     }
 
     // util

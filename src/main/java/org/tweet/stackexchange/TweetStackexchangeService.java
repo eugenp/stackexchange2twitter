@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,9 @@ public class TweetStackexchangeService {
 
     @Autowired
     private IQuestionTweetJpaDAO questionTweetApi;
+
+    @Autowired
+    private Environment env;
 
     public TweetStackexchangeService() {
         super();
@@ -88,8 +92,9 @@ public class TweetStackexchangeService {
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
-            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
-            final String siteQuestionsRawJson = questionsApi.questions(50, site, currentPage);
+            logger.trace("Trying to tweeting from site = {}, on account = {}, question from page = {}", site.name(), twitterAccount, currentPage);
+            final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".max", Integer.class);
+            final String siteQuestionsRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, currentPage);
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, siteQuestionsRawJson);
             currentPage++;
         }
