@@ -8,23 +8,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.social.twitter.api.SearchResults;
-import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.StackSite;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.service.TwitterService;
-import org.tweet.twitter.service.TwitterTemplateCreator;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -32,9 +27,6 @@ import com.google.common.collect.Lists;
 @Service
 public class TweetStackexchangeService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private TwitterTemplateCreator twitterCreator;
 
     @Autowired
     private TwitterService twitterService;
@@ -70,34 +62,6 @@ public class TweetStackexchangeService {
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to tweet from site=" + site + " and tag= " + tag, runtimeEx);
         }
-    }
-
-    // read
-
-    public List<String> listTweetsOfAccount(final String accountName) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(accountName);
-        final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline();
-        final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
-            @Override
-            public final String apply(final Tweet input) {
-                return input.getText();
-            }
-        };
-        return Lists.transform(userTimeline, tweetToStringFunction);
-    }
-
-    public List<String> listTweetsOfHashtag(final String hashtag) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate("BestJPA");
-
-        final SearchResults search = twitterTemplate.searchOperations().search(hashtag);
-        final List<Tweet> tweets = search.getTweets();
-        final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
-            @Override
-            public final String apply(final Tweet input) {
-                return input.getText();
-            }
-        };
-        return Lists.transform(tweets, tweetToStringFunction);
     }
 
     // util
@@ -178,7 +142,7 @@ public class TweetStackexchangeService {
             logger.error("Error postprocessing the tweet" + fullTweet, ex);
         }
 
-        twitterService.tweet(twitterCreator.getTwitterTemplate(accountName), fullTweet);
+        twitterService.tweet(accountName, fullTweet);
         return true;
     }
 

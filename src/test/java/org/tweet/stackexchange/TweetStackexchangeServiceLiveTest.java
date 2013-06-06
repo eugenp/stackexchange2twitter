@@ -4,7 +4,6 @@ import static org.tweet.stackexchange.persistence.setup.TwitterAccountToStackAcc
 import static org.tweet.stackexchange.persistence.setup.TwitterAccountToStackAccount.twitterAccountToStackSites;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -103,21 +102,5 @@ public class TweetStackexchangeServiceLiveTest {
     public final void whenTweetingOnAskUbuntu_thenNoExceptions() throws JsonProcessingException, IOException {
         tweetStackexchangeService.tweetTopQuestionBySite(twitterAccountToStackSite(SimpleTwitterAccount.AskUbuntuBest), SimpleTwitterAccount.AskUbuntuBest.name(), 1);
     }
-
-    // list tweets
-
-    @Test
-    public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<String> tweets = tweetStackexchangeService.listTweetsOfAccount(SimpleTwitterAccount.JavaTopSO.name());
-        System.out.println(tweets);
-    }
-
-    @Test
-    public final void whenListingTweetsForHash_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<String> tweets = tweetStackexchangeService.listTweetsOfHashtag("java");
-        System.out.println(tweets);
-    }
-
-    // util
 
 }
