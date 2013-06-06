@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,7 @@ public class TweetStackexchangeService {
 
     // read
 
-    public List<String> listTweets(final String accountName) {
+    public List<String> listTweetsOfAccount(final String accountName) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(accountName);
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline();
         final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
@@ -83,6 +84,20 @@ public class TweetStackexchangeService {
             }
         };
         return Lists.transform(userTimeline, tweetToStringFunction);
+    }
+
+    public List<String> listTweetsOfHashtag(final String hashtag) {
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate("BestJPA");
+
+        final SearchResults search = twitterTemplate.searchOperations().search(hashtag);
+        final List<Tweet> tweets = search.getTweets();
+        final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
+            @Override
+            public final String apply(final Tweet input) {
+                return input.getText();
+            }
+        };
+        return Lists.transform(tweets, tweetToStringFunction);
     }
 
     // util

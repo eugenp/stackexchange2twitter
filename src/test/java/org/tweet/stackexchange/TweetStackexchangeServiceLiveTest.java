@@ -108,7 +108,13 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<String> tweets = tweetStackexchangeService.listTweets(SimpleTwitterAccount.JavaTopSO.name());
+        final List<String> tweets = tweetStackexchangeService.listTweetsOfAccount(SimpleTwitterAccount.JavaTopSO.name());
+        System.out.println(tweets);
+    }
+
+    @Test
+    public final void whenListingTweetsForHash_thenNoExceptions() throws JsonProcessingException, IOException {
+        final List<String> tweets = tweetStackexchangeService.listTweetsOfHashtag("java");
         System.out.println(tweets);
     }
 
