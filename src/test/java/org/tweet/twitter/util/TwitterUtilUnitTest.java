@@ -90,4 +90,12 @@ public final class TwitterUtilUnitTest {
         assertThat(originalTweet, equalTo(processedTweet));
     }
 
+    @Test
+    public final void givenRealCaseScenario1_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Hibernate + Spring using multiple datasources? - http://stackoverflow.com/questions/860918/hibernate-spring-using-multiple-datasources …";
+        final String targetTweet = "Hibernate + #Spring using multiple datasources? - http://stackoverflow.com/questions/860918/hibernate-spring-using-multiple-datasources …";
+        final String processedTweet = TwitterUtil.hashWords(originalTweet, Lists.newArrayList("spring"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
 }

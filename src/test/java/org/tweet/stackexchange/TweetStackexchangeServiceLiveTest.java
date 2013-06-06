@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.stackexchange.service.TweetStackexchangeService;
 import org.tweet.stackexchange.spring.StackexchangePersistenceJPAConfig;
 import org.tweet.stackexchange.spring.StackexchangeConfig;
 import org.tweet.stackexchange.spring.StackexchangeContextConfig;

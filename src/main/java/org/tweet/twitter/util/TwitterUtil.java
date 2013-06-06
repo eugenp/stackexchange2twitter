@@ -65,10 +65,10 @@ public final class TwitterUtil {
 
     // utils
 
-    static int countWordsToHash(final Iterable<String> tokens, final List<String> wordsToHash) {
+    static int countWordsToHash(final Iterable<String> tokens, final List<String> lowerCaseWordsToHash) {
         int countWordsToHash = 0;
         for (final String token : tokens) {
-            if (wordsToHash.contains(token)) {
+            if (lowerCaseWordsToHash.contains(token.toLowerCase())) {
                 countWordsToHash++;
             }
         }

@@ -15,7 +15,7 @@ public class HashWordFunction implements Function<String, String> {
 
     @Override
     public final String apply(final String input) {
-        if (wordsToHash.contains(input)) {
+        if (wordsToHash.contains(input.toLowerCase())) {
             return "#" + input;
         }
         return input;

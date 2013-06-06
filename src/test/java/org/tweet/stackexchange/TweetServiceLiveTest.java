@@ -56,7 +56,7 @@ public class TweetServiceLiveTest {
 
     @Test
     public final void whenListingTweetsForHash_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<Tweet> tweets = twitterService.listTweetsOfHashtag("java");
+        final List<Tweet> tweets = twitterService.listTweetsOfHashtag(SimpleTwitterAccount.JavaTopSO.name(), "java");
         System.out.println(tweets);
     }
 

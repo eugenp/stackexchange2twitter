@@ -62,7 +62,8 @@ public class TwitterService {
     public List<Tweet> listTweetsOfHashtag(final String readOnlyAccountName, final String hashtag) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(readOnlyAccountName);
 
-        final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.POPULAR);
+        // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.POPULAR);
+        final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.MIXED);
         final SearchResults search = twitterTemplate.searchOperations().search(searchParameters);
         return search.getTweets();
     }

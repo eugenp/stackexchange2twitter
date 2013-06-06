@@ -53,27 +53,27 @@ public class TweetMetaService {
     final void tweetTopQuestionByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.debug("Begin trying to retweet on account = {}", twitterAccount);
 
-        // boolean tweetSuccessful = false;
-        // while (!tweetSuccessful) {
         logger.trace("Trying to tweeting on account = {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterService.listTweetsOfHashtag(twitterAccount, hashtag);
-        tryTweetTopQuestion(twitterAccount, tweetsOfHashtag);
-        // tweetSuccessful = tryTweetTopQuestion(twitterAccount, tweetsOfHashtag);
-        // }
+        tryTweetTopQuestionByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
     }
 
-    private final boolean tryTweetTopQuestion(final String twitterAccountName, final List<Tweet> potentialTweets) throws IOException, JsonProcessingException {
+    private final boolean tryTweetTopQuestionByHashtagInternal(final String twitterAccountName, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
-            logger.debug("Considering to retweet on account= {}, tweet= {}", twitterAccountName, tweetId);
+            logger.trace("If not already retweeted, considering to retweet on account= {}, tweetId= {}", twitterAccountName, tweetId);
 
             if (!hasThisAlreadyBeenTweeted(tweetId)) {
+                logger.debug("Considering to retweet on account= {}, tweetId= {}", twitterAccountName, tweetId);
+                if (!isTweetWorthRetweeting(potentialTweet, hashtag)) {
+                    continue;
+                }
+
                 final String tweetText = potentialTweet.getText();
                 logger.info("Retweeting: text= {} with id= {}", tweetText, tweetId);
-
                 final boolean success = tryTweet(tweetText, twitterAccountName);
                 if (!success) {
-                    logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", twitterAccountName, tweetText);
+                    logger.debug("Tried and failed to retweet on account= {}, tweet text= {}", twitterAccountName, tweetText);
                     continue;
                 }
                 markTweetRetweeted(tweetId, twitterAccountName);
@@ -81,6 +81,36 @@ public class TweetMetaService {
             }
         }
 
+        return false;
+    }
+
+    /**
+     * Determines if a tweet is worth retweeting based on the following criteria: 
+     * - number of retweets over a certain threshold (the threshold is per hashtag)
+     * - number of favorites
+     */
+    private boolean isTweetWorthRetweeting(final Tweet potentialTweet, final String hashtag) {
+        if (potentialTweet.getRetweetCount() < getRetweetThreasholdForHashtag(hashtag)) {
+            return false;
+        }
+        if (tweetContainsBannedKeywords(potentialTweet.getText())) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * TODO: figure out an adaptive retweet threshold for the given hashtag
+     * for example, #java may get a lot of retweets, and so the threshold may be higher than say #hadoop 
+     */
+    private final int getRetweetThreasholdForHashtag(final String hashtag) {
+        return 15;
+    }
+
+    /**
+     * TODO: banned words: freelance, job, consulting, etc
+     */
+    private final boolean tweetContainsBannedKeywords(final String text) {
         return false;
     }
 

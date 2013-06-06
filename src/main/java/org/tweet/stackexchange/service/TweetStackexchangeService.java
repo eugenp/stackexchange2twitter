@@ -1,4 +1,4 @@
-package org.tweet.stackexchange;
+package org.tweet.stackexchange.service;
 
 import java.io.IOException;
 import java.util.List;
