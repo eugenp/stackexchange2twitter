@@ -1,6 +1,11 @@
 package org.tweet.twitter.util;
 
+import java.util.List;
+
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 
 public final class TwitterUtil {
 
@@ -39,6 +44,34 @@ public final class TwitterUtil {
         }
         final String tweet = textOfTweet + " - " + link;
         return tweet;
+    }
+
+    // pre-processing
+
+    public static String hashWords(final String fullTweet, final List<String> wordsToHash) {
+        final Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults();
+        final Iterable<String> tokens = splitter.split(fullTweet);
+        if (fullTweet.length() + countWordsToHash(tokens, wordsToHash) > 140) {
+            return fullTweet;
+        }
+
+        final Iterable<String> transformedTokens = Iterables.transform(tokens, new HashWordFunction(wordsToHash));
+
+        final String processedTweet = Joiner.on(' ').join(transformedTokens);
+        return processedTweet;
+    }
+
+    // utils
+
+    static int countWordsToHash(final Iterable<String> tokens, final List<String> wordsToHash) {
+        int countWordsToHash = 0;
+        for (final String token : tokens) {
+            if (wordsToHash.contains(token)) {
+                countWordsToHash++;
+            }
+        }
+
+        return countWordsToHash;
     }
 
 }
