@@ -155,6 +155,8 @@ public class TweetStackexchangeService {
 
         final String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
 
+        // TwitterUtil.hashWords(fullTweet, wordsToHash);
+
         twitterService.tweet(twitterCreator.getTwitterTemplate(accountName), fullTweet);
         return true;
     }

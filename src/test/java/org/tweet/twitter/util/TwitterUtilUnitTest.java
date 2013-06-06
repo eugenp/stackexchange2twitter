@@ -82,4 +82,12 @@ public final class TwitterUtilUnitTest {
         assertThat(targetResultTweet, equalTo(processedTweet));
     }
 
+    @Test
+    public final void givenSomeWordsToHash_whenTweetIsToLongToHash_thenNoChange() {
+        final String prefix = randomAlphabetic(122);
+        final String originalTweet = prefix + "Testing with Guava";
+        final String processedTweet = TwitterUtil.hashWords(originalTweet, Lists.newArrayList("Guava"));
+        assertThat(originalTweet, equalTo(processedTweet));
+    }
+
 }
