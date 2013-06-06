@@ -51,14 +51,15 @@ public class TweetMetaService {
     // util
 
     final void tweetTopQuestionByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
-        logger.debug("Begin trying to tweet on account = {}, pageToStartWith = {}", twitterAccount);
+        logger.debug("Begin trying to retweet on account = {}", twitterAccount);
 
-        boolean tweetSuccessful = false;
-        while (!tweetSuccessful) {
-            logger.trace("Trying to tweeting on account = {}", twitterAccount);
-            final List<Tweet> tweetsOfHashtag = twitterService.listTweetsOfHashtag(hashtag);
-            tweetSuccessful = tryTweetTopQuestion(twitterAccount, tweetsOfHashtag);
-        }
+        // boolean tweetSuccessful = false;
+        // while (!tweetSuccessful) {
+        logger.trace("Trying to tweeting on account = {}", twitterAccount);
+        final List<Tweet> tweetsOfHashtag = twitterService.listTweetsOfHashtag(twitterAccount, hashtag);
+        tryTweetTopQuestion(twitterAccount, tweetsOfHashtag);
+        // tweetSuccessful = tryTweetTopQuestion(twitterAccount, tweetsOfHashtag);
+        // }
     }
 
     private final boolean tryTweetTopQuestion(final String twitterAccountName, final List<Tweet> potentialTweets) throws IOException, JsonProcessingException {

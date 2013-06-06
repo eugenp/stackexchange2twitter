@@ -52,11 +52,15 @@ public class TwitterService {
         return Lists.transform(userTimeline, tweetToStringFunction);
     }
 
+    public List<Tweet> listTweetsOfHashtag(final String hashtag) {
+        return listTweetsOfHashtag("BestJPA", hashtag);
+    }
+
     /**
      * TODO: include the sinceId as a parameter
      */
-    public List<Tweet> listTweetsOfHashtag(final String hashtag) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate("BestJPA");
+    public List<Tweet> listTweetsOfHashtag(final String readOnlyAccountName, final String hashtag) {
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(readOnlyAccountName);
 
         final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.POPULAR);
         final SearchResults search = twitterTemplate.searchOperations().search(searchParameters);
