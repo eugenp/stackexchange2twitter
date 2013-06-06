@@ -10,13 +10,18 @@ public final class TwitterUtil {
 
     // API
 
-    public static boolean isTweetValid(final String text) {
+    public static boolean isTweetTextValid(final String text) {
         return text.length() <= 120;
+    }
+
+    public static boolean isTweetValid(final String fullTweet) {
+        return fullTweet.length() <= 140;
     }
 
     public static String prepareTweet(final String text, final String link) {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(link);
+
         final String textOfTweet = text;
         final String tweet = textOfTweet + " - " + link;
         return tweet;
@@ -25,6 +30,7 @@ public final class TwitterUtil {
     public static String prepareTweetNew(final String text, final String link) {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(link);
+
         String textOfTweet = null;
         if (text.length() < 120) {
             textOfTweet = text;

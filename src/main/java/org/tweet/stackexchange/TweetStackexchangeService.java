@@ -149,7 +149,7 @@ public class TweetStackexchangeService {
 
     private final boolean tryTweet(final String title, final String link, final String accountName) {
         final String text = StringEscapeUtils.unescapeHtml4(title);
-        if (!TwitterUtil.isTweetValid(text)) {
+        if (!TwitterUtil.isTweetTextValid(text)) {
             return false;
         }
 
