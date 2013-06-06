@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
-import org.tweet.spring.ContextConfig;
 import org.tweet.spring.PersistenceJPAConfig;
-import org.tweet.spring.StackexchangeConfig;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.stackexchange.spring.StackexchangeConfig;
+import org.tweet.stackexchange.spring.StackexchangeContextConfig;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.stackexchange.util.StackexchangeUtil;
 import org.tweet.stackexchange.util.Tag;
@@ -22,7 +22,7 @@ import org.tweet.stackexchange.util.Tag;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class, ContextConfig.class, PersistenceJPAConfig.class, StackexchangeConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, StackexchangeContextConfig.class, PersistenceJPAConfig.class, StackexchangeConfig.class })
 public class TweetStackexchangeServiceLiveTest {
 
     @Autowired

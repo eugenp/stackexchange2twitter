@@ -1,4 +1,4 @@
-package org.tweet.meta.model;
+package org.tweet.meta.persistence.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

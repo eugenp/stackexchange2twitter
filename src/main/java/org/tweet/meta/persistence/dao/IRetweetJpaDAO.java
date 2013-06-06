@@ -1,8 +1,8 @@
-package org.tweet.meta.dao;
+package org.tweet.meta.persistence.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.tweet.meta.model.Retweet;
+import org.tweet.meta.persistence.model.Retweet;
 
 public interface IRetweetJpaDAO extends JpaRepository<Retweet, Long>, JpaSpecificationExecutor<Retweet> {
 

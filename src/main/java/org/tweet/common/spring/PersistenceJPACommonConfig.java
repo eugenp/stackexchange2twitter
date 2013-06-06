@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @ImportResource("classpath*:persistenceConfig.xml")
-@ComponentScan({ "org.tweet.stackexchange.persistence" })
+@ComponentScan({ "org.tweet.stackexchange.persistence", "org.tweet.meta.persistence" })
 public class PersistenceJPACommonConfig {
 
     @Autowired

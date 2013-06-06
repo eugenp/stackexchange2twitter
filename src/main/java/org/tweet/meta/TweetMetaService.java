@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
-import org.tweet.meta.dao.IRetweetJpaDAO;
-import org.tweet.meta.model.Retweet;
+import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
+import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
 

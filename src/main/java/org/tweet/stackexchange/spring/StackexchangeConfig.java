@@ -1,4 +1,4 @@
-package org.tweet.spring;
+package org.tweet.stackexchange.spring;
 
 import org.apache.http.impl.client.DecompressingHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;

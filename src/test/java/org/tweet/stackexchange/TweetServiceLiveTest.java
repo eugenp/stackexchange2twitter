@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.tweet.spring.ContextConfig;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.stackexchange.spring.StackexchangeContextConfig;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.service.TwitterTemplateCreator;
@@ -23,7 +23,7 @@ import org.tweet.twitter.service.TwitterTemplateCreator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class, ContextConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, StackexchangeContextConfig.class })
 @Ignore("by default, there should be no component that is not deployed in production, configured to tweet")
 public class TweetServiceLiveTest {
 

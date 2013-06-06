@@ -14,7 +14,7 @@
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>org.tweet.spring</param-value>
+		<param-value>org.tweet.spring org.tweet.stackexchange.spring</param-value>
 	</context-param>
 	
 	<context-param>
