@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 @Service
@@ -155,7 +156,12 @@ public class TweetStackexchangeService {
 
         final String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
 
-        // TwitterUtil.hashWords(fullTweet, wordsToHash);
+        // temporary try-catch
+        try {
+            TwitterUtil.hashWords(fullTweet, wordsToHash(accountName));
+        } catch (final RuntimeException ex) {
+            logger.error("Error postprocessing the tweet" + fullTweet, ex);
+        }
 
         twitterService.tweet(twitterCreator.getTwitterTemplate(accountName), fullTweet);
         return true;
@@ -173,6 +179,12 @@ public class TweetStackexchangeService {
         Preconditions.checkState(((ArrayNode) siteQuestionsJson.get("items")).size() > 0, "For accountName = " + accountName + ", there are no items (empty) in the questions json = " + siteQuestionsJson);
 
         return true;
+    }
+
+    private final List<String> wordsToHash(final String accountName) {
+        final String wordsToHashForAccount = env.getProperty(accountName + ".hash");
+        final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
+        return Lists.newArrayList(split);
     }
 
 }

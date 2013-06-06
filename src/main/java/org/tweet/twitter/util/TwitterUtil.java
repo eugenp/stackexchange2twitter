@@ -9,6 +9,9 @@ import com.google.common.collect.Iterables;
 
 public final class TwitterUtil {
 
+    private static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults();;
+    private static Joiner joiner = Joiner.on(' ');
+
     private TwitterUtil() {
         throw new AssertionError();
     }
@@ -49,7 +52,6 @@ public final class TwitterUtil {
     // pre-processing
 
     public static String hashWords(final String fullTweet, final List<String> wordsToHash) {
-        final Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults();
         final Iterable<String> tokens = splitter.split(fullTweet);
         if (fullTweet.length() + countWordsToHash(tokens, wordsToHash) > 140) {
             return fullTweet;
@@ -57,7 +59,7 @@ public final class TwitterUtil {
 
         final Iterable<String> transformedTokens = Iterables.transform(tokens, new HashWordFunction(wordsToHash));
 
-        final String processedTweet = Joiner.on(' ').join(transformedTokens);
+        final String processedTweet = joiner.join(transformedTokens);
         return processedTweet;
     }
 
