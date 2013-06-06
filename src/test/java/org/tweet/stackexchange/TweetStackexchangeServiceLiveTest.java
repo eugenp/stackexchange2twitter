@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
-import org.tweet.spring.PersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.stackexchange.spring.StackexchangePersistenceJPAConfig;
 import org.tweet.stackexchange.spring.StackexchangeConfig;
 import org.tweet.stackexchange.spring.StackexchangeContextConfig;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
@@ -22,13 +22,18 @@ import org.tweet.stackexchange.util.Tag;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class, StackexchangeContextConfig.class, PersistenceJPAConfig.class, StackexchangeConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, StackexchangeContextConfig.class, StackexchangePersistenceJPAConfig.class, StackexchangeConfig.class })
 public class TweetStackexchangeServiceLiveTest {
 
     @Autowired
     private TweetStackexchangeService tweetStackexchangeService;
 
     // tests
+
+    @Test
+    public final void whenContextIsInitalized_thenNoExceptions() {
+        //
+    }
 
     @Test
     public final void whenTweeting_thenNoExceptions() throws JsonProcessingException, IOException {
