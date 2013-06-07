@@ -38,11 +38,17 @@ public class TwitterMetaSetup implements ApplicationListener<ContextRefreshedEve
             logger.info("Before Setup");
             eventPublisher.publishEvent(new BeforeSetupEvent(this));
 
+            setupRetweetThresholds();
+
             setupDone = true;
             logger.info("After Setup");
         }
     }
 
     // util
+
+    private void setupRetweetThresholds() {
+        // keyValApi.save(new KeyVal(Tag.jquery.name(), 5d));
+    }
 
 }
