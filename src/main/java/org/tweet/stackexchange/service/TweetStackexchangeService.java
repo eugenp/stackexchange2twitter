@@ -133,14 +133,8 @@ public class TweetStackexchangeService {
             return false;
         }
 
-        final String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
-
-        // temporary try-catch
-        try {
-            TwitterUtil.hashtagWords(fullTweet, wordsToHash(accountName));
-        } catch (final RuntimeException ex) {
-            logger.error("Error postprocessing the tweet" + fullTweet, ex);
-        }
+        String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
+        fullTweet = TwitterUtil.hashtagWords(fullTweet, wordsToHash(accountName));
 
         twitterService.tweet(accountName, fullTweet);
         return true;

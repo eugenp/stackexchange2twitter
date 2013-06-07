@@ -87,7 +87,7 @@ public class TweetMetaService {
         }
 
         // is it valid?
-        final String tweetText = potentialTweet.getText();
+        final String tweetText = preValidityprocess(potentialTweet.getText());
         if (!TwitterUtil.isTweetTextValid(tweetText)) {
             logger.debug("Tweet invalid on account= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
@@ -144,6 +144,10 @@ public class TweetMetaService {
     private String preprocess(final String textRaw, final String accountName) {
         final String text = StringEscapeUtils.unescapeHtml4(textRaw);
         return TwitterUtil.hashtagWords(text, wordsToHash(accountName));
+    }
+
+    private String preValidityprocess(final String textRaw) {
+        return StringEscapeUtils.unescapeHtml4(textRaw);
     }
 
     private final void markTweetRetweeted(final long tweetId, final String accountName) {

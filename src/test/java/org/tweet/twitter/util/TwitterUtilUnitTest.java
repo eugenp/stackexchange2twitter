@@ -100,9 +100,33 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenRealCaseScenario2_whenHashtagsAreAdded_thenCorrect() {
-        final String originalTweet = "How are Anonymous (inner) classes used in Java? - http://stackoverflow.com/questions/355167/how-are-anonymous-inner-classes-used-in-java …";
-        final String targetTweet = "How are Anonymous (inner) classes used in #Java? - http://stackoverflow.com/questions/355167/how-are-anonymous-inner-classes-used-in-java …";
+        final String originalTweet = "How are Anonymous (inner) classes used in Java? - http://stackoverflow.com/questions/355167/how-are-anonymous-inner-classes-used-in-java";
+        final String targetTweet = "How are Anonymous (inner) classes used in #Java? - http://stackoverflow.com/questions/355167/how-are-anonymous-inner-classes-used-in-java";
         final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("java"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    @Test
+    public final void givenRealCaseScenario3_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "What's the best Web interface for Git repositories? - http://stackoverflow.com/questions/438163/whats";
+        final String targetTweet = "What's the best Web interface for #Git repositories? - http://stackoverflow.com/questions/438163/whats";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("git"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    @Test
+    public final void givenRealCaseScenario4_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Programmatically showing a View from an Eclipse Plug-in - http://stackoverflow.com/questions/171824/programmatically-showing";
+        final String targetTweet = "Programmatically showing a View from an #Eclipse Plug-in - http://stackoverflow.com/questions/171824/programmatically-showing";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("eclipse"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    @Test
+    public final void givenRealCaseScenario5_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Static return type of Scala macros - http://stackoverflow.com/questions/13669974/static-return-type-of-scala-macros";
+        final String targetTweet = "Static return type of #Scala macros - http://stackoverflow.com/questions/13669974/static-return-type-of-scala-macros";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("scala"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
