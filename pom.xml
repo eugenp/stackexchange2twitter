@@ -18,12 +18,12 @@
 			<artifactId>stackexchange</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.google.api-client</groupId> -->
-<!-- 			<artifactId>google-api-client</artifactId> -->
-<!-- 			<version>1.14.1-beta</version> -->
-<!-- 		</dependency> -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>com.google.api-client</groupId> -->
+		<!-- <artifactId>google-api-client</artifactId> -->
+		<!-- <version>1.14.1-beta</version> -->
+		<!-- </dependency> -->
 
 		<!-- spring -->
 
@@ -80,13 +80,14 @@
 			<version>${jackson.version}</version>
 		</dependency>
 
-<!-- 		<dependency> -->
-<!-- 			<artifactId>jackson-mapper-asl</artifactId> -->
-<!-- 			<groupId>org.codehaus.jackson</groupId> -->
-<!-- 			<version>1.9.12</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <artifactId>jackson-mapper-asl</artifactId> -->
+		<!-- <groupId>org.codehaus.jackson</groupId> -->
+		<!-- <version>1.9.12</version> -->
+		<!-- </dependency> -->
 
 		<!-- persistence -->
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
@@ -119,6 +120,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.0.1.Final</version>
 		</dependency>
 
 		<!-- logging -->

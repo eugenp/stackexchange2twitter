@@ -40,48 +40,64 @@ public class TweetMetaService {
 
     // write
 
-    public void tweetTopQuestionByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    public boolean retweetByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         try {
-            tweetTopQuestionByHashtagInternal(twitterAccount, hashtag);
+            return retweetByHashtagInternal(twitterAccount, hashtag);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet", runtimeEx);
+            logger.error("Unexpected exception when trying to retweet", runtimeEx);
         }
+
+        return false;
     }
 
     // util
 
-    final void tweetTopQuestionByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    final boolean retweetByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.debug("Begin trying to retweet on account = {}", twitterAccount);
 
-        logger.trace("Trying to tweeting on account = {}", twitterAccount);
+        logger.trace("Trying to retweet on account = {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterService.listTweetsOfHashtag(twitterAccount, hashtag);
-        tryTweetTopQuestionByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
+        return tryRetweetByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
     }
 
-    private final boolean tryTweetTopQuestionByHashtagInternal(final String twitterAccountName, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
+    private final boolean tryRetweetByHashtagInternal(final String twitterAccountName, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
             logger.trace("If not already retweeted, considering to retweet on account= {}, tweetId= {}", twitterAccountName, tweetId);
 
             if (!hasThisAlreadyBeenTweeted(tweetId)) {
-                logger.debug("Considering to retweet on account= {}, tweetId= {}", twitterAccountName, tweetId);
-                if (!isTweetWorthRetweeting(potentialTweet, hashtag)) {
-                    continue;
-                }
-
-                final String tweetText = potentialTweet.getText();
-                logger.info("Retweeting: text= {} with id= {}", tweetText, tweetId);
-                final boolean success = tryTweet(tweetText, twitterAccountName);
+                final boolean success = tryRetweetOne(potentialTweet, twitterAccountName, hashtag);
                 if (!success) {
-                    logger.debug("Tried and failed to retweet on account= {}, tweet text= {}", twitterAccountName, tweetText);
+                    logger.trace("Didn't retweet on account= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
                     continue;
                 }
-                markTweetRetweeted(tweetId, twitterAccountName);
-                return true;
             }
         }
 
         return false;
+    }
+
+    private final boolean tryRetweetOne(final Tweet potentialTweet, final String twitterAccountName, final String hashtag) {
+        final long tweetId = potentialTweet.getId();
+        logger.trace("Considering to retweet on account= {}, tweetId= {}", twitterAccountName, tweetId);
+
+        // is it worth it?
+        if (!isTweetWorthRetweeting(potentialTweet, hashtag)) {
+            return false;
+        }
+
+        // is it valid?
+        final String tweetText = potentialTweet.getText();
+        if (!TwitterUtil.isTweetTextValid(tweetText)) {
+            logger.debug("Tweet invalid on account= {}, tweet text= {}", twitterAccountName, tweetText);
+            return false;
+        }
+
+        logger.info("Retweeting: text= {} with id= {}", tweetText, tweetId);
+
+        tweet(tweetText, twitterAccountName);
+        markTweetRetweeted(tweetId, twitterAccountName);
+        return true;
     }
 
     /**
@@ -104,7 +120,7 @@ public class TweetMetaService {
      * for example, #java may get a lot of retweets, and so the threshold may be higher than say #hadoop 
      */
     private final int getRetweetThreasholdForHashtag(final String hashtag) {
-        return 15;
+        return 8;
     }
 
     /**
@@ -119,21 +135,15 @@ public class TweetMetaService {
         return existingTweet != null;
     }
 
-    private final boolean tryTweet(final String textRaw, final String accountName) {
+    private final void tweet(final String textRaw, final String accountName) {
+        final String text = preprocess(textRaw, accountName);
+
+        twitterService.tweet(accountName, text);
+    }
+
+    private String preprocess(final String textRaw, final String accountName) {
         final String text = StringEscapeUtils.unescapeHtml4(textRaw);
-        if (!TwitterUtil.isTweetTextValid(text)) {
-            return false;
-        }
-
-        // temporary try-catch
-        try {
-            TwitterUtil.hashtagWords(textRaw, wordsToHash(accountName));
-        } catch (final RuntimeException ex) {
-            logger.error("Error postprocessing the tweet" + textRaw, ex);
-        }
-
-        twitterService.tweet(accountName, textRaw);
-        return true;
+        return TwitterUtil.hashtagWords(text, wordsToHash(accountName));
     }
 
     private final void markTweetRetweeted(final long tweetId, final String accountName) {

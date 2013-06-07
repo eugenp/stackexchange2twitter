@@ -1,5 +1,7 @@
 package org.tweet.meta;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
 import org.junit.Test;
@@ -31,7 +33,8 @@ public class TweetMetaServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetMetaService.tweetTopQuestionByHashtag(SimpleTwitterAccount.jQueryDaily.name(), Tag.jquery.name());
+        final boolean success = tweetMetaService.retweetByHashtag(SimpleTwitterAccount.jQueryDaily.name(), Tag.jquery.name());
+        assertTrue(success);
     }
 
 }
