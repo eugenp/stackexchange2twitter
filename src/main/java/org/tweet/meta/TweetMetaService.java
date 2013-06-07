@@ -127,7 +127,7 @@ public class TweetMetaService {
 
         // temporary try-catch
         try {
-            TwitterUtil.hashWords(textRaw, wordsToHash(accountName));
+            TwitterUtil.hashtagWords(textRaw, wordsToHash(accountName));
         } catch (final RuntimeException ex) {
             logger.error("Error postprocessing the tweet" + textRaw, ex);
         }

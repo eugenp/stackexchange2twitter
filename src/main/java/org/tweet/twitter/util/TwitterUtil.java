@@ -51,13 +51,13 @@ public final class TwitterUtil {
 
     // pre-processing
 
-    public static String hashWords(final String fullTweet, final List<String> wordsToHash) {
+    public static String hashtagWords(final String fullTweet, final List<String> wordsToHash) {
         final Iterable<String> tokens = splitter.split(fullTweet);
         if (fullTweet.length() + countWordsToHash(tokens, wordsToHash) > 140) {
             return fullTweet;
         }
 
-        final Iterable<String> transformedTokens = Iterables.transform(tokens, new HashWordFunction(wordsToHash));
+        final Iterable<String> transformedTokens = Iterables.transform(tokens, new HashtagWordFunction(wordsToHash));
 
         final String processedTweet = joiner.join(transformedTokens);
         return processedTweet;

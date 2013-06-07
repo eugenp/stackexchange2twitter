@@ -50,27 +50,27 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTweet_whenPreProcessingTweet_thenNoExceptions() {
-        TwitterUtil.hashWords(randomAlphabetic(50), Lists.<String> newArrayList());
+        TwitterUtil.hashtagWords(randomAlphabetic(50), Lists.<String> newArrayList());
     }
 
     @Test
     public final void givenNoWordsToHash_whenPreProcessingTweet_thenNoChanges() {
         final String originalTweet = randomAlphabetic(50);
-        final String processedTweet = TwitterUtil.hashWords(originalTweet, Lists.<String> newArrayList());
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.<String> newArrayList());
         assertThat(originalTweet, equalTo(processedTweet));
     }
 
     @Test
     public final void givenSomeWordsToHash_whenTweetDoesNotContainTheWord_thenNoChanges() {
         final String originalTweet = "word1 word2 word3";
-        final String processedTweet = TwitterUtil.hashWords(originalTweet, Lists.newArrayList("otherword"));
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("otherword"));
         assertThat(originalTweet, equalTo(processedTweet));
     }
 
     @Test
     public final void givenSomeWordsToHash_whenTweetDoesContainTheWord_thenTweetChanged1() {
         final String originalTweet = "word1 word2 word3";
-        final String processedTweet = TwitterUtil.hashWords(originalTweet, Lists.newArrayList("word2"));
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("word2"));
         assertThat(originalTweet, not(equalTo(processedTweet)));
     }
 
@@ -78,7 +78,7 @@ public final class TwitterUtilUnitTest {
     public final void givenSomeWordsToHash_whenTweetDoesContainTheWord_thenTweetChanged2() {
         final String originalTweet = "Testing with Guava";
         final String targetResultTweet = "Testing with #Guava";
-        final String processedTweet = TwitterUtil.hashWords(originalTweet, Lists.newArrayList("Guava"));
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("guava"));
         assertThat(targetResultTweet, equalTo(processedTweet));
     }
 
@@ -86,15 +86,23 @@ public final class TwitterUtilUnitTest {
     public final void givenSomeWordsToHash_whenTweetIsToLongToHash_thenNoChange() {
         final String prefix = randomAlphabetic(122);
         final String originalTweet = prefix + "Testing with Guava";
-        final String processedTweet = TwitterUtil.hashWords(originalTweet, Lists.newArrayList("Guava"));
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("guava"));
         assertThat(originalTweet, equalTo(processedTweet));
     }
 
     @Test
     public final void givenRealCaseScenario1_whenHashtagsAreAdded_thenCorrect() {
-        final String originalTweet = "Hibernate + Spring using multiple datasources? - http://stackoverflow.com/questions/860918/hibernate-spring-using-multiple-datasources …";
-        final String targetTweet = "Hibernate + #Spring using multiple datasources? - http://stackoverflow.com/questions/860918/hibernate-spring-using-multiple-datasources …";
-        final String processedTweet = TwitterUtil.hashWords(originalTweet, Lists.newArrayList("spring"));
+        final String originalTweet = "Hibernate + Spring using multiple datasources? - http://stackoverflow.com/questions/860918/hibernate-spring-using-multiple-datasources";
+        final String targetTweet = "Hibernate + #Spring using multiple datasources? - http://stackoverflow.com/questions/860918/hibernate-spring-using-multiple-datasources";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("spring"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    @Test
+    public final void givenRealCaseScenario2_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "How are Anonymous (inner) classes used in Java? - http://stackoverflow.com/questions/355167/how-are-anonymous-inner-classes-used-in-java â€¦";
+        final String targetTweet = "How are Anonymous (inner) classes used in #Java? - http://stackoverflow.com/questions/355167/how-are-anonymous-inner-classes-used-in-java â€¦";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("java"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 

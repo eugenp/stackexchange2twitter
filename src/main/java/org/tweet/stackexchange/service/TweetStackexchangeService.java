@@ -137,7 +137,7 @@ public class TweetStackexchangeService {
 
         // temporary try-catch
         try {
-            TwitterUtil.hashWords(fullTweet, wordsToHash(accountName));
+            TwitterUtil.hashtagWords(fullTweet, wordsToHash(accountName));
         } catch (final RuntimeException ex) {
             logger.error("Error postprocessing the tweet" + fullTweet, ex);
         }
