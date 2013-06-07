@@ -1,4 +1,4 @@
-package org.tweet.stackexchange.persistence.setup;
+package org.tweet.common.persistence.setup;
 
 import org.springframework.context.ApplicationEvent;
 

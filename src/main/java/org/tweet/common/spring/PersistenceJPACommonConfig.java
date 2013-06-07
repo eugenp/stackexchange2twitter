@@ -35,7 +35,7 @@ public class PersistenceJPACommonConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(restDataSource());
-        factoryBean.setPackagesToScan(new String[] { "org.tweet" });
+        factoryBean.setPackagesToScan(new String[] { "org.tweet", "org.common" });
 
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter() {
             {

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.common.spring.CommonPersistenceJPAConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import org.tweet.stackexchange.util.Tag;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class, TwitterMetaPersistenceJPAConfig.class, TwitterMetaContextConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, TwitterMetaPersistenceJPAConfig.class, TwitterMetaContextConfig.class, CommonPersistenceJPAConfig.class })
 public class TweetMetaServiceLiveTest {
 
     @Autowired

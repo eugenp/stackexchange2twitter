@@ -12,6 +12,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.stackexchange.api.constants.StackSite;
+import org.tweet.common.persistence.setup.BeforeSetupEvent;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
