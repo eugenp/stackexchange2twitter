@@ -9,6 +9,7 @@ import org.tweet.twitter.service.TwitterTemplateCreatorIntegrationTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TwitterTemplateCreatorIntegrationTest.class, QuestionTweetPersistenceIntegrationTest.class, StackexchangeSetupPersistenceIntegrationTest.class })
+// SetupBackupIntegrationTest - not to be included
 public final class IntegrationTestSuite {
     //
 }

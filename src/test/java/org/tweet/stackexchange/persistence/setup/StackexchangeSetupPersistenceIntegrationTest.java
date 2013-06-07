@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.tweet.spring.PersistenceJPATestConfig;
+import org.tweet.spring.TestStackexchangePersistenceJPAConfig;
 import org.tweet.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.tweet.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { PersistenceJPATestConfig.class })
+@ContextConfiguration(classes = { TestStackexchangePersistenceJPAConfig.class })
 public class StackexchangeSetupPersistenceIntegrationTest {
 
     @Autowired
