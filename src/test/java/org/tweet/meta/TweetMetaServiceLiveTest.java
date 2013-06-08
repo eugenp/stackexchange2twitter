@@ -34,8 +34,26 @@ public class TweetMetaServiceLiveTest {
     }
 
     @Test
-    public final void whenTweeting_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingAboutJQuery_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetByHashtag(SimpleTwitterAccount.jQueryDaily.name(), Tag.jquery.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutClojure_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetByHashtag(SimpleTwitterAccount.BestClojure.name(), Tag.clojure.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutScala_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetByHashtag(SimpleTwitterAccount.BestScala.name(), Tag.scala.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutGit_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetByHashtag(SimpleTwitterAccount.BestGit.name(), Tag.git.name());
         assertTrue(success);
     }
 

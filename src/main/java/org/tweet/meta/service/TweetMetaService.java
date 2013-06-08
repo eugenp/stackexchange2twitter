@@ -110,7 +110,7 @@ public class TweetMetaService {
             return false;
         }
 
-        logger.info("Retweeting: text= {} with id= {}", tweetText, tweetId);
+        logger.info("Retweeting: text= {}; \n --- Additional meta info: id= {}, rt= {}", tweetText, tweetId, potentialTweet.getRetweetCount());
 
         tweet(tweetText, twitterAccountName);
         markTweetRetweeted(tweetId, twitterAccountName);

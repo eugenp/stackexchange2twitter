@@ -38,6 +38,12 @@ public class TweetMetaScheduler {
 
         service.retweetByHashtag(SimpleTwitterAccount.jQueryDaily.name(), Tag.jquery.name());
 
+        service.retweetByHashtag(SimpleTwitterAccount.BestClojure.name(), Tag.clojure.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.BestScala.name(), Tag.scala.name());
+
+        // git - not 100% sure that #git will only return git related tweets - look into this further
+
         logger.info("Finished executing scheduled tweet operations");
     }
 

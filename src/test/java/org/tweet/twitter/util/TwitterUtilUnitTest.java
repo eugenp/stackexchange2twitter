@@ -176,7 +176,19 @@ public final class TwitterUtilUnitTest {
     }
 
     @Test
-    public final void givenTweetDoesNotContainBannedKeywords_whenCheckingScenario8_thenAccepted() {
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario8_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: RT @MarianSchubert: &lt;- Looking for a job. #lean #kanban #scrum #ci #cd #clojure #ios #perl #python #php #fp #tdd #unix #erlang #xp #pairpro…"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario9_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("love open source and have a passion for #git? come help us make it better for everyone, we are hiring! http://t.co/7hk7fqgEN1"));
+    }
+
+    // accepted
+
+    @Test
+    public final void givenTweetDoesNotContainBannedKeywords_whenCheckingScenario1_thenAccepted() {
         assertFalse(TwitterUtil.tweetContainsBannedKeywords("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery"));
     }
 
