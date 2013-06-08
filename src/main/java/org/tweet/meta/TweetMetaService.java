@@ -1,6 +1,8 @@
 package org.tweet.meta;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -18,10 +20,11 @@ import org.tweet.twitter.util.TwitterUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
 @Service
 public class TweetMetaService {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private TwitterService twitterService;
@@ -57,6 +60,13 @@ public class TweetMetaService {
 
         logger.trace("Trying to retweet on account = {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterService.listTweetsOfHashtag(twitterAccount, hashtag);
+        Collections.sort(tweetsOfHashtag, Ordering.from(new Comparator<Tweet>() {
+            @Override
+            public final int compare(final Tweet t1, final Tweet t2) {
+                return t2.getRetweetCount().compareTo(t1.getRetweetCount());
+            }
+        }));
+
         return tryRetweetByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
     }
 
@@ -81,13 +91,18 @@ public class TweetMetaService {
         final long tweetId = potentialTweet.getId();
         logger.trace("Considering to retweet on account= {}, tweetId= {}", twitterAccountName, tweetId);
 
-        // is it worth it?
-        if (!isTweetWorthRetweeting(potentialTweet, hashtag)) {
+        // is it worth it by itself?
+        if (!isTweetWorthRetweetingByItself(potentialTweet, hashtag)) {
+            return false;
+        }
+
+        // is it worth it in the context of all the current list of tweets?
+        if (!isTweetWorthRetweetingInContext(potentialTweet, hashtag)) {
             return false;
         }
 
         // is it valid?
-        final String tweetText = preValidityprocess(potentialTweet.getText());
+        final String tweetText = preValidityProcess(potentialTweet.getText());
         if (!TwitterUtil.isTweetTextValid(tweetText)) {
             logger.debug("Tweet invalid on account= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
@@ -102,17 +117,43 @@ public class TweetMetaService {
 
     /**
      * Determines if a tweet is worth retweeting based on the following criteria: 
-     * - number of retweets over a certain threshold (the threshold is per hashtag)
-     * - number of favorites
+     * - has link
+     * - contains any banned keywords
      */
-    private boolean isTweetWorthRetweeting(final Tweet potentialTweet, final String hashtag) {
-        if (potentialTweet.getRetweetCount() < getRetweetThreasholdForHashtag(hashtag)) {
+    private boolean isTweetWorthRetweetingByItself(final Tweet potentialTweet, final String hashtag) {
+        if (!containsLink(potentialTweet.getText())) {
             return false;
         }
-        if (tweetContainsBannedKeywords(potentialTweet.getText())) {
+        if (TwitterUtil.tweetContainsBannedKeywords(potentialTweet.getText())) {
+            return false;
+        }
+        if (isRetweet(potentialTweet)) {
             return false;
         }
         return true;
+    }
+
+    private boolean isRetweet(final Tweet potentialTweet) {
+        return potentialTweet.getText().startsWith("RT @");
+    }
+
+    /**
+     * Determines if a tweet is worth retweeting based on the following criteria: 
+     * - number of retweets over a certain threshold (the threshold is per hashtag)
+     * - number of favorites (not yet)
+     */
+    private boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String hashtag) {
+        if (potentialTweet.getRetweetCount() < getRetweetThreasholdForHashtag(hashtag)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determines if the tweet text contains a link
+     */
+    private final boolean containsLink(final String text) {
+        return text.contains("http://");
     }
 
     /**
@@ -121,13 +162,6 @@ public class TweetMetaService {
      */
     private final int getRetweetThreasholdForHashtag(final String hashtag) {
         return 8;
-    }
-
-    /**
-     * TODO: banned words: freelance, job, consulting, etc
-     */
-    private final boolean tweetContainsBannedKeywords(final String text) {
-        return false;
     }
 
     private final boolean hasThisAlreadyBeenTweeted(final long tweetId) {
@@ -146,7 +180,7 @@ public class TweetMetaService {
         return TwitterUtil.hashtagWords(text, wordsToHash(accountName));
     }
 
-    private String preValidityprocess(final String textRaw) {
+    private String preValidityProcess(final String textRaw) {
         return StringEscapeUtils.unescapeHtml4(textRaw);
     }
 

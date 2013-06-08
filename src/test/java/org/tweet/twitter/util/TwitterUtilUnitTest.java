@@ -130,4 +130,54 @@ public final class TwitterUtilUnitTest {
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
+    @Test
+    public final void givenRealCaseScenario6_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Tweet: 25+ Highly Useful #jQuery Plugins Bringing Life back to HTML Tables http://t.co/smTFbBO8l4";
+        final String targetTweet = "Tweet: 25+ Highly Useful #jQuery Plugins Bringing Life back to HTML Tables http://t.co/smTFbBO8l4";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("jquery"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    // tweetContainsBannedKeywords
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario1_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Checkout this cool job - some job"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario2_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("I need a free app to do that"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario3_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("I need a app to do that; it's gotta be free!"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario4_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Telecommuting job: Full Time Python/Plone Developer at Decernis #jquery #java #javascript #python #perl http://t.co/580g7g8Hum"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario5_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: #freelance #jquery #job - a teacher to teach me how to solve my jQuery AJAX CSS issue ($2 - 8/hr) - http://t.co/WaiAHsgZ8a #jobs"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario6_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: Javascript Application Engineer http://t.co/WuYi4HiGhP #jquery #html5 #jobs #hiring #careers"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario7_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: #jquery #job - ColdFusion Web Developer - http://t.co/O2DbDyFqea #jobs"));
+    }
+
+    @Test
+    public final void givenTweetDoesNotContainBannedKeywords_whenCheckingScenario8_thenAccepted() {
+        assertFalse(TwitterUtil.tweetContainsBannedKeywords("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery"));
+    }
+
 }

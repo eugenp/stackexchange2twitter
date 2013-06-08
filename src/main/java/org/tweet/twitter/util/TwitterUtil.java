@@ -2,15 +2,24 @@ package org.tweet.twitter.util;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 public final class TwitterUtil {
+    final static Logger logger = LoggerFactory.getLogger(TwitterUtil.class);
 
-    private static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults();;
-    private static Joiner joiner = Joiner.on(' ');
+    final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults();;
+    final static Joiner joiner = Joiner.on(' ');
+
+    final static List<String> bannedKeywords = Lists.newArrayList("freelance", "job", "consulting", "hiring", "careers", "need");
+    final static List<String> bannedExpressions = Lists.newArrayList("web developer", "application engineer", "jobs");
 
     private TwitterUtil() {
         throw new AssertionError();
@@ -74,6 +83,17 @@ public final class TwitterUtil {
         }
 
         return countWordsToHash;
+    }
+
+    public static boolean tweetContainsBannedKeywords(final String text) {
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#")).split(text));
+        for (final String tweetToken : tweetTokens) {
+            if (TwitterUtil.bannedKeywords.contains(tweetToken.toLowerCase())) {
+                logger.info("Rejecting the following tweet because a token matches one of the banned keywords: token={}; tweet=\n{}", tweetToken, text);
+                return true;
+            }
+        }
+        return false;
     }
 
 }
