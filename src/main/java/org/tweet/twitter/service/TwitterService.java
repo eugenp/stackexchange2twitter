@@ -34,7 +34,7 @@ public class TwitterService {
         try {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
         } catch (final RuntimeException ex) {
-            logger.error("Unable to tweet" + tweetText, ex);
+            logger.error("Unable to tweet: " + tweetText, ex);
         }
     }
 
@@ -50,10 +50,6 @@ public class TwitterService {
             }
         };
         return Lists.transform(userTimeline, tweetToStringFunction);
-    }
-
-    public List<Tweet> listTweetsOfHashtag(final String hashtag) {
-        return listTweetsOfHashtag("BestJPA", hashtag);
     }
 
     /**

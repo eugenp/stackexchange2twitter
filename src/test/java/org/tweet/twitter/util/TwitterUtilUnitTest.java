@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
@@ -83,6 +84,7 @@ public final class TwitterUtilUnitTest {
     }
 
     @Test
+    @Ignore("ignored for now - the max lenght functionality was disabled because it was counting to many characters in the link")
     public final void givenSomeWordsToHash_whenTweetIsToLongToHash_thenNoChange() {
         final String prefix = randomAlphabetic(122);
         final String originalTweet = prefix + "Testing with Guava";
@@ -135,6 +137,14 @@ public final class TwitterUtilUnitTest {
         final String originalTweet = "Tweet: 25+ Highly Useful #jQuery Plugins Bringing Life back to HTML Tables http://t.co/smTFbBO8l4";
         final String targetTweet = "Tweet: 25+ Highly Useful #jQuery Plugins Bringing Life back to HTML Tables http://t.co/smTFbBO8l4";
         final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("jquery"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    @Test
+    public final void givenRealCaseScenario7_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Best Way to Inject Hibernate Session by Spring 3 - http://stackoverflow.com/questions/4699381/best-way-to-inject-hibernate-session-by-spring-3";
+        final String targetTweet = "Best Way to Inject #Hibernate Session by #Spring 3 - http://stackoverflow.com/questions/4699381/best-way-to-inject-hibernate-session-by-spring-3";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("spring", "hibernate"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
