@@ -1,4 +1,4 @@
-package org.tweet.meta;
+package org.tweet.meta.service;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -80,6 +80,8 @@ public class TweetMetaService {
                 if (!success) {
                     logger.trace("Didn't retweet on account= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
                     continue;
+                } else {
+                    break;
                 }
             }
         }
@@ -161,7 +163,11 @@ public class TweetMetaService {
      * for example, #java may get a lot of retweets, and so the threshold may be higher than say #hadoop 
      */
     private final int getRetweetThreasholdForHashtag(final String hashtag) {
-        return 8;
+        if (env.getProperty(hashtag + ".maxrt") == null) {
+            return 8;
+        }
+
+        return env.getProperty(hashtag + ".maxrt", Integer.class);
     }
 
     private final boolean hasThisAlreadyBeenTweeted(final long tweetId) {

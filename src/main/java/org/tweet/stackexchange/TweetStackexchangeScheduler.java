@@ -20,9 +20,6 @@ import org.tweet.stackexchange.util.Tag;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-/**
- * - note: scheduler for tweets on accounts that are StackExchange specific
- */
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
 public class TweetStackexchangeScheduler {
@@ -36,7 +33,7 @@ public class TweetStackexchangeScheduler {
     }
 
     // API
-    // 12 14 16 18 20 22
+    // -12- 14 16 -18- 20 22
     @Scheduled(cron = "0 0 12,18 * * *")
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
@@ -52,7 +49,10 @@ public class TweetStackexchangeScheduler {
         logger.info("Finished executing scheduled tweet operations");
     }
 
-    // 12 14 16 18 20 22
+    // 12 -14- 16 18 -20- 22
+    /**
+     * - these accounts are not StackExchange specific
+     */
     @Scheduled(cron = "0 0 14,20 * * *")
     public void tweetDailyTopQuestion() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
