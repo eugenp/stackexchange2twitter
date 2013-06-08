@@ -12,7 +12,7 @@ import org.tweet.stackexchange.util.SimpleTwitterAccount;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TwitterConfig.class })
-public class TwitterTemplateCreatorIntegrationTest {
+public class TwitterTemplateCreatorLiveTest {
 
     @Autowired
     private TwitterTemplateCreator twitterTemplateCreator;
