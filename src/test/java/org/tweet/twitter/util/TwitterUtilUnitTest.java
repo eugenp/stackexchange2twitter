@@ -148,6 +148,22 @@ public final class TwitterUtilUnitTest {
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
+    @Test
+    public final void givenRealCaseScenario8_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Problem installing Maven plugin (m2eclipse) in Eclipse (Galileo) - http://stackoverflow.com/questions/2802";
+        final String targetTweet = "Problem installing #Maven plugin (m2eclipse) in Eclipse (Galileo) - http://stackoverflow.com/questions/2802";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("maven"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    @Test
+    public final void givenRealCaseScenario9_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "\"string could not resolved\" error in eclipse for C++ - http://stackoverflow.com/questions/7905025/string-could-not-resolved-error-in-eclipse-for-c";
+        final String targetTweet = "\"string could not resolved\" error in #eclipse for C++ - http://stackoverflow.com/questions/7905025/string-could-not-resolved-error-in-eclipse-for-c";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("eclipse"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
     // tweetContainsBannedKeywords
 
     @Test
