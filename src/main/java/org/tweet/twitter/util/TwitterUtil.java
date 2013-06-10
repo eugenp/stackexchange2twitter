@@ -15,7 +15,8 @@ import com.google.common.collect.Lists;
 public final class TwitterUtil {
     final static Logger logger = LoggerFactory.getLogger(TwitterUtil.class);
 
-    final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults();;
+    final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults();
+    // final static Splitter splitter = Splitter.on(CharMatcher.anyOf(" /")).omitEmptyStrings().trimResults();
     final static Joiner joiner = Joiner.on(' ');
 
     final static List<String> bannedKeywords = Lists.newArrayList("freelance", "job", "consulting", "hiring", "careers", "need");

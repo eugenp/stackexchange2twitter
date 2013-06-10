@@ -164,6 +164,33 @@ public final class TwitterUtilUnitTest {
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
+    @Test
+    @Ignore("corner case")
+    public final void givenRealCaseScenario10_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Understanding EJB3/JPA container-level transactions and isolation level - http://stackoverflow.com/questions/4136852/understanding-ejb3-jpa-container-level-transactions-and-isolation-level";
+        final String targetTweet = "Understanding #EJB3/#JPA container-level transactions and isolation level - http://stackoverflow.com/questions/4136852/understanding-ejb3-jpa-container-level-transactions-and-isolation-level";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("ejb3", "jpa"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    @Test
+    public final void givenRealCaseScenario11_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Fast vector math in #Clojure / Incanter - http://stackoverflow.com/questions/3814048/fast-vector-math-in-clojure-incanter";
+        final String targetTweet = "Fast vector math in #Clojure / #Incanter - http://stackoverflow.com/questions/3814048/fast-vector-math-in-clojure-incanter";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("clojure", "incanter"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    @Test
+    public final void givenRealCaseScenario12_whenHashtagsAreAdded_thenCorrect() {
+        final String originalTweet = "Hot deploying changes with Netbeans, Maven, and Glassfish - http://stackoverflow.com/questions/2290935/hot-deploying-changes-with-netbeans-maven-and-glassfish";
+        final String targetTweet = "Hot deploying changes with Netbeans, #Maven, and Glassfish - http://stackoverflow.com/questions/2290935/hot-deploying-changes-with-netbeans-maven-and-glassfish";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("maven", "pom"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    //
+
     // tweetContainsBannedKeywords
 
     @Test
@@ -203,7 +230,7 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario8_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: RT @MarianSchubert: &lt;- Looking for a job. #lean #kanban #scrum #ci #cd #clojure #ios #perl #python #php #fp #tdd #unix #erlang #xp #pairpro…"));
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: RT @MarianSchubert: &lt;- Looking for a job. #lean #kanban #scrum #ci #cd #clojure #ios #perl #python #php #fp #tdd #unix #erlang #xp #pairproï¿½"));
     }
 
     @Test

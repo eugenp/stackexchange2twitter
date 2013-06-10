@@ -34,7 +34,7 @@ public class TweetMetaScheduler {
     // 12 14 -16- 18 20 22
     @Scheduled(cron = "0 0 16 * * *")
     public void tweetMeta() throws JsonProcessingException, IOException {
-        logger.info("Starting to execute scheduled tweet operations");
+        logger.info("Starting to execute scheduled retweet operations");
 
         service.retweetByHashtag(SimpleTwitterAccount.jQueryDaily.name(), Tag.jquery.name());
 
