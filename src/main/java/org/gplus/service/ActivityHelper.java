@@ -18,7 +18,7 @@ import com.google.api.services.plus.model.Activity;
 
 public class ActivityHelper {
 
-    static void show(final Activity activity) {
+    public static final void show(final Activity activity) {
         System.out.println("id: " + activity.getId());
         System.out.println("url: " + activity.getUrl());
         System.out.println("content: " + activity.getObject().getContent());
