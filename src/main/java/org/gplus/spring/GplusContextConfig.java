@@ -1,4 +1,4 @@
-package org.tweet.meta.spring;
+package org.gplus.spring;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling
-@ComponentScan({ "org.tweet.meta" })
-public class TwitterMetaContextConfig {
+@ComponentScan({ "org.gplus" })
+public class GplusContextConfig {
 
-    public TwitterMetaContextConfig() {
+    public GplusContextConfig() {
         super();
     }
 

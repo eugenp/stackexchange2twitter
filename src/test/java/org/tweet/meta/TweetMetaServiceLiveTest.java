@@ -5,13 +5,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.tweet.meta.service.TweetMetaService;
-import org.tweet.meta.spring.TwitterMetaContextConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.stackexchange.util.SimpleTwitterAccount;
@@ -20,7 +20,7 @@ import org.tweet.stackexchange.util.Tag;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class, TwitterMetaPersistenceJPAConfig.class, TwitterMetaContextConfig.class, CommonPersistenceJPAConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, TwitterMetaPersistenceJPAConfig.class, GplusContextConfig.class, CommonPersistenceJPAConfig.class })
 public class TweetMetaServiceLiveTest {
 
     @Autowired
