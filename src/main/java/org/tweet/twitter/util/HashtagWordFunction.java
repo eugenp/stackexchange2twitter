@@ -20,7 +20,7 @@ public class HashtagWordFunction implements Function<String, String> {
 
     private final String wordToHashtag(final String originalCandidate) {
         String candidate = originalCandidate;
-        if (candidate.endsWith("?") || candidate.endsWith("!")) {
+        if (candidate.endsWith("?") || candidate.endsWith("!") || candidate.endsWith(",")) {
             candidate = originalCandidate.substring(0, originalCandidate.length() - 1);
         }
         for (final String wordToHash : wordsToHash) {
