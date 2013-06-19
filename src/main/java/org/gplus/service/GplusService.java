@@ -20,15 +20,9 @@ public class GplusService {
 
     // API
 
-    /** Get an activity for which we already know the ID. */
-    public void getActivity() throws IOException {
-        // A known public activity ID
-        final String activityId = "z12gtjhq3qn2xxl2o224exwiqruvtda0i";
-        // We do not need to be authenticated to fetch this activity
-
-        View.header1("Get an explicit public activity by ID");
+    public void getSingleActivity(final String activityId) throws IOException {
         final Activity activity = plus.activities().get(activityId).execute();
-        View.show(activity);
+        ActivityHelper.show(activity);
     }
 
 }

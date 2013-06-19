@@ -20,7 +20,10 @@ public class GooglePlusLiveTest {
 
     @Test
     public void whenConsumingTheGoogleApi_thenNoExceptions() throws GeneralSecurityException, IOException {
-        gplusService.getActivity();
+        // A known public activity ID
+        final String activityId = "z12gtjhq3qn2xxl2o224exwiqruvtda0i";
+
+        gplusService.getSingleActivity(activityId);
     }
 
 }
