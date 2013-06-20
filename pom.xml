@@ -44,7 +44,7 @@
 			<artifactId>spring-social-twitter</artifactId>
 			<version>${spring-social-twitter.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-plus</artifactId>
@@ -61,6 +61,13 @@
 			<version>1.15.0-rc</version>
 		</dependency>
 
+		<!-- data mining and AI -->
+
+		<dependency>
+			<groupId>org.apache.mahout</groupId>
+			<artifactId>mahout-core</artifactId>
+			<version>0.7</version>
+		</dependency>
 
 		<!-- util -->
 
