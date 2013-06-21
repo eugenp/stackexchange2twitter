@@ -2,7 +2,6 @@ package org.common.classification;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -38,7 +37,7 @@ public final class ClassificationUtil {
      * The following are encoded: the type of content and the actual bag of words
      * The label argument to the NamedVector is either “commercial” or “non-commercial”
      */
-    public static Vector encode(final String type, final List<String> words) throws IOException {
+    public static Vector encode(final String type, final Iterable<String> words) throws IOException {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
         content_encoder.setProbes(2);
 
@@ -62,13 +61,29 @@ public final class ClassificationUtil {
         return vect;
     }
 
-    public static VectorWriter loadData() throws IOException {
-        final URI path = URI.create("file:/tmp/spammery.seq");
-        final Configuration hadoop_conf = new Configuration();
-        final FileSystem fs = FileSystem.get(path, hadoop_conf);
-        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, hadoop_conf, new Path(path), LongWritable.class, VectorWritable.class);
+    public static VectorWriter loadData(final String pathOnDisk) throws IOException {
+        final URI path = URI.create(pathOnDisk);
+        final Configuration hconf = new Configuration();
+        final FileSystem fs = FileSystem.get(path, hconf);
+
+        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, hconf, new Path(path), LongWritable.class, VectorWritable.class);
         final VectorWriter vw = new SequenceFileVectorWriter(writer);
         return vw;
+    }
+
+    public static void readBackData(final String pathOnDisk) throws IOException {
+        final URI path = URI.create(pathOnDisk);
+        final Configuration hconf = new Configuration();
+        final FileSystem fs = FileSystem.get(path, hconf);
+
+        final SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(path), hconf);
+
+        final LongWritable key = new LongWritable();
+        final VectorWritable value = new VectorWritable();
+        while (reader.next(key, value)) {
+            final NamedVector vector = (NamedVector) value.get();
+            // do stuff with v
+        }
     }
 
 }
