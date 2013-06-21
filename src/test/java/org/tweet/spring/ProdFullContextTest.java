@@ -19,7 +19,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
         
      // org.keyval.spring
      KeyValPersistenceJPAConfig.class,
-      
+     
      // org.tweet.spring
      TwitterConfig.class, 
 
@@ -34,7 +34,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
      // org.gplus.spring
      GplusContextConfig.class
 }) // @formatter:on
-public class FullProdContextTest {
+public class ProdFullContextTest {
 
     static {
         System.setProperty("persistenceTarget", "prod");

@@ -34,7 +34,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
     // org.gplus.spring
     GplusContextConfig.class
 }) // @formatter:on
-public class FullDevContextTest {
+public class DevFullContextTest {
 
     static {
         System.setProperty("persistenceTarget", "dev");
