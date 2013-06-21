@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @Import(PersistenceJPACommonConfig.class)
-@ComponentScan({ "org.tweet.stackexchange.persistence" })
+@ComponentScan({ "org.stackexchange.persistence" })
 @ImportResource("classpath*:stackPersistenceConfig.xml")
 @PropertySource({ "classpath:persistence-${persistenceTarget:test}.properties", "classpath:setup.properties" })
 public class TestStackexchangePersistenceJPAConfig {

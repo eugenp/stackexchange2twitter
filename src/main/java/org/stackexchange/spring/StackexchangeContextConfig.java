@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling
-@ComponentScan({ "org.tweet.stackexchange" })
+@ComponentScan({ "org.stackexchange" })
 public class StackexchangeContextConfig {
 
     public StackexchangeContextConfig() {

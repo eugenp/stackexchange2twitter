@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
-import org.stackexchange.persistence.setup.SetupBackupIntegrationTest;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.spring.util.SpringProfileUtil;
 
