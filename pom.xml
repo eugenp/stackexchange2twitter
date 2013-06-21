@@ -68,6 +68,21 @@
 			<artifactId>mahout-core</artifactId>
 			<version>0.7</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.mahout</groupId>
+			<artifactId>mahout-examples</artifactId>
+			<version>0.7</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-log4j12</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
 		<!-- util -->
 
@@ -173,7 +188,12 @@
 			<artifactId>log4j-over-slf4j</artifactId>
 			<version>${org.slf4j.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>${org.slf4j.version}</version>
+		</dependency>
+		
 		<!-- test scoped -->
 
 		<dependency>
@@ -208,25 +228,6 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 			<scope>test</scope>
-		</dependency>
-
-		<!-- google plus api -->
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.springframework.social</groupId> -->
-		<!-- <artifactId>spring-social-google</artifactId> -->
-		<!-- <version>1.0.0.M2</version> -->
-		<!-- </dependency> -->
-
-		<!-- <dependency> -->
-		<!-- <groupId>com.google.api-client</groupId> -->
-		<!-- <artifactId>google-api-client-java6</artifactId> -->
-		<!-- <version>1.15.0-rc</version> -->
-		<!-- </dependency> -->
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-plus</artifactId>
-			<version>v1-rev75-1.15.0-rc</version>
 		</dependency>
 
 	</dependencies>

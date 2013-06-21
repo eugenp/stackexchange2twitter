@@ -14,21 +14,13 @@ import org.apache.mahout.math.Matrix;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.function.DoubleFunction;
 import org.apache.mahout.math.function.Functions;
-import org.apache.mahout.vectorizer.encoders.ConstantValueEncoder;
 import org.apache.mahout.vectorizer.encoders.Dictionary;
-import org.apache.mahout.vectorizer.encoders.FeatureVectorEncoder;
-import org.apache.mahout.vectorizer.encoders.TextValueEncoder;
 import org.junit.Test;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 
 public class ClassificationIntegrationTest {
-
-    static final int FEATURES = 10000;
-    static final TextValueEncoder encoder = new TextValueEncoder("body");
-    static final FeatureVectorEncoder bias = new ConstantValueEncoder("Intercept");
-    private static final String[] LEAK_LABELS = { "none", "month-year", "day-month-year" };
 
     // tests
 
@@ -46,7 +38,7 @@ public class ClassificationIntegrationTest {
     public final void whenTry1_thenNoException() throws IOException {
         final int leakType = 0;
         // TODO code application logic here
-        final AdaptiveLogisticRegression learningAlgorithm = new AdaptiveLogisticRegression(20, FEATURES, new L1());
+        final AdaptiveLogisticRegression learningAlgorithm = new AdaptiveLogisticRegression(20, ClassificationUtil.FEATURES, new L1());
         final Dictionary newsGroups = new Dictionary();
         // ModelDissector md = new ModelDissector();
         final ListMultimap<String, String> noteBySection = LinkedListMultimap.create();
@@ -58,7 +50,7 @@ public class ClassificationIntegrationTest {
         noteBySection.put("bad", "The phone is bulky and useless");
         noteBySection.put("bad", "I wish i had never bought this laptop. It died in the first year and now i am not able to return it");
 
-        encoder.setProbes(2);
+        ClassificationUtil.encoder.setProbes(2);
         double step = 0;
         final int[] bumps = { 1, 2, 5 };
         double averageCorrect = 0;
@@ -73,7 +65,7 @@ public class ClassificationIntegrationTest {
                 final String note = it.next();
 
                 final int actual = newsGroups.intern(key);
-                final Vector v = ClassificationUtil.encodeFeatureVector(note);
+                final Vector v = ClassificationUtil.encodeIncomplete(note);
                 learningAlgorithm.train(actual, v);
 
                 k++;
@@ -131,7 +123,7 @@ public class ClassificationIntegrationTest {
 
                     step += 0.25;
                     System.out.printf("%.2f\t%.2f\t%.2f\t%.2f\t%.8g\t%.8g\t", maxBeta, nonZeros, positive, norm, lambda, mu);
-                    System.out.printf("%d\t%.3f\t%.2f\t%s\n", k, averageLL, averageCorrect * 100, LEAK_LABELS[leakType % 3]);
+                    System.out.printf("%d\t%.3f\t%.2f\t%s\n", k, averageLL, averageCorrect * 100, ClassificationUtil.LEAK_LABELS[leakType % 3]);
                 }
             }
 
