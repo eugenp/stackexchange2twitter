@@ -1,6 +1,6 @@
-package org.common.persistence.dao;
+package org.keyval.persistence.dao;
 
-import org.common.persistence.model.KeyVal;
+import org.keyval.persistence.model.KeyVal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IKeyValJpaDAO extends JpaRepository<KeyVal, Long> {

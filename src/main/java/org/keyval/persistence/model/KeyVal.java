@@ -1,4 +1,4 @@
-package org.common.persistence.model;
+package org.keyval.persistence.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

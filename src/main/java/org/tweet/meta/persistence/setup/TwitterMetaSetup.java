@@ -1,7 +1,7 @@
 package org.tweet.meta.persistence.setup;
 
-import org.common.persistence.dao.IKeyValJpaDAO;
 import org.common.persistence.setup.BeforeSetupEvent;
+import org.keyval.persistence.dao.IKeyValJpaDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
