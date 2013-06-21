@@ -14,19 +14,25 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off 
-    CommonPersistenceJPAConfig.class,
+     // org.common.spring
+     CommonPersistenceJPAConfig.class,
         
-    KeyValPersistenceJPAConfig.class,
-    
-    TwitterConfig.class, 
+     // org.keyval.spring
+     KeyValPersistenceJPAConfig.class,
+      
+     // org.tweet.spring
+     TwitterConfig.class, 
 
-    TwitterMetaPersistenceJPAConfig.class, 
-    
-    StackexchangeConfig.class, 
-    StackexchangeContextConfig.class, 
-    StackexchangePersistenceJPAConfig.class, 
-    
-    GplusContextConfig.class
+     // org.tweet.meta.spring
+     TwitterMetaPersistenceJPAConfig.class, 
+        
+     // org.stackexchange.spring
+     StackexchangeConfig.class, 
+     StackexchangeContextConfig.class, 
+     StackexchangePersistenceJPAConfig.class, 
+        
+     // org.gplus.spring
+     GplusContextConfig.class
 }) // @formatter:on
 public class FullProdContextTest {
 
