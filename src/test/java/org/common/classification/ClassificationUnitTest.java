@@ -22,15 +22,7 @@ import com.google.common.collect.Lists;
 public class ClassificationUnitTest {
     private static final String FILE_ON_DISK = "file:/tmp/spammery.seq";
 
-    private static final String COMMERCIAL = "commercial";
-    private static final String NONCOMMERCIAL = "noncommercial";
-
     // tests
-
-    @Test
-    public final void whenTextIsEncodedAsVector1_thenNoExceptions() {
-        ClassificationUtil.encodeIncomplete(randomAlphabetic(4) + " " + randomAlphabetic(5));
-    }
 
     @Test
     public final void whenTextIsEncodedAsVector2_thenNoExceptions() throws IOException {
@@ -49,10 +41,11 @@ public class ClassificationUnitTest {
 
     @Test
     public final void givenDataIsLoaded_whenWriterIsUsed_thenNoExceptions() throws IOException {
-        final Vector noncommercial1 = ClassificationUtil.encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
-        final Vector noncommercial2 = ClassificationUtil.encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("What is nux and what's it used for? - http://askubuntu.com/questions/18413/what-is-nux-and-whats-it-used-for"));
-        final Vector commercial1 = ClassificationUtil.encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("We're looking to #hire a Front End Developer/Creative Designer to join our team in Leeds. Get in touch for more information."));
-        final Vector commercial2 = ClassificationUtil.encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("New job Nurse Practitioners & Physician Assistants - New Jersey http://goo.gl/fb/K8jZP  #hire #jobs"));
+        final Vector noncommercial1 = ClassificationUtil.encode(ClassificationUtil.NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
+        final Vector noncommercial2 = ClassificationUtil.encode(ClassificationUtil.NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("What is nux and what's it used for? - http://askubuntu.com/questions/18413/what-is-nux-and-whats-it-used-for"));
+        final Vector commercial1 = ClassificationUtil.encode(ClassificationUtil.COMMERCIAL,
+                Splitter.on(CharMatcher.anyOf(" ")).split("We're looking to #hire a Front End Developer/Creative Designer to join our team in Leeds. Get in touch for more information."));
+        final Vector commercial2 = ClassificationUtil.encode(ClassificationUtil.COMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("New job Nurse Practitioners & Physician Assistants - New Jersey http://goo.gl/fb/K8jZP  #hire #jobs"));
 
         final VectorWriter vectorWriter = ClassificationUtil.loadData(FILE_ON_DISK);
         vectorWriter.write(Lists.newArrayList(noncommercial1, commercial1, noncommercial2, commercial2));
@@ -73,7 +66,7 @@ public class ClassificationUnitTest {
 
     @Test
     public final void whenVectorIsCreatedWrittenAndReadBack_theVectorRemainsTheSame() throws IOException {
-        final Vector originalVector = ClassificationUtil.encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
+        final Vector originalVector = ClassificationUtil.encode(ClassificationUtil.NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
 
         // write
         final VectorWriter vectorWriter = ClassificationUtil.loadData(FILE_ON_DISK);

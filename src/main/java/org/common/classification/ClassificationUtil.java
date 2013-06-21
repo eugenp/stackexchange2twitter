@@ -8,6 +8,8 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.SequenceFile;
+import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
+import org.apache.mahout.classifier.sgd.L1;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.RandomAccessSparseVector;
 import org.apache.mahout.math.Vector;
@@ -15,17 +17,15 @@ import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.utils.vectors.io.SequenceFileVectorWriter;
 import org.apache.mahout.utils.vectors.io.VectorWriter;
 import org.apache.mahout.vectorizer.encoders.AdaptiveWordValueEncoder;
-import org.apache.mahout.vectorizer.encoders.ConstantValueEncoder;
 import org.apache.mahout.vectorizer.encoders.FeatureVectorEncoder;
 import org.apache.mahout.vectorizer.encoders.StaticWordValueEncoder;
-import org.apache.mahout.vectorizer.encoders.TextValueEncoder;
 
 public final class ClassificationUtil {
 
-    static final TextValueEncoder encoder = new TextValueEncoder("body");
-    private static final FeatureVectorEncoder bias = new ConstantValueEncoder("Intercept");
     public static final int FEATURES = 1000;
-    public static final String[] LEAK_LABELS = { "none", "month-year", "day-month-year" };
+
+    public static final String COMMERCIAL = "commercial";
+    public static final String NONCOMMERCIAL = "noncommercial";
 
     private ClassificationUtil() {
         throw new AssertionError();
@@ -53,14 +53,6 @@ public final class ClassificationUtil {
         return new NamedVector(vect, "label");
     }
 
-    public static Vector encodeIncomplete(final String text) {
-        ClassificationUtil.encoder.addText(text.toLowerCase());
-        final Vector vect = new RandomAccessSparseVector(ClassificationUtil.FEATURES);
-        ClassificationUtil.bias.addToVector((byte[]) null, 1, vect);
-        ClassificationUtil.encoder.flush(1, vect);
-        return vect;
-    }
-
     public static VectorWriter loadData(final String pathOnDisk) throws IOException {
         final URI path = URI.create(pathOnDisk);
         final Configuration hconf = new Configuration();
@@ -78,6 +70,23 @@ public final class ClassificationUtil {
 
         final SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(path), hconf);
         return reader;
+    }
+
+    public static void trainClassifier(final SequenceFile.Reader reader) throws IOException {
+        final AdaptiveLogisticRegression reg = new AdaptiveLogisticRegression(2, FEATURES, new L1());
+        final VectorWritable value = new VectorWritable();
+        while (reader.next(new LongWritable(), value)) {
+            final NamedVector v = (NamedVector) value.get();
+            reg.train("spam".equals(v.getName()) ? 1 : 0, v);
+        }
+        reg.close();
+    }
+
+    public static void trainClassifier(final Iterable<NamedVector> vectors) throws IOException {
+        final AdaptiveLogisticRegression reg = new AdaptiveLogisticRegression(2, FEATURES, new L1());
+        for (final NamedVector vect : vectors) {
+            reg.train(COMMERCIAL.equals(vect.getName()) ? 1 : 0, vect);
+        }
     }
 
 }
