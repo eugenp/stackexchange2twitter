@@ -1,4 +1,4 @@
-package org.tweet.meta.persistence.model;
+package org.stackexchange.persistence.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,10 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.common.persistence.IEntity;
+import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.util.SimpleTwitterAccount;
 
 @Entity
-public class Retweet implements IEntity {
+public class QuestionTweet implements IEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,27 +19,34 @@ public class Retweet implements IEntity {
     private long id;
 
     @Column(nullable = false, unique = true)
-    private long tweetId;
+    private String questionId;
 
     @Column(nullable = false)
     private String twitterAccount;
 
-    public Retweet() {
+    @Column(nullable = true)
+    private String stackAccount;
+
+    public QuestionTweet() {
         super();
     }
 
-    public Retweet(final long tweetId, final SimpleTwitterAccount twitterAccount) {
+    public QuestionTweet(final String questionId, final SimpleTwitterAccount twitterAccount, final StackSite stackAccount) {
         super();
 
-        this.tweetId = tweetId;
+        this.questionId = questionId;
         this.twitterAccount = twitterAccount.name();
+        if (stackAccount != null) { // optional
+            this.stackAccount = stackAccount.name();
+        }
     }
 
-    public Retweet(final long tweetId, final String twitterAccount) {
+    public QuestionTweet(final String questionId, final String twitterAccount, final String stackAccount) {
         super();
 
-        this.tweetId = tweetId;
+        this.questionId = questionId;
         this.twitterAccount = twitterAccount;
+        this.stackAccount = stackAccount;
     }
 
     // API
@@ -52,6 +60,14 @@ public class Retweet implements IEntity {
         this.id = id;
     }
 
+    public String getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(final String questionId) {
+        this.questionId = questionId;
+    }
+
     public String getTwitterAccount() {
         return twitterAccount;
     }
@@ -60,12 +76,12 @@ public class Retweet implements IEntity {
         this.twitterAccount = twitterAccount;
     }
 
-    public long getTweetId() {
-        return tweetId;
+    public String getStackAccount() {
+        return stackAccount;
     }
 
-    public void setTweetId(final long tweetId) {
-        this.tweetId = tweetId;
+    public void setStackAccount(final String stackAccount) {
+        this.stackAccount = stackAccount;
     }
 
     //
@@ -74,7 +90,8 @@ public class Retweet implements IEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (tweetId ^ (tweetId >>> 32));
+        result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
+        result = prime * result + ((stackAccount == null) ? 0 : stackAccount.hashCode());
         result = prime * result + ((twitterAccount == null) ? 0 : twitterAccount.hashCode());
         return result;
     }
@@ -87,8 +104,16 @@ public class Retweet implements IEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final Retweet other = (Retweet) obj;
-        if (tweetId != other.tweetId)
+        final QuestionTweet other = (QuestionTweet) obj;
+        if (questionId == null) {
+            if (other.questionId != null)
+                return false;
+        } else if (!questionId.equals(other.questionId))
+            return false;
+        if (stackAccount == null) {
+            if (other.stackAccount != null)
+                return false;
+        } else if (!stackAccount.equals(other.stackAccount))
             return false;
         if (twitterAccount == null) {
             if (other.twitterAccount != null)
@@ -100,7 +125,7 @@ public class Retweet implements IEntity {
 
     @Override
     public String toString() {
-        return "Retweet [tweetId=" + tweetId + ", twitterAccount=" + twitterAccount + "]";
+        return "QuestionTweet [questionId=" + questionId + ", twitterAccount=" + twitterAccount + ", stackAccount=" + stackAccount + "]";
     }
 
 }

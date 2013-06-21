@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.Tag;
 import org.tweet.meta.service.TweetMetaService;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.stackexchange.util.SimpleTwitterAccount;
-import org.tweet.stackexchange.util.Tag;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 

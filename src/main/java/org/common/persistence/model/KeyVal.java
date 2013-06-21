@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import org.tweet.common.persistence.IEntity;
+import org.common.persistence.IEntity;
 
 @Entity
 public class KeyVal implements IEntity {

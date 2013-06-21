@@ -1,6 +1,7 @@
 package org.tweet.meta.persistence.setup;
 
 import org.common.persistence.dao.IKeyValJpaDAO;
+import org.common.persistence.setup.BeforeSetupEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.tweet.common.persistence.setup.BeforeSetupEvent;
 
 @Component
 public class TwitterMetaSetup implements ApplicationListener<ContextRefreshedEvent> {

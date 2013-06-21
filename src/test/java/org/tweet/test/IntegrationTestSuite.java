@@ -3,8 +3,8 @@ package org.tweet.test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.tweet.stackexchange.persistence.service.QuestionTweetPersistenceIntegrationTest;
-import org.tweet.stackexchange.persistence.setup.StackexchangeSetupPersistenceIntegrationTest;
+import org.stackexchange.persistence.service.QuestionTweetPersistenceIntegrationTest;
+import org.stackexchange.persistence.setup.StackexchangeSetupPersistenceIntegrationTest;
 import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
 
 @RunWith(Suite.class)
