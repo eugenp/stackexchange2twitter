@@ -71,19 +71,13 @@ public final class ClassificationUtil {
         return vw;
     }
 
-    public static void readBackData(final String pathOnDisk) throws IOException {
+    public static SequenceFile.Reader readBackData(final String pathOnDisk) throws IOException {
         final URI path = URI.create(pathOnDisk);
         final Configuration hconf = new Configuration();
         final FileSystem fs = FileSystem.get(path, hconf);
 
         final SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(path), hconf);
-
-        final LongWritable key = new LongWritable();
-        final VectorWritable value = new VectorWritable();
-        while (reader.next(key, value)) {
-            final NamedVector vector = (NamedVector) value.get();
-            // do stuff with v
-        }
+        return reader;
     }
 
 }
