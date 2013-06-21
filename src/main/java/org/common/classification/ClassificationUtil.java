@@ -54,7 +54,7 @@ public final class ClassificationUtil {
         return new NamedVector(vect, type);
     }
 
-    public static VectorWriter loadData(final String pathOnDisk) throws IOException {
+    public static VectorWriter writeData(final String pathOnDisk) throws IOException {
         final URI path = URI.create(pathOnDisk);
         final Configuration hconf = new Configuration();
         final FileSystem fs = FileSystem.get(path, hconf);

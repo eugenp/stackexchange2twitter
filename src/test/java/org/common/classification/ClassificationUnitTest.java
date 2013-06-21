@@ -4,8 +4,8 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.common.classification.ClassificationUtil.COMMERCIAL;
 import static org.common.classification.ClassificationUtil.NONCOMMERCIAL;
 import static org.common.classification.ClassificationUtil.encode;
-import static org.common.classification.ClassificationUtil.loadData;
 import static org.common.classification.ClassificationUtil.readBackData;
+import static org.common.classification.ClassificationUtil.writeData;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -23,6 +23,7 @@ import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.utils.vectors.io.VectorWriter;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.base.CharMatcher;
@@ -42,27 +43,31 @@ public class ClassificationUnitTest {
 
     @Test
     public final void whenLoadingClassificationData_thenNoExceptions() throws IOException {
-        loadData(VECTOR_FILE_ON_DISK);
+        writeData(VECTOR_FILE_ON_DISK);
     }
 
     @Test
     public final void whenLoadingClassificationData_thenOperationCorrect() throws IOException {
-        assertNotNull(loadData(VECTOR_FILE_ON_DISK));
+        assertNotNull(writeData(VECTOR_FILE_ON_DISK));
     }
 
     @Test
     public final void givenDataIsLoaded_whenWriterIsUsed_thenNoExceptions() throws IOException {
         final List<Vector> vectors = vectors();
 
-        final VectorWriter vectorWriter = loadData(VECTOR_FILE_ON_DISK);
+        final VectorWriter vectorWriter = writeData(VECTOR_FILE_ON_DISK);
         vectorWriter.write(vectors);
         vectorWriter.close();
     }
 
     @Test
+    @Ignore("temporary")
     public final void givenDataWasWritten_whenDataIsReadBack_thenNoExceptions() throws IOException {
-        final Reader reader = readBackData(VECTOR_FILE_ON_DISK);
+        final String filePathOnDisk = "file:/tmp/" + randomAlphabetic(5) + ".seq";
 
+        writeData(filePathOnDisk);
+
+        final Reader reader = readBackData(filePathOnDisk);
         final LongWritable key = new LongWritable();
         final VectorWritable value = new VectorWritable();
         while (reader.next(key, value)) {
@@ -76,7 +81,7 @@ public class ClassificationUnitTest {
         final Vector originalVector = encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
 
         // write
-        final VectorWriter vectorWriter = loadData(VECTOR_FILE_ON_DISK);
+        final VectorWriter vectorWriter = writeData(VECTOR_FILE_ON_DISK);
         vectorWriter.write(originalVector);
         vectorWriter.close();
 
