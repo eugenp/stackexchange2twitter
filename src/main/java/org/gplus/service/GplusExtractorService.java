@@ -3,6 +3,8 @@ package org.gplus.service;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.common.service.ContentExtractorService;
 import org.common.text.TextUtils;
 import org.slf4j.Logger;
@@ -33,25 +35,38 @@ public class GplusExtractorService {
 
         final List<Activity> activities = gplusService.search(topic);
         for (final Activity activity : activities) {
-            if (isActivityTweetCandidate(activity.getObject().getContent())) {
-                return activity.getObject().getContent();
+            final Pair<String, String> validTweetCandidate = getUrlOfValidTweetCandidate(activity.getObject().getContent());
+            if (validTweetCandidate != null) {
+                logger.info("Found tweet candidate from activity = {}", ActivityHelper.toString(activity));
+                return validTweetCandidate.getRight() + " - " + validTweetCandidate.getLeft();
             }
         }
 
         return null;
     }
 
-    final boolean isActivityTweetCandidate(final String content) {
+    /**
+     * - note: may return null
+     */
+    final Pair<String, String> getUrlOfValidTweetCandidate(final String content) {
         logger.debug("Analyzing content of activity as source of tweet candidate; content = {}", content);
 
         final List<String> extractedUrls = TextUtils.extractUrls(content);
         final String mainUrl = TextUtils.determineMainUrl(extractedUrls);
         if (mainUrl == null) {
-            return false;
+            return null;
         }
 
         final String title = contentExtractorService.extractTitle(mainUrl);
-        return (title != null) && (title.length() < 120);
-    }
+        if ((title == null) || (title.length() > 120)) {
+            return null;
+        }
 
+        // skipping documentation pages
+        if (title.toLowerCase().contains("documentation")) {
+            return null;
+        }
+
+        return new ImmutablePair<String, String>(mainUrl, title);
+    }
 }

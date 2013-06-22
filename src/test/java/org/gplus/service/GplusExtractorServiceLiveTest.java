@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.util.Tag;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, GplusContextConfig.class })
@@ -27,8 +28,17 @@ public class GplusExtractorServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetIsRetrieved_thenNoExceptions() throws IOException {
-        assertNotNull(gplusExtractorService.getBestTweetCandidate("clojure"));
+    public final void whenTweetIsRetrievedScenario1_thenNoExceptions() throws IOException {
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.clojure.name());
+        System.out.println(bestTweetCandidate);
+        assertNotNull(bestTweetCandidate);
+    }
+
+    @Test
+    public final void whenTweetIsRetrievedScenario2_thenNoExceptions() throws IOException {
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.jquery.name());
+        System.out.println(bestTweetCandidate);
+        assertNotNull(bestTweetCandidate);
     }
 
 }

@@ -30,4 +30,21 @@ public class ActivityHelper {
         System.out.println("--------------------------------------------------------------");
     }
 
+    public static final String toString(final Activity activity) {
+        final StringBuilder toString = new StringBuilder("\n");
+        toString.append("--------------------------------------------------------------").append("\n");
+
+        toString.append("id: " + activity.getId()).append("\n");
+        toString.append("url: " + activity.getUrl()).append("\n");
+        toString.append("content: " + activity.getObject().getContent()).append("\n");
+
+        toString.append("Reshares: " + activity.getObject().getResharers().getTotalItems()).append("\n");
+        toString.append("Plusoners: " + activity.getObject().getPlusoners().getTotalItems()).append("\n");
+        toString.append("Replies: " + activity.getObject().getReplies().getTotalItems()).append("\n");
+
+        toString.append("--------------------------------------------------------------").append("\n");
+
+        return toString.toString();
+    }
+
 }

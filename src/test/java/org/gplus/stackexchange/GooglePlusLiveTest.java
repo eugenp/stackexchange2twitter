@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
+import org.common.spring.CommonContextConfig;
 import org.common.text.TextUtils;
 import org.gplus.service.ActivityHelper;
 import org.gplus.service.GplusService;
@@ -17,11 +18,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.util.Tag;
 
 import com.google.api.services.plus.model.Activity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { GplusContextConfig.class })
+@ContextConfiguration(classes = { CommonContextConfig.class, GplusContextConfig.class })
 public class GooglePlusLiveTest {
 
     @Autowired
@@ -37,12 +39,20 @@ public class GooglePlusLiveTest {
 
     @Test
     public void whenSearchingForActivities_thenResultsAreFound() throws GeneralSecurityException, IOException {
-        assertThat(gplusService.search("clojure"), not(empty()));
+        assertThat(gplusService.search(Tag.clojure.name()), not(empty()));
     }
 
     @Test
-    public void whenSearchingForActivities_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
-        final List<Activity> searchResults = gplusService.search("clojure");
+    public void whenSearchingForActivitiesScenario1_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
+        final List<Activity> searchResults = gplusService.search(Tag.clojure.name());
+        for (final Activity activity : searchResults) {
+            ActivityHelper.show(activity);
+        }
+    }
+
+    @Test
+    public void whenSearchingForActivitiesScenario2_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
+        final List<Activity> searchResults = gplusService.search(Tag.jquery.name());
         for (final Activity activity : searchResults) {
             ActivityHelper.show(activity);
         }
@@ -50,7 +60,7 @@ public class GooglePlusLiveTest {
 
     @Test
     public void givenActivitiesFromGplus_whenExtractingUrlsFromContent_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
-        final List<Activity> searchResults = gplusService.search("clojure");
+        final List<Activity> searchResults = gplusService.search(Tag.clojure.name());
         for (final Activity activity : searchResults) {
             System.out.println(TextUtils.extractUrls(activity.getObject().getContent()));
         }

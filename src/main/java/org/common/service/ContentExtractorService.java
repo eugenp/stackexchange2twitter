@@ -39,7 +39,8 @@ public class ContentExtractorService {
             logger.debug("404 resulted from the URL: " + sourceUrl, ex);
             return null;
         } catch (final IOException ex) {
-            logger.error("", ex);
+            logger.warn("Accessing the following URL resulted in a problem: " + sourceUrl);
+            logger.debug("Accessing the following URL resulted in a problem: " + sourceUrl, ex);
             return null;
         }
 
