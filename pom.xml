@@ -86,6 +86,12 @@
 
 		<!-- util -->
 
+		<dependency> <!-- for some html parsing and meta info extraction -->
+			<groupId>net.htmlparser.jericho</groupId>
+			<artifactId>jericho-html</artifactId>
+			<version>3.3</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
