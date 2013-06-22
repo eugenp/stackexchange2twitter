@@ -41,4 +41,11 @@ public class GplusExtractorServiceLiveTest {
         assertNotNull(bestTweetCandidate);
     }
 
+    @Test
+    public final void whenTweetIsRetrievedScenario3_thenNoExceptions() throws IOException {
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.scala.name());
+        System.out.println(bestTweetCandidate);
+        assertNotNull(bestTweetCandidate);
+    }
+
 }
