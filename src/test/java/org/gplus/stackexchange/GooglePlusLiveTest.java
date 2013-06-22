@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
+import org.common.text.TextUtils;
 import org.gplus.service.ActivityHelper;
 import org.gplus.service.GplusService;
 import org.gplus.spring.GplusContextConfig;
@@ -44,6 +45,14 @@ public class GooglePlusLiveTest {
         final List<Activity> searchResults = gplusService.search("clojure");
         for (final Activity activity : searchResults) {
             ActivityHelper.show(activity);
+        }
+    }
+
+    @Test
+    public void givenActivitiesFromGplus_whenExtractingUrlsFromContent_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
+        final List<Activity> searchResults = gplusService.search("clojure");
+        for (final Activity activity : searchResults) {
+            System.out.println(TextUtils.extractUrls(activity.getObject().getContent()));
         }
     }
 

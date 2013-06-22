@@ -22,6 +22,12 @@ public class ActivityHelper {
         System.out.println("id: " + activity.getId());
         System.out.println("url: " + activity.getUrl());
         System.out.println("content: " + activity.getObject().getContent());
+
+        System.out.println("Reshares: " + activity.getObject().getResharers().getTotalItems());
+        System.out.println("Plusoners: " + activity.getObject().getPlusoners().getTotalItems());
+        System.out.println("Replies: " + activity.getObject().getReplies().getTotalItems());
+
+        System.out.println("--------------------------------------------------------------");
     }
 
 }
