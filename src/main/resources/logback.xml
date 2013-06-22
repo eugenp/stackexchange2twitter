@@ -36,16 +36,17 @@
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<pattern>stackexchange - %date [%thread] %-5level %logger{36} -
 				%message%n</pattern>
-			<!-- <pattern>sec - |${launchpad.origin}| %date [%thread] %-5level %logger{36} 
-				- %message%n</pattern> -->
+			<!-- <pattern>sec - |${launchpad.origin}| %date [%thread] %-5level %logger{36} - %message%n</pattern> -->
 		</layout>
 		<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTrackerImpl">
 			<bufferSize>1000</bufferSize>
 		</cyclicBufferTracker>
 	</appender>
 
+	<logger name="org.common" level="INFO" />
 	<logger name="org.tweet" level="DEBUG" />
-	<logger name="org.stackexchange" level="TRACE" />
+	<logger name="org.gplus" level="INFO" />
+	<logger name="org.stackexchange" level="DEBUG" />
 
 	<logger name="org.apache.http" level="INFO" />
 
