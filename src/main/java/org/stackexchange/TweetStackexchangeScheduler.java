@@ -16,6 +16,7 @@ import org.stackexchange.service.TweetStackexchangeService;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.stackexchange.util.StackexchangeUtil;
 import org.stackexchange.util.Tag;
+import org.stackexchange.util.TagAdvanced;
 import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -85,7 +86,7 @@ public class TweetStackexchangeScheduler {
     /**
      * - these accounts are not StackExchange specific
      */
-    @Scheduled(cron = "0 0 13,19 * * *")
+    @Scheduled(cron = "0 0 13,20 * * *")
     public void tweetDailyTopQuestion2() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
 
@@ -117,7 +118,7 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.LispDaily), Tag.lisp.name(), SimpleTwitterAccount.LispDaily.name(), 1);
 
-        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestRubyOnRails), Tag.rubyonrails.name(), SimpleTwitterAccount.BestRubyOnRails.name(), 1);
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestRubyOnRails), TagAdvanced.rubyonrails, SimpleTwitterAccount.BestRubyOnRails.name(), 1);
 
         logger.info("Finished executing scheduled tweet operations 2");
     }

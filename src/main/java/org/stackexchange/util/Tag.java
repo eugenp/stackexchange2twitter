@@ -27,6 +27,5 @@ public enum Tag {// @formatter:off
     javascript, 
     ruby, 
     lisp, 
-    rubyonrails, 
     rails
 }// @formatter:on
