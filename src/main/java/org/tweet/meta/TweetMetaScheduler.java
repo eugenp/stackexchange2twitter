@@ -42,9 +42,32 @@ public class TweetMetaScheduler {
 
         service.retweetByHashtag(SimpleTwitterAccount.BestScala.name(), Tag.scala.name());
 
-        // git - not 100% sure that #git will only return git related tweets - look into this further
+        // git - not 100% sure that hashtag will only return relevant tweets - look into this further
 
         logger.info("Finished executing scheduled tweet operations");
+    }
+
+    @Scheduled(cron = "0 0 16,19 * * *")
+    public void tweetMetaExperimental() throws JsonProcessingException, IOException {
+        logger.info("Experimental - Starting to execute scheduled retweet operations");
+
+        service.retweetByHashtag(SimpleTwitterAccount.LispDaily.name(), Tag.lisp.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.BestSQL.name(), Tag.sql.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.BestNoSQL.name(), Tag.nosql.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.BestJavaScript.name(), Tag.javascript.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.iOSdigest.name(), Tag.ios.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.ObjectiveCDaily.name(), Tag.objectivec.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.BestAWS.name(), Tag.aws.name());
+
+        // python - not 100% sure that hashtag will only return relevant tweets - look into this further
+
+        logger.info("Experimental - Finished executing scheduled tweet operations");
     }
 
 }
