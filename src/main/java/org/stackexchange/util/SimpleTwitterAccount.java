@@ -18,6 +18,12 @@ public enum SimpleTwitterAccount {// @formatter:off
     RESTDaily, 
     
     ServerFaultBest, 
-    SpringAtSO
+    SpringAtSO, 
+    
+    BestJSON, 
+    BestOfJava, 
+    BestSQL, 
+    BestNoSQL, 
+    RegexDaily
 }
 // @formatter:ons

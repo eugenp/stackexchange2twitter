@@ -94,4 +94,29 @@ public class TwitterTemplateCreatorLiveTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestAlgorithms.name());
     }
 
+    @Test
+    public final void givenValidAccountBestJSON_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestJSON.name());
+    }
+
+    @Test
+    public final void givenValidAccountBestOfJava_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestOfJava.name());
+    }
+
+    @Test
+    public final void givenValidAccountBestSQL_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestSQL.name());
+    }
+
+    @Test
+    public final void givenValidAccountBestNoSQL_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestNoSQL.name());
+    }
+
+    @Test
+    public final void givenValidAccountRegexDaily_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.RegexDaily.name());
+    }
+
 }
