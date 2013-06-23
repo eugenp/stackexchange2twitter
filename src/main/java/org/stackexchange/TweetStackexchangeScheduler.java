@@ -113,7 +113,12 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.PerlDaily), Tag.perl.name(), SimpleTwitterAccount.PerlDaily.name(), 1);
 
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestOfRuby), Tag.ruby.name(), SimpleTwitterAccount.BestOfRuby.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.LispDaily), Tag.lisp.name(), SimpleTwitterAccount.LispDaily.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestRubyOnRails), Tag.rubyonrails.name(), SimpleTwitterAccount.BestRubyOnRails.name(), 1);
+
         logger.info("Finished executing scheduled tweet operations 2");
     }
-
 }

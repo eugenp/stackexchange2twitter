@@ -50,7 +50,11 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestNoSQL:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfRuby:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestPHP:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case BestRubyOnRails:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestScala:
             return Lists.newArrayList(StackSite.StackOverflow);
@@ -65,6 +69,9 @@ public final class TwitterAccountToStackAccount {
         case JavaTopSO:
             return Lists.newArrayList(StackSite.StackOverflow);
         case jQueryDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
+        case LispDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case PerlDaily:

@@ -32,6 +32,9 @@ public enum SimpleTwitterAccount {// @formatter:off
     iOSdigest, 
     
     BestJavaScript, 
-    PerlDaily
+    PerlDaily, 
+    BestOfRuby,
+    LispDaily, 
+    BestRubyOnRails
 }
 // @formatter:ons

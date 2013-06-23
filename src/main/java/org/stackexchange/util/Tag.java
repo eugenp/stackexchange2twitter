@@ -24,5 +24,9 @@ public enum Tag {// @formatter:off
     objectivec, 
     ios,
     perl,
-    javascript
+    javascript, 
+    ruby, 
+    lisp, 
+    rubyonrails, 
+    rails
 }// @formatter:on
