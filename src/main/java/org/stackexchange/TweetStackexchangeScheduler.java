@@ -106,7 +106,7 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestAWS), Tag.aws.name(), SimpleTwitterAccount.BestAWS.name(), 1);
 
-        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.ObjectiveCDaily), Tag.objectivec.name(), SimpleTwitterAccount.ObjectiveCDaily.name(), 1);
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.ObjectiveCDaily), TagAdvanced.objectivec, SimpleTwitterAccount.ObjectiveCDaily.name(), 1);
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.iOSdigest), Tag.ios.name(), SimpleTwitterAccount.iOSdigest.name(), 1);
 

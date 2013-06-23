@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.stackexchange.util.Tag;
+import org.stackexchange.util.TagAdvanced;
 import org.tweet.meta.service.TweetMetaService;
 import org.tweet.spring.util.SpringProfileUtil;
 
@@ -47,7 +48,7 @@ public class TweetMetaScheduler {
         logger.info("Finished executing scheduled tweet operations");
     }
 
-    @Scheduled(cron = "0 0 16,22 * * *")
+    @Scheduled(cron = "0 0 16,21 * * *")
     public void tweetMetaExperimental() throws JsonProcessingException, IOException {
         logger.info("Experimental - Starting to execute scheduled retweet operations");
 
@@ -61,7 +62,7 @@ public class TweetMetaScheduler {
 
         service.retweetByHashtag(SimpleTwitterAccount.iOSdigest.name(), Tag.ios.name());
 
-        service.retweetByHashtag(SimpleTwitterAccount.ObjectiveCDaily.name(), Tag.objectivec.name());
+        service.retweetByHashtag(SimpleTwitterAccount.ObjectiveCDaily.name(), TagAdvanced.objectivec);
 
         service.retweetByHashtag(SimpleTwitterAccount.BestAWS.name(), Tag.aws.name());
 

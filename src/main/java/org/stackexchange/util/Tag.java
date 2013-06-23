@@ -21,7 +21,6 @@ public enum Tag {// @formatter:off
     aws, 
     php, 
     python, 
-    objectivec, 
     ios,
     perl,
     javascript, 
