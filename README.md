@@ -11,3 +11,11 @@ Twitter Bot that tweets the Top Questions from various StackExchange Q&amp;A Sit
 
 # Technologies
 - [Spring Social](https://github.com/SpringSource/spring-social/wiki/Quick-Start) is used for integration with **Twitter**
+
+
+# Introducing a new account
+- add the account to `SimpleTwitterAccount`
+- add a tag into `Tag`
+- add the words to become hashtags into `twitterInternal.properties`
+- create the connection between the twitter account and the stackexchange site: `TwitterAccountToStackAccount`
+- add the twitter account OAuth credentials in /opt/stack/twitter.properties

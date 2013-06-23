@@ -18,6 +18,7 @@ import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -196,7 +197,7 @@ public class TweetMetaService {
     }
 
     private final List<String> wordsToHash(final String accountName) {
-        final String wordsToHashForAccount = env.getProperty(accountName + ".hash");
+        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".hash"));
         final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
         return Lists.newArrayList(split);
     }
