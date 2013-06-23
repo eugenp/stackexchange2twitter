@@ -30,6 +30,8 @@ public final class TwitterAccountToStackAccount {
 
         case BestAlgorithms:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestAWS:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestBash:
             return Lists.newArrayList(StackSite.StackOverflow, StackSite.AskUbuntu, StackSite.SuperUser);
         case BestClojure:
@@ -40,9 +42,22 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestJPA:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestJSON:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestMaven:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestNoSQL:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case BestPHP:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestScala:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case BestSQL:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfJava:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
+        case iOSdigest:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case JavaTopSO:
@@ -50,12 +65,20 @@ public final class TwitterAccountToStackAccount {
         case jQueryDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
+        case PythonDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
         case RESTDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case RegexDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case ServerFaultBest:
             return Lists.newArrayList(StackSite.ServerFault);
         case SpringAtSO:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
+        case ObjectiveCDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         default:

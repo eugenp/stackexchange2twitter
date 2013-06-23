@@ -54,7 +54,7 @@ public class TweetStackexchangeScheduler {
      * - these accounts are not StackExchange specific
      */
     @Scheduled(cron = "0 0 14,20 * * *")
-    public void tweetDailyTopQuestion() throws JsonProcessingException, IOException {
+    public void tweetDailyTopQuestion1() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestClojure), Tag.clojure.name(), SimpleTwitterAccount.BestClojure.name(), 1);
@@ -78,7 +78,38 @@ public class TweetStackexchangeScheduler {
         final StackSite randomSite = StackexchangeUtil.pickOne(twitterAccountToStackSites(SimpleTwitterAccount.BestBash));
         service.tweetTopQuestionBySiteAndTag(randomSite, Tag.bash.name(), SimpleTwitterAccount.BestBash.name(), 1);
 
-        logger.info("Finished executing scheduled tweet operations");
+        logger.info("Finished executing scheduled tweet operations 1");
+    }
+
+    // 13 , 19
+    /**
+     * - these accounts are not StackExchange specific
+     */
+    @Scheduled(cron = "0 0 13,19 * * *")
+    public void tweetDailyTopQuestion2() throws JsonProcessingException, IOException {
+        logger.info("Starting to execute scheduled tweet operations");
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestJSON), Tag.json.name(), SimpleTwitterAccount.BestJSON.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestOfJava), Tag.java.name(), SimpleTwitterAccount.BestOfJava.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestSQL), Tag.sql.name(), SimpleTwitterAccount.BestSQL.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestNoSQL), Tag.nosql.name(), SimpleTwitterAccount.BestNoSQL.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.RegexDaily), Tag.regex.name(), SimpleTwitterAccount.RegexDaily.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestPHP), Tag.php.name(), SimpleTwitterAccount.BestPHP.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.PythonDaily), Tag.python.name(), SimpleTwitterAccount.PythonDaily.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestAWS), Tag.aws.name(), SimpleTwitterAccount.BestAWS.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.ObjectiveCDaily), Tag.objectivec.name(), SimpleTwitterAccount.ObjectiveCDaily.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.iOSdigest), Tag.ios.name(), SimpleTwitterAccount.iOSdigest.name(), 1);
+
+        logger.info("Finished executing scheduled tweet operations 2");
     }
 
 }

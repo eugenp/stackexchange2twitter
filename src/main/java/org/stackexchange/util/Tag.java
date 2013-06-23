@@ -17,5 +17,10 @@ public enum Tag {// @formatter:off
     sql, 
     nosql, 
     regex, 
-    json
+    json, 
+    aws, 
+    php, 
+    python, 
+    objectivec, 
+    ios
 }// @formatter:on

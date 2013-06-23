@@ -24,6 +24,11 @@ public enum SimpleTwitterAccount {// @formatter:off
     BestOfJava, 
     BestSQL, 
     BestNoSQL, 
-    RegexDaily
+    RegexDaily, 
+    BestPHP, 
+    PythonDaily, 
+    BestAWS, 
+    ObjectiveCDaily, 
+    iOSdigest
 }
 // @formatter:ons

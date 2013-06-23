@@ -119,4 +119,29 @@ public class TwitterTemplateCreatorLiveTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.RegexDaily.name());
     }
 
+    @Test
+    public final void givenValidAccountBestPHP_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestPHP.name());
+    }
+
+    @Test
+    public final void givenValidAccountPythonDaily_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.PythonDaily.name());
+    }
+
+    @Test
+    public final void givenValidAccountBestAWS_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestAWS.name());
+    }
+
+    @Test
+    public final void givenValidAccountObjectiveCDaily_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.ObjectiveCDaily.name());
+    }
+
+    @Test
+    public final void givenValidAccountiOSdigest_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.iOSdigest.name());
+    }
+
 }
