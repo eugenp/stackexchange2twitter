@@ -29,6 +29,9 @@ public enum SimpleTwitterAccount {// @formatter:off
     PythonDaily, 
     BestAWS, 
     ObjectiveCDaily, 
-    iOSdigest
+    iOSdigest, 
+    
+    BestJavaScript, 
+    PerlDaily
 }
 // @formatter:ons

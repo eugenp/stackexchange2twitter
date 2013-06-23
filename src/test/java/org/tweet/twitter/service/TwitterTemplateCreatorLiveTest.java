@@ -144,4 +144,14 @@ public class TwitterTemplateCreatorLiveTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.iOSdigest.name());
     }
 
+    @Test
+    public final void givenValidAccountBestJavaScript_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.BestJavaScript.name());
+    }
+
+    @Test
+    public final void givenValidAccountPerlDaily_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.PerlDaily.name());
+    }
+
 }

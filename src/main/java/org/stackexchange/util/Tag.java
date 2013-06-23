@@ -22,5 +22,7 @@ public enum Tag {// @formatter:off
     php, 
     python, 
     objectivec, 
-    ios
+    ios,
+    perl,
+    javascript
 }// @formatter:on

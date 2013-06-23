@@ -40,6 +40,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestGit:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestJavaScript:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestJPA:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestJSON:
@@ -65,6 +67,8 @@ public final class TwitterAccountToStackAccount {
         case jQueryDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
+        case PerlDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case PythonDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
