@@ -155,7 +155,7 @@ public class TweetStackexchangeService {
     }
 
     private final List<String> wordsToHash(final String accountName) {
-        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".hash"));
+        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".hash"), "No words to hash for account: " + accountName);
         final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
         return Lists.newArrayList(split);
     }

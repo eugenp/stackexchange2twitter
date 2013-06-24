@@ -21,10 +21,10 @@ public class TwitterTemplateCreator {
     // API
 
     public final Twitter getTwitterTemplate(final String accountName) {
-        final String consumerKey = Preconditions.checkNotNull(env.getProperty(accountName + ".consumerKey"));
-        final String consumerSecret = Preconditions.checkNotNull(env.getProperty(accountName + ".consumerSecret"));
-        final String accessToken = Preconditions.checkNotNull(env.getProperty(accountName + ".accessToken"));
-        final String accessTokenSecret = Preconditions.checkNotNull(env.getProperty(accountName + ".accessTokenSecret"));
+        final String consumerKey = Preconditions.checkNotNull(env.getProperty(accountName + ".consumerKey"), "consumerKey not found for " + accountName);
+        final String consumerSecret = Preconditions.checkNotNull(env.getProperty(accountName + ".consumerSecret"), "consumerSecret not found for " + accountName);
+        final String accessToken = Preconditions.checkNotNull(env.getProperty(accountName + ".accessToken"), "accessToken not found for " + accountName);
+        final String accessTokenSecret = Preconditions.checkNotNull(env.getProperty(accountName + ".accessTokenSecret"), "accessTokenSecret not found for " + accountName);
 
         final TwitterTemplate twitterTemplate = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
         return twitterTemplate;

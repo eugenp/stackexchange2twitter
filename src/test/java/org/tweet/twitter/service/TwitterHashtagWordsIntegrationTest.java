@@ -1,10 +1,11 @@
 package org.tweet.twitter.service;
 
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.util.SimpleTwitterAccount;
@@ -12,22 +13,17 @@ import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TwitterConfig.class })
-public class TwitterTemplateCreatorLiveTest {
+public class TwitterHashtagWordsIntegrationTest {
 
     @Autowired
-    private TwitterTemplateCreator twitterTemplateCreator;
+    private Environment env;
 
     // API
 
-    @Test(expected = RuntimeException.class)
-    public final void givenInvalidAccount_whenRetrievingTwitterClient_thenException() {
-        twitterTemplateCreator.getTwitterTemplate(randomAlphabetic(6));
-    }
-
     @Test
-    public final void givenValidAccount_whenRetrievingTwitterClient_thenNoException() {
+    public final void whenRetrievingWordsToHashForAccount_thenFound() {
         for (final SimpleTwitterAccount account : SimpleTwitterAccount.values()) {
-            twitterTemplateCreator.getTwitterTemplate(account.name());
+            assertNotNull("No words to hash for account " + account, env.getProperty(account.name() + ".hash"));
         }
     }
 
