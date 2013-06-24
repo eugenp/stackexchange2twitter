@@ -34,7 +34,6 @@ public class TweetStackexchangeScheduler {
     }
 
     // API
-    // -12- 14 16 -18- 20 22
     @Scheduled(cron = "0 0 12,18 * * *")
     public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled tweet operations");
@@ -50,13 +49,12 @@ public class TweetStackexchangeScheduler {
         logger.info("Finished executing scheduled tweet operations");
     }
 
-    // 12 -14- 16 18 -20- 22
     /**
      * - these accounts are not StackExchange specific
      */
-    @Scheduled(cron = "0 0 14,20 * * *")
+    @Scheduled(cron = "0 0 13,19 * * *")
     public void tweetDailyTopQuestion1() throws JsonProcessingException, IOException {
-        logger.info("Starting to execute scheduled tweet operations");
+        logger.info("Starting to execute scheduled tweet operations 1");
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestClojure), Tag.clojure.name(), SimpleTwitterAccount.BestClojure.name(), 1);
 
@@ -82,13 +80,12 @@ public class TweetStackexchangeScheduler {
         logger.info("Finished executing scheduled tweet operations 1");
     }
 
-    // 13 , 19
     /**
      * - these accounts are not StackExchange specific
      */
-    @Scheduled(cron = "0 0 13,20 * * *")
+    @Scheduled(cron = "0 0 14,20 * * *")
     public void tweetDailyTopQuestion2() throws JsonProcessingException, IOException {
-        logger.info("Starting to execute scheduled tweet operations");
+        logger.info("Starting to execute scheduled tweet operations 2");
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestJSON), Tag.json.name(), SimpleTwitterAccount.BestJSON.name(), 1);
 
@@ -108,6 +105,16 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.ObjectiveCDaily), TagAdvanced.objectivec, SimpleTwitterAccount.ObjectiveCDaily.name(), 1);
 
+        logger.info("Finished executing scheduled tweet operations 2");
+    }
+
+    /**
+     * - these accounts are not StackExchange specific
+     */
+    @Scheduled(cron = "0 0 15,21 * * *")
+    public void tweetDailyTopQuestion3() throws JsonProcessingException, IOException {
+        logger.info("Starting to execute scheduled tweet operations 3");
+
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.iOSdigest), Tag.ios.name(), SimpleTwitterAccount.iOSdigest.name(), 1);
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestJavaScript), Tag.javascript.name(), SimpleTwitterAccount.BestJavaScript.name(), 1);
@@ -120,6 +127,13 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestRubyOnRails), TagAdvanced.rubyonrails, SimpleTwitterAccount.BestRubyOnRails.name(), 1);
 
-        logger.info("Finished executing scheduled tweet operations 2");
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.InTheAppleWorld), Tag.apple.name(), SimpleTwitterAccount.InTheAppleWorld.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.LandOfWordpress), Tag.wordpress.name(), SimpleTwitterAccount.LandOfWordpress.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.GoogleDigest), Tag.google.name(), SimpleTwitterAccount.GoogleDigest.name(), 1);
+
+        logger.info("Finished executing scheduled tweet operations 4");
     }
+
 }

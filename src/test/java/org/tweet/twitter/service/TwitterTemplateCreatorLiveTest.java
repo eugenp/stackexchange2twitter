@@ -154,4 +154,19 @@ public class TwitterTemplateCreatorLiveTest {
         twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.PerlDaily.name());
     }
 
+    @Test
+    public final void givenValidAccountInTheAppleWorld_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.InTheAppleWorld.name());
+    }
+
+    @Test
+    public final void givenValidAccountLandOfWordpress_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.LandOfWordpress.name());
+    }
+
+    @Test
+    public final void givenValidAccountGoogleDigest_whenRetrievingTwitterClient_thenNoException() {
+        twitterTemplateCreator.getTwitterTemplate(SimpleTwitterAccount.GoogleDigest.name());
+    }
+
 }

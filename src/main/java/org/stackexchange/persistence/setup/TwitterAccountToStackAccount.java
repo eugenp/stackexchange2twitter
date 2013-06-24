@@ -63,7 +63,15 @@ public final class TwitterAccountToStackAccount {
         case BestOfJava:
             return Lists.newArrayList(StackSite.StackOverflow);
 
+        case GoogleDigest:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
+        case LandOfWordpress:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
         case iOSdigest:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case InTheAppleWorld:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case JavaTopSO:
