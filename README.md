@@ -15,7 +15,7 @@ Twitter Bot that tweets the Top Questions from various StackExchange Q&amp;A Sit
 
 # Introducing a new account
 - add the account to `SimpleTwitterAccount`
-- add a tag into `Tag`
+- add a tag into `Tag` (or `TagAdvanced`)
 - add the words to become hashtags into `twitterInternal.properties`
 - create the connection between the twitter account and the stackexchange site: `TwitterAccountToStackAccount`
 - add the twitter account OAuth credentials in /opt/stack/twitter.properties

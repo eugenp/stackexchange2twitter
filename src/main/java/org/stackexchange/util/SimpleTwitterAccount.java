@@ -11,34 +11,39 @@ public enum SimpleTwitterAccount {// @formatter:off
     BestJPA, 
     BestMaven, 
     BestScala, 
-    
-    JavaTopSO, 
-    jQueryDaily, 
-    
-    RESTDaily, 
-    
-    ServerFaultBest, 
-    SpringAtSO, 
-    
     BestJSON, 
     BestOfJava, 
     BestSQL, 
     BestNoSQL, 
-    RegexDaily, 
     BestPHP, 
-    PythonDaily, 
     BestAWS, 
-    ObjectiveCDaily, 
-    iOSdigest, 
-    
+    BestOfSecurity, 
     BestJavaScript, 
-    PerlDaily, 
     BestOfRuby,
-    LispDaily, 
     BestRubyOnRails, 
+    BestOfCloud, 
     
+    GoogleDigest, 
+
+    iOSdigest, 
     InTheAppleWorld, 
+    
+    JavaTopSO, 
+    jQueryDaily, 
+    
+    LispDaily, 
     LandOfWordpress, 
-    GoogleDigest
+    
+    ObjectiveCDaily, 
+    
+    PythonDaily, 
+    
+    RESTDaily, 
+    RegexDaily, 
+    
+    ServerFaultBest, 
+    SpringAtSO, 
+    
+    PerlDaily
 }
 // @formatter:ons

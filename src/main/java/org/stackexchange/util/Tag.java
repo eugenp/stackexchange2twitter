@@ -1,34 +1,50 @@
 package org.stackexchange.util;
 
 public enum Tag {// @formatter:off
-    bash, 
-    spring, 
-    java, 
-    clojure, 
-    scala, 
-    jquery, 
-    rest, 
-    eclipse, 
-    git, 
-    maven, 
-    jpa, 
-    algorithm, 
-    
-    sql, 
-    nosql, 
-    regex, 
-    json, 
     aws, 
+    
+    algorithm, 
+    apple, 
+    
+    bash, 
+    
+    clojure, 
+    cloud, 
+    
+    eclipse, 
+    ec2, 
+    
+    git, 
+    google,
+    
+    ios,
+    
+    java, 
+    jquery, 
+    jpa, 
+    json, 
+    javascript, 
+    
+    lisp, 
+    
+    maven, 
+    
+    nosql, 
+    
     php, 
     python, 
-    ios,
     perl,
-    javascript, 
+    
+    rest, 
+    regex, 
     ruby, 
-    lisp, 
     rails, 
     
-    apple, 
-    wordpress, 
-    google
+    spring, 
+    security, 
+    scala, 
+    sql, 
+    s3, 
+    
+    wordpress
 }// @formatter:on

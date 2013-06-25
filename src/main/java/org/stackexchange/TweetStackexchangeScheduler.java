@@ -105,6 +105,10 @@ public class TweetStackexchangeScheduler {
 
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.ObjectiveCDaily), TagAdvanced.objectivec, SimpleTwitterAccount.ObjectiveCDaily.name(), 1);
 
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestOfSecurity), Tag.security.name(), SimpleTwitterAccount.BestOfSecurity.name(), 1);
+
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestOfCloud), Tag.cloud.name(), SimpleTwitterAccount.BestOfCloud.name(), 1);
+
         logger.info("Finished executing scheduled tweet operations 2");
     }
 
