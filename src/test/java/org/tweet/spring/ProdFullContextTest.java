@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
+import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,6 +30,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
         // SetupPersistenceTestConfig.class, 
         
         // org.tweet.meta.spring
+        TwitterMetaConfig.class, 
         TwitterMetaPersistenceJPAConfig.class, 
         
         // org.stackexchange.spring

@@ -104,7 +104,7 @@ public class TweetStackexchangeService {
             final String title = questionJson.get(QuestionsApi.TITLE).toString();
             final String link = questionJson.get(QuestionsApi.LINK).toString();
 
-            logger.debug("Considering to tweet on account= {}, Question= {}", twitterAccountName, questionId);
+            logger.trace("Considering to tweet on account= {}, Question= {}", twitterAccountName, questionId);
 
             if (!hasThisQuestionAlreadyBeenTweeted(questionId)) {
                 logger.info("Tweeting Question: title= {} with id= {}", title, questionId);

@@ -30,21 +30,21 @@ public class GplusExtractorServiceLiveTest {
     @Test
     public final void whenTweetIsRetrievedScenario1_thenNoExceptions() throws IOException {
         final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.clojure.name());
-        System.out.println(bestTweetCandidate);
+        System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
         assertNotNull(bestTweetCandidate);
     }
 
     @Test
     public final void whenTweetIsRetrievedScenario2_thenNoExceptions() throws IOException {
         final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.jquery.name());
-        System.out.println(bestTweetCandidate);
+        System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
         assertNotNull(bestTweetCandidate);
     }
 
     @Test
     public final void whenTweetIsRetrievedScenario3_thenNoExceptions() throws IOException {
         final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.scala.name());
-        System.out.println(bestTweetCandidate);
+        System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
         assertNotNull(bestTweetCandidate);
     }
 

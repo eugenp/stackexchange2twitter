@@ -24,7 +24,7 @@ import com.google.api.services.plus.model.Activity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, GplusContextConfig.class })
-public class GooglePlusLiveTest {
+public class GPlusLiveTest {
 
     @Autowired
     private GplusService gplusService;
