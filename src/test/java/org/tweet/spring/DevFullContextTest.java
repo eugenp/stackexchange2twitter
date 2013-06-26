@@ -1,16 +1,23 @@
 package org.tweet.spring;
 
+import static org.junit.Assert.assertNotNull;
+
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.keyval.persistence.dao.IKeyValJpaDAO;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
+import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 
@@ -47,11 +54,16 @@ public class DevFullContextTest {
         System.setProperty("persistenceTarget", "dev");
     }
 
+    @Autowired
+    private ApplicationContext appContext;
+
     // tests
 
     @Test
     public final void whenContextIsInitalized_thenNoExceptions() {
-        //
+        assertNotNull(appContext.getBean(IQuestionTweetJpaDAO.class));
+        assertNotNull(appContext.getBean(IRetweetJpaDAO.class));
+        assertNotNull(appContext.getBean(IKeyValJpaDAO.class));
     }
 
 }
