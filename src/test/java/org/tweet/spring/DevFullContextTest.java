@@ -1,5 +1,6 @@
 package org.tweet.spring;
 
+import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;
@@ -16,13 +17,17 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 @ContextConfiguration(classes = {// @formatter:off 
     // org.common.spring
     CommonPersistenceJPAConfig.class,
+    // PersistenceJPACommonConfig.class, // imported
+    CommonContextConfig.class, 
     
     // org.keyval.spring
     KeyValPersistenceJPAConfig.class,
     
     // org.tweet.spring
     TwitterConfig.class, 
-
+    TwitterLiveConfig.class, 
+    // SetupPersistenceTestConfig.class, 
+    
     // org.tweet.meta.spring
     TwitterMetaPersistenceJPAConfig.class, 
     

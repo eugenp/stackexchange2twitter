@@ -14,14 +14,14 @@ public class KeyVal implements IEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "KEYVAL_ID")
+    @Column(name = "KEYVALID")
     private long id;
 
     @Column(unique = true, nullable = false)
     @NotNull
     private String key;
 
-    @Column(unique = false, nullable = false, length = 2000)
+    @Column(unique = false, nullable = false, length = 2048)
     @NotNull
     private String value;
 

@@ -1,5 +1,6 @@
 package org.tweet.spring;
 
+import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;
@@ -15,24 +16,28 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off 
      // org.common.spring
-     CommonPersistenceJPAConfig.class,
+        CommonPersistenceJPAConfig.class,
+        // PersistenceJPACommonConfig.class, // imported
+        CommonContextConfig.class, 
         
-     // org.keyval.spring
-     KeyValPersistenceJPAConfig.class,
-     
-     // org.tweet.spring
-     TwitterConfig.class, 
-
-     // org.tweet.meta.spring
-     TwitterMetaPersistenceJPAConfig.class, 
+        // org.keyval.spring
+        KeyValPersistenceJPAConfig.class,
         
-     // org.stackexchange.spring
-     StackexchangeConfig.class, 
-     StackexchangeContextConfig.class, 
-     StackexchangePersistenceJPAConfig.class, 
+        // org.tweet.spring
+        TwitterConfig.class, 
+        TwitterLiveConfig.class, 
+        // SetupPersistenceTestConfig.class, 
         
-     // org.gplus.spring
-     GplusContextConfig.class
+        // org.tweet.meta.spring
+        TwitterMetaPersistenceJPAConfig.class, 
+        
+        // org.stackexchange.spring
+        StackexchangeConfig.class, 
+        StackexchangeContextConfig.class, 
+        StackexchangePersistenceJPAConfig.class, 
+        
+        // org.gplus.spring
+        GplusContextConfig.class
 }) // @formatter:on
 public class ProdFullContextTest {
 

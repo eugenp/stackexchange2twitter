@@ -80,6 +80,9 @@ public class PersistenceJPACommonConfig {
                 // use this to inject additional properties in the EntityManager
                 setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
                 setProperty("hibernate.ejb.naming_strategy", org.hibernate.cfg.ImprovedNamingStrategy.class.getName());
+                setProperty("hibernate.globally_quoted_identifiers", "true");
+
+                //
             }
         };
     }
