@@ -18,6 +18,7 @@ import org.tweet.meta.service.TweetMetaService;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.spring.TwitterLiveConfig;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         CommonContextConfig.class, 
         
         TwitterConfig.class, 
+        TwitterLiveConfig.class,
         TwitterMetaPersistenceJPAConfig.class, 
         
         TwitterMetaConfig.class 

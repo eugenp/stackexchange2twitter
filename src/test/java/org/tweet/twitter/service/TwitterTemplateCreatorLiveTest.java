@@ -9,9 +9,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.spring.TwitterLiveConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, TwitterLiveConfig.class })
 public class TwitterTemplateCreatorLiveTest {
 
     @Autowired
