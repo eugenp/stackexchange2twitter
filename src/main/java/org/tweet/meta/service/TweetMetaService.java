@@ -82,6 +82,7 @@ public class TweetMetaService {
                     logger.trace("Didn't retweet on account= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
                     continue;
                 } else {
+                    logger.info("Successfully retweeted on account= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
                     break;
                 }
             }
