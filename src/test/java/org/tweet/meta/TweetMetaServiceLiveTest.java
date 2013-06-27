@@ -4,23 +4,35 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
-import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.keyval.spring.KeyValPersistenceJPAConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.stackexchange.util.Tag;
 import org.tweet.meta.service.TweetMetaService;
+import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class, TwitterMetaPersistenceJPAConfig.class, GplusContextConfig.class, CommonPersistenceJPAConfig.class })
+@ContextConfiguration(classes = {// @formatter:off
+        KeyValPersistenceJPAConfig.class, 
+        
+        CommonPersistenceJPAConfig.class, 
+        CommonContextConfig.class, 
+        
+        TwitterConfig.class, 
+        TwitterMetaPersistenceJPAConfig.class, 
+        
+        TwitterMetaConfig.class 
+}) // @formatter:on
 public class TweetMetaServiceLiveTest {
 
     @Autowired
