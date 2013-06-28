@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -39,6 +40,13 @@ public class HttpUtilLiveTest {
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
         assertFalse(isKnownShortenedUrl(unshortenedUrl));
+    }
+
+    @Test
+    public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepage_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        final String candidateUrl = HttpUtil.expand("http://bit.ly/N7vAX");
+        System.out.println(candidateUrl);
+        assertTrue(HttpUtil.isHomepageUrl(candidateUrl));
     }
 
     // util
