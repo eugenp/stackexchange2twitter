@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.common.http.HttpUtil;
+import org.common.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,10 +118,32 @@ public class TweetMetaService {
             return false;
         }
 
+        // is this tweet pointing to something good?
+        if (!isTweetPointingToSomethingGood(potentialTweet.getText())) {
+            logger.debug("Tweet not pointing to something good on account= {}, tweet text= {}", twitterAccountName, tweetText);
+            return false;
+        }
+
         logger.info("Retweeting: text= {}; \n --- Additional meta info: id= {}, rt= {}", tweetText, tweetId, potentialTweet.getRetweetCount());
 
         tweet(tweetText, twitterAccountName);
         markTweetRetweeted(tweetId, twitterAccountName);
+        return true;
+    }
+
+    private boolean isTweetPointingToSomethingGood(final String potentialTweet) {
+        String singleMainUrl = TextUtils.extractUrls(potentialTweet).get(0);
+        try {
+            singleMainUrl = HttpUtil.expand(singleMainUrl);
+        } catch (final IOException ex) {
+            logger.warn("", ex);
+            return false;
+        }
+
+        if (HttpUtil.isHomepageUrl(singleMainUrl)) {
+            return false;
+        }
+
         return true;
     }
 
