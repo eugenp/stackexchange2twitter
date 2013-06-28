@@ -71,4 +71,10 @@ public class TweetMetaServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutLisp_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetByHashtag(SimpleTwitterAccount.LispDaily.name(), Tag.lisp.name());
+        assertTrue(success);
+    }
+
 }
