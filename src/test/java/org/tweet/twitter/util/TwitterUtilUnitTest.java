@@ -29,6 +29,11 @@ public final class TwitterUtilUnitTest {
         assertFalse(TwitterUtil.isTweetTextValid(randomAlphabetic(141)));
     }
 
+    @Test
+    public final void givenTweetTextWithMoreThanOneLink_whenCheckingForValidity_thenIsNotValid() {
+        assertFalse(TwitterUtil.isTweetTextValid("Unit Testing JavaScript/JQuery in an http://t.co/410T1muptv MVC Project using QUnit: http://t.co/iuLIhnpGA1 #javascript #jquery"));
+    }
+
     // isTweetValid
 
     @Test

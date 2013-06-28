@@ -33,7 +33,7 @@ public class TweetMetaScheduler {
 
     // API
 
-    @Scheduled(cron = "0 0 15,17,19,21 * * *")
+    @Scheduled(cron = "0 0 9,11,13,15,17,19,21 * * *")
     public void tweetMetaExperimental() throws JsonProcessingException, IOException {
         logger.info("Experimental - Starting to execute scheduled retweet operations");
 

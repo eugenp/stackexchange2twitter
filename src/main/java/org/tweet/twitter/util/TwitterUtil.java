@@ -2,6 +2,7 @@ package org.tweet.twitter.util;
 
 import java.util.List;
 
+import org.common.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,12 @@ public final class TwitterUtil {
     // API
 
     public static boolean isTweetTextValid(final String text) {
-        return text.length() <= 120;
+        final int linkNoInTweet = TextUtils.extractUrls(text).size();
+        if (linkNoInTweet > 1) {
+            return false;
+        }
+
+        return text.length() <= 130;
     }
 
     public static boolean isTweetValid(final String fullTweet) {

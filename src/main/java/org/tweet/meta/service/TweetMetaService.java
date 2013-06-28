@@ -46,7 +46,11 @@ public class TweetMetaService {
 
     public boolean retweetByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         try {
-            return retweetByHashtagInternal(twitterAccount, hashtag);
+            final boolean success = retweetByHashtagInternal(twitterAccount, hashtag);
+            if (!success) {
+                logger.warn("Unable to retweet any tweet on account = {}, by hashtag = {}", twitterAccount, hashtag);
+            }
+            return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to retweet", runtimeEx);
         }
