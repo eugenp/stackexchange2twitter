@@ -13,9 +13,13 @@
 			</pattern>
 		</encoder>
 	</appender>
-
+	
+	<!-- http://loggly.com/support/sending-data/logging-from/application-logs/java/ -->
+	<!-- https://github.com/chids/logback-loggly-appender -->
+	<!-- https://baeldung.loggly.com/inputs/49074 -->
 	<appender name="REMOTESYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
-		<syslogHost>localhost</syslogHost>
+		<syslogHost>logs.loggly.com</syslogHost>
+		<port>12345</port>
 		<facility>LOCAL1</facility>
 		<suffixPattern>[%thread] %logger %msg</suffixPattern>
 	</appender>
