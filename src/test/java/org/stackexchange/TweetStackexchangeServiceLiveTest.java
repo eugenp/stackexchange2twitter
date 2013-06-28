@@ -15,8 +15,8 @@ import org.stackexchange.service.TweetStackexchangeService;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
+import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.SimpleTwitterAccount;
-import org.stackexchange.util.StackexchangeUtil;
 import org.stackexchange.util.Tag;
 import org.tweet.spring.TwitterConfig;
 
@@ -44,6 +44,11 @@ public class TweetStackexchangeServiceLiveTest {
     @Test
     public final void whenTweetingByTag_thenNoExceptions() throws JsonProcessingException, IOException {
         tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.SpringAtSO), Tag.spring.name(), SimpleTwitterAccount.SpringAtSO.name(), 1);
+    }
+
+    @Test
+    public final void whenTweetingByDefaultTag_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.SpringAtSO), SimpleTwitterAccount.SpringAtSO.name(), 1);
     }
 
     @Test
@@ -102,8 +107,13 @@ public class TweetStackexchangeServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingByDefaultObjectiveCDailyTag_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.ObjectiveCDaily), SimpleTwitterAccount.ObjectiveCDaily.name(), 1);
+    }
+
+    @Test
     public final void whenTweetingByRandomTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        final StackSite randomSite = StackexchangeUtil.pickOne(twitterAccountToStackSites(SimpleTwitterAccount.BestBash));
+        final StackSite randomSite = GenericUtil.pickOneGeneric(twitterAccountToStackSites(SimpleTwitterAccount.BestBash));
         tweetStackexchangeService.tweetTopQuestionBySiteAndTag(randomSite, Tag.bash.name(), SimpleTwitterAccount.BestBash.name(), 1);
     }
 
