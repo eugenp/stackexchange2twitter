@@ -20,7 +20,7 @@ public final class HttpUtil {
 
     // API
 
-    static String expand(final String urlArg) throws ClientProtocolException, IOException {
+    public static String expand(final String urlArg) throws ClientProtocolException, IOException {
         String originalUrl = urlArg;
         String newUrl = expandSingleLevel(originalUrl);
         while (!originalUrl.equals(newUrl)) {
