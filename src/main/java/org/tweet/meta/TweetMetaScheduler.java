@@ -14,9 +14,6 @@ import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-/**
- * - note: scheduler for tweets on accounts that are StackExchange specific
- */
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
 public class TweetMetaScheduler {
@@ -31,25 +28,33 @@ public class TweetMetaScheduler {
 
     // API
 
+    // git - not 100% sure that hashtag will only return relevant tweets - look into this further
+    // for accounts - not yet: InTheAppleWorld,BestAlgorithms,BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,BestOfJava,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
+
     @Scheduled(cron = "0 0 9,11,13,15,17,19,21 * * *")
-    public void tweetMetaExperimental() throws JsonProcessingException, IOException {
-        logger.info("Experimental - Starting to execute scheduled retweet operations");
-
-        // for accounts - not yet: InTheAppleWorld,BestAlgorithms,BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,BestOfJava,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
-
-        // BestOfSecurity.twitter.tags=security,passwords,captcha,authentication,sqlinjection,ddos
-        // BestOfCloud.twitter.tags=cloud,gae,azure,ec2,aws
-        // BestSQL.twitter.tags=sql
+    public void tweetMeta1() throws JsonProcessingException, IOException {
+        logger.info("Starting to execute scheduled retweet operations - 1");
 
         service.retweetByHashtag(SimpleTwitterAccount.BestAWS.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestClojure.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestJavaScript.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestJSON.name()); // not 100% sure
         service.retweetByHashtag(SimpleTwitterAccount.BestNoSQL.name());
-        service.retweetByHashtag(SimpleTwitterAccount.BestRubyOnRails.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestOfCloud.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestOfSecurity.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestPHP.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestRubyOnRails.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestScala.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestSQL.name());
+
+        logger.info("Finished executing scheduled retweet operations - 1");
+    }
+
+    @Scheduled(cron = "0 0 10,12,14,16,18,20,22 * * *")
+    public void tweetMeta2() throws JsonProcessingException, IOException {
+        logger.info("Starting to execute scheduled retweet operations - 2");
+
+        // for accounts - not yet: InTheAppleWorld,BestAlgorithms,BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,BestOfJava,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
 
         service.retweetByHashtag(SimpleTwitterAccount.InTheAppleWorld.name()); // not 100% sure
         service.retweetByHashtag(SimpleTwitterAccount.iOSdigest.name());
@@ -67,9 +72,7 @@ public class TweetMetaScheduler {
 
         service.retweetByHashtag(SimpleTwitterAccount.ObjectiveCDaily.name());
 
-        // python - not 100% sure that hashtag will only return relevant tweets - look into this further
-        // git - not 100% sure that hashtag will only return relevant tweets - look into this further
-
-        logger.info("Experimental - Finished executing scheduled tweet operations");
+        logger.info("Finished executing scheduled retweet operations - 2");
     }
+
 }
