@@ -35,31 +35,41 @@ public class TweetMetaScheduler {
     public void tweetMetaExperimental() throws JsonProcessingException, IOException {
         logger.info("Experimental - Starting to execute scheduled retweet operations");
 
-        service.retweetByHashtag(SimpleTwitterAccount.jQueryDaily.name());
+        // for accounts - not yet: InTheAppleWorld,BestAlgorithms,BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,BestOfJava,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
 
+        // BestOfSecurity.twitter.tags=security,passwords,captcha,authentication,sqlinjection,ddos
+        // BestOfCloud.twitter.tags=cloud,gae,azure,ec2,aws
+        // BestSQL.twitter.tags=sql
+
+        service.retweetByHashtag(SimpleTwitterAccount.BestAWS.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestClojure.name());
-
+        service.retweetByHashtag(SimpleTwitterAccount.BestJavaScript.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestJSON.name()); // not 100% sure
+        service.retweetByHashtag(SimpleTwitterAccount.BestNoSQL.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestRubyOnRails.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestPHP.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestScala.name());
-
-        service.retweetByHashtag(SimpleTwitterAccount.LispDaily.name());
-
         service.retweetByHashtag(SimpleTwitterAccount.BestSQL.name());
 
-        service.retweetByHashtag(SimpleTwitterAccount.BestNoSQL.name());
-
-        service.retweetByHashtag(SimpleTwitterAccount.BestJavaScript.name());
-
+        service.retweetByHashtag(SimpleTwitterAccount.InTheAppleWorld.name()); // not 100% sure
         service.retweetByHashtag(SimpleTwitterAccount.iOSdigest.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.jQueryDaily.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.GoogleDigest.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.LandOfWordpress.name());
+        service.retweetByHashtag(SimpleTwitterAccount.LispDaily.name());
+
+        service.retweetByHashtag(SimpleTwitterAccount.PythonDaily.name()); // not 100% sure
+
+        service.retweetByHashtag(SimpleTwitterAccount.RegexDaily.name());
 
         service.retweetByHashtag(SimpleTwitterAccount.ObjectiveCDaily.name());
 
-        service.retweetByHashtag(SimpleTwitterAccount.BestAWS.name());
-
         // python - not 100% sure that hashtag will only return relevant tweets - look into this further
         // git - not 100% sure that hashtag will only return relevant tweets - look into this further
-        // for accounts - not yet: InTheAppleWorld
 
         logger.info("Experimental - Finished executing scheduled tweet operations");
     }
-
 }
