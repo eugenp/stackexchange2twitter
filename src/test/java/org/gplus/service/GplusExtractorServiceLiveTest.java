@@ -48,4 +48,18 @@ public class GplusExtractorServiceLiveTest {
         assertNotNull(bestTweetCandidate);
     }
 
+    @Test
+    public final void whenTweetIsRetrievedScenario4_thenNoExceptions() throws IOException {
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.neo4j.name());
+        System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
+        assertNotNull(bestTweetCandidate);
+    }
+
+    @Test
+    public final void whenTweetIsRetrievedScenario5_thenNoExceptions() throws IOException {
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.mongodb.name());
+        System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
+        assertNotNull(bestTweetCandidate);
+    }
+
 }

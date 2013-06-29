@@ -58,18 +58,13 @@ public class TweetMetaScheduler {
 
         service.retweetByHashtag(SimpleTwitterAccount.InTheAppleWorld.name()); // not 100% sure
         service.retweetByHashtag(SimpleTwitterAccount.iOSdigest.name());
-
         service.retweetByHashtag(SimpleTwitterAccount.jQueryDaily.name());
-
         service.retweetByHashtag(SimpleTwitterAccount.GoogleDigest.name());
-
         service.retweetByHashtag(SimpleTwitterAccount.LandOfWordpress.name());
         service.retweetByHashtag(SimpleTwitterAccount.LispDaily.name());
 
         service.retweetByHashtag(SimpleTwitterAccount.PythonDaily.name()); // not 100% sure
-
         service.retweetByHashtag(SimpleTwitterAccount.RegexDaily.name());
-
         service.retweetByHashtag(SimpleTwitterAccount.ObjectiveCDaily.name());
 
         logger.info("Finished executing scheduled retweet operations - 2");
