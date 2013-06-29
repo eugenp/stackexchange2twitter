@@ -154,8 +154,8 @@ public class ClassificationUnitTest {
     }
 
     private final List<NamedVector> learningData() throws IOException {
-        final List<String> noncommercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/noncommercial.classif")));
-        final List<String> commercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/commercial.classif")));
+        final List<String> noncommercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/noncommercial.classif")));
+        final List<String> commercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/commercial.classif")));
 
         final List<NamedVector> noncommercialNamedVectors = Lists.<NamedVector> newArrayList();
         final List<NamedVector> commercialNamedVectors = Lists.<NamedVector> newArrayList();
@@ -197,7 +197,7 @@ public class ClassificationUnitTest {
                 "Know anyone for this job? JAVA/OLYMPIC consultant, german fluent in Luxembourg City, Luxembourg http://bull.hn/l/YWLX/5  #job #java", 
                 "Looking for a Senior Java Developer in Hoboken, NJ http://bull.hn/l/12MHI/  #job #java", 
                 "Know anyone for this job? Sr. Java Software Engineer in Atlanta, GA http://bull.hn/l/12D6I/5  #job #java", 
-                "Are you a good fit for this job? Java Backend Developer in Amsterdam, Netherlands http://bull.hn/l/XVTE/6  #job #java #amsterdam" 
+                "Are you a good fit for this job? Java Backend Developer in Amsterdam, Netherlands http://bull.hn/l/XVTE/6  #job #java #amsterdam"
         ); // @formatter:on
 
         final List<NamedVector> noncommercialNamedVectors = Lists.<NamedVector> newArrayList();
