@@ -16,6 +16,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
+import org.tweet.twitter.service.TagService;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
 
@@ -33,6 +34,9 @@ public class TweetMetaService {
     private TwitterService twitterService;
 
     @Autowired
+    private TagService tagService;
+
+    @Autowired
     private Environment env;
 
     @Autowired
@@ -45,8 +49,12 @@ public class TweetMetaService {
     // API
 
     // write
+    public boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
+        final String hashtagForAccount = tagService.pickTwitterTagForAccount(twitterAccount);
+        return retweetByHashtag(twitterAccount, hashtagForAccount);
+    }
 
-    public boolean retweetByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    boolean retweetByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         try {
             final boolean success = retweetByHashtagInternal(twitterAccount, hashtag);
             if (!success) {

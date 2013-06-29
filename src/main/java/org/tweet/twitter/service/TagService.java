@@ -26,8 +26,22 @@ public class TagService {
     /**
      * - note: may return null
      */
-    public final String pickTagForAccount(final String accountName) {
-        final String tagsAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".tags"), "No tags for account: " + accountName);
+    public final String pickStackTagForAccount(final String accountName) {
+        final String tagsAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".stack.tags"), "No tags for account: " + accountName);
+        return pickOnTag(tagsAccount);
+    }
+
+    /**
+     * - note: may return null
+     */
+    public final String pickTwitterTagForAccount(final String accountName) {
+        final String tagsAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".twitter.tags"), "No tags for account: " + accountName);
+        return pickOnTag(tagsAccount);
+    }
+
+    // util
+
+    private final String pickOnTag(final String tagsAccount) {
         final Iterable<String> split = Splitter.on(',').split(tagsAccount);
         final List<String> tags = Lists.newArrayList(split);
         if (tags.isEmpty()) {

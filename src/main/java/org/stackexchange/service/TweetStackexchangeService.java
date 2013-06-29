@@ -61,7 +61,7 @@ public class TweetStackexchangeService {
     }
 
     public void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
-        final String tag = tagService.pickTagForAccount(twitterAccount);
+        final String tag = tagService.pickStackTagForAccount(twitterAccount);
         tweetTopQuestionBySiteAndTag(site, tag, twitterAccount, pageToStartWith);
     }
 

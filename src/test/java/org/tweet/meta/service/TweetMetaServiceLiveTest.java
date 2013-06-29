@@ -1,4 +1,4 @@
-package org.tweet.meta;
+package org.tweet.meta.service;
 
 import static org.junit.Assert.assertTrue;
 
