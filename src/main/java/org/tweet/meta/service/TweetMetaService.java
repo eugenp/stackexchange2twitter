@@ -132,11 +132,21 @@ public class TweetMetaService {
             return false;
         }
 
+        // is the tweet rejected by some classifier?
+        if (isTweetRejectedByClassifier(potentialTweet.getText())) {
+            logger.debug("Tweet rejected by a classifier on account= {}, tweet text= {}", twitterAccountName, tweetText);
+            return false;
+        }
+
         logger.info("Retweeting: text= {}; \n --- Additional meta info: id= {}, rt= {}", tweetText, tweetId, potentialTweet.getRetweetCount());
 
         tweet(tweetText, twitterAccountName);
         markTweetRetweeted(tweetId, twitterAccountName);
         return true;
+    }
+
+    private boolean isTweetRejectedByClassifier(final String text) {
+        return false;
     }
 
     private boolean isTweetPointingToSomethingGood(final String potentialTweet) {

@@ -38,7 +38,7 @@ public final class ClassificationUtil {
      * The following are encoded: the type of content and the actual bag of words
      * The label argument to the NamedVector is either commercial or non-commercial
      */
-    public static NamedVector encode(final String type, final Iterable<String> words) throws IOException {
+    public static NamedVector encode(final String type, final Iterable<String> words) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
         content_encoder.setProbes(2);
 
