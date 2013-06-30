@@ -35,19 +35,24 @@ public class ClassificationService implements InitializingBean {
 
     // API
 
-    public boolean isCommercial(final String text) {
-        final NamedVector encodedAsVector = encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split(text));
+    public boolean isCommercial(final String type, final String text) {
+        final NamedVector encodedAsVector = encode(type, Splitter.on(CharMatcher.anyOf(" ")).split(text));
 
         final Vector collector = new DenseVector(2);
         commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
         final int cat = collector.maxValueIndex();
 
-        // temp
-        final Vector classified = commercialVsNonCommercialLerner.classify(encodedAsVector);
-        final double d = classified.get(0);
-        //
+        return cat == 1;
+    }
 
-        return false;
+    public boolean isCommercial(final String text) {
+        final NamedVector encodedAsVector = encode("", Splitter.on(CharMatcher.anyOf(" ")).split(text));
+
+        final Vector collector = new DenseVector(2);
+        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
+        final int cat = collector.maxValueIndex();
+
+        return cat == 1;
     }
 
     // util

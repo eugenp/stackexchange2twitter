@@ -13,6 +13,7 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.SequenceFile.Reader;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
@@ -122,9 +123,27 @@ public class ClassificationUnitTest {
         final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
+        final int runs = 1000;
+        final List<Double> results = Lists.newArrayList();
+        for (int i = 0; i < runs; i++) {
+            final List<NamedVector> testData = ClassificationData.commercialVsNonCommercialTestVectors();
+            final double percentageCorrect = analyzeData(bestLearner, testData);
+            results.add(percentageCorrect);
+        }
+
+        final DescriptiveStatistics stats = new DescriptiveStatistics();
+        for (int i = 0; i < results.size(); i++) {
+            stats.addValue(results.get(i));
+        }
+        final double mean = stats.getMean();
+        System.out.println("Average Success Rate: " + mean);
+    }
+
+    // util
+
+    private double analyzeData(final CrossFoldLearner bestLearner, final List<NamedVector> testData) {
         int correct = 0;
         int total = 0;
-        final List<NamedVector> testData = ClassificationData.commercialVsNonCommercialTestVectors();
         for (final NamedVector vect : testData) {
             total++;
             final int expected = COMMERCIAL.equals(vect.getName()) ? 1 : 0;
@@ -140,10 +159,9 @@ public class ClassificationUnitTest {
 
         final double cd = correct;
         final double td = total;
-        System.out.println(cd / td);
+        final double percentageCorrect = cd / td;
+        return percentageCorrect;
     }
-
-    // utils
 
     private final List<Vector> vectors() throws IOException {
         final List<NamedVector> namedVectors = learningData();
