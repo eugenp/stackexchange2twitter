@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.common.http.HttpUtil;
+import org.common.service.classification.ClassificationService;
 import org.common.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,9 @@ public class TweetMetaService {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private ClassificationService classificationService;
 
     @Autowired
     private Environment env;
@@ -146,6 +150,10 @@ public class TweetMetaService {
     }
 
     private boolean isTweetRejectedByClassifier(final String text) {
+        if (classificationService.isCommercial(text)) {
+            // return true;
+            return false; // temporarily, until there is more classification training data for commercial-noncommercial
+        }
         return false;
     }
 
