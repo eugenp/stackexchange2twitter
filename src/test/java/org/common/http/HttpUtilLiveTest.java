@@ -49,6 +49,21 @@ public class HttpUtilLiveTest {
         assertTrue(HttpUtil.isHomepageUrl(candidateUrl));
     }
 
+    @Test
+    public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepageScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        assertTrue(HttpUtil.isHomepageUrl("http://www.google.com"));
+    }
+
+    @Test
+    public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepageScenario2_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        assertTrue(HttpUtil.isHomepageUrl("http://www.blog.something.org"));
+    }
+
+    @Test
+    public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepageScenario3_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        assertTrue(HttpUtil.isHomepageUrl("http://www.yahoo.com/"));
+    }
+
     // util
 
     private final boolean isKnownShortenedUrl(final String url) {

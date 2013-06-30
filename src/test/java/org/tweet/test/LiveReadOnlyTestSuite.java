@@ -12,7 +12,6 @@ import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TwitterTemplateCreatorLiveTest.class, GplusExtractorServiceLiveTest.class, GPlusLiveTest.class, ClassificationServiceLiveTest.class, ContentExtractorServiceLiveTest.class, HttpUtilLiveTest.class })
-// SetupBackupIntegrationTest - not to be included
 // QuestionsApiLiveTest.class - not in the jar
 public final class LiveReadOnlyTestSuite {
     //

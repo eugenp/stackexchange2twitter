@@ -5,9 +5,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.stackexchange.persistence.service.QuestionTweetPersistenceIntegrationTest;
 import org.stackexchange.persistence.setup.StackexchangeSetupPersistenceIntegrationTest;
+import org.tweet.twitter.service.TwitterHashtagWordsIntegrationTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ QuestionTweetPersistenceIntegrationTest.class, StackexchangeSetupPersistenceIntegrationTest.class })
+@SuiteClasses({ QuestionTweetPersistenceIntegrationTest.class, StackexchangeSetupPersistenceIntegrationTest.class, TwitterHashtagWordsIntegrationTest.class })
 // SetupBackupIntegrationTest - not to be included
 public final class IntegrationTestSuite {
     //
