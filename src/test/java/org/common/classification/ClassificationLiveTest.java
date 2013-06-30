@@ -14,7 +14,7 @@ public class ClassificationLiveTest {
 
     @Test
     public final void whenX_thenNoException() throws IOException {
-        final List<String> lines = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/commercial.classif")));
+        final List<String> lines = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/commercial.classif")));
         System.out.println(lines);
     }
 
