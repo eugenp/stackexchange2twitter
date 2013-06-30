@@ -124,7 +124,7 @@ public class ClassificationUnitTest {
 
         int correct = 0;
         int total = 0;
-        final List<NamedVector> testData = ClassificationData.commercialVsNonCommercialTestData();
+        final List<NamedVector> testData = ClassificationData.commercialVsNonCommercialTestVectors();
         for (final NamedVector vect : testData) {
             total++;
             final int expected = COMMERCIAL.equals(vect.getName()) ? 1 : 0;

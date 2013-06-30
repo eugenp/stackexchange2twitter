@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
+import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 import org.common.classification.ClassificationUtil;
@@ -36,9 +37,17 @@ public class ClassificationService implements InitializingBean {
 
     public boolean isCommercial(final String text) {
         final NamedVector encodedAsVector = encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split(text));
+
+        final Vector collector = new DenseVector(2);
+        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
+        final int cat = collector.maxValueIndex();
+
+        // temp
         final Vector classified = commercialVsNonCommercialLerner.classify(encodedAsVector);
         final double d = classified.get(0);
-        return d > 0.5;
+        //
+
+        return false;
     }
 
     // util

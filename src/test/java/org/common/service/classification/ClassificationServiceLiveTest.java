@@ -9,10 +9,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.mahout.classifier.sgd.CrossFoldLearner;
-import org.apache.mahout.math.DenseVector;
-import org.apache.mahout.math.NamedVector;
-import org.apache.mahout.math.Vector;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.common.classification.ClassificationData;
 import org.common.spring.CommonContextConfig;
 import org.gplus.spring.GplusContextConfig;
@@ -50,20 +48,14 @@ public class ClassificationServiceLiveTest {
 
     @Test
     public final void givenClassifierWasTrained_whenUsingThePersistedToDisk_thenNoExceptions() throws IOException {
-        final CrossFoldLearner bestLearner = classificationService.commercialVsNonCommercialBestLearner();
-
+        final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
         int correct = 0;
         int total = 0;
-        final List<NamedVector> testData = ClassificationData.commercialVsNonCommercialTestData();
-        for (final NamedVector vect : testData) {
+        for (final Pair<String, String> tweetData : testData) {
             total++;
-            final int expected = COMMERCIAL.equals(vect.getName()) ? 1 : 0;
-
-            final Vector collector = new DenseVector(2);
-            bestLearner.classifyFull(collector, vect);
-
-            final int cat = collector.maxValueIndex();
-            if (cat == expected) {
+            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
+            final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight());
+            if (isTweetCommercial == expected) {
                 correct++;
             }
         }
@@ -72,5 +64,4 @@ public class ClassificationServiceLiveTest {
         final double td = total;
         System.out.println(cd / td);
     }
-
 }
