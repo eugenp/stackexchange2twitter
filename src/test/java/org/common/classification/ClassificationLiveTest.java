@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-public class ClassificationIntegrationTest {
+public class ClassificationLiveTest {
 
     // tests
 

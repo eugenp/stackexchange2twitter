@@ -5,10 +5,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.stackexchange.persistence.service.QuestionTweetPersistenceIntegrationTest;
 import org.stackexchange.persistence.setup.StackexchangeSetupPersistenceIntegrationTest;
-import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TwitterTemplateCreatorLiveTest.class, QuestionTweetPersistenceIntegrationTest.class, StackexchangeSetupPersistenceIntegrationTest.class })
+@SuiteClasses({ QuestionTweetPersistenceIntegrationTest.class, StackexchangeSetupPersistenceIntegrationTest.class })
 // SetupBackupIntegrationTest - not to be included
 public final class IntegrationTestSuite {
     //
