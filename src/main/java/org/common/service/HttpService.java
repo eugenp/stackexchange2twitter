@@ -60,18 +60,25 @@ public class HttpService implements InitializingBean {
     // util
 
     final String expandSingleLevel(final String url) throws ClientProtocolException, IOException {
-        final HttpGet request = new HttpGet(url);
-        final HttpResponse response = client.execute(request);
+        HttpGet request = null;
+        try {
+            request = new HttpGet(url);
+            final HttpResponse httpResponse = client.execute(request);
+            if (httpResponse.getStatusLine().getStatusCode() != 301) {
+                return url;
+            }
+            final Header[] headers = httpResponse.getHeaders(HttpHeaders.LOCATION);
+            Preconditions.checkState(headers.length == 1);
+            final String newUrl = headers[0].getValue();
 
-        if (response.getStatusLine().getStatusCode() != 301) {
-            return url;
+            return newUrl;
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        } finally {
+            if (request != null) {
+                request.releaseConnection();
+            }
         }
-
-        final Header[] headers = response.getHeaders(HttpHeaders.LOCATION);
-        Preconditions.checkState(headers.length == 1);
-        final String newUrl = headers[0].getValue();
-
-        return newUrl;
     }
 
     // spring
