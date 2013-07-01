@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.common.http.HttpUtil;
+import org.common.service.HttpService;
 import org.common.service.classification.ClassificationService;
 import org.common.text.TextUtils;
 import org.slf4j.Logger;
@@ -39,6 +39,9 @@ public class TweetMetaService {
 
     @Autowired
     private ClassificationService classificationService;
+
+    @Autowired
+    private HttpService httpService;
 
     @Autowired
     private Environment env;
@@ -160,13 +163,13 @@ public class TweetMetaService {
     private boolean isTweetPointingToSomethingGood(final String potentialTweet) {
         String singleMainUrl = TextUtils.extractUrls(potentialTweet).get(0);
         try {
-            singleMainUrl = HttpUtil.expand(singleMainUrl);
+            singleMainUrl = httpService.expand(singleMainUrl);
         } catch (final IOException ex) {
             logger.warn("", ex);
             return false;
         }
 
-        if (HttpUtil.isHomepageUrl(singleMainUrl)) {
+        if (httpService.isHomepageUrl(singleMainUrl)) {
             return false;
         }
 
