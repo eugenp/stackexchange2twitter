@@ -126,7 +126,7 @@ public class TweetMetaService {
         // is it valid?
         final String tweetText = preValidityProcess(potentialTweet.getText());
         if (!TwitterUtil.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid on account= {}, tweet text= {}", twitterAccountName, tweetText);
+            logger.debug("Tweet invalid (size, link count) on account= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
         }
 
