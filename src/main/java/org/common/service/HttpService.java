@@ -6,7 +6,6 @@ import java.net.URL;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ public class HttpService implements InitializingBean {
 
     // API
 
-    public final String expand(final String urlArg) throws ClientProtocolException, IOException {
+    public final String expand(final String urlArg) {
         String originalUrl = urlArg;
         String newUrl = expandSingleLevel(originalUrl);
         while (!originalUrl.equals(newUrl)) {
@@ -59,7 +58,7 @@ public class HttpService implements InitializingBean {
 
     // util
 
-    final String expandSingleLevel(final String url) throws ClientProtocolException, IOException {
+    final String expandSingleLevel(final String url) {
         HttpGet request = null;
         try {
             request = new HttpGet(url);

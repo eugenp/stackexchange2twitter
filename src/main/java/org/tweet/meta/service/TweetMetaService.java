@@ -165,7 +165,7 @@ public class TweetMetaService {
         String singleMainUrl = TextUtils.extractUrls(potentialTweet).get(0);
         try {
             singleMainUrl = httpService.expand(singleMainUrl);
-        } catch (final IOException ex) {
+        } catch (final RuntimeException ex) {
             logger.warn("", ex);
             return false;
         }
