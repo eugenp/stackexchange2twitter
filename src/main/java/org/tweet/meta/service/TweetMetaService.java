@@ -166,7 +166,7 @@ public class TweetMetaService {
         try {
             singleMainUrl = httpService.expand(singleMainUrl);
         } catch (final RuntimeException ex) {
-            logger.warn("", ex);
+            logger.error("", ex); // may become warn
             return false;
         }
 
