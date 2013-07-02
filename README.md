@@ -2,12 +2,14 @@
 # Twitter Machine Learning Bot
 
 ## Overview
+
+**The Twitter Accounts managed by this project - [Twitter Accounts](https://github.com/eugenp/stackexchange2twitter/wiki/Twitter-Accounts)**. 
+
+
 **Twitter Bot** that tweets from the following sources: 
 - mostly the Top Questions **on StackOverflow** (and other [StackExchange Q&amp;A Sites](http://stackexchange.com/sites#))
 - Twitter #hashtags
 - Google+
-
-The Twitter Accounts managed by this project - [[Twitter Accounts]]. 
 
 
 ## Technologies used and Dependencies
