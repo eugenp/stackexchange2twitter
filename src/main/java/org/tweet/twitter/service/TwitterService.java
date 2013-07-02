@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.OperationNotPermittedException;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
@@ -33,8 +34,13 @@ public class TwitterService {
 
         try {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
+        } catch (final OperationNotPermittedException notPermitted) {
+            // likely tracked by https://github.com/eugenp/stackexchange2twitter/issues/11
+            logger.error("[TEMP] Unable to tweet on account: " + accountName + "; tweet: " + tweetText, notPermitted);
+
+            // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
-            logger.error("Unable to tweet: " + tweetText, ex);
+            logger.error("Unable to tweet on account: " + accountName + "; tweet: " + tweetText, ex);
         }
     }
 
