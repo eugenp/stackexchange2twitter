@@ -19,6 +19,6 @@
 
 
 ## Other Resources
-- [[Deployment]]
-- [[ Process - New Account]]
-- [[ Process - Setup]]
+- [Deployment](https://github.com/eugenp/stackexchange2twitter/wiki/Deployment)
+- [Process - New Account](https://github.com/eugenp/stackexchange2twitter/wiki/Process---New-Account)
+- [Process - Setup](https://github.com/eugenp/stackexchange2twitter/wiki/Process---Setup)
