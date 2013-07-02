@@ -114,18 +114,18 @@ public class TweetStackexchangeService {
             final String link = questionJson.get(QuestionsApi.LINK).toString();
 
             logger.trace("Considering to tweet on account= {}, Question= {}", twitterAccountName, questionId);
-
-            if (!hasThisQuestionAlreadyBeenTweeted(questionId)) {
-                logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
-
-                final boolean success = tryTweet(title, link, twitterAccountName);
-                if (!success) {
-                    logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", twitterAccountName, title);
-                    continue;
-                }
-                markQuestionTweeted(site, questionId, twitterAccountName);
-                return true;
+            if (hasThisQuestionAlreadyBeenTweeted(questionId)) {
+                return false;
             }
+
+            logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
+            final boolean success = tryTweet(title, link, twitterAccountName);
+            if (!success) {
+                logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", twitterAccountName, title);
+                continue;
+            }
+            markQuestionTweeted(site, questionId, twitterAccountName);
+            return true;
         }
 
         return false;
@@ -136,9 +136,12 @@ public class TweetStackexchangeService {
         return existingTweet != null;
     }
 
-    private final boolean tryTweet(final String title, final String link, final String accountName) {
-        final String text = StringEscapeUtils.unescapeHtml4(title);
-        if (!TwitterUtil.isTweetTextValid(text)) {
+    private final boolean tryTweet(final String text, final String link, final String accountName) {
+        final String tweetText = preValidityProcess(text);
+
+        // is it valid?
+        if (!TwitterUtil.isTweetTextValid(tweetText)) {
+            logger.debug("Tweet invalid (size, link count) on account= {}, tweet text= {}", accountName, tweetText);
             return false;
         }
 
@@ -147,6 +150,10 @@ public class TweetStackexchangeService {
 
         twitterService.tweet(accountName, fullTweet);
         return true;
+    }
+
+    private String preValidityProcess(final String title) {
+        return StringEscapeUtils.unescapeHtml4(title);
     }
 
     private final void markQuestionTweeted(final StackSite site, final String questionId, final String accountName) {

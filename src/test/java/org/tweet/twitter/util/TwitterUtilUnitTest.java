@@ -53,6 +53,8 @@ public final class TwitterUtilUnitTest {
         TwitterUtil.prepareTweet(randomAlphabetic(119), randomAlphabetic(19));
     }
 
+    // truncate
+
     // pre-process
 
     @Test

@@ -126,21 +126,22 @@ public class TweetMetaService {
             return false;
         }
 
+        final String text = potentialTweet.getText();
         // is it valid?
-        final String tweetText = preValidityProcess(potentialTweet.getText());
+        final String tweetText = preValidityProcess(text);
         if (!TwitterUtil.isTweetTextValid(tweetText)) {
             logger.debug("Tweet invalid (size, link count) on account= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
         }
 
         // is this tweet pointing to something good?
-        if (!isTweetPointingToSomethingGood(potentialTweet.getText())) {
+        if (!isTweetPointingToSomethingGood(text)) {
             logger.debug("Tweet not pointing to something good on account= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
         }
 
         // is the tweet rejected by some classifier?
-        if (isTweetRejectedByClassifier(potentialTweet.getText())) {
+        if (isTweetRejectedByClassifier(text)) {
             logger.debug("Tweet rejected by a classifier on account= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
         }

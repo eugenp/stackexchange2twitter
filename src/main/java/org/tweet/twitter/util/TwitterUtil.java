@@ -34,7 +34,7 @@ public final class TwitterUtil {
             return false;
         }
 
-        return text.length() <= 130;
+        return text.length() <= 122;
     }
 
     public static boolean isTweetValid(final String fullTweet) {
