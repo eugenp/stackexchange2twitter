@@ -120,6 +120,11 @@ public class TweetStackexchangeServiceLiveTest {
         tweetStackexchangeService.tweetTopQuestionBySiteAndTag(randomSite, Tag.bash.name(), SimpleTwitterAccount.BestBash.name());
     }
 
+    @Test
+    public final void whenTweetingByTagWordpress_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.LandOfWordpress), Tag.wordpress.name(), SimpleTwitterAccount.LandOfWordpress.name());
+    }
+
     // AskUbuntu
 
     @Test
