@@ -60,7 +60,8 @@ public final class ClassificationData {
             new ImmutablePair<String, String>(COMMERCIAL, "Know anyone for this job? JAVA/OLYMPIC consultant, german fluent in Luxembourg City, Luxembourg http://bull.hn/l/YWLX/5  #job #java"),  
             new ImmutablePair<String, String>(COMMERCIAL, "Looking for a Senior Java Developer in Hoboken, NJ http://bull.hn/l/12MHI/  #job #java"), 
             new ImmutablePair<String, String>(COMMERCIAL, "Know anyone for this job? Sr. Java Software Engineer in Atlanta, GA http://bull.hn/l/12D6I/5  #job #java"),  
-            new ImmutablePair<String, String>(COMMERCIAL, "Are you a good fit for this job? Java Backend Developer in Amsterdam, Netherlands http://bull.hn/l/XVTE/6  #job #java #amsterdam")
+            new ImmutablePair<String, String>(COMMERCIAL, "Are you a good fit for this job? Java Backend Developer in Amsterdam, Netherlands http://bull.hn/l/XVTE/6  #job #java #amsterdam"), 
+            new ImmutablePair<String, String>(COMMERCIAL, "Hire Experienced #WordPress developer at Affordable price, Inquire Now! http://www.valuecoders.com/hire-developers/hire-wordpress-developers")
         ); // @formatter:on
         return commercialTweets;
     }
@@ -70,13 +71,13 @@ public final class ClassificationData {
         final List<ImmutablePair<String, String>> noncommercialTweets = Lists.newArrayList(// @formatter:off
             new ImmutablePair<String, String>(NONCOMMERCIAL, "A set of great #scala and #akka examples http://bit.ly/KlJkro  #java #mapred #programming #dev"), 
             new ImmutablePair<String, String>(NONCOMMERCIAL, "New report shows that 11% of #Java devs also use #Scala on some projects http://0t.ee/devprodrep2012c"), 
-            new ImmutablePair<String, String>(NONCOMMERCIAL, "What features of #java have been dropped in #scala? http://www.javacodegeeks.com/2011/08/what-features-of-java-have-been-dropped.html …"), 
+            new ImmutablePair<String, String>(NONCOMMERCIAL, "What features of #java have been dropped in #scala? http://www.javacodegeeks.com/2011/08/what-features-of-java-have-been-dropped.html ï¿½"), 
             new ImmutablePair<String, String>(NONCOMMERCIAL, "Why should a #Java #developer learn #Scala? To write better Java, says @jessitron: http://bit.ly/13ReUfU  via @JAXenter"), 
-            new ImmutablePair<String, String>(NONCOMMERCIAL, "#Mixin in #Java with Aspects – for a #Scala traits sample http://buff.ly/10nAOks"),
-            new ImmutablePair<String, String>(NONCOMMERCIAL, "The Play Framework at LinkedIn #java #linkedin #scala http://es.slideshare.net/brikis98/the-play-framework-at-linkedin …"), 
-            new ImmutablePair<String, String>(NONCOMMERCIAL, "Why Scala is terser than Java? http://sortega.github.io/development/2013/06/22/terseness/ … #Scala #Java"),
+            new ImmutablePair<String, String>(NONCOMMERCIAL, "#Mixin in #Java with Aspects ï¿½ for a #Scala traits sample http://buff.ly/10nAOks"),
+            new ImmutablePair<String, String>(NONCOMMERCIAL, "The Play Framework at LinkedIn #java #linkedin #scala http://es.slideshare.net/brikis98/the-play-framework-at-linkedin ï¿½"), 
+            new ImmutablePair<String, String>(NONCOMMERCIAL, "Why Scala is terser than Java? http://sortega.github.io/development/2013/06/22/terseness/ ï¿½ #Scala #Java"),
             new ImmutablePair<String, String>(NONCOMMERCIAL, "So @springrod 'says' there is more junk in #scala libs than in #java ones, I want to see evidence for that(45:10): http://www.parleys.com"),
-            new ImmutablePair<String, String>(NONCOMMERCIAL, "What are the popular code conventions based on some @github hosted code ? http://sideeffect.kr/popularconvention/ … (via @heyitsnoah)"),
+            new ImmutablePair<String, String>(NONCOMMERCIAL, "What are the popular code conventions based on some @github hosted code ? http://sideeffect.kr/popularconvention/ ï¿½ (via @heyitsnoah)"),
             new ImmutablePair<String, String>(NONCOMMERCIAL, "Good Presentation. The #PlayFramework at #LinkedIn: Productivity and Performance at Scale: http://youtu.be/8z3h4Uv9YbE  #Scala #Java")
         ); // @formatter:on
         return noncommercialTweets;
