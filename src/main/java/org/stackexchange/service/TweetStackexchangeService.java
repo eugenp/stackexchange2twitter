@@ -60,7 +60,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteInternal(site, twitterAccount);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site= " + site, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site= " + site + " on account= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -68,7 +68,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site= " + site, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site= " + site + " on account= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -81,7 +81,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteInternal(site, twitterAccount, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site= " + site, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site= " + site + " on account= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -92,7 +92,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site=" + site + " and tag= " + tag, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site=" + site + " and tag= " + tag + " on account= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -103,7 +103,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site=" + site + " and tag= " + tag, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site=" + site + " and tag= " + tag + " on account= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -119,7 +119,7 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, question from page = {}", site.name(), twitterAccount, currentPage);
-            final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".max", Integer.class);
+            final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".minscore", Integer.class);
             final String siteQuestionsRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, currentPage);
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, siteQuestionsRawJson);
             currentPage++;
@@ -144,7 +144,8 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
-            final int maxScoreForQuestionsOnThisAccount = env.getProperty(tag + ".minscore", Integer.class);
+            Preconditions.checkNotNull(env.getProperty(tag + ".minscore"), "Unable to find minscore for twitterAccount= " + twitterAccount);
+            final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".minscore", Integer.class);
             final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, tag, currentPage);
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, questionsForTagRawJson);
             currentPage++;
