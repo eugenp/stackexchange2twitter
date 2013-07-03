@@ -56,7 +56,18 @@ public class TweetStackexchangeService {
 
     // write
 
-    public void tweetTopQuestionBySite(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
+    public void tweetTopQuestionBySite(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
+        try {
+            tweetTopQuestionBySiteInternal(site, twitterAccount);
+        } catch (final RuntimeException runtimeEx) {
+            logger.error("Unexpected exception when trying to tweet from site= " + site, runtimeEx);
+        }
+    }
+
+    /**
+     * - not part of the API because it asks for the page
+     */
+    void tweetTopQuestionBySite(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteInternal(site, twitterAccount, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
@@ -64,12 +75,20 @@ public class TweetStackexchangeService {
         }
     }
 
+    /**
+     * - TODO: not part of the API because it asks for the page
+     */
     public void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
         final String tag = tagService.pickStackTagForAccount(twitterAccount);
         tweetTopQuestionBySiteAndTag(site, tag, twitterAccount, pageToStartWith);
     }
 
-    public void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String twitterAccount) throws JsonProcessingException, IOException {
+    // util
+
+    /**
+     * - not part of the API because it asks for the tag
+     */
+    final void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String twitterAccount) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag);
         } catch (final RuntimeException runtimeEx) {
@@ -77,7 +96,10 @@ public class TweetStackexchangeService {
         }
     }
 
-    public void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
+    /**
+     * - not part of the API because it asks for the tag and the page
+     */
+    final void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
@@ -85,7 +107,10 @@ public class TweetStackexchangeService {
         }
     }
 
-    // util
+    final void tweetTopQuestionBySiteInternal(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
+        final int pageToStartWith = pageStrategy.decidePage(twitterAccount);
+        tweetTopQuestionBySiteInternal(site, twitterAccount, pageToStartWith);
+    }
 
     final void tweetTopQuestionBySiteInternal(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
         logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
@@ -102,7 +127,7 @@ public class TweetStackexchangeService {
     }
 
     final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String twitterAccount, final String tag) throws IOException, JsonProcessingException {
-        final int pageToStartWith = pageStrategy.decidePage(twitterAccount, tag);
+        final int pageToStartWith = pageStrategy.decidePage(twitterAccount);
         tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag, pageToStartWith);
     }
 

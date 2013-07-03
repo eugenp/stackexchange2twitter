@@ -16,7 +16,12 @@ public final class StackExchangePageStrategy {
 
     // API
 
-    public final int decidePage(final String twitterAccount, final String tag) {
+    // TODO: implement and publish
+    final int decidePage(final String twitterAccount, final String tag) {
+        throw new UnsupportedOperationException();
+    }
+
+    public final int decidePage(final String twitterAccount) {
         final int countAllByTwitterAccount = (int) questionTweetApi.countAllByTwitterAccount(twitterAccount);
         return decidePageInternal(countAllByTwitterAccount);
     }
