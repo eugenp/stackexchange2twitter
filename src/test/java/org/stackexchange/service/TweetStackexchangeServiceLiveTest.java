@@ -132,4 +132,9 @@ public class TweetStackexchangeServiceLiveTest {
         tweetStackexchangeService.tweetTopQuestionBySite(twitterAccountToStackSite(SimpleTwitterAccount.AskUbuntuBest), SimpleTwitterAccount.AskUbuntuBest.name(), 1);
     }
 
+    @Test
+    public final void whenTweetingByDefaultTagOnBestBash_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(StackSite.AskUbuntu, SimpleTwitterAccount.BestBash.name());
+    }
+
 }
