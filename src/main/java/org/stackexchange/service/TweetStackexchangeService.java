@@ -144,7 +144,7 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
-            Preconditions.checkNotNull(env.getProperty(tag + ".minscore"), "Unable to find minscore for twitterAccount= " + twitterAccount);
+            Preconditions.checkNotNull(env.getProperty(twitterAccount + ".minscore"), "Unable to find minscore for twitterAccount= " + twitterAccount);
             final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".minscore", Integer.class);
             final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, tag, currentPage);
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, questionsForTagRawJson);
