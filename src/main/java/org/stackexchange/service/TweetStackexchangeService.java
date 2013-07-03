@@ -66,7 +66,7 @@ public class TweetStackexchangeService {
 
     public void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
         try {
-            tweetTopQuestionBySiteAndTag(site, twitterAccount);
+            tweetTopQuestionBySiteAndTagInternal(site, twitterAccount);
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to tweet from site= " + site, runtimeEx);
         }
