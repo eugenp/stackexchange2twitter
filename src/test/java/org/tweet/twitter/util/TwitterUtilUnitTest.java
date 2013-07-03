@@ -246,6 +246,11 @@ public final class TwitterUtilUnitTest {
         assertTrue(TwitterUtil.tweetContainsBannedKeywords("love open source and have a passion for #git? come help us make it better for everyone, we are hiring! http://t.co/7hk7fqgEN1"));
     }
 
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario10_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Hire Experienced #WordPress developer at Affordable price, Inquire Now! http://www.valuecoders.com/hire-developers/hire-wordpress-developers"));
+    }
+
     // accepted
 
     @Test

@@ -19,7 +19,7 @@ public final class TwitterUtil {
     final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults(); // if this would include more chars, then recreating the tweet would not be exact
     final static Joiner joiner = Joiner.on(' ');
 
-    final static List<String> bannedKeywords = Lists.newArrayList("freelance", "job", "consulting", "hiring", "careers", "need", "escort", "escorts", "xxx");
+    final static List<String> bannedKeywords = Lists.newArrayList("freelance", "job", "consulting", "hire", "hiring", "careers", "need", "escort", "escorts", "xxx");
     final static List<String> bannedExpressions = Lists.newArrayList("web developer", "application engineer", "jobs");
 
     private TwitterUtil() {
