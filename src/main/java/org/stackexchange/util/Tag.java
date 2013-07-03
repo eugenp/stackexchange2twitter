@@ -9,34 +9,28 @@ public enum Tag {// @formatter:off
     azure,
     android, 
     akka, 
-    
     bash, 
-    
     clojure, 
     cloud, 
     couchdb,
     cassandra,
     captcha,
     couchbase,
-    
     ddos,
     dynamobd,
     
     eclipse, 
     ec2, 
-    
     git, 
     google,
     gae,
     gmail,
     gdrive, 
-    
     hbase,
 
     ios,
     iphone,
     ipad, 
-    
     java, 
     jquery, 
     jpa, 
@@ -45,18 +39,14 @@ public enum Tag {// @formatter:off
     jvm,
     java8,
     java9, 
-    
     lisp, 
     
     maven, 
     macbook,
     mongodb, 
-    
     nosql, 
     neo4j, 
-    
     objectivec, 
-    
     php, 
     python, 
     perl,
@@ -72,7 +62,6 @@ public enum Tag {// @formatter:off
     riak, 
     rubyonrails, 
     redis, 
-    
     spring, 
     security, 
     scala, 
@@ -84,7 +73,6 @@ public enum Tag {// @formatter:off
     springsocial,
     springframework,
     SpringBatch,
-    
     ubuntu,
 
     wordpress
