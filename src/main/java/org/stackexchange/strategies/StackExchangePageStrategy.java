@@ -18,9 +18,17 @@ public final class StackExchangePageStrategy {
     // API
 
     public final int decidePage(final SimpleTwitterAccount twitterAccount, final String tag) {
-        final long countAllByTwitterAccount = questionTweetApi.countAllByTwitterAccount(twitterAccount.name());
+        final int countAllByTwitterAccount = (int) questionTweetApi.countAllByTwitterAccount(twitterAccount.name());
+        return decidePageInternal(countAllByTwitterAccount);
+    }
 
-        return 1;
+    final int decidePageInternal(final int countAllByTwitterAccount) {
+        final int page = countAllByTwitterAccount / 30;
+        if (page < 3) {
+            return page + 1;
+        }
+
+        return page;
     }
 
 }
