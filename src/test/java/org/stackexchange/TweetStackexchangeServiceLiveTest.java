@@ -15,6 +15,7 @@ import org.stackexchange.service.TweetStackexchangeService;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
+import org.stackexchange.strategies.StackExchangePageStrategy;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.stackexchange.util.Tag;
@@ -28,6 +29,9 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Autowired
     private TweetStackexchangeService tweetStackexchangeService;
+
+    @Autowired
+    private StackExchangePageStrategy pageStrategy;
 
     // tests
 
@@ -58,7 +62,8 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweetingByTagClojure_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestClojure), Tag.clojure.name(), SimpleTwitterAccount.BestClojure.name(), 1);
+        final int pageToStartWith = pageStrategy.decidePage(SimpleTwitterAccount.BestClojure, Tag.clojure.name());
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestClojure), Tag.clojure.name(), SimpleTwitterAccount.BestClojure.name(), pageToStartWith);
     }
 
     @Test

@@ -96,7 +96,8 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
-            final String questionsForTagRawJson = questionsApi.questions(50, site, tag, currentPage);
+            final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".max", Integer.class);
+            final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, tag, currentPage);
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, questionsForTagRawJson);
             currentPage++;
         }

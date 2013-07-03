@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
 import org.stackexchange.util.IDUtil;
+import org.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.spring.TestStackexchangePersistenceJPAConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -111,6 +112,19 @@ public class QuestionTweetPersistenceIntegrationTest {
         for (final QuestionTweet resource : allResources) {
             assertNotNull(resource.getId());
         }
+    }
+
+    // count - all
+
+    @Test
+    /**/public void whenAllResourcesAreCounted_thenNoExceptions() {
+        getApi().count();
+    }
+
+    @Test
+    /**/public void whenAllResourcesAreCountedByTwitterAccount_thenNoExceptions() {
+        final long countAllByTwitterAccount = getApi().countAllByTwitterAccount(SimpleTwitterAccount.AskUbuntuBest.name());
+        System.out.println(countAllByTwitterAccount);
     }
 
     // create
