@@ -3,7 +3,7 @@ package org.stackexchange.service;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.common.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,7 +202,7 @@ public class TweetStackexchangeService {
     }
 
     private String preValidityProcess(final String title) {
-        return StringEscapeUtils.unescapeHtml4(title);
+        return TextUtils.preProcessTweetText(title);
     }
 
     private final void markQuestionTweeted(final StackSite site, final String questionId, final String accountName) {

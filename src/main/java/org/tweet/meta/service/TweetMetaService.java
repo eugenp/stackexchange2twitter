@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.common.service.HttpService;
 import org.common.service.classification.ClassificationService;
 import org.common.text.TextUtils;
@@ -127,8 +126,9 @@ public class TweetMetaService {
         }
 
         final String text = potentialTweet.getText();
-        // is it valid?
         final String tweetText = preValidityProcess(text);
+
+        // is it valid?
         if (!TwitterUtil.isTweetTextValid(tweetText)) {
             logger.debug("Tweet invalid (size, link count) on account= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
@@ -233,6 +233,10 @@ public class TweetMetaService {
         return env.getProperty(hashtag + ".maxrt", Integer.class);
     }
 
+    private final String preValidityProcess(final String textRaw) {
+        return TextUtils.preProcessTweetText(textRaw);
+    }
+
     private final boolean hasThisAlreadyBeenTweeted(final long tweetId) {
         final Retweet existingTweet = retweetApi.findByTweetId(tweetId);
         return existingTweet != null;
@@ -244,13 +248,8 @@ public class TweetMetaService {
         twitterService.tweet(accountName, text);
     }
 
-    private String preprocess(final String textRaw, final String accountName) {
-        final String text = StringEscapeUtils.unescapeHtml4(textRaw);
+    private final String preprocess(final String text, final String accountName) {
         return TwitterUtil.hashtagWords(text, wordsToHash(accountName));
-    }
-
-    private String preValidityProcess(final String textRaw) {
-        return StringEscapeUtils.unescapeHtml4(textRaw);
     }
 
     private final void markTweetRetweeted(final long tweetId, final String accountName) {

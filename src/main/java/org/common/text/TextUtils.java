@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 public final class TextUtils {
 
     private TextUtils() {
@@ -12,6 +14,10 @@ public final class TextUtils {
     }
 
     // API
+
+    public static String preProcessTweetText(final String tweetText) {
+        return StringEscapeUtils.unescapeHtml4(tweetText);
+    }
 
     public static List<String> extractUrls(final String input) {
         final List<String> result = new ArrayList<String>();

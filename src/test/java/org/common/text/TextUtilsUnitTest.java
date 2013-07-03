@@ -16,7 +16,7 @@ public class TextUtilsUnitTest {
 
     @Test
     public final void whenExtractingUrlFromContentScenario1_thenNoExceptions() {
-        final String content = "For functional programming fans: <span class=\"proflinkWrapper\"><span class=\"proflinkPrefix\">+</span><a href=\"https://plus.google.com/112870314339261400768\" class=\"proflink\" oid=\"112870314339261400768\">Adam Bard</a></span> takes a look at Clojure/core.reducers, and how the parallelism expressed in the framework impacts performance. In particular, the new &#39;fold&#39; method (a parallel &#39;reduce&#39; and &#39;combine&#39;) can have major benefits.<br /><br />More on reducers at <a href=\"http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html\" class=\"ot-anchor\" rel=\"nofollow\">clojure.com/blog/2012/05/15/anatomy-of-reducer.html</a>.";
+        final String content = "For functional programming fans: <span class=\"proflinkWrapper\"><span class=\"proflinkPrefix\">+</span><a href=\"https://plus.google.com/112870314339261400768\" class=\"proflink\" oid=\"112870314339261400768\">Adam Bard</a></span>ï¿½takes a look at Clojure/core.reducers, and how the parallelism expressed in the framework impacts performance. In particular, the new &#39;fold&#39; method (a parallel &#39;reduce&#39; and &#39;combine&#39;) can have major benefits.<br /><br />More on reducers at <a href=\"http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html\" class=\"ot-anchor\" rel=\"nofollow\">clojure.com/blog/2012/05/15/anatomy-of-reducer.html</a>.";
         final List<String> extractedUrls = TextUtils.extractUrls(content);
         assertThat(extractedUrls, hasSize(2));
     }
@@ -32,7 +32,7 @@ public class TextUtilsUnitTest {
 
     @Test
     public final void givenUrls_whenDeterminingMainUrlScenario1_thenCorrectlyDetermined() {
-        final String content = "For functional programming fans: <span class=\"proflinkWrapper\"><span class=\"proflinkPrefix\">+</span><a href=\"https://plus.google.com/112870314339261400768\" class=\"proflink\" oid=\"112870314339261400768\">Adam Bard</a></span> takes a look at Clojure/core.reducers, and how the parallelism expressed in the framework impacts performance. In particular, the new &#39;fold&#39; method (a parallel &#39;reduce&#39; and &#39;combine&#39;) can have major benefits.<br /><br />More on reducers at <a href=\"http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html\" class=\"ot-anchor\" rel=\"nofollow\">clojure.com/blog/2012/05/15/anatomy-of-reducer.html</a>.";
+        final String content = "For functional programming fans: <span class=\"proflinkWrapper\"><span class=\"proflinkPrefix\">+</span><a href=\"https://plus.google.com/112870314339261400768\" class=\"proflink\" oid=\"112870314339261400768\">Adam Bard</a></span>ï¿½takes a look at Clojure/core.reducers, and how the parallelism expressed in the framework impacts performance. In particular, the new &#39;fold&#39; method (a parallel &#39;reduce&#39; and &#39;combine&#39;) can have major benefits.<br /><br />More on reducers at <a href=\"http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html\" class=\"ot-anchor\" rel=\"nofollow\">clojure.com/blog/2012/05/15/anatomy-of-reducer.html</a>.";
         final List<String> extractedUrls = TextUtils.extractUrls(content);
         final String mainUrl = TextUtils.determineMainUrl(extractedUrls);
         assertThat(mainUrl, equalTo("http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html"));
@@ -44,6 +44,15 @@ public class TextUtilsUnitTest {
         final List<String> extractedUrls = TextUtils.extractUrls(content);
         final String mainUrl = TextUtils.determineMainUrl(extractedUrls);
         assertThat(mainUrl, equalTo("https://raw.github.com/technomancy/leiningen/stable/bin/lein"));
+    }
+
+    // pre-processing text
+
+    @Test
+    public final void whenProcessingTweetText_thenNoExceptions() {
+        final String expectedText = ".htaccess & Wordpress: Exclude folder from RewriteRule";
+        final String preProcessedTweet = TextUtils.preProcessTweetText(".htaccess &amp; Wordpress: Exclude folder from RewriteRule");
+        assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
 }
