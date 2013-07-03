@@ -54,8 +54,8 @@ public class ContentExtractorService implements InitializingBean {
         Preconditions.checkNotNull(sourceUrl);
 
         HttpGet request = null;
-        InputStream entityContentStream = null;
         HttpEntity httpEntity = null;
+        InputStream entityContentStream = null;
         try {
             request = new HttpGet(sourceUrl);
             final HttpResponse httpResponse = client.execute(request);

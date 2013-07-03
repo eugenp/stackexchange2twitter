@@ -168,6 +168,9 @@ public class TweetMetaService {
         } catch (final RuntimeException ex) {
             logger.error("", ex); // may become warn
             return false;
+        } catch (final IOException ioEx) {
+            logger.error("", ioEx);
+            return false;
         }
 
         if (httpService.isHomepageUrl(singleMainUrl)) {

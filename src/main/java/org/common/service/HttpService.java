@@ -1,13 +1,16 @@
 package org.common.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -29,7 +32,7 @@ public class HttpService implements InitializingBean {
 
     // API
 
-    public final String expand(final String urlArg) {
+    public final String expand(final String urlArg) throws IOException {
         String originalUrl = urlArg;
         String newUrl = expandSingleLevel(originalUrl);
         while (!originalUrl.equals(newUrl)) {
@@ -58,11 +61,17 @@ public class HttpService implements InitializingBean {
 
     // util
 
-    final String expandSingleLevel(final String url) {
+    final String expandSingleLevel(final String url) throws IOException {
         HttpGet request = null;
+        HttpEntity httpEntity = null;
+        InputStream entityContentStream = null;
+
         try {
             request = new HttpGet(url);
             final HttpResponse httpResponse = client.execute(request);
+            httpEntity = httpResponse.getEntity();
+            entityContentStream = httpEntity.getContent();
+
             if (httpResponse.getStatusLine().getStatusCode() != 301) {
                 return url;
             }
@@ -76,6 +85,12 @@ public class HttpService implements InitializingBean {
         } finally {
             if (request != null) {
                 request.releaseConnection();
+            }
+            if (entityContentStream != null) {
+                entityContentStream.close();
+            }
+            if (httpEntity != null) {
+                EntityUtils.consume(httpEntity);
             }
         }
     }

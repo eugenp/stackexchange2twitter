@@ -16,7 +16,7 @@ public class StackexchangeConfig {
 
     @Bean
     public QuestionsApi questionsApi() {
-        final DefaultHttpClient rawHttpClient = HttpFactory.httpClient();
+        final DefaultHttpClient rawHttpClient = HttpFactory.httpClient(true);
 
         final DecompressingHttpClient httpClient = new DecompressingHttpClient(rawHttpClient);
         return new QuestionsApi(httpClient);
