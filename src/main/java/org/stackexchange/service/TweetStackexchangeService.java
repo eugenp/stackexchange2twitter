@@ -77,17 +77,6 @@ public class TweetStackexchangeService {
     /**
      * - not part of the API because it asks for the page
      */
-    final void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
-        try {
-            tweetTopQuestionBySiteAndTag(site, twitterAccount, pageToStartWith);
-        } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site= " + site, runtimeEx);
-        }
-    }
-
-    /**
-     * - not part of the API because it asks for the page
-     */
     void tweetTopQuestionBySite(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteInternal(site, twitterAccount, pageToStartWith);
@@ -110,7 +99,7 @@ public class TweetStackexchangeService {
     /**
      * - not part of the API because it asks for the tag and the page
      */
-    final void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
+    /*0*/final void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {

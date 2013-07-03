@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
-import org.stackexchange.service.TweetStackexchangeService;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
@@ -52,7 +51,7 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweetingByDefaultTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.SpringAtSO), SimpleTwitterAccount.SpringAtSO.name(), 1);
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.SpringAtSO), SimpleTwitterAccount.SpringAtSO.name());
     }
 
     @Test
@@ -112,7 +111,7 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweetingByDefaultObjectiveCDailyTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.ObjectiveCDaily), SimpleTwitterAccount.ObjectiveCDaily.name(), 1);
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTagInternal(twitterAccountToStackSite(SimpleTwitterAccount.ObjectiveCDaily), SimpleTwitterAccount.ObjectiveCDaily.name());
     }
 
     @Test
