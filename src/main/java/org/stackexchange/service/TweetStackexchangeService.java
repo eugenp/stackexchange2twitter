@@ -13,6 +13,7 @@ import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
+import org.stackexchange.strategies.StackExchangePageStrategy;
 import org.tweet.twitter.service.TagService;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
@@ -42,6 +43,9 @@ public class TweetStackexchangeService {
     private TagService tagService;
 
     @Autowired
+    private StackExchangePageStrategy pageStrategy;
+
+    @Autowired
     private Environment env;
 
     public TweetStackexchangeService() {
@@ -63,6 +67,14 @@ public class TweetStackexchangeService {
     public void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
         final String tag = tagService.pickStackTagForAccount(twitterAccount);
         tweetTopQuestionBySiteAndTag(site, tag, twitterAccount, pageToStartWith);
+    }
+
+    public void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String twitterAccount) throws JsonProcessingException, IOException {
+        try {
+            tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag);
+        } catch (final RuntimeException runtimeEx) {
+            logger.error("Unexpected exception when trying to tweet from site=" + site + " and tag= " + tag, runtimeEx);
+        }
     }
 
     public void tweetTopQuestionBySiteAndTag(final StackSite site, final String tag, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
@@ -87,6 +99,11 @@ public class TweetStackexchangeService {
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, siteQuestionsRawJson);
             currentPage++;
         }
+    }
+
+    final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String twitterAccount, final String tag) throws IOException, JsonProcessingException {
+        final int pageToStartWith = pageStrategy.decidePage(twitterAccount, tag);
+        tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag, pageToStartWith);
     }
 
     final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String twitterAccount, final String tag, final int pageToStartWith) throws IOException, JsonProcessingException {

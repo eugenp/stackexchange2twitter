@@ -3,7 +3,6 @@ package org.stackexchange.strategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
-import org.stackexchange.util.SimpleTwitterAccount;
 
 @Component
 public final class StackExchangePageStrategy {
@@ -17,8 +16,8 @@ public final class StackExchangePageStrategy {
 
     // API
 
-    public final int decidePage(final SimpleTwitterAccount twitterAccount, final String tag) {
-        final int countAllByTwitterAccount = (int) questionTweetApi.countAllByTwitterAccount(twitterAccount.name());
+    public final int decidePage(final String twitterAccount, final String tag) {
+        final int countAllByTwitterAccount = (int) questionTweetApi.countAllByTwitterAccount(twitterAccount);
         return decidePageInternal(countAllByTwitterAccount);
     }
 

@@ -62,8 +62,7 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweetingByTagClojure_thenNoExceptions() throws JsonProcessingException, IOException {
-        final int pageToStartWith = pageStrategy.decidePage(SimpleTwitterAccount.BestClojure, Tag.clojure.name());
-        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestClojure), Tag.clojure.name(), SimpleTwitterAccount.BestClojure.name(), pageToStartWith);
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestClojure), Tag.clojure.name(), SimpleTwitterAccount.BestClojure.name());
     }
 
     @Test
