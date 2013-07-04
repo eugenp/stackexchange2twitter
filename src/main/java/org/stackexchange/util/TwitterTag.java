@@ -16,6 +16,7 @@ public enum TwitterTag {// @formatter:off
     cassandra,
     captcha,
     couchbase,
+    database,
     ddos,
     dynamobd,
     

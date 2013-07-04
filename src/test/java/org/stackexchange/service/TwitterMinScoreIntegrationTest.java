@@ -13,7 +13,7 @@ import org.stackexchange.util.StackTag;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { StackexchangeConfig.class })
-public class TwitterHashtagWordsIntegrationTest {
+public class TwitterMinScoreIntegrationTest {
 
     @Autowired
     private Environment env;
