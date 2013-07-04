@@ -56,15 +56,15 @@ public class TweetMetaService {
 
     // write
     public boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
-        final String hashtagForAccount = tagService.pickTwitterTagForAccount(twitterAccount);
-        return retweetByHashtag(twitterAccount, hashtagForAccount);
+        final String twitterTag = tagService.pickTwitterTagForAccount(twitterAccount);
+        return retweetByHashtag(twitterAccount, twitterTag);
     }
 
-    boolean retweetByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    boolean retweetByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
         try {
-            final boolean success = retweetByHashtagInternal(twitterAccount, hashtag);
+            final boolean success = retweetByHashtagInternal(twitterAccount, twitterTag);
             if (!success) {
-                logger.warn("Unable to retweet any tweet on account = {}, by hashtag = {}", twitterAccount, hashtag);
+                logger.warn("Unable to retweet any tweet on account = {}, by hashtag = {}", twitterAccount, twitterTag);
             }
             return success;
         } catch (final RuntimeException runtimeEx) {
