@@ -59,6 +59,14 @@ public class HttpService implements InitializingBean {
         return false;
     }
 
+    public final boolean isKnownShortenedUrl(final String url) {
+        final boolean twitter = url.startsWith("http://t.co/");
+        final boolean bitly = url.startsWith("http://bit.ly/");
+        final boolean google = url.startsWith("http://goo.gl/");
+
+        return twitter || bitly || google;
+    }
+
     // util
 
     final String expandSingleLevel(final String url) throws IOException {
@@ -80,6 +88,9 @@ public class HttpService implements InitializingBean {
             final String newUrl = headers[0].getValue();
 
             return newUrl;
+        } catch (final IllegalArgumentException uriEx) {
+            logger.warn("Unable to parse the URL: " + url, uriEx);
+            return url;
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         } finally {

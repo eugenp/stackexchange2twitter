@@ -166,10 +166,10 @@ public class TweetMetaService {
         try {
             singleMainUrl = httpService.expand(singleMainUrl);
         } catch (final RuntimeException ex) {
-            logger.error("", ex); // may become warn
+            logger.error("Unable to expand URL: " + singleMainUrl, ex); // may become warn
             return false;
         } catch (final IOException ioEx) {
-            logger.error("", ioEx);
+            logger.error("Unable to expand URL: " + singleMainUrl, ioEx);
             return false;
         }
 

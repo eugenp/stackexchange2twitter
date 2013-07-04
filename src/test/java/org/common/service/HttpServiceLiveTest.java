@@ -55,7 +55,12 @@ public class HttpServiceLiveTest {
         final String unshortenedUrl = httpService.expand("http://t.co/wCD5WnAFGi");
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
-        assertFalse(isKnownShortenedUrl(unshortenedUrl));
+        assertFalse(httpService.isKnownShortenedUrl(unshortenedUrl));
+    }
+
+    @Test
+    public final void givenUrlIsInvalid_whenExpanding_thenNoExceptions() throws IOException {
+        httpService.expand("http://www.marketwatch.com/enf/rss.asp?guid={3B615536-E289-11E2-ACAD-002128040CF6}");
     }
 
     @Test
@@ -81,13 +86,5 @@ public class HttpServiceLiveTest {
     }
 
     // util
-
-    private final boolean isKnownShortenedUrl(final String url) {
-        final boolean twitter = url.startsWith("http://t.co/");
-        final boolean bitly = url.startsWith("http://bit.ly/");
-        final boolean google = url.startsWith("http://goo.gl/");
-
-        return twitter || bitly || google;
-    }
 
 }
