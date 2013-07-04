@@ -196,7 +196,7 @@ public class TweetStackexchangeService {
         }
 
         String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
-        fullTweet = TwitterUtil.hashtagWords(fullTweet, wordsToHash(accountName));
+        fullTweet = TwitterUtil.hashtagWords(fullTweet, twitterTagsToHash(accountName));
 
         twitterService.tweet(accountName, fullTweet);
         return true;
@@ -220,7 +220,7 @@ public class TweetStackexchangeService {
         return true;
     }
 
-    private final List<String> wordsToHash(final String accountName) {
+    private final List<String> twitterTagsToHash(final String accountName) {
         final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".hash"), "No words to hash for account: " + accountName);
         final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
         return Lists.newArrayList(split);
