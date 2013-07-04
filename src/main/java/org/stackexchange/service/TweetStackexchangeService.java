@@ -128,8 +128,8 @@ public class TweetStackexchangeService {
 
     final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String twitterAccount) throws IOException, JsonProcessingException {
         final int pageToStartWith = pageStrategy.decidePage(twitterAccount);
-        final String tag = tagService.pickStackTagForAccount(twitterAccount);
-        tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, tag, pageToStartWith);
+        final String stackTag = tagService.pickStackTagForAccount(twitterAccount);
+        tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, stackTag, pageToStartWith);
     }
 
     final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String twitterAccount, final String stackTag) throws IOException, JsonProcessingException {
