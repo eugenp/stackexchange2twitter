@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.stackexchange.util.Tag;
+import org.stackexchange.util.TwitterTag;
 
 import com.google.api.services.plus.model.Activity;
 
@@ -39,12 +39,12 @@ public class GPlusLiveTest {
 
     @Test
     public void whenSearchingForActivities_thenResultsAreFound() throws GeneralSecurityException, IOException {
-        assertThat(gplusService.search(Tag.clojure.name()), not(empty()));
+        assertThat(gplusService.search(TwitterTag.clojure.name()), not(empty()));
     }
 
     @Test
     public void whenSearchingForActivitiesScenario1_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
-        final List<Activity> searchResults = gplusService.search(Tag.clojure.name());
+        final List<Activity> searchResults = gplusService.search(TwitterTag.clojure.name());
         for (final Activity activity : searchResults) {
             ActivityHelper.show(activity);
         }
@@ -52,7 +52,7 @@ public class GPlusLiveTest {
 
     @Test
     public void whenSearchingForActivitiesScenario2_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
-        final List<Activity> searchResults = gplusService.search(Tag.jquery.name());
+        final List<Activity> searchResults = gplusService.search(TwitterTag.jquery.name());
         for (final Activity activity : searchResults) {
             ActivityHelper.show(activity);
         }
@@ -60,7 +60,7 @@ public class GPlusLiveTest {
 
     @Test
     public void givenActivitiesFromGplus_whenExtractingUrlsFromContent_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
-        final List<Activity> searchResults = gplusService.search(Tag.clojure.name());
+        final List<Activity> searchResults = gplusService.search(TwitterTag.clojure.name());
         for (final Activity activity : searchResults) {
             System.out.println(TextUtils.extractUrls(activity.getObject().getContent()));
         }

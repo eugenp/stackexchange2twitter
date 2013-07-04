@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.stackexchange.util.Tag;
+import org.stackexchange.util.TwitterTag;
 
 import com.google.common.collect.Lists;
 
@@ -185,7 +185,7 @@ public final class TwitterUtilUnitTest {
     public final void givenRealCaseScenario11_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "Fast vector math in #Clojure / Incanter - http://stackoverflow.com/questions/3814048/fast-vector-math-in-clojure-incanter";
         final String targetTweet = "Fast vector math in #Clojure / #Incanter - http://stackoverflow.com/questions/3814048/fast-vector-math-in-clojure-incanter";
-        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList(Tag.clojure.name(), "incanter"));
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList(TwitterTag.clojure.name(), "incanter"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 

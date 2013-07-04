@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.stackexchange.util.Tag;
+import org.stackexchange.util.TwitterTag;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, GplusContextConfig.class })
@@ -29,35 +29,35 @@ public class GplusExtractorServiceLiveTest {
 
     @Test
     public final void whenTweetIsRetrievedScenario1_thenNoExceptions() throws IOException {
-        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.clojure.name());
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(TwitterTag.clojure.name());
         System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
         assertNotNull(bestTweetCandidate);
     }
 
     @Test
     public final void whenTweetIsRetrievedScenario2_thenNoExceptions() throws IOException {
-        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.jquery.name());
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(TwitterTag.jquery.name());
         System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
         assertNotNull(bestTweetCandidate);
     }
 
     @Test
     public final void whenTweetIsRetrievedScenario3_thenNoExceptions() throws IOException {
-        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.scala.name());
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(TwitterTag.scala.name());
         System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
         assertNotNull(bestTweetCandidate);
     }
 
     @Test
     public final void whenTweetIsRetrievedScenario4_thenNoExceptions() throws IOException {
-        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.neo4j.name());
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(TwitterTag.neo4j.name());
         System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
         assertNotNull(bestTweetCandidate);
     }
 
     @Test
     public final void whenTweetIsRetrievedScenario5_thenNoExceptions() throws IOException {
-        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(Tag.mongodb.name());
+        final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(TwitterTag.mongodb.name());
         System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");
         assertNotNull(bestTweetCandidate);
     }

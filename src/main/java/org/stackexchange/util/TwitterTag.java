@@ -1,6 +1,6 @@
 package org.stackexchange.util;
 
-public enum Tag {// @formatter:off
+public enum TwitterTag {// @formatter:off
 
     aws, 
     algorithm, 

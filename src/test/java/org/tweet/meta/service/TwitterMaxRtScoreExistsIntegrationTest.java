@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.stackexchange.util.Tag;
+import org.stackexchange.util.TwitterTag;
 import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,7 +22,7 @@ public class TwitterMaxRtScoreExistsIntegrationTest {
 
     @Test
     public final void whenRetrievingMaxRtScoresForTag_thenFound() {
-        for (final Tag tag : Tag.values()) {
+        for (final TwitterTag tag : TwitterTag.values()) {
             assertNotNull("No maxrt for tag " + tag, env.getProperty(tag.name() + ".maxrt"));
         }
     }

@@ -34,9 +34,9 @@ public class TwitterService {
 
         try {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
-        } catch (final OperationNotPermittedException notPermitted) {
+        } catch (final OperationNotPermittedException notPermittedEx) {
             // likely tracked by https://github.com/eugenp/stackexchange2twitter/issues/11
-            logger.error("[TEMP] Unable to tweet on account: " + accountName + "; tweet: " + tweetText, notPermitted);
+            logger.error("[TEMP] Unable to tweet on account: " + accountName + "; tweet: " + tweetText, notPermittedEx);
 
             // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
