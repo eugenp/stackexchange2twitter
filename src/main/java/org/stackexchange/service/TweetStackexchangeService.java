@@ -119,7 +119,9 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, question from page = {}", site.name(), twitterAccount, currentPage);
+            Preconditions.checkNotNull(env.getProperty(twitterAccount + ".minscore"), "Unable to find minscore for twitterAccount= " + twitterAccount);
             final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".minscore", Integer.class);
+
             final String siteQuestionsRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, currentPage);
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, siteQuestionsRawJson);
             currentPage++;
@@ -144,8 +146,9 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
-            Preconditions.checkNotNull(env.getProperty(twitterAccount + ".minscore"), "Unable to find minscore for twitterAccount= " + twitterAccount);
-            final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".minscore", Integer.class);
+            Preconditions.checkNotNull(env.getProperty(stackTag + ".minscore"), "Unable to find minscore for stackTag= " + stackTag + " on twitter account= " + twitterAccount);
+            final int maxScoreForQuestionsOnThisAccount = env.getProperty(stackTag + ".minscore", Integer.class);
+
             final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, stackTag, currentPage);
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, questionsForTagRawJson);
             currentPage++;
