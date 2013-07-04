@@ -20,6 +20,9 @@ public class TwitterMinScoreIntegrationTest {
 
     // API
 
+    /**
+     * twitterInternal.properties
+     */
     @Test
     public final void whenRetrievingMinStackExchangeScoreForTag_thenFound() {
         for (final StackTag tag : StackTag.values()) {
