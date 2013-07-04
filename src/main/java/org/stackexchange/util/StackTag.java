@@ -2,7 +2,6 @@ package org.stackexchange.util;
 
 public enum StackTag {// @formatter:off
 
-    aws, 
     algorithm, 
     apple, 
     authentication,
@@ -20,12 +19,9 @@ public enum StackTag {// @formatter:off
     dynamobd,
     
     eclipse, 
-    ec2, 
     git, 
     google,
-    gae,
     gmail,
-    gdrive, 
     hbase,
 
     ios,
@@ -56,19 +52,14 @@ public enum StackTag {// @formatter:off
     rest, 
     regex, 
     ruby, 
-    rails, 
-    regularexpressions, 
     riak, 
     redis, 
     spring, 
     security, 
     scala, 
     sql, 
-    sqlinjection, 
     springdata,
     springsocial,
-    springframework,
-    SpringBatch,
     ubuntu,
 
     wordpress
