@@ -17,7 +17,7 @@ public final class StackExchangePageStrategy {
     // API
 
     // TODO: implement and publish
-    final int decidePage(final String twitterAccount, final String tag) {
+    final int decidePage(final String twitterAccount, final String stackTag) {
         throw new UnsupportedOperationException();
     }
 
