@@ -37,7 +37,9 @@ public class RssService {
         }
     }
 
-    public final void printEntry(final SyndEntry entry) {
+    // util
+
+    final void printEntry(final SyndEntry entry) {
         System.out.println("Title: " + entry.getTitle());
         System.out.println("Link: " + entry.getLink());
         System.out.println("Author: " + entry.getAuthor());
@@ -45,8 +47,6 @@ public class RssService {
         System.out.println("Description: " + entry.getDescription().getValue());
         System.out.println();
     }
-
-    // util
 
     @SuppressWarnings("unchecked")
     final List<Pair<String, String>> extractTitlesAndLinksInternal(final String rssFeedUri) throws IOException, IllegalArgumentException, FeedException {
@@ -61,7 +61,8 @@ public class RssService {
         for (final SyndEntry entry : entries) {
             collector.add(new ImmutablePair<String, String>(entry.getTitle(), entry.getLink()));
         }
-        return null;
+
+        return collector;
     }
 
 }

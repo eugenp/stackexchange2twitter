@@ -2,6 +2,7 @@ package org.rss.service;
 
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
@@ -29,7 +30,12 @@ public class RssServiceLiveTest {
     @Test
     public final void whenConsumingAnRssFeed_theenFeedsAreExtracted() throws IOException, IllegalArgumentException, FeedException {
         final List<Pair<String, String>> feeds = rssService.extractTitlesAndLinks("http://feeds.feedburner.com/baeldung");
+        assertThat(feeds, notNullValue());
         assertThat(feeds, not(empty()));
+
+        for (final Pair<String, String> feed : feeds) {
+            System.out.println(feed);
+        }
     }
 
 }
