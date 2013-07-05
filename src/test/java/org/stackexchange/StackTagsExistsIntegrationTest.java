@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.api.constants.StackSite;
+import org.stackexchange.persistence.setup.TwitterAccountToStackAccount;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.spring.TwitterConfig;
@@ -28,16 +30,19 @@ public class StackTagsExistsIntegrationTest {
 
     @Test
     public final void whenRetrievingMinScoresOfAllStackTags_thenFound() {
-        for (final SimpleTwitterAccount account : SimpleTwitterAccount.values()) {
-            final String stackTagsOfAccountRaw = env.getProperty(account.name() + ".stack.tags");
-            assertNotNull("No stack tags found for account: " + account, stackTagsOfAccountRaw);
+        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+            final String stackTagsOfAccountRaw = env.getProperty(twitterAccount.name() + ".stack.tags");
+            assertNotNull("No stack tags found for account: " + twitterAccount, stackTagsOfAccountRaw);
 
             final List<String> stackTagsOfAccount = Lists.newArrayList(Splitter.on(',').split(stackTagsOfAccountRaw));
+            final List<StackSite> relevantStackSitesForCurrentTwitterAccount = TwitterAccountToStackAccount.twitterAccountToStackSites(twitterAccount);
             for (final String stackTag : stackTagsOfAccount) {
                 if (stackTag.length() == 0) { // skip over empty tags from accounts that do not have any
                     continue;
                 }
-                assertNotNull("No min score found for stack tag: " + stackTag + "; on account: " + account, env.getProperty(stackTag + ".minscore"));
+                for (final StackSite stackSite : relevantStackSitesForCurrentTwitterAccount) {
+                    assertNotNull("No min score found for stack tag: " + stackTag + "; on account: " + twitterAccount, env.getProperty(stackTag + "." + stackSite.name() + ".minscore"));
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package org.stackexchange.strategies;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -35,7 +36,7 @@ public final class StackExchangePageStrategyUnitTest {
     @Test
     public final void givenPageIsOver3_whenDecidingCorrectPage_thenCorrect() {
         final int decidedPage = new StackExchangePageStrategy().decidePageInternal(155);
-        assertThat(decidedPage, equalTo(5));
+        assertThat(decidedPage, lessThan(9));
     }
 
 }

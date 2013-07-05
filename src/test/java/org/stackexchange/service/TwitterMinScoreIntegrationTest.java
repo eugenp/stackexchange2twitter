@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.util.StackTag;
 
@@ -24,9 +25,9 @@ public class TwitterMinScoreIntegrationTest {
      * twitterInternal.properties
      */
     @Test
-    public final void whenRetrievingMinStackExchangeScoreForTag_thenFound() {
+    public final void givenOnStackOverFlowOnly_whenRetrievingMinStackExchangeScoreForTag_thenFound() {
         for (final StackTag tag : StackTag.values()) {
-            assertNotNull("No min score for tag " + tag, env.getProperty(tag.name() + ".minscore"));
+            assertNotNull("No min score for tag " + tag, env.getProperty(tag.name() + "." + StackSite.StackOverflow + ".minscore"));
         }
     }
 

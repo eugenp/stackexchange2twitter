@@ -1,5 +1,6 @@
 package org.stackexchange.strategies;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
@@ -32,7 +33,7 @@ public final class StackExchangePageStrategy {
             return page + 1;
         }
 
-        return page;
+        return page + RandomUtils.nextInt(4);
     }
 
 }
