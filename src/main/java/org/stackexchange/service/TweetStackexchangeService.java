@@ -136,18 +136,18 @@ public class TweetStackexchangeService {
         tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, stackTag, pageToStartWith);
     }
 
-    final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String twitterAccount, final String stackTag, final int pageToStartWith) throws IOException, JsonProcessingException {
-        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
+    final void tweetTopQuestionBySiteAndTagInternal(final StackSite stackSite, final String twitterAccount, final String stackTag, final int pageToStartWith) throws IOException, JsonProcessingException {
+        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", stackSite.name(), twitterAccount, pageToStartWith);
 
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
-            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
-            Preconditions.checkNotNull(env.getProperty(stackTag + ".minscore"), "Unable to find minscore for stackTag= " + stackTag + " on twitter account= " + twitterAccount);
-            final int maxScoreForQuestionsOnThisAccount = env.getProperty(stackTag + ".minscore", Integer.class);
+            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", stackSite.name(), twitterAccount, pageToStartWith);
+            Preconditions.checkNotNull(env.getProperty(stackTag + "." + stackSite.name() + ".minscore"), "Unable to find minscore for stackTag= " + stackTag + " on twitter account= " + twitterAccount);
+            final int maxScoreForQuestionsOnThisAccount = env.getProperty(stackTag + "." + stackSite.name() + ".minscore", Integer.class);
 
-            final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, stackTag, currentPage);
-            tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, questionsForTagRawJson);
+            final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, stackSite, stackTag, currentPage);
+            tweetSuccessful = tryTweetTopQuestion(stackSite, twitterAccount, questionsForTagRawJson);
             currentPage++;
         }
     }
