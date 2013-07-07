@@ -65,10 +65,13 @@ public class TweetStackexchangeService {
     }
 
     public void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
+        String stackTag = null;
         try {
-            tweetTopQuestionBySiteAndTagInternal(site, twitterAccount);
+            stackTag = tagService.pickStackTagForAccount(twitterAccount);
+            final int pageToStartWith = pageStrategy.decidePage(twitterAccount);
+            tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, stackTag, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site= " + site + " on account= " + twitterAccount, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site= " + site + " and stackTag= " + stackTag + " on account= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -126,12 +129,6 @@ public class TweetStackexchangeService {
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, siteQuestionsRawJson);
             currentPage++;
         }
-    }
-
-    final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String twitterAccount) throws IOException, JsonProcessingException {
-        final int pageToStartWith = pageStrategy.decidePage(twitterAccount);
-        final String stackTag = tagService.pickStackTagForAccount(twitterAccount);
-        tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, stackTag, pageToStartWith);
     }
 
     final void tweetTopQuestionBySiteAndTagInternal(final StackSite site, final String twitterAccount, final String stackTag) throws IOException, JsonProcessingException {
