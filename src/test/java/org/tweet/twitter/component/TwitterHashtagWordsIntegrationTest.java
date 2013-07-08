@@ -2,6 +2,7 @@ package org.tweet.twitter.component;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.common.spring.CommonContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class })
+@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class })
 public class TwitterHashtagWordsIntegrationTest {
 
     @Autowired
