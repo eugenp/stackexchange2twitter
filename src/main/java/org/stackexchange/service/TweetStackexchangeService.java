@@ -158,7 +158,7 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
             }
 
             logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
-            final boolean success = tryTweetOne(title, link, questionId, twitterAccount, site);
+            final boolean success = tryTweetOne(title, link, questionId, site, twitterAccount);
             if (!success) {
                 logger.debug("Tried and failed to tweet on twitterAccount= {}, tweet text= {}", twitterAccount, title);
                 continue;
@@ -171,13 +171,7 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         return false;
     }
 
-    @Override
-    protected final boolean hasThisAlreadyBeenTweeted(final QuestionTweet question) {
-        final QuestionTweet existingTweet = questionTweetApi.findByQuestionId(question.getQuestionId());
-        return existingTweet != null;
-    }
-
-    private final boolean tryTweetOne(final String textRaw, final String link, final String questionId, final String twitterAccount, final StackSite site) {
+    private final boolean tryTweetOne(final String textRaw, final String link, final String questionId, final StackSite site, final String twitterAccount) {
         // is it worth it by itself? - yes
 
         // is it worth it in the context of all the current list of tweets? - yes
@@ -211,18 +205,30 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         return true;
     }
 
-    // TODO: add site to the question tweet entity
-    @Override
-    protected final void markDone(final QuestionTweet entity) {
-        questionTweetApi.save(entity);
-    }
-
     private final boolean isValidQuestions(final JsonNode siteQuestionsJson, final String twitterAccount) {
         final JsonNode items = siteQuestionsJson.get("items");
         Preconditions.checkNotNull(items, "For twitterAccount = " + twitterAccount + ", there are no items (null) in the questions json = " + siteQuestionsJson);
         Preconditions.checkState(((ArrayNode) siteQuestionsJson.get("items")).size() > 0, "For twitterAccount = " + twitterAccount + ", there are no items (empty) in the questions json = " + siteQuestionsJson);
 
         return true;
+    }
+
+    // template
+
+    @Override
+    protected final void markDone(final QuestionTweet entity) {
+        getApi().save(entity);
+    }
+
+    @Override
+    protected final boolean hasThisAlreadyBeenTweeted(final QuestionTweet question) {
+        final QuestionTweet existingTweet = getApi().findByQuestionId(question.getQuestionId());
+        return existingTweet != null;
+    }
+
+    @Override
+    protected final IQuestionTweetJpaDAO getApi() {
+        return questionTweetApi;
     }
 
 }

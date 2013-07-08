@@ -102,4 +102,9 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         rssEntryApi.save(rssEntry);
     }
 
+    @Override
+    protected final IRssEntryJpaDAO getApi() {
+        return rssEntryApi;
+    }
+
 }

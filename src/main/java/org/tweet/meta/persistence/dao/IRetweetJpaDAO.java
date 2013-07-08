@@ -7,5 +7,5 @@ import org.tweet.meta.persistence.model.Retweet;
 public interface IRetweetJpaDAO extends JpaRepository<Retweet, Long>, JpaSpecificationExecutor<Retweet> {
 
     public Retweet findByTweetId(final long tweetId);
-
+    
 }

@@ -10,6 +10,7 @@ import org.common.persistence.IEntity;
 import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.util.SimpleTwitterAccount;
 
+// TODO: add site to the question tweet entity
 @Entity
 public class QuestionTweet implements IEntity {
 

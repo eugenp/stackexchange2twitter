@@ -91,7 +91,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             logger.trace("If not already retweeted, considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccount, tweetId);
 
             if (!hasThisAlreadyBeenTweeted(new Retweet(tweetId, twitterAccount))) {
-                final boolean success = tryTweetOne(potentialTweet, twitterAccount, hashtag);
+                final boolean success = tryTweetOne(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
                     logger.trace("Didn't retweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialTweet.getText());
                     continue;
@@ -105,7 +105,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         return false;
     }
 
-    private final boolean tryTweetOne(final Tweet potentialTweet, final String twitterAccount, final String hashtag) {
+    private final boolean tryTweetOne(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
         final String text = potentialTweet.getText();
         final long tweetId = potentialTweet.getId();
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
@@ -202,6 +202,11 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     @Override
     protected final void markDone(final Retweet entity) {
         retweetApi.save(entity);
+    }
+
+    @Override
+    protected final IRetweetJpaDAO getApi() {
+        return retweetApi;
     }
 
 }
