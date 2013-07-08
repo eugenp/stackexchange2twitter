@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @Import(PersistenceJPACommonConfig.class)
 @ComponentScan({ "org.tweet.meta.persistence" })
 @ImportResource("classpath*:metaPersistenceConfig.xml")
-@PropertySource({ "classpath:persistence-${persistenceTarget:prod}.properties", "classpath:setup.properties" })
+@PropertySource({ "classpath:persistence-${persistenceTarget:prod}.properties" })
 public class TwitterMetaPersistenceJPAConfig {
 
     public TwitterMetaPersistenceJPAConfig() {

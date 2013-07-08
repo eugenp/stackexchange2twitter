@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @Import(PersistenceJPACommonConfig.class)
 @ComponentScan({ "org.stackexchange.persistence" })
 @ImportResource("classpath*:stackPersistenceConfig.xml")
-@PropertySource({ "classpath:persistence-${persistenceTarget:test}.properties", "classpath:setup.properties" })
+@PropertySource({ "classpath:persistence-${persistenceTarget:test}.properties" })
 public class TestStackexchangePersistenceJPAConfig {
 
     public TestStackexchangePersistenceJPAConfig() {
