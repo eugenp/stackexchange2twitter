@@ -105,7 +105,7 @@ public class TweetMetaService {
                     continue;
                 } else {
                     logger.info("Successfully retweeted on account= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
-                    break;
+                    return true;
                 }
             }
         }
