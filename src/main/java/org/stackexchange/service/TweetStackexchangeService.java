@@ -63,7 +63,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteInternal(site, twitterAccount);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site= " + site + " on account= " + twitterAccount, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site= " + site + " on twitterAccount= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -74,7 +74,7 @@ public class TweetStackexchangeService {
             final int pageToStartWith = pageStrategy.decidePage(twitterAccount);
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, stackTag, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site= " + site + " and stackTag= " + stackTag + " on account= " + twitterAccount, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site= " + site + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -87,7 +87,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteInternal(site, twitterAccount, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site= " + site + " on account= " + twitterAccount, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site= " + site + " on twitterAccount= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -98,7 +98,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, stackTag);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site=" + site + " and stackTag= " + stackTag + " on account= " + twitterAccount, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site=" + site + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -109,7 +109,7 @@ public class TweetStackexchangeService {
         try {
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, stackTag, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site=" + site + " and stackTag= " + stackTag + " on account= " + twitterAccount, runtimeEx);
+            logger.error("Unexpected exception when trying to tweet from site=" + site + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
         }
     }
 
@@ -164,7 +164,7 @@ public class TweetStackexchangeService {
             final String title = questionJson.get(QuestionsApi.TITLE).toString();
             final String link = questionJson.get(QuestionsApi.LINK).toString();
 
-            logger.trace("Considering to tweet on account= {}, Question= {}", twitterAccount, questionId);
+            logger.trace("Considering to tweet on twitterAccount= {}, Question= {}", twitterAccount, questionId);
             if (hasThisQuestionAlreadyBeenTweeted(questionId)) {
                 return false;
             }
@@ -172,7 +172,7 @@ public class TweetStackexchangeService {
             logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
             final boolean success = tryTweet(title, link, twitterAccount);
             if (!success) {
-                logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", twitterAccount, title);
+                logger.debug("Tried and failed to tweet on twitterAccount= {}, tweet text= {}", twitterAccount, title);
                 continue;
             }
             markQuestionTweeted(site, questionId, twitterAccount);

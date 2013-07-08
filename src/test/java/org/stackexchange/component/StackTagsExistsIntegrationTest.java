@@ -36,7 +36,7 @@ public class StackTagsExistsIntegrationTest {
     public final void whenRetrievingMinScoresOfAllStackTags_thenFound() {
         for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
             final String stackTagsOfAccountRaw = env.getProperty(twitterAccount.name() + ".stack.tags");
-            assertNotNull("No stack tags found for account: " + twitterAccount, stackTagsOfAccountRaw);
+            assertNotNull("No stack tags found for twitterAccount= " + twitterAccount, stackTagsOfAccountRaw);
 
             final List<String> stackTagsOfAccount = Lists.newArrayList(Splitter.on(',').split(stackTagsOfAccountRaw));
             final List<StackSite> relevantStackSitesForCurrentTwitterAccount = TwitterAccountToStackAccount.twitterAccountToStackSites(twitterAccount);
@@ -45,7 +45,7 @@ public class StackTagsExistsIntegrationTest {
                     continue;
                 }
                 for (final StackSite stackSite : relevantStackSitesForCurrentTwitterAccount) {
-                    assertNotNull("No min score found for stack tag: " + stackTag + "; on account: " + twitterAccount, minStackScoreRetriever.minScoreRaw(stackTag, stackSite));
+                    assertNotNull("No min score found for stack stackTag= " + stackTag + "; on twitterAccount= " + twitterAccount, minStackScoreRetriever.minScoreRaw(stackTag, stackSite));
                 }
             }
         }

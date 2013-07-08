@@ -31,7 +31,7 @@ public class TagRetrieverService {
     }
 
     public final String stackTags(final String twitterAccount) {
-        return Preconditions.checkNotNull(stackTagsRaw(twitterAccount), "No tags for account: " + twitterAccount);
+        return Preconditions.checkNotNull(stackTagsRaw(twitterAccount), "No tags for twitterAccount= " + twitterAccount);
     }
 
     public final String pickStackTag(final String twitterAccount) {
@@ -47,7 +47,7 @@ public class TagRetrieverService {
     }
 
     public final String twitterTags(final String twitterAccount) {
-        return Preconditions.checkNotNull(twitterTagsRaw(twitterAccount), "No twitter tags for account: " + twitterAccount);
+        return Preconditions.checkNotNull(twitterTagsRaw(twitterAccount), "No twitter tags for twitterAccount= " + twitterAccount);
     }
 
     public final String pickTwitterTag(final String twitterAccount) {

@@ -96,15 +96,15 @@ public class TweetMetaService {
     private final boolean tryRetweetByHashtagInternal(final String twitterAccountName, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
-            logger.trace("If not already retweeted, considering to retweet on account= {}, tweetId= {}", twitterAccountName, tweetId);
+            logger.trace("If not already retweeted, considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccountName, tweetId);
 
             if (!hasThisAlreadyBeenTweeted(tweetId)) {
                 final boolean success = tryRetweetOne(potentialTweet, twitterAccountName, hashtag);
                 if (!success) {
-                    logger.trace("Didn't retweet on account= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
+                    logger.trace("Didn't retweet on twitterAccount= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
                     continue;
                 } else {
-                    logger.info("Successfully retweeted on account= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
+                    logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
                     return true;
                 }
             }
@@ -115,7 +115,7 @@ public class TweetMetaService {
 
     private final boolean tryRetweetOne(final Tweet potentialTweet, final String twitterAccountName, final String hashtag) {
         final long tweetId = potentialTweet.getId();
-        logger.trace("Considering to retweet on account= {}, tweetId= {}", twitterAccountName, tweetId);
+        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccountName, tweetId);
 
         // is it worth it by itself?
         if (!isTweetWorthRetweetingByItself(potentialTweet, hashtag)) {
@@ -132,19 +132,19 @@ public class TweetMetaService {
 
         // is it valid?
         if (!TwitterUtil.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on account= {}, tweet text= {}", twitterAccountName, tweetText);
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
         }
 
         // is this tweet pointing to something good?
         if (!isTweetPointingToSomethingGood(text)) {
-            logger.debug("Tweet not pointing to something good on account= {}, tweet text= {}", twitterAccountName, tweetText);
+            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
         }
 
         // is the tweet rejected by some classifier?
         if (isTweetRejectedByClassifier(text)) {
-            logger.debug("Tweet rejected by a classifier on account= {}, tweet text= {}", twitterAccountName, tweetText);
+            logger.debug("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccountName, tweetText);
             return false;
         }
 
