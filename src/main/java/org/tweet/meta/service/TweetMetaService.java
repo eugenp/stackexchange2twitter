@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.common.service.BaseTweetFromSourceService;
 import org.common.service.HttpService;
 import org.common.service.classification.ClassificationService;
 import org.common.text.TextUtils;
@@ -17,20 +18,13 @@ import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.component.MaxRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
-import org.tweet.twitter.service.TweetService;
-import org.tweet.twitter.service.TwitterLiveService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Ordering;
 
 @Service
-public class TweetMetaService {
+public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private TwitterLiveService twitterLiveService;
-    @Autowired
-    private TweetService tweetService;
 
     @Autowired
     private TagRetrieverService tagService;
@@ -54,6 +48,7 @@ public class TweetMetaService {
     // API
 
     // write
+
     public boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
         final String twitterTag = tagService.pickTwitterTag(twitterAccount);
         return retweetByHashtag(twitterAccount, twitterTag);
@@ -90,18 +85,18 @@ public class TweetMetaService {
         return tryRetweetByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
     }
 
-    private final boolean tryRetweetByHashtagInternal(final String twitterAccountName, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
+    private final boolean tryRetweetByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
-            logger.trace("If not already retweeted, considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccountName, tweetId);
+            logger.trace("If not already retweeted, considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccount, tweetId);
 
-            if (!hasThisAlreadyBeenTweeted(tweetId)) {
-                final boolean success = tryTweetOne(potentialTweet, twitterAccountName, hashtag);
+            if (!hasThisAlreadyBeenTweeted(new Retweet(tweetId, twitterAccount))) {
+                final boolean success = tryTweetOne(potentialTweet, twitterAccount, hashtag);
                 if (!success) {
-                    logger.trace("Didn't retweet on twitterAccount= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
+                    logger.trace("Didn't retweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialTweet.getText());
                     continue;
                 } else {
-                    logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}\n --- Additional meta info: id= {}, rt= {}", twitterAccountName, potentialTweet.getText(), tweetId, potentialTweet.getRetweetCount());
+                    logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}\n --- Additional meta info: id= {}, rt= {}", twitterAccount, potentialTweet.getText(), tweetId, potentialTweet.getRetweetCount());
                     return true;
                 }
             }
@@ -198,8 +193,9 @@ public class TweetMetaService {
         return true;
     }
 
-    private final boolean hasThisAlreadyBeenTweeted(final long tweetId) {
-        final Retweet existingTweet = retweetApi.findByTweetId(tweetId);
+    @Override
+    protected final boolean hasThisAlreadyBeenTweeted(final Retweet retweet) {
+        final Retweet existingTweet = retweetApi.findByTweetId(retweet.getTweetId());
         return existingTweet != null;
     }
 

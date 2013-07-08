@@ -3,17 +3,16 @@ package org.rss.service;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.common.service.BaseTweetFromSourceService;
 import org.rss.persistence.dao.IRssEntryJpaDAO;
 import org.rss.persistence.model.RssEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tweet.twitter.service.TweetService;
-import org.tweet.twitter.service.TwitterLiveService;
 
 @Service
-public final class TweetRssService {
+public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -21,11 +20,6 @@ public final class TweetRssService {
 
     @Autowired
     private IRssEntryJpaDAO rssEntryApi;
-
-    @Autowired
-    private TwitterLiveService twitterLiveService;
-    @Autowired
-    private TweetService tweetService;
 
     public TweetRssService() {
         super();
@@ -38,7 +32,7 @@ public final class TweetRssService {
 
         final List<Pair<String, String>> rssEntries = rssService.extractTitlesAndLinks(rssFeedUri);
         for (final Pair<String, String> potentialRssEntry : rssEntries) {
-            if (!hasThisAlreadyBeenTweeted(potentialRssEntry.getLeft(), potentialRssEntry.getRight())) {
+            if (!hasThisAlreadyBeenTweeted(new RssEntry(twitterAccount, potentialRssEntry.getLeft(), potentialRssEntry.getRight()))) {
                 logger.info("Trying to tweeting the RssEntry= {}", potentialRssEntry);
                 final boolean success = tryTweetOne(potentialRssEntry, twitterAccount);
                 if (!success) {
@@ -98,8 +92,9 @@ public final class TweetRssService {
         return true;
     }
 
-    private final boolean hasThisAlreadyBeenTweeted(final String rssUri, final String title) {
-        return rssEntryApi.findOneByRssUriAndTitle(rssUri, title) != null;
+    @Override
+    protected final boolean hasThisAlreadyBeenTweeted(final RssEntry rssEntry) {
+        return rssEntryApi.findOneByRssUriAndTitle(rssEntry.getRssUri(), rssEntry.getTitle()) != null;
     }
 
     private final void markDone(final String title, final String url, final String twitterAccount) {

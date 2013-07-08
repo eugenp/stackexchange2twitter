@@ -3,6 +3,7 @@ package org.stackexchange.service;
 import java.io.IOException;
 import java.util.List;
 
+import org.common.service.BaseTweetFromSourceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,6 @@ import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
-import org.tweet.twitter.service.TweetService;
-import org.tweet.twitter.service.TwitterLiveService;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,26 +27,17 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 @Service
-public class TweetStackexchangeService {
+public class TweetStackexchangeService extends BaseTweetFromSourceService<QuestionTweet> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TwitterLiveService twitterLiveService;
-    @Autowired
-    private TweetService tweetService;
-
-    @Autowired
     private QuestionsApi questionsApi;
-
     @Autowired
     private IQuestionTweetJpaDAO questionTweetApi;
-
     @Autowired
     private TagRetrieverService tagService;
-
     @Autowired
     private StackExchangePageStrategy pageStrategy;
-
     @Autowired
     private MinStackScoreRetriever minStackScoreRetriever;
     @Autowired
@@ -167,7 +157,7 @@ public class TweetStackexchangeService {
             final String link = questionJson.get(QuestionsApi.LINK).toString();
 
             logger.trace("Considering to tweet on twitterAccount= {}, Question= {}", twitterAccount, questionId);
-            if (hasThisQuestionAlreadyBeenTweeted(questionId)) {
+            if (hasThisAlreadyBeenTweeted(new QuestionTweet(questionId, twitterAccount, null))) {
                 return false;
             }
 
@@ -184,8 +174,9 @@ public class TweetStackexchangeService {
         return false;
     }
 
-    private final boolean hasThisQuestionAlreadyBeenTweeted(final String questionId) {
-        final QuestionTweet existingTweet = questionTweetApi.findByQuestionId(questionId);
+    @Override
+    protected final boolean hasThisAlreadyBeenTweeted(final QuestionTweet question) {
+        final QuestionTweet existingTweet = questionTweetApi.findByQuestionId(question.getQuestionId());
         return existingTweet != null;
     }
 
