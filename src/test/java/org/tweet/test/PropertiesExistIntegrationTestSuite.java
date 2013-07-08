@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.stackexchange.component.MinStackScoreRetrieverIntegrationTest;
 import org.stackexchange.component.StackTagsExistsIntegrationTest;
-import org.tweet.meta.service.TwitterMaxRtScoreExistsIntegrationTest;
+import org.tweet.meta.component.TwitterMaxRtScoreExistsIntegrationTest;
 import org.tweet.twitter.component.TwitterHashtagWordsIntegrationTest;
 
 @RunWith(Suite.class)

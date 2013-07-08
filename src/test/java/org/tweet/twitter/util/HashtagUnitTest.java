@@ -15,8 +15,8 @@ public final class HashtagUnitTest {
 
     @Test
     public final void givenWordShouldBeHashtag_whenTransformingToHashtag_thenTransformed() {
-        final String hashtag = new HashtagWordFunction(Lists.newArrayList("java")).apply("Java?");
-        assertThat(hashtag, equalTo("#Java?"));
+        final String twitterTag = new HashtagWordFunction(Lists.newArrayList("java")).apply("Java?");
+        assertThat(twitterTag, equalTo("#Java?"));
     }
 
 }

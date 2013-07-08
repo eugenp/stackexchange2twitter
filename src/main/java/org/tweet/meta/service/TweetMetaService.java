@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
+import org.tweet.meta.component.MaxRtRetriever;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
@@ -47,6 +48,8 @@ public class TweetMetaService {
 
     @Autowired
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
+    @Autowired
+    private MaxRtRetriever maxRtRetriever;
 
     @Autowired
     private Environment env;
@@ -67,7 +70,7 @@ public class TweetMetaService {
         try {
             final boolean success = retweetByHashtagInternal(twitterAccount, twitterTag);
             if (!success) {
-                logger.warn("Unable to retweet any tweet on twitterAccount = {}, by hashtag = {}", twitterAccount, twitterTag);
+                logger.warn("Unable to retweet any tweet on twitterAccount = {}, by twitterTag = {}", twitterAccount, twitterTag);
             }
             return success;
         } catch (final RuntimeException runtimeEx) {
@@ -210,8 +213,8 @@ public class TweetMetaService {
      * - number of retweets over a certain threshold (the threshold is per hashtag)
      * - number of favorites (not yet)
      */
-    private boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String hashtag) {
-        if (potentialTweet.getRetweetCount() < getRetweetThreasholdForHashtag(hashtag)) {
+    private boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String twitterTag) {
+        if (potentialTweet.getRetweetCount() < maxRtRetriever.maxRt(twitterTag)) {
             return false;
         }
         return true;
@@ -222,18 +225,6 @@ public class TweetMetaService {
      */
     private final boolean containsLink(final String text) {
         return text.contains("http://");
-    }
-
-    /**
-     * TODO: figure out an adaptive retweet threshold for the given hashtag
-     * for example, #java may get a lot of retweets, and so the threshold may be higher than say #hadoop 
-     */
-    private final int getRetweetThreasholdForHashtag(final String hashtag) {
-        if (env.getProperty(hashtag + ".maxrt") == null) {
-            return 8;
-        }
-
-        return env.getProperty(hashtag + ".maxrt", Integer.class);
     }
 
     private final String preValidityProcess(final String textRaw) {
