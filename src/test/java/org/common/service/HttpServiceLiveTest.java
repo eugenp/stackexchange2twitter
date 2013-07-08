@@ -34,12 +34,12 @@ public class HttpServiceLiveTest {
     }
 
     @Test
-    public final void whenRssUriIsExpandedBySingleLevelScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
+    public final void whenRssUriIsExpandedScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expandSingleLevel("http://feedproxy.google.com/~r/Baeldung/~3/WK4JN2S5KCU/spring-nosuchbeandefinitionexception");
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
         assertThat(unshortenedUrl, not(containsString("feedproxy")));
-        assertThat(unshortenedUrl, not(containsString("baeldung")));
+        assertThat(unshortenedUrl, containsString("baeldung"));
     }
 
     @Test
