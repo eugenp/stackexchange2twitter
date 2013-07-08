@@ -63,7 +63,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
 
         // is it worth it in the context of all the current list of tweets? - yes
 
-        // process
+        // pre-process
         final String tweetText = tweetService.preValidityProcess(title);
 
         // is it valid?
@@ -72,9 +72,9 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
             return false;
         }
 
-        // // is this tweet pointing to something good? - yes
+        // is this tweet pointing to something good? - yes
 
-        // // is the tweet rejected by some classifier? - no
+        // is the tweet rejected by some classifier? - no
 
         // post-process
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);

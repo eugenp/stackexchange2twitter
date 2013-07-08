@@ -1,7 +1,6 @@
 package org.stackexchange.service;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.common.service.BaseTweetFromSourceService;
 import org.slf4j.Logger;
@@ -16,15 +15,12 @@ import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
-import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 
 @Service
 public class TweetStackexchangeService extends BaseTweetFromSourceService<QuestionTweet> {
@@ -162,13 +158,14 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
             }
 
             logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
-            final boolean success = tryTweet(title, link, twitterAccount);
+            final boolean success = tryTweetOne(title, link, questionId, twitterAccount, site);
             if (!success) {
                 logger.debug("Tried and failed to tweet on twitterAccount= {}, tweet text= {}", twitterAccount, title);
                 continue;
+            } else {
+                logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}", twitterAccount, title);
+                return true;
             }
-            markQuestionTweeted(site, questionId, twitterAccount);
-            return true;
         }
 
         return false;
@@ -180,8 +177,13 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         return existingTweet != null;
     }
 
-    private final boolean tryTweet(final String text, final String link, final String twitterAccount) {
-        final String tweetText = tweetService.preValidityProcess(text);
+    private final boolean tryTweetOne(final String textRaw, final String link, final String questionId, final String twitterAccount, final StackSite site) {
+        // is it worth it by itself? - yes
+
+        // is it worth it in the context of all the current list of tweets? - yes
+
+        // pre-process
+        final String tweetText = tweetService.preValidityProcess(textRaw);
 
         // is it valid?
         if (!tweetService.isTweetTextValid(tweetText)) {
@@ -189,14 +191,27 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
             return false;
         }
 
-        String fullTweet = tweetService.constructTweetSimple(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
-        fullTweet = TwitterUtil.hashtagWords(fullTweet, twitterTagsToHash(twitterAccount));
+        // is this tweet pointing to something good? - yes
 
+        // is the tweet rejected by some classifier? - no
+
+        // post-process
+        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
+
+        // construct full tweet
+        final String fullTweet = tweetService.constructTweetSimple(processedTweetText, link.substring(1, link.length() - 1));
+
+        // tweet
         twitterLiveService.tweet(twitterAccount, fullTweet);
+
+        // mark
+        markDone(site, questionId, twitterAccount);
+
+        // done
         return true;
     }
 
-    private final void markQuestionTweeted(final StackSite site, final String questionId, final String twitterAccount) {
+    private final void markDone(final StackSite site, final String questionId, final String twitterAccount) {
         // TODO: add site to the question tweet entity
         final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount, site.name());
         questionTweetApi.save(questionTweet);
@@ -208,12 +223,6 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         Preconditions.checkState(((ArrayNode) siteQuestionsJson.get("items")).size() > 0, "For twitterAccount = " + twitterAccount + ", there are no items (empty) in the questions json = " + siteQuestionsJson);
 
         return true;
-    }
-
-    private final List<String> twitterTagsToHash(final String twitterAccount) {
-        final String wordsToHashForAccount = twitterHashtagsRetriever.hashtags(twitterAccount);
-        final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
-        return Lists.newArrayList(split);
     }
 
 }

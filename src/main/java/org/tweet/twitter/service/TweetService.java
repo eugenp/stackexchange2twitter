@@ -76,7 +76,12 @@ public class TweetService {
      * - <b>note</b>: accepts tweet text with or without the URL
      */
     public final String postValidityProcess(final String tweetText, final String twitterAccount) {
-        return TwitterUtil.hashtagWords(tweetText, twitterTagsToHash(twitterAccount));
+        String tweetTextProcessed = TwitterUtil.hashtagWords(tweetText, twitterTagsToHash(twitterAccount));
+        if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
+            tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
+        }
+
+        return tweetTextProcessed;
     }
 
     public final boolean isTweetTextValid(final String tweetTextNoUrl) {
