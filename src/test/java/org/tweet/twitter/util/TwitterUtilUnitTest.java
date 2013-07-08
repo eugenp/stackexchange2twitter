@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.stackexchange.util.TwitterTag;
+import org.tweet.twitter.service.TweetService;
 
 import com.google.common.collect.Lists;
 
@@ -50,7 +51,7 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTextAndLink_whenPreparindTweet_thenNoExceptions() {
-        TwitterUtil.prepareTweet(randomAlphabetic(119), randomAlphabetic(19));
+        new TweetService().constructTweetSimple(randomAlphabetic(119), randomAlphabetic(19));
     }
 
     // truncate

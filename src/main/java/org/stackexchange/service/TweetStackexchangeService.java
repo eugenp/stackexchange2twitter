@@ -198,7 +198,7 @@ public class TweetStackexchangeService {
             return false;
         }
 
-        String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
+        String fullTweet = tweetService.constructTweetSimple(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
         fullTweet = TwitterUtil.hashtagWords(fullTweet, twitterTagsToHash(twitterAccount));
 
         twitterLiveService.tweet(twitterAccount, fullTweet);

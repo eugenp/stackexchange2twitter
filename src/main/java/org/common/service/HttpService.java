@@ -32,7 +32,15 @@ public class HttpService implements InitializingBean {
 
     // API
 
-    public final String expand(final String urlArg) throws IOException {
+    public final String expand(final String urlArg) {
+        try {
+            return expandInternal(urlArg);
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    public final String expandInternal(final String urlArg) throws IOException {
         String originalUrl = urlArg;
         String newUrl = expandSingleLevel(originalUrl);
         while (!originalUrl.equals(newUrl)) {
@@ -57,6 +65,30 @@ public class HttpService implements InitializingBean {
         }
 
         return false;
+    }
+
+    public final String removeUrlParameters(final String urlWithPotentialParameters) {
+        URL url = null;
+        try {
+            url = new URL(urlWithPotentialParameters);
+        } catch (final MalformedURLException ex) {
+            logger.error("Unable to parse URL: " + urlWithPotentialParameters, ex);
+        }
+        if (url.getQuery() == null || url.getQuery().isEmpty()) {
+            return urlWithPotentialParameters;
+        }
+
+        final StringBuilder urlWithNoParams = new StringBuilder(url.getProtocol());
+        final int port = url.getPort();
+        if (port > 0 && port != 80) {
+            throw new IllegalStateException("Invalid Port: " + port + " for URL: " + urlWithPotentialParameters);
+        }
+
+        urlWithNoParams.append("://");
+        urlWithNoParams.append(url.getHost());
+        urlWithNoParams.append(url.getPath());
+
+        return urlWithNoParams.toString();
     }
 
     public final boolean isKnownShortenedUrl(final String url) {

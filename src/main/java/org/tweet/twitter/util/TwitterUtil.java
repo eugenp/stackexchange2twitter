@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -39,29 +38,6 @@ public final class TwitterUtil {
 
     public static boolean isTweetValid(final String fullTweet) {
         return fullTweet.length() <= 140;
-    }
-
-    public static String prepareTweet(final String text, final String link) {
-        Preconditions.checkNotNull(text);
-        Preconditions.checkNotNull(link);
-
-        final String textOfTweet = text;
-        final String tweet = textOfTweet + " - " + link;
-        return tweet;
-    }
-
-    public static String prepareTweetNew(final String text, final String link) {
-        Preconditions.checkNotNull(text);
-        Preconditions.checkNotNull(link);
-
-        String textOfTweet = null;
-        if (text.length() < 120) {
-            textOfTweet = text;
-        } else {
-            textOfTweet = text.substring(0, 120);
-        }
-        final String tweet = textOfTweet + " - " + link;
-        return tweet;
     }
 
     // pre-processing

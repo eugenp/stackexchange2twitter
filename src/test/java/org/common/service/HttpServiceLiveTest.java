@@ -61,7 +61,7 @@ public class HttpServiceLiveTest {
 
     @Test
     public final void whenShortenedUriIsUnshortednedScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String unshortenedUrl = httpService.expand("http://t.co/wCD5WnAFGi");
+        final String unshortenedUrl = httpService.expandInternal("http://t.co/wCD5WnAFGi");
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
         assertFalse(httpService.isKnownShortenedUrl(unshortenedUrl));
@@ -69,12 +69,14 @@ public class HttpServiceLiveTest {
 
     @Test
     public final void givenUrlIsInvalid_whenExpanding_thenNoExceptions() throws IOException {
-        httpService.expand("http://www.marketwatch.com/enf/rss.asp?guid={3B615536-E289-11E2-ACAD-002128040CF6}");
+        httpService.expandInternal("http://www.marketwatch.com/enf/rss.asp?guid={3B615536-E289-11E2-ACAD-002128040CF6}");
     }
+
+    // is homepage url
 
     @Test
     public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepage_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String candidateUrl = httpService.expand("http://bit.ly/N7vAX");
+        final String candidateUrl = httpService.expandInternal("http://bit.ly/N7vAX");
         System.out.println(candidateUrl);
         assertTrue(httpService.isHomepageUrl(candidateUrl));
     }
@@ -92,6 +94,29 @@ public class HttpServiceLiveTest {
     @Test
     public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepageScenario3_thenResultIsCorrect() throws ClientProtocolException, IOException {
         assertTrue(httpService.isHomepageUrl("http://www.yahoo.com/"));
+    }
+
+    // remove parameters
+
+    @Test
+    public final void givenUrlHasParameters_whenRemovingUrlParametersScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        final String urlWithNoParameters = httpService.removeUrlParameters("https://www.yahoo.com?utc=abc");
+        final String expectedUrl = "https://www.yahoo.com";
+        assertThat(urlWithNoParameters, equalTo(expectedUrl));
+    }
+
+    @Test
+    public final void givenUrlHasParameters_whenRemovingUrlParametersScenario2_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        final String urlWithNoParameters = httpService.removeUrlParameters("http://www.baeldung.com/something?utc=abc");
+        final String expectedUrl = "http://www.baeldung.com/something";
+        assertThat(urlWithNoParameters, equalTo(expectedUrl));
+    }
+
+    @Test
+    public final void givenUrlHasParameters_whenRemovingUrlParametersScenario3_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        final String urlWithNoParameters = httpService.removeUrlParameters("http://www.baeldung.com/spring-nosuchbeandefinitionexception?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+Baeldung+%28baeldung%29");
+        final String expectedUrl = "http://www.baeldung.com/spring-nosuchbeandefinitionexception";
+        assertThat(urlWithNoParameters, equalTo(expectedUrl));
     }
 
     // util

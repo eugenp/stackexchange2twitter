@@ -2,6 +2,7 @@ package org.tweet.twitter.service;
 
 import java.util.List;
 
+import org.common.service.HttpService;
 import org.common.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.util.TwitterUtil;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
@@ -20,6 +22,9 @@ public class TweetService {
     @Autowired
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
 
+    @Autowired
+    private HttpService httpService;
+
     public TweetService() {
         super();
     }
@@ -27,9 +32,10 @@ public class TweetService {
     // API
 
     /**
-     * Determines if a tweet is worth retweeting based on the following criteria: 
-     * - has link
-     * - contains any banned keywords
+     * Determines if a tweet is worth tweeting based on the following  <b>criteria</b>: <br/>
+     * - has link <br/>
+     * - contains any banned keywords <br/>
+     * - is not already a retweet <br/>
      */
     public final boolean isTweetWorthRetweetingByItself(final String potentialTweet) {
         if (!containsLink(potentialTweet)) {
@@ -44,25 +50,67 @@ public class TweetService {
         return true;
     }
 
+    /**
+     * Determines if a tweet is worth tweeting based on the following  <b>criteria</b>: <br/>
+     * - contains any banned keywords <br/>
+     * - is not already a retweet <br/>
+    */
+    public final boolean isTweetTextWorthTweetingByItself(final String potentialTweetText) {
+        if (containsLink(potentialTweetText)) {
+            return false;
+        }
+        if (TwitterUtil.tweetContainsBannedKeywords(potentialTweetText)) {
+            return false;
+        }
+        if (isRetweet(potentialTweetText)) {
+            return false;
+        }
+        return true;
+    }
+
     public final String preValidityProcess(final String title) {
         return TextUtils.preProcessTweetText(title);
     }
 
-    public final String postValidityProcess(final String text, final String twitterAccount) {
-        return TwitterUtil.hashtagWords(text, twitterTagsToHash(twitterAccount));
+    /**
+     * - <b>note</b>: accepts tweet text with or without the URL
+     */
+    public final String postValidityProcess(final String tweetText, final String twitterAccount) {
+        return TwitterUtil.hashtagWords(tweetText, twitterTagsToHash(twitterAccount));
     }
+
+    public final boolean isTweetTextValid(final String tweetTextNoUrl) {
+        return TwitterUtil.isTweetTextValid(tweetTextNoUrl);
+    }
+
+    public final String constructTweetSimple(final String tweetTextNoUrl, final String url) {
+        Preconditions.checkNotNull(tweetTextNoUrl);
+        Preconditions.checkNotNull(url);
+
+        final String textOfTweet = tweetTextNoUrl;
+        final String tweet = textOfTweet + " - " + url;
+        return tweet;
+    }
+
+    public final String constructTweet(final String text, final String url) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkNotNull(url);
+
+        final String expandedUrl = httpService.expand(url);
+        final String cleanExpandedUrl = httpService.removeUrlParameters(expandedUrl);
+
+        final String textOfTweet = text;
+        final String tweet = textOfTweet + " - " + cleanExpandedUrl;
+        return tweet;
+    }
+
+    // util
 
     private final List<String> twitterTagsToHash(final String twitterAccount) {
         final String wordsToHashForAccount = twitterHashtagsRetriever.hashtags(twitterAccount);
         final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
         return Lists.newArrayList(split);
     }
-
-    public boolean isTweetTextValid(final String text) {
-        return TwitterUtil.isTweetTextValid(text);
-    }
-
-    // util
 
     /**
      * Determines if the tweet text contains a link

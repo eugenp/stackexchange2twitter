@@ -170,7 +170,7 @@ public class TweetMetaService {
     private boolean isTweetPointingToSomethingGood(final String potentialTweet) {
         String singleMainUrl = TextUtils.extractUrls(potentialTweet).get(0);
         try {
-            singleMainUrl = httpService.expand(singleMainUrl);
+            singleMainUrl = httpService.expandInternal(singleMainUrl);
         } catch (final RuntimeException ex) {
             logger.error("Unable to expand URL: " + singleMainUrl, ex); // may become warn
             return false;

@@ -50,6 +50,7 @@
 	<logger name="org.common" level="INFO" />
 	<logger name="org.tweet" level="DEBUG" />
 	<logger name="org.gplus" level="INFO" />
+	<logger name="org.rss" level="INFO" />
 	<logger name="org.stackexchange" level="DEBUG" />
 
 	<logger name="org.apache.http" level="INFO" />
