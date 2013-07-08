@@ -79,7 +79,7 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
     private void recreateAllQuestionsOnTwitterAccount(final SimpleTwitterAccount twitterAccount) {
         logger.info("Before Setup for twitterAccount = {}", twitterAccount);
 
-        final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty(twitterAccount.name()), "No Questions in setup.properties: for twitter account" + twitterAccount);
+        final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty(twitterAccount.name()), "No Questions in setup.properties: for twitterAccount" + twitterAccount);
         final String[] questionIds = tweetedQuestions.split(",");
         recreateQuestions(questionIds, twitterAccount);
     }

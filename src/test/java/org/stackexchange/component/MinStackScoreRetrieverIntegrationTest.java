@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
-import org.stackexchange.component.MinStackScoreRetriever;
 import org.stackexchange.spring.StackexchangeConfig;
+import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.util.StackTag;
+import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { StackexchangeConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
 public class MinStackScoreRetrieverIntegrationTest {
 
     @Autowired

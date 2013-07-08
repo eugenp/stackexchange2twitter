@@ -11,9 +11,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
-import org.stackexchange.component.MinStackScoreRetriever;
 import org.stackexchange.persistence.setup.TwitterAccountToStackAccount;
 import org.stackexchange.spring.StackexchangeConfig;
+import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.spring.TwitterConfig;
 
@@ -21,7 +21,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TwitterConfig.class, StackexchangeConfig.class })
+@ContextConfiguration(classes = { TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
 public class StackTagsExistsIntegrationTest {
 
     @Autowired

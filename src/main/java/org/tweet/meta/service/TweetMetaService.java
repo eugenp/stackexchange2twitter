@@ -11,7 +11,6 @@ import org.common.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.component.MaxRtRetriever;
@@ -50,9 +49,6 @@ public class TweetMetaService {
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
     @Autowired
     private MaxRtRetriever maxRtRetriever;
-
-    @Autowired
-    private Environment env;
 
     public TweetMetaService() {
         super();
