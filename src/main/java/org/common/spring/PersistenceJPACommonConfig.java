@@ -33,7 +33,7 @@ public class PersistenceJPACommonConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(restDataSource());
-        factoryBean.setPackagesToScan(new String[] { "org.common.persistence", "org.keyval.persistence", "org.tweet.meta.persistence", "org.stackexchange.persistence", "org.tweet.persistence", "org.gplus.persistence" });
+        factoryBean.setPackagesToScan(new String[] { "org.common.persistence", "org.keyval.persistence", "org.tweet.meta.persistence", "org.rss.persistence", "org.stackexchange.persistence", "org.tweet.persistence", "org.gplus.persistence" });
 
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter() {
             {

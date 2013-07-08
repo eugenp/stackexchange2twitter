@@ -5,10 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.common.persistence.IEntity;
 
 @Entity
+@Table(name = "rssentry", uniqueConstraints = @UniqueConstraint(columnNames = { "rssUri", "title" }))
 public class RssEntry implements IEntity {
 
     @Id
@@ -20,7 +23,7 @@ public class RssEntry implements IEntity {
     private String twitterAccount;
 
     @Column(nullable = false)
-    private String blog;
+    private String rssUri;
 
     @Column(nullable = false)
     private String title;
@@ -48,12 +51,12 @@ public class RssEntry implements IEntity {
         this.twitterAccount = twitterAccount;
     }
 
-    public String getBlog() {
-        return blog;
+    public String getRssUri() {
+        return rssUri;
     }
 
-    public void setBlog(final String blog) {
-        this.blog = blog;
+    public void setRssUri(final String rssUri) {
+        this.rssUri = rssUri;
     }
 
     public String getTitle() {
@@ -70,7 +73,7 @@ public class RssEntry implements IEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((blog == null) ? 0 : blog.hashCode());
+        result = prime * result + ((rssUri == null) ? 0 : rssUri.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((twitterAccount == null) ? 0 : twitterAccount.hashCode());
         return result;
@@ -85,10 +88,10 @@ public class RssEntry implements IEntity {
         if (getClass() != obj.getClass())
             return false;
         final RssEntry other = (RssEntry) obj;
-        if (blog == null) {
-            if (other.blog != null)
+        if (rssUri == null) {
+            if (other.rssUri != null)
                 return false;
-        } else if (!blog.equals(other.blog))
+        } else if (!rssUri.equals(other.rssUri))
             return false;
         if (title == null) {
             if (other.title != null)
@@ -106,7 +109,7 @@ public class RssEntry implements IEntity {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("RssEntry [id=").append(id).append(", twitterAccount=").append(twitterAccount).append(", blog=").append(blog).append(", title=").append(title).append("]");
+        builder.append("RssEntry [id=").append(id).append(", twitterAccount=").append(twitterAccount).append(", RSS Uri=").append(rssUri).append(", title=").append(title).append("]");
         return builder.toString();
     }
 

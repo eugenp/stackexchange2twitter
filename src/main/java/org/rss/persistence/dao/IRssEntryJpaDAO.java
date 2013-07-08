@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface IRssEntryJpaDAO extends JpaRepository<RssEntry, Long>, JpaSpecificationExecutor<RssEntry> {
-    //
+
+    RssEntry findOneByRssUriAndTitle(final String rssUri, final String title);
+
 }
