@@ -29,25 +29,25 @@ public class TwitterService {
 
     // API
 
-    public void tweet(final String accountName, final String tweetText) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(accountName);
+    public void tweet(final String twitterAccount, final String tweetText) {
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
 
         try {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
         } catch (final OperationNotPermittedException notPermittedEx) {
             // likely tracked by https://github.com/eugenp/stackexchange2twitter/issues/11
-            logger.error("[TEMP] Unable to tweet on account: " + accountName + "; tweet: " + tweetText, notPermittedEx);
+            logger.error("[TEMP] Unable to tweet on account: " + twitterAccount + "; tweet: " + tweetText, notPermittedEx);
 
             // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
-            logger.error("Unable to tweet on account: " + accountName + "; tweet: " + tweetText, ex);
+            logger.error("Unable to tweet on account: " + twitterAccount + "; tweet: " + tweetText, ex);
         }
     }
 
     // read
 
-    public List<String> listTweetsOfAccount(final String accountName) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(accountName);
+    public List<String> listTweetsOfAccount(final String twitterAccount) {
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline();
         final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
             @Override

@@ -242,23 +242,23 @@ public class TweetMetaService {
         return existingTweet != null;
     }
 
-    private final void tweet(final String textRaw, final String accountName) {
-        final String text = preprocess(textRaw, accountName);
+    private final void tweet(final String textRaw, final String twitterAccount) {
+        final String text = preprocess(textRaw, twitterAccount);
 
-        twitterService.tweet(accountName, text);
+        twitterService.tweet(twitterAccount, text);
     }
 
-    private final String preprocess(final String text, final String accountName) {
-        return TwitterUtil.hashtagWords(text, twitterTagsToHash(accountName));
+    private final String preprocess(final String text, final String twitterAccount) {
+        return TwitterUtil.hashtagWords(text, twitterTagsToHash(twitterAccount));
     }
 
-    private final void markTweetRetweeted(final long tweetId, final String accountName) {
-        final Retweet retweet = new Retweet(tweetId, accountName);
+    private final void markTweetRetweeted(final long tweetId, final String twitterAccount) {
+        final Retweet retweet = new Retweet(tweetId, twitterAccount);
         retweetApi.save(retweet);
     }
 
-    private final List<String> twitterTagsToHash(final String accountName) {
-        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".hash"));
+    private final List<String> twitterTagsToHash(final String twitterAccount) {
+        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(twitterAccount + ".hash"));
         final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
         return Lists.newArrayList(split);
     }

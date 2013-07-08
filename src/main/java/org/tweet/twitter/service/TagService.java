@@ -26,17 +26,17 @@ public class TagService {
     /**
      * - note: may return null
      */
-    public final String pickStackTagForAccount(final String accountName) {
-        final String tagsAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".stack.tags"), "No tags for account: " + accountName);
-        return pickOnTag(tagsAccount);
+    public final String pickStackTagForAccount(final String twitterAccount) {
+        final String stackTagsOfAccount = Preconditions.checkNotNull(env.getProperty(twitterAccount + ".stack.tags"), "No tags for account: " + twitterAccount);
+        return pickOnTag(stackTagsOfAccount);
     }
 
     /**
      * - note: may return null
      */
-    public final String pickTwitterTagForAccount(final String accountName) {
-        final String twitterTags = env.getProperty(accountName + ".twitter.tags");
-        final String twitterTagsForAccount = Preconditions.checkNotNull(twitterTags, "No twitter tags for account: " + accountName);
+    public final String pickTwitterTagForAccount(final String twitterAccount) {
+        final String twitterTags = env.getProperty(twitterAccount + ".twitter.tags");
+        final String twitterTagsForAccount = Preconditions.checkNotNull(twitterTags, "No twitter tags for account: " + twitterAccount);
         return pickOnTag(twitterTagsForAccount);
     }
 

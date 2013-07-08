@@ -155,9 +155,9 @@ public class TweetStackexchangeService {
         }
     }
 
-    private final boolean tryTweetTopQuestion(final StackSite site, final String twitterAccountName, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
+    private final boolean tryTweetTopQuestion(final StackSite site, final String twitterAccount, final String siteQuestionsRawJson) throws IOException, JsonProcessingException {
         final JsonNode siteQuestionsJson = new ObjectMapper().readTree(siteQuestionsRawJson);
-        if (!isValidQuestions(siteQuestionsJson, twitterAccountName)) {
+        if (!isValidQuestions(siteQuestionsJson, twitterAccount)) {
             return false;
         }
         final ArrayNode siteQuestionsJsonArray = (ArrayNode) siteQuestionsJson.get("items");
@@ -166,18 +166,18 @@ public class TweetStackexchangeService {
             final String title = questionJson.get(QuestionsApi.TITLE).toString();
             final String link = questionJson.get(QuestionsApi.LINK).toString();
 
-            logger.trace("Considering to tweet on account= {}, Question= {}", twitterAccountName, questionId);
+            logger.trace("Considering to tweet on account= {}, Question= {}", twitterAccount, questionId);
             if (hasThisQuestionAlreadyBeenTweeted(questionId)) {
                 return false;
             }
 
             logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
-            final boolean success = tryTweet(title, link, twitterAccountName);
+            final boolean success = tryTweet(title, link, twitterAccount);
             if (!success) {
-                logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", twitterAccountName, title);
+                logger.debug("Tried and failed to tweet on account= {}, tweet text= {}", twitterAccount, title);
                 continue;
             }
-            markQuestionTweeted(site, questionId, twitterAccountName);
+            markQuestionTweeted(site, questionId, twitterAccount);
             return true;
         }
 
@@ -189,19 +189,19 @@ public class TweetStackexchangeService {
         return existingTweet != null;
     }
 
-    private final boolean tryTweet(final String text, final String link, final String accountName) {
+    private final boolean tryTweet(final String text, final String link, final String twitterAccount) {
         final String tweetText = preValidityProcess(text);
 
         // is it valid?
         if (!TwitterUtil.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on account= {}, tweet text= {}", accountName, tweetText);
+            logger.debug("Tweet invalid (size, link count) on account= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
 
         String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
-        fullTweet = TwitterUtil.hashtagWords(fullTweet, twitterTagsToHash(accountName));
+        fullTweet = TwitterUtil.hashtagWords(fullTweet, twitterTagsToHash(twitterAccount));
 
-        twitterService.tweet(accountName, fullTweet);
+        twitterService.tweet(twitterAccount, fullTweet);
         return true;
     }
 
@@ -209,22 +209,22 @@ public class TweetStackexchangeService {
         return TextUtils.preProcessTweetText(title);
     }
 
-    private final void markQuestionTweeted(final StackSite site, final String questionId, final String accountName) {
+    private final void markQuestionTweeted(final StackSite site, final String questionId, final String twitterAccount) {
         // TODO: add site to the question tweet entity
-        final QuestionTweet questionTweet = new QuestionTweet(questionId, accountName, site.name());
+        final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount, site.name());
         questionTweetApi.save(questionTweet);
     }
 
-    private final boolean isValidQuestions(final JsonNode siteQuestionsJson, final String accountName) {
+    private final boolean isValidQuestions(final JsonNode siteQuestionsJson, final String twitterAccount) {
         final JsonNode items = siteQuestionsJson.get("items");
-        Preconditions.checkNotNull(items, "For accountName = " + accountName + ", there are no items (null) in the questions json = " + siteQuestionsJson);
-        Preconditions.checkState(((ArrayNode) siteQuestionsJson.get("items")).size() > 0, "For accountName = " + accountName + ", there are no items (empty) in the questions json = " + siteQuestionsJson);
+        Preconditions.checkNotNull(items, "For twitterAccount = " + twitterAccount + ", there are no items (null) in the questions json = " + siteQuestionsJson);
+        Preconditions.checkState(((ArrayNode) siteQuestionsJson.get("items")).size() > 0, "For twitterAccount = " + twitterAccount + ", there are no items (empty) in the questions json = " + siteQuestionsJson);
 
         return true;
     }
 
-    private final List<String> twitterTagsToHash(final String accountName) {
-        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(accountName + ".hash"), "No words to hash for account: " + accountName);
+    private final List<String> twitterTagsToHash(final String twitterAccount) {
+        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(twitterAccount + ".hash"), "No words to hash for account: " + twitterAccount);
         final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
         return Lists.newArrayList(split);
     }

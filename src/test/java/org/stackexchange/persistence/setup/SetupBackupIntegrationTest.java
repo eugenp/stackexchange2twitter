@@ -24,13 +24,13 @@ import com.google.common.collect.Maps;
 public class SetupBackupIntegrationTest {
 
     class TweetRowMapper implements RowMapper<String> {
-        private final Map<String, List<Long>> accountToQuestions;
+        private final Map<String, List<Long>> twitterAccountToQuestions;
         private int count;
 
-        public TweetRowMapper(final Map<String, List<Long>> accountToQuestions) {
+        public TweetRowMapper(final Map<String, List<Long>> twitterAccountToQuestions) {
             super();
             count = 0;
-            this.accountToQuestions = accountToQuestions;
+            this.twitterAccountToQuestions = twitterAccountToQuestions;
         }
 
         @Override
@@ -39,10 +39,10 @@ public class SetupBackupIntegrationTest {
             final long questionId = Long.parseLong(questionIdAsString);
             final String account = rs.getString("twitter_account");
 
-            if (accountToQuestions.get(account) == null) {
-                accountToQuestions.put(account, Lists.<Long> newArrayList());
+            if (twitterAccountToQuestions.get(account) == null) {
+                twitterAccountToQuestions.put(account, Lists.<Long> newArrayList());
             }
-            accountToQuestions.get(account).add(questionId);
+            twitterAccountToQuestions.get(account).add(questionId);
             count++;
             return "";
         }
@@ -76,9 +76,9 @@ public class SetupBackupIntegrationTest {
 
     // util
 
-    private void listOut(final Map<String, List<Long>> accountToQuestionsMap) {
-        for (final String accountName : accountToQuestionsMap.keySet()) {
-            System.out.println(accountName + "=" + valuesAsCsv(accountToQuestionsMap.get(accountName)));
+    private void listOut(final Map<String, List<Long>> twitterAccountToQuestionsMap) {
+        for (final String twitterAccount : twitterAccountToQuestionsMap.keySet()) {
+            System.out.println(twitterAccount + "=" + valuesAsCsv(twitterAccountToQuestionsMap.get(twitterAccount)));
         }
     }
 
