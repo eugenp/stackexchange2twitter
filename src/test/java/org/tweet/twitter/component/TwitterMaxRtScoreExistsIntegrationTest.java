@@ -1,4 +1,4 @@
-package org.tweet.meta.component;
+package org.tweet.twitter.component;
 
 import static org.junit.Assert.assertNotNull;
 

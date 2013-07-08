@@ -1,4 +1,4 @@
-package org.tweet.meta.component;
+package org.tweet.twitter.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.google.api.client.util.Preconditions;
 
+/**
+ * - note: this is under .twitter (and not under .meta) because is core twitter functionality
+ */
 @Component
 public class MaxRtRetriever {
 
