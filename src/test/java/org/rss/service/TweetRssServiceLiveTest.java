@@ -9,6 +9,7 @@ import org.rss.spring.RssPersistenceJPAConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.util.SimpleTwitterAccount;
 
 import com.sun.syndication.io.FeedException;
 
@@ -23,7 +24,7 @@ public class TweetRssServiceLiveTest {
 
     @Test
     public final void whenTweetingFromRssFeed_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
-        tweetRssService.tweetFromRssInternal("http://feeds.feedburner.com/baeldung");
+        tweetRssService.tweetFromRssInternal("http://feeds.feedburner.com/baeldung", SimpleTwitterAccount.BestOfJava.name());
     }
 
 }

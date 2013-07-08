@@ -17,13 +17,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 @Service
-public class TwitterService {
+public class TwitterLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private TwitterTemplateCreator twitterCreator;
 
-    public TwitterService() {
+    public TwitterLiveService() {
         super();
     }
 

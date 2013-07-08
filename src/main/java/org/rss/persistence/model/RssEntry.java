@@ -32,6 +32,14 @@ public class RssEntry implements IEntity {
         super();
     }
 
+    public RssEntry(final String twitterAccount, final String rssUri, final String title) {
+        super();
+
+        this.twitterAccount = twitterAccount;
+        this.rssUri = rssUri;
+        this.title = title;
+    }
+
     // API
 
     @Override

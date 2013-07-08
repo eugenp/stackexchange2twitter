@@ -3,7 +3,6 @@ package org.stackexchange.service;
 import java.io.IOException;
 import java.util.List;
 
-import org.common.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,8 @@ import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
-import org.tweet.twitter.service.TwitterService;
+import org.tweet.twitter.service.TweetService;
+import org.tweet.twitter.service.TwitterLiveService;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,7 +32,9 @@ public class TweetStackexchangeService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TwitterService twitterService;
+    private TwitterLiveService twitterLiveService;
+    @Autowired
+    private TweetService tweetService;
 
     @Autowired
     private QuestionsApi questionsApi;
@@ -188,10 +190,10 @@ public class TweetStackexchangeService {
     }
 
     private final boolean tryTweet(final String text, final String link, final String twitterAccount) {
-        final String tweetText = preValidityProcess(text);
+        final String tweetText = tweetService.preValidityProcess(text);
 
         // is it valid?
-        if (!TwitterUtil.isTweetTextValid(tweetText)) {
+        if (!tweetService.isTweetTextValid(tweetText)) {
             logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
@@ -199,12 +201,8 @@ public class TweetStackexchangeService {
         String fullTweet = TwitterUtil.prepareTweet(text.substring(1, text.length() - 1), link.substring(1, link.length() - 1));
         fullTweet = TwitterUtil.hashtagWords(fullTweet, twitterTagsToHash(twitterAccount));
 
-        twitterService.tweet(twitterAccount, fullTweet);
+        twitterLiveService.tweet(twitterAccount, fullTweet);
         return true;
-    }
-
-    private String preValidityProcess(final String title) {
-        return TextUtils.preProcessTweetText(title);
     }
 
     private final void markQuestionTweeted(final StackSite site, final String questionId, final String twitterAccount) {

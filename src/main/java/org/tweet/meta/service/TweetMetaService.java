@@ -16,14 +16,11 @@ import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.component.MaxRtRetriever;
-import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
-import org.tweet.twitter.service.TwitterService;
-import org.tweet.twitter.util.TwitterUtil;
+import org.tweet.twitter.service.TweetService;
+import org.tweet.twitter.service.TwitterLiveService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 
 @Service
@@ -31,7 +28,9 @@ public class TweetMetaService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TwitterService twitterService;
+    private TwitterLiveService twitterLiveService;
+    @Autowired
+    private TweetService tweetService;
 
     @Autowired
     private TagRetrieverService tagService;
@@ -45,8 +44,6 @@ public class TweetMetaService {
     @Autowired
     private IRetweetJpaDAO retweetApi;
 
-    @Autowired
-    private TwitterHashtagsRetriever twitterHashtagsRetriever;
     @Autowired
     private MaxRtRetriever maxRtRetriever;
 
@@ -82,7 +79,7 @@ public class TweetMetaService {
         logger.debug("Begin trying to retweet on twitterAccount = {}", twitterAccount);
 
         logger.trace("Trying to retweet on twitterAccount = {}", twitterAccount);
-        final List<Tweet> tweetsOfHashtag = twitterService.listTweetsOfHashtag(twitterAccount, hashtag);
+        final List<Tweet> tweetsOfHashtag = twitterLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
         Collections.sort(tweetsOfHashtag, Ordering.from(new Comparator<Tweet>() {
             @Override
             public final int compare(final Tweet t1, final Tweet t2) {
@@ -99,12 +96,12 @@ public class TweetMetaService {
             logger.trace("If not already retweeted, considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccountName, tweetId);
 
             if (!hasThisAlreadyBeenTweeted(tweetId)) {
-                final boolean success = tryRetweetOne(potentialTweet, twitterAccountName, hashtag);
+                final boolean success = tryTweetOne(potentialTweet, twitterAccountName, hashtag);
                 if (!success) {
                     logger.trace("Didn't retweet on twitterAccount= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
                     continue;
                 } else {
-                    logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}", twitterAccountName, potentialTweet.getText());
+                    logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}\n --- Additional meta info: id= {}, rt= {}", twitterAccountName, potentialTweet.getText(), tweetId, potentialTweet.getRetweetCount());
                     return true;
                 }
             }
@@ -113,12 +110,13 @@ public class TweetMetaService {
         return false;
     }
 
-    private final boolean tryRetweetOne(final Tweet potentialTweet, final String twitterAccountName, final String hashtag) {
+    private final boolean tryTweetOne(final Tweet potentialTweet, final String twitterAccount, final String hashtag) {
+        final String text = potentialTweet.getText();
         final long tweetId = potentialTweet.getId();
-        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccountName, tweetId);
+        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
         // is it worth it by itself?
-        if (!isTweetWorthRetweetingByItself(potentialTweet, hashtag)) {
+        if (!tweetService.isTweetWorthRetweetingByItself(text)) {
             return false;
         }
 
@@ -127,31 +125,37 @@ public class TweetMetaService {
             return false;
         }
 
-        final String text = potentialTweet.getText();
-        final String tweetText = preValidityProcess(text);
+        // pre-process
+        final String tweetText = tweetService.preValidityProcess(text);
 
         // is it valid?
-        if (!TwitterUtil.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccountName, tweetText);
+        if (!tweetService.isTweetTextValid(tweetText)) {
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
 
         // is this tweet pointing to something good?
-        if (!isTweetPointingToSomethingGood(text)) {
-            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccountName, tweetText);
+        if (!isTweetPointingToSomethingGood(tweetText)) {
+            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
 
         // is the tweet rejected by some classifier?
-        if (isTweetRejectedByClassifier(text)) {
-            logger.debug("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccountName, tweetText);
+        if (isTweetRejectedByClassifier(tweetText)) {
+            logger.debug("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
 
-        logger.info("Retweeting: text= {}; \n --- Additional meta info: id= {}, rt= {}", tweetText, tweetId, potentialTweet.getRetweetCount());
+        // post-process
+        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
-        tweet(tweetText, twitterAccountName);
-        markTweetRetweeted(tweetId, twitterAccountName);
+        // tweet
+        twitterLiveService.tweet(twitterAccount, processedTweetText);
+
+        // mark
+        markDone(tweetId, twitterAccount);
+
+        // done
         return true;
     }
 
@@ -184,28 +188,6 @@ public class TweetMetaService {
 
     /**
      * Determines if a tweet is worth retweeting based on the following criteria: 
-     * - has link
-     * - contains any banned keywords
-     */
-    private boolean isTweetWorthRetweetingByItself(final Tweet potentialTweet, final String hashtag) {
-        if (!containsLink(potentialTweet.getText())) {
-            return false;
-        }
-        if (TwitterUtil.tweetContainsBannedKeywords(potentialTweet.getText())) {
-            return false;
-        }
-        if (isRetweet(potentialTweet)) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isRetweet(final Tweet potentialTweet) {
-        return potentialTweet.getText().startsWith("RT @");
-    }
-
-    /**
-     * Determines if a tweet is worth retweeting based on the following criteria: 
      * - number of retweets over a certain threshold (the threshold is per hashtag)
      * - number of favorites (not yet)
      */
@@ -216,41 +198,14 @@ public class TweetMetaService {
         return true;
     }
 
-    /**
-     * Determines if the tweet text contains a link
-     */
-    private final boolean containsLink(final String text) {
-        return text.contains("http://");
-    }
-
-    private final String preValidityProcess(final String textRaw) {
-        return TextUtils.preProcessTweetText(textRaw);
-    }
-
     private final boolean hasThisAlreadyBeenTweeted(final long tweetId) {
         final Retweet existingTweet = retweetApi.findByTweetId(tweetId);
         return existingTweet != null;
     }
 
-    private final void tweet(final String textRaw, final String twitterAccount) {
-        final String text = preprocess(textRaw, twitterAccount);
-
-        twitterService.tweet(twitterAccount, text);
-    }
-
-    private final String preprocess(final String text, final String twitterAccount) {
-        return TwitterUtil.hashtagWords(text, twitterTagsToHash(twitterAccount));
-    }
-
-    private final void markTweetRetweeted(final long tweetId, final String twitterAccount) {
+    private final void markDone(final long tweetId, final String twitterAccount) {
         final Retweet retweet = new Retweet(tweetId, twitterAccount);
         retweetApi.save(retweet);
-    }
-
-    private final List<String> twitterTagsToHash(final String twitterAccount) {
-        final String wordsToHashForAccount = twitterHashtagsRetriever.hashtags(twitterAccount);
-        final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
-        return Lists.newArrayList(split);
     }
 
 }

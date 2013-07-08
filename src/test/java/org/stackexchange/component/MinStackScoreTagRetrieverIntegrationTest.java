@@ -15,7 +15,7 @@ import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
-public class MinStackScoreRetrieverIntegrationTest {
+public class MinStackScoreTagRetrieverIntegrationTest {
 
     @Autowired
     private MinStackScoreRetriever minStackScoreRetriever;
