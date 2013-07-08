@@ -16,12 +16,12 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
+import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.service.TagService;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -43,10 +43,13 @@ public class TweetMetaService {
     private HttpService httpService;
 
     @Autowired
-    private Environment env;
+    private IRetweetJpaDAO retweetApi;
 
     @Autowired
-    private IRetweetJpaDAO retweetApi;
+    private TwitterHashtagsRetriever twitterHashtagsRetriever;
+
+    @Autowired
+    private Environment env;
 
     public TweetMetaService() {
         super();
@@ -258,7 +261,7 @@ public class TweetMetaService {
     }
 
     private final List<String> twitterTagsToHash(final String twitterAccount) {
-        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(twitterAccount + ".hash"));
+        final String wordsToHashForAccount = twitterHashtagsRetriever.hashtags(twitterAccount);
         final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
         return Lists.newArrayList(split);
     }

@@ -15,6 +15,7 @@ import org.stackexchange.component.MinStackScoreRetriever;
 import org.stackexchange.component.StackExchangePageStrategy;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
+import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.service.TagService;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
@@ -48,6 +49,8 @@ public class TweetStackexchangeService {
 
     @Autowired
     private MinStackScoreRetriever minStackScoreRetriever;
+    @Autowired
+    private TwitterHashtagsRetriever twitterHashtagsRetriever;
 
     @Autowired
     private Environment env;
@@ -224,7 +227,7 @@ public class TweetStackexchangeService {
     }
 
     private final List<String> twitterTagsToHash(final String twitterAccount) {
-        final String wordsToHashForAccount = Preconditions.checkNotNull(env.getProperty(twitterAccount + ".hash"), "No words to hash for account: " + twitterAccount);
+        final String wordsToHashForAccount = twitterHashtagsRetriever.hashtags(twitterAccount);
         final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
         return Lists.newArrayList(split);
     }
