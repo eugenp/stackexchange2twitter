@@ -120,12 +120,12 @@ public class TweetStackexchangeService {
     }
 
     final void tweetTopQuestionBySiteInternal(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
-        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
+        logger.debug("Begin trying to tweet from site = {}, on twitterAccount = {}, pageToStartWith = {}", site.name(), twitterAccount, pageToStartWith);
 
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
-            logger.trace("Trying to tweeting from site = {}, on account = {}, question from page = {}", site.name(), twitterAccount, currentPage);
+            logger.trace("Trying to tweeting from site = {}, on twitterAccount = {}, question from page = {}", site.name(), twitterAccount, currentPage);
             Preconditions.checkNotNull(env.getProperty(twitterAccount + ".minscore"), "Unable to find minscore for twitterAccount= " + twitterAccount);
             final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".minscore", Integer.class);
 
@@ -141,12 +141,12 @@ public class TweetStackexchangeService {
     }
 
     final void tweetTopQuestionBySiteAndTagInternal(final StackSite stackSite, final String twitterAccount, final String stackTag, final int pageToStartWith) throws IOException, JsonProcessingException {
-        logger.debug("Begin trying to tweet from site = {}, on account = {}, pageToStartWith = {}", stackSite.name(), twitterAccount, pageToStartWith);
+        logger.debug("Begin trying to tweet from site = {}, on twitterAccount = {}, pageToStartWith = {}", stackSite.name(), twitterAccount, pageToStartWith);
 
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
-            logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", stackSite.name(), twitterAccount, pageToStartWith);
+            logger.trace("Trying to tweeting from site = {}, on twitterAccount = {}, pageToStartWith = {}", stackSite.name(), twitterAccount, pageToStartWith);
             final int maxScoreForQuestionsOnThisAccount = minStackScoreRetriever.minScore(stackTag, stackSite, twitterAccount);
 
             final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, stackSite, stackTag, currentPage);
@@ -194,7 +194,7 @@ public class TweetStackexchangeService {
 
         // is it valid?
         if (!TwitterUtil.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on account= {}, tweet text= {}", twitterAccount, tweetText);
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
 

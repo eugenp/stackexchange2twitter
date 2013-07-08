@@ -22,8 +22,8 @@ public class TwitterTagsToHashExistsIntegrationTest {
 
     @Test
     public final void whenRetrievingMaxRtScoresForTag_thenFound() {
-        for (final SimpleTwitterAccount account : SimpleTwitterAccount.values()) {
-            assertNotNull("No twitter tags to hash for account " + account, env.getProperty(account.name() + ".hash"));
+        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+            assertNotNull("No twitter tags to hash for twitterAccount= " + twitterAccount, env.getProperty(twitterAccount.name() + ".hash"));
         }
     }
 

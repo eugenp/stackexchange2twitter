@@ -22,8 +22,8 @@ public class TwitterHashtagWordsIntegrationTest {
 
     @Test
     public final void whenRetrievingWordsToHashForAccount_thenFound() {
-        for (final SimpleTwitterAccount account : SimpleTwitterAccount.values()) {
-            assertNotNull("No words to hash for account " + account, env.getProperty(account.name() + ".hash"));
+        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+            assertNotNull("No words to hash for twitterAccount " + twitterAccount, env.getProperty(twitterAccount.name() + ".hash"));
         }
     }
 

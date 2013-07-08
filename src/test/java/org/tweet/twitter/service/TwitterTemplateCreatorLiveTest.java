@@ -27,8 +27,8 @@ public class TwitterTemplateCreatorLiveTest {
 
     @Test
     public final void givenValidAccount_whenRetrievingTwitterClient_thenNoException() {
-        for (final SimpleTwitterAccount account : SimpleTwitterAccount.values()) {
-            twitterTemplateCreator.getTwitterTemplate(account.name());
+        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+            twitterTemplateCreator.getTwitterTemplate(twitterAccount.name());
         }
     }
 

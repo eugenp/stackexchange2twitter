@@ -37,12 +37,12 @@ public class SetupBackupIntegrationTest {
         public final String mapRow(final ResultSet rs, final int line) throws SQLException {
             final String questionIdAsString = rs.getString("question_id");
             final long questionId = Long.parseLong(questionIdAsString);
-            final String account = rs.getString("twitter_account");
+            final String twitterAccount = rs.getString("twitter_account");
 
-            if (twitterAccountToQuestions.get(account) == null) {
-                twitterAccountToQuestions.put(account, Lists.<Long> newArrayList());
+            if (twitterAccountToQuestions.get(twitterAccount) == null) {
+                twitterAccountToQuestions.put(twitterAccount, Lists.<Long> newArrayList());
             }
-            twitterAccountToQuestions.get(account).add(questionId);
+            twitterAccountToQuestions.get(twitterAccount).add(questionId);
             count++;
             return "";
         }
