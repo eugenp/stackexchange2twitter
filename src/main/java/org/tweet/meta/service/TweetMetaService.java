@@ -148,7 +148,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         twitterLiveService.tweet(twitterAccount, processedTweetText);
 
         // mark
-        markDone(tweetId, twitterAccount);
+        markDone(new Retweet(tweetId, twitterAccount));
 
         // done
         return true;
@@ -199,9 +199,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         return existingTweet != null;
     }
 
-    private final void markDone(final long tweetId, final String twitterAccount) {
-        final Retweet retweet = new Retweet(tweetId, twitterAccount);
-        retweetApi.save(retweet);
+    @Override
+    protected final void markDone(final Retweet entity) {
+        retweetApi.save(entity);
     }
 
 }

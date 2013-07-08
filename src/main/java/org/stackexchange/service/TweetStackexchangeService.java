@@ -205,16 +205,16 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         twitterLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
-        markDone(site, questionId, twitterAccount);
+        markDone(new QuestionTweet(questionId, twitterAccount, site.name()));
 
         // done
         return true;
     }
 
-    private final void markDone(final StackSite site, final String questionId, final String twitterAccount) {
-        // TODO: add site to the question tweet entity
-        final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount, site.name());
-        questionTweetApi.save(questionTweet);
+    // TODO: add site to the question tweet entity
+    @Override
+    protected final void markDone(final QuestionTweet entity) {
+        questionTweetApi.save(entity);
     }
 
     private final boolean isValidQuestions(final JsonNode siteQuestionsJson, final String twitterAccount) {

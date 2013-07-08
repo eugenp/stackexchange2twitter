@@ -16,4 +16,6 @@ public abstract class BaseTweetFromSourceService<T extends IEntity> {
 
     protected abstract boolean hasThisAlreadyBeenTweeted(final T entity);
 
+    protected abstract void markDone(final T entity);
+
 }

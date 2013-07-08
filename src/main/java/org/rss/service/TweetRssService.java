@@ -86,7 +86,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         twitterLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
-        markDone(title, url, twitterAccount);
+        markDone(new RssEntry(twitterAccount, url, title));
 
         // done
         return true;
@@ -97,8 +97,8 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         return rssEntryApi.findOneByRssUriAndTitle(rssEntry.getRssUri(), rssEntry.getTitle()) != null;
     }
 
-    private final void markDone(final String title, final String url, final String twitterAccount) {
-        final RssEntry rssEntry = new RssEntry(twitterAccount, url, title);
+    @Override
+    protected final void markDone(final RssEntry rssEntry) {
         rssEntryApi.save(rssEntry);
     }
 
