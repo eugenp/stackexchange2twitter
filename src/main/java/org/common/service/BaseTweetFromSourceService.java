@@ -1,5 +1,7 @@
 package org.common.service;
 
+import java.util.Map;
+
 import org.common.persistence.IEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +16,8 @@ public abstract class BaseTweetFromSourceService<T extends IEntity> {
     protected TweetService tweetService;
 
     // API
+
+    protected abstract boolean tryTweetOne(final String text, final String title, final String twitterAccount, final Map<String, String> customDetails);
 
     protected abstract boolean hasThisAlreadyBeenTweeted(final T entity);
 

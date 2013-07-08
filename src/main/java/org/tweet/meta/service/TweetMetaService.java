@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.common.service.BaseTweetFromSourceService;
 import org.common.service.HttpService;
@@ -191,6 +192,13 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             return false;
         }
         return true;
+    }
+
+    // template
+
+    @Override
+    protected boolean tryTweetOne(final String text, final String title, final String twitterAccount, final Map<String, String> customDetails) {
+        return false;
     }
 
     @Override

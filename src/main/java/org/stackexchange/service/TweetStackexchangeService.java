@@ -1,6 +1,7 @@
 package org.stackexchange.service;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.common.service.BaseTweetFromSourceService;
 import org.slf4j.Logger;
@@ -214,6 +215,11 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
     }
 
     // template
+
+    @Override
+    protected boolean tryTweetOne(final String text, final String title, final String twitterAccount, final Map<String, String> customDetails) {
+        return false;
+    }
 
     @Override
     protected final void markDone(final QuestionTweet entity) {

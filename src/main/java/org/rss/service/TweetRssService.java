@@ -1,6 +1,7 @@
 package org.rss.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.common.service.BaseTweetFromSourceService;
@@ -87,6 +88,48 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
 
         // mark
         markDone(new RssEntry(twitterAccount, url, title));
+
+        // done
+        return true;
+    }
+
+    // template
+
+    @Override
+    protected boolean tryTweetOne(final String text, final String url, final String twitterAccount, final Map<String, String> customDetails) {
+        logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, text, url);
+
+        // is it worth it by itself?
+        if (!tweetService.isTweetTextWorthTweetingByItself(text)) {
+            return false;
+        }
+
+        // is it worth it in the context of all the current list of tweets? - yes
+
+        // pre-process
+        final String tweetText = tweetService.preValidityProcess(text);
+
+        // is it valid?
+        if (!tweetService.isTweetTextValid(tweetText)) {
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+            return false;
+        }
+
+        // is this tweet pointing to something good? - yes
+
+        // is the tweet rejected by some classifier? - no
+
+        // post-process
+        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
+
+        // construct full tweet
+        final String fullTweet = tweetService.constructTweet(processedTweetText, url);
+
+        // tweet
+        twitterLiveService.tweet(twitterAccount, fullTweet);
+
+        // mark
+        markDone(new RssEntry(twitterAccount, url, text));
 
         // done
         return true;
