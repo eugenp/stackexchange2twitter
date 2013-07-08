@@ -11,9 +11,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.StackSite;
+import org.stackexchange.component.MinStackScoreRetriever;
+import org.stackexchange.component.StackExchangePageStrategy;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
-import org.stackexchange.strategies.StackExchangePageStrategy;
 import org.tweet.twitter.service.TagService;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
@@ -44,6 +45,9 @@ public class TweetStackexchangeService {
 
     @Autowired
     private StackExchangePageStrategy pageStrategy;
+
+    @Autowired
+    private MinStackScoreRetriever minStackScoreRetriever;
 
     @Autowired
     private Environment env;
@@ -143,8 +147,7 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on account = {}, pageToStartWith = {}", stackSite.name(), twitterAccount, pageToStartWith);
-            Preconditions.checkNotNull(env.getProperty(stackTag + "." + stackSite.name() + ".minscore"), "Unable to find minscore for stackTag= " + stackTag + " on twitter account= " + twitterAccount);
-            final int maxScoreForQuestionsOnThisAccount = env.getProperty(stackTag + "." + stackSite.name() + ".minscore", Integer.class);
+            final int maxScoreForQuestionsOnThisAccount = minStackScoreRetriever.minScore(stackTag, stackSite, twitterAccount);
 
             final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, stackSite, stackTag, currentPage);
             tweetSuccessful = tryTweetTopQuestion(stackSite, twitterAccount, questionsForTagRawJson);

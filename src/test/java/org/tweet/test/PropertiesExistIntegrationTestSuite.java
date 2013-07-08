@@ -3,8 +3,8 @@ package org.tweet.test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.stackexchange.StackTagsExistsIntegrationTest;
-import org.stackexchange.service.TwitterMinScoreIntegrationTest;
+import org.stackexchange.component.MinStackScoreRetrieverIntegrationTest;
+import org.stackexchange.component.StackTagsExistsIntegrationTest;
 import org.tweet.TwitterTagsToHashExistsIntegrationTest;
 import org.tweet.meta.service.TwitterMaxRtScoreExistsIntegrationTest;
 import org.tweet.twitter.service.TwitterHashtagWordsIntegrationTest;
@@ -12,7 +12,7 @@ import org.tweet.twitter.service.TwitterHashtagWordsIntegrationTest;
 @RunWith(Suite.class)
 @SuiteClasses({// @formatter:off
     TwitterHashtagWordsIntegrationTest.class, 
-    TwitterMinScoreIntegrationTest.class,
+    MinStackScoreRetrieverIntegrationTest.class,
     TwitterMaxRtScoreExistsIntegrationTest.class, 
     TwitterTagsToHashExistsIntegrationTest.class, 
     StackTagsExistsIntegrationTest.class

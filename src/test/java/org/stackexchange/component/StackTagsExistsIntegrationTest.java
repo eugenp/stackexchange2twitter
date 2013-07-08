@@ -1,4 +1,4 @@
-package org.stackexchange;
+package org.stackexchange.component;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
+import org.stackexchange.component.MinStackScoreRetriever;
 import org.stackexchange.persistence.setup.TwitterAccountToStackAccount;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.util.SimpleTwitterAccount;
@@ -25,6 +26,9 @@ public class StackTagsExistsIntegrationTest {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private MinStackScoreRetriever minStackScoreRetriever;
 
     // API
 
@@ -41,7 +45,7 @@ public class StackTagsExistsIntegrationTest {
                     continue;
                 }
                 for (final StackSite stackSite : relevantStackSitesForCurrentTwitterAccount) {
-                    assertNotNull("No min score found for stack tag: " + stackTag + "; on account: " + twitterAccount, env.getProperty(stackTag + "." + stackSite.name() + ".minscore"));
+                    assertNotNull("No min score found for stack tag: " + stackTag + "; on account: " + twitterAccount, minStackScoreRetriever.minScoreRaw(stackTag, stackSite));
                 }
             }
         }

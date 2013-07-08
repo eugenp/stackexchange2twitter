@@ -1,4 +1,4 @@
-package org.stackexchange.strategies;
+package org.stackexchange.component;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;

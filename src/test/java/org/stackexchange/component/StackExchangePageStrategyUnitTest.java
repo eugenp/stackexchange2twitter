@@ -1,10 +1,11 @@
-package org.stackexchange.strategies;
+package org.stackexchange.component;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+import org.stackexchange.component.StackExchangePageStrategy;
 
 public final class StackExchangePageStrategyUnitTest {
 
