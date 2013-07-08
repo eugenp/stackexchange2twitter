@@ -16,7 +16,7 @@ import org.stackexchange.service.TweetStackexchangeService;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TagService;
+import org.tweet.twitter.service.TagRetrieverService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -29,7 +29,7 @@ public class TweetStackexchangeScheduler {
     private TweetStackexchangeService service;
 
     @Autowired
-    private TagService tagService;
+    private TagRetrieverService tagService;
 
     public TweetStackexchangeScheduler() {
         super();

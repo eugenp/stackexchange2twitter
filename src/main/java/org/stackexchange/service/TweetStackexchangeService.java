@@ -15,7 +15,7 @@ import org.stackexchange.component.StackExchangePageStrategy;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
-import org.tweet.twitter.service.TagService;
+import org.tweet.twitter.service.TagRetrieverService;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
 
@@ -41,7 +41,7 @@ public class TweetStackexchangeService {
     private IQuestionTweetJpaDAO questionTweetApi;
 
     @Autowired
-    private TagService tagService;
+    private TagRetrieverService tagService;
 
     @Autowired
     private StackExchangePageStrategy pageStrategy;
@@ -70,7 +70,7 @@ public class TweetStackexchangeService {
     public void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
         String stackTag = null;
         try {
-            stackTag = tagService.pickStackTagForAccount(twitterAccount);
+            stackTag = tagService.pickStackTag(twitterAccount);
             final int pageToStartWith = pageStrategy.decidePage(twitterAccount);
             tweetTopQuestionBySiteAndTagInternal(site, twitterAccount, stackTag, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {

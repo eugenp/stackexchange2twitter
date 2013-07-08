@@ -17,7 +17,7 @@ import org.tweet.meta.component.MaxRtRetriever;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
-import org.tweet.twitter.service.TagService;
+import org.tweet.twitter.service.TagRetrieverService;
 import org.tweet.twitter.service.TwitterService;
 import org.tweet.twitter.util.TwitterUtil;
 
@@ -34,7 +34,7 @@ public class TweetMetaService {
     private TwitterService twitterService;
 
     @Autowired
-    private TagService tagService;
+    private TagRetrieverService tagService;
 
     @Autowired
     private ClassificationService classificationService;
@@ -58,7 +58,7 @@ public class TweetMetaService {
 
     // write
     public boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
-        final String twitterTag = tagService.pickTwitterTagForAccount(twitterAccount);
+        final String twitterTag = tagService.pickTwitterTag(twitterAccount);
         return retweetByHashtag(twitterAccount, twitterTag);
     }
 
