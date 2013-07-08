@@ -32,13 +32,13 @@ public final class MinStackScoreRetriever {
 
     // by site
 
-    final String minScoreRawBySite(final StackSite stackSite) {
-        return env.getProperty(stackSite.name() + ".minscore");
+    final String minScoreRawByAccount(final String twitterAccount) {
+        return env.getProperty(twitterAccount + ".minscore");
     }
 
-    public final int minScoreBySite(final StackSite stackSite, final String twitterAccount) {
-        Preconditions.checkNotNull(minScoreRawBySite(stackSite), "Unable to find minscore by stackSite= " + stackSite + " on twitterAccount= " + twitterAccount);
-        return env.getProperty(stackSite.name() + ".minscore", Integer.class);
+    public final int minScoreByAccount(final String twitterAccount) {
+        Preconditions.checkNotNull(minScoreRawByAccount(twitterAccount), "Unable to find minscore by twitterAccount= " + twitterAccount);
+        return env.getProperty(twitterAccount + ".minscore", Integer.class);
     }
 
 }

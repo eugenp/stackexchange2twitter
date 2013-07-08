@@ -7,7 +7,6 @@ import org.common.text.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.StackSite;
@@ -51,9 +50,6 @@ public class TweetStackexchangeService {
     private MinStackScoreRetriever minStackScoreRetriever;
     @Autowired
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
-
-    @Autowired
-    private Environment env;
 
     public TweetStackexchangeService() {
         super();
@@ -129,8 +125,7 @@ public class TweetStackexchangeService {
         boolean tweetSuccessful = false;
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from site = {}, on twitterAccount = {}, question from page = {}", site.name(), twitterAccount, currentPage);
-            Preconditions.checkNotNull(env.getProperty(twitterAccount + ".minscore"), "Unable to find minscore for twitterAccount= " + twitterAccount);
-            final int maxScoreForQuestionsOnThisAccount = env.getProperty(twitterAccount + ".minscore", Integer.class);
+            final int maxScoreForQuestionsOnThisAccount = minStackScoreRetriever.minScoreByAccount(twitterAccount);
 
             final String siteQuestionsRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, site, currentPage);
             tweetSuccessful = tryTweetTopQuestion(site, twitterAccount, siteQuestionsRawJson);
