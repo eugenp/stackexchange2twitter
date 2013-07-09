@@ -5,6 +5,8 @@ public final class StackTagAdvanced {
     public static final String amazonec2 = "amazon-ec2";
     public static final String amazonwebservices = "amazon-web-services";
 
+    public static final String aspnet = "asp.net";
+
     public static final String rubyonrails = "ruby-on-rails";
     public static final String objectivec = "objective-c";
     public static final String java8 = "java-8";

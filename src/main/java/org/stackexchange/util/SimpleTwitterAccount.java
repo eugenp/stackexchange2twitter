@@ -2,6 +2,7 @@ package org.stackexchange.util;
 
 public enum SimpleTwitterAccount {// @formatter:off
     AskUbuntuBest, 
+    AspnetDaily, 
     
     BestAlgorithms, 
     BestBash, 
