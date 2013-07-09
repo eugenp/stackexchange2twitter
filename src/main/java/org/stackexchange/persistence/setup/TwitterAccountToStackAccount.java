@@ -91,6 +91,9 @@ public final class TwitterAccountToStackAccount {
         case LispDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
+        case MathDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
         case ParsingDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
         case PerlDaily:

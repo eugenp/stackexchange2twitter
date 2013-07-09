@@ -37,6 +37,8 @@ public enum SimpleTwitterAccount {// @formatter:off
     LispDaily, 
     LandOfWordpress, 
     
+    MathDaily, 
+    
     ObjectiveCDaily, 
     
     PythonDaily, 
