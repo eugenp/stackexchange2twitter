@@ -21,6 +21,7 @@ import org.tweet.twitter.component.MaxRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
 @Service
@@ -111,48 +112,12 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         final long tweetId = potentialTweet.getId();
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
-        // is it worth it by itself?
-        if (!tweetService.isTweetWorthRetweetingByItself(text)) {
-            return false;
-        }
+        final Map<String, Object> customDetails = Maps.newHashMap();
+        customDetails.put("tweetId", tweetId);
+        customDetails.put("hashtag", hashtag);
+        customDetails.put("potentialTweet", potentialTweet);
 
-        // is it worth it in the context of all the current list of tweets?
-        if (!isTweetWorthRetweetingInContext(potentialTweet, hashtag)) {
-            return false;
-        }
-
-        // pre-process
-        final String tweetText = tweetService.preValidityProcess(text);
-
-        // is it valid?
-        if (!tweetService.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
-            return false;
-        }
-
-        // is this tweet pointing to something good?
-        if (!isTweetPointingToSomethingGood(tweetText)) {
-            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
-            return false;
-        }
-
-        // is the tweet rejected by some classifier?
-        if (isTweetRejectedByClassifier(tweetText)) {
-            logger.debug("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
-            return false;
-        }
-
-        // post-process
-        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
-
-        // tweet
-        twitterLiveService.tweet(twitterAccount, processedTweetText);
-
-        // mark
-        markDone(new Retweet(tweetId, twitterAccount));
-
-        // done
-        return true;
+        return tryTweetOne(text, null, twitterAccount, customDetails);
     }
 
     private boolean isTweetRejectedByClassifier(final String text) {
@@ -197,8 +162,55 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     // template
 
     @Override
-    protected boolean tryTweetOne(final String text, final String title, final String twitterAccount, final Map<String, String> customDetails) {
-        return false;
+    protected final boolean tryTweetOne(final String text, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
+        final long tweetId = (long) customDetails.get("tweetId");
+        final String hashtag = (String) customDetails.get("hashtag");
+        final Tweet potentialTweet = (Tweet) customDetails.get("potentialTweet");
+
+        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
+
+        // is it worth it by itself?
+        if (!tweetService.isTweetWorthRetweetingByItself(text)) {
+            return false;
+        }
+
+        // is it worth it in the context of all the current list of tweets?
+        if (!isTweetWorthRetweetingInContext(potentialTweet, hashtag)) {
+            return false;
+        }
+
+        // pre-process
+        final String tweetText = tweetService.preValidityProcess(text);
+
+        // is it valid?
+        if (!tweetService.isTweetTextValid(tweetText)) {
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+            return false;
+        }
+
+        // is this tweet pointing to something good?
+        if (!isTweetPointingToSomethingGood(tweetText)) {
+            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+            return false;
+        }
+
+        // is the tweet rejected by some classifier?
+        if (isTweetRejectedByClassifier(tweetText)) {
+            logger.debug("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+            return false;
+        }
+
+        // post-process
+        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
+
+        // tweet
+        twitterLiveService.tweet(twitterAccount, processedTweetText);
+
+        // mark
+        markDone(new Retweet(tweetId, twitterAccount));
+
+        // done
+        return true;
     }
 
     @Override

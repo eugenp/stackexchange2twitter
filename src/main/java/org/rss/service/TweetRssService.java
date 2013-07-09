@@ -53,61 +53,27 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
     // util
 
     private final boolean tryTweetOne(final Pair<String, String> potentialRssEntry, final String twitterAccount) {
-        final String title = potentialRssEntry.getLeft();
+        final String textOnly = potentialRssEntry.getLeft();
         final String url = potentialRssEntry.getRight();
-        logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, title, url);
 
-        // is it worth it by itself?
-        if (!tweetService.isTweetTextWorthTweetingByItself(title)) {
-            return false;
-        }
-
-        // is it worth it in the context of all the current list of tweets? - yes
-
-        // pre-process
-        final String tweetText = tweetService.preValidityProcess(title);
-
-        // is it valid?
-        if (!tweetService.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
-            return false;
-        }
-
-        // is this tweet pointing to something good? - yes
-
-        // is the tweet rejected by some classifier? - no
-
-        // post-process
-        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
-
-        // construct full tweet
-        final String fullTweet = tweetService.constructTweet(processedTweetText, url);
-
-        // tweet
-        twitterLiveService.tweet(twitterAccount, fullTweet);
-
-        // mark
-        markDone(new RssEntry(twitterAccount, url, title));
-
-        // done
-        return true;
+        return tryTweetOne(textOnly, url, twitterAccount, null);
     }
 
     // template
 
     @Override
-    protected boolean tryTweetOne(final String text, final String url, final String twitterAccount, final Map<String, String> customDetails) {
-        logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, text, url);
+    protected final boolean tryTweetOne(final String textOnly, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
+        logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, textOnly, url);
 
         // is it worth it by itself?
-        if (!tweetService.isTweetTextWorthTweetingByItself(text)) {
+        if (!tweetService.isTweetTextWorthTweetingByItself(textOnly)) {
             return false;
         }
 
         // is it worth it in the context of all the current list of tweets? - yes
 
         // pre-process
-        final String tweetText = tweetService.preValidityProcess(text);
+        final String tweetText = tweetService.preValidityProcess(textOnly);
 
         // is it valid?
         if (!tweetService.isTweetTextValid(tweetText)) {
@@ -129,7 +95,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         twitterLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
-        markDone(new RssEntry(twitterAccount, url, text));
+        markDone(new RssEntry(twitterAccount, url, textOnly));
 
         // done
         return true;

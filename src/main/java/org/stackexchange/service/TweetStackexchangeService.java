@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 
 @Service
 public class TweetStackexchangeService extends BaseTweetFromSourceService<QuestionTweet> {
@@ -172,7 +173,29 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         return false;
     }
 
-    private final boolean tryTweetOne(final String textRaw, final String link, final String questionId, final StackSite site, final String twitterAccount) {
+    private final boolean tryTweetOne(final String textRaw, final String url, final String questionId, final StackSite site, final String twitterAccount) {
+        final Map<String, Object> customDetails = Maps.newHashMap();
+        customDetails.put("questionId", questionId);
+        customDetails.put("site", site);
+
+        return tryTweetOne(textRaw, url, twitterAccount, customDetails);
+    }
+
+    private final boolean isValidQuestions(final JsonNode siteQuestionsJson, final String twitterAccount) {
+        final JsonNode items = siteQuestionsJson.get("items");
+        Preconditions.checkNotNull(items, "For twitterAccount = " + twitterAccount + ", there are no items (null) in the questions json = " + siteQuestionsJson);
+        Preconditions.checkState(((ArrayNode) siteQuestionsJson.get("items")).size() > 0, "For twitterAccount = " + twitterAccount + ", there are no items (empty) in the questions json = " + siteQuestionsJson);
+
+        return true;
+    }
+
+    // template
+
+    @Override
+    protected final boolean tryTweetOne(final String textRaw, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
+        final String questionId = (String) customDetails.get("questionId");
+        final StackSite site = (StackSite) customDetails.get("site");
+
         // is it worth it by itself? - yes
 
         // is it worth it in the context of all the current list of tweets? - yes
@@ -194,7 +217,7 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // construct full tweet
-        final String fullTweet = tweetService.constructTweetSimple(processedTweetText, link.substring(1, link.length() - 1));
+        final String fullTweet = tweetService.constructTweetSimple(processedTweetText, url.substring(1, url.length() - 1));
 
         // tweet
         twitterLiveService.tweet(twitterAccount, fullTweet);
@@ -204,21 +227,6 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
 
         // done
         return true;
-    }
-
-    private final boolean isValidQuestions(final JsonNode siteQuestionsJson, final String twitterAccount) {
-        final JsonNode items = siteQuestionsJson.get("items");
-        Preconditions.checkNotNull(items, "For twitterAccount = " + twitterAccount + ", there are no items (null) in the questions json = " + siteQuestionsJson);
-        Preconditions.checkState(((ArrayNode) siteQuestionsJson.get("items")).size() > 0, "For twitterAccount = " + twitterAccount + ", there are no items (empty) in the questions json = " + siteQuestionsJson);
-
-        return true;
-    }
-
-    // template
-
-    @Override
-    protected boolean tryTweetOne(final String text, final String title, final String twitterAccount, final Map<String, String> customDetails) {
-        return false;
     }
 
     @Override

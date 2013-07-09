@@ -17,7 +17,7 @@ public abstract class BaseTweetFromSourceService<T extends IEntity> {
 
     // API
 
-    protected abstract boolean tryTweetOne(final String text, final String title, final String twitterAccount, final Map<String, String> customDetails);
+    protected abstract boolean tryTweetOne(final String text, final String url, final String twitterAccount, final Map<String, Object> customDetails);
 
     protected abstract boolean hasThisAlreadyBeenTweeted(final T entity);
 
