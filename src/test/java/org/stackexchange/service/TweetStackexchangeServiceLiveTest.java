@@ -126,6 +126,11 @@ public class TweetStackexchangeServiceLiveTest {
         tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.LandOfWordpress), TwitterTag.wordpress.name(), SimpleTwitterAccount.LandOfWordpress.name());
     }
 
+    @Test
+    public final void whenTweetingByTagGoogle_thenNoExceptions() throws JsonProcessingException, IOException {
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.GoogleDigest), TwitterTag.google.name(), SimpleTwitterAccount.GoogleDigest.name());
+    }
+
     // AskUbuntu
 
     @Test

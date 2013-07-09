@@ -133,9 +133,9 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
 
         int currentPage = pageToStartWith;
         boolean tweetSuccessful = false;
+        final int maxScoreForQuestionsOnThisAccount = minStackScoreRetriever.minScore(stackTag, stackSite, twitterAccount);
         while (!tweetSuccessful) {
             logger.trace("Trying to tweeting from stackSite= {}, on twitterAccount= {}, pageToStartWith= {}", stackSite.name(), twitterAccount, pageToStartWith);
-            final int maxScoreForQuestionsOnThisAccount = minStackScoreRetriever.minScore(stackTag, stackSite, twitterAccount);
 
             final String questionsForTagRawJson = questionsApi.questions(maxScoreForQuestionsOnThisAccount, stackSite, stackTag, currentPage);
             tweetSuccessful = tryTweetTopQuestion(stackSite, twitterAccount, questionsForTagRawJson);
@@ -156,7 +156,7 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
 
             logger.trace("Considering to tweet on twitterAccount= {}, Question= {}", twitterAccount, questionId);
             if (hasThisAlreadyBeenTweeted(new QuestionTweet(questionId, twitterAccount, null))) {
-                return false;
+                continue;
             }
 
             logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
