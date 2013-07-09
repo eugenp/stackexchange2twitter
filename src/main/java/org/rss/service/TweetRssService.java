@@ -33,8 +33,9 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
 
         final List<Pair<String, String>> rssEntries = rssService.extractTitlesAndLinks(rssFeedUri);
         for (final Pair<String, String> potentialRssEntry : rssEntries) {
+            logger.trace("Considering to tweet on twitterAccount= {}, from RSS= {}, tweet text= {}", twitterAccount, rssFeedUri, potentialRssEntry);
             if (!hasThisAlreadyBeenTweeted(new RssEntry(twitterAccount, potentialRssEntry.getLeft(), potentialRssEntry.getRight()))) {
-                logger.info("Trying to tweeting the RssEntry= {}", potentialRssEntry);
+                logger.debug("Attempting to tweet on twitterAccount= {}, from RSS= {}, tweet text= {}", twitterAccount, rssFeedUri, potentialRssEntry);
                 final boolean success = tryTweetOneDelegator(potentialRssEntry, twitterAccount);
                 if (!success) {
                     logger.trace("Didn't tweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialRssEntry);

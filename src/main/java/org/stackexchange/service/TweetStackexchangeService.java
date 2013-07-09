@@ -153,20 +153,17 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
             final String questionId = questionJson.get(QuestionsApi.QUESTION_ID).toString();
             final String title = questionJson.get(QuestionsApi.TITLE).toString();
             final String link = questionJson.get(QuestionsApi.LINK).toString();
-
-            logger.trace("Considering to tweet on twitterAccount= {}, Question= {}", twitterAccount, questionId);
-            if (hasThisAlreadyBeenTweeted(new QuestionTweet(questionId, twitterAccount, null))) {
-                continue;
-            }
-
-            logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
-            final boolean success = tryTweetOneDelegator(title, link, questionId, stackSite, twitterAccount);
-            if (!success) {
-                logger.debug("Tried and failed to tweet on twitterAccount= {}, tweet text= {}", twitterAccount, title);
-                continue;
-            } else {
-                logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}", twitterAccount, title);
-                return true;
+            logger.trace("Considering to tweet on twitterAccount= {}, questionId= {}", twitterAccount, questionId);
+            if (!hasThisAlreadyBeenTweeted(new QuestionTweet(questionId, twitterAccount, null))) {
+                logger.debug("Attempting to tweet on twitterAccount= {}, questionId= {}", twitterAccount, questionId);
+                final boolean success = tryTweetOneDelegator(title, link, questionId, stackSite, twitterAccount);
+                if (!success) {
+                    logger.debug("Tried and failed to tweet on twitterAccount= {}, tweet text= {}", twitterAccount, title);
+                    continue;
+                } else {
+                    logger.info("Successfully tweeted on twitterAccount= {}, tweet text= {}", twitterAccount, title);
+                    return true;
+                }
             }
         }
 

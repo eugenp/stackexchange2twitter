@@ -90,9 +90,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     private final boolean tryRetweetByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
-            logger.trace("If not already retweeted, considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccount, tweetId);
-
+            logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
             if (!hasThisAlreadyBeenTweeted(new Retweet(tweetId, twitterAccount))) {
+                logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
                 final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
                     logger.trace("Didn't retweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialTweet.getText());
