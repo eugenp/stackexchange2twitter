@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.h2.util.StringUtils;
 
 public final class TextUtils {
 
@@ -16,7 +17,13 @@ public final class TextUtils {
     // API
 
     public static String preProcessTweetText(final String tweetText) {
-        return StringEscapeUtils.unescapeHtml4(tweetText);
+        String cleanedText = tweetText;
+        cleanedText = StringEscapeUtils.unescapeHtml4(cleanedText);
+        cleanedText = StringEscapeUtils.escapeHtml4(cleanedText);
+        cleanedText = StringUtils.replaceAll(cleanedText, "&ldquo;", "\"");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&rdquo;", "\"");
+
+        return cleanedText;
     }
 
     public static List<String> extractUrls(final String input) {

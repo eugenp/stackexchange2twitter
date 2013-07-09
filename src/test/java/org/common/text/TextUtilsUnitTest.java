@@ -49,9 +49,16 @@ public class TextUtilsUnitTest {
     // pre-processing text
 
     @Test
-    public final void whenProcessingTweetText_thenNoExceptions() {
+    public final void whenProcessingTweetText_thenCorrectlyProcessed() {
         final String expectedText = ".htaccess & Wordpress: Exclude folder from RewriteRule";
         final String preProcessedTweet = TextUtils.preProcessTweetText(".htaccess &amp; Wordpress: Exclude folder from RewriteRule");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario2_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "System(\"pause\"); - Why is it wrong? - stackoverflow.com/questions/1107";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("System(“pause”); - Why is it wrong? - stackoverflow.com/questions/1107");
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
