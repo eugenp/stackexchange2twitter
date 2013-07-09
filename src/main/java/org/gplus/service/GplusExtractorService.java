@@ -31,13 +31,13 @@ public class GplusExtractorService {
     // API
 
     public final String getBestTweetCandidate(final String topic) throws IOException {
-        logger.info("Retrieving best tweet candidate from G+, on the topic = {}", topic);
+        logger.info("Retrieving best tweet candidate from G+, on the topic= {}", topic);
 
         final List<Activity> activities = gplusService.search(topic);
         for (final Activity activity : activities) {
             final Pair<String, String> validTweetCandidate = getUrlOfValidTweetCandidate(activity.getObject().getContent());
             if (validTweetCandidate != null) {
-                logger.info("Found tweet candidate from activity = {}", ActivityHelper.toString(activity));
+                logger.info("Found tweet candidate from activity= {}", ActivityHelper.toString(activity));
                 return validTweetCandidate.getRight() + " - " + validTweetCandidate.getLeft();
             }
         }
@@ -49,7 +49,7 @@ public class GplusExtractorService {
      * - note: may return null
      */
     final Pair<String, String> getUrlOfValidTweetCandidate(final String content) {
-        logger.debug("Analyzing content of activity as source of tweet candidate; content = {}", content);
+        logger.debug("Analyzing content of activity as source of tweet candidate; content= {}", content);
 
         final List<String> extractedUrls = TextUtils.extractUrls(content);
         final String mainUrl = TextUtils.determineMainUrl(extractedUrls);

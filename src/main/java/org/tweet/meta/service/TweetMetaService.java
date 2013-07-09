@@ -60,7 +60,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         try {
             final boolean success = retweetByHashtagInternal(twitterAccount, twitterTag);
             if (!success) {
-                logger.warn("Unable to retweet any tweet on twitterAccount = {}, by twitterTag = {}", twitterAccount, twitterTag);
+                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
             }
             return success;
         } catch (final RuntimeException runtimeEx) {
@@ -73,9 +73,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     // util
 
     private final boolean retweetByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
-        logger.debug("Begin trying to retweet on twitterAccount = {}", twitterAccount);
+        logger.debug("Begin trying to retweet on twitterAccount= {}", twitterAccount);
 
-        logger.trace("Trying to retweet on twitterAccount = {}", twitterAccount);
+        logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
         Collections.sort(tweetsOfHashtag, Ordering.from(new Comparator<Tweet>() {
             @Override
