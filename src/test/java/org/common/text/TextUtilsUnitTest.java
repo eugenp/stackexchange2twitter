@@ -51,14 +51,21 @@ public class TextUtilsUnitTest {
     @Test
     public final void whenProcessingTweetText_thenCorrectlyProcessed() {
         final String expectedText = ".htaccess & Wordpress: Exclude folder from RewriteRule";
-        final String preProcessedTweet = TextUtils.preProcessTweetText(".htaccess &amp; Wordpress: Exclude folder from RewriteRule");
+        final String preProcessedTweet = TextUtils.preProcessTweetText(".htaccess & Wordpress: Exclude folder from RewriteRule");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario1_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "System(\"pause\"); - Why is it wrong? - stackoverflow.com/questions/1107";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("System(“pause”); - Why is it wrong? - stackoverflow.com/questions/1107");
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
     @Test
     public final void givenTextContainsInvalidCharactersScenario2_whenProcessingTweetText_thenCorrectlyProcessed() {
-        final String expectedText = "System(\"pause\"); - Why is it wrong? - stackoverflow.com/questions/1107";
-        final String preProcessedTweet = TextUtils.preProcessTweetText("System(“pause”); - Why is it wrong? - stackoverflow.com/questions/1107");
+        final String expectedText = "<context:property-placeholder> properties not accessible to the child (web) context";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("<context:property-placeholder> properties not accessible to the child (web) context");
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 

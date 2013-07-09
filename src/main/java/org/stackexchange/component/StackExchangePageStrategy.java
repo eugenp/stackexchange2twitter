@@ -33,7 +33,9 @@ public final class StackExchangePageStrategy {
             return page + 1;
         }
 
-        return page + RandomUtils.nextInt(4);
+        // was + but, for a long time, a bug in the codebase meant that, from each of the resulted pages, only 1 question was actually tweeted, so now we're going back (for a while)
+        // return page + RandomUtils.nextInt(4);
+        return page - RandomUtils.nextInt(4);
     }
 
 }

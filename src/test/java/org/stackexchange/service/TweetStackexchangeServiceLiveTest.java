@@ -133,13 +133,6 @@ public class TweetStackexchangeServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingByRandomTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        final StackSite randomSite = GenericUtil.pickOneGeneric(twitterAccountToStackSites(SimpleTwitterAccount.BestBash));
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(randomSite, TwitterTag.bash.name(), SimpleTwitterAccount.BestBash.name());
-        assertTrue(success);
-    }
-
-    @Test
     public final void whenTweetingByTagWordpress_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.LandOfWordpress), TwitterTag.wordpress.name(), SimpleTwitterAccount.LandOfWordpress.name());
         assertTrue(success);
@@ -154,6 +147,13 @@ public class TweetStackexchangeServiceLiveTest {
     @Test
     public final void whenTweetingByTagApple_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.InTheAppleWorld), TwitterTag.apple.name(), SimpleTwitterAccount.InTheAppleWorld.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByRandomTag_thenNoExceptions() throws JsonProcessingException, IOException {
+        final StackSite randomSite = GenericUtil.pickOneGeneric(twitterAccountToStackSites(SimpleTwitterAccount.BestBash));
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(randomSite, TwitterTag.bash.name(), SimpleTwitterAccount.BestBash.name());
         assertTrue(success);
     }
 

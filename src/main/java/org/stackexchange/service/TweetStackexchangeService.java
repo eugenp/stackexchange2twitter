@@ -184,7 +184,19 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
         customDetails.put("questionId", questionId);
         customDetails.put("site", site);
 
-        return tryTweetOne(textRaw, url, twitterAccount, customDetails);
+        final String urlWithNoDoubleQuotes;
+        if (url.startsWith("\"") && url.endsWith("\"")) {
+            urlWithNoDoubleQuotes = url.substring(1, url.length() - 1);
+        } else {
+            urlWithNoDoubleQuotes = url;
+        }
+        final String textRawWithNoDoubleQuotes;
+        if (textRaw.startsWith("\"") && textRaw.endsWith("\"")) {
+            textRawWithNoDoubleQuotes = textRaw.substring(1, textRaw.length() - 1);
+        } else {
+            textRawWithNoDoubleQuotes = textRaw;
+        }
+        return tryTweetOne(textRawWithNoDoubleQuotes, urlWithNoDoubleQuotes, twitterAccount, customDetails);
     }
 
     // checks
@@ -225,7 +237,7 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // construct full tweet
-        final String fullTweet = tweetService.constructTweetSimple(processedTweetText, url.substring(1, url.length() - 1));
+        final String fullTweet = tweetService.constructTweetSimple(processedTweetText, url);
 
         // tweet
         twitterLiveService.tweet(twitterAccount, fullTweet);
