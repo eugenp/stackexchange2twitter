@@ -25,7 +25,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 @Service
-public class TweetStackexchangeService extends BaseTweetFromSourceService<QuestionTweet> {
+public final class TweetStackexchangeService extends BaseTweetFromSourceService<QuestionTweet> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -49,7 +49,7 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
 
     // write
 
-    public void tweetTopQuestionBySite(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
+    public final void tweetTopQuestionBySite(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteInternal(site, twitterAccount);
         } catch (final RuntimeException runtimeEx) {
@@ -57,7 +57,7 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         }
     }
 
-    public void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
+    public final void tweetTopQuestionBySiteAndTag(final StackSite site, final String twitterAccount) throws JsonProcessingException, IOException {
         String stackTag = null;
         try {
             stackTag = tagService.pickStackTag(twitterAccount);
@@ -73,7 +73,7 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
     /**
      * - not part of the API because it asks for the page
      */
-    void tweetTopQuestionBySite(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
+    final void tweetTopQuestionBySite(final StackSite site, final String twitterAccount, final int pageToStartWith) throws JsonProcessingException, IOException {
         try {
             tweetTopQuestionBySiteInternal(site, twitterAccount, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
@@ -160,7 +160,7 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
             }
 
             logger.info("Tweeting Question: title= {} with id= {}", title, questionId);
-            final boolean success = tryTweetOne(title, link, questionId, site, twitterAccount);
+            final boolean success = tryTweetOneDelegator(title, link, questionId, site, twitterAccount);
             if (!success) {
                 logger.debug("Tried and failed to tweet on twitterAccount= {}, tweet text= {}", twitterAccount, title);
                 continue;
@@ -173,13 +173,15 @@ public class TweetStackexchangeService extends BaseTweetFromSourceService<Questi
         return false;
     }
 
-    private final boolean tryTweetOne(final String textRaw, final String url, final String questionId, final StackSite site, final String twitterAccount) {
+    private final boolean tryTweetOneDelegator(final String textRaw, final String url, final String questionId, final StackSite site, final String twitterAccount) {
         final Map<String, Object> customDetails = Maps.newHashMap();
         customDetails.put("questionId", questionId);
         customDetails.put("site", site);
 
         return tryTweetOne(textRaw, url, twitterAccount, customDetails);
     }
+
+    // checks
 
     private final boolean isValidQuestions(final JsonNode siteQuestionsJson, final String twitterAccount) {
         final JsonNode items = siteQuestionsJson.get("items");

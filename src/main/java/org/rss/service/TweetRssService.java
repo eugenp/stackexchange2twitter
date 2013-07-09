@@ -28,14 +28,14 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
 
     // API
 
-    public final boolean tweetFromRssInternal(final String rssFeedUri, final String twitterAccount) {
+    public final boolean tweetFromRss(final String rssFeedUri, final String twitterAccount) {
         logger.debug("Begin trying to tweet from RSS= {}", rssFeedUri);
 
         final List<Pair<String, String>> rssEntries = rssService.extractTitlesAndLinks(rssFeedUri);
         for (final Pair<String, String> potentialRssEntry : rssEntries) {
             if (!hasThisAlreadyBeenTweeted(new RssEntry(twitterAccount, potentialRssEntry.getLeft(), potentialRssEntry.getRight()))) {
                 logger.info("Trying to tweeting the RssEntry= {}", potentialRssEntry);
-                final boolean success = tryTweetOne(potentialRssEntry, twitterAccount);
+                final boolean success = tryTweetOneDelegator(potentialRssEntry, twitterAccount);
                 if (!success) {
                     logger.trace("Didn't tweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialRssEntry);
                     continue;
@@ -52,7 +52,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
 
     // util
 
-    private final boolean tryTweetOne(final Pair<String, String> potentialRssEntry, final String twitterAccount) {
+    private final boolean tryTweetOneDelegator(final Pair<String, String> potentialRssEntry, final String twitterAccount) {
         final String textOnly = potentialRssEntry.getLeft();
         final String url = potentialRssEntry.getRight();
 

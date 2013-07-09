@@ -51,12 +51,12 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
     // write
 
-    public boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
+    public final boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
         final String twitterTag = tagService.pickTwitterTag(twitterAccount);
         return retweetByHashtag(twitterAccount, twitterTag);
     }
 
-    boolean retweetByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
+    public final boolean retweetByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
         try {
             final boolean success = retweetByHashtagInternal(twitterAccount, twitterTag);
             if (!success) {
@@ -72,7 +72,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
     // util
 
-    final boolean retweetByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    private final boolean retweetByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.debug("Begin trying to retweet on twitterAccount = {}", twitterAccount);
 
         logger.trace("Trying to retweet on twitterAccount = {}", twitterAccount);
@@ -93,7 +93,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             logger.trace("If not already retweeted, considering to retweet on twitterAccount= {}, tweetId= {}", twitterAccount, tweetId);
 
             if (!hasThisAlreadyBeenTweeted(new Retweet(tweetId, twitterAccount))) {
-                final boolean success = tryTweetOne(potentialTweet, hashtag, twitterAccount);
+                final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
                     logger.trace("Didn't retweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialTweet.getText());
                     continue;
@@ -107,7 +107,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         return false;
     }
 
-    private final boolean tryTweetOne(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
+    private final boolean tryTweetOneDelegator(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
         final String text = potentialTweet.getText();
         final long tweetId = potentialTweet.getId();
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
@@ -120,7 +120,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         return tryTweetOne(text, null, twitterAccount, customDetails);
     }
 
-    private boolean isTweetRejectedByClassifier(final String text) {
+    // checks
+
+    private final boolean isTweetRejectedByClassifier(final String text) {
         if (classificationService.isCommercial(text)) {
             // return true;
             return false; // temporarily, until there is more classification training data for commercial-noncommercial
@@ -128,7 +130,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         return false;
     }
 
-    private boolean isTweetPointingToSomethingGood(final String potentialTweet) {
+    private final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
         String singleMainUrl = TextUtils.extractUrls(potentialTweet).get(0);
         try {
             singleMainUrl = httpService.expandInternal(singleMainUrl);
@@ -152,7 +154,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
      * - number of retweets over a certain threshold (the threshold is per hashtag)
      * - number of favorites (not yet)
      */
-    private boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String twitterTag) {
+    private final boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String twitterTag) {
         if (potentialTweet.getRetweetCount() < maxRtRetriever.maxRt(twitterTag)) {
             return false;
         }

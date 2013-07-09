@@ -27,7 +27,7 @@ public class TweetRssServiceLiveTest {
 
     @Test
     public final void whenTweetingFromRssFeed_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
-        tweetRssService.tweetFromRssInternal("http://feeds.feedburner.com/baeldung", SimpleTwitterAccount.BestOfJava.name());
+        tweetRssService.tweetFromRss("http://feeds.feedburner.com/baeldung", SimpleTwitterAccount.BestOfJava.name());
     }
 
 }
