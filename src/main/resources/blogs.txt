@@ -1,0 +1,24 @@
+
+#clojure
+
+http://planet.clojure.in/ - http://planet.clojure.in/atom.xml
+http://clojure.livejournal.com/ - http://clojure.livejournal.com/data/rss
+http://mostlylazy.com/ - http://mostlylazy.com/feed
+http://blog.clojurewerkz.org/ - http://blog.clojurewerkz.org/atom.xml
+http://data-sorcery.org/ - http://data-sorcery.org/rss
+http://www.lispcast.com/ - http://lispcast.com/feed
+
+
+TODOs: 
+
+    Planet Lisp
+    Planet Scala
+    Planet Scheme
+    Planet JDK
+    Planet Haskell
+    Planet Erlang
+    Planet Python
+    Planet Ruby
+    Planet Perl
+
+    
