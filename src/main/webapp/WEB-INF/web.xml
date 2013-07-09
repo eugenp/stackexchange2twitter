@@ -14,7 +14,7 @@
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>org.common.spring org.keyval.spring org.tweet.spring org.stackexchange.spring org.tweet.meta.spring</param-value>
+		<param-value>org.common.spring org.keyval.spring org.tweet.spring org.stackexchange.spring org.tweet.meta.spring org.rss.spring</param-value>
 	</context-param>
 	
 	<context-param>
