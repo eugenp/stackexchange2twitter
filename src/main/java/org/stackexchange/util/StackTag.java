@@ -17,6 +17,7 @@ public enum StackTag {// @formatter:off
     couchbase,
     ddos,
     dynamobd,
+    django, 
     
     eclipse, 
     git, 
@@ -42,6 +43,7 @@ public enum StackTag {// @formatter:off
     mongodb, 
     nosql, 
     neo4j, 
+    parsing,
     passwords, 
     php, 
     python, 

@@ -19,6 +19,7 @@ public enum TwitterTag {// @formatter:off
     database,
     ddos,
     dynamobd,
+    django, 
     
     eclipse, 
     ec2, 
@@ -51,6 +52,7 @@ public enum TwitterTag {// @formatter:off
     neo4j, 
     objectivec, 
     passwords, 
+    parsing, 
     php, 
     python, 
     perl,

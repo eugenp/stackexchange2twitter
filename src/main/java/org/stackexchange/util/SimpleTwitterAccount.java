@@ -24,6 +24,8 @@ public enum SimpleTwitterAccount {// @formatter:off
     BestRubyOnRails, 
     BestOfCloud, 
     
+    DjangoDaily, 
+    
     GoogleDigest, 
 
     iOSdigest, 
@@ -38,6 +40,7 @@ public enum SimpleTwitterAccount {// @formatter:off
     ObjectiveCDaily, 
     
     PythonDaily, 
+    ParsingDaily, 
     
     RESTDaily, 
     RegexDaily, 

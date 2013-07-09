@@ -69,6 +69,9 @@ public final class TwitterAccountToStackAccount {
         case BestOfLinux:
             return Lists.newArrayList(StackSite.StackOverflow);
 
+        case DjangoDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
         case GoogleDigest:
             return Lists.newArrayList(StackSite.StackOverflow);
 
@@ -88,6 +91,8 @@ public final class TwitterAccountToStackAccount {
         case LispDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
+        case ParsingDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case PerlDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
         case PythonDaily:
