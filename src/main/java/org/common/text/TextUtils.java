@@ -25,6 +25,7 @@ public final class TextUtils {
         cleanedText = StringUtils.replaceAll(cleanedText, "&lt;", "<");
         cleanedText = StringUtils.replaceAll(cleanedText, "&gt;", ">");
         cleanedText = StringUtils.replaceAll(cleanedText, "&amp;", "&");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&mdash;", "-");
 
         return cleanedText;
     }
