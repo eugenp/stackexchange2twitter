@@ -17,6 +17,7 @@ public enum SimpleTwitterAccount {// @formatter:off
     BestNoSQL, 
     BestPHP, 
     BestAWS, 
+    BestOfLinux,
     BestOfSecurity, 
     BestJavaScript, 
     BestOfRuby,

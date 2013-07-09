@@ -41,6 +41,7 @@ public enum TwitterTag {// @formatter:off
     java8,
     java9, 
     lisp, 
+    linux, 
     
     mysql, 
     maven, 
