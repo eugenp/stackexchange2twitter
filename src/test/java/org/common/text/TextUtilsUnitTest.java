@@ -76,4 +76,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario4_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "What is the difference between an EAR file and a \"WebSphere Enhanced EAR\"?";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("What is the difference between an EAR file and a “WebSphere Enhanced EAR”?");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    //
+
 }
