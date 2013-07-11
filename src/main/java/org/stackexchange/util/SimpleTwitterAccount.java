@@ -27,8 +27,12 @@ public enum SimpleTwitterAccount {// @formatter:off
     
     DjangoDaily, 
     
+    FacebookDigest, 
+    
     GoogleDigest, 
 
+    HibernateDaily, 
+    
     iOSdigest, 
     InTheAppleWorld, 
     

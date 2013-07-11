@@ -74,7 +74,13 @@ public final class TwitterAccountToStackAccount {
         case DjangoDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
+        case FacebookDigest:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
         case GoogleDigest:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
+        case HibernateDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case LandOfWordpress:

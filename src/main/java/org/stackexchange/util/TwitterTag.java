@@ -23,6 +23,7 @@ public enum TwitterTag {// @formatter:off
     
     eclipse, 
     ec2, 
+    facebook,
     git, 
     google,
     gae,

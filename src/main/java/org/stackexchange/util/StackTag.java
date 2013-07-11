@@ -20,6 +20,7 @@ public enum StackTag {// @formatter:off
     django, 
     
     eclipse, 
+    facebook,
     git, 
     google,
     gmail,
