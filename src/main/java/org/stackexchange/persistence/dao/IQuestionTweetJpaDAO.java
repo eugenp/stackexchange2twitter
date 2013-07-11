@@ -11,6 +11,8 @@ public interface IQuestionTweetJpaDAO extends JpaRepository<QuestionTweet, Long>
 
     public QuestionTweet findByQuestionId(final String questionId);
 
+    public QuestionTweet findByQuestionIdAndTwitterAccount(final String questionId, final String twitterAccount);
+
     public List<QuestionTweet> findAllByTwitterAccount(final String twitterAccount);
 
     @Query("select count(q) from QuestionTweet q where q.twitterAccount = ?1")

@@ -224,7 +224,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
     @Override
     protected final boolean hasThisAlreadyBeenTweeted(final Retweet retweet) {
-        final Retweet existingTweet = retweetApi.findByTweetId(retweet.getTweetId());
+        final Retweet existingTweet = retweetApi.findByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
         return existingTweet != null;
     }
 

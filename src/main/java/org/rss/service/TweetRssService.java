@@ -120,7 +120,9 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
 
     @Override
     protected final boolean hasThisAlreadyBeenTweeted(final RssEntry rssEntry) {
-        return rssEntryApi.findOneByRssUriAndTitle(rssEntry.getRssUri(), rssEntry.getTitle()) != null;
+        // final RssEntry entry = getApi().findOneByRssUriAndTwitterAccount(rssEntry.getRssUri(), rssEntry.getTwitterAccount());
+        final RssEntry entry = getApi().findOneByRssUri(rssEntry.getRssUri());
+        return entry != null;
     }
 
     @Override

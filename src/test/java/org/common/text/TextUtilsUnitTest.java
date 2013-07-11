@@ -83,6 +83,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario5_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Spring Batch Example - XML File To Database";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("Spring Batch Example – XML File To Database");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     //
 
 }
