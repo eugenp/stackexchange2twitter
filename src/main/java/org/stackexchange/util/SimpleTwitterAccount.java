@@ -22,8 +22,10 @@ public enum SimpleTwitterAccount {// @formatter:off
     BestOfSecurity, 
     BestJavaScript, 
     BestOfRuby,
-    BestRubyOnRails, 
     BestOfCloud, 
+    BestOfCocoa, 
+    BestRubyOnRails, 
+    BestJSP, 
     
     DjangoDaily, 
     
@@ -32,6 +34,7 @@ public enum SimpleTwitterAccount {// @formatter:off
     GoogleDigest, 
 
     HibernateDaily, 
+    HTMLdaily, 
     
     iOSdigest, 
     InTheAppleWorld, 

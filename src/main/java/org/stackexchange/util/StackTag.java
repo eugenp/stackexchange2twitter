@@ -35,6 +35,7 @@ public enum StackTag {// @formatter:off
     json, 
     javascript, 
     jvm,
+    jsp,
     lisp, 
     linux, 
     

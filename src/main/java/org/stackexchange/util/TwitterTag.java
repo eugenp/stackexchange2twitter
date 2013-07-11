@@ -40,6 +40,7 @@ public enum TwitterTag {// @formatter:off
     json, 
     javascript, 
     jvm,
+    jsp,
     java8,
     java9, 
     lisp, 

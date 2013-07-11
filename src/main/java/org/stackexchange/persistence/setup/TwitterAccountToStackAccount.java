@@ -44,6 +44,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestJavaScript:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestJSP:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestJPA:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestJSON:
@@ -52,8 +54,20 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestNoSQL:
             return Lists.newArrayList(StackSite.StackOverflow);
+
+        case BestOfCocoa:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfRuby:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfSecurity:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfCloud:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfLinux:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfJava:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
         case BestPHP:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestRubyOnRails:
@@ -61,14 +75,6 @@ public final class TwitterAccountToStackAccount {
         case BestScala:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestSQL:
-            return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfJava:
-            return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfSecurity:
-            return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfCloud:
-            return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfLinux:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case DjangoDaily:
@@ -81,6 +87,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case HibernateDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case HTMLdaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case LandOfWordpress:
