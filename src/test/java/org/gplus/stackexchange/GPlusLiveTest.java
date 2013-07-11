@@ -59,8 +59,16 @@ public class GPlusLiveTest {
     }
 
     @Test
-    public void givenActivitiesFromGplus_whenExtractingUrlsFromContent_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
+    public void givenActivitiesFromGplusByKeyword1_whenExtractingUrlsFromContent_thenNoException() throws GeneralSecurityException, IOException {
         final List<Activity> searchResults = gplusService.search(TwitterTag.clojure.name());
+        for (final Activity activity : searchResults) {
+            System.out.println(TextUtils.extractUrls(activity.getObject().getContent()));
+        }
+    }
+
+    @Test
+    public void givenActivitiesFromGplusByKeyword2_whenExtractingUrlsFromContent_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
+        final List<Activity> searchResults = gplusService.search(TwitterTag.facebook.name());
         for (final Activity activity : searchResults) {
             System.out.println(TextUtils.extractUrls(activity.getObject().getContent()));
         }
