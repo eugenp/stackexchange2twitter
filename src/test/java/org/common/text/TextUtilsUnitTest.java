@@ -90,6 +90,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario6_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "What's the best way to validate an XML file against an XSD file?";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("What's the best way to validate an XML file against an XSD file?");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     //
 
 }
