@@ -49,6 +49,7 @@
 
 	<logger name="org.common" level="INFO" />
 	<logger name="org.tweet" level="DEBUG" />
+	<logger name="org.tweet.meta" level="INFO" />
 	<logger name="org.gplus" level="INFO" />
 	<logger name="org.rss" level="INFO" />
 	<logger name="org.stackexchange" level="DEBUG" />
@@ -59,7 +60,7 @@
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 		<appender-ref ref="EMAIL" />
-		<appender-ref ref="REMOTESYSLOG" />
+		<!-- <appender-ref ref="REMOTESYSLOG" /> -->
 	</root>
 
 </configuration>
