@@ -105,6 +105,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
                     continue;
                 } else {
                     logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}\n --- Additional meta info: id= {}, rt= {}", twitterAccount, potentialTweet.getText(), tweetId, potentialTweet.getRetweetCount());
+                    // TODO: https://github.com/eugenp/stackexchange2twitter/issues/54
                     return true;
                 }
             }
