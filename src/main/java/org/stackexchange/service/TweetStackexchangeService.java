@@ -51,7 +51,11 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
 
     public final boolean tweetTopQuestionBySite(final StackSite stackSite, final String twitterAccount) throws JsonProcessingException, IOException {
         try {
-            return tweetTopQuestionBySiteInternal(stackSite, twitterAccount);
+            final boolean success = tweetTopQuestionBySiteInternal(stackSite, twitterAccount);
+            if (!success) {
+                logger.warn("Unable to tweet on twitterAccount= {}, from stackSite= {}", twitterAccount, stackSite);
+            }
+            return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, runtimeEx);
             return false;
@@ -63,7 +67,11 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
         try {
             stackTag = tagService.pickStackTag(twitterAccount);
             final int pageToStartWith = pageStrategy.decidePage(twitterAccount);
-            return tweetTopQuestionBySiteAndTagInternal(stackSite, twitterAccount, stackTag, pageToStartWith);
+            final boolean success = tweetTopQuestionBySiteAndTagInternal(stackSite, twitterAccount, stackTag, pageToStartWith);
+            if (!success) {
+                logger.warn("Unable to tweet on twitterAccount= {}, from stackSite= {}", twitterAccount, stackSite);
+            }
+            return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
             return false;

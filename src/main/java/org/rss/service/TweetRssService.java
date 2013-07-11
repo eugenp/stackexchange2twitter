@@ -40,10 +40,11 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
             return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to tweet from RSS", runtimeEx);
+            return false;
         }
-
-        return false;
     }
+
+    // util
 
     private final boolean tweetFromRssInternal(final String rssUri, final String twitterAccount) {
         logger.debug("Begin trying to tweet from RSS= {}", rssUri);
@@ -67,8 +68,6 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         logger.debug("Finished tweeting from RSS= {}", rssUri);
         return false;
     }
-
-    // util
 
     private final boolean tryTweetOneDelegator(final Pair<String, String> potentialRssEntry, final String twitterAccount) {
         final String textOnly = potentialRssEntry.getLeft();
