@@ -74,7 +74,6 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             logger.error("Unexpected exception when trying to retweet", runtimeEx);
             return false;
         }
-
     }
 
     // util
@@ -224,7 +223,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
     @Override
     protected final boolean hasThisAlreadyBeenTweeted(final Retweet retweet) {
-        final Retweet existingTweet = retweetApi.findByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
+        final Retweet existingTweet = retweetApi.findOneByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
         return existingTweet != null;
     }
 

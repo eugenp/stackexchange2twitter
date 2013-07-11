@@ -9,13 +9,13 @@ import org.stackexchange.persistence.model.QuestionTweet;
 
 public interface IQuestionTweetJpaDAO extends JpaRepository<QuestionTweet, Long>, JpaSpecificationExecutor<QuestionTweet> {
 
-    public QuestionTweet findByQuestionId(final String questionId);
+    QuestionTweet findByQuestionId(final String questionId);
 
-    public QuestionTweet findByQuestionIdAndTwitterAccount(final String questionId, final String twitterAccount);
+    QuestionTweet findByQuestionIdAndTwitterAccount(final String questionId, final String twitterAccount);
 
-    public List<QuestionTweet> findAllByTwitterAccount(final String twitterAccount);
+    List<QuestionTweet> findAllByTwitterAccount(final String twitterAccount);
 
     @Query("select count(q) from QuestionTweet q where q.twitterAccount = ?1")
-    public long countAllByTwitterAccount(final String twitterAccount);
+    long countAllByTwitterAccount(final String twitterAccount);
 
 }
