@@ -28,9 +28,9 @@ public class RssService {
 
     // API
 
-    public final List<Pair<String, String>> extractTitlesAndLinks(final String rssFeedUri) {
+    public final List<Pair<String, String>> extractTitlesAndLinks(final String rssUri) {
         try {
-            return extractTitlesAndLinksInternal(rssFeedUri);
+            return extractTitlesAndLinksInternal(rssUri);
         } catch (IllegalArgumentException | IOException | FeedException ex) {
             logger.error("Unable to parse feed", ex);
             return null;
@@ -49,8 +49,8 @@ public class RssService {
     }
 
     @SuppressWarnings("unchecked")
-    final List<Pair<String, String>> extractTitlesAndLinksInternal(final String rssFeedUri) throws IOException, IllegalArgumentException, FeedException {
-        final URL url = new URL(rssFeedUri);
+    final List<Pair<String, String>> extractTitlesAndLinksInternal(final String rssUri) throws IOException, IllegalArgumentException, FeedException {
+        final URL url = new URL(rssUri);
         final HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
         // Reading the feed
         final SyndFeedInput input = new SyndFeedInput();

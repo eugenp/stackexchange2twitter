@@ -1,5 +1,6 @@
 package org.rss.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
 public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> {
@@ -28,14 +31,28 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
 
     // API
 
-    public final boolean tweetFromRss(final String rssFeedUri, final String twitterAccount) {
-        logger.debug("Begin trying to tweet from RSS= {}", rssFeedUri);
+    public final boolean tweetFromRss(final String rssUri, final String twitterAccount) throws JsonProcessingException, IOException {
+        try {
+            final boolean success = tweetFromRssInternal(rssUri, twitterAccount);
+            if (!success) {
+                logger.warn("Unable to tweet on twitterAccount= {}, by rssUri= {}", twitterAccount, rssUri);
+            }
+            return success;
+        } catch (final RuntimeException runtimeEx) {
+            logger.error("Unexpected exception when trying to tweet from RSS", runtimeEx);
+        }
 
-        final List<Pair<String, String>> rssEntries = rssService.extractTitlesAndLinks(rssFeedUri);
+        return false;
+    }
+
+    private final boolean tweetFromRssInternal(final String rssUri, final String twitterAccount) {
+        logger.debug("Begin trying to tweet from RSS= {}", rssUri);
+
+        final List<Pair<String, String>> rssEntries = rssService.extractTitlesAndLinks(rssUri);
         for (final Pair<String, String> potentialRssEntry : rssEntries) {
-            logger.trace("Considering to tweet on twitterAccount= {}, from RSS= {}, tweet text= {}", twitterAccount, rssFeedUri, potentialRssEntry);
+            logger.trace("Considering to tweet on twitterAccount= {}, from RSS= {}, tweet text= {}", twitterAccount, rssUri, potentialRssEntry);
             if (!hasThisAlreadyBeenTweeted(new RssEntry(twitterAccount, potentialRssEntry.getLeft(), potentialRssEntry.getRight()))) {
-                logger.debug("Attempting to tweet on twitterAccount= {}, from RSS= {}, tweet text= {}", twitterAccount, rssFeedUri, potentialRssEntry);
+                logger.debug("Attempting to tweet on twitterAccount= {}, from RSS= {}, tweet text= {}", twitterAccount, rssUri, potentialRssEntry);
                 final boolean success = tryTweetOneDelegator(potentialRssEntry, twitterAccount);
                 if (!success) {
                     logger.trace("Didn't tweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialRssEntry);
@@ -47,7 +64,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
             }
         }
 
-        logger.debug("Finished tweeting from RSS= {}", rssFeedUri);
+        logger.debug("Finished tweeting from RSS= {}", rssUri);
         return false;
     }
 
