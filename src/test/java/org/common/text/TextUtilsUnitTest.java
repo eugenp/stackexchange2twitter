@@ -97,6 +97,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario7_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Understanding \"randomness\"";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("Understanding “randomness”");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     //
 
 }
