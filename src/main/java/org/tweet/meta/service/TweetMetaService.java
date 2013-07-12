@@ -213,7 +213,11 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // tweet
-        twitterLiveService.tweet(twitterAccount, processedTweetText);
+        if (new RetweetStrategy().shouldRetweet(potentialTweet)) {
+            twitterLiveService.retweet(twitterAccount, tweetId);
+        } else {
+            twitterLiveService.tweet(twitterAccount, processedTweetText);
+        }
 
         // mark
         markDone(new Retweet(tweetId, twitterAccount));

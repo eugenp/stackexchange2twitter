@@ -29,6 +29,17 @@ public class TwitterLiveService {
 
     // API
 
+    public void retweet(final String twitterAccount, final long tweetId) {
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+        try {
+            twitterTemplate.timelineOperations().retweet(tweetId);
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to retweet on twitterAccount= " + twitterAccount + "; tweetid: " + tweetId, ex);
+        }
+    }
+
+    // write
+
     public void tweet(final String twitterAccount, final String tweetText) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
 
