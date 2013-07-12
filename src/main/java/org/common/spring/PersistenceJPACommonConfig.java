@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,6 +57,14 @@ public class PersistenceJPACommonConfig {
         dataSource.setUrl(env.getProperty("jdbc.url"));
         dataSource.setUsername(env.getProperty("jdbc.username"));
         dataSource.setPassword(env.getProperty("jdbc.password"));
+
+        // specific
+        dataSource.setMaxWait(120000);
+
+        dataSource.setRemoveAbandoned(true);
+        dataSource.setLogAbandoned(true);
+        dataSource.setRemoveAbandonedTimeout(120);
+
         return dataSource;
     }
 
@@ -82,9 +90,14 @@ public class PersistenceJPACommonConfig {
                 setProperty("hibernate.ejb.naming_strategy", org.hibernate.cfg.ImprovedNamingStrategy.class.getName());
                 setProperty("hibernate.globally_quoted_identifiers", "true");
 
-                //
+                // connection handling
+                // <prop key="hibernate.connection.release_mode">after_statement</prop>
+                // http://stackoverflow.com/questions/7766023/hibernate-failed-to-execute-query-afte-1-day
+
+                // dbcp - http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html
+                setProperty("hibernate.dbcp.maxWait", "120000"); // 2*60*1000 = 2 mins
+                setProperty("hibernate.dbcp.ps.maxWait", "120000"); // 2*60*1000 = 2 mins
             }
         };
     }
-
 }
