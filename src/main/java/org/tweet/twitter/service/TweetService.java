@@ -124,8 +124,22 @@ public class TweetService {
         return text.contains("http://");
     }
 
-    private final boolean isRetweet(final String potentialTweet) {
-        return potentialTweet.startsWith("RT @");
+    final boolean isRetweet(final String potentialTweet) {
+        final boolean startsWith = potentialTweet.startsWith("RT @");
+        if (startsWith) {
+            return true;
+        }
+        final boolean contains = potentialTweet.contains("RT @");
+        if (contains) {
+            return true;
+        }
+
+        final boolean containsRtInfo = potentialTweet.matches(".*RT.{0,3}@.*");
+        if (containsRtInfo) {
+            return true;
+        }
+
+        return false;
     }
 
 }

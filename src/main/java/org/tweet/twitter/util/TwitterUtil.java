@@ -18,7 +18,7 @@ public final class TwitterUtil {
     final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults(); // if this would include more chars, then recreating the tweet would not be exact
     final static Joiner joiner = Joiner.on(' ');
 
-    final static List<String> bannedKeywords = Lists.newArrayList("freelance", "job", "consulting", "hire", "hiring", "careers", "need", "escort", "escorts", "xxx");
+    final static List<String> bannedKeywords = Lists.newArrayList("buy", "freelance", "job", "consulting", "hire", "hiring", "careers", "need", "escort", "escorts", "xxx");
     final static List<String> bannedExpressions = Lists.newArrayList("web developer", "application engineer", "jobs");
 
     private TwitterUtil() {
@@ -75,6 +75,12 @@ public final class TwitterUtil {
                 return true;
             }
         }
+
+        // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
+        if (text.matches("Get (.)* on Amazon.*")) {
+            return true;
+        }
+
         return false;
     }
 

@@ -252,6 +252,16 @@ public final class TwitterUtilUnitTest {
         assertTrue(TwitterUtil.tweetContainsBannedKeywords("Hire Experienced #WordPress developer at Affordable price, Inquire Now! http://www.valuecoders.com/hire-developers/hire-wordpress-developers"));
     }
 
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario11_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Buy 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn  @jeresig"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario12_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn  @jeresig"));
+    }
+
     // accepted
 
     @Test
