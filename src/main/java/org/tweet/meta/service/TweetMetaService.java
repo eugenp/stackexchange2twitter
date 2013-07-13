@@ -52,11 +52,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     public final boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
         try {
             final String twitterTag = tagService.pickTwitterTag(twitterAccount);
-            final boolean success = retweetByHashtag(twitterAccount, twitterTag);
-            if (!success) {
-                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
-            }
-            return success;
+            return retweetByHashtag(twitterAccount, twitterTag); // no need to log the result here because this call will already log it
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to retweet", runtimeEx);
             return false;

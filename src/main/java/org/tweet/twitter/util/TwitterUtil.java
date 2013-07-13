@@ -71,7 +71,7 @@ public final class TwitterUtil {
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#.")).split(text));
         for (final String tweetToken : tweetTokens) {
             if (TwitterUtil.bannedKeywords.contains(tweetToken.toLowerCase())) {
-                logger.info("Rejecting the following tweet because a token matches one of the banned keywords: token={}; tweet=\n{}", tweetToken, text);
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token={}; tweet=\n{}", tweetToken, text);
                 return true;
             }
         }

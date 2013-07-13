@@ -104,6 +104,20 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario8_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "What's the best way to communicate between view controllers?";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("What's the best way to communicate between view controllers?");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario9_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("I&rsquo;m broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     //
 
 }
