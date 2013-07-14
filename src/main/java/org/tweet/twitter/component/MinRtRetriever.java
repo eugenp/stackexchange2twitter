@@ -10,24 +10,24 @@ import com.google.api.client.util.Preconditions;
  * - note: this is under .twitter (and not under .meta) because is core twitter functionality
  */
 @Component
-public class MaxRtRetriever {
+public class MinRtRetriever {
 
     @Autowired
     private Environment env;
 
-    public MaxRtRetriever() {
+    public MinRtRetriever() {
         super();
     }
 
     // API
 
-    final String maxrtRaw(final String twitterTag) {
-        return env.getProperty(twitterTag + ".maxrt");
+    final String minRtRaw(final String twitterTag) {
+        return env.getProperty(twitterTag + ".minrt");
     }
 
-    public final int maxRt(final String twitterTag) {
-        Preconditions.checkNotNull(maxrtRaw(twitterTag), "Unable to find max rt value for twitterTag= " + twitterTag);
-        return env.getProperty(twitterTag + ".maxrt", Integer.class);
+    public final int minRt(final String twitterTag) {
+        Preconditions.checkNotNull(minRtRaw(twitterTag), "Unable to find min rt value for twitterTag= " + twitterTag);
+        return env.getProperty(twitterTag + ".minrt", Integer.class);
     }
 
 }

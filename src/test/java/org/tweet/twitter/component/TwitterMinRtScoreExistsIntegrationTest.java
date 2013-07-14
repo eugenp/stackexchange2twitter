@@ -13,17 +13,17 @@ import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class })
-public class TwitterMaxRtScoreExistsIntegrationTest {
+public class TwitterMinRtScoreExistsIntegrationTest {
 
     @Autowired
-    private MaxRtRetriever maxRtRetriever;
+    private MinRtRetriever minRtRetriever;
 
     // API
 
     @Test
-    public final void whenRetrievingMaxRtScoresForTag_thenFound() {
+    public final void whenRetrievingMinRtScoresForTag_thenFound() {
         for (final TwitterTag tag : TwitterTag.values()) {
-            assertNotNull("No maxrt for tag " + tag, maxRtRetriever.maxrtRaw(tag.name()));
+            assertNotNull("No minrt for tag " + tag, minRtRetriever.minRtRaw(tag.name()));
         }
     }
 }

@@ -17,7 +17,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
-import org.tweet.twitter.component.MaxRtRetriever;
+import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,7 +41,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     private IRetweetJpaDAO retweetApi;
 
     @Autowired
-    private MaxRtRetriever maxRtRetriever;
+    private MinRtRetriever minRtRetriever;
 
     public TweetMetaService() {
         super();
@@ -165,7 +165,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
      * - number of favorites (not yet)
      */
     private final boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String twitterTag) {
-        if (potentialTweet.getRetweetCount() < maxRtRetriever.maxRt(twitterTag)) {
+        if (potentialTweet.getRetweetCount() < minRtRetriever.minRt(twitterTag)) {
             return false;
         }
         return true;
