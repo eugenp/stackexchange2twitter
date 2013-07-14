@@ -50,14 +50,15 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     // API
 
     public final boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
+        String twitterTag = null;
         try {
-            final String twitterTag = tagService.pickTwitterTag(twitterAccount);
+            twitterTag = tagService.pickTwitterTag(twitterAccount);
             return retweetByHashtag(twitterAccount, twitterTag); // no need to log the result here because this call will already log it
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to retweet", runtimeEx);
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, runtimeEx);
             return false;
         } catch (final Exception ex) {
-            logger.error("Unexpected exception when trying to retweet", ex);
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, ex);
             return false;
         }
     }
@@ -70,10 +71,10 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             }
             return success;
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to retweet", runtimeEx);
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, runtimeEx);
             return false;
         } catch (final Exception ex) {
-            logger.error("Unexpected exception when trying to retweet", ex);
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, ex);
             return false;
         }
     }
