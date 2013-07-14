@@ -48,7 +48,7 @@
 	</appender>
 
 	<logger name="org.common" level="INFO" />
-	<logger name="org.tweet" level="DEBUG" />
+	<logger name="org.tweet" level="INFO" />
 	<logger name="org.tweet.meta" level="INFO" />
 	<logger name="org.gplus" level="INFO" />
 	<logger name="org.rss" level="INFO" />
