@@ -69,13 +69,14 @@ public class TweetMetaScheduler {
     public void tweetMeta3() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 3");
 
-        // 6
+        // 7
         service.retweetByHashtag(SimpleTwitterAccount.BestOfCloud.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestOfSecurity.name());
         service.retweetByHashtag(SimpleTwitterAccount.LandOfWordpress.name());
         service.retweetByHashtag(SimpleTwitterAccount.LispDaily.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestNoSQL.name());
         service.retweetByHashtag(SimpleTwitterAccount.GoogleDigest.name());
+        service.retweetByHashtag(SimpleTwitterAccount.MysqlDaily.name());
 
         logger.info("Finished retweet schedule - 3");
     }

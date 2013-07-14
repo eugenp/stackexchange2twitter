@@ -109,6 +109,8 @@ public final class TwitterAccountToStackAccount {
 
         case MathDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case MysqlDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
 
         case ParsingDaily:
             return Lists.newArrayList(StackSite.StackOverflow);

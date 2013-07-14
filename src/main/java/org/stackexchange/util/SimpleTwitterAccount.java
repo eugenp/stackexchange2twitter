@@ -46,6 +46,7 @@ public enum SimpleTwitterAccount {// @formatter:off
     LandOfWordpress, 
     
     MathDaily, 
+    MysqlDaily, 
     
     ObjectiveCDaily, 
     

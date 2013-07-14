@@ -118,13 +118,14 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion5() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 5");
 
-        // 6
+        // 7
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.AspnetDaily), SimpleTwitterAccount.AspnetDaily.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.RegexDaily), SimpleTwitterAccount.RegexDaily.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestOfRuby), SimpleTwitterAccount.BestOfRuby.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestPHP), SimpleTwitterAccount.BestPHP.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestMaven), SimpleTwitterAccount.BestMaven.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.InTheAppleWorld), SimpleTwitterAccount.InTheAppleWorld.name());
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.MysqlDaily), SimpleTwitterAccount.MysqlDaily.name());
 
         logger.info("Finished tweet schedule - 5");
     }
