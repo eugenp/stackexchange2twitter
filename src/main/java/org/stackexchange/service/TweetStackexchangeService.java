@@ -49,7 +49,7 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
 
     // write
 
-    public final boolean tweetTopQuestionBySite(final StackSite stackSite, final String twitterAccount) throws JsonProcessingException, IOException {
+    public final boolean tweetTopQuestionBySite(final StackSite stackSite, final String twitterAccount) {
         try {
             final boolean success = tweetTopQuestionBySiteInternal(stackSite, twitterAccount);
             if (!success) {
@@ -59,10 +59,13 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, runtimeEx);
             return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, ex);
+            return false;
         }
     }
 
-    public final boolean tweetTopQuestionBySiteAndTag(final StackSite stackSite, final String twitterAccount) throws JsonProcessingException, IOException {
+    public final boolean tweetTopQuestionBySiteAndTag(final StackSite stackSite, final String twitterAccount) {
         String stackTag = null;
         try {
             stackTag = tagService.pickStackTag(twitterAccount);
@@ -74,6 +77,9 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
             return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
+            return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, ex);
             return false;
         }
     }

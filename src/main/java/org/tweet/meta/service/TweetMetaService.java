@@ -56,6 +56,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to retweet", runtimeEx);
             return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to retweet", ex);
+            return false;
         }
     }
 
@@ -68,6 +71,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to retweet", runtimeEx);
+            return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to retweet", ex);
             return false;
         }
     }

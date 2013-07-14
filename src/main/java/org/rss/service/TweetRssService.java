@@ -1,6 +1,5 @@
 package org.rss.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Service
 public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> {
@@ -31,7 +28,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
 
     // API
 
-    public final boolean tweetFromRss(final String rssUri, final String twitterAccount) throws JsonProcessingException, IOException {
+    public final boolean tweetFromRss(final String rssUri, final String twitterAccount) {
         try {
             final boolean success = tweetFromRssInternal(rssUri, twitterAccount);
             if (!success) {
@@ -40,6 +37,9 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
             return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to tweet from RSS", runtimeEx);
+            return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to tweet from RSS", ex);
             return false;
         }
     }
