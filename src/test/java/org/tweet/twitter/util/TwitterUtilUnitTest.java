@@ -204,79 +204,84 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario1_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Checkout this cool job - some job"));
+        assertTrue(TwitterUtil.isTweetBanned("Checkout this cool job - some job"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario2_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("I need a free app to do that"));
+        assertTrue(TwitterUtil.isTweetBanned("I need a free app to do that"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario3_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("I need a app to do that; it's gotta be free!"));
+        assertTrue(TwitterUtil.isTweetBanned("I need a app to do that; it's gotta be free!"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario4_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Telecommuting job: Full Time Python/Plone Developer at Decernis #jquery #java #javascript #python #perl http://t.co/580g7g8Hum"));
+        assertTrue(TwitterUtil.isTweetBanned("Telecommuting job: Full Time Python/Plone Developer at Decernis #jquery #java #javascript #python #perl http://t.co/580g7g8Hum"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario5_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: #freelance #jquery #job - a teacher to teach me how to solve my jQuery AJAX CSS issue ($2 - 8/hr) - http://t.co/WaiAHsgZ8a #jobs"));
+        assertTrue(TwitterUtil.isTweetBanned("Tweet: #freelance #jquery #job - a teacher to teach me how to solve my jQuery AJAX CSS issue ($2 - 8/hr) - http://t.co/WaiAHsgZ8a #jobs"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario6_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: Javascript Application Engineer http://t.co/WuYi4HiGhP #jquery #html5 #jobs #hiring #careers"));
+        assertTrue(TwitterUtil.isTweetBanned("Tweet: Javascript Application Engineer http://t.co/WuYi4HiGhP #jquery #html5 #jobs #hiring #careers"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario7_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: #jquery #job - ColdFusion Web Developer - http://t.co/O2DbDyFqea #jobs"));
+        assertTrue(TwitterUtil.isTweetBanned("Tweet: #jquery #job - ColdFusion Web Developer - http://t.co/O2DbDyFqea #jobs"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario8_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Tweet: RT @MarianSchubert: &lt;- Looking for a job. #lean #kanban #scrum #ci #cd #clojure #ios #perl #python #php #fp #tdd #unix #erlang #xp #pairpro�"));
+        assertTrue(TwitterUtil.isTweetBanned("Tweet: RT @MarianSchubert: &lt;- Looking for a job. #lean #kanban #scrum #ci #cd #clojure #ios #perl #python #php #fp #tdd #unix #erlang #xp #pairpro�"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario9_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("love open source and have a passion for #git? come help us make it better for everyone, we are hiring! http://t.co/7hk7fqgEN1"));
+        assertTrue(TwitterUtil.isTweetBanned("love open source and have a passion for #git? come help us make it better for everyone, we are hiring! http://t.co/7hk7fqgEN1"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario10_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Hire Experienced #WordPress developer at Affordable price, Inquire Now! http://www.valuecoders.com/hire-developers/hire-wordpress-developers"));
+        assertTrue(TwitterUtil.isTweetBanned("Hire Experienced #WordPress developer at Affordable price, Inquire Now! http://www.valuecoders.com/hire-developers/hire-wordpress-developers"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario11_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Buy 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn  @jeresig"));
+        assertTrue(TwitterUtil.isTweetBanned("Buy 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn  @jeresig"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario12_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn  @jeresig"));
+        assertTrue(TwitterUtil.isTweetBanned("Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn  @jeresig"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario13_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer"));
+        assertTrue(TwitterUtil.isTweetBanned("Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer"));
     }
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario14_thenRejected() {
-        assertTrue(TwitterUtil.tweetContainsBannedKeywords("I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial"));
+        assertTrue(TwitterUtil.isTweetBanned("I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario15_thenRejected() {
+        assertTrue(TwitterUtil.isTweetBanned("Are you a #python developer and want to collaborate? Help us testing #libturpial http://turpial.org.ve/2013/06/libturpial-1-0-frozen/ \u2026"));
     }
 
     // accepted
 
     @Test
     public final void givenTweetDoesNotContainBannedKeywords_whenCheckingScenario1_thenAccepted() {
-        assertFalse(TwitterUtil.tweetContainsBannedKeywords("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery"));
+        assertFalse(TwitterUtil.isTweetBanned("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery"));
     }
 
 }

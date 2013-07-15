@@ -41,7 +41,7 @@ public class TweetService {
         if (!containsLink(potentialTweet)) {
             return false;
         }
-        if (TwitterUtil.tweetContainsBannedKeywords(potentialTweet)) {
+        if (TwitterUtil.isTweetBanned(potentialTweet)) {
             return false;
         }
         if (isRetweet(potentialTweet)) {
@@ -56,10 +56,13 @@ public class TweetService {
      * - is not already a retweet <br/>
     */
     public final boolean isTweetTextWorthTweetingByItself(final String potentialTweetText) {
-        if (containsLink(potentialTweetText)) {
+        if (!containsLink(potentialTweetText)) {
             return false;
         }
-        if (TwitterUtil.tweetContainsBannedKeywords(potentialTweetText)) {
+        if (containsLinkToBannedServices(potentialTweetText)) {
+            return false;
+        }
+        if (TwitterUtil.isTweetBanned(potentialTweetText)) {
             return false;
         }
         if (isRetweet(potentialTweetText)) {
@@ -120,8 +123,18 @@ public class TweetService {
     /**
      * Determines if the tweet text contains a link
      */
-    private final boolean containsLink(final String text) {
-        return text.contains("http://");
+    final boolean containsLink(final String text) {
+        return text.contains("http://") || text.contains("https://");
+    }
+
+    private final boolean containsLinkToBannedServices(final String tweetText) {
+        final boolean linkToInstagram = tweetText.contains("http://instagram.com/");
+        if (linkToInstagram) {
+            logger.trace("Tweet = {} contains link to instagram - skipping", tweetText);
+            return true;
+        }
+
+        return false;
     }
 
     final boolean isRetweet(final String potentialTweet) {

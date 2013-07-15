@@ -165,7 +165,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
      * - number of favorites (not yet)
      */
     private final boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String twitterTag) {
-        if (potentialTweet.getRetweetCount() < minRtRetriever.minRt(twitterTag)) {
+        final int requiredMinRts = minRtRetriever.minRt(twitterTag);
+        if (potentialTweet.getRetweetCount() < requiredMinRts) {
+            logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
             return false;
         }
         return true;

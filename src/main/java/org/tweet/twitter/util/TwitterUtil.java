@@ -19,7 +19,12 @@ public final class TwitterUtil {
     final static Joiner joiner = Joiner.on(' ');
 
     final static List<String> bannedKeywords = Lists.newArrayList("buy", "freelance", "job", "consulting", "hire", "hiring", "careers", "need", "escort", "escorts", "xxx");
-    final static List<String> bannedExpressions = Lists.newArrayList("web developer", "application engineer", "jobs");
+    final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
+        "web developer", "web developers", 
+        "application engineer", "application engineers", 
+        "python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer", 
+        "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer"
+    ); // @formatter:on
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
         "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
         "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
@@ -72,7 +77,8 @@ public final class TwitterUtil {
         return countWordsToHash;
     }
 
-    public static boolean tweetContainsBannedKeywords(final String text) {
+    public static boolean isTweetBanned(final String text) {
+        // by keyword
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#.")).split(text));
         for (final String tweetToken : tweetTokens) {
             if (TwitterUtil.bannedKeywords.contains(tweetToken.toLowerCase())) {
@@ -81,11 +87,22 @@ public final class TwitterUtil {
             }
         }
 
+        // by expression
+        final String textLowerCase = text.toLowerCase();
+        for (final String bannedExpression : bannedExpressions) {
+            if (textLowerCase.contains(bannedExpression)) {
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, text);
+                return true;
+            }
+        }
+
+        // by regex
         for (final String bannedRegEx : bannedRegExes) {
             if (text.matches(bannedRegEx)) {
                 return true;
             }
         }
+
         return false;
     }
 
