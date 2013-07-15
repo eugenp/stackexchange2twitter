@@ -262,6 +262,16 @@ public final class TwitterUtilUnitTest {
         assertTrue(TwitterUtil.tweetContainsBannedKeywords("Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn  @jeresig"));
     }
 
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario13_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario14_thenRejected() {
+        assertTrue(TwitterUtil.tweetContainsBannedKeywords("I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial"));
+    }
+
     // accepted
 
     @Test

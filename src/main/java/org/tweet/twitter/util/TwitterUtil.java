@@ -20,6 +20,11 @@ public final class TwitterUtil {
 
     final static List<String> bannedKeywords = Lists.newArrayList("buy", "freelance", "job", "consulting", "hire", "hiring", "careers", "need", "escort", "escorts", "xxx");
     final static List<String> bannedExpressions = Lists.newArrayList("web developer", "application engineer", "jobs");
+    final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+        "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
+        "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
+        "Follow us on (Linkedin|Twitter|G+) .*" // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
+    ); // @formatter:on
 
     private TwitterUtil() {
         throw new AssertionError();
@@ -76,11 +81,11 @@ public final class TwitterUtil {
             }
         }
 
-        // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
-        if (text.matches("Get (.)* on Amazon.*")) {
-            return true;
+        for (final String bannedRegEx : bannedRegExes) {
+            if (text.matches(bannedRegEx)) {
+                return true;
+            }
         }
-
         return false;
     }
 
