@@ -5,11 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.common.persistence.IEntity;
 import org.stackexchange.util.SimpleTwitterAccount;
 
 @Entity
+@Table(name = "retweet", uniqueConstraints = @UniqueConstraint(columnNames = { "tweetId", "twitterAccount" }))
 public class Retweet implements IEntity {
 
     @Id
@@ -17,7 +20,7 @@ public class Retweet implements IEntity {
     @Column(name = "QT_ID")
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private long tweetId;
 
     @Column(nullable = false)

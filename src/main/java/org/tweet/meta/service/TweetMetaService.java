@@ -85,7 +85,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     // util
 
     private final boolean retweetByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
-        logger.debug("Begin trying to retweet on twitterAccount= {}", twitterAccount);
+        logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
         logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
