@@ -22,3 +22,6 @@
 - [Deployment](https://github.com/eugenp/stackexchange2twitter/wiki/Deployment)
 - [Process - New Account](https://github.com/eugenp/stackexchange2twitter/wiki/Process---New-Account)
 - [Process - Setup](https://github.com/eugenp/stackexchange2twitter/wiki/Process---Setup)
+
+
+- [**the CI on cloudbees**](https://rest-security.ci.cloudbees.com/view/twitter/)
