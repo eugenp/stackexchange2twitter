@@ -18,12 +18,21 @@ public final class TwitterUtil {
     final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults(); // if this would include more chars, then recreating the tweet would not be exact
     final static Joiner joiner = Joiner.on(' ');
 
-    final static List<String> bannedKeywords = Lists.newArrayList("buy", "freelance", "job", "consulting", "hire", "hiring", "careers", "need", "escort", "escorts", "xxx");
+    final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
+        "buy", 
+        "freelance", "job", "consulting", "hire", "hiring", "careers", 
+        "need", 
+        "escort", "escorts", "xxx", "porn"
+    );// @formatter:on
+    final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
+            "photo: "
+    );// @formatter:on
     final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
         "web developer", "web developers", 
         "application engineer", "application engineers", 
         "python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer", 
-        "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer"
+        "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
+        "on strike"
     ); // @formatter:on
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
         "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
@@ -78,11 +87,19 @@ public final class TwitterUtil {
     }
 
     public static boolean isTweetBanned(final String text) {
-        // by keyword
+        // by contains keyword
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#.")).split(text));
         for (final String tweetToken : tweetTokens) {
-            if (TwitterUtil.bannedKeywords.contains(tweetToken.toLowerCase())) {
-                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token={}; tweet=\n{}", tweetToken, text);
+            if (TwitterUtil.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
+                return true;
+            }
+        }
+
+        // by starts with keyword
+        for (final String bannedStartsWith : bannedStartsWithExprs) {
+            if (text.startsWith(bannedStartsWith)) {
+                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, text);
                 return true;
             }
         }
@@ -105,5 +122,4 @@ public final class TwitterUtil {
 
         return false;
     }
-
 }

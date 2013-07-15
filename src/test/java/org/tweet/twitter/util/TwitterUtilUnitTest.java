@@ -277,6 +277,11 @@ public final class TwitterUtilUnitTest {
         assertTrue(TwitterUtil.isTweetBanned("Are you a #python developer and want to collaborate? Help us testing #libturpial http://turpial.org.ve/2013/06/libturpial-1-0-frozen/ \u2026"));
     }
 
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario16_thenRejected() {
+        assertTrue(TwitterUtil.isTweetBanned("Photo: #Akka is on strike! Stores closed pic.twitter.com/16iZBYKZBF #AngerStrike #StopPrawerPlan #\u0628\u0631\u0627\u0641\u0631_\u0644\u0646_\u064A\u0645\u0631"));
+    }
+
     // accepted
 
     @Test

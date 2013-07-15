@@ -79,6 +79,12 @@ public class TweetStackexchangeServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingByTagAkka_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestScala), TwitterTag.akka.name(), SimpleTwitterAccount.BestScala.name());
+        assertTrue(success);
+    }
+
+    @Test
     public final void whenTweetingByTagJquery_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.jQueryDaily), TwitterTag.jquery.name(), SimpleTwitterAccount.jQueryDaily.name());
         assertTrue(success);
