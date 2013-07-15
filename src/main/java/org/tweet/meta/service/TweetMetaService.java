@@ -173,6 +173,13 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
             return false;
         }
+
+        if (!potentialTweet.getLanguageCode().equals("en")) {
+            logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", potentialTweet, twitterTag, potentialTweet.getLanguageCode());
+            // info temporary - should be debug
+            return false;
+        }
+
         return true;
     }
 
