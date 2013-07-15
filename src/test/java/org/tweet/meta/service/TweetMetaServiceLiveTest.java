@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.util.SimpleTwitterAccount;
 import org.stackexchange.util.TwitterTag;
-import org.tweet.meta.service.TweetMetaService;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
@@ -74,6 +73,12 @@ public class TweetMetaServiceLiveTest {
     @Test
     public final void whenTweetingAboutLisp_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetByHashtag(SimpleTwitterAccount.LispDaily.name(), TwitterTag.lisp.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutCloud_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetByHashtag(SimpleTwitterAccount.BestOfCloud.name(), TwitterTag.ec2.name());
         assertTrue(success);
     }
 

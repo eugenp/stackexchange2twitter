@@ -12,6 +12,7 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.impl.SearchParameters;
 import org.springframework.social.twitter.api.impl.SearchParameters.ResultType;
 import org.springframework.stereotype.Service;
+import org.stackexchange.util.SimpleTwitterAccount;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -29,6 +30,8 @@ public class TwitterLiveService {
 
     // API
 
+    // write
+
     public void retweet(final String twitterAccount, final long tweetId) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
         try {
@@ -37,8 +40,6 @@ public class TwitterLiveService {
             logger.error("Unable to retweet on twitterAccount= " + twitterAccount + "; tweetid: " + tweetId, ex);
         }
     }
-
-    // write
 
     public void tweet(final String twitterAccount, final String tweetText) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
@@ -57,7 +58,7 @@ public class TwitterLiveService {
 
     // read
 
-    public List<String> listTweetsOfAccount(final String twitterAccount) {
+    public List<String> listTweetsOfInternalAccount(final String twitterAccount) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline();
         final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
@@ -67,6 +68,12 @@ public class TwitterLiveService {
             }
         };
         return Lists.transform(userTimeline, tweetToStringFunction);
+    }
+
+    public List<Tweet> listTweetsOfAccount(final String twitterAccount, final int howmany) {
+        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(SimpleTwitterAccount.BestOfJava.name());
+        final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
+        return userTimeline;
     }
 
     /**

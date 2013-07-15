@@ -43,6 +43,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     @Autowired
     private MinRtRetriever minRtRetriever;
 
+    @Autowired
+    private RetweetStrategy retweetStrategy;
+
     public TweetMetaService() {
         super();
     }
@@ -104,11 +107,11 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
                 logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
                 final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
-                    logger.trace("Didn't retweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialTweet.getText());
+                    logger.trace("Didn't retweet on twitterAccount= {}, from hashtag= {}, tweet text= {}", twitterAccount, hashtag, potentialTweet.getText());
                     continue;
                 } else {
                     final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-                    logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, potentialTweet.getText(), tweetUrl);
+                    logger.info("Successfully retweeted on twitterAccount= {}, from hashtag= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, hashtag, potentialTweet.getText(), tweetUrl);
                     return true;
                 }
             }
@@ -218,7 +221,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // tweet
-        if (new RetweetStrategy().shouldRetweet(potentialTweet)) {
+        if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
             twitterLiveService.retweet(twitterAccount, tweetId);
         } else {
             twitterLiveService.tweet(twitterAccount, processedTweetText);

@@ -50,7 +50,7 @@ public class TwitterLiveServiceLiveTest {
 
     @Test
     public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<String> tweets = twitterService.listTweetsOfAccount(SimpleTwitterAccount.JavaTopSO.name());
+        final List<String> tweets = twitterService.listTweetsOfInternalAccount(SimpleTwitterAccount.JavaTopSO.name());
         System.out.println(tweets);
     }
 

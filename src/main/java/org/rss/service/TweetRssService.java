@@ -59,7 +59,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
                     logger.trace("Didn't tweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialRssEntry);
                     continue;
                 } else {
-                    logger.info("Successfully retweeted on twitterAccount= {}, tweet text= {}", twitterAccount, potentialRssEntry);
+                    logger.info("Successfully tweeted on twitterAccount= {}, tweet text= {}", twitterAccount, potentialRssEntry);
                     return true;
                 }
             }
