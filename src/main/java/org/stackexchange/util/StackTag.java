@@ -15,7 +15,7 @@ public enum StackTag {// @formatter:off
     cassandra,
     captcha,
     couchbase,
-    ddos,
+//    ddos,
     dynamobd,
     django, 
     
