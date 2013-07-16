@@ -68,7 +68,7 @@ public class ClassificationServiceLiveTest {
         System.out.println("Average Success Rate: " + mean);
     }
 
-    // 0.682,0.681,0.688, , = ~0.683
+    // 0.682,0.681,0.688,0.685,0.689,0.686,0.692 = ~0.686 (223 less)
     @Test
     public final void givenClassifierWasTrained_whenClassifyingTestDataNew_thenResultsAreGood() throws IOException {
         final int runs = 1000;
