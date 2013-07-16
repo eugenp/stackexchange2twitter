@@ -19,6 +19,7 @@ import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.StackTag;
 import org.stackexchange.util.TwitterTag;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
@@ -172,7 +173,7 @@ public class TweetStackexchangeServiceLiveTest {
 
     @Test
     public final void whenTweetingByDefaultTagOnBestBash_thenNoExceptions() throws JsonProcessingException, IOException {
-        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(StackSite.AskUbuntu, SimpleTwitterAccount.BestBash.name());
+        tweetStackexchangeService.tweetTopQuestionBySiteAndTag(StackSite.AskUbuntu, StackTag.bash.name(), SimpleTwitterAccount.AskUbuntuBest.name());
     }
 
 }
