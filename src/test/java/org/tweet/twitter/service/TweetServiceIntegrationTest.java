@@ -24,4 +24,9 @@ public class TweetServiceIntegrationTest {
         assertFalse(instance.isTweetTextWorthTweetingByItself("PETZ NAOTO FAL ELLY #junkmania #ldh #exile #3jsb #yeezy #hba #beentrill #chanel #snapback #python\u2026 http://instagram.com/p/bWL_vVwziM/"));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario2_thenRejected() {
+        assertFalse(instance.isTweetTextWorthTweetingByItself("Beach day..\uD83D\uDE0D #greece #ios #beautiful @runwaydreamz http://instagram.com/p/bEvmJsI1dn/"));
+    }
+
 }
