@@ -77,7 +77,7 @@ public class ClassificationServiceLiveTest {
     }
 
     // 0.760
-    // 5000 features (~60sec): 0.881,0.880,0.881,0.881,0.883
+    // 5000 features (~60sec): 0.881,0.880,0.881,0.881,0.883,0.867,0.888
     // 10000 features (~75sec): 0.864
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
