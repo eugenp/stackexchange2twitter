@@ -40,7 +40,7 @@ public final class ClassificationUtil {
      */
     public static NamedVector encode(final String type, final Iterable<String> words) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
-        content_encoder.setProbes(1);
+        content_encoder.setProbes(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
 
         final FeatureVectorEncoder type_encoder = new StaticWordValueEncoder("type");
         type_encoder.setProbes(1);
@@ -56,7 +56,7 @@ public final class ClassificationUtil {
 
     public static Vector encode(final Iterable<String> words) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
-        content_encoder.setProbes(2);
+        content_encoder.setProbes(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
 
         final Vector vect = new RandomAccessSparseVector(ClassificationSettings.FEATURES);
         for (final String word : words) {

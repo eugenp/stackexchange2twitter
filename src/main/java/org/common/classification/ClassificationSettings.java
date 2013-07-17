@@ -2,7 +2,11 @@ package org.common.classification;
 
 public final class ClassificationSettings {
 
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 33;
+    /**
+     * - TODO: figure out what this is exactly
+     */
+    public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 5;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 50;
     public static final int FEATURES = 5000;
 
     public static final String TWEET_TOKENIZER = " ,.!?\":()|";

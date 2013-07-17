@@ -79,7 +79,7 @@ public class ClassificationServiceLiveTest {
         System.out.println("Processing time: " + (end - start) + " sec");
     }
 
-    //
+    // 0.944
     // 5000 features: 0.925,0.930(pool=100),0.932(pool=150)
     // 10000 features: 0.912,0.921
     /**
