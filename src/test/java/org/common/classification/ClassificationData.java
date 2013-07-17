@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.mahout.math.NamedVector;
-import org.common.service.classification.ClassificationService;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -40,7 +39,7 @@ public final class ClassificationData {
 
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
         for (final Pair<String, String> tweet : allTweets) {
-            allNamedVectors.add(encode(tweet.getLeft(), Splitter.on(CharMatcher.anyOf(ClassificationService.TWEET_TOKENIZER)).split(tweet.getRight())));
+            allNamedVectors.add(encode(tweet.getLeft(), Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(tweet.getRight())));
         }
 
         return allNamedVectors;
@@ -62,7 +61,13 @@ public final class ClassificationData {
             new ImmutablePair<String, String>(COMMERCIAL, "Looking for a Senior Java Developer in Hoboken, NJ http://bull.hn/l/12MHI/  #job #java"), 
             new ImmutablePair<String, String>(COMMERCIAL, "Know anyone for this job? Sr. Java Software Engineer in Atlanta, GA http://bull.hn/l/12D6I/5  #job #java"),  
             new ImmutablePair<String, String>(COMMERCIAL, "Are you a good fit for this job? Java Backend Developer in Amsterdam, Netherlands http://bull.hn/l/XVTE/6  #job #java #amsterdam"), 
-            new ImmutablePair<String, String>(COMMERCIAL, "Hire Experienced #WordPress developer at Affordable price, Inquire Now! http://www.valuecoders.com/hire-developers/hire-wordpress-developers")
+            new ImmutablePair<String, String>(COMMERCIAL, "Hire Experienced #WordPress developer at Affordable price, Inquire Now! http://www.valuecoders.com/hire-developers/hire-wordpress-developers"),
+            new ImmutablePair<String, String>(COMMERCIAL, "IQTELL is seeking iOS and java developers in NJ and NYC Area http://iqtell.com/careers/experienced-java-developers/ … #iOS #dev #job #java #hire #jobsearch #developers #apps"),
+            new ImmutablePair<String, String>(COMMERCIAL, "Need Java Developers and .Net/Sharepoint developers. Multiple positions. http://bit.ly/aKiIZG #Java #.net #sharepoint #hire #job #developers"),
+            new ImmutablePair<String, String>(COMMERCIAL, "Need To Hire JS Expert. Simple Work #hiring #java #site #work #simple #expert #hire #job http://bit.ly/1i9avN"),
+            new ImmutablePair<String, String>(COMMERCIAL, "HOT Requirement! Sr. Java/J2EE Dev | Hyderabad, IN | Start-ASAP |. http://bit.ly/GCeuH #job #india #java #j2ee #naukri #jobs #hire #hiring"),
+            new ImmutablePair<String, String>(COMMERCIAL, "Sr. Software Developer | Start-ASAP | http://bit.ly/dSYxo8 #job #kabul #java #j2ee #php #jobs #hire #hiring #web #developer | HTML PHP AJAX"),
+            new ImmutablePair<String, String>(COMMERCIAL, "We are hiring:- http://tuenti.com/jobs/ #job #jobs #hiring #hire #frontend #backend #java #javascript #php #php5 #AJAX #LAMP #designer #IT")
         ); // @formatter:on
         return commercialTweets;
     }

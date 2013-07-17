@@ -16,6 +16,7 @@ import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
+import org.common.classification.ClassificationSettings;
 import org.common.classification.ClassificationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +29,6 @@ import com.google.common.collect.Lists;
 
 @Service
 public class ClassificationService implements InitializingBean {
-    public static final String TWEET_TOKENIZER = " ,.!?\":()";
-    // @ is an important signal - do not add to the tokenizer
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private CrossFoldLearner commercialVsNonCommercialLerner;
@@ -51,7 +49,7 @@ public class ClassificationService implements InitializingBean {
     }
 
     boolean isCommercialInternal(final String text) {
-        final Vector encodedAsVector = encode(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
+        final Vector encodedAsVector = encode(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(text));
 
         final Vector collector = new DenseVector(2);
         commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
@@ -63,7 +61,7 @@ public class ClassificationService implements InitializingBean {
     // util
 
     boolean isCommercial(final String type, final String text) {
-        final NamedVector encodedAsVector = encode(type, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
+        final NamedVector encodedAsVector = encode(type, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(text));
 
         final Vector collector = new DenseVector(2);
         commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
@@ -88,10 +86,10 @@ public class ClassificationService implements InitializingBean {
         final List<NamedVector> noncommercialNamedVectors = Lists.<NamedVector> newArrayList();
         final List<NamedVector> commercialNamedVectors = Lists.<NamedVector> newArrayList();
         for (final String noncommercialTweet : noncommercialTweets) {
-            noncommercialNamedVectors.add(encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(noncommercialTweet)));
+            noncommercialNamedVectors.add(encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(noncommercialTweet)));
         }
         for (final String commercialTweet : commercialTweets) {
-            noncommercialNamedVectors.add(encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(commercialTweet)));
+            noncommercialNamedVectors.add(encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(commercialTweet)));
         }
 
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
