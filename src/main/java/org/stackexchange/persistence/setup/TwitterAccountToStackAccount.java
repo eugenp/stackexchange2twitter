@@ -35,7 +35,7 @@ public final class TwitterAccountToStackAccount {
         case BestAWS:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestBash:
-            return Lists.newArrayList(StackSite.StackOverflow, StackSite.AskUbuntu, StackSite.SuperUser);
+            return Lists.newArrayList(StackSite.StackOverflow, StackSite.SuperUser); // StackSite.AskUbuntu - no more results
         case BestClojure:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestEclipse:
