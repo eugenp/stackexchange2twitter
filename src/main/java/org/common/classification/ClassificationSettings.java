@@ -2,7 +2,7 @@ package org.common.classification;
 
 public final class ClassificationSettings {
 
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 50;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 33;
     public static final int FEATURES = 5000;
 
     public static final String TWEET_TOKENIZER = " ,.!?\":()|";
@@ -16,3 +16,6 @@ public final class ClassificationSettings {
     // util
 
 }
+// features = 10000, pool = 200 => sec 1122 (0.561)
+// features = 5000, pool = 150 => sec 559
+// features = 5000, pool = 30 => sec 100
