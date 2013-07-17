@@ -49,8 +49,8 @@ public class ClassificationServiceLiveTest {
         assertTrue(isCommercial);
     }
 
-    // 5000 features(~60sec): 0.952,0.958
-    // 10000 features(~85sec):
+    // 5000 features: 0.972
+    // 10000 features:
     /**
      * - note: the data to be classified has type information included in the encoded vector - so the results are of course not production equivalent
      */
@@ -64,6 +64,9 @@ public class ClassificationServiceLiveTest {
             final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
             final double percentageCorrect = analyzeDataIncludingTypeInfo(testData);
             results.add(percentageCorrect);
+            if (i % 100 == 0) {
+                System.out.println("Another 100 processed... - " + ((i / 100) + 1));
+            }
         }
 
         final DescriptiveStatistics stats = new DescriptiveStatistics();
@@ -77,8 +80,8 @@ public class ClassificationServiceLiveTest {
     }
 
     // 0.760
-    // 5000 features (~60sec): 0.888
-    // 10000 features (~75sec): 0.864
+    // 5000 features: 0.924,0.930(pool=100)
+    // 10000 features: 0.912
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
      * - so the results are production-like, but not excellent
@@ -93,6 +96,9 @@ public class ClassificationServiceLiveTest {
             final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
             final double percentageCorrect = analyzeData(testData);
             results.add(percentageCorrect);
+            if (i % 100 == 0) {
+                System.out.println("Another 100 processed... - " + ((i / 100) + 1));
+            }
         }
 
         final DescriptiveStatistics stats = new DescriptiveStatistics();
