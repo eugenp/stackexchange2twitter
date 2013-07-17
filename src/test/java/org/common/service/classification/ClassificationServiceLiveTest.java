@@ -49,8 +49,8 @@ public class ClassificationServiceLiveTest {
         assertTrue(isCommercial);
     }
 
-    // 5000 features(~60sec): 0.970,0.972,0.967
-    // 10000 features(~85sec): 0.970
+    // 5000 features(~60sec): 0.952
+    // 10000 features(~85sec):
     /**
      * - note: the data to be classified has type information included in the encoded vector - so the results are of course not production equivalent
      */
@@ -76,8 +76,8 @@ public class ClassificationServiceLiveTest {
         System.out.println("Processing time: " + (end - start) + " sec");
     }
 
-    // 5000 features (~65sec): 0.752,0.773,0.771
-    // 10000 features (~80sec): 0.764
+    // 5000 features (~65sec): 0.865,0.865
+    // 10000 features (~80sec):
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
      * - so the results are production-like, but not excellent
@@ -105,8 +105,8 @@ public class ClassificationServiceLiveTest {
     }
 
     // 0.760
-    // 5000 features (~60sec): 0.822,0.824,0.830,0.828,0.827
-    // 10000 features (~75sec): 0.801
+    // 5000 features (~60sec): 0.881,0.880,0.881
+    // 10000 features (~75sec): 0.864
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
      * - so the results are production-like, but not excellent

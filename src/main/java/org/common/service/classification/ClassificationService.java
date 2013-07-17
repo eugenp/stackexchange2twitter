@@ -28,7 +28,8 @@ import com.google.common.collect.Lists;
 
 @Service
 public class ClassificationService implements InitializingBean {
-    public static final String TWEET_TOKENIZER = " ,.!?\":";
+    public static final String TWEET_TOKENIZER = " ,.!?\":()";
+    // @ is an important signal - do not add to the tokenizer
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
