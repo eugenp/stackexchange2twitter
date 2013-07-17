@@ -49,10 +49,44 @@ public class ClassificationServiceLiveTest {
         assertTrue(isCommercial);
     }
 
-    // 0.906,0.905,0.913,0.910,0.910,0.930,0.933 = ~0.909
+    // 5000 features(~60sec): 0.970,0.972,0.967
+    // 10000 features(~85sec): 0.970
+    /**
+     * - note: the data to be classified has type information included in the encoded vector - so the results are of course not production equivalent
+     */
     @Test
-    public final void givenClassifierWasTrained_whenClassifyingTestData_thenResultsAreGood() throws IOException {
+    public final void givenClassifierWasTrained_whenClassifyingTestDataIncludingType_thenResultsAreGood() throws IOException {
         final int runs = 1000;
+
+        final long start = System.nanoTime() / (1000 * 1000 * 1000);
+        final List<Double> results = Lists.newArrayList();
+        for (int i = 0; i < runs; i++) {
+            final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
+            final double percentageCorrect = analyzeDataIncludingTypeInfo(testData);
+            results.add(percentageCorrect);
+        }
+
+        final DescriptiveStatistics stats = new DescriptiveStatistics();
+        for (int i = 0; i < results.size(); i++) {
+            stats.addValue(results.get(i));
+        }
+        final double mean = stats.getMean();
+        System.out.println("Average Success Rate: " + mean);
+        final long end = System.nanoTime() / (1000 * 1000 * 1000);
+        System.out.println("Processing time: " + (end - start) + " sec");
+    }
+
+    // 5000 features (~65sec): 0.752,0.773,0.771
+    // 10000 features (~80sec): 0.764
+    /**
+     * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
+     * - so the results are production-like, but not excellent
+     */
+    @Test
+    public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
+        final int runs = 1000;
+
+        final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {
             final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
@@ -66,12 +100,22 @@ public class ClassificationServiceLiveTest {
         }
         final double mean = stats.getMean();
         System.out.println("Average Success Rate: " + mean);
+        final long end = System.nanoTime() / (1000 * 1000 * 1000);
+        System.out.println("Processing time: " + (end - start) + " sec");
     }
 
-    // 0.682+0.681+0.688+0.685+0.689+0.686+0.692+0.697 = ~0.687 (223 less)
+    // 0.760
+    // 5000 features (~60sec): 0.822,0.824,0.830,0.828,0.827
+    // 10000 features (~75sec): 0.801
+    /**
+     * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
+     * - so the results are production-like, but not excellent
+     */
     @Test
-    public final void givenClassifierWasTrained_whenClassifyingTestDataNew_thenResultsAreGood() throws IOException {
+    public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfoNew_thenResultsAreGood() throws IOException {
         final int runs = 1000;
+
+        final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {
             final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
@@ -85,11 +129,13 @@ public class ClassificationServiceLiveTest {
         }
         final double mean = stats.getMean();
         System.out.println("Average Success Rate: " + mean);
+        final long end = System.nanoTime() / (1000 * 1000 * 1000);
+        System.out.println("Processing time: " + (end - start) + " sec");
     }
 
     // util
 
-    private final double analyzeData(final List<ImmutablePair<String, String>> testData) throws IOException {
+    private final double analyzeDataIncludingTypeInfo(final List<ImmutablePair<String, String>> testData) throws IOException {
         classificationService.afterPropertiesSet();
 
         int correct = 0;
@@ -109,7 +155,7 @@ public class ClassificationServiceLiveTest {
         return percentageCorrect;
     }
 
-    private final double analyzeDataNew(final List<ImmutablePair<String, String>> testData) throws IOException {
+    private final double analyzeData(final List<ImmutablePair<String, String>> testData) throws IOException {
         classificationService.afterPropertiesSet();
 
         int correct = 0;
@@ -118,6 +164,26 @@ public class ClassificationServiceLiveTest {
             total++;
             final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
             final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight());
+            if (isTweetCommercial == expected) {
+                correct++;
+            }
+        }
+
+        final double cd = correct;
+        final double td = total;
+        final double percentageCorrect = cd / td;
+        return percentageCorrect;
+    }
+
+    private final double analyzeDataNew(final List<ImmutablePair<String, String>> testData) throws IOException {
+        classificationService.afterPropertiesSet();
+
+        int correct = 0;
+        int total = 0;
+        for (final Pair<String, String> tweetData : testData) {
+            total++;
+            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
+            final boolean isTweetCommercial = classificationService.isCommercialNew(tweetData.getRight());
             if (isTweetCommercial == expected) {
                 correct++;
             }

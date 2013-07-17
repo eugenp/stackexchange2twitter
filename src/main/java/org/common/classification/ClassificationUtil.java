@@ -22,7 +22,7 @@ import org.apache.mahout.vectorizer.encoders.StaticWordValueEncoder;
 
 public final class ClassificationUtil {
 
-    public static final int FEATURES = 1000;
+    public static final int FEATURES = 5000;
 
     public static final String COMMERCIAL = "commercial";
     public static final String NONCOMMERCIAL = "noncommercial";
@@ -40,10 +40,10 @@ public final class ClassificationUtil {
      */
     public static NamedVector encode(final String type, final Iterable<String> words) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
-        content_encoder.setProbes(2);
+        content_encoder.setProbes(1);
 
         final FeatureVectorEncoder type_encoder = new StaticWordValueEncoder("type");
-        type_encoder.setProbes(2);
+        type_encoder.setProbes(1);
 
         final Vector vect = new RandomAccessSparseVector(ClassificationUtil.FEATURES);
         type_encoder.addToVector(type, vect);
@@ -52,6 +52,17 @@ public final class ClassificationUtil {
             content_encoder.addToVector(word, vect);
         }
         return new NamedVector(vect, type);
+    }
+
+    public static Vector encode(final Iterable<String> words) {
+        final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
+        content_encoder.setProbes(2);
+
+        final Vector vect = new RandomAccessSparseVector(ClassificationUtil.FEATURES);
+        for (final String word : words) {
+            content_encoder.addToVector(word, vect);
+        }
+        return vect;
     }
 
     public static VectorWriter writeData(final String pathOnDisk) throws IOException {
@@ -74,22 +85,24 @@ public final class ClassificationUtil {
     }
 
     public static void trainClassifier(final SequenceFile.Reader reader) throws IOException {
-        final AdaptiveLogisticRegression reg = new AdaptiveLogisticRegression(2, FEATURES, new L1());
+        final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, FEATURES, new L1());
+        // metaLearner.set
         final VectorWritable value = new VectorWritable();
         while (reader.next(new LongWritable(), value)) {
             final NamedVector v = (NamedVector) value.get();
-            reg.train(COMMERCIAL.equals(v.getName()) ? 1 : 0, v);
+            metaLearner.train(COMMERCIAL.equals(v.getName()) ? 1 : 0, v);
         }
-        reg.close();
+        metaLearner.close();
     }
 
     public static AdaptiveLogisticRegression trainClassifier(final Iterable<NamedVector> vectors) throws IOException {
-        final AdaptiveLogisticRegression reg = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, FEATURES, new L1());
+        final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, FEATURES, new L1());
+        // metaLearner.setav
         for (final NamedVector vect : vectors) {
-            reg.train(COMMERCIAL.equals(vect.getName()) ? 1 : 0, vect);
+            metaLearner.train(COMMERCIAL.equals(vect.getName()) ? 1 : 0, vect);
         }
-        reg.close();
-        return reg;
+        metaLearner.close();
+        return metaLearner;
     }
 
 }

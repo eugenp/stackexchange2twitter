@@ -28,6 +28,8 @@ import com.google.common.collect.Lists;
 
 @Service
 public class ClassificationService implements InitializingBean {
+    public static final String TWEET_TOKENIZER = " ,.!?\":";
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private CrossFoldLearner commercialVsNonCommercialLerner;
@@ -48,7 +50,26 @@ public class ClassificationService implements InitializingBean {
     }
 
     boolean isCommercialInternal(final String text) {
-        final NamedVector encodedAsVector = encode("", Splitter.on(CharMatcher.anyOf(" ")).split(text));
+        final NamedVector encodedAsVector = encode("", Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
+
+        final Vector collector = new DenseVector(2);
+        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
+        final int cat = collector.maxValueIndex();
+
+        return cat == 1;
+    }
+
+    public boolean isCommercialNew(final String text) {
+        try {
+            return isCommercialInternalNew(text);
+        } catch (final Exception ex) {
+            logger.error("", ex);
+            return false;
+        }
+    }
+
+    boolean isCommercialInternalNew(final String text) {
+        final Vector encodedAsVector = encode(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
 
         final Vector collector = new DenseVector(2);
         commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
@@ -60,7 +81,7 @@ public class ClassificationService implements InitializingBean {
     // util
 
     boolean isCommercial(final String type, final String text) {
-        final NamedVector encodedAsVector = encode(type, Splitter.on(CharMatcher.anyOf(" ")).split(text));
+        final NamedVector encodedAsVector = encode(type, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
 
         final Vector collector = new DenseVector(2);
         commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
@@ -85,10 +106,10 @@ public class ClassificationService implements InitializingBean {
         final List<NamedVector> noncommercialNamedVectors = Lists.<NamedVector> newArrayList();
         final List<NamedVector> commercialNamedVectors = Lists.<NamedVector> newArrayList();
         for (final String noncommercialTweet : noncommercialTweets) {
-            noncommercialNamedVectors.add(encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split(noncommercialTweet)));
+            noncommercialNamedVectors.add(encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(noncommercialTweet)));
         }
         for (final String commercialTweet : commercialTweets) {
-            noncommercialNamedVectors.add(encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split(commercialTweet)));
+            noncommercialNamedVectors.add(encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(commercialTweet)));
         }
 
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
