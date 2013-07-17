@@ -49,7 +49,7 @@ public class ClassificationServiceLiveTest {
         assertTrue(isCommercial);
     }
 
-    // 5000 features(~60sec): 0.952
+    // 5000 features(~60sec): 0.952,0.958
     // 10000 features(~85sec):
     /**
      * - note: the data to be classified has type information included in the encoded vector - so the results are of course not production equivalent
@@ -76,8 +76,9 @@ public class ClassificationServiceLiveTest {
         System.out.println("Processing time: " + (end - start) + " sec");
     }
 
-    // 5000 features (~65sec): 0.865,0.865
-    // 10000 features (~80sec):
+    // 0.760
+    // 5000 features (~60sec): 0.881,0.880,0.881,0.881,0.883
+    // 10000 features (~75sec): 0.864
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
      * - so the results are production-like, but not excellent
@@ -91,35 +92,6 @@ public class ClassificationServiceLiveTest {
         for (int i = 0; i < runs; i++) {
             final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
             final double percentageCorrect = analyzeData(testData);
-            results.add(percentageCorrect);
-        }
-
-        final DescriptiveStatistics stats = new DescriptiveStatistics();
-        for (int i = 0; i < results.size(); i++) {
-            stats.addValue(results.get(i));
-        }
-        final double mean = stats.getMean();
-        System.out.println("Average Success Rate: " + mean);
-        final long end = System.nanoTime() / (1000 * 1000 * 1000);
-        System.out.println("Processing time: " + (end - start) + " sec");
-    }
-
-    // 0.760
-    // 5000 features (~60sec): 0.881,0.880,0.881
-    // 10000 features (~75sec): 0.864
-    /**
-     * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
-     * - so the results are production-like, but not excellent
-     */
-    @Test
-    public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfoNew_thenResultsAreGood() throws IOException {
-        final int runs = 1000;
-
-        final long start = System.nanoTime() / (1000 * 1000 * 1000);
-        final List<Double> results = Lists.newArrayList();
-        for (int i = 0; i < runs; i++) {
-            final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
-            final double percentageCorrect = analyzeDataNew(testData);
             results.add(percentageCorrect);
         }
 
@@ -164,26 +136,6 @@ public class ClassificationServiceLiveTest {
             total++;
             final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
             final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight());
-            if (isTweetCommercial == expected) {
-                correct++;
-            }
-        }
-
-        final double cd = correct;
-        final double td = total;
-        final double percentageCorrect = cd / td;
-        return percentageCorrect;
-    }
-
-    private final double analyzeDataNew(final List<ImmutablePair<String, String>> testData) throws IOException {
-        classificationService.afterPropertiesSet();
-
-        int correct = 0;
-        int total = 0;
-        for (final Pair<String, String> tweetData : testData) {
-            total++;
-            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
-            final boolean isTweetCommercial = classificationService.isCommercialNew(tweetData.getRight());
             if (isTweetCommercial == expected) {
                 correct++;
             }

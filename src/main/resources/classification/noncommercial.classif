@@ -126,3 +126,23 @@ Apache #Solr and #Lucene 4.3.1 now available for download! http://bit.ly/14vzBvX
 SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in São Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx
 Lucene 4.3 & Solr 4.3 are out with loads of goodies! http://ow.ly/kKmXF http://ow.ly/kKmZl #lucene #solr
 RT @tteofili: Lucene 4.2 with a classification module http://search-lucene.com/m/8oR5U1DK1SY&subj=+ANNOUNCE+Apache+Lucene+4+2+released … < curious to see what users think #lucene << congrats!
+#PHP #code Possible security risk?: Whenever I have a form that inputs to a php page. Ive noticed that it is p... http://tinyurl.com/lvbffzy
+#PHP CVE-2013-4113 Heap Memory Corruption #Vulnerability http://buff.ly/18kQOxe  #infosec #security
+How do you use bcrypt for hashing passwords in PHP? - http://stackoverflow.com/questions/4795385/how-do-you-use-bcrypt-for-hashing-passwords-in-php … #php #bcrypt #security
+Mysql database password and webform password http://security.stackexchange.com/q/38874?atw=1  #php
+#PHP 5.3 will only receive security fixes for the next year as it reaches end of life! http://php.net/archive/2013.php#id2013-07-11-1 …
+#php 5.5.0 is released today! 5.3.x will only have security fix support for about 1 year. So get it while it's hot! http://ow.ly/mexk8
+Content Negotiation using Views #spring #rest http://feedproxy.google.com/~r/SpringSourceTeamBlog/~3/RZ-zia25xKM/ …
+Updated #REST with #Spring Series: http://www.baeldung.com/rest-with-spring-series/ …
+Webinar: Multi-Client Development with #Spring by @starbuxman http://j.mp/11Eiw0g  Lots of good stuff: #REST #MVC #HTML5 #OAUTH #Android
+#Spring #REST WS in Two minutes http://j.mp/ZHT3lt  #java
+Implementation of the sample from #REST in Practice based on #Spring projects http://j.mp/RB9Mlr
+#Spring #Jpa #Persistence http://www.zqna.net/qna/kxrxrq-unable-to-import-persistence-xml-within-applicationcontext-xml-file.html … Unable to Import persistence.xml within applicationContext.xml file
+The #persistence layer with #spring 3.1 and #hibernate http://www.javacodegeeks.com/2011/12/persistence-layer-with-spring-31-and.html …
+A bit of recent #SpringData development press by @jaxcentercom… http://jaxenter.com/spring-rest-data-close-to-1-0-0-arrival-with-second-release-candidate-43913.html … #nosql #spring #persistence #jpa #rest (via @j_brisbin)
+The #Persistence Layer with #Spring Data #JPA http://shr.tn/cXP6
+#Testing #article about #standalon-gorm - e.g the #persistence layer in #grails with (#hibernate and #spring) http://icio.us/r5vgka
+#Testing #Spring Data #MongoDB Applications with #NoSQLUnit : http://bit.ly/UMbowg
+I'm presenting "#Testing #Web Applications with #Spring 3.2" w/ @rstoya05 @ #springone2gx in 2 weeks. http://bit.ly/Pf9KnN  #java
+"Effective out-of-container Integration #Testing" slides by @sam_brannen from #4Developers: http://bit.ly/IlXdJ5  #spring #java
+Unit Testing #Spring with #Mockito & #PowerMock - http://j.mp/vbkuyv  #testing

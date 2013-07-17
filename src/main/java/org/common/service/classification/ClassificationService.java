@@ -51,25 +51,6 @@ public class ClassificationService implements InitializingBean {
     }
 
     boolean isCommercialInternal(final String text) {
-        final NamedVector encodedAsVector = encode("", Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
-
-        final Vector collector = new DenseVector(2);
-        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
-        final int cat = collector.maxValueIndex();
-
-        return cat == 1;
-    }
-
-    public boolean isCommercialNew(final String text) {
-        try {
-            return isCommercialInternalNew(text);
-        } catch (final Exception ex) {
-            logger.error("", ex);
-            return false;
-        }
-    }
-
-    boolean isCommercialInternalNew(final String text) {
         final Vector encodedAsVector = encode(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
 
         final Vector collector = new DenseVector(2);
