@@ -108,3 +108,21 @@ WordPress 3.5.2 Maintenance and Security Release - http://is.gd/3fOaJU  #php
 What exactly does #REST mean? What is it, and why is it getting big now? - http://stackoverflow.com/questions/243388/what-exactly-does-rest-mean-what-is-it-and-why-is-it-getting-big-now …
 Want better #REST interfaces? Try thinking like a developer http://bit.ly/1dijC6e  #API
 #Mobile impact on #SOA offers apps big gains http://bit.ly/17IAhPM  #appdev #REST
+@Karianna & John Oliver cover how to read & interpret the scary log format in their session @JAXLondon: http://bit.ly/15H71sP  #java #jvm
+The joy of #jvm bytecode generation: "java.lang.VerifyError: Operand stack overflow - Exceeded max stack size."
+See which #databases, application #servers, #JVM and #PHP versions are the most widely used in the #Cloud http://blog.jelastic.com/2013/07/04/software-stacks-distribution-june-2013/ … ^MS
+Oracle JRockit - one of the best books I've read on #java and #jvm so far http://www.amazon.com/gp/aw/d/1847198066/ref=mp_s_a_1_1?qid=1373714725&sr=8-1&pi=SL75 … /cc @hirt @lagergren
+Get the inside scoop on the advancements in hardware from Intel and #JVM that you can use to optimize Apache #Hadoop http://bit.ly/1723ggt
+Java Just-In-Time compilation: more than just a buzzword - #CoreJava #JIT #JVM http://goo.gl/c6YGN
+Printing Generated Assembly Code From The Hotspot #JIT Compiler - #CoreJava #JVM http://goo.gl/KMwqi
+#Hibernate Cnnection Pool configuration with #C3p0 Example - http://goo.gl/kdcQv
+Top 10 #Hibernate Interview Questions and Answers for #Java Programmers... http://fb.me/Vleri4FK
+How do I map a nested collection, Map<Key,List<Values>>, with #hibernate #JPA annotations? - http://stackoverflow.com/questions/939235/how-do-i-map-a-nested-collection-mapkey-listvalues-with-hibernate-jpa-anno
+Proper usage of #Spring mvc 3 with #hibernate (Spring ORM) - http://stackoverflow.com/questions/6709750/proper-usage-of-spring-mvc-3-with-hibernate-spring-orm …
+#Hibernate Search 4.3.0.Alpha1 now available http://in.relation.to/Bloggers/HibernateSearch43SimplifyClusteringAndJBossEAP61Integrations … #Lucene
+The Blur Project: Marrying #Hadoop with #Lucene http://ow.ly/mON0c  #search #textmining #bigdata
+Big fan of #Lucene, the #opensource #search makes it level playing field for smaller players.
+Apache #Solr and #Lucene 4.3.1 now available for download! http://bit.ly/14vzBvX
+SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in São Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx
+Lucene 4.3 & Solr 4.3 are out with loads of goodies! http://ow.ly/kKmXF  http://ow.ly/kKmZl  #lucene #solr
+RT @tteofili: Lucene 4.2 with a classification module http://search-lucene.com/m/8oR5U1DK1SY&subj=+ANNOUNCE+Apache+Lucene+4+2+released … < curious to see what users think #lucene << congrats!

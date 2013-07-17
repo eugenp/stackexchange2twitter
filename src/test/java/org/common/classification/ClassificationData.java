@@ -25,8 +25,8 @@ public final class ClassificationData {
     // API
 
     public static List<ImmutablePair<String, String>> commercialAndNonCommercialTweets() {
-        final List<ImmutablePair<String, String>> noncommercialTweets = nonCommercialTweets();
-        final List<ImmutablePair<String, String>> commercialTweets = commercialTweets();
+        final List<ImmutablePair<String, String>> noncommercialTweets = nonCommercialTweets_batch1();
+        final List<ImmutablePair<String, String>> commercialTweets = commercialTweets_batch1();
         final List<ImmutablePair<String, String>> allTweets = Lists.newArrayList();
         allTweets.addAll(noncommercialTweets);
         allTweets.addAll(commercialTweets);
@@ -48,7 +48,7 @@ public final class ClassificationData {
     // util
 
     @SuppressWarnings("unchecked")
-    private static List<ImmutablePair<String, String>> commercialTweets() {
+    private static List<ImmutablePair<String, String>> commercialTweets_batch1() {
         final List<ImmutablePair<String, String>> commercialTweets = Lists.newArrayList(// @formatter:off
             new ImmutablePair<String, String>(COMMERCIAL, "We're looking to #hire a Front End Developer/Creative Designer to join our team in Leeds. Get in touch for more information."), 
             new ImmutablePair<String, String>(COMMERCIAL, "New job Nurse Practitioners & Physician Assistants - New Jersey  #hire #jobs"), 
@@ -67,7 +67,7 @@ public final class ClassificationData {
     }
 
     @SuppressWarnings("unchecked")
-    private static List<ImmutablePair<String, String>> nonCommercialTweets() {
+    private static List<ImmutablePair<String, String>> nonCommercialTweets_batch1() {
         final List<ImmutablePair<String, String>> noncommercialTweets = Lists.newArrayList(// @formatter:off
             new ImmutablePair<String, String>(NONCOMMERCIAL, "A set of great #scala and #akka examples http://bit.ly/KlJkro  #java #mapred #programming #dev"), 
             new ImmutablePair<String, String>(NONCOMMERCIAL, "New report shows that 11% of #Java devs also use #Scala on some projects http://0t.ee/devprodrep2012c"), 

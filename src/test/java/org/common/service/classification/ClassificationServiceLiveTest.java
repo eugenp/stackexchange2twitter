@@ -49,7 +49,7 @@ public class ClassificationServiceLiveTest {
         assertTrue(isCommercial);
     }
 
-    // 0.906,0.905,0.913,0.910,0.910 = ~0.909
+    // 0.906,0.905,0.913,0.910,0.910,0.930,0.933 = ~0.909
     @Test
     public final void givenClassifierWasTrained_whenClassifyingTestData_thenResultsAreGood() throws IOException {
         final int runs = 1000;
@@ -68,7 +68,7 @@ public class ClassificationServiceLiveTest {
         System.out.println("Average Success Rate: " + mean);
     }
 
-    // 0.682,0.681,0.688,0.685,0.689,0.686,0.692 = ~0.686 (223 less)
+    // 0.682+0.681+0.688+0.685+0.689+0.686+0.692+0.697 = ~0.687 (223 less)
     @Test
     public final void givenClassifierWasTrained_whenClassifyingTestDataNew_thenResultsAreGood() throws IOException {
         final int runs = 1000;
