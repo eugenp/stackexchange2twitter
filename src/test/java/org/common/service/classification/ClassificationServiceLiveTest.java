@@ -65,7 +65,7 @@ public class ClassificationServiceLiveTest {
             final double percentageCorrect = analyzeDataIncludingTypeInfo(testData);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
-                System.out.println("Another 100 processed... - " + ((i / 100) + 1));
+                System.out.println("Processing 100 ... - " + ((i / 100) + 1));
             }
         }
 
@@ -79,8 +79,7 @@ public class ClassificationServiceLiveTest {
         System.out.println("Processing time: " + (end - start) + " sec");
     }
 
-    // 0.94225
-    // 5000 features: 0.925,0.930(pool=100),0.932(pool=150)
+    // 5000 features: 0.940
     // 10000 features: 0.912,0.921
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
@@ -97,7 +96,7 @@ public class ClassificationServiceLiveTest {
             final double percentageCorrect = analyzeData(testData);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
-                System.out.println("Another 100 processed... - " + ((i / 100) + 1));
+                System.out.println("Processing 100 ... - " + ((i / 100) + 1));
             }
         }
 

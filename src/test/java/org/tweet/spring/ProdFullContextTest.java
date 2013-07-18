@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.persistence.dao.IKeyValJpaDAO;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
+import org.rss.spring.RssContextConfig;
+import org.rss.spring.RssPersistenceJPAConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,6 +29,10 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
         CommonPersistenceJPAConfig.class,
         // PersistenceJPACommonConfig.class, // imported
         CommonContextConfig.class, 
+        
+        // org.rss
+        RssContextConfig.class,
+        RssPersistenceJPAConfig.class,
         
         // org.keyval.spring
         KeyValPersistenceJPAConfig.class,

@@ -3,14 +3,18 @@ package org.common.classification;
 public final class ClassificationSettings {
 
     /**
+     * -- 5000 features
      * 2 - 0.942
+     * 3 - 0.944
+     * 4 - 0.940
      * 5 - 0.920
+     * 6 - 0.909
      * 10 -  
      * - TODO: figure out what this is exactly
      */
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 150;
-    public static final int FEATURES = 5000;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 50;
+    public static final int FEATURES = 10000;
 
     public static final String TWEET_TOKENIZER = " ,.!?\":()|-";
 

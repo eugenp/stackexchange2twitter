@@ -38,7 +38,7 @@ public class TweetService {
      * - contains any banned keywords <br/>
      * - is not already a retweet <br/>
      */
-    public final boolean isTweetWorthRetweetingByItself(final String potentialTweet) {
+    public final boolean isTweetWorthRetweetingByText(final String potentialTweet) {
         if (!containsLink(potentialTweet)) {
             return false;
         }

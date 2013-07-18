@@ -40,6 +40,10 @@ public final class TwitterUtil {
         "Follow us on (Linkedin|Twitter|G+) .*" // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
     ); // @formatter:on
 
+    final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
+        "blogginginside" // in German - https://twitter.com/blogginginside 
+    ); // @formatter:on
+
     private TwitterUtil() {
         throw new AssertionError();
     }
@@ -57,6 +61,10 @@ public final class TwitterUtil {
 
     public static boolean isTweetValid(final String fullTweet) {
         return fullTweet.length() <= 140;
+    }
+
+    public static boolean isUserBannedFromRetweeting(final String username) {
+        return bannedTwitterUsers.contains(username);
     }
 
     // pre-processing

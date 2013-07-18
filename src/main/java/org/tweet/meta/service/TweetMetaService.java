@@ -19,6 +19,7 @@ import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
+import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
@@ -56,7 +57,11 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         String twitterTag = null;
         try {
             twitterTag = tagService.pickTwitterTag(twitterAccount);
-            return retweetByHashtag(twitterAccount, twitterTag); // no need to log the result here because this call will already log it
+            final boolean success = retweetByHashtagInternal(twitterAccount, twitterTag);
+            if (!success) {
+                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
+            }
+            return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, runtimeEx);
             return false;
@@ -80,6 +85,80 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, ex);
             return false;
         }
+    }
+
+    // template
+
+    @Override
+    protected final boolean tryTweetOne(final String text, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
+        final long tweetId = (long) customDetails.get("tweetId");
+        final String hashtag = (String) customDetails.get("hashtag");
+        final Tweet potentialTweet = (Tweet) customDetails.get("potentialTweet");
+
+        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
+
+        // is it worth it by itself?
+        if (!tweetService.isTweetWorthRetweetingByText(text)) {
+            return false;
+        }
+
+        // is it worth it in the context of all the current list of tweets?
+        if (!isTweetWorthRetweetingInContext(potentialTweet, hashtag)) {
+            return false;
+        }
+
+        // pre-process
+        final String tweetText = tweetService.preValidityProcess(text);
+
+        // is it valid?
+        if (!tweetService.isTweetTextValid(tweetText)) {
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+            return false;
+        }
+
+        // is this tweet pointing to something good?
+        if (!isTweetPointingToSomethingGood(tweetText)) {
+            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+            return false;
+        }
+
+        // is the tweet rejected by some classifier?
+        if (isTweetRejectedByClassifier(tweetText)) {
+            logger.debug("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+            return false;
+        }
+
+        // post-process
+        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
+
+        // tweet
+        if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
+            twitterLiveService.retweet(twitterAccount, tweetId);
+        } else {
+            twitterLiveService.tweet(twitterAccount, processedTweetText);
+        }
+
+        // mark
+        markDone(new Retweet(tweetId, twitterAccount));
+
+        // done
+        return true;
+    }
+
+    @Override
+    protected final boolean hasThisAlreadyBeenTweeted(final Retweet retweet) {
+        final Retweet existingTweet = retweetApi.findOneByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
+        return existingTweet != null;
+    }
+
+    @Override
+    protected final void markDone(final Retweet entity) {
+        retweetApi.save(entity);
+    }
+
+    @Override
+    protected final IRetweetJpaDAO getApi() {
+        return retweetApi;
     }
 
     // util
@@ -180,81 +259,13 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             return false;
         }
 
+        if (TwitterUtil.isUserBannedFromRetweeting(potentialTweet.getFromUser())) {
+            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", potentialTweet, twitterTag, potentialTweet.getFromUser());
+            // debug temporary - should be trace
+            return false;
+        }
+
         return true;
-    }
-
-    // template
-
-    @Override
-    protected final boolean tryTweetOne(final String text, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
-        final long tweetId = (long) customDetails.get("tweetId");
-        final String hashtag = (String) customDetails.get("hashtag");
-        final Tweet potentialTweet = (Tweet) customDetails.get("potentialTweet");
-
-        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
-
-        // is it worth it by itself?
-        if (!tweetService.isTweetWorthRetweetingByItself(text)) {
-            return false;
-        }
-
-        // is it worth it in the context of all the current list of tweets?
-        if (!isTweetWorthRetweetingInContext(potentialTweet, hashtag)) {
-            return false;
-        }
-
-        // pre-process
-        final String tweetText = tweetService.preValidityProcess(text);
-
-        // is it valid?
-        if (!tweetService.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
-            return false;
-        }
-
-        // is this tweet pointing to something good?
-        if (!isTweetPointingToSomethingGood(tweetText)) {
-            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
-            return false;
-        }
-
-        // is the tweet rejected by some classifier?
-        if (isTweetRejectedByClassifier(tweetText)) {
-            logger.debug("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
-            return false;
-        }
-
-        // post-process
-        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
-
-        // tweet
-        if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
-            twitterLiveService.retweet(twitterAccount, tweetId);
-        } else {
-            twitterLiveService.tweet(twitterAccount, processedTweetText);
-        }
-
-        // mark
-        markDone(new Retweet(tweetId, twitterAccount));
-
-        // done
-        return true;
-    }
-
-    @Override
-    protected final boolean hasThisAlreadyBeenTweeted(final Retweet retweet) {
-        final Retweet existingTweet = retweetApi.findOneByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
-        return existingTweet != null;
-    }
-
-    @Override
-    protected final void markDone(final Retweet entity) {
-        retweetApi.save(entity);
-    }
-
-    @Override
-    protected final IRetweetJpaDAO getApi() {
-        return retweetApi;
     }
 
 }
