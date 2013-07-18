@@ -125,7 +125,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         // is the tweet rejected by some classifier?
         if (isTweetRejectedByClassifier(tweetText)) {
-            logger.debug("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+            logger.error("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
 
@@ -217,8 +217,8 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
     private final boolean isTweetRejectedByClassifier(final String text) {
         if (classificationService.isCommercial(text)) {
-            // return true;
-            return false; // temporarily, until there is more classification training data for commercial-noncommercial
+            return true; // temporarily - to see how it works
+            // return false; // temporarily, until there is more classification training data for commercial-noncommercial
         }
         return false;
     }
