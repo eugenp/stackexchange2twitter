@@ -80,7 +80,7 @@ public class ClassificationServiceLiveTest {
     }
 
     // 5000 features: 0.940
-    // 10000 features: 0.912,0.921
+    // 10000 features: 0.929
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
      * - so the results are production-like, but not excellent
