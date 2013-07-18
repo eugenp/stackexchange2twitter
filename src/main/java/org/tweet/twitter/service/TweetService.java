@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.common.service.HttpService;
-import org.common.text.TextUtils;
+import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

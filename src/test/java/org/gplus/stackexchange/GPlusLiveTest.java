@@ -9,7 +9,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 import org.common.spring.CommonContextConfig;
-import org.common.text.TextUtils;
+import org.common.util.TextUtils;
 import org.gplus.service.ActivityHelper;
 import org.gplus.service.GplusService;
 import org.gplus.spring.GplusContextConfig;

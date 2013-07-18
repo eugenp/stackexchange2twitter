@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import org.common.util.TextUtils;
 import org.junit.Test;
 
 public class TextUtilsUnitTest {

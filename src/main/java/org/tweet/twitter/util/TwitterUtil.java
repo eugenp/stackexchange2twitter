@@ -2,7 +2,7 @@ package org.tweet.twitter.util;
 
 import java.util.List;
 
-import org.common.text.TextUtils;
+import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

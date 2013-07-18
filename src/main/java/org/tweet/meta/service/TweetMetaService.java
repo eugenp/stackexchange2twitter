@@ -9,7 +9,8 @@ import java.util.Map;
 import org.common.service.BaseTweetFromSourceService;
 import org.common.service.HttpService;
 import org.common.service.classification.ClassificationService;
-import org.common.text.TextUtils;
+import org.common.util.HttpUtils;
+import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -235,6 +236,12 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         }
 
         if (httpService.isHomepageUrl(singleMainUrl)) {
+            logger.debug("potentialTweet= {} rejected because the it is pointing to a homepage= {}", potentialTweet, singleMainUrl);
+            return false;
+        }
+
+        if (HttpUtils.belongsToBannedDomain(singleMainUrl)) {
+            logger.debug("potentialTweet= {} rejected because the it is pointing to a banned domain= {}", potentialTweet, singleMainUrl);
             return false;
         }
 
