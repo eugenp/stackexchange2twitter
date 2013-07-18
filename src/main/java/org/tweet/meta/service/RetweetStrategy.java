@@ -27,7 +27,7 @@ public final class RetweetStrategy {
         if (!shouldRetweet(tweet)) {
             return false;
         }
-        if (Math.random() < 0.33) {
+        if (Math.random() < 0.50) {
             return true;
         }
 

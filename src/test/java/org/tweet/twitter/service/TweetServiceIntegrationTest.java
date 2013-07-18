@@ -29,4 +29,14 @@ public class TweetServiceIntegrationTest {
         assertFalse(instance.isTweetTextWorthTweetingByItself("Beach day..\uD83D\uDE0D #greece #ios #beautiful @runwaydreamz http://instagram.com/p/bEvmJsI1dn/"));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario3_thenRejected() {
+        assertFalse(instance.isTweetTextWorthTweetingByItself("#PHP \"@MarceloLopez84: The picture of Ronaldo which i took at Manchester Airport http://twitter.com/MarceloLopez84/status/357459318175588352/photo/1pic.twitter.com/Tx70a6MNqS \""));
+    }
+
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario4_thenRejected() {
+        assertFalse(instance.isTweetTextWorthTweetingByItself("#PHP \"@MarceloLopez84: Heres proof!! pic.twitter.com/HDHf2t1W4A\""));
+    }
+
 }

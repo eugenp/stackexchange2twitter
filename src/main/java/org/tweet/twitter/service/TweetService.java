@@ -1,5 +1,6 @@
 package org.tweet.twitter.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.common.service.HttpService;
@@ -128,10 +129,14 @@ public class TweetService {
     }
 
     private final boolean containsLinkToBannedServices(final String tweetText) {
-        final boolean linkToInstagram = tweetText.contains("http://instagram.com/");
-        if (linkToInstagram) {
-            logger.trace("Tweet = {} contains link to instagram - skipping", tweetText);
-            return true;
+        final ArrayList<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
+
+        for (final String bannedService : bannedServices) {
+            final boolean linkToBannedService = tweetText.contains(bannedService);
+            if (linkToBannedService) {
+                logger.trace("Tweet = {} contains link to instagram - skipping", tweetText);
+                return true;
+            }
         }
 
         return false;
