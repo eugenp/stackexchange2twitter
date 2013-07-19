@@ -3,7 +3,7 @@ package org.classification.service;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.classification.util.ClassificationUtil.COMMERCIAL;
 import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
-import static org.classification.util.ClassificationUtil.encode;
+import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
 import static org.classification.util.ClassificationUtil.readBackData;
 import static org.classification.util.ClassificationUtil.writeData;
 import static org.hamcrest.Matchers.equalTo;
@@ -24,8 +24,8 @@ import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.utils.vectors.io.VectorWriter;
-import org.classification.service.ClassificationService;
 import org.classification.util.ClassificationData;
+import org.classification.util.ClassificationTrainingDataUtil;
 import org.classification.util.ClassificationUtil;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class ClassificationUnitTest {
 
     @Test
     public final void whenTextIsEncodedAsVector2_thenNoExceptions() throws IOException {
-        encode(randomAlphabetic(4), Lists.newArrayList(randomAlphabetic(5), randomAlphabetic(4)));
+        encodeWithTypeInfo(randomAlphabetic(4), Lists.newArrayList(randomAlphabetic(5), randomAlphabetic(4)));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class ClassificationUnitTest {
 
     @Test
     public final void whenVectorIsCreatedWrittenAndReadBack_theVectorRemainsTheSame() throws IOException {
-        final Vector originalVector = encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
+        final Vector originalVector = encodeWithTypeInfo(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
 
         // write
         final VectorWriter vectorWriter = writeData(VECTOR_FILE_ON_DISK);
@@ -171,7 +171,7 @@ public class ClassificationUnitTest {
     }
 
     private final List<NamedVector> learningData() throws IOException {
-        return new ClassificationService().commercialVsNonCommercialLearningData();
+        return ClassificationTrainingDataUtil.commercialVsNonCommercialLearningData();
     }
 
 }

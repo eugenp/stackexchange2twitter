@@ -1,22 +1,17 @@
 package org.classification.service;
 
-import static org.classification.util.ClassificationUtil.COMMERCIAL;
-import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
 import static org.classification.util.ClassificationUtil.encode;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 import org.classification.util.ClassificationSettings;
+import org.classification.util.ClassificationTrainingDataUtil;
 import org.classification.util.ClassificationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 
 @Service
 public class ClassificationService implements InitializingBean {
@@ -60,18 +54,8 @@ public class ClassificationService implements InitializingBean {
 
     // util
 
-    boolean isCommercial(final String type, final String text) {
-        final NamedVector encodedAsVector = encode(type, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(text));
-
-        final Vector collector = new DenseVector(2);
-        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
-        final int cat = collector.maxValueIndex();
-
-        return cat == 1;
-    }
-
     final CrossFoldLearner commercialVsNonCommercialBestLearner() throws IOException {
-        final List<NamedVector> learningData = commercialVsNonCommercialLearningData();
+        final List<NamedVector> learningData = ClassificationTrainingDataUtil.commercialVsNonCommercialLearningData();
         final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
@@ -79,31 +63,15 @@ public class ClassificationService implements InitializingBean {
 
     }
 
-    final List<NamedVector> commercialVsNonCommercialLearningData() throws IOException {
-        final List<String> noncommercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/noncommercial.classif")));
-        final List<String> commercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/commercial.classif")));
-
-        final List<NamedVector> noncommercialNamedVectors = Lists.<NamedVector> newArrayList();
-        final List<NamedVector> commercialNamedVectors = Lists.<NamedVector> newArrayList();
-        for (final String noncommercialTweet : noncommercialTweets) {
-            noncommercialNamedVectors.add(encode(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(noncommercialTweet)));
-        }
-        for (final String commercialTweet : commercialTweets) {
-            noncommercialNamedVectors.add(encode(COMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(commercialTweet)));
-        }
-
-        final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
-        allNamedVectors.addAll(commercialNamedVectors);
-        allNamedVectors.addAll(noncommercialNamedVectors);
-        Collections.shuffle(allNamedVectors);
-        return allNamedVectors;
-    }
-
     // Spring
 
     @Override
     public final void afterPropertiesSet() throws IOException {
         commercialVsNonCommercialLerner = commercialVsNonCommercialBestLearner();
+    }
+
+    public void setCommercialVsNonCommercialLerner(final CrossFoldLearner commercialVsNonCommercialLerner) {
+        this.commercialVsNonCommercialLerner = commercialVsNonCommercialLerner;
     }
 
 }

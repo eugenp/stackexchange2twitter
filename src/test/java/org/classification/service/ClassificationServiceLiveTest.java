@@ -1,6 +1,5 @@
 package org.classification.service;
 
-import static org.classification.util.ClassificationUtil.COMMERCIAL;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
@@ -9,21 +8,14 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.classification.spring.ClassificationConfig;
-import org.classification.util.ClassificationData;
 import org.common.spring.CommonContextConfig;
 import org.gplus.spring.GplusContextConfig;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, ClassificationConfig.class, GplusContextConfig.class })
@@ -31,6 +23,9 @@ public class ClassificationServiceLiveTest {
 
     @Autowired
     private ClassificationService classificationService;
+
+    @Autowired
+    private ClassificationAccuracyTestService classificationAccuracyService;
 
     // tests
 
@@ -47,113 +42,22 @@ public class ClassificationServiceLiveTest {
 
     @Test
     public final void whenTweetIsClassified_thenNoException() {
-        final boolean isCommercial = classificationService.isCommercial(COMMERCIAL, "URGENT: Scala Developer | 3 Month Contract | Westminster | Immediate Requirement! #Scala #Freelance #Jobs #IT");
+        final boolean isCommercial = classificationService.isCommercial("URGENT: Scala Developer | 3 Month Contract | Westminster | Immediate Requirement! #Scala #Freelance #Jobs #IT");
         assertTrue(isCommercial);
     }
 
-    // 5000 features: 0.972
-    // 10000 features:
-    /**
-     * - note: the data to be classified has type information included in the encoded vector - so the results are of course not production equivalent
-     */
-    @Test
-    @Ignore("long running - ignored by default")
-    public final void givenClassifierWasTrained_whenClassifyingTestDataIncludingType_thenResultsAreGood() throws IOException {
-        final int runs = 1000;
-
-        final long start = System.nanoTime() / (1000 * 1000 * 1000);
-        final List<Double> results = Lists.newArrayList();
-        for (int i = 0; i < runs; i++) {
-            final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
-            final double percentageCorrect = analyzeDataIncludingTypeInfo(testData);
-            results.add(percentageCorrect);
-            if (i % 100 == 0) {
-                System.out.println("Processing 100 ... - " + ((i / 100) + 1));
-            }
-        }
-
-        final DescriptiveStatistics stats = new DescriptiveStatistics();
-        for (int i = 0; i < results.size(); i++) {
-            stats.addValue(results.get(i));
-        }
-        final double mean = stats.getMean();
-        System.out.println("Average Success Rate: " + mean);
-        final long end = System.nanoTime() / (1000 * 1000 * 1000);
-        System.out.println("Processing time: " + (end - start) + " sec");
-    }
-
-    // 5000 features: 0.940
-    // 10000 features: 0.929
+    // 5000 features: 0.923
+    // 10000 features: 0.9xx
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
      * - so the results are production-like, but not excellent
      */
     @Test
-    @Ignore("long running - ignored by default")
+    // @Ignore("long running - ignored by default")
     public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         final int runs = 1000;
-
-        final long start = System.nanoTime() / (1000 * 1000 * 1000);
-        final List<Double> results = Lists.newArrayList();
-        for (int i = 0; i < runs; i++) {
-            final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
-            final double percentageCorrect = analyzeData(testData);
-            results.add(percentageCorrect);
-            if (i % 100 == 0) {
-                System.out.println("Processing 100 ... - " + ((i / 100) + 1));
-            }
-        }
-
-        final DescriptiveStatistics stats = new DescriptiveStatistics();
-        for (int i = 0; i < results.size(); i++) {
-            stats.addValue(results.get(i));
-        }
-        final double mean = stats.getMean();
+        final double mean = classificationAccuracyService.calculateClassifierAccuracy(runs);
         System.out.println("Average Success Rate: " + mean);
-        final long end = System.nanoTime() / (1000 * 1000 * 1000);
-        System.out.println("Processing time: " + (end - start) + " sec");
-    }
-
-    // util
-
-    private final double analyzeDataIncludingTypeInfo(final List<ImmutablePair<String, String>> testData) throws IOException {
-        classificationService.afterPropertiesSet();
-
-        int correct = 0;
-        int total = 0;
-        for (final Pair<String, String> tweetData : testData) {
-            total++;
-            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
-            final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getLeft(), tweetData.getRight());
-            if (isTweetCommercial == expected) {
-                correct++;
-            }
-        }
-
-        final double cd = correct;
-        final double td = total;
-        final double percentageCorrect = cd / td;
-        return percentageCorrect;
-    }
-
-    private final double analyzeData(final List<ImmutablePair<String, String>> testData) throws IOException {
-        classificationService.afterPropertiesSet();
-
-        int correct = 0;
-        int total = 0;
-        for (final Pair<String, String> tweetData : testData) {
-            total++;
-            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
-            final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight());
-            if (isTweetCommercial == expected) {
-                correct++;
-            }
-        }
-
-        final double cd = correct;
-        final double td = total;
-        final double percentageCorrect = cd / td;
-        return percentageCorrect;
     }
 
 }

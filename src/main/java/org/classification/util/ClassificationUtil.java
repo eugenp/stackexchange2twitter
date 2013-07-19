@@ -34,13 +34,17 @@ public final class ClassificationUtil {
 
     // util
 
+    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words) {
+        return encodeWithTypeInfo(type, words, ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
+    }
+
     /**
      * The following are encoded: the type of content and the actual bag of words
      * The label argument to the NamedVector is either commercial or non-commercial
      */
-    public static NamedVector encode(final String type, final Iterable<String> words) {
+    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probes) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
-        content_encoder.setProbes(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
+        content_encoder.setProbes(probes);
 
         final FeatureVectorEncoder type_encoder = new StaticWordValueEncoder("type");
         type_encoder.setProbes(1);
@@ -55,8 +59,12 @@ public final class ClassificationUtil {
     }
 
     public static Vector encode(final Iterable<String> words) {
+        return encode(words, ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
+    }
+
+    static Vector encode(final Iterable<String> words, final int probes) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
-        content_encoder.setProbes(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
+        content_encoder.setProbes(probes);
 
         final Vector vect = new RandomAccessSparseVector(ClassificationSettings.FEATURES);
         for (final String word : words) {

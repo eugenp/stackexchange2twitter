@@ -2,7 +2,7 @@ package org.classification.util;
 
 import static org.classification.util.ClassificationUtil.COMMERCIAL;
 import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
-import static org.classification.util.ClassificationUtil.encode;
+import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.mahout.math.NamedVector;
-import org.classification.util.ClassificationSettings;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -40,7 +39,7 @@ public final class ClassificationData {
 
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
         for (final Pair<String, String> tweet : allTweets) {
-            allNamedVectors.add(encode(tweet.getLeft(), Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(tweet.getRight())));
+            allNamedVectors.add(encodeWithTypeInfo(tweet.getLeft(), Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(tweet.getRight())));
         }
 
         return allNamedVectors;
@@ -68,7 +67,26 @@ public final class ClassificationData {
             new ImmutablePair<String, String>(COMMERCIAL,"Need To Hire JS Expert. Simple Work #hiring #java #site #work #simple #expert #hire #job http://bit.ly/1i9avN"),
             new ImmutablePair<String, String>(COMMERCIAL,"HOT Requirement! Sr. Java/J2EE Dev | Hyderabad, IN | Start-ASAP |. http://bit.ly/GCeuH #job #india #java #j2ee #naukri #jobs #hire #hiring"),
             new ImmutablePair<String, String>(COMMERCIAL,"Sr. Software Developer | Start-ASAP | http://bit.ly/dSYxo8 #job #kabul #java #j2ee #php #jobs #hire #hiring #web #developer | HTML PHP AJAX"),
-            new ImmutablePair<String, String>(COMMERCIAL,"We are hiring:- http://tuenti.com/jobs/ #job #jobs #hiring #hire #frontend #backend #java #javascript #php #php5 #AJAX #LAMP #designer #IT")
+            new ImmutablePair<String, String>(COMMERCIAL,"We are hiring:- http://tuenti.com/jobs/ #job #jobs #hiring #hire #frontend #backend #java #javascript #php #php5 #AJAX #LAMP #designer #IT"),
+            new ImmutablePair<String, String>(COMMERCIAL,"Architect Spring Framework Job (Cary, NC) http://zillionjobs.com/Job-8601476.html … #Spring #Framework #job #jobs #Cary"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#job Software Engineer - Java, Spring Framework, JUnit – Bristol: SW-Bristol, Software Engineer - Java, Spring... http://bit.ly/149CeGu"),
+            new ImmutablePair<String, String>(COMMERCIAL,"New #Job: Development Work For Web Application In SPRING Framework http://bit.ly/112C8fR"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#Job: WebSphere Developer - CD-websphere - WebSphere Developer- WebSphere, spring Framework, MVC... http://is.gd/kfzg40  #telecommute"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#java #job - Sr Java Resource - Spring Framework java script jbpm Java E... ($1,000 - 5,000) - http://donanza.com/t/8900225  #jobs"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#job #freelance Java writers for Spring framework - repost by hainasoft: I have a long term project which involv... http://adf.ly/GSVRf"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#Hiring for #job #careers JAVA Developers (SPRING FRAMEWORK) http://dlvr.it/2glzjQ  #jobs"),
+            new ImmutablePair<String, String>(COMMERCIAL,"New #Job: Pair Programming Buddy Java Spring Framework http://bit.ly/STYzAx"),
+            new ImmutablePair<String, String>(COMMERCIAL,"New #Job: Develop A Two Page Web Site On Spring Framework http://bit.ly/XDSuvk"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#jquery #job - 2EE technology, Spring Framework, web service , DHTML, CSS JavaScript, AJA... - http://donanza.com/t/7336100  #jobs"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#Job Web application by ancitiousManish: I have java web project developed using spring framework. After ad... http://bit.ly/XxL2jE  #XML"),
+            new ImmutablePair<String, String>(COMMERCIAL,"Develop final recurring invoices module with final Spring Framework 3.x final Quartz scheduler… http://goo.gl/fb/Zrymb  #freelance #job"),
+            new ImmutablePair<String, String>(COMMERCIAL,"http://OracleJobs.com  : Software EngineerJava, Spring Framework, Oracle databases at Azstatejobs (Phoenix, AZ... http://oraclejobs.me/TbGPlh  #job"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#final JOB Alert: final Seeking a Developer - Leading Edge http://ow.ly/dvYLy  Excellent knowledge using the Spring framework for web apps & CVS req"),
+            new ImmutablePair<String, String>(COMMERCIAL,"Web Application Developer - Java/J2EE, Spring Framework, JavaScr - Tempe, AZ: Are final you a final Web Applica... http://bit.ly/St9fX9  #job #career"),
+            new ImmutablePair<String, String>(COMMERCIAL,"final Java Developer #final job in Richardson http://ow.ly/cgsWI  Strong in Java5 programming (SCJP cert pref) & spring framework (MVC, IOC, JDBC, etc)"),
+            new ImmutablePair<String, String>(COMMERCIAL,"#VMware final is looking for a final software engineer for final open source Spring final GemFire project http://j.mp/GVznyX  #springframework #job #java"),
+            new ImmutablePair<String, String>(COMMERCIAL,"New #Job: Google final GWT And Spring final Framework Expert (Training And Advisor) http://bit.ly/rBSdDf"),
+            new ImmutablePair<String, String>(COMMERCIAL,"New #Job: Java Web Development - Spring Framework http://bit.ly/otImRr")
         ); // @formatter:on
         return commercialTweets;
     }
