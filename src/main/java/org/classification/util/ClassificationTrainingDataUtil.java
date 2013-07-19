@@ -28,7 +28,7 @@ public final class ClassificationTrainingDataUtil {
 
     // util
 
-    public static final List<NamedVector> commercialVsNonCommercialLearningData() throws IOException {
+    public static final List<NamedVector> commercialVsNonCommercialLearningDataDefault() throws IOException {
         return commercialVsNonCommercialLearningData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
