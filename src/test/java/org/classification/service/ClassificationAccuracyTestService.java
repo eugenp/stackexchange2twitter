@@ -67,7 +67,7 @@ public class ClassificationAccuracyTestService {
         for (final Pair<String, String> tweetData : testData) {
             total++;
             final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
-            final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight());
+            final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight(), probes, features);
             if (isTweetCommercial == expected) {
                 correct++;
             }

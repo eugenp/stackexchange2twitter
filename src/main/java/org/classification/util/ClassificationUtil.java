@@ -66,7 +66,7 @@ public final class ClassificationUtil {
         return encode(words, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    static Vector encode(final Iterable<String> words, final int probesForEncodingContent, final int features) {
+    public static Vector encode(final Iterable<String> words, final int probesForEncodingContent, final int features) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
         content_encoder.setProbes(probesForEncodingContent);
 
@@ -102,7 +102,7 @@ public final class ClassificationUtil {
 
     public static CrossFoldLearner commercialVsNonCommercialBestLearner(final int probes, final int features) throws IOException {
         final List<NamedVector> learningData = ClassificationTrainingDataUtil.commercialVsNonCommercialLearningData(probes, features);
-        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifierDefault(learningData);
+        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData, features, probes);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
         return bestLearner;

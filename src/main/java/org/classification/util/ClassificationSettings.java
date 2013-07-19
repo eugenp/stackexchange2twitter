@@ -19,8 +19,8 @@ public final class ClassificationSettings {
      * - TODO: figure out what this is exactly
      */
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 100;
-    public static final int FEATURES = 10000;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 150;
+    public static final int FEATURES = 5000;
 
     public static final String TWEET_TOKENIZER = " ,.!?\":()|-";
 

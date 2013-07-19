@@ -3,7 +3,7 @@ package org.classification.service;
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 import static org.classification.util.ClassificationSettings.TWEET_TOKENIZER;
-import static org.classification.util.ClassificationUtil.encodeDefault;
+import static org.classification.util.ClassificationUtil.encode;
 
 import java.io.IOException;
 
@@ -31,17 +31,30 @@ public class ClassificationService implements InitializingBean {
 
     // API
 
-    public boolean isCommercial(final String text) {
+    public boolean isCommercialDefault(final String text) {
         try {
-            return isCommercialInternal(text);
+            return isCommercialInternalDefault(text);
         } catch (final Exception ex) {
             logger.error("", ex);
             return false;
         }
     }
 
-    boolean isCommercialInternal(final String text) {
-        final Vector encodedAsVector = encodeDefault(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
+    boolean isCommercialInternalDefault(final String text) {
+        return isCommercialInternal(text, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    }
+
+    public boolean isCommercial(final String text, final int probes, final int features) {
+        try {
+            return isCommercialInternal(text, probes, features);
+        } catch (final Exception ex) {
+            logger.error("", ex);
+            return false;
+        }
+    }
+
+    boolean isCommercialInternal(final String text, final int probes, final int features) {
+        final Vector encodedAsVector = encode(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text), probes, features);
 
         final Vector collector = new DenseVector(2);
         commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);

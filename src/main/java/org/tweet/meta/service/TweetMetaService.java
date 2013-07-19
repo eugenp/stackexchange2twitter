@@ -216,7 +216,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     // checks
 
     private final boolean isTweetRejectedByClassifier(final String text) {
-        if (classificationService.isCommercial(text)) {
+        if (classificationService.isCommercialDefault(text)) {
             return true; // temporarily - to see how it works
             // return false; // temporarily, until there is more classification training data for commercial-noncommercial
         }
