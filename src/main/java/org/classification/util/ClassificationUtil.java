@@ -1,6 +1,8 @@
 package org.classification.util;
 
+import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.LEARNERS_IN_THE_CLASSIFIER_POOL;
+import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 
 import java.io.IOException;
 import java.net.URI;
@@ -36,22 +38,22 @@ public final class ClassificationUtil {
 
     // encoding
 
-    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words) {
-        return encodeWithTypeInfo(type, words, ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
+    public static NamedVector encodeWithTypeInfoDefault(final String type, final Iterable<String> words) {
+        return encodeWithTypeInfo(type, words, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     /**
      * The following are encoded: the type of content and the actual bag of words
      * The label argument to the NamedVector is either commercial or non-commercial
      */
-    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probesForEncodingContent) {
+    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probesForContent, final int features) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
-        content_encoder.setProbes(probesForEncodingContent);
+        content_encoder.setProbes(probesForContent);
 
         final FeatureVectorEncoder type_encoder = new StaticWordValueEncoder("type");
         type_encoder.setProbes(1);
 
-        final Vector vect = new RandomAccessSparseVector(ClassificationSettings.FEATURES);
+        final Vector vect = new RandomAccessSparseVector(features);
         type_encoder.addToVector(type, vect);
 
         for (final String word : words) {
@@ -60,15 +62,15 @@ public final class ClassificationUtil {
         return new NamedVector(vect, type);
     }
 
-    public static Vector encode(final Iterable<String> words) {
-        return encode(words, ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
+    public static Vector encodeDefault(final Iterable<String> words) {
+        return encode(words, PROBES_FOR_CONTENT_ENCODER_VECTOR);
     }
 
     static Vector encode(final Iterable<String> words, final int probesForEncodingContent) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
         content_encoder.setProbes(probesForEncodingContent);
 
-        final Vector vect = new RandomAccessSparseVector(ClassificationSettings.FEATURES);
+        final Vector vect = new RandomAccessSparseVector(FEATURES);
         for (final String word : words) {
             content_encoder.addToVector(word, vect);
         }
@@ -98,8 +100,8 @@ public final class ClassificationUtil {
 
     // classifier
 
-    public static CrossFoldLearner commercialVsNonCommercialBestLearner(final int probes) throws IOException {
-        final List<NamedVector> learningData = ClassificationTrainingDataUtil.commercialVsNonCommercialLearningData(probes);
+    public static CrossFoldLearner commercialVsNonCommercialBestLearner(final int probes, final int features) throws IOException {
+        final List<NamedVector> learningData = ClassificationTrainingDataUtil.commercialVsNonCommercialLearningData(probes, features);
         final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
@@ -107,7 +109,7 @@ public final class ClassificationUtil {
     }
 
     public static AdaptiveLogisticRegression trainClassifier(final Iterable<NamedVector> vectors) throws IOException {
-        final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, ClassificationSettings.FEATURES, new L1());
+        final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, FEATURES, new L1());
         metaLearner.setPoolSize(LEARNERS_IN_THE_CLASSIFIER_POOL);
         for (final NamedVector vect : vectors) {
             metaLearner.train(COMMERCIAL.equals(vect.getName()) ? 1 : 0, vect);
@@ -117,7 +119,7 @@ public final class ClassificationUtil {
     }
 
     static void trainClassifier(final SequenceFile.Reader reader) throws IOException {
-        final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, ClassificationSettings.FEATURES, new L1());
+        final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, FEATURES, new L1());
         metaLearner.setPoolSize(LEARNERS_IN_THE_CLASSIFIER_POOL);
         final VectorWritable value = new VectorWritable();
         while (reader.next(new LongWritable(), value)) {

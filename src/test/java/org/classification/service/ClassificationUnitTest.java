@@ -2,7 +2,7 @@ package org.classification.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
-import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
+import static org.classification.util.ClassificationUtil.encodeWithTypeInfoDefault;
 import static org.classification.util.ClassificationUtil.readBackData;
 import static org.classification.util.ClassificationUtil.writeData;
 import static org.hamcrest.Matchers.equalTo;
@@ -37,7 +37,7 @@ public class ClassificationUnitTest {
 
     @Test
     public final void whenTextIsEncodedAsVector2_thenNoExceptions() throws IOException {
-        encodeWithTypeInfo(randomAlphabetic(4), Lists.newArrayList(randomAlphabetic(5), randomAlphabetic(4)));
+        encodeWithTypeInfoDefault(randomAlphabetic(4), Lists.newArrayList(randomAlphabetic(5), randomAlphabetic(4)));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ClassificationUnitTest {
 
     @Test
     public final void whenVectorIsCreatedWrittenAndReadBack_theVectorRemainsTheSame() throws IOException {
-        final Vector originalVector = encodeWithTypeInfo(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
+        final Vector originalVector = encodeWithTypeInfoDefault(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
 
         // write
         final VectorWriter vectorWriter = writeData(VECTOR_FILE_ON_DISK);

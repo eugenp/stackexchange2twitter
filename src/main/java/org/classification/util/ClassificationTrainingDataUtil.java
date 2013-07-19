@@ -1,5 +1,8 @@
 package org.classification.util;
 
+import static org.classification.util.ClassificationSettings.FEATURES;
+import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
+import static org.classification.util.ClassificationSettings.TWEET_TOKENIZER;
 import static org.classification.util.ClassificationUtil.COMMERCIAL;
 import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
 import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
@@ -26,20 +29,21 @@ public final class ClassificationTrainingDataUtil {
     // util
 
     public static final List<NamedVector> commercialVsNonCommercialLearningData() throws IOException {
-        return commercialVsNonCommercialLearningData(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
+        return commercialVsNonCommercialLearningData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    public static final List<NamedVector> commercialVsNonCommercialLearningData(final int probes) throws IOException {
-        final List<String> noncommercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/noncommercial.classif")));
-        final List<String> commercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/commercial.classif")));
+    public static final List<NamedVector> commercialVsNonCommercialLearningData(final int probes, final int features) throws IOException {
+        final String root = "src/main/resources";
+        final List<String> noncommercialTweets = IOUtils.readLines(new BufferedReader(new FileReader(root + "/classification/noncommercial.classif")));
+        final List<String> commercialTweets = IOUtils.readLines(new BufferedReader(new FileReader(root + "/classification/commercial.classif")));
 
         final List<NamedVector> noncommercialNamedVectors = Lists.<NamedVector> newArrayList();
         final List<NamedVector> commercialNamedVectors = Lists.<NamedVector> newArrayList();
         for (final String noncommercialTweet : noncommercialTweets) {
-            noncommercialNamedVectors.add(encodeWithTypeInfo(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(noncommercialTweet), probes));
+            noncommercialNamedVectors.add(encodeWithTypeInfo(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(noncommercialTweet), probes, features));
         }
         for (final String commercialTweet : commercialTweets) {
-            noncommercialNamedVectors.add(encodeWithTypeInfo(COMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(commercialTweet), probes));
+            noncommercialNamedVectors.add(encodeWithTypeInfo(COMMERCIAL, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(commercialTweet), probes, features));
         }
 
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();

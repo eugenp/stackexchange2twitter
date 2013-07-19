@@ -1,8 +1,9 @@
 package org.classification.service;
 
+import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 import static org.classification.util.ClassificationSettings.TWEET_TOKENIZER;
-import static org.classification.util.ClassificationUtil.encode;
+import static org.classification.util.ClassificationUtil.encodeDefault;
 
 import java.io.IOException;
 
@@ -40,7 +41,7 @@ public class ClassificationService implements InitializingBean {
     }
 
     boolean isCommercialInternal(final String text) {
-        final Vector encodedAsVector = encode(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
+        final Vector encodedAsVector = encodeDefault(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text));
 
         final Vector collector = new DenseVector(2);
         commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
@@ -53,7 +54,7 @@ public class ClassificationService implements InitializingBean {
 
     @Override
     public final void afterPropertiesSet() throws IOException {
-        commercialVsNonCommercialLerner = ClassificationUtil.commercialVsNonCommercialBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR);
+        commercialVsNonCommercialLerner = ClassificationUtil.commercialVsNonCommercialBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     public final void setCommercialVsNonCommercialLerner(final CrossFoldLearner commercialVsNonCommercialLerner) {
