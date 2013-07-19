@@ -2,6 +2,7 @@ package org.tweet.spring;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.gplus.spring.GplusContextConfig;
@@ -9,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.persistence.dao.IKeyValJpaDAO;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
+import org.rss.spring.RssContextConfig;
+import org.rss.spring.RssPersistenceJPAConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,6 +30,13 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
     CommonPersistenceJPAConfig.class,
     // PersistenceJPACommonConfig.class, // imported
     CommonContextConfig.class, 
+    
+    // org.classification
+    ClassificationConfig.class,
+
+    // org.rss
+    RssContextConfig.class,
+    RssPersistenceJPAConfig.class,
     
     // org.keyval.spring
     KeyValPersistenceJPAConfig.class,

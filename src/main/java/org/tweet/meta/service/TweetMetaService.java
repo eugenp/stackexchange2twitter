@@ -6,9 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.classification.service.ClassificationService;
 import org.common.service.BaseTweetFromSourceService;
 import org.common.service.HttpService;
-import org.common.service.classification.ClassificationService;
 import org.common.util.HttpUtils;
 import org.common.util.TextUtils;
 import org.slf4j.Logger;

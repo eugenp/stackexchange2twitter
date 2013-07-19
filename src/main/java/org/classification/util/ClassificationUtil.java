@@ -1,6 +1,6 @@
-package org.common.classification;
+package org.classification.util;
 
-import static org.common.classification.ClassificationSettings.LEARNERS_IN_THE_CLASSIFIER_POOL;
+import static org.classification.util.ClassificationSettings.LEARNERS_IN_THE_CLASSIFIER_POOL;
 
 import java.io.IOException;
 import java.net.URI;

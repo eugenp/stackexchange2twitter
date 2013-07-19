@@ -2,6 +2,7 @@ package org.tweet.spring;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.gplus.spring.GplusContextConfig;
@@ -25,34 +26,37 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off 
-     // org.common.spring
-        CommonPersistenceJPAConfig.class,
-        // PersistenceJPACommonConfig.class, // imported
-        CommonContextConfig.class, 
-        
-        // org.rss
-        RssContextConfig.class,
-        RssPersistenceJPAConfig.class,
-        
-        // org.keyval.spring
-        KeyValPersistenceJPAConfig.class,
-        
-        // org.tweet.spring
-        TwitterConfig.class, 
-        TwitterLiveConfig.class, 
-        // SetupPersistenceTestConfig.class, 
-        
-        // org.tweet.meta.spring
-        TwitterMetaConfig.class, 
-        TwitterMetaPersistenceJPAConfig.class, 
-        
-        // org.stackexchange.spring
-        StackexchangeConfig.class, 
-        StackexchangeContextConfig.class, 
-        StackexchangePersistenceJPAConfig.class, 
-        
-        // org.gplus.spring
-        GplusContextConfig.class
+    // org.common.spring
+    CommonPersistenceJPAConfig.class,
+    // PersistenceJPACommonConfig.class, // imported
+    CommonContextConfig.class, 
+    
+    // org.classification
+    ClassificationConfig.class,
+    
+    // org.rss
+    RssContextConfig.class,
+    RssPersistenceJPAConfig.class,
+    
+    // org.keyval.spring
+    KeyValPersistenceJPAConfig.class,
+    
+    // org.tweet.spring
+    TwitterConfig.class, 
+    TwitterLiveConfig.class, 
+    // SetupPersistenceTestConfig.class, 
+    
+    // org.tweet.meta.spring
+    TwitterMetaPersistenceJPAConfig.class, 
+    TwitterMetaConfig.class, 
+    
+    // org.stackexchange.spring
+    StackexchangeConfig.class, 
+    StackexchangeContextConfig.class, 
+    StackexchangePersistenceJPAConfig.class, 
+       
+    // org.gplus.spring
+    GplusContextConfig.class
 }) // @formatter:on
 public class ProdFullContextTest {
 

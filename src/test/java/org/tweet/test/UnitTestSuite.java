@@ -1,6 +1,6 @@
 package org.tweet.test;
 
-import org.common.service.classification.ClassificationUnitTest;
+import org.classification.service.ClassificationUnitTest;
 import org.common.text.TextUtilsUnitTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

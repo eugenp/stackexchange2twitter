@@ -1,8 +1,8 @@
-package org.common.classification;
+package org.classification.util;
 
-import static org.common.classification.ClassificationUtil.COMMERCIAL;
-import static org.common.classification.ClassificationUtil.NONCOMMERCIAL;
-import static org.common.classification.ClassificationUtil.encode;
+import static org.classification.util.ClassificationUtil.COMMERCIAL;
+import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
+import static org.classification.util.ClassificationUtil.encode;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.mahout.math.NamedVector;
+import org.classification.util.ClassificationSettings;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;

@@ -1,8 +1,8 @@
-package org.common.service.classification;
+package org.classification.service;
 
-import static org.common.classification.ClassificationUtil.COMMERCIAL;
-import static org.common.classification.ClassificationUtil.NONCOMMERCIAL;
-import static org.common.classification.ClassificationUtil.encode;
+import static org.classification.util.ClassificationUtil.COMMERCIAL;
+import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
+import static org.classification.util.ClassificationUtil.encode;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,8 +16,8 @@ import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
-import org.common.classification.ClassificationSettings;
-import org.common.classification.ClassificationUtil;
+import org.classification.util.ClassificationSettings;
+import org.classification.util.ClassificationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;

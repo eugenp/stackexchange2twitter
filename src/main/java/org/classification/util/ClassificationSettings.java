@@ -1,4 +1,4 @@
-package org.common.classification;
+package org.classification.util;
 
 public final class ClassificationSettings {
 

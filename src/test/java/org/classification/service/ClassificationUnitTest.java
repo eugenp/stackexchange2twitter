@@ -1,11 +1,11 @@
-package org.common.service.classification;
+package org.classification.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.common.classification.ClassificationUtil.COMMERCIAL;
-import static org.common.classification.ClassificationUtil.NONCOMMERCIAL;
-import static org.common.classification.ClassificationUtil.encode;
-import static org.common.classification.ClassificationUtil.readBackData;
-import static org.common.classification.ClassificationUtil.writeData;
+import static org.classification.util.ClassificationUtil.COMMERCIAL;
+import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
+import static org.classification.util.ClassificationUtil.encode;
+import static org.classification.util.ClassificationUtil.readBackData;
+import static org.classification.util.ClassificationUtil.writeData;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -24,8 +24,9 @@ import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.utils.vectors.io.VectorWriter;
-import org.common.classification.ClassificationData;
-import org.common.classification.ClassificationUtil;
+import org.classification.service.ClassificationService;
+import org.classification.util.ClassificationData;
+import org.classification.util.ClassificationUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 

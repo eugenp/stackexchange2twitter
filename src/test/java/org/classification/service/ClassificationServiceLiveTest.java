@@ -1,6 +1,6 @@
-package org.common.service.classification;
+package org.classification.service;
 
-import static org.common.classification.ClassificationUtil.COMMERCIAL;
+import static org.classification.util.ClassificationUtil.COMMERCIAL;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
@@ -12,9 +12,11 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.common.classification.ClassificationData;
+import org.classification.spring.ClassificationConfig;
+import org.classification.util.ClassificationData;
 import org.common.spring.CommonContextConfig;
 import org.gplus.spring.GplusContextConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, GplusContextConfig.class })
+@ContextConfiguration(classes = { CommonContextConfig.class, ClassificationConfig.class, GplusContextConfig.class })
 public class ClassificationServiceLiveTest {
 
     @Autowired
@@ -55,6 +57,7 @@ public class ClassificationServiceLiveTest {
      * - note: the data to be classified has type information included in the encoded vector - so the results are of course not production equivalent
      */
     @Test
+    @Ignore("long running - ignored by default")
     public final void givenClassifierWasTrained_whenClassifyingTestDataIncludingType_thenResultsAreGood() throws IOException {
         final int runs = 1000;
 
@@ -86,6 +89,7 @@ public class ClassificationServiceLiveTest {
      * - so the results are production-like, but not excellent
      */
     @Test
+    @Ignore("long running - ignored by default")
     public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         final int runs = 1000;
 
