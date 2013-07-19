@@ -2,18 +2,12 @@ package org.classification.util;
 
 import static org.classification.util.ClassificationUtil.COMMERCIAL;
 import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
-import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.mahout.math.NamedVector;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 public final class ClassificationData {
@@ -32,17 +26,6 @@ public final class ClassificationData {
         allTweets.addAll(commercialTweets);
         Collections.shuffle(allTweets);
         return allTweets;
-    }
-
-    public static List<NamedVector> commercialVsNonCommercialTestVectors() throws IOException {
-        final List<ImmutablePair<String, String>> allTweets = commercialAndNonCommercialTweets();
-
-        final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
-        for (final Pair<String, String> tweet : allTweets) {
-            allNamedVectors.add(encodeWithTypeInfo(tweet.getLeft(), Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(tweet.getRight())));
-        }
-
-        return allNamedVectors;
     }
 
     // util

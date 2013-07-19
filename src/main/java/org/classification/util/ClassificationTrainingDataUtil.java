@@ -26,16 +26,20 @@ public final class ClassificationTrainingDataUtil {
     // util
 
     public static final List<NamedVector> commercialVsNonCommercialLearningData() throws IOException {
+        return commercialVsNonCommercialLearningData(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
+    }
+
+    public static final List<NamedVector> commercialVsNonCommercialLearningData(final int probes) throws IOException {
         final List<String> noncommercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/noncommercial.classif")));
         final List<String> commercialTweets = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources/classification/commercial.classif")));
 
         final List<NamedVector> noncommercialNamedVectors = Lists.<NamedVector> newArrayList();
         final List<NamedVector> commercialNamedVectors = Lists.<NamedVector> newArrayList();
         for (final String noncommercialTweet : noncommercialTweets) {
-            noncommercialNamedVectors.add(encodeWithTypeInfo(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(noncommercialTweet)));
+            noncommercialNamedVectors.add(encodeWithTypeInfo(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(noncommercialTweet), probes));
         }
         for (final String commercialTweet : commercialTweets) {
-            noncommercialNamedVectors.add(encodeWithTypeInfo(COMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(commercialTweet)));
+            noncommercialNamedVectors.add(encodeWithTypeInfo(COMMERCIAL, Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER)).split(commercialTweet), probes));
         }
 
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();

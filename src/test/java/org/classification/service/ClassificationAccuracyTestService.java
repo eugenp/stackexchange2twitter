@@ -1,5 +1,6 @@
 package org.classification.service;
 
+import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 import static org.classification.util.ClassificationUtil.COMMERCIAL;
 
 import java.io.IOException;
@@ -8,7 +9,9 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.classification.util.ClassificationData;
+import org.classification.util.ClassificationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +28,17 @@ public class ClassificationAccuracyTestService {
     }
 
     // API
-    
-    public final double calculateClassifierAccuracy(final int runs, final int probes) throws IOException {
-        return 0.0d;
-    }
 
     public final double calculateClassifierAccuracy(final int runs) throws IOException {
+        return calculateClassifierAccuracy(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR);
+    }
+
+    public final double calculateClassifierAccuracy(final int runs, final int probes) throws IOException {
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {
             final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
-            final double percentageCorrect = analyzeData(testData);
+            final double percentageCorrect = analyzeData(testData, probes);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
                 System.out.println("Processing 100 ... - " + ((i / 100) + 1));
@@ -54,8 +57,9 @@ public class ClassificationAccuracyTestService {
 
     // util
 
-    private final double analyzeData(final List<ImmutablePair<String, String>> testData) throws IOException {
-        classificationService.afterPropertiesSet();
+    private final double analyzeData(final List<ImmutablePair<String, String>> testData, final int probes) throws IOException {
+        final CrossFoldLearner bestLearner = ClassificationUtil.commercialVsNonCommercialBestLearner(probes);
+        classificationService.setCommercialVsNonCommercialLerner(bestLearner);
 
         int correct = 0;
         int total = 0;

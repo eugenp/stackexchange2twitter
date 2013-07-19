@@ -1,7 +1,6 @@
 package org.classification.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.classification.util.ClassificationUtil.COMMERCIAL;
 import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
 import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
 import static org.classification.util.ClassificationUtil.readBackData;
@@ -13,18 +12,14 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.SequenceFile.Reader;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
-import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.classifier.sgd.ModelSerializer;
-import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.utils.vectors.io.VectorWriter;
-import org.classification.util.ClassificationData;
 import org.classification.util.ClassificationTrainingDataUtil;
 import org.classification.util.ClassificationUtil;
 import org.junit.Ignore;
@@ -116,53 +111,7 @@ public class ClassificationUnitTest {
         ModelSerializer.writeBinary(CLASSIFIER_FILE_ON_DISK, classifier.getBest().getPayload().getLearner());
     }
 
-    // usage
-
-    @Test
-    public final void givenClassifierWasTrained_whenUsingThePersistedToDisk_thenNoExceptions() throws IOException {
-        final List<NamedVector> learningData = learningData();
-        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData);
-        final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
-
-        final int runs = 1000;
-        final List<Double> results = Lists.newArrayList();
-        for (int i = 0; i < runs; i++) {
-            final List<NamedVector> testData = ClassificationData.commercialVsNonCommercialTestVectors();
-            final double percentageCorrect = analyzeData(bestLearner, testData);
-            results.add(percentageCorrect);
-        }
-
-        final DescriptiveStatistics stats = new DescriptiveStatistics();
-        for (int i = 0; i < results.size(); i++) {
-            stats.addValue(results.get(i));
-        }
-        final double mean = stats.getMean();
-        System.out.println("Average Success Rate: " + mean);
-    }
-
     // util
-
-    private double analyzeData(final CrossFoldLearner bestLearner, final List<NamedVector> testData) {
-        int correct = 0;
-        int total = 0;
-        for (final NamedVector vect : testData) {
-            total++;
-            final int expected = COMMERCIAL.equals(vect.getName()) ? 1 : 0;
-
-            final Vector collector = new DenseVector(2);
-            bestLearner.classifyFull(collector, vect);
-
-            final int cat = collector.maxValueIndex();
-            if (cat == expected) {
-                correct++;
-            }
-        }
-
-        final double cd = correct;
-        final double td = total;
-        final double percentageCorrect = cd / td;
-        return percentageCorrect;
-    }
 
     private final List<Vector> vectors() throws IOException {
         final List<NamedVector> namedVectors = learningData();

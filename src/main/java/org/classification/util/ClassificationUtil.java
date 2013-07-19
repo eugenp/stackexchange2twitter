@@ -4,6 +4,7 @@ import static org.classification.util.ClassificationSettings.LEARNERS_IN_THE_CLA
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -11,6 +12,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
+import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.classifier.sgd.L1;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.RandomAccessSparseVector;
@@ -32,7 +34,7 @@ public final class ClassificationUtil {
         throw new AssertionError();
     }
 
-    // util
+    // encoding
 
     public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words) {
         return encodeWithTypeInfo(type, words, ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
@@ -42,9 +44,9 @@ public final class ClassificationUtil {
      * The following are encoded: the type of content and the actual bag of words
      * The label argument to the NamedVector is either commercial or non-commercial
      */
-    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probes) {
+    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probesForEncodingContent) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
-        content_encoder.setProbes(probes);
+        content_encoder.setProbes(probesForEncodingContent);
 
         final FeatureVectorEncoder type_encoder = new StaticWordValueEncoder("type");
         type_encoder.setProbes(1);
@@ -62,9 +64,9 @@ public final class ClassificationUtil {
         return encode(words, ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR);
     }
 
-    static Vector encode(final Iterable<String> words, final int probes) {
+    static Vector encode(final Iterable<String> words, final int probesForEncodingContent) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
-        content_encoder.setProbes(probes);
+        content_encoder.setProbes(probesForEncodingContent);
 
         final Vector vect = new RandomAccessSparseVector(ClassificationSettings.FEATURES);
         for (final String word : words) {
@@ -72,6 +74,8 @@ public final class ClassificationUtil {
         }
         return vect;
     }
+
+    // data read/write to disk
 
     public static VectorWriter writeData(final String pathOnDisk) throws IOException {
         final URI path = URI.create(pathOnDisk);
@@ -90,6 +94,16 @@ public final class ClassificationUtil {
 
         final SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(path), hconf);
         return reader;
+    }
+
+    // classifier
+
+    public static CrossFoldLearner commercialVsNonCommercialBestLearner(final int probes) throws IOException {
+        final List<NamedVector> learningData = ClassificationTrainingDataUtil.commercialVsNonCommercialLearningData(probes);
+        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData);
+        final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
+
+        return bestLearner;
     }
 
     public static AdaptiveLogisticRegression trainClassifier(final Iterable<NamedVector> vectors) throws IOException {
