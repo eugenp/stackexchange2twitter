@@ -22,6 +22,7 @@ public final class TwitterUtil {
         "buy", 
         "freelance", "job", "consulting", "hire", "hiring", "careers", 
         "need", 
+        "football", "exclusive",
         "escort", "escorts", "xxx", "porn"
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
