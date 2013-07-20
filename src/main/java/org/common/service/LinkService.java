@@ -65,19 +65,6 @@ public class LinkService {
         return twitter || bitly || google;
     }
 
-    // count links
-
-    public final int countLinksToDomain(final Iterable<String> tweets, final String domain) {
-        int count = 0;
-        for (final String tweet : tweets) {
-            if (tweet.contains(domain)) {
-                count++;
-            }
-        }
-
-        return count;
-    }
-
     // util
 
 }

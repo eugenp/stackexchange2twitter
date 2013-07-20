@@ -1,0 +1,61 @@
+package org.common.service;
+
+import org.common.util.LinkUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class LinkLiveService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private HttpLiveService httpService;
+
+    public LinkLiveService() {
+        super();
+    }
+
+    // API
+
+    // count links
+
+    public final int countLinksToDomain(final Iterable<String> tweets, final String domain) {
+        int count = 0;
+        for (final String tweet : tweets) {
+            final String mainUrl = LinkUtils.determineMainUrl(LinkUtils.extractUrls(tweet));
+            final String mainUrlExpanded = httpService.expand(mainUrl);
+            if (mainUrlExpanded == null) {
+                continue;
+            }
+            if (mainUrlExpanded.contains(domain)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public final int countLinksToAnyDomain(final Iterable<String> tweets, final Iterable<String> domains) {
+        int count = 0;
+        for (final String tweet : tweets) {
+            final String mainUrl = LinkUtils.determineMainUrl(LinkUtils.extractUrls(tweet));
+            final String mainUrlExpanded = httpService.expand(mainUrl);
+            if (mainUrlExpanded == null) {
+                continue;
+            }
+            for (final String domain : domains) {
+                if (mainUrlExpanded.contains(domain)) {
+                    count++;
+                    continue;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    // util
+
+}

@@ -58,11 +58,31 @@ public class TwitterLiveService {
 
     // read
 
+    // by internal accounts
+
     public List<String> listTweetsOfInternalAccount(final String twitterAccount) {
+        try {
+            return listTweetsOfInternalAccountInternal(twitterAccount);
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            return Lists.newArrayList();
+        }
+    }
+
+    public List<String> listTweetsOfInternalAccountInternal(final String twitterAccount) {
         return listTweetsOfInternalAccount(twitterAccount, 20);
     }
 
     public List<String> listTweetsOfInternalAccount(final String twitterAccount, final int howmany) {
+        try {
+            return listTweetsOfInternalAccount(twitterAccount, howmany);
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            return Lists.newArrayList();
+        }
+    }
+
+    public List<String> listTweetsOfInternalAccountInternal(final String twitterAccount, final int howmany) {
         final List<Tweet> userTimeline = listTweetsOfInternalAccountRaw(twitterAccount, howmany);
         final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
             @Override
@@ -74,16 +94,38 @@ public class TwitterLiveService {
     }
 
     public List<Tweet> listTweetsOfInternalAccountRaw(final String twitterAccount, final int howmany) {
+        try {
+            return listTweetsOfInternalAccountRaw(twitterAccount, howmany);
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            return Lists.newArrayList();
+        }
+    }
+
+    public List<Tweet> listTweetsOfInternalAccountRawInternal(final String twitterAccount, final int howmany) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline(howmany);
         return userTimeline;
     }
 
+    // by external accounts
+
     public List<Tweet> listTweetsOfAccount(final String twitterAccount, final int howmany) {
+        try {
+            return listTweetsOfAccountInternal(twitterAccount, howmany);
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            return Lists.newArrayList();
+        }
+    }
+
+    public List<Tweet> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
         final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(SimpleTwitterAccount.BestOfJava.name());
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
         return userTimeline;
     }
+
+    // by hashtag
 
     /**
      * TODO: include the sinceId as a parameter

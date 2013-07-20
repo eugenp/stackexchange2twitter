@@ -109,7 +109,7 @@ public class TweetService {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(url);
 
-        final String expandedUrl = httpService.expand(url);
+        final String expandedUrl = Preconditions.checkNotNull(httpService.expand(url));
         final String cleanExpandedUrl = linkService.removeUrlParameters(expandedUrl);
 
         final String textOfTweet = text;

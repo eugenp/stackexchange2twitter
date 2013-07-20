@@ -30,11 +30,15 @@ public class HttpLiveService implements InitializingBean {
 
     // API
 
+    /**
+     * - note: will return null (in case of any kind of IO error)
+     */
     public final String expand(final String urlArg) {
         try {
             return expandInternal(urlArg);
-        } catch (final IOException ex) {
-            throw new IllegalStateException(ex);
+        } catch (final IOException | IllegalStateException ex) {
+            logger.error("Error when expanding the url: " + urlArg, ex);
+            return null;
         }
     }
 
