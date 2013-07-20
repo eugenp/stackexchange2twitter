@@ -28,6 +28,7 @@ public final class TextUtils {
         // may not be necessary
         cleanedText = StringUtils.replaceAll(cleanedText, "&#39;", "'");
         cleanedText = StringUtils.replaceAll(cleanedText, "&rsquo;", "'");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&hellip;", "...");
 
         return cleanedText;
     }

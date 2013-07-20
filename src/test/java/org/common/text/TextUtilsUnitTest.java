@@ -89,6 +89,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario11_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "#Akka 2.2 Spotlight: Publish/Subscribe in Cluster... http://tmblr.co/ZlHOLwq2afmO";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("#Akka 2.2 Spotlight: Publish/Subscribe in Cluster… http://tmblr.co/ZlHOLwq2afmO");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     //
 
 }
