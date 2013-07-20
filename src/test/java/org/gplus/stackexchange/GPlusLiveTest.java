@@ -9,7 +9,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 import org.common.spring.CommonContextConfig;
-import org.common.util.TextUtils;
+import org.common.util.LinkUtils;
 import org.gplus.service.ActivityHelper;
 import org.gplus.service.GplusService;
 import org.gplus.spring.GplusContextConfig;
@@ -62,7 +62,7 @@ public class GPlusLiveTest {
     public void givenActivitiesFromGplusByKeyword1_whenExtractingUrlsFromContent_thenNoException() throws GeneralSecurityException, IOException {
         final List<Activity> searchResults = gplusService.search(TwitterTag.clojure.name());
         for (final Activity activity : searchResults) {
-            System.out.println(TextUtils.extractUrls(activity.getObject().getContent()));
+            System.out.println(LinkUtils.extractUrls(activity.getObject().getContent()));
         }
     }
 
@@ -70,7 +70,7 @@ public class GPlusLiveTest {
     public void givenActivitiesFromGplusByKeyword2_whenExtractingUrlsFromContent_thenResultsAreCorrect() throws GeneralSecurityException, IOException {
         final List<Activity> searchResults = gplusService.search(TwitterTag.facebook.name());
         for (final Activity activity : searchResults) {
-            System.out.println(TextUtils.extractUrls(activity.getObject().getContent()));
+            System.out.println(LinkUtils.extractUrls(activity.getObject().getContent()));
         }
     }
 

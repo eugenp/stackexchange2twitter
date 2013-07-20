@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.common.service.ContentExtractorService;
-import org.common.util.TextUtils;
+import org.common.util.LinkUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +51,8 @@ public class GplusExtractorService {
     final Pair<String, String> getUrlOfValidTweetCandidate(final String content) {
         logger.debug("Analyzing content of activity as source of tweet candidate; content= {}", content);
 
-        final List<String> extractedUrls = TextUtils.extractUrls(content);
-        final String mainUrl = TextUtils.determineMainUrl(extractedUrls);
+        final List<String> extractedUrls = LinkUtils.extractUrls(content);
+        final String mainUrl = LinkUtils.determineMainUrl(extractedUrls);
         if (mainUrl == null) {
             return null;
         }

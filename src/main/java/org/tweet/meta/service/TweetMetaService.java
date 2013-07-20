@@ -11,7 +11,6 @@ import org.common.service.BaseTweetFromSourceService;
 import org.common.service.HttpLiveService;
 import org.common.service.LinkService;
 import org.common.util.LinkUtils;
-import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -228,7 +227,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     }
 
     private final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
-        String singleMainUrl = TextUtils.extractUrls(potentialTweet).get(0);
+        String singleMainUrl = LinkUtils.extractUrls(potentialTweet).get(0);
         try {
             singleMainUrl = httpService.expandInternal(singleMainUrl);
         } catch (final RuntimeException ex) {

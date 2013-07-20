@@ -1,6 +1,5 @@
 package org.gplus.stackexchange;
 
-
 // @Service
 //@Profile(SpringProfileUtil.DEPLOYED)
 //public class GplusStackexchangeScheduler {

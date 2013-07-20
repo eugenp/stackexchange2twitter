@@ -2,7 +2,7 @@ package org.tweet.twitter.util;
 
 import java.util.List;
 
-import org.common.util.TextUtils;
+import org.common.util.LinkUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +51,7 @@ public final class TwitterUtil {
     // API
 
     public static boolean isTweetTextValid(final String text) {
-        final int linkNoInTweet = TextUtils.extractUrls(text).size();
+        final int linkNoInTweet = LinkUtils.extractUrls(text).size();
         if (linkNoInTweet > 1) {
             return false;
         }
