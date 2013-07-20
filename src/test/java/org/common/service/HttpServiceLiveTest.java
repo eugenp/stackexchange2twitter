@@ -63,6 +63,11 @@ public class HttpServiceLiveTest {
     }
 
     @Test
+    public final void givenUrlIsInvalid_whenExpanding_thenNoExceptions() throws IOException {
+        httpService.expandInternal("http://www.marketwatch.com/enf/rss.asp?guid={3B615536-E289-11E2-ACAD-002128040CF6}");
+    }
+
+    @Test
     public final void whenShortenedUriIsUnshortednedScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expandInternal("http://t.co/wCD5WnAFGi");
         System.out.println(unshortenedUrl);
@@ -71,8 +76,11 @@ public class HttpServiceLiveTest {
     }
 
     @Test
-    public final void givenUrlIsInvalid_whenExpanding_thenNoExceptions() throws IOException {
-        httpService.expandInternal("http://www.marketwatch.com/enf/rss.asp?guid={3B615536-E289-11E2-ACAD-002128040CF6}");
+    public final void whenShortenedUriIsUnshortednedScenario2_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expandInternal("http://t.co/qefnsZ0ZoF");
+        System.out.println(unshortenedUrl);
+        assertNotNull(unshortenedUrl);
+        assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
     }
 
     // is homepage url

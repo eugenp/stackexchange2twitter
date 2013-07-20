@@ -52,7 +52,7 @@ public class TwitterLiveService {
 
             // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
-            logger.error("Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, ex);
+            logger.error("Generic Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, ex);
         }
     }
 
@@ -75,7 +75,7 @@ public class TwitterLiveService {
 
     public List<String> listTweetsOfInternalAccount(final String twitterAccount, final int howmany) {
         try {
-            return listTweetsOfInternalAccount(twitterAccount, howmany);
+            return listTweetsOfInternalAccountInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
             logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
@@ -95,7 +95,7 @@ public class TwitterLiveService {
 
     public List<Tweet> listTweetsOfInternalAccountRaw(final String twitterAccount, final int howmany) {
         try {
-            return listTweetsOfInternalAccountRaw(twitterAccount, howmany);
+            return listTweetsOfInternalAccountRawInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
             logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();

@@ -12,6 +12,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.HttpFactory;
 
@@ -23,6 +24,9 @@ public class HttpLiveService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private DefaultHttpClient client;
+
+    @Autowired
+    private LinkService linkService;
 
     public HttpLiveService() {
         super();
@@ -71,7 +75,8 @@ public class HttpLiveService implements InitializingBean {
             }
             final Header[] headers = httpResponse.getHeaders(HttpHeaders.LOCATION);
             Preconditions.checkState(headers.length == 1);
-            final String newUrl = headers[0].getValue();
+            String newUrl = headers[0].getValue();
+            newUrl = processNewUrl(url, newUrl);
 
             return newUrl;
         } catch (final IllegalArgumentException uriEx) {
@@ -90,6 +95,14 @@ public class HttpLiveService implements InitializingBean {
                 EntityUtils.consume(httpEntity);
             }
         }
+    }
+
+    private final String processNewUrl(final String url, final String newUrl) {
+        if (newUrl.startsWith("/")) {
+            final String referenfeHost = linkService.getFullHostOfUrl(url).toString();
+            return referenfeHost + newUrl;
+        }
+        return newUrl;
     }
 
     // spring

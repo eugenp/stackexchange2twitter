@@ -30,6 +30,7 @@ public enum TwitterTag {// @formatter:off
     gmail,
     gdrive, 
     hbase,
+    // hibernate,
 
     ios,
     iphone,

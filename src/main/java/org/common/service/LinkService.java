@@ -57,6 +57,27 @@ public class LinkService {
         return urlWithNoParams.toString();
     }
 
+    public final StringBuilder getFullHostOfUrl(final String urlRaw) {
+        URL url = null;
+        try {
+            url = new URL(urlRaw);
+        } catch (final MalformedURLException ex) {
+            logger.error("Unable to parse URL: " + urlRaw, ex);
+            return null;
+        }
+
+        final StringBuilder urlBuilder = new StringBuilder(url.getProtocol());
+        final int port = url.getPort();
+        if (port > 0 && port != 80) {
+            throw new IllegalStateException("Invalid Port: " + port + " for URL: " + urlRaw);
+        }
+
+        urlBuilder.append("://");
+        urlBuilder.append(url.getHost());
+
+        return urlBuilder;
+    }
+
     public final boolean isKnownShortenedUrl(final String url) {
         final boolean twitter = url.startsWith("http://t.co/");
         final boolean bitly = url.startsWith("http://bit.ly/");

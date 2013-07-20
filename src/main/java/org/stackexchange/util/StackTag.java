@@ -25,6 +25,7 @@ public enum StackTag {// @formatter:off
     google,
     gmail,
     hbase,
+    hibernate,
 
     ios,
     iphone,
