@@ -82,6 +82,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario10_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "#Google Search API for C# - http://stackoverflow.com/questions/2580396/google-searchapi-for-c";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("#Google Search&nbsp;API for C# - http://stackoverflow.com/questions/2580396/google-searchapi-for-c");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     //
 
 }

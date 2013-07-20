@@ -23,6 +23,7 @@ public final class TextUtils {
         cleanedText = StringUtils.replaceAll(cleanedText, "&mdash;", "-");
         cleanedText = StringUtils.replaceAll(cleanedText, "&ndash;", "-");
         cleanedText = StringUtils.replaceAll(cleanedText, "&quot;", "\"");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&nbsp;", " ");
 
         // may not be necessary
         cleanedText = StringUtils.replaceAll(cleanedText, "&#39;", "'");
