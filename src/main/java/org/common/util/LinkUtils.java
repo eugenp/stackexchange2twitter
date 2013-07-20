@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public final class HttpUtils {
+public final class LinkUtils {
 
     final static List<String> bannedDomains = Lists.newArrayList(// @formatter:off
         "http://wp-plugin-archive.de",
         "http://www.blogging-inside.de"
     );// @formatter:on
 
-    private HttpUtils() {
+    private LinkUtils() {
         throw new AssertionError();
     }
 
@@ -20,9 +20,9 @@ public final class HttpUtils {
     /**
      * - note: simplistic implementation to be improved when needed
      */
-    public static boolean belongsToBannedDomain(final String url) {
+    public static boolean belongsToBannedDomain(final String urlString) {
         for (final String bannedDomain : bannedDomains) {
-            if (url.startsWith(bannedDomain)) {
+            if (urlString.startsWith(bannedDomain)) {
                 return true;
             }
         }

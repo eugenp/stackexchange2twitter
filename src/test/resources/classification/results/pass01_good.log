@@ -1,0 +1,6 @@
+2013-07-20 01:01:17,050 WARN [main] o.c.s.ClassificationAccuracyServiceLiveTest [ClassificationAccuracyServiceLiveTest.java:48] For features= 5000 and probes= 3 result is= 0.8985925925925926
+2013-07-20 01:09:33,411 WARN [main] o.c.s.ClassificationAccuracyServiceLiveTest [ClassificationAccuracyServiceLiveTest.java:48] For features= 5000 and probes= 4 result is= 0.8978703703703703
+
+2013-07-20 07:29:23,506 WARN [main] o.c.s.ClassificationAccuracyServiceLiveTest [ClassificationAccuracyServiceLiveTest.java:48] For features= 7000 and probes= 10 result is= 0.8894814814814814
+2013-07-20 10:34:51,990 WARN [main] o.c.s.ClassificationAccuracyServiceLiveTest [ClassificationAccuracyServiceLiveTest.java:48] For features= 9000 and probes= 1 result is= 0.8893148148148148
+2013-07-20 12:16:49,028 WARN [main] o.c.s.ClassificationAccuracyServiceLiveTest [ClassificationAccuracyServiceLiveTest.java:48] For features= 9000 and probes= 7 result is= 0.8856296296296297

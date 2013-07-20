@@ -2,8 +2,6 @@ package org.common.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -21,12 +19,12 @@ import com.google.api.client.util.Preconditions;
 import com.google.common.net.HttpHeaders;
 
 @Service
-public class HttpService implements InitializingBean {
+public class HttpLiveService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private DefaultHttpClient client;
 
-    public HttpService() {
+    public HttpLiveService() {
         super();
     }
 
@@ -49,54 +47,6 @@ public class HttpService implements InitializingBean {
         }
 
         return newUrl;
-    }
-
-    public final boolean isHomepageUrl(final String unshortenedUrl) {
-        String path = null;
-        try {
-            path = new URL(unshortenedUrl).getPath();
-        } catch (final MalformedURLException ex) {
-            logger.error("Unable to parse URL: " + unshortenedUrl, ex);
-            return false;
-        }
-
-        if (path == null || path.length() <= 1) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public final String removeUrlParameters(final String urlWithPotentialParameters) {
-        URL url = null;
-        try {
-            url = new URL(urlWithPotentialParameters);
-        } catch (final MalformedURLException ex) {
-            logger.error("Unable to parse URL: " + urlWithPotentialParameters, ex);
-        }
-        if (url.getQuery() == null || url.getQuery().isEmpty()) {
-            return urlWithPotentialParameters;
-        }
-
-        final StringBuilder urlWithNoParams = new StringBuilder(url.getProtocol());
-        final int port = url.getPort();
-        if (port > 0 && port != 80) {
-            throw new IllegalStateException("Invalid Port: " + port + " for URL: " + urlWithPotentialParameters);
-        }
-
-        urlWithNoParams.append("://");
-        urlWithNoParams.append(url.getHost());
-        urlWithNoParams.append(url.getPath());
-
-        return urlWithNoParams.toString();
-    }
-
-    public final boolean isKnownShortenedUrl(final String url) {
-        final boolean twitter = url.startsWith("http://t.co/");
-        final boolean bitly = url.startsWith("http://bit.ly/");
-        final boolean google = url.startsWith("http://goo.gl/");
-
-        return twitter || bitly || google;
     }
 
     // util

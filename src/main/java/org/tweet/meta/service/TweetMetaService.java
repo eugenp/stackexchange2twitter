@@ -8,8 +8,9 @@ import java.util.Map;
 
 import org.classification.service.ClassificationService;
 import org.common.service.BaseTweetFromSourceService;
-import org.common.service.HttpService;
-import org.common.util.HttpUtils;
+import org.common.service.HttpLiveService;
+import org.common.service.LinkService;
+import org.common.util.LinkUtils;
 import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,10 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     private ClassificationService classificationService;
 
     @Autowired
-    private HttpService httpService;
+    private HttpLiveService httpService;
+
+    @Autowired
+    private LinkService linkService;
 
     @Autowired
     private IRetweetJpaDAO retweetApi;
@@ -235,12 +239,12 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             return false;
         }
 
-        if (httpService.isHomepageUrl(singleMainUrl)) {
+        if (linkService.isHomepageUrl(singleMainUrl)) {
             logger.debug("potentialTweet= {} rejected because the it is pointing to a homepage= {}", potentialTweet, singleMainUrl);
             return false;
         }
 
-        if (HttpUtils.belongsToBannedDomain(singleMainUrl)) {
+        if (LinkUtils.belongsToBannedDomain(singleMainUrl)) {
             logger.debug("potentialTweet= {} rejected because the it is pointing to a banned domain= {}", potentialTweet, singleMainUrl);
             return false;
         }

@@ -59,8 +59,11 @@ public class TwitterLiveService {
     // read
 
     public List<String> listTweetsOfInternalAccount(final String twitterAccount) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
-        final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline();
+        return listTweetsOfInternalAccount(twitterAccount, 20);
+    }
+
+    public List<String> listTweetsOfInternalAccount(final String twitterAccount, final int howmany) {
+        final List<Tweet> userTimeline = listTweetsOfInternalAccountRaw(twitterAccount, howmany);
         final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
             @Override
             public final String apply(final Tweet input) {
@@ -68,6 +71,12 @@ public class TwitterLiveService {
             }
         };
         return Lists.transform(userTimeline, tweetToStringFunction);
+    }
+
+    public List<Tweet> listTweetsOfInternalAccountRaw(final String twitterAccount, final int howmany) {
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+        final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline(howmany);
+        return userTimeline;
     }
 
     public List<Tweet> listTweetsOfAccount(final String twitterAccount, final int howmany) {

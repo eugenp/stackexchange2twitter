@@ -39,4 +39,9 @@ public class TweetServiceIntegrationTest {
         assertFalse(instance.isTweetTextWorthTweetingByItself("#PHP \"@MarceloLopez84: Heres proof!! pic.twitter.com/HDHf2t1W4A\""));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario5_thenRejected() {
+        assertFalse(instance.isTweetTextWorthTweetingByItself("#dark #cloud http://instagram.com/p/b6EFkGPgok/"));
+    }
+
 }

@@ -3,7 +3,8 @@ package org.tweet.twitter.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.common.service.HttpService;
+import org.common.service.HttpLiveService;
+import org.common.service.LinkService;
 import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,10 @@ public class TweetService {
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
 
     @Autowired
-    private HttpService httpService;
+    private HttpLiveService httpService;
+
+    @Autowired
+    private LinkService linkService;
 
     public TweetService() {
         super();
@@ -106,7 +110,7 @@ public class TweetService {
         Preconditions.checkNotNull(url);
 
         final String expandedUrl = httpService.expand(url);
-        final String cleanExpandedUrl = httpService.removeUrlParameters(expandedUrl);
+        final String cleanExpandedUrl = linkService.removeUrlParameters(expandedUrl);
 
         final String textOfTweet = text;
         final String tweet = textOfTweet + " - " + cleanExpandedUrl;
@@ -134,7 +138,7 @@ public class TweetService {
         for (final String bannedService : bannedServices) {
             final boolean linkToBannedService = tweetText.contains(bannedService);
             if (linkToBannedService) {
-                logger.trace("Tweet = {} contains link to instagram - skipping", tweetText);
+                logger.trace("Tweet = {} contains link to banned service= {} - skipping", tweetText, bannedService);
                 return true;
             }
         }
