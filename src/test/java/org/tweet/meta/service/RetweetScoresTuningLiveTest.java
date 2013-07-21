@@ -71,7 +71,7 @@ public class RetweetScoresTuningLiveTest {
 
     private void analyzeScoresForAccount(final String account) {
         int numberOfTweetsRetrieved;
-        final List<String> latestTweetsOnAccount = twitterService.listTweetsOfInternalAccount(account, 12);
+        final List<String> latestTweetsOnAccount = twitterService.listTweetsOfInternalAccount(account, 14);
         numberOfTweetsRetrieved = latestTweetsOnAccount.size();
 
         final List<String> relevantDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
@@ -87,7 +87,7 @@ public class RetweetScoresTuningLiveTest {
             logger.warn("Scores (minrt) are probably to LOW for account= " + account);
             System.out.println("Scores (minrt) are probably to LOW for account= " + account);
         } else {
-            logger.warn("Scores (minrt) look OK for account= " + account);
+            // logger.debug("Scores (minrt) look OK for account= " + account);
             System.out.println("Scores (minrt) look OK for account= " + account);
         }
     }

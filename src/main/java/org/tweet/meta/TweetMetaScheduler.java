@@ -35,7 +35,7 @@ public class TweetMetaScheduler {
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 1");
 
-        // 8
+        // 9
         service.retweetByHashtag(SimpleTwitterAccount.BestAWS.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestClojure.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestJavaScript.name());
@@ -44,6 +44,8 @@ public class TweetMetaScheduler {
         service.retweetByHashtag(SimpleTwitterAccount.BestRubyOnRails.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestScala.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestAlgorithms.name()); // not 100% sure
+        service.retweetByHashtag(SimpleTwitterAccount.HTMLdaily.name()); // not 100% sure
+        service.retweetByHashtag(SimpleTwitterAccount.PerlDaily.name()); // not 100% sure
 
         logger.info("Finished retweet schedule - 1");
     }
@@ -62,6 +64,7 @@ public class TweetMetaScheduler {
         service.retweetByHashtag(SimpleTwitterAccount.ObjectiveCDaily.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestOfJava.name());
         service.retweetByHashtag(SimpleTwitterAccount.FacebookDigest.name());
+        service.retweetByHashtag(SimpleTwitterAccount.MathDaily.name());
 
         logger.info("Finished retweet schedule - 2");
     }
@@ -70,7 +73,7 @@ public class TweetMetaScheduler {
     public void tweetMeta3() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 3");
 
-        // 7
+        // 9
         service.retweetByHashtag(SimpleTwitterAccount.BestOfCloud.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestOfSecurity.name());
         service.retweetByHashtag(SimpleTwitterAccount.LandOfWordpress.name());
@@ -78,6 +81,8 @@ public class TweetMetaScheduler {
         service.retweetByHashtag(SimpleTwitterAccount.BestNoSQL.name());
         service.retweetByHashtag(SimpleTwitterAccount.GoogleDigest.name());
         service.retweetByHashtag(SimpleTwitterAccount.MysqlDaily.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestOfLinux.name());
+        service.retweetByHashtag(SimpleTwitterAccount.ParsingDaily.name());
 
         logger.info("Finished retweet schedule - 3");
     }

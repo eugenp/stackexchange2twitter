@@ -18,22 +18,22 @@ public enum TwitterAccountAbleToRetweet {// @formatter:off
     BestNoSQL, 
     BestPHP, 
     BestAWS, 
-    BestOfLinux,
+    BestOfLinux, 
     BestOfSecurity, 
     BestJavaScript, 
     // BestOfRuby,
     BestOfCloud, 
-    BestOfCocoa, 
+    // BestOfCocoa,  
     BestRubyOnRails, 
-    BestJSP, 
+    // BestJSP,   
     
-    DjangoDaily, 
+    // DjangoDaily,  
     
     FacebookDigest, 
     
     GoogleDigest, 
 
-    HibernateDaily, 
+    // HibernateDaily,  
     HTMLdaily, 
     
     iOSdigest, 
@@ -45,13 +45,13 @@ public enum TwitterAccountAbleToRetweet {// @formatter:off
     LispDaily, 
     LandOfWordpress, 
     
-    MathDaily, 
+    MathDaily,  
     MysqlDaily, 
     
     ObjectiveCDaily, 
     
     PythonDaily, 
-    ParsingDaily, 
+    ParsingDaily,  
     
     // RESTDaily, 
     RegexDaily, 
@@ -59,6 +59,6 @@ public enum TwitterAccountAbleToRetweet {// @formatter:off
     // ServerFaultBest, 
     // SpringAtSO, 
     
-    PerlDaily
+    PerlDaily 
 }
 // @formatter:on
