@@ -1,46 +1,10 @@
-2013-07-20 15:53:55,308 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= AskUbuntuBest is= 0
-2013-07-20 15:53:55,308 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= AskUbuntuBest
-2013-07-20 15:54:09,561 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= AspnetDaily is= 7
-2013-07-20 15:54:09,561 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Scores (minrt) are probably to LOW for account= AspnetDaily
-2013-07-20 15:54:22,388 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestAlgorithms is= 0
-2013-07-20 15:54:22,389 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestAlgorithms
-2013-07-20 15:54:35,079 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestBash is= 0
-2013-07-20 15:54:35,079 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestBash
-2013-07-20 15:54:49,811 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestClojure is= 0
-2013-07-20 15:54:49,811 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestClojure
-2013-07-20 15:55:03,152 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestEclipse is= 0
-2013-07-20 15:55:03,152 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestEclipse
-2013-07-20 15:55:16,092 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestGit is= 0
-2013-07-20 15:55:16,093 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestGit
-2013-07-20 15:55:27,506 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestJPA is= 1
-2013-07-20 15:55:27,506 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestJPA
-2013-07-20 15:55:39,228 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestMaven is= 0
-2013-07-20 15:55:39,229 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestMaven
-2013-07-20 15:55:54,522 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestScala is= 4
-2013-07-20 15:55:54,523 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:90] Scores (minrt) look OK for account= BestScala
-2013-07-20 15:56:10,775 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestJSON is= 2
-2013-07-20 15:56:10,776 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestJSON
-2013-07-20 15:56:23,025 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestOfJava is= 1
-2013-07-20 15:56:23,025 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestOfJava
-2013-07-20 15:56:36,187 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestSQL is= 1
-2013-07-20 15:56:36,187 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestSQL
 2013-07-20 15:56:53,499 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestNoSQL is= 1
 2013-07-20 15:56:53,499 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestNoSQL
-2013-07-20 15:57:12,344 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestPHP is= 4
-2013-07-20 15:57:12,344 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:90] Scores (minrt) look OK for account= BestPHP
 2013-07-20 15:57:26,609 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestAWS is= 2
 2013-07-20 15:57:26,609 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestAWS
-2013-07-20 15:57:39,707 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestOfLinux is= 0
-2013-07-20 15:57:39,708 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestOfLinux
-2013-07-20 15:57:55,043 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestOfSecurity is= 6
-2013-07-20 15:57:55,043 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Scores (minrt) are probably to LOW for account= BestOfSecurity
 2013-07-20 15:57:59,151 WARN [main] o.a.h.c.p.ResponseProcessCookies [ResponseProcessCookies.java:127] Cookie rejected: "[version: 0][name: msdn][value: L=1033][domain: .microsoft.com][path: /][expiry: Tue Aug 20 15:58:12 EEST 2013]". Illegal domain attribute "microsoft.com". Domain of origin: "blogs.msdn.com"
-2013-07-20 15:58:12,136 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestJavaScript is= 3
-2013-07-20 15:58:12,136 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:90] Scores (minrt) look OK for account= BestJavaScript
 2013-07-20 15:58:24,136 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestOfRuby is= 0
 2013-07-20 15:58:24,136 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestOfRuby
-2013-07-20 15:58:38,761 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestOfCloud is= 3
-2013-07-20 15:58:38,761 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:90] Scores (minrt) look OK for account= BestOfCloud
 2013-07-20 15:58:39,516 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestOfCocoa is= 0
 2013-07-20 15:58:39,516 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= BestOfCocoa
 2013-07-20 15:58:52,618 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= BestRubyOnRails is= 0
@@ -53,8 +17,6 @@
 2013-07-20 15:59:06,494 ERROR [main] o.t.t.s.TwitterLiveService [TwitterLiveService.java:100] Unable to list tweets on twitterAccount= FacebookDigest
 2013-07-20 15:59:06,495 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= FacebookDigest is= 0
 2013-07-20 15:59:06,495 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= FacebookDigest
-2013-07-20 15:59:22,583 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= GoogleDigest is= 3
-2013-07-20 15:59:22,583 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:90] Scores (minrt) look OK for account= GoogleDigest
 2013-07-20 15:59:22,584 ERROR [main] o.t.t.s.TwitterLiveService [TwitterLiveService.java:100] Unable to list tweets on twitterAccount= HibernateDaily
 2013-07-20 15:59:22,584 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= HibernateDaily is= 0
 2013-07-20 15:59:22,584 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= HibernateDaily
@@ -62,18 +24,12 @@
 2013-07-20 15:59:23,392 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= HTMLdaily
 2013-07-20 15:59:40,025 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= iOSdigest is= 3
 2013-07-20 15:59:40,025 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:90] Scores (minrt) look OK for account= iOSdigest
-2013-07-20 15:59:59,205 WARN [main] o.a.h.c.p.ResponseProcessCookies [ResponseProcessCookies.java:127] Cookie rejected: "[version: 0][name: msdn][value: L=1033][domain: .microsoft.com][path: /][expiry: Tue Aug 20 16:00:12 EEST 2013]". Illegal domain attribute "microsoft.com". Domain of origin: "blogs.technet.com"
-2013-07-20 15:59:59,206 WARN [main] o.a.h.c.p.ResponseProcessCookies [ResponseProcessCookies.java:127] Cookie rejected: "[version: 0][name: msdn][value: L=1033][domain: .microsoft.com][path: /][expiry: Tue Aug 20 16:00:12 EEST 2013]". Illegal domain attribute "microsoft.com". Domain of origin: "blogs.technet.com"
-2013-07-20 15:59:59,206 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= InTheAppleWorld is= 6
-2013-07-20 15:59:59,207 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Scores (minrt) are probably to LOW for account= InTheAppleWorld
 2013-07-20 16:00:12,296 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= JavaTopSO is= 0
 2013-07-20 16:00:12,296 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= JavaTopSO
 2013-07-20 16:00:25,391 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= jQueryDaily is= 0
 2013-07-20 16:00:25,392 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= jQueryDaily
 2013-07-20 16:00:38,524 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= LispDaily is= 1
 2013-07-20 16:00:38,525 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= LispDaily
-2013-07-20 16:01:03,058 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= LandOfWordpress is= 4
-2013-07-20 16:01:03,058 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:90] Scores (minrt) look OK for account= LandOfWordpress
 2013-07-20 16:01:15,742 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= MathDaily is= 0
 2013-07-20 16:01:15,742 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= MathDaily
 2013-07-20 16:01:28,952 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= MysqlDaily is= 1
@@ -89,8 +45,6 @@
 2013-07-20 16:02:24,640 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= RESTDaily
 2013-07-20 16:02:37,232 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= RegexDaily is= 0
 2013-07-20 16:02:37,233 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= RegexDaily
-2013-07-20 16:02:51,591 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= ServerFaultBest is= 12
-2013-07-20 16:02:51,591 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Scores (minrt) are probably to LOW for account= ServerFaultBest
 2013-07-20 16:03:02,794 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= SpringAtSO is= 0
 2013-07-20 16:03:02,794 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Scores (minrt) are probably to HIGH for account= SpringAtSO
 2013-07-20 16:03:15,156 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:81] Number of links not to SO for account= PerlDaily is= 0

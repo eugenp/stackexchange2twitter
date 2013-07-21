@@ -62,7 +62,7 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion2() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 2");
 
-        // 8
+        // 9
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestScala), SimpleTwitterAccount.BestScala.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.jQueryDaily), SimpleTwitterAccount.jQueryDaily.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.RESTDaily), SimpleTwitterAccount.RESTDaily.name());
@@ -71,6 +71,7 @@ public class TweetStackexchangeScheduler {
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestJPA), SimpleTwitterAccount.BestJPA.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestAlgorithms), SimpleTwitterAccount.BestAlgorithms.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.HibernateDaily), SimpleTwitterAccount.HibernateDaily.name());
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.FacebookDigest), SimpleTwitterAccount.FacebookDigest.name());
 
         final StackSite randomSite = GenericUtil.pickOneGeneric(twitterAccountToStackSites(SimpleTwitterAccount.BestBash));
         service.tweetTopQuestionBySiteAndTag(randomSite, SimpleTwitterAccount.BestBash.name());

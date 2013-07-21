@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountAbleToRetweet;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
@@ -59,36 +59,36 @@ public class RetweetScoresTuningLiveTest {
     */
     @Test
     public final void whenOneAccountIsAnalyzed_thenScoreSuggestionsAreGiven() {
-        analyzeScoresForAccount(SimpleTwitterAccount.AspnetDaily);
+        analyzeScoresForAccount(TwitterAccountAbleToRetweet.BestAlgorithms.name());
     }
 
     @Test
     public final void whenAllAccountsAreAnalyzed_thenScoreSuggestionsAreGiven() {
-        for (final SimpleTwitterAccount account : SimpleTwitterAccount.values()) {
-            analyzeScoresForAccount(account);
+        for (final TwitterAccountAbleToRetweet account : TwitterAccountAbleToRetweet.values()) {
+            analyzeScoresForAccount(account.name());
         }
     }
 
-    private void analyzeScoresForAccount(final SimpleTwitterAccount account) {
+    private void analyzeScoresForAccount(final String account) {
         int numberOfTweetsRetrieved;
-        final List<String> latestTweetsOnAccount = twitterService.listTweetsOfInternalAccount(account.name(), 12);
+        final List<String> latestTweetsOnAccount = twitterService.listTweetsOfInternalAccount(account, 12);
         numberOfTweetsRetrieved = latestTweetsOnAccount.size();
 
         final List<String> relevantDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
         final int totalRelevantLinks = linkService.countLinksToAnyDomain(latestTweetsOnAccount, relevantDomains);
         final int totalLinksNotToSo = numberOfTweetsRetrieved - totalRelevantLinks;
 
-        logger.warn("Number of links not to SO for account= " + account.name() + " is= " + totalLinksNotToSo);
-        System.out.println("Number of links not to SO for account= " + account.name() + " is= " + totalLinksNotToSo);
+        logger.warn("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
+        System.out.println("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
         if (totalLinksNotToSo <= 2) {
-            logger.warn("Scores (minrt) are probably to HIGH for account= " + account.name());
-            System.out.println("Scores (minrt) are probably to HIGH for account= " + account.name());
+            logger.warn("Scores (minrt) are probably to HIGH for account= " + account);
+            System.out.println("Scores (minrt) are probably to HIGH for account= " + account);
         } else if (totalLinksNotToSo >= 6) {
-            logger.warn("Scores (minrt) are probably to LOW for account= " + account.name());
-            System.out.println("Scores (minrt) are probably to LOW for account= " + account.name());
+            logger.warn("Scores (minrt) are probably to LOW for account= " + account);
+            System.out.println("Scores (minrt) are probably to LOW for account= " + account);
         } else {
-            logger.warn("Scores (minrt) look OK for account= " + account.name());
-            System.out.println("Scores (minrt) look OK for account= " + account.name());
+            logger.warn("Scores (minrt) look OK for account= " + account);
+            System.out.println("Scores (minrt) look OK for account= " + account);
         }
     }
 }

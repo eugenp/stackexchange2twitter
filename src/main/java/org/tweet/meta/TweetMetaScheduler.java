@@ -29,15 +29,13 @@ public class TweetMetaScheduler {
     // API
 
     // git - not 100% sure that hashtag will only return relevant tweets - look into this further
-    // for accounts - not yet: InTheAppleWorld,BestAlgorithms,BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,BestOfJava,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
-
-    // for accounts - not yet: InTheAppleWorld,BestAlgorithms,BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,BestOfJava,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
+    // for accounts - not yet: BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
 
     @Scheduled(cron = "0 0 9,12,15,18,21 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 1");
 
-        // 7
+        // 8
         service.retweetByHashtag(SimpleTwitterAccount.BestAWS.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestClojure.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestJavaScript.name());
@@ -45,6 +43,7 @@ public class TweetMetaScheduler {
         service.retweetByHashtag(SimpleTwitterAccount.BestPHP.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestRubyOnRails.name());
         service.retweetByHashtag(SimpleTwitterAccount.BestScala.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestAlgorithms.name()); // not 100% sure
 
         logger.info("Finished retweet schedule - 1");
     }
@@ -53,14 +52,16 @@ public class TweetMetaScheduler {
     public void tweetMeta2() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 2");
 
-        // 7
+        // 8
         service.retweetByHashtag(SimpleTwitterAccount.BestSQL.name());
-        service.retweetByHashtag(SimpleTwitterAccount.InTheAppleWorld.name()); // not 100% sure
+        service.retweetByHashtag(SimpleTwitterAccount.InTheAppleWorld.name());
         service.retweetByHashtag(SimpleTwitterAccount.iOSdigest.name());
         service.retweetByHashtag(SimpleTwitterAccount.jQueryDaily.name());
-        service.retweetByHashtag(SimpleTwitterAccount.PythonDaily.name()); // not 100% sure
+        service.retweetByHashtag(SimpleTwitterAccount.PythonDaily.name());
         service.retweetByHashtag(SimpleTwitterAccount.RegexDaily.name());
         service.retweetByHashtag(SimpleTwitterAccount.ObjectiveCDaily.name());
+        service.retweetByHashtag(SimpleTwitterAccount.BestOfJava.name());
+        service.retweetByHashtag(SimpleTwitterAccount.FacebookDigest.name());
 
         logger.info("Finished retweet schedule - 2");
     }
