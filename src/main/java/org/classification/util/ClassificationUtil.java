@@ -101,7 +101,7 @@ public final class ClassificationUtil {
     // classifier
 
     public static CrossFoldLearner commercialVsNonCommercialBestLearner(final int probes, final int features) throws IOException {
-        final List<NamedVector> learningData = ClassificationTrainingDataUtil.commercialVsNonCommercialLearningData(probes, features);
+        final List<NamedVector> learningData = ClassificationDataUtil.commercialVsNonCommercialLearningData(probes, features);
         final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData, features, probes);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
