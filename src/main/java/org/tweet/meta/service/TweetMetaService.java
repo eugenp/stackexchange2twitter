@@ -15,11 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
+import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
@@ -137,10 +139,20 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // newly moved here
-        if (tweetService.isRetweetMention(potentialTweet.getText())) {
+        if (tweetService.isRetweetMention(tweetText)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
             logger.debug("Tweet that was already a retweet: " + tweetUrl);
-            return false;
+
+            final String originalUserFromRt = TwitterUtil.extractOriginalUserFromRt(tweetText);
+            final TwitterProfile profileOfUser = twitterLiveService.getProfileOfUser(originalUserFromRt);
+            final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
+            if (isUserWorthInteractingWith) {
+                twitterLiveService.tweet(twitterAccount, processedTweetText);
+                return true;
+            } else {
+                return false;
+            }
+            // TODO: all of this logic is very much in progress here
         }
 
         // tweet
