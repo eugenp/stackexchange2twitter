@@ -1,6 +1,8 @@
 package org.tweet.twitter.util;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.common.util.LinkUtils;
 import org.slf4j.Logger;
@@ -23,7 +25,7 @@ public final class TwitterUtil {
         "freelance", "job", "consulting", "hire", "hiring", "careers", 
         "need", 
         "football", "exclusive",
-        "escort", "escorts", "xxx", "porn"
+        "escort", "escorts", "xxx", "porn", "fuck"
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
             "photo: "
@@ -51,7 +53,7 @@ public final class TwitterUtil {
 
     // API
 
-    public static boolean isTweetTextValid(final String text) {
+    public static boolean isTweetTextWithoutLinkValid(final String text) {
         final int linkNoInTweet = LinkUtils.extractUrls(text).size();
         if (linkNoInTweet > 1) {
             return false;
@@ -60,7 +62,7 @@ public final class TwitterUtil {
         return text.length() <= 122;
     }
 
-    public static boolean isTweetValid(final String fullTweet) {
+    public static boolean isTweetTextWithLinkValid(final String fullTweet) {
         return fullTweet.length() <= 140;
     }
 
@@ -80,6 +82,24 @@ public final class TwitterUtil {
 
         final String processedTweet = joiner.join(transformedTokens);
         return processedTweet;
+    }
+
+    // retweet logic
+
+    public static String extractTweetFromRt(final String rt) {
+        final String result = rt.replaceAll("\\ART @[a-zA-Z0-9_]+ ?[:-] ?", ""); // \A - anchor - matches before start of text block
+        return result;
+    }
+
+    public static String extractOriginalUserFromRt(final String rt) {
+        final Pattern pattern = Pattern.compile("@[a-zA-Z0-9_]*");
+        final Matcher matcher = pattern.matcher(rt);
+        if (matcher.find()) {
+            final String user = matcher.group(0);
+            return user.substring(1);
+        }
+
+        return null;
     }
 
     // utils
@@ -131,4 +151,5 @@ public final class TwitterUtil {
 
         return false;
     }
+
 }

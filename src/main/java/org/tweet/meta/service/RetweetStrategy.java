@@ -27,49 +27,79 @@ public final class RetweetStrategy {
         if (!shouldRetweet(tweet)) {
             return false;
         }
-        if (Math.random() < 0.66) {
+        if (Math.random() < 0.75) {
             return true;
         }
 
         return false;
     }
 
-    @SuppressWarnings("unused")
-    final boolean shouldRetweet(final Tweet tweet) {
+    public final boolean shouldRetweet(final Tweet tweet) {
         final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
+        if (!hasLessRtsThanTheTooPopularThreshold) {
+            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}", tweet.getText(), tweet.getRetweetCount());
+            return false;
+        }
 
         final TwitterProfile user = tweet.getUser();
-        final String language = user.getLanguage();
-        if (!language.equals("en")) {
-            logger.info("Should not retweet tweet= {} because the language is= {}", tweet.getText(), language);
+        final String text = tweet.getText();
+        final String userHandle = tweet.getFromUser();
+
+        if (!isUserWorthInteractingWith(user, userHandle)) {
+            logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, userHandle);
+            return false;
+        }
+
+        return hasLessRtsThanTheTooPopularThreshold;
+    }
+
+    public final boolean isUserWorthInteractingWith(final TwitterProfile user, final String userHandle) {
+        final String languageOfUser = user.getLanguage();
+        if (!languageOfUser.equals("en")) {
+            logger.info("Should not interact with user= {} because user language is= {}", userHandle, languageOfUser);
             return false;
         }
         final int followersCount = user.getFollowersCount();
         if (followersCount < 300) {
-            logger.info("Should not retweet tweet= {} because for the user= {} the followerCount is to small= {}", tweet.getText(), user.getName(), followersCount);
+            logger.info("Should not interact with user= {} because the followerCount is to small= {}", userHandle, followersCount);
             return false;
         }
         final int tweetsCount = user.getStatusesCount();
         if (tweetsCount < 300) {
-            logger.info("Should not retweet tweet= {} because for the user= {} the tweetsCount is to small= {}", tweet.getText(), user.getName(), tweetsCount);
+            logger.info("Should not interact with user= {} because the tweetsCount is to small= {}", userHandle, tweetsCount);
             return false;
         }
 
-        final int followingCount = user.getFriendsCount();
+        // final int followingCount = user.getFriendsCount();
 
-        final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccount(tweet.getFromUser(), 200);
+        final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccount(userHandle, 200);
         final int retweets = countRetweets(tweetsOfAccount);
-        if (retweets < 10) {
-            logger.info("Should not retweet because for the user= {} the number of retweets (out of the last 200 tweets) is to small= {}\n -- tweet= {} ", user.getName(), retweets, tweet.getText());
+        final int mentions = countMentions(tweetsOfAccount);
+        if (retweets + mentions < 12) {
+            // TODO: put back to info when I get some emails about this
+            logger.error("Should not interact with user= {} - the number of retweets (out of the last 200 tweets) is to small= {}", userHandle, retweets);
             return false;
         }
-        return hasLessRtsThanTheTooPopularThreshold;
+
+        return true;
     }
 
-    private int countRetweets(final List<Tweet> tweetsOfAccount) {
+    // util
+
+    private final int countRetweets(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (tweet.isRetweet()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private final int countMentions(final List<Tweet> tweetsOfAccount) {
+        int count = 0;
+        for (final Tweet tweet : tweetsOfAccount) {
+            if (tweet.getText().contains("@")) {
                 count++;
             }
         }

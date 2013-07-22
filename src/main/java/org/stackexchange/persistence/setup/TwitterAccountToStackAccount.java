@@ -3,7 +3,7 @@ package org.stackexchange.persistence.setup;
 import java.util.List;
 
 import org.stackexchange.api.constants.StackSite;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -16,14 +16,14 @@ public final class TwitterAccountToStackAccount {
 
     // API
 
-    public static StackSite twitterAccountToStackSite(final SimpleTwitterAccount twitterAccount) {
+    public static StackSite twitterAccountToStackSite(final TwitterAccountEnum twitterAccount) {
         final List<StackSite> allStackSites = twitterAccountToStackSites(twitterAccount);
         Preconditions.checkState(allStackSites.size() == 1);
 
         return allStackSites.get(0);
     }
 
-    public static List<StackSite> twitterAccountToStackSites(final SimpleTwitterAccount twitterAccount) {
+    public static List<StackSite> twitterAccountToStackSites(final TwitterAccountEnum twitterAccount) {
         switch (twitterAccount) {
         case AskUbuntuBest:
             return Lists.newArrayList(StackSite.AskUbuntu);
@@ -57,6 +57,8 @@ public final class TwitterAccountToStackAccount {
 
         case BestOfCocoa:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfCss:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfRuby:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfSecurity:
@@ -76,6 +78,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestSQL:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestXML:
+            return Lists.newArrayList(StackSite.StackOverflow);
 
         case DjangoDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
@@ -92,6 +96,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case LandOfWordpress:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case LandOfSeo:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case iOSdigest:

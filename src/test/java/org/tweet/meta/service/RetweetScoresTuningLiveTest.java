@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.stackexchange.util.TwitterAccountAbleToRetweet;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
@@ -59,13 +59,15 @@ public class RetweetScoresTuningLiveTest {
     */
     @Test
     public final void whenOneAccountIsAnalyzed_thenScoreSuggestionsAreGiven() {
-        analyzeScoresForAccount(TwitterAccountAbleToRetweet.BestAlgorithms.name());
+        analyzeScoresForAccount(TwitterAccountEnum.BestAlgorithms.name());
     }
 
     @Test
     public final void whenAllAccountsAreAnalyzed_thenScoreSuggestionsAreGiven() {
-        for (final TwitterAccountAbleToRetweet account : TwitterAccountAbleToRetweet.values()) {
-            analyzeScoresForAccount(account.name());
+        for (final TwitterAccountEnum account : TwitterAccountEnum.values()) {
+            if (account.isRt()) {
+                analyzeScoresForAccount(account.name());
+            }
         }
     }
 

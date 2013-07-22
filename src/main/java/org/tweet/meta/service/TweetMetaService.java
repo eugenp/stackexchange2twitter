@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
@@ -101,13 +102,15 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
-        // is it worth it by itself?
+        // is it worth it by text?
         if (!tweetService.isTweetWorthRetweetingByText(text)) {
+            logger.debug("Tweet not worth retweeting (by text only) on twitterAccount= {}, tweet text= {}", twitterAccount, text);
             return false;
         }
 
-        // is it worth it in the context of all the current list of tweets?
-        if (!isTweetWorthRetweetingInContext(potentialTweet, hashtag)) {
+        // is it worth it by full tweet?
+        if (!tweetService.isTweetWorthRetweetingByFullTweet(potentialTweet, hashtag)) {
+            logger.debug("Tweet not worth retweeting (by full tweet) on twitterAccount= {}, tweet text= {}", twitterAccount, text);
             return false;
         }
 
@@ -134,6 +137,23 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         // post-process
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
+
+        // newly moved here
+        if (tweetService.isRetweetMention(tweetText)) {
+            final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+            logger.debug("Tweet that was already a retweet: " + tweetUrl);
+
+            final String originalUserFromRt = TwitterUtil.extractOriginalUserFromRt(tweetText);
+            final TwitterProfile profileOfUser = twitterLiveService.getProfileOfUser(originalUserFromRt);
+            final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
+            if (isUserWorthInteractingWith) {
+                twitterLiveService.tweet(twitterAccount, processedTweetText);
+                return true;
+            } else {
+                return false;
+            }
+            // TODO: all of this logic is very much in progress here
+        }
 
         // tweet
         if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
@@ -245,33 +265,6 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         if (LinkUtils.belongsToBannedDomain(singleMainUrl)) {
             logger.debug("potentialTweet= {} rejected because the it is pointing to a banned domain= {}", potentialTweet, singleMainUrl);
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Determines if a tweet is worth retweeting based on the following criteria: 
-     * - number of retweets over a certain threshold (the threshold is per hashtag)
-     * - number of favorites (not yet)
-     */
-    private final boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String twitterTag) {
-        final int requiredMinRts = minRtRetriever.minRt(twitterTag);
-        if (potentialTweet.getRetweetCount() < requiredMinRts) {
-            logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
-            return false;
-        }
-
-        if (!potentialTweet.getLanguageCode().equals("en")) {
-            logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", potentialTweet, twitterTag, potentialTweet.getLanguageCode());
-            // info temporary - should be debug
-            return false;
-        }
-
-        if (TwitterUtil.isUserBannedFromRetweeting(potentialTweet.getFromUser())) {
-            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", potentialTweet, twitterTag, potentialTweet.getFromUser());
-            // debug temporary - should be trace
             return false;
         }
 

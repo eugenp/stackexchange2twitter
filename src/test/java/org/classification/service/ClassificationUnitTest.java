@@ -20,7 +20,7 @@ import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 import org.apache.mahout.utils.vectors.io.VectorWriter;
-import org.classification.util.ClassificationTrainingDataUtil;
+import org.classification.util.ClassificationDataUtil;
 import org.classification.util.ClassificationUtil;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -122,7 +122,7 @@ public class ClassificationUnitTest {
     }
 
     private final List<NamedVector> learningData() throws IOException {
-        return ClassificationTrainingDataUtil.commercialVsNonCommercialLearningDataDefault();
+        return ClassificationDataUtil.commercialVsNonCommercialLearningDataDefault();
     }
 
 }

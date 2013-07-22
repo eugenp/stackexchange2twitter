@@ -15,7 +15,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.spring.StackexchangeContextConfig;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.twitter.service.TwitterLiveService;
 import org.tweet.twitter.service.TwitterTemplateCreator;
@@ -37,7 +37,7 @@ public class TwitterLiveServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() {
-        twitterService.tweet(SimpleTwitterAccount.BestBash.name(), "What are Unity's keyboard and mouse shortcuts?");
+        twitterService.tweet(TwitterAccountEnum.BestBash.name(), "What are Unity's keyboard and mouse shortcuts?");
     }
 
     @Test
@@ -50,13 +50,13 @@ public class TwitterLiveServiceLiveTest {
 
     @Test
     public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<String> tweets = twitterService.listTweetsOfInternalAccount(SimpleTwitterAccount.JavaTopSO.name());
+        final List<String> tweets = twitterService.listTweetsOfInternalAccount(TwitterAccountEnum.JavaTopSO.name());
         System.out.println(tweets);
     }
 
     @Test
     public final void whenListingTweetsForHash_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<Tweet> tweets = twitterService.listTweetsOfHashtag(SimpleTwitterAccount.JavaTopSO.name(), "java");
+        final List<Tweet> tweets = twitterService.listTweetsOfHashtag(TwitterAccountEnum.JavaTopSO.name(), "java");
         System.out.println(tweets);
     }
 

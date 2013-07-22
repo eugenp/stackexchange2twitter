@@ -9,10 +9,12 @@ import org.springframework.social.OperationNotPermittedException;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.social.twitter.api.impl.SearchParameters;
 import org.springframework.social.twitter.api.impl.SearchParameters.ResultType;
 import org.springframework.stereotype.Service;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.GenericUtil;
+import org.stackexchange.util.TwitterAccountEnum;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -57,6 +59,13 @@ public class TwitterLiveService {
     }
 
     // read
+
+    // user profiles
+
+    public TwitterProfile getProfileOfUser(final String userHandle) {
+        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(TwitterAccountEnum.BestOfJava.name());
+        return readOnlyTwitterTemplate.userOperations().getUserProfile(userHandle);
+    }
 
     // by internal accounts
 
@@ -120,7 +129,8 @@ public class TwitterLiveService {
     }
 
     public List<Tweet> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
-        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(SimpleTwitterAccount.BestOfJava.name());
+        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
+        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(randomAccount);
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
         return userTimeline;
     }

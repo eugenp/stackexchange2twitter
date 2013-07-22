@@ -15,7 +15,7 @@ import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.persistence.setup.TwitterAccountToStackAccount;
 import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.spring.StackexchangeContextConfig;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 
 import com.google.common.base.Splitter;
@@ -35,7 +35,7 @@ public class StackTagsExistsIntegrationTest {
 
     @Test
     public final void whenRetrievingMinScoresOfAllStackTags_thenFound() {
-        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+        for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             final String stackTagsOfAccountRaw = env.getProperty(twitterAccount.name() + ".stack.tags");
             assertNotNull("No stack tags found for twitterAccount= " + twitterAccount, stackTagsOfAccountRaw);
 

@@ -9,7 +9,9 @@ import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
+import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.util.TwitterUtil;
 
@@ -30,6 +32,9 @@ public class TweetService {
     @Autowired
     private LinkService linkService;
 
+    @Autowired
+    private MinRtRetriever minRtRetriever;
+
     public TweetService() {
         super();
     }
@@ -37,42 +42,60 @@ public class TweetService {
     // API
 
     /**
-     * Determines if a tweet is worth tweeting based on the following  <b>criteria</b>: <br/>
+     * Determines if a tweet is worth tweeting based on only its text; by the following <b>criteria</b>: <br/>
      * - has link <br/>
-     * - contains any banned keywords <br/>
-     * - is not already a retweet <br/>
+     * - is not banned (mostly by keywords, expressions and regexes) <br/>
+     * - does not contain link to banned services<br/>
      */
-    public final boolean isTweetWorthRetweetingByText(final String potentialTweet) {
-        if (!containsLink(potentialTweet)) {
-            return false;
-        }
-        if (TwitterUtil.isTweetBanned(potentialTweet)) {
-            return false;
-        }
-        if (isRetweet(potentialTweet)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Determines if a tweet is worth tweeting based on the following  <b>criteria</b>: <br/>
-     * - contains any banned keywords <br/>
-     * - is not already a retweet <br/>
-    */
-    public final boolean isTweetTextWorthTweetingByItself(final String potentialTweetText) {
+    public final boolean isTweetWorthRetweetingByText(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {
-            return false;
-        }
-        if (containsLinkToBannedServices(potentialTweetText)) {
             return false;
         }
         if (TwitterUtil.isTweetBanned(potentialTweetText)) {
             return false;
         }
-        if (isRetweet(potentialTweetText)) {
+        if (containsLinkToBannedServices(potentialTweetText)) {
             return false;
         }
+
+        // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
+        return true;
+    }
+
+    /**
+     * Determines if a tweet is worth retweeting based on the following criteria: 
+     * - number of retweets over a certain threshold (the threshold is per hashtag)
+     * - favorites are not yet considered
+     * - is in English
+     * - the user is not banned for retweeting
+     * - (this is changing) is not already a retweet
+     */
+    /*meta*/public final boolean isTweetWorthRetweetingByFullTweet(final Tweet potentialTweet, final String twitterTag) {
+        final int requiredMinRts = minRtRetriever.minRt(twitterTag);
+        if (potentialTweet.getRetweetCount() < requiredMinRts) {
+            logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
+            return false;
+        }
+
+        if (!potentialTweet.getLanguageCode().equals("en")) {
+            logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", potentialTweet, twitterTag, potentialTweet.getLanguageCode());
+            // info temporary - should be debug
+            return false;
+        }
+
+        if (TwitterUtil.isUserBannedFromRetweeting(potentialTweet.getFromUser())) {
+            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", potentialTweet, twitterTag, potentialTweet.getFromUser());
+            // debug temporary - should be trace
+            return false;
+        }
+
+        // newly moved here and then moved further out
+        // if (isRetweetMention(potentialTweet.getText())) {
+        // // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
+        // final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+        // logger.error("Tweet that was already a retweet: " + tweetUrl);
+        // return false;
+        // }
         return true;
     }
 
@@ -93,7 +116,7 @@ public class TweetService {
     }
 
     public final boolean isTweetTextValid(final String tweetTextNoUrl) {
-        return TwitterUtil.isTweetTextValid(tweetTextNoUrl);
+        return TwitterUtil.isTweetTextWithoutLinkValid(tweetTextNoUrl);
     }
 
     public final String constructTweetSimple(final String tweetTextNoUrl, final String url) {
@@ -117,36 +140,7 @@ public class TweetService {
         return tweet;
     }
 
-    // util
-
-    private final List<String> twitterTagsToHash(final String twitterAccount) {
-        final String wordsToHashForAccount = twitterHashtagsRetriever.hashtags(twitterAccount);
-        final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
-        return Lists.newArrayList(split);
-    }
-
-    /**
-     * Determines if the tweet text contains a link
-     */
-    final boolean containsLink(final String text) {
-        return text.contains("http://") || text.contains("https://");
-    }
-
-    private final boolean containsLinkToBannedServices(final String tweetText) {
-        final ArrayList<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
-
-        for (final String bannedService : bannedServices) {
-            final boolean linkToBannedService = tweetText.contains(bannedService);
-            if (linkToBannedService) {
-                logger.trace("Tweet = {} contains link to banned service= {} - skipping", tweetText, bannedService);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    final boolean isRetweet(final String potentialTweet) {
+    public final boolean isRetweetMention(final String potentialTweet) {
         final boolean startsWith = potentialTweet.startsWith("RT @");
         if (startsWith) {
             return true;
@@ -159,6 +153,38 @@ public class TweetService {
         final boolean containsRtInfo = potentialTweet.matches(".*RT.{0,3}@.*");
         if (containsRtInfo) {
             return true;
+        }
+
+        return false;
+    }
+
+    // util
+
+    private final List<String> twitterTagsToHash(final String twitterAccount) {
+        final String wordsToHashForAccount = twitterHashtagsRetriever.hashtags(twitterAccount);
+        final Iterable<String> split = Splitter.on(',').split(wordsToHashForAccount);
+        return Lists.newArrayList(split);
+    }
+
+    /**
+     * Determines if the tweet text contains a link
+     */
+    private final boolean containsLink(final String text) {
+        return text.contains("http://") || text.contains("https://");
+    }
+
+    /**
+     * - current banned services: instagram, pic.twitter
+     */
+    private final boolean containsLinkToBannedServices(final String tweetText) {
+        final ArrayList<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
+
+        for (final String bannedService : bannedServices) {
+            final boolean linkToBannedService = tweetText.contains(bannedService);
+            if (linkToBannedService) {
+                logger.trace("Tweet = {} contains link to banned service= {} - skipping", tweetText, bannedService);
+                return true;
+            }
         }
 
         return false;

@@ -50,99 +50,119 @@ By tomorrow I will have published over 60 Scala programming recipes - http://dev
 New Informatics 360 blog post, CBMi's Aaron Masino discusses programming "The Scala Way" http://bit.ly/szy39w #programming #scala
 The busy #Java developer's guide to #Scala - Implementation inheritance > http://su.pr/1mH1EY #J2EE #programming #web #app #ibmdW
 Let's settle this: Sub Typing And Sub Classing http://c2.com/cgi/wiki?SubTypingAndSubClassing #scala #programming
-What is the best way to remove accents in a #python unicode string? - http://stackoverflow.com/questions/517923/what-is-the-best-way-to-remove-accents-in-a-python-unicode-string …
+What is the best way to remove accents in a #python unicode string? - http://stackoverflow.com/questions/517923/what-is-the-best-way-to-remove-accents-in-a-python-unicode-string 
 Python: Common Newbie Mistakes, Part 2 via @AmirRachum http://buff.ly/15vk4eu #python
 Just migrated http://thomassileo.com from Octopress to Pelican #Python \o/
-slimmest #python client for #elasticsearch: http://blog.sematext.com/2013/07/15/slimes/ …
-50 Web Developer Documentation Manuals You Need To Know About http://www.codedevelopr.com/articles/50-web-developer-documentation-manuals-you-need-to-know-about/ … #php #mysql #python #ruby #web
+slimmest #python client for #elasticsearch: http://blog.sematext.com/2013/07/15/slimes/ 
+50 Web Developer Documentation Manuals You Need To Know About http://www.codedevelopr.com/articles/50-web-developer-documentation-manuals-you-need-to-know-about/  #php #mysql #python #ruby #web
 #dev #python #reminder Check if Palindrome http://goo.gl/Xfp2l
 RT @marknca: "Python: Myths about Indentation", http://j.mp/16q2w2B , is a good reminder of where & when whitespace matters in #python
 Make your own animated text banner in #Python . Includes challenges for improving and customising the program. http://usingpython.com/programs#banner
-Gccpy is an ongoing project to allow users to compile #Python Code as an AOT (ahead of time) compiled language. http://gcc.gnu.org/wiki/PythonFrontEnd …
-Using nginx as a proxy to uWSGI applications http://lucasrolff.com/using-nginx-as-a-proxy-to-uwsgi-applications/ … #python #wsgi
-Ever wanted to learn Python programming? Follow my YouTube tutorials! http://www.youtube.com/playlist?list=PLwNU7Gk6Z5ZkXXsvtJTtBhQNl905Jua-O … (more coming) #python #ipython
+Gccpy is an ongoing project to allow users to compile #Python Code as an AOT (ahead of time) compiled language. http://gcc.gnu.org/wiki/PythonFrontEnd 
+Using nginx as a proxy to uWSGI applications http://lucasrolff.com/using-nginx-as-a-proxy-to-uwsgi-applications/  #python #wsgi
+Ever wanted to learn Python programming? Follow my YouTube tutorials! http://www.youtube.com/playlist?list=PLwNU7Gk6Z5ZkXXsvtJTtBhQNl905Jua-O  (more coming) #python #ipython
 How do I prevent the access log for #Tornado and/or #SimpleHTTPServer from being dumped to stderr? #python #web #server
 Why is #Python #Web framework popular amongst clients and developers? http://bit.ly/10tp4w2
 Session issues in web.py framework? Check out - http://j.mp/pif8Xt - may have fixed your problem #python #web
-Communicating Sequential Processes http://swannodette.github.io/2013/07/12/communicating-sequential-processes/ … #clojure
+Communicating Sequential Processes http://swannodette.github.io/2013/07/12/communicating-sequential-processes/  #clojure
 Home office finally set up ready to rock some #clojure today http://instagram.com/p/b03q0-B4tC/
-Elastisch 1.2.0-beta3 is released http://blog.clojurewerkz.org/blog/2013/07/11/elastisch-1-dot-2-0-beta3-is-released/ … #clojure #elasticsearch
-Kudos to Fernando Dobladez for improving Monger 1.6’s Ragtime integration https://github.com/michaelklishin/monger/pull/57 … #clojure #mongodb
+Elastisch 1.2.0-beta3 is released http://blog.clojurewerkz.org/blog/2013/07/11/elastisch-1-dot-2-0-beta3-is-released/  #clojure #elasticsearch
+Kudos to Fernando Dobladez for improving Monger 1.6’s Ragtime integration https://github.com/michaelklishin/monger/pull/57  #clojure #mongodb
 Promises and futures in #Clojure http://buff.ly/123S6TZ
-Podcast - #clojure and #datomic applied, with much success: http://thinkrelevance.com/blog/2013/06/12/kurt-zimmer-of-room-key-podcast-episode-033 …
+Podcast - #clojure and #datomic applied, with much success: http://thinkrelevance.com/blog/2013/06/12/kurt-zimmer-of-room-key-podcast-episode-033 
 Now on DZone: Spring Book Chapter 8 - Data Access by Tomcy John http://bit.ly/1apcw05 @tomcyjohn #ibatis #hibernate #jdbc #jpa #java #dzone
-What transaction manager should I use for JBDC template When using #JPA? - http://stackoverflow.com/questions/2673678/what-transaction-manager-should-i-use-for-jbdc-template-when-using-jpa …
+What transaction manager should I use for JBDC template When using #JPA? - http://stackoverflow.com/questions/2673678/what-transaction-manager-should-i-use-for-jbdc-template-when-using-jpa 
 @Apache_Roller trunk now using #EclipseLink (JPA 2.1) as its default #JPA implementation.
-How do I use #JPA to persist a Map (java.util.Map) object inside an entity and ensure the persistence cascades? - http://stackoverflow.com/questions/7521218/how-do-i-use-jpa-to-persist-a-map-java-util-map-object-inside-an-entity-and-en …
+How do I use #JPA to persist a Map (java.util.Map) object inside an entity and ensure the persistence cascades? - http://stackoverflow.com/questions/7521218/how-do-i-use-jpa-to-persist-a-map-java-util-map-object-inside-an-entity-and-en 
 #SpringData release train "babbage" M1 now available: http://bit.ly/19hHVnk nice work @SpringData Team! #jpa #mongodb #neo4j
 @javacodegeeks: #Spring Data #JPA Tutorial Part One: Configuration - #EnterpriseJava #SpringData http://goo.gl/FbVd1
-My reader has a problem: Get customer which has most orders - http://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-four-jpa-criteria-queries/#comment-266977 … - Google could not help. Can you? #jpa
+My reader has a problem: Get customer which has most orders - http://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-part-four-jpa-criteria-queries/#comment-266977  - Google could not help. Can you? #jpa
 Spring from the Trenches: Adding Validation to a #REST API - #java #springframework http://buff.ly/12zPEt9
 Lazy sequences implementation for #Java 8 http://buff.ly/12uHbr3
-5 must read books to learn Object Oriented and Java Design patterns http://javarevisited.blogspot.com/2013/06/5-must-read-books-to-learn-object.html … #Java #books
+5 must read books to learn Object Oriented and Java Design patterns http://javarevisited.blogspot.com/2013/06/5-must-read-books-to-learn-object.html  #Java #books
 #JSF: choice between legacy components and fashionable performance killers - #java http://buff.ly/15hNf4L
-RT @mariofusco: Functional thinking http://www.ibm.com/developerworks/views/java/libraryview.jsp?site_id=1&contentarea_by=Java&sort_by=Date&sort_order=2&start=1&end=20&topic_by=&product_by=&type_by=All%20Types&show_abstract=true&search_by=functional%20thinking:&industry_by=&series_title_by= … << amazing collection of articles by @neal4d #java
+RT @mariofusco: Functional thinking http://www.ibm.com/developerworks/views/java/libraryview.jsp?site_id=1&contentarea_by=Java&sort_by=Date&sort_order=2&start=1&end=20&topic_by=&product_by=&type_by=All%20Types&show_abstract=true&search_by=functional%20thinking:&industry_by=&series_title_by=  << amazing collection of articles by @neal4d #java
 #Spring with #Maven - #java http://buff.ly/12eZUXJ
 #Spring Security #Java Config Preview: Method Security http://j.mp/12hBHev #infosec
-RT @terrencebarr: Top 10 Java Articles on OTN (and more): http://terrencebarr.wordpress.com/2013/07/05/top … #otn #java
+RT @terrencebarr: Top 10 Java Articles on OTN (and more): http://terrencebarr.wordpress.com/2013/07/05/top  #otn #java
 #JavaEE 7 with #GlassFish on #Eclipse Juno - #java http://buff.ly/14T0nwV
 #Atlanta #Java Users Group video recordings available at: http://vimeo.com/ajug/videos #AJUG
 Does finally always execute in #Java? - http://stackoverflow.com/questions/65035/does-finally-always-execute-in-java
 How to work with Default Values from a HashMap in Java http://bit.ly/14InNVT #java
-Linux 3.11: Linux for Workgroups http://is.gd/v0PsUr … New #Linux kernel with a tongue-in-cheek name by @sjvn
+Linux 3.11: Linux for Workgroups http://is.gd/v0PsUr  New #Linux kernel with a tongue-in-cheek name by @sjvn
 #linux VMware Unloads Zimbra to Telligent: Enterprise Networking Planet: After three years of owning open sour... http://bit.ly/1aLDN0C
 What limits the maximum number of connections on a #Linux #server? - http://serverfault.com/questions/10852/what-limits-the-maximum-number-of-connections-on-a-linux-server
 SUSE to support SUSE Studio customized Linux distros http://bit.ly/1aWe4l1 #linux
 Software updates galore! Find out about the latest #Linux SDK & #Android SDK releases in our Tools Insider blog post: http://ow.ly/mLXf5
 #OMB: #Linux School - Displaying UUID Values; Manipulating the Output with Cut. Helpful for Devs and Admins. http://planetlotus.org/b1c754
-Getting Started with #Linux Memory #Forensics http://computer-forensics.sans.org/blog/2013/07/08/getting-started-linux-memory-forensics … /cc @sempersecurus
+Getting Started with #Linux Memory #Forensics http://computer-forensics.sans.org/blog/2013/07/08/getting-started-linux-memory-forensics  /cc @sempersecurus
 perf (3.0.86) - Performance monitoring for the Linux kernel http://pkgs.org/8733319 #centos
-on Cowie of @Etsy is currently talking about ins and outs of creating custom #CentOS live CDs and #PXE booting. http://catn.com/2013/07/11/centos-dojo-live-blog/ …
-My new blog post: Local #graphite installation on #CentOS 5.5 howto http://refaktor.blogspot.com/2013/07/local-graphite-installation-on-centos.html?spref=tw …
-#CentOS Linux based LAMP stack #VirtualBox appliance http://hiryu.byethost7.com/2013/06/centos-based-lamp-stack-virtualbox-appliance/ …
+on Cowie of @Etsy is currently talking about ins and outs of creating custom #CentOS live CDs and #PXE booting. http://catn.com/2013/07/11/centos-dojo-live-blog/ 
+My new blog post: Local #graphite installation on #CentOS 5.5 howto http://refaktor.blogspot.com/2013/07/local-graphite-installation-on-centos.html?spref=tw 
+#CentOS Linux based LAMP stack #VirtualBox appliance http://hiryu.byethost7.com/2013/06/centos-based-lamp-stack-virtualbox-appliance/ 
 Phil Sturgeon Building a Decent API http://buz.by/15JF57x #php #goodread
-I just published Etsy's June 2013 Site Performance Report: http://codeascraft.com/2013/07/11/june-2013-site-performance-report/ … #webperf #php
+I just published Etsy's June 2013 Site Performance Report: http://codeascraft.com/2013/07/11/june-2013-site-performance-report/  #webperf #php
 php.net beta is cleaner,faster, smoother and specially the Search is very handy ! #php
 WordPress 3.5.2 Maintenance and Security Release - http://is.gd/3fOaJU #php
 "Caching #Hypermedia APIs" => http://buff.ly/YuWXPS <= slow but good. #REST
-What exactly does #REST mean? What is it, and why is it getting big now? - http://stackoverflow.com/questions/243388/what-exactly-does-rest-mean-what-is-it-and-why-is-it-getting-big-now …
+What exactly does #REST mean? What is it, and why is it getting big now? - http://stackoverflow.com/questions/243388/what-exactly-does-rest-mean-what-is-it-and-why-is-it-getting-big-now 
 Want better #REST interfaces? Try thinking like a developer http://bit.ly/1dijC6e #API
 #Mobile impact on #SOA offers apps big gains http://bit.ly/17IAhPM #appdev #REST
 @Karianna & John Oliver cover how to read & interpret the scary log format in their session @JAXLondon: http://bit.ly/15H71sP #java #jvm
 The joy of #jvm bytecode generation: "java.lang.VerifyError: Operand stack overflow - Exceeded max stack size."
-See which #databases, application #servers, #JVM and #PHP versions are the most widely used in the #Cloud http://blog.jelastic.com/2013/07/04/software-stacks-distribution-june-2013/ … ^MS
-Oracle JRockit - one of the best books I've read on #java and #jvm so far http://www.amazon.com/gp/aw/d/1847198066/ref=mp_s_a_1_1?qid=1373714725&sr=8-1&pi=SL75 … /cc @hirt @lagergren
+See which #databases, application #servers, #JVM and #PHP versions are the most widely used in the #Cloud http://blog.jelastic.com/2013/07/04/software-stacks-distribution-june-2013/  ^MS
+Oracle JRockit - one of the best books I've read on #java and #jvm so far http://www.amazon.com/gp/aw/d/1847198066/ref=mp_s_a_1_1?qid=1373714725&sr=8-1&pi=SL75  /cc @hirt @lagergren
 Get the inside scoop on the advancements in hardware from Intel and #JVM that you can use to optimize Apache #Hadoop http://bit.ly/1723ggt
 Java Just-In-Time compilation: more than just a buzzword - #CoreJava #JIT #JVM http://goo.gl/c6YGN
 Printing Generated Assembly Code From The Hotspot #JIT Compiler - #CoreJava #JVM http://goo.gl/KMwqi
 #Hibernate Cnnection Pool configuration with #C3p0 Example - http://goo.gl/kdcQv
 Top 10 #Hibernate Interview Questions and Answers for #Java Programmers... http://fb.me/Vleri4FK
 How do I map a nested collection, Map<Key,List<Values>>, with #hibernate #JPA annotations? - http://stackoverflow.com/questions/939235/how-do-i-map-a-nested-collection-mapkey-listvalues-with-hibernate-jpa-anno
-Proper usage of #Spring mvc 3 with #hibernate (Spring ORM) - http://stackoverflow.com/questions/6709750/proper-usage-of-spring-mvc-3-with-hibernate-spring-orm …
-#Hibernate Search 4.3.0.Alpha1 now available http://in.relation.to/Bloggers/HibernateSearch43SimplifyClusteringAndJBossEAP61Integrations … #Lucene
+Proper usage of #Spring mvc 3 with #hibernate (Spring ORM) - http://stackoverflow.com/questions/6709750/proper-usage-of-spring-mvc-3-with-hibernate-spring-orm 
+#Hibernate Search 4.3.0.Alpha1 now available http://in.relation.to/Bloggers/HibernateSearch43SimplifyClusteringAndJBossEAP61Integrations  #Lucene
 The Blur Project: Marrying #Hadoop with #Lucene http://ow.ly/mON0c #search #textmining #bigdata
 Big fan of #Lucene, the #opensource #search makes it level playing field for smaller players.
 Apache #Solr and #Lucene 4.3.1 now available for download! http://bit.ly/14vzBvX
 SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in São Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx
 Lucene 4.3 & Solr 4.3 are out with loads of goodies! http://ow.ly/kKmXF http://ow.ly/kKmZl #lucene #solr
-RT @tteofili: Lucene 4.2 with a classification module http://search-lucene.com/m/8oR5U1DK1SY&subj=+ANNOUNCE+Apache+Lucene+4+2+released … < curious to see what users think #lucene << congrats!
+RT @tteofili: Lucene 4.2 with a classification module http://search-lucene.com/m/8oR5U1DK1SY&subj=+ANNOUNCE+Apache+Lucene+4+2+released  < curious to see what users think #lucene << congrats!
 #PHP #code Possible security risk?: Whenever I have a form that inputs to a php page. Ive noticed that it is p... http://tinyurl.com/lvbffzy
 #PHP CVE-2013-4113 Heap Memory Corruption #Vulnerability http://buff.ly/18kQOxe  #infosec #security
-How do you use bcrypt for hashing passwords in PHP? - http://stackoverflow.com/questions/4795385/how-do-you-use-bcrypt-for-hashing-passwords-in-php … #php #bcrypt #security
+How do you use bcrypt for hashing passwords in PHP? - http://stackoverflow.com/questions/4795385/how-do-you-use-bcrypt-for-hashing-passwords-in-php  #php #bcrypt #security
 Mysql database password and webform password http://security.stackexchange.com/q/38874?atw=1  #php
-#PHP 5.3 will only receive security fixes for the next year as it reaches end of life! http://php.net/archive/2013.php#id2013-07-11-1 …
+#PHP 5.3 will only receive security fixes for the next year as it reaches end of life! http://php.net/archive/2013.php#id2013-07-11-1 
 #php 5.5.0 is released today! 5.3.x will only have security fix support for about 1 year. So get it while it's hot! http://ow.ly/mexk8
-Content Negotiation using Views #spring #rest http://feedproxy.google.com/~r/SpringSourceTeamBlog/~3/RZ-zia25xKM/ …
-Updated #REST with #Spring Series: http://www.baeldung.com/rest-with-spring-series/ …
+Content Negotiation using Views #spring #rest http://feedproxy.google.com/~r/SpringSourceTeamBlog/~3/RZ-zia25xKM/ 
+Updated #REST with #Spring Series: http://www.baeldung.com/rest-with-spring-series/ 
 Webinar: Multi-Client Development with #Spring by @starbuxman http://j.mp/11Eiw0g  Lots of good stuff: #REST #MVC #HTML5 #OAUTH #Android
 #Spring #REST WS in Two minutes http://j.mp/ZHT3lt  #java
 Implementation of the sample from #REST in Practice based on #Spring projects http://j.mp/RB9Mlr
-#Spring #Jpa #Persistence http://www.zqna.net/qna/kxrxrq-unable-to-import-persistence-xml-within-applicationcontext-xml-file.html … Unable to Import persistence.xml within applicationContext.xml file
-The #persistence layer with #spring 3.1 and #hibernate http://www.javacodegeeks.com/2011/12/persistence-layer-with-spring-31-and.html …
-A bit of recent #SpringData development press by @jaxcentercom… http://jaxenter.com/spring-rest-data-close-to-1-0-0-arrival-with-second-release-candidate-43913.html … #nosql #spring #persistence #jpa #rest (via @j_brisbin)
+#Spring #Jpa #Persistence http://www.zqna.net/qna/kxrxrq-unable-to-import-persistence-xml-within-applicationcontext-xml-file.html  Unable to Import persistence.xml within applicationContext.xml file
+The #persistence layer with #spring 3.1 and #hibernate http://www.javacodegeeks.com/2011/12/persistence-layer-with-spring-31-and.html 
+A bit of recent #SpringData development press by @jaxcentercom http://jaxenter.com/spring-rest-data-close-to-1-0-0-arrival-with-second-release-candidate-43913.html  #nosql #spring #persistence #jpa #rest (via @j_brisbin)
 The #Persistence Layer with #Spring Data #JPA http://shr.tn/cXP6
 #Testing #article about #standalon-gorm - e.g the #persistence layer in #grails with (#hibernate and #spring) http://icio.us/r5vgka
 #Testing #Spring Data #MongoDB Applications with #NoSQLUnit : http://bit.ly/UMbowg
 I'm presenting "#Testing #Web Applications with #Spring 3.2" w/ @rstoya05 @ #springone2gx in 2 weeks. http://bit.ly/Pf9KnN  #java
 "Effective out-of-container Integration #Testing" slides by @sam_brannen from #4Developers: http://bit.ly/IlXdJ5  #spring #java
 Unit Testing #Spring with #Mockito & #PowerMock - http://j.mp/vbkuyv  #testing
+Puppet: An easy way to build servers on the Cloud http://is.gd/xQZsJe  #Puppet #Cloud by @sjvn
+Aaron Stone volunteered to care for #Puppet Dashboard - and has he ever: http://bit.ly/135Li8j 
+The #Puppet RAL: An Introduction - http://somethingsinistral.net/blog/puppet-ral-an-introduction/ .
+The world's biggest collection of free #puppet scripts and resources! http://www.puppetresources.com
+New Post: Making changes http://www.kartar.net/2013/07/making-changes  #puppet #venmo
+uploaded my ppt on #devops and #chef presented at BeingAgile2013 on slideshare http://www.slideshare.net/AnirudhBhatnagar/dev-ops-finalbeingagile2013-24232828 
+There are many tools helping you managing the cloud: #Puppet #Juju #Chef #Ravello #CloudVelocity #Tattle - Overview: http://www.infoworld.com/slideshow/106686/12-clever-cloud-tools-devs-and-ops-221000 
+Only 1 in 10 #Ops teams configure their infrastructure with code using #Puppet #Chef and others: http://0t.ee/YePMgD
+Development as Ops Training http://j.mp/HPAYdU  by @yieldbot via @tdavidson #chef #FTW
+Why we chose Chef over Puppet at CustomInk http://nathenharvey.blogspot.com/2011/11/why-we-chose-puppet-over-chef-at.html  ( #chef #puppet #ops #devops )
+Bunny 0.9.2 is released http://blog.rubyrabbitmq.info/blog/2013/07/22/bunny-0-dot-9-2-is-released/  #ruby #rabbitmq
+How to sum array members in #Ruby? - http://stackoverflow.com/questions/1538789/how-to-sum-array-members-in-ruby 
+Looking to get into #Ruby? @apeacox has written a great article for @12Devs ~ writing a web app with Ruby on Rails - http://12devs.co.uk/articles/writing-a-web-application-with-ruby-on-rails/ 
+Today's code quickie: A script to bootstrap rvm, #Ruby, bundler and any defined gems in a Ruby project directory. https://github.com/miguno/ruby-bootstrap 
+Spring AMQP 1.2.0 for Java Released nice job @gprussell! http://bit.ly/11QKieL  #rabbitmq #amqp #mom #remoting #json
+#RabbitMQ and publisher confirms, alternative for JMS tx. http://www.rabbitmq.com/blog/2011/02/10/introducing-publisher-confirms/ 
+Scaling #RabbitMQ at SoundCloud - Sebastian Ohm - YouTube http://j.mp/15JuwkP
+@momeur Your mom's spring AMQP 1.2.0 for Java Released nice job @gprussell! http://bit.ly/11QKieL  #rabbitmq #amqp #mom #remoting #json
+#RabbitMQ 3.1.2 has been released! See http://www.rabbitmq.com/release-notes/README-3.1.2.txt   for further details.
+#DDoS Attack Knocks Network Solutions (@netsolcares) Website, Clients Offline - http://t.co/78w9jXzlmL

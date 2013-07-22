@@ -26,6 +26,8 @@ import org.apache.mahout.vectorizer.encoders.AdaptiveWordValueEncoder;
 import org.apache.mahout.vectorizer.encoders.FeatureVectorEncoder;
 import org.apache.mahout.vectorizer.encoders.StaticWordValueEncoder;
 
+import com.google.api.client.util.Preconditions;
+
 public final class ClassificationUtil {
 
     public static final String COMMERCIAL = "commercial";
@@ -101,8 +103,8 @@ public final class ClassificationUtil {
     // classifier
 
     public static CrossFoldLearner commercialVsNonCommercialBestLearner(final int probes, final int features) throws IOException {
-        final List<NamedVector> learningData = ClassificationTrainingDataUtil.commercialVsNonCommercialLearningData(probes, features);
-        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData, features, probes);
+        final List<NamedVector> learningData = ClassificationDataUtil.commercialVsNonCommercialLearningData(probes, features);
+        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
         return bestLearner;
@@ -114,6 +116,7 @@ public final class ClassificationUtil {
 
     public static AdaptiveLogisticRegression trainClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
         final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, features, new L1());
+        Preconditions.checkState(learners > 25);
         metaLearner.setPoolSize(learners);
         for (final NamedVector vect : vectors) {
             metaLearner.train(COMMERCIAL.equals(vect.getName()) ? 1 : 0, vect);
@@ -124,6 +127,7 @@ public final class ClassificationUtil {
 
     static void trainClassifier(final SequenceFile.Reader reader, final int features, final int learners) throws IOException {
         final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, features, new L1());
+        Preconditions.checkState(learners > 25);
         metaLearner.setPoolSize(learners);
         final VectorWritable value = new VectorWritable();
         while (reader.next(new LongWritable(), value)) {
