@@ -41,9 +41,9 @@ public class ClassificationAccuracyServiceLiveTest {
         // final List<Integer> probeCounts = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         // final List<Integer> featuresCount = Lists.newArrayList(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000);
         final List<Integer> probeCounts = Lists.newArrayList(2, 3, 4, 5, 6);
-        final List<Integer> featuresCount = Lists.newArrayList(1000, 3000, 5000, 7000, 9000);
+        final List<Integer> featuresCount = Lists.newArrayList(3000, 5000, 7000);
 
-        final int runs = 750;
+        final int runs = 1000;
         for (final Integer features : featuresCount) {
             for (final Integer probes : probeCounts) {
                 final double mean = classificationAccuracyService.calculateClassifierAccuracy(runs, probes, features);
