@@ -90,13 +90,6 @@ public class TweetService {
             return false;
         }
 
-        // newly moved here and then moved further out
-        // if (isRetweetMention(potentialTweet.getText())) {
-        // // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
-        // final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-        // logger.error("Tweet that was already a retweet: " + tweetUrl);
-        // return false;
-        // }
         return true;
     }
 

@@ -142,7 +142,8 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         // newly moved here
         if (tweetService.isRetweetMention(tweetText)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-            logger.debug("Tweet is a retweet mention - url= " + tweetUrl);
+            // TODO: temporarily error
+            logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, tweetText);
 
             final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(tweetText));
             final TwitterProfile profileOfUser = twitterLiveService.getProfileOfUser(originalUserFromRt);
