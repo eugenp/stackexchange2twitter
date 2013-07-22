@@ -78,6 +78,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestSQL:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestXML:
+            return Lists.newArrayList(StackSite.StackOverflow);
 
         case DjangoDaily:
             return Lists.newArrayList(StackSite.StackOverflow);

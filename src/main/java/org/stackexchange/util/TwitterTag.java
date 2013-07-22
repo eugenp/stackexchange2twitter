@@ -87,6 +87,7 @@ public enum TwitterTag {// @formatter:off
     
     ubuntu,
 
-    wordpress
+    wordpress, 
     
+    xml
 }// @formatter:on

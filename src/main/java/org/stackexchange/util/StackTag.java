@@ -71,6 +71,7 @@ public enum StackTag {// @formatter:off
     
     ubuntu,
 
-    wordpress
+    wordpress, 
     
+    xml
 }// @formatter:on

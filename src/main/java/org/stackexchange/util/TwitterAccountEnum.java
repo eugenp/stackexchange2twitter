@@ -27,6 +27,7 @@ public enum TwitterAccountEnum {// @formatter:off
     BestRubyOnRails(true), 
     BestSQL(true), 
     BestScala(true), 
+    BestXML(true), 
     
     DjangoDaily(false), // 
     

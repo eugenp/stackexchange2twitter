@@ -49,4 +49,9 @@ public class TweetServiceIntegrationTest {
         assertFalse(instance.isTweetTextWorthTweetingByItself("#PHP EXCLUSIVE: Gareth Bale wants to join Manchester United http://www.dailystar.co.uk/sport/football/327439/EXCLUSIVE-Gareth-Bale-wants-to-join-Manchester-United \u2026 (Daily Star)"));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario7_thenRejected() {
+        assertFalse(instance.isTweetTextWorthTweetingByItself("RT if you want to use minion case like this #iPhone #iOS #DespicableMe2 pic.twitter.com/IviFckCgba"));
+    }
+
 }
