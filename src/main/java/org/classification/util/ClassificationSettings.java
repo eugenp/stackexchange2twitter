@@ -8,10 +8,16 @@ public final class ClassificationSettings {
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
     public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 100;
     public static final int FEATURES = 7000;
-    // 5000,3 - 0.886
-    // 7000,3 - 0.890
+    /*
+    - 5000:
+    -- 3 - 0.886
+    -- 4 - 0.879
+    - 7000: 
+    -- 3 - 0.890,
+    -- 4 - 
+    */
 
-    public static final String TWEET_TOKENIZER = " ,.!?\":()|-";
+    public static final String TWEET_TOKENIZER = " ,.!?\":()|-_";
 
     // @ is an important signal - do not add to the tokenizer
 
