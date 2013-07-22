@@ -20,7 +20,6 @@ import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
-import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
@@ -107,7 +106,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         }
 
         // is it worth it in the context of all the current list of tweets?
-        if (!isTweetWorthRetweetingInContext(potentialTweet, hashtag)) {
+        if (!tweetService.isTweetWorthRetweetingByFullTweet(potentialTweet, hashtag)) {
             return false;
         }
 
@@ -245,33 +244,6 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         if (LinkUtils.belongsToBannedDomain(singleMainUrl)) {
             logger.debug("potentialTweet= {} rejected because the it is pointing to a banned domain= {}", potentialTweet, singleMainUrl);
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Determines if a tweet is worth retweeting based on the following criteria: 
-     * - number of retweets over a certain threshold (the threshold is per hashtag)
-     * - number of favorites (not yet)
-     */
-    private final boolean isTweetWorthRetweetingInContext(final Tweet potentialTweet, final String twitterTag) {
-        final int requiredMinRts = minRtRetriever.minRt(twitterTag);
-        if (potentialTweet.getRetweetCount() < requiredMinRts) {
-            logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
-            return false;
-        }
-
-        if (!potentialTweet.getLanguageCode().equals("en")) {
-            logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", potentialTweet, twitterTag, potentialTweet.getLanguageCode());
-            // info temporary - should be debug
-            return false;
-        }
-
-        if (TwitterUtil.isUserBannedFromRetweeting(potentialTweet.getFromUser())) {
-            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", potentialTweet, twitterTag, potentialTweet.getFromUser());
-            // debug temporary - should be trace
             return false;
         }
 

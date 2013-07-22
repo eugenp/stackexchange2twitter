@@ -9,7 +9,9 @@ import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
+import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.util.TwitterUtil;
 
@@ -29,6 +31,9 @@ public class TweetService {
 
     @Autowired
     private LinkService linkService;
+
+    @Autowired
+    private MinRtRetriever minRtRetriever;
 
     public TweetService() {
         super();
@@ -52,6 +57,39 @@ public class TweetService {
         if (isRetweet(potentialTweetText)) {
             // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
             // logger.error("Tweet that was already a retweet: " + potentialTweetText);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Determines if a tweet is worth retweeting based on the following criteria: 
+     * - number of retweets over a certain threshold (the threshold is per hashtag)
+     * - number of favorites (not yet)
+     */
+    public final boolean isTweetWorthRetweetingByFullTweet(final Tweet potentialTweet, final String twitterTag) {
+        final int requiredMinRts = minRtRetriever.minRt(twitterTag);
+        if (potentialTweet.getRetweetCount() < requiredMinRts) {
+            logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
+            return false;
+        }
+
+        if (!potentialTweet.getLanguageCode().equals("en")) {
+            logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", potentialTweet, twitterTag, potentialTweet.getLanguageCode());
+            // info temporary - should be debug
+            return false;
+        }
+
+        if (TwitterUtil.isUserBannedFromRetweeting(potentialTweet.getFromUser())) {
+            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", potentialTweet, twitterTag, potentialTweet.getFromUser());
+            // debug temporary - should be trace
+            return false;
+        }
+        // new
+        if (isRetweet(potentialTweet.getText())) {
+            // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
+            final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+            logger.error("Tweet that was already a retweet: " + tweetUrl);
             return false;
         }
         return true;

@@ -373,6 +373,13 @@ public final class TwitterUtilUnitTest {
         assertThat(resultTweet, equalTo(expected));
     }
 
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario14_thenCorrectlyExtracted() {
+        final String expected = "Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @jboner: Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
     // accepted
 
     @Test
