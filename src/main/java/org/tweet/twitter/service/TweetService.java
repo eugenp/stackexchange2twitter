@@ -42,7 +42,7 @@ public class TweetService {
     // API
 
     /**
-     * Determines if a tweet is worth tweeting based on the following  <b>criteria</b>: <br/>
+     * Determines if a tweet is worth tweeting based on only its text; by the following <b>criteria</b>: <br/>
      * - has link <br/>
      * - contains any banned keywords <br/>
      * - is not already a retweet <br/>
@@ -54,11 +54,11 @@ public class TweetService {
         if (TwitterUtil.isTweetBanned(potentialTweetText)) {
             return false;
         }
-        if (isRetweet(potentialTweetText)) {
-            // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
-            // logger.error("Tweet that was already a retweet: " + potentialTweetText);
+        if (containsLinkToBannedServices(potentialTweetText)) {
             return false;
         }
+
+        // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
         return true;
     }
 
@@ -85,34 +85,12 @@ public class TweetService {
             // debug temporary - should be trace
             return false;
         }
+
         // new
         if (isRetweet(potentialTweet.getText())) {
             // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
             logger.error("Tweet that was already a retweet: " + tweetUrl);
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Determines if a tweet is worth tweeting based on the following  <b>criteria</b>: <br/>
-     * - contains any banned keywords <br/>
-     * - is not already a retweet <br/>
-    */
-    public final boolean isTweetTextWorthTweetingByItself(final String potentialTweetText) {
-        if (!containsLink(potentialTweetText)) {
-            return false;
-        }
-        if (containsLinkToBannedServices(potentialTweetText)) {
-            return false;
-        }
-        if (TwitterUtil.isTweetBanned(potentialTweetText)) {
-            return false;
-        }
-        if (isRetweet(potentialTweetText)) {
-            // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
-            // logger.error("Tweet that was already a retweet: " + potentialTweetText);
             return false;
         }
         return true;
@@ -174,6 +152,9 @@ public class TweetService {
         return text.contains("http://") || text.contains("https://");
     }
 
+    /**
+     * - current banned services: instagram, pic.twitter
+     */
     private final boolean containsLinkToBannedServices(final String tweetText) {
         final ArrayList<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
 

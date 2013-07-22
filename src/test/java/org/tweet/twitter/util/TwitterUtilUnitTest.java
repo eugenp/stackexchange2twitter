@@ -280,6 +280,13 @@ public final class TwitterUtilUnitTest {
         assertTrue(TwitterUtil.isTweetBanned("Photo: #Akka is on strike! Stores closed pic.twitter.com/16iZBYKZBF #AngerStrike #StopPrawerPlan #\u0628\u0631\u0627\u0641\u0631_\u0644\u0646_\u064A\u0645\u0631"));
     }
 
+    // accepted
+
+    @Test
+    public final void givenTweetDoesNotContainBannedKeywords_whenCheckingScenario1_thenAccepted() {
+        assertFalse(TwitterUtil.isTweetBanned("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery"));
+    }
+
     // rt
 
     @Test
@@ -378,13 +385,6 @@ public final class TwitterUtilUnitTest {
         final String expected = "Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u";
         final String resultTweet = TwitterUtil.extractTweetFromRt("RT @jboner: Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u");
         assertThat(resultTweet, equalTo(expected));
-    }
-
-    // accepted
-
-    @Test
-    public final void givenTweetDoesNotContainBannedKeywords_whenCheckingScenario1_thenAccepted() {
-        assertFalse(TwitterUtil.isTweetBanned("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery"));
     }
 
 }
