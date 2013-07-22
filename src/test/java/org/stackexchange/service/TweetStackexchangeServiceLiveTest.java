@@ -19,9 +19,9 @@ import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
 import org.stackexchange.util.GenericUtil;
-import org.stackexchange.util.TwitterAccountEnum;
 import org.stackexchange.util.StackTag;
 import org.stackexchange.util.StackTagAdvanced;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 
@@ -164,6 +164,12 @@ public class TweetStackexchangeServiceLiveTest {
     @Test
     public final void whenTweetingByTagHibernate_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.HibernateDaily), StackTag.hibernate.name(), TwitterAccountEnum.HibernateDaily.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagFacebook_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.FacebookDigest), StackTag.facebook.name(), TwitterAccountEnum.FacebookDigest.name());
         assertTrue(success);
     }
 
