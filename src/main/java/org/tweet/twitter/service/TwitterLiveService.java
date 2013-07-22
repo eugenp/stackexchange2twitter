@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.TwitterAccountEnum;
 
+import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
@@ -62,13 +63,20 @@ public class TwitterLiveService {
 
     // user profiles
 
+    /**
+     * - note: will NOT return null
+     */
     public TwitterProfile getProfileOfUser(final String userHandle) {
         final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(TwitterAccountEnum.BestOfJava.name());
-        return readOnlyTwitterTemplate.userOperations().getUserProfile(userHandle);
+        final TwitterProfile userProfile = readOnlyTwitterTemplate.userOperations().getUserProfile(userHandle);
+        return Preconditions.checkNotNull(userProfile);
     }
 
     // by internal accounts
 
+    /**
+     * - note: will NOT return null
+     */
     public List<String> listTweetsOfInternalAccount(final String twitterAccount) {
         try {
             return listTweetsOfInternalAccountInternal(twitterAccount);
@@ -78,10 +86,16 @@ public class TwitterLiveService {
         }
     }
 
+    /**
+     * - note: will NOT return null
+     */
     public List<String> listTweetsOfInternalAccountInternal(final String twitterAccount) {
         return listTweetsOfInternalAccount(twitterAccount, 20);
     }
 
+    /**
+     * - note: will NOT return null
+     */
     public List<String> listTweetsOfInternalAccount(final String twitterAccount, final int howmany) {
         try {
             return listTweetsOfInternalAccountInternal(twitterAccount, howmany);
@@ -91,6 +105,9 @@ public class TwitterLiveService {
         }
     }
 
+    /**
+     * - note: will NOT return null
+     */
     public List<String> listTweetsOfInternalAccountInternal(final String twitterAccount, final int howmany) {
         final List<Tweet> userTimeline = listTweetsOfInternalAccountRaw(twitterAccount, howmany);
         final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {

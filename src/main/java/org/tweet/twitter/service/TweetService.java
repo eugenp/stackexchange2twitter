@@ -63,12 +63,13 @@ public class TweetService {
     }
 
     /**
-     * Determines if a tweet is worth retweeting based on the following criteria: 
-     * - number of retweets over a certain threshold (the threshold is per hashtag)
-     * - favorites are not yet considered
-     * - is in English
-     * - the user is not banned for retweeting
-     * - (this is changing) is not already a retweet
+     * Determines if a tweet is worth retweeting based on the following criteria: <br/>
+     * - <b>number of retweets</b> over a certain threshold (the threshold is per hashtag) <br/>
+     * - is in <b>English</b> <br/>
+     * - the <b>user</b> is not banned for retweeting <br/>
+     * - (this is changing) is not already a retweet <br/>
+     * 
+     * - favorites are not yet considered <br/>
      */
     /*meta*/public final boolean isTweetWorthRetweetingByFullTweet(final Tweet potentialTweet, final String twitterTag) {
         final int requiredMinRts = minRtRetriever.minRt(twitterTag);
@@ -140,6 +141,9 @@ public class TweetService {
         return tweet;
     }
 
+    /**
+     * - example: <i>RT @someuser: Original Tweet Stuff</i>
+     */
     public final boolean isRetweetMention(final String potentialTweet) {
         final boolean startsWith = potentialTweet.startsWith("RT @");
         if (startsWith) {

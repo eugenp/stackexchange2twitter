@@ -24,6 +24,7 @@ import org.tweet.twitter.service.TagRetrieverService;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.api.client.util.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
@@ -141,18 +142,18 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         // newly moved here
         if (tweetService.isRetweetMention(tweetText)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-            logger.debug("Tweet that was already a retweet: " + tweetUrl);
+            logger.debug("Tweet is a retweet mention - url= " + tweetUrl);
 
-            final String originalUserFromRt = TwitterUtil.extractOriginalUserFromRt(tweetText);
+            final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(tweetText));
             final TwitterProfile profileOfUser = twitterLiveService.getProfileOfUser(originalUserFromRt);
             final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
             if (isUserWorthInteractingWith) {
                 twitterLiveService.tweet(twitterAccount, processedTweetText);
                 return true;
             } else {
+                logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, tweetText, originalUserFromRt);
                 return false;
             }
-            // TODO: all of this logic is very much in progress here
         }
 
         // tweet
