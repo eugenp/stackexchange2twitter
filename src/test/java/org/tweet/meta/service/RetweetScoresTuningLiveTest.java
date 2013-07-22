@@ -78,15 +78,16 @@ public class RetweetScoresTuningLiveTest {
         final int totalRelevantLinks = linkService.countLinksToAnyDomain(latestTweetsOnAccount, relevantDomains);
         final int totalLinksNotToSo = numberOfTweetsRetrieved - totalRelevantLinks;
 
-        logger.warn("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
-        System.out.println("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
         if (totalLinksNotToSo <= 2) {
+            logger.info("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
             logger.warn("Scores (minrt) are probably to HIGH for account= " + account);
             System.out.println("Scores (minrt) are probably to HIGH for account= " + account);
         } else if (totalLinksNotToSo >= 6) {
+            logger.info("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
             logger.warn("Scores (minrt) are probably to LOW for account= " + account);
             System.out.println("Scores (minrt) are probably to LOW for account= " + account);
         } else {
+            // logger.debug("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
             // logger.debug("Scores (minrt) look OK for account= " + account);
             System.out.println("Scores (minrt) look OK for account= " + account);
         }
