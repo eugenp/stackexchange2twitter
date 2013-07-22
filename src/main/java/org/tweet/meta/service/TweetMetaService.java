@@ -100,13 +100,15 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
-        // is it worth it by itself?
+        // is it worth it by text?
         if (!tweetService.isTweetWorthRetweetingByText(text)) {
+            logger.debug("Tweet not worth retweeting (by text only) on twitterAccount= {}, tweet text= {}", twitterAccount, text);
             return false;
         }
 
-        // is it worth it in the context of all the current list of tweets?
+        // is it worth it by full tweet?
         if (!tweetService.isTweetWorthRetweetingByFullTweet(potentialTweet, hashtag)) {
+            logger.debug("Tweet not worth retweeting (by full tweet) on twitterAccount= {}, tweet text= {}", twitterAccount, text);
             return false;
         }
 
@@ -133,6 +135,13 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         // post-process
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
+
+        // newly moved here
+        if (tweetService.isRetweetMention(potentialTweet.getText())) {
+            final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+            logger.debug("Tweet that was already a retweet: " + tweetUrl);
+            return false;
+        }
 
         // tweet
         if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {

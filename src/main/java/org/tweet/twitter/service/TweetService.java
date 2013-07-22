@@ -70,7 +70,7 @@ public class TweetService {
      * - the user is not banned for retweeting
      * - (this is changing) is not already a retweet
      */
-    public final boolean isTweetWorthRetweetingByFullTweet(final Tweet potentialTweet, final String twitterTag) {
+    /*meta*/public final boolean isTweetWorthRetweetingByFullTweet(final Tweet potentialTweet, final String twitterTag) {
         final int requiredMinRts = minRtRetriever.minRt(twitterTag);
         if (potentialTweet.getRetweetCount() < requiredMinRts) {
             logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
@@ -89,13 +89,13 @@ public class TweetService {
             return false;
         }
 
-        // new
-        if (isRetweet(potentialTweet.getText())) {
-            // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
-            final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-            logger.error("Tweet that was already a retweet: " + tweetUrl);
-            return false;
-        }
+        // newly moved here and then moved further out
+        // if (isRetweetMention(potentialTweet.getText())) {
+        // // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
+        // final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+        // logger.error("Tweet that was already a retweet: " + tweetUrl);
+        // return false;
+        // }
         return true;
     }
 
@@ -140,6 +140,24 @@ public class TweetService {
         return tweet;
     }
 
+    public final boolean isRetweetMention(final String potentialTweet) {
+        final boolean startsWith = potentialTweet.startsWith("RT @");
+        if (startsWith) {
+            return true;
+        }
+        final boolean contains = potentialTweet.contains("RT @");
+        if (contains) {
+            return true;
+        }
+
+        final boolean containsRtInfo = potentialTweet.matches(".*RT.{0,3}@.*");
+        if (containsRtInfo) {
+            return true;
+        }
+
+        return false;
+    }
+
     // util
 
     private final List<String> twitterTagsToHash(final String twitterAccount) {
@@ -151,7 +169,7 @@ public class TweetService {
     /**
      * Determines if the tweet text contains a link
      */
-    final boolean containsLink(final String text) {
+    private final boolean containsLink(final String text) {
         return text.contains("http://") || text.contains("https://");
     }
 
@@ -167,24 +185,6 @@ public class TweetService {
                 logger.trace("Tweet = {} contains link to banned service= {} - skipping", tweetText, bannedService);
                 return true;
             }
-        }
-
-        return false;
-    }
-
-    final boolean isRetweet(final String potentialTweet) {
-        final boolean startsWith = potentialTweet.startsWith("RT @");
-        if (startsWith) {
-            return true;
-        }
-        final boolean contains = potentialTweet.contains("RT @");
-        if (contains) {
-            return true;
-        }
-
-        final boolean containsRtInfo = potentialTweet.matches(".*RT.{0,3}@.*");
-        if (containsRtInfo) {
-            return true;
         }
 
         return false;
