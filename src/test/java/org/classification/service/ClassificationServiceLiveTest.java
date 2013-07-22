@@ -11,6 +11,7 @@ import org.apache.commons.io.IOUtils;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.gplus.spring.GplusContextConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class ClassificationServiceLiveTest {
      * - so the results are production-like, but not excellent
      */
     @Test
-    // @Ignore("long running - ignored by default")
+    @Ignore("long running - ignored by default")
     public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         final int runs = 1000;
         final double mean = classificationAccuracyService.calculateClassifierAccuracyDefault(runs);

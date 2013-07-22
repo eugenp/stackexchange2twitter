@@ -1,6 +1,8 @@
 package org.tweet.twitter.util;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.common.util.LinkUtils;
 import org.slf4j.Logger;
@@ -87,6 +89,17 @@ public final class TwitterUtil {
     public static String extractTweetFromRt(final String rt) {
         final String result = rt.replaceAll("\\ART @[a-zA-Z0-9_]+ ?[:-] ?", ""); // \A - anchor - matches before start of text block
         return result;
+    }
+
+    public static String extractOriginalUserFromRt(final String rt) {
+        final Pattern pattern = Pattern.compile("@[a-zA-Z0-9_]*");
+        final Matcher matcher = pattern.matcher(rt);
+        if (matcher.find()) {
+            final String user = matcher.group(0);
+            return user.substring(1);
+        }
+
+        return null;
     }
 
     // utils

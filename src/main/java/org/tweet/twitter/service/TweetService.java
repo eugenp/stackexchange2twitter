@@ -44,8 +44,8 @@ public class TweetService {
     /**
      * Determines if a tweet is worth tweeting based on only its text; by the following <b>criteria</b>: <br/>
      * - has link <br/>
-     * - contains any banned keywords <br/>
-     * - is not already a retweet <br/>
+     * - is not banned (mostly by keywords, expressions and regexes) <br/>
+     * - does not contain link to banned services<br/>
      */
     public final boolean isTweetWorthRetweetingByText(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {
@@ -65,7 +65,10 @@ public class TweetService {
     /**
      * Determines if a tweet is worth retweeting based on the following criteria: 
      * - number of retweets over a certain threshold (the threshold is per hashtag)
-     * - number of favorites (not yet)
+     * - favorites are not yet considered
+     * - is in English
+     * - the user is not banned for retweeting
+     * - (this is changing) is not already a retweet
      */
     public final boolean isTweetWorthRetweetingByFullTweet(final Tweet potentialTweet, final String twitterTag) {
         final int requiredMinRts = minRtRetriever.minRt(twitterTag);

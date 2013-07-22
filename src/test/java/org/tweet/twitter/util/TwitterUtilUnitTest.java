@@ -340,8 +340,8 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void whenExtractingTweetOutOfRtScenario8_thenCorrectlyExtracted() {
-        final String expected = "Awesome #jQuery #HTML5 uploader by @MicheleBertoli http://t.co/cYVoDN6g3q";
-        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @maliki_borneo: Awesome #jQuery #HTML5 uploader by @MicheleBertoli http://t.co/cYVoDN6g3q");
+        final String expected = "Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @jboner: Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u");
         assertThat(resultTweet, equalTo(expected));
     }
 
@@ -380,11 +380,97 @@ public final class TwitterUtilUnitTest {
         assertThat(resultTweet, equalTo(expected));
     }
 
+    // rt - original user
+
     @Test
-    public final void whenExtractingTweetOutOfRtScenario14_thenCorrectlyExtracted() {
-        final String expected = "Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u";
-        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @jboner: Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u");
-        assertThat(resultTweet, equalTo(expected));
+    public final void whenExtractingUserOutOfRtScenario1_thenCorrectlyExtracted() {
+        final String expected = "ashnazir";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @ashnazir: Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario2_thenCorrectlyExtracted() {
+        final String expected = "ashnazir";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @ashnazir - Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario3_thenCorrectlyExtracted() {
+        final String expected = "someone";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @someone - Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario4_thenCorrectlyExtracted() {
+        final String expected = "someone";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @someone- Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario5_thenCorrectlyExtracted() {
+        final String expected = "someone";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @someone -Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario6_thenCorrectlyExtracted() {
+        final String expected = "digitaltvnews";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @digitaltvnews: Humax unveils the world-first #HTML5 based smart set-top box http://t.co/6nuQJeHNSS #cabletv #digitaltv #korea");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario7_thenCorrectlyExtracted() {
+        final String expected = "jboner";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @jboner: Great initiative \"@GetEventStore: #akka native client in progress ;-) https://t.co/gL1PBDVXVa its not close to ready but give u");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario8_thenCorrectlyExtracted() {
+        final String expected = "maliki_borneo";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @maliki_borneo: Awesome #jQuery #HTML5 uploader by @MicheleBertoli http://t.co/cYVoDN6g3q");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario9_thenCorrectlyExtracted() {
+        final String expected = "RadicalFishGame";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @RadicalFishGame: New post: Weekly Update #25 - Getting closer to the milestone http://t.co/EWO3EqAzLo #crosscode #gamedev #html5 #javas");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario10_thenCorrectlyExtracted() {
+        final String expected = "bootply";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @bootply: 1000's of working snippets and examples for Bootstrap http://t.co/Y7z8Gvbysa #bootstrap #css #webdev #html5");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario11_thenCorrectlyExtracted() {
+        final String expected = "OpenWebDevice";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @OpenWebDevice: Top 10 #HTML5 games http://t.co/s9L3m1hh6D");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario12_thenCorrectlyExtracted() {
+        final String expected = "adverway";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @adverway: Discover some tips about the #Javascript Conference in Spain  http://t.co/4JJp6uAJZQ #spainjs #html5 #advergame");
+        assertThat(result, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingUserOutOfRtScenario13_thenCorrectlyExtracted() {
+        final String expected = "akkateam";
+        final String result = TwitterUtil.extractOriginalUserFromRt("RT @akkateam: #Akka 2.2 Spotlight: Publish/Subscribe in Cluster… http://t.co/ps3ZUrJnaq");
+        assertThat(result, equalTo(expected));
     }
 
 }
