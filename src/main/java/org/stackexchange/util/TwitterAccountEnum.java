@@ -16,10 +16,11 @@ public enum TwitterAccountEnum {// @formatter:off
     BestJSON(true), 
     BestMaven(false), // 
     BestNoSQL(true), 
-    BestOfJava(true), 
     BestPHP(true), 
     BestOfCloud(true), 
     BestOfCocoa(true), 
+    BestOfCss(true), 
+    BestOfJava(true), 
     BestOfLinux(true), 
     BestOfRuby(false), // 
     BestOfSecurity(true), 
@@ -43,6 +44,7 @@ public enum TwitterAccountEnum {// @formatter:off
     jQueryDaily(true), 
     
     LispDaily(true), 
+    LandOfSeo(true), // not yet sure
     LandOfWordpress(true), 
     
     MathDaily(true), 

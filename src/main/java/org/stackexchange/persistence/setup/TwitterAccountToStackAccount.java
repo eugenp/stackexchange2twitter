@@ -57,6 +57,8 @@ public final class TwitterAccountToStackAccount {
 
         case BestOfCocoa:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfCss:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfRuby:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfSecurity:
@@ -92,6 +94,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case LandOfWordpress:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case LandOfSeo:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case iOSdigest:

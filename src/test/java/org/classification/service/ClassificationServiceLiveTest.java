@@ -11,6 +11,7 @@ import org.apache.commons.io.IOUtils;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.gplus.spring.GplusContextConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +47,14 @@ public class ClassificationServiceLiveTest {
         assertTrue(isCommercial);
     }
 
-    // 5000 features: 0.923
-    // 10000 features: 0.9xx
+    // 5000 features:
+    // 10000 features:
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
      * - so the results are production-like, but not excellent
      */
     @Test
-    // @Ignore("long running - ignored by default")
+    @Ignore("long running - ignored by default")
     public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         final int runs = 1000;
         final double mean = classificationAccuracyService.calculateClassifierAccuracyDefault(runs);

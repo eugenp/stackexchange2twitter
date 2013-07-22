@@ -71,17 +71,20 @@ public enum TwitterTag {// @formatter:off
     riak, 
     rubyonrails, 
     redis, 
-    spring, 
-    security, 
-    scala, 
-    sql, 
+    
     s3, 
+    scala, 
+    security, 
+    seo, 
+    sql, 
     sqlinjection, 
+    spring, 
     springsecurity,
     springdata,
     springsocial,
     springframework,
     SpringBatch,
+    
     ubuntu,
 
     wordpress

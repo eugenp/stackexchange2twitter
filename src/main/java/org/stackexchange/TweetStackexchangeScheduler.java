@@ -120,7 +120,7 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion5() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 5");
 
-        // 7
+        // 8
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.AspnetDaily), TwitterAccountEnum.AspnetDaily.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.RegexDaily), TwitterAccountEnum.RegexDaily.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestOfRuby), TwitterAccountEnum.BestOfRuby.name());
@@ -128,6 +128,7 @@ public class TweetStackexchangeScheduler {
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestMaven), TwitterAccountEnum.BestMaven.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.InTheAppleWorld), TwitterAccountEnum.InTheAppleWorld.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.MysqlDaily), TwitterAccountEnum.MysqlDaily.name());
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.LandOfSeo), TwitterAccountEnum.LandOfSeo.name());
 
         logger.info("Finished tweet schedule - 5");
     }

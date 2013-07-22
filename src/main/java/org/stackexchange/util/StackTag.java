@@ -60,12 +60,15 @@ public enum StackTag {// @formatter:off
     ruby, 
     riak, 
     redis, 
-    spring, 
-    security, 
+    
     scala, 
+    seo, 
+    security, 
     sql, 
+    spring, 
     springdata,
     springsocial,
+    
     ubuntu,
 
     wordpress

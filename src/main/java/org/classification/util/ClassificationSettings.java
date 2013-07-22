@@ -7,9 +7,9 @@ public final class ClassificationSettings {
      */
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
     public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 100;
-    public static final int FEATURES = 5000;
-    // 7000,3 - 0.862 (45 sec)
-    // 5000,3 -
+    public static final int FEATURES = 7000;
+    // 5000,3 - 0.886
+    // 7000,3 - 0.890
 
     public static final String TWEET_TOKENIZER = " ,.!?\":()|-";
 
