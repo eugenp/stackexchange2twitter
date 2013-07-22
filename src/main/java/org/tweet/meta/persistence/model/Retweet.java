@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.common.persistence.IEntity;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 
 @Entity
 @Table(name = "retweet", uniqueConstraints = @UniqueConstraint(columnNames = { "tweetId", "twitterAccount" }))
@@ -30,7 +30,7 @@ public class Retweet implements IEntity {
         super();
     }
 
-    public Retweet(final long tweetId, final SimpleTwitterAccount twitterAccount) {
+    public Retweet(final long tweetId, final TwitterAccountEnum twitterAccount) {
         super();
 
         this.tweetId = tweetId;

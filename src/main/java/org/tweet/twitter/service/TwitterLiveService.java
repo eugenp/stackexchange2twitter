@@ -12,7 +12,7 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.impl.SearchParameters;
 import org.springframework.social.twitter.api.impl.SearchParameters.ResultType;
 import org.springframework.stereotype.Service;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -120,7 +120,7 @@ public class TwitterLiveService {
     }
 
     public List<Tweet> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
-        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(SimpleTwitterAccount.BestOfJava.name());
+        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(TwitterAccountEnum.BestOfJava.name());
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
         return userTimeline;
     }

@@ -3,7 +3,7 @@ package org.stackexchange.persistence.setup;
 import java.util.List;
 
 import org.stackexchange.api.constants.StackSite;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -16,14 +16,14 @@ public final class TwitterAccountToStackAccount {
 
     // API
 
-    public static StackSite twitterAccountToStackSite(final SimpleTwitterAccount twitterAccount) {
+    public static StackSite twitterAccountToStackSite(final TwitterAccountEnum twitterAccount) {
         final List<StackSite> allStackSites = twitterAccountToStackSites(twitterAccount);
         Preconditions.checkState(allStackSites.size() == 1);
 
         return allStackSites.get(0);
     }
 
-    public static List<StackSite> twitterAccountToStackSites(final SimpleTwitterAccount twitterAccount) {
+    public static List<StackSite> twitterAccountToStackSites(final TwitterAccountEnum twitterAccount) {
         switch (twitterAccount) {
         case AskUbuntuBest:
             return Lists.newArrayList(StackSite.AskUbuntu);

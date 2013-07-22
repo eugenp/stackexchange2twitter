@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.util.SpringProfileUtil;
 
 import com.google.common.base.Preconditions;
@@ -71,12 +71,12 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
     // util
 
     final void repersistAllQuestionsOnAllTwitterAccounts() {
-        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+        for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             recreateAllQuestionsOnTwitterAccount(twitterAccount);
         }
     }
 
-    private void recreateAllQuestionsOnTwitterAccount(final SimpleTwitterAccount twitterAccount) {
+    private void recreateAllQuestionsOnTwitterAccount(final TwitterAccountEnum twitterAccount) {
         logger.info("Before Setup for twitterAccount= {}", twitterAccount);
 
         final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty(twitterAccount.name()), "No Questions in setup.properties: for twitterAccount" + twitterAccount);
@@ -84,7 +84,7 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
         recreateQuestions(questionIds, twitterAccount);
     }
 
-    final void recreateQuestions(final String[] questionIds, final SimpleTwitterAccount twitterAccount) {
+    final void recreateQuestions(final String[] questionIds, final TwitterAccountEnum twitterAccount) {
         final List<StackSite> stackSitesForTwitterAccount = TwitterAccountToStackAccount.twitterAccountToStackSites(twitterAccount);
         final StackSite site;
         if (stackSitesForTwitterAccount.size() == 1) {

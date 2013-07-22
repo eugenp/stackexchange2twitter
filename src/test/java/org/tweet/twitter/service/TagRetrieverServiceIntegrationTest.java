@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,7 +22,7 @@ public class TagRetrieverServiceIntegrationTest {
 
     @Test
     public final void whenAllTwitterTagsAreRetrieved_thenTwitterTagsExistForAllAccounts() {
-        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+        for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             assertNotNull(tagRetrieverService.twitterTagsRaw(twitterAccount.name()));
         }
     }

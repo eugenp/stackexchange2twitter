@@ -16,7 +16,7 @@ import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
 import org.stackexchange.persistence.setup.StackexchangeSetup;
 import org.stackexchange.persistence.setup.TwitterAccountToStackAccount;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TestStackexchangePersistenceJPAConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,16 +44,16 @@ public class StackexchangeSetupPersistenceIntegrationTest {
 
     @Test
     public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
-        stackexchangeSetup.recreateQuestions(new String[] { randomNumeric(3), randomNumeric(3) }, SimpleTwitterAccount.ServerFaultBest);
+        stackexchangeSetup.recreateQuestions(new String[] { randomNumeric(3), randomNumeric(3) }, TwitterAccountEnum.ServerFaultBest);
     }
 
     @Test
     public final void whenRecreatingTheTweetedQuestions_thenQuestionsAreCreated() {
         final String idOfQuestion = randomNumeric(3);
-        stackexchangeSetup.recreateQuestions(new String[] { idOfQuestion, randomNumeric(3) }, SimpleTwitterAccount.ServerFaultBest);
+        stackexchangeSetup.recreateQuestions(new String[] { idOfQuestion, randomNumeric(3) }, TwitterAccountEnum.ServerFaultBest);
         final IQuestionTweetJpaDAO questionTweetJpaDAO = beanFactory.getBean(IQuestionTweetJpaDAO.class);
 
-        final QuestionTweet questionTweet = new QuestionTweet(idOfQuestion, SimpleTwitterAccount.ServerFaultBest.name(), TwitterAccountToStackAccount.twitterAccountToStackSite(SimpleTwitterAccount.ServerFaultBest).name());
+        final QuestionTweet questionTweet = new QuestionTweet(idOfQuestion, TwitterAccountEnum.ServerFaultBest.name(), TwitterAccountToStackAccount.twitterAccountToStackSite(TwitterAccountEnum.ServerFaultBest).name());
         assertThat(questionTweetJpaDAO.findAll(), hasItem(questionTweet));
     }
 

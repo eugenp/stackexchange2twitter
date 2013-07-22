@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,7 +31,7 @@ public class RssScheduler {
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled retweet operations - 1");
 
-        service.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", SimpleTwitterAccount.BestOfJava.name());
+        service.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.BestOfJava.name());
 
         logger.info("Finished executing scheduled retweet operations - 1");
     }

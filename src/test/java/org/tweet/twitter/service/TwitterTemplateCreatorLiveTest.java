@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.stackexchange.util.SimpleTwitterAccount;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 
@@ -28,7 +28,7 @@ public class TwitterTemplateCreatorLiveTest {
 
     @Test
     public final void givenValidAccount_whenRetrievingTwitterClient_thenNoException() {
-        for (final SimpleTwitterAccount twitterAccount : SimpleTwitterAccount.values()) {
+        for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             twitterTemplateCreator.getTwitterTemplate(twitterAccount.name());
         }
     }
