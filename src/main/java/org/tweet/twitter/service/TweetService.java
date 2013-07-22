@@ -116,7 +116,7 @@ public class TweetService {
     }
 
     public final boolean isTweetTextValid(final String tweetTextNoUrl) {
-        return TwitterUtil.isTweetTextValid(tweetTextNoUrl);
+        return TwitterUtil.isTweetTextWithoutLinkValid(tweetTextNoUrl);
     }
 
     public final String constructTweetSimple(final String tweetTextNoUrl, final String url) {

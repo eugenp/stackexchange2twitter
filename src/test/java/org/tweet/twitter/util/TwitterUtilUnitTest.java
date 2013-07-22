@@ -22,29 +22,29 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenValidTweetText_whenCheckingForValidity_thenIsValid() {
-        assertTrue(TwitterUtil.isTweetTextValid(randomAlphabetic(12)));
+        assertTrue(TwitterUtil.isTweetTextWithoutLinkValid(randomAlphabetic(12)));
     }
 
     @Test
     public final void givenInvalidTweetText_whenCheckingForValidity_thenIsNotValid() {
-        assertFalse(TwitterUtil.isTweetTextValid(randomAlphabetic(141)));
+        assertFalse(TwitterUtil.isTweetTextWithoutLinkValid(randomAlphabetic(141)));
     }
 
     @Test
     public final void givenTweetTextWithMoreThanOneLink_whenCheckingForValidity_thenIsNotValid() {
-        assertFalse(TwitterUtil.isTweetTextValid("Unit Testing JavaScript/JQuery in an http://t.co/410T1muptv MVC Project using QUnit: http://t.co/iuLIhnpGA1 #javascript #jquery"));
+        assertFalse(TwitterUtil.isTweetTextWithoutLinkValid("Unit Testing JavaScript/JQuery in an http://t.co/410T1muptv MVC Project using QUnit: http://t.co/iuLIhnpGA1 #javascript #jquery"));
     }
 
     // isTweetValid
 
     @Test
     public final void givenValidTweet_whenCheckingForValidity_thenIsValid() {
-        assertTrue(TwitterUtil.isTweetValid(randomAlphabetic(12)));
+        assertTrue(TwitterUtil.isTweetTextWithLinkValid(randomAlphabetic(12)));
     }
 
     @Test
     public final void givenInvalidTweet_whenCheckingForValidity_thenIsNotValid() {
-        assertFalse(TwitterUtil.isTweetValid(randomAlphabetic(141)));
+        assertFalse(TwitterUtil.isTweetTextWithLinkValid(randomAlphabetic(141)));
     }
 
     // prepareTweet
