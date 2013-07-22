@@ -198,8 +198,6 @@ public final class TwitterUtilUnitTest {
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
-    //
-
     // tweetContainsBannedKeywords
 
     @Test
@@ -280,6 +278,99 @@ public final class TwitterUtilUnitTest {
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario16_thenRejected() {
         assertTrue(TwitterUtil.isTweetBanned("Photo: #Akka is on strike! Stores closed pic.twitter.com/16iZBYKZBF #AngerStrike #StopPrawerPlan #\u0628\u0631\u0627\u0641\u0631_\u0644\u0646_\u064A\u0645\u0631"));
+    }
+
+    // rt
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario1_thenCorrectlyExtracted() {
+        final String expected = "Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @ashnazir: Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario2_thenCorrectlyExtracted() {
+        final String expected = "Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @ashnazir - Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario3_thenCorrectlyExtracted() {
+        final String expected = "Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @someone - Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario4_thenCorrectlyExtracted() {
+        final String expected = "Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @someone- Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario5_thenCorrectlyExtracted() {
+        final String expected = "Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @someone -Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux #Developer #WebApp #WebDev");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario6_thenCorrectlyExtracted() {
+        final String expected = "Humax unveils the world-first #HTML5 based smart set-top box http://t.co/6nuQJeHNSS #cabletv #digitaltv #korea";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @digitaltvnews: Humax unveils the world-first #HTML5 based smart set-top box http://t.co/6nuQJeHNSS #cabletv #digitaltv #korea");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario7_thenCorrectlyExtracted() {
+        final String expected = "Awesome #jQuery #HTML5 uploader by @MicheleBertoli http://t.co/cYVoDN6g3q";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @maliki_borneo: Awesome #jQuery #HTML5 uploader by @MicheleBertoli http://t.co/cYVoDN6g3q");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario8_thenCorrectlyExtracted() {
+        final String expected = "Awesome #jQuery #HTML5 uploader by @MicheleBertoli http://t.co/cYVoDN6g3q";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @maliki_borneo: Awesome #jQuery #HTML5 uploader by @MicheleBertoli http://t.co/cYVoDN6g3q");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario9_thenCorrectlyExtracted() {
+        final String expected = "New post: Weekly Update #25 - Getting closer to the milestone http://t.co/EWO3EqAzLo #crosscode #gamedev #html5 #javas";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @RadicalFishGame: New post: Weekly Update #25 - Getting closer to the milestone http://t.co/EWO3EqAzLo #crosscode #gamedev #html5 #javas");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario10_thenCorrectlyExtracted() {
+        final String expected = "1000's of working snippets and examples for Bootstrap http://t.co/Y7z8Gvbysa #bootstrap #css #webdev #html5";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @bootply: 1000's of working snippets and examples for Bootstrap http://t.co/Y7z8Gvbysa #bootstrap #css #webdev #html5");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario11_thenCorrectlyExtracted() {
+        final String expected = "Top 10 #HTML5 games http://t.co/s9L3m1hh6D";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @OpenWebDevice: Top 10 #HTML5 games http://t.co/s9L3m1hh6D");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario12_thenCorrectlyExtracted() {
+        final String expected = "Discover some tips about the #Javascript Conference in Spain  http://t.co/4JJp6uAJZQ #spainjs #html5 #advergame";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @adverway: Discover some tips about the #Javascript Conference in Spain  http://t.co/4JJp6uAJZQ #spainjs #html5 #advergame");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario13_thenCorrectlyExtracted() {
+        final String expected = "#Akka 2.2 Spotlight: Publish/Subscribe in Cluster… http://t.co/ps3ZUrJnaq";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("RT @akkateam: #Akka 2.2 Spotlight: Publish/Subscribe in Cluster… http://t.co/ps3ZUrJnaq");
+        assertThat(resultTweet, equalTo(expected));
     }
 
     // accepted

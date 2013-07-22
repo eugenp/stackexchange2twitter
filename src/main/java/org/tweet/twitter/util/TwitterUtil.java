@@ -82,6 +82,13 @@ public final class TwitterUtil {
         return processedTweet;
     }
 
+    // retweet logic
+
+    public static String extractTweetFromRt(final String rt) {
+        final String result = rt.replaceAll("\\ART @[a-zA-Z0-9_]+ ?[:-] ?", ""); // \A - anchor - matches before start of text block
+        return result;
+    }
+
     // utils
 
     static int countWordsToHash(final Iterable<String> tokens, final List<String> lowerCaseWordsToHash) {

@@ -51,7 +51,7 @@ public class TweetService {
         }
         if (isRetweet(potentialTweetText)) {
             // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
-            logger.error("Tweet that was already a retweet: " + potentialTweetText);
+            // logger.error("Tweet that was already a retweet: " + potentialTweetText);
             return false;
         }
         return true;
@@ -74,7 +74,7 @@ public class TweetService {
         }
         if (isRetweet(potentialTweetText)) {
             // TODO: error temporarily to get results back about this category and improve it: https://github.com/eugenp/stackexchange2twitter/issues/33
-            logger.error("Tweet that was already a retweet: " + potentialTweetText);
+            // logger.error("Tweet that was already a retweet: " + potentialTweetText);
             return false;
         }
         return true;
