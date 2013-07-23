@@ -42,7 +42,7 @@ public final class AddTextToRetweetsUpgrader implements ApplicationListener<Afte
 
     @Override
     public final void onApplicationEvent(final AfterSetupEvent event) {
-        if (env.getProperty("setup.do", Boolean.class)) {
+        if (env.getProperty("setup.upgrade.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweets Upgrader");
             addTextToRetweets();
             logger.info("Finished executing the AddTextToRetweets Upgrader");
@@ -59,8 +59,11 @@ public final class AddTextToRetweetsUpgrader implements ApplicationListener<Afte
                 try {
                     final List<Retweet> allRetweetsForAccounts = retweetDao.findAllByTwitterAccount(twitterAccount.name());
                     addTextToRetweets(allRetweetsForAccounts);
+                    Thread.sleep(1000 * 60 * 2);
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), ex);
+                } catch (final InterruptedException threadEx) {
+                    logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), threadEx);
                 }
             }
         }
@@ -84,6 +87,8 @@ public final class AddTextToRetweetsUpgrader implements ApplicationListener<Afte
         final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
         retweet.setText(status.getText());
         retweetDao.save(retweet);
+
+        logger.info("Upgraded retweet with text= {}", retweet.getText());
     }
 
 }
