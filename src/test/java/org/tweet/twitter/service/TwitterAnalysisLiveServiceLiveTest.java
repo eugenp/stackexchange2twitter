@@ -1,6 +1,7 @@
 package org.tweet.twitter.service;
 
 import org.common.spring.CommonContextConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.tweet.spring.TwitterLiveConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class })
+@Ignore("only dev - to many requests against the twitter APIs")
 public class TwitterAnalysisLiveServiceLiveTest {
 
     @Autowired
