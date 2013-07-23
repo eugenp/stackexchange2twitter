@@ -13,13 +13,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.HttpFactory;
+import org.tweet.spring.util.SpringProfileUtil;
 
 import com.google.api.client.util.Preconditions;
 import com.google.common.net.HttpHeaders;
 
 @Service
+@Profile(SpringProfileUtil.LIVE)
 public class HttpLiveService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

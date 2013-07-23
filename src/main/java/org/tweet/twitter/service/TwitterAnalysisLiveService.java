@@ -6,14 +6,17 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.TimelineOperations;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
+import org.tweet.spring.util.SpringProfileUtil;
 
 import com.google.common.collect.Maps;
 
 @Service
+@Profile(SpringProfileUtil.LIVE)
 @SuppressWarnings("unused")
 public class TwitterAnalysisLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());

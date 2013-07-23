@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
@@ -14,12 +15,14 @@ import org.springframework.social.twitter.api.impl.SearchParameters.ResultType;
 import org.springframework.stereotype.Service;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.TwitterAccountEnum;
+import org.tweet.spring.util.SpringProfileUtil;
 
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 @Service
+@Profile(SpringProfileUtil.LIVE)
 public class TwitterReadLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
