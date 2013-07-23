@@ -7,6 +7,7 @@ public final class SpringProfileUtil {
     public static final String LIVE = "live";
     public static final String DEV = "dev";
     public static final String PRODUCTION = "production";
+    public static final String WRITE = "write";
 
     // common
     public static final String TEST = "test";

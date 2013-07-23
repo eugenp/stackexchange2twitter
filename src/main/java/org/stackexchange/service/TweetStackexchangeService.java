@@ -7,6 +7,7 @@ import org.common.service.BaseTweetFromSourceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.StackSite;
@@ -14,6 +15,7 @@ import org.stackexchange.component.MinStackScoreRetriever;
 import org.stackexchange.component.StackExchangePageStrategy;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
+import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
 
@@ -25,6 +27,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 @Service
+@Profile(SpringProfileUtil.WRITE)
 public final class TweetStackexchangeService extends BaseTweetFromSourceService<QuestionTweet> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
