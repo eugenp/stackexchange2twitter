@@ -254,13 +254,13 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
         final String fullTweet = tweetService.constructTweetSimple(processedTweetText, url);
 
         // tweet
-        twitterLiveService.tweet(twitterAccount, fullTweet);
+        final boolean success = twitterLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
         markDone(new QuestionTweet(questionId, twitterAccount, site.name()));
 
         // done
-        return true;
+        return success;
     }
 
     @Override

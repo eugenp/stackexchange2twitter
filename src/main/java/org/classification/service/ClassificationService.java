@@ -25,6 +25,8 @@ public class ClassificationService implements InitializingBean {
 
     private CrossFoldLearner commercialVsNonCommercialLerner;
 
+    private CrossFoldLearner programmingVsNonProgrammingLerner;
+
     public ClassificationService() {
         super();
     }
@@ -63,11 +65,22 @@ public class ClassificationService implements InitializingBean {
         return cat == 1;
     }
 
+    boolean isProgrammingInternal(final String text, final int probes, final int features) {
+        final Vector encodedAsVector = encode(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text), probes, features);
+
+        final Vector collector = new DenseVector(2);
+        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
+        final int cat = collector.maxValueIndex();
+
+        return cat == 1;
+    }
+
     // Spring
 
     @Override
     public final void afterPropertiesSet() throws IOException {
         commercialVsNonCommercialLerner = ClassificationUtil.commercialVsNonCommercialBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        programmingVsNonProgrammingLerner = ClassificationUtil.commercialVsNonCommercialBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     public final void setCommercialVsNonCommercialLerner(final CrossFoldLearner commercialVsNonCommercialLerner) {

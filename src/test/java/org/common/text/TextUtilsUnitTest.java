@@ -96,6 +96,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario12_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "What are Unity's keyboard and mouse shortcuts?";
+        final String preProcessedTweet = TextUtils.preProcessTweetText("What are Unity&#39;s keyboard and mouse shortcuts?");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     //
 
 }

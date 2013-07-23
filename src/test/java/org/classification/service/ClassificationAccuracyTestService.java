@@ -30,16 +30,16 @@ public class ClassificationAccuracyTestService {
 
     // API
 
-    public final double calculateClassifierAccuracyDefault(final int runs) throws IOException {
-        return calculateClassifierAccuracy(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    public final double calculateCommercialClassifierAccuracyDefault(final int runs) throws IOException {
+        return calculateCommercialClassifierAccuracy(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    public final double calculateClassifierAccuracy(final int runs, final int probes, final int features) throws IOException {
+    public final double calculateCommercialClassifierAccuracy(final int runs, final int probes, final int features) throws IOException {
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {
             final List<ImmutablePair<String, String>> testData = ClassificationData.commercialAndNonCommercialTweets();
-            final double percentageCorrect = analyzeData(testData, probes, features);
+            final double percentageCorrect = analyzeCommercialData(testData, probes, features);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
                 System.out.println("Processing 100 ... - " + ((i / 100) + 1));
@@ -58,7 +58,28 @@ public class ClassificationAccuracyTestService {
 
     // util
 
-    private final double analyzeData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
+    private final double analyzeCommercialData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
+        final CrossFoldLearner bestLearner = ClassificationUtil.commercialVsNonCommercialBestLearner(probes, features);
+        classificationService.setCommercialVsNonCommercialLerner(bestLearner);
+
+        int correct = 0;
+        int total = 0;
+        for (final Pair<String, String> tweetData : testData) {
+            total++;
+            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
+            final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight(), probes, features);
+            if (isTweetCommercial == expected) {
+                correct++;
+            }
+        }
+
+        final double cd = correct;
+        final double td = total;
+        final double percentageCorrect = cd / td;
+        return percentageCorrect;
+    }
+
+    private final double analyzeProgrammingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
         final CrossFoldLearner bestLearner = ClassificationUtil.commercialVsNonCommercialBestLearner(probes, features);
         classificationService.setCommercialVsNonCommercialLerner(bestLearner);
 

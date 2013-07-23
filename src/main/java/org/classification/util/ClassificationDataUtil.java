@@ -5,6 +5,8 @@ import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_
 import static org.classification.util.ClassificationSettings.TWEET_TOKENIZER;
 import static org.classification.util.ClassificationUtil.COMMERCIAL;
 import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
+import static org.classification.util.ClassificationUtil.NONPROGRAMMING;
+import static org.classification.util.ClassificationUtil.PROGRAMMING;
 import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
 
 import java.io.BufferedReader;
@@ -31,6 +33,16 @@ public final class ClassificationDataUtil {
 
     // training
 
+    public static final List<NamedVector> programmingVsNonProgrammingLearningDataDefault() throws IOException {
+        return programmingVsNonProgrammingLearningData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    }
+
+    public static final List<NamedVector> programmingVsNonProgrammingLearningData(final int probes, final int features) throws IOException {
+        final List<NamedVector> nonProgrammingVectors = nonProgrammingTrainingData(probes, features);
+        final List<NamedVector> programmingNamedVectors = programmingTrainingData(probes, features);
+        return oneVsAnotherLearningData(probes, features, nonProgrammingVectors, programmingNamedVectors);
+    }
+
     public static final List<NamedVector> commercialVsNonCommercialLearningDataDefault() throws IOException {
         return commercialVsNonCommercialLearningData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
@@ -38,12 +50,23 @@ public final class ClassificationDataUtil {
     public static final List<NamedVector> commercialVsNonCommercialLearningData(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialTrainingData(probes, features);
+        return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
+    }
 
+    static final List<NamedVector> oneVsAnotherLearningData(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
-        allNamedVectors.addAll(commercialNamedVectors);
-        allNamedVectors.addAll(nonCommercialvectors);
+        allNamedVectors.addAll(vectorsFirstSet);
+        allNamedVectors.addAll(vectorsSecondSet);
         Collections.shuffle(allNamedVectors);
         return allNamedVectors;
+    }
+
+    static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
+        return trainingData("/classification/programming.classif", PROGRAMMING, probes, features);
+    }
+
+    static final List<NamedVector> nonProgrammingTrainingData(final int probes, final int features) throws IOException {
+        return trainingData("/classification/nonprogramming.classif", NONPROGRAMMING, probes, features);
     }
 
     static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
@@ -67,6 +90,14 @@ public final class ClassificationDataUtil {
     }
 
     // test data
+
+    public static final List<ImmutablePair<String, String>> programmingTestData() throws IOException {
+        return testData("/classification/test/programming.classif", PROGRAMMING);
+    }
+
+    public static final List<ImmutablePair<String, String>> nonprogrammingTestData() throws IOException {
+        return testData("/classification/test/nonprogramming.classif", NONPROGRAMMING);
+    }
 
     public static final List<ImmutablePair<String, String>> commercialTestData() throws IOException {
         return testData("/classification/test/commercial.classif", COMMERCIAL);

@@ -30,8 +30,6 @@ public class ClassificationAccuracyServiceLiveTest {
 
     // tests
 
-    // 5000 features:
-    // 10000 features:
     /**
      * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
      * - so the results are production-like, but not excellent
@@ -47,7 +45,7 @@ public class ClassificationAccuracyServiceLiveTest {
         final int runs = 1000;
         for (final Integer features : featuresCount) {
             for (final Integer probes : probeCounts) {
-                final double mean = classificationAccuracyService.calculateClassifierAccuracy(runs, probes, features);
+                final double mean = classificationAccuracyService.calculateCommercialClassifierAccuracy(runs, probes, features);
                 logger.warn("For features= " + features + " and probes= " + probes + " result is= " + mean);
                 System.out.println("For features= " + features + " and probes= " + probes + " result is= " + mean);
             }

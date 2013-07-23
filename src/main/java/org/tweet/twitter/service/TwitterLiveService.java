@@ -35,20 +35,24 @@ public class TwitterLiveService {
 
     // write
 
-    public void retweet(final String twitterAccount, final long tweetId) {
+    public boolean retweet(final String twitterAccount, final long tweetId) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
         try {
             twitterTemplate.timelineOperations().retweet(tweetId);
+            return true;
         } catch (final RuntimeException ex) {
             logger.error("Unable to retweet on twitterAccount= " + twitterAccount + "; tweetid: " + tweetId, ex);
         }
+
+        return false;
     }
 
-    public void tweet(final String twitterAccount, final String tweetText) {
+    public boolean tweet(final String twitterAccount, final String tweetText) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
 
         try {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
+            return true;
         } catch (final OperationNotPermittedException notPermittedEx) {
             // likely tracked by https://github.com/eugenp/stackexchange2twitter/issues/11
             logger.warn("Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, notPermittedEx);
@@ -57,6 +61,8 @@ public class TwitterLiveService {
         } catch (final RuntimeException ex) {
             logger.error("Generic Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, ex);
         }
+
+        return false;
     }
 
     // read
@@ -67,7 +73,8 @@ public class TwitterLiveService {
      * - note: will NOT return null
      */
     public TwitterProfile getProfileOfUser(final String userHandle) {
-        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(TwitterAccountEnum.BestOfJava.name());
+        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
+        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(randomAccount);
         final TwitterProfile userProfile = readOnlyTwitterTemplate.userOperations().getUserProfile(userHandle);
         return Preconditions.checkNotNull(userProfile);
     }

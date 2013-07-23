@@ -30,6 +30,9 @@ import com.google.api.client.util.Preconditions;
 
 public final class ClassificationUtil {
 
+    public static final String PROGRAMMING = "programming";
+    public static final String NONPROGRAMMING = "nonprogramming";
+
     public static final String COMMERCIAL = "commercial";
     public static final String NONCOMMERCIAL = "noncommercial";
     private static final int NUMBER_OF_CATEGORIES = 2;
@@ -125,7 +128,7 @@ public final class ClassificationUtil {
         return metaLearner;
     }
 
-    static void trainClassifier(final SequenceFile.Reader reader, final int features, final int learners) throws IOException {
+    static void trainCommercialClassifier(final SequenceFile.Reader reader, final int features, final int learners) throws IOException {
         final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, features, new L1());
         Preconditions.checkState(learners > 25);
         metaLearner.setPoolSize(learners);
