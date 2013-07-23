@@ -85,7 +85,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
     protected final boolean tryTweetOne(final String textOnly, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
         logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, textOnly, url);
 
-        // is it worth it by text?
+        // is it worth it by text only?
         if (!tweetService.isTweetWorthRetweetingByText(textOnly)) {
             return false;
         }

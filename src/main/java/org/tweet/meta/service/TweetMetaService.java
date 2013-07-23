@@ -106,7 +106,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
-        // is it worth it by text?
+        // is it worth it by text only?
         if (!tweetService.isTweetWorthRetweetingByText(text)) {
             logger.debug("Tweet not worth retweeting (by text only) on twitterAccount= {}, tweet text= {}", twitterAccount, text);
             return false;
@@ -147,6 +147,15 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
             // TODO: temporarily error
             logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, tweetText);
+
+            // has a similar tweet been tweeted before
+            final String tweetTextWithoutRetweetMention = TwitterUtil.extractTweetFromRt(tweetText);
+            final Retweet alreadyExists = retweetApi.findOneByTextAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
+            if (alreadyExists != null) {
+                // TODO: temporarily error
+                logger.error("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExists, tweetText);
+                return false;
+            }
 
             final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(tweetText));
             final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
