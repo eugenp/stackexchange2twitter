@@ -4,17 +4,20 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.ITwitterWriteLiveService;
 import org.tweet.twitter.service.TwitterReadLiveService;
 import org.tweet.twitter.service.TwitterTemplateCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TwitterConfig.class, StackexchangeContextConfig.class })
+@ActiveProfiles(SpringProfileUtil.LIVE)
 @Ignore("by default, there should be no component that is not deployed in production, configured to tweet")
 public class TwitterLiveServiceLiveTest {
 

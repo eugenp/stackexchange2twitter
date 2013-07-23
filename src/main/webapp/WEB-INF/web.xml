@@ -19,7 +19,7 @@
 	
 	<context-param>
         <param-name>spring.profiles.active</param-name>
-        <param-value>deployed</param-value>
+        <param-value>deployed,live</param-value>
     </context-param>
     
 	<listener>

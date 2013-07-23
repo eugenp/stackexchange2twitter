@@ -12,13 +12,16 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.tweet.spring.util.SpringProfileUtil;
 
 import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, ClassificationConfig.class, GplusContextConfig.class })
+@ActiveProfiles(SpringProfileUtil.LIVE)
 public class ClassificationAccuracyServiceLiveTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

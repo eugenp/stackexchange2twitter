@@ -11,6 +11,7 @@ import org.common.spring.CommonContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
@@ -24,11 +25,13 @@ import org.stackexchange.util.StackTagAdvanced;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
+import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class, StackexchangeContextConfig.class, StackexchangePersistenceJPAConfig.class, StackexchangeConfig.class })
+@ActiveProfiles(SpringProfileUtil.LIVE)
 public class TweetStackexchangeServiceLiveTest {
 
     @Autowired

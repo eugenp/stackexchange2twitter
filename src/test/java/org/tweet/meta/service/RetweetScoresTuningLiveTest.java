@@ -12,6 +12,7 @@ import org.keyval.spring.KeyValPersistenceJPAConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.util.TwitterAccountEnum;
@@ -19,6 +20,7 @@ import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
+import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TwitterReadLiveService;
 
 import com.google.common.collect.Lists;
@@ -38,6 +40,7 @@ import com.google.common.collect.Lists;
         
     TwitterMetaConfig.class 
 }) // @formatter:on
+@ActiveProfiles(SpringProfileUtil.LIVE)
 public class RetweetScoresTuningLiveTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
