@@ -14,6 +14,7 @@ import org.rss.spring.RssContextConfig;
 import org.rss.spring.RssPersistenceJPAConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
@@ -58,6 +59,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
     // org.gplus.spring
     GplusContextConfig.class
 }) // @formatter:on
+@ActiveProfiles({ "deployed", "live", "dev", "write" })
 public class DevFullContextTest {
 
     static {
