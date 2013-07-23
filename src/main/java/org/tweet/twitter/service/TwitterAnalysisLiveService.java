@@ -19,7 +19,7 @@ public class TwitterAnalysisLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TwitterLiveService twitterLiveService;
+    private TwitterReadLiveService twitterLiveService;
 
     @Autowired
     private TwitterTemplateCreator twitterCreator;

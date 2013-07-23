@@ -15,7 +15,7 @@ import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
-import org.tweet.twitter.service.TwitterLiveService;
+import org.tweet.twitter.service.TwitterReadLiveService;
 import org.tweet.twitter.service.TwitterTemplateCreator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,7 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class TwitterReadOnlyLiveTest {
 
     @Autowired
-    private TwitterLiveService twitterService;
+    private TwitterReadLiveService twitterService;
 
     @Autowired
     private TwitterTemplateCreator twitterCreator;

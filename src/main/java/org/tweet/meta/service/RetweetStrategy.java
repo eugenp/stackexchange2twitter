@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Component;
-import org.tweet.twitter.service.TwitterLiveService;
+import org.tweet.twitter.service.TwitterReadLiveService;
 
 @Component
 public final class RetweetStrategy {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TwitterLiveService twitterLiveService;
+    private TwitterReadLiveService twitterLiveService;
 
     public RetweetStrategy() {
         super();

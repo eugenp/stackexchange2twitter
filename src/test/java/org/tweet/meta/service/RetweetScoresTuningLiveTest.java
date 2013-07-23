@@ -19,7 +19,7 @@ import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
-import org.tweet.twitter.service.TwitterLiveService;
+import org.tweet.twitter.service.TwitterReadLiveService;
 
 import com.google.common.collect.Lists;
 
@@ -42,7 +42,7 @@ public class RetweetScoresTuningLiveTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TwitterLiveService twitterService;
+    private TwitterReadLiveService twitterService;
 
     @Autowired
     private LinkLiveService linkService;

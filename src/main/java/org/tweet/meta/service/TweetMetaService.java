@@ -146,10 +146,10 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, tweetText);
 
             final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(tweetText));
-            final TwitterProfile profileOfUser = twitterLiveService.getProfileOfUser(originalUserFromRt);
+            final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
             final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
             if (isUserWorthInteractingWith) {
-                twitterLiveService.tweet(twitterAccount, processedTweetText);
+                twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
                 return true;
             } else {
                 logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, tweetText, originalUserFromRt);
@@ -159,9 +159,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         // tweet
         if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
-            twitterLiveService.retweet(twitterAccount, tweetId);
+            twitterWriteLiveService.retweet(twitterAccount, tweetId);
         } else {
-            twitterLiveService.tweet(twitterAccount, processedTweetText);
+            twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
         }
 
         // mark
@@ -193,7 +193,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
         logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
-        final List<Tweet> tweetsOfHashtag = twitterLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
+        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
         Collections.sort(tweetsOfHashtag, Ordering.from(new Comparator<Tweet>() {
             @Override
             public final int compare(final Tweet t1, final Tweet t2) {

@@ -16,7 +16,7 @@ import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TwitterLiveService;
+import org.tweet.twitter.service.TwitterReadLiveService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
@@ -30,7 +30,7 @@ public final class AddTextToRetweetsUpgrader implements ApplicationListener<Afte
     private IRetweetJpaDAO retweetDao;
 
     @Autowired
-    private TwitterLiveService twitterLiveService;
+    private TwitterReadLiveService twitterLiveService;
 
     private Twitter twitterApi;
 

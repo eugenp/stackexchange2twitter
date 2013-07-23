@@ -9,8 +9,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
-import org.tweet.twitter.service.TwitterLiveService;
+import org.tweet.twitter.service.TwitterReadLiveService;
 import org.tweet.twitter.service.TwitterTemplateCreator;
+import org.tweet.twitter.service.TwitterWriteLiveService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TwitterConfig.class, StackexchangeContextConfig.class })
@@ -18,7 +19,9 @@ import org.tweet.twitter.service.TwitterTemplateCreator;
 public class TwitterLiveServiceLiveTest {
 
     @Autowired
-    private TwitterLiveService twitterService;
+    private TwitterReadLiveService twitterReadLiveService;
+    @Autowired
+    protected TwitterWriteLiveService twitterWriteLiveService;
 
     @Autowired
     private TwitterTemplateCreator twitterCreator;
@@ -27,7 +30,7 @@ public class TwitterLiveServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() {
-        twitterService.tweet(TwitterAccountEnum.BestBash.name(), "What are Unity's keyboard and mouse shortcuts?");
+        twitterWriteLiveService.tweet(TwitterAccountEnum.BestBash.name(), "What are Unity's keyboard and mouse shortcuts?");
     }
 
 }

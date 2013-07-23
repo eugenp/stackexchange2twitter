@@ -6,12 +6,16 @@ import org.common.persistence.IEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.tweet.twitter.service.TweetService;
-import org.tweet.twitter.service.TwitterLiveService;
+import org.tweet.twitter.service.TwitterReadLiveService;
+import org.tweet.twitter.service.TwitterWriteLiveService;
 
 public abstract class BaseTweetFromSourceService<T extends IEntity> {
 
     @Autowired
-    protected TwitterLiveService twitterLiveService;
+    protected TwitterReadLiveService twitterReadLiveService;
+    @Autowired
+    protected TwitterWriteLiveService twitterWriteLiveService;
+
     @Autowired
     protected TweetService tweetService;
 

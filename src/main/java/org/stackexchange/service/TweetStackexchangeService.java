@@ -254,7 +254,7 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
         final String fullTweet = tweetService.constructTweetSimple(processedTweetText, url);
 
         // tweet
-        final boolean success = twitterLiveService.tweet(twitterAccount, fullTweet);
+        final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
         markDone(new QuestionTweet(questionId, twitterAccount, site.name()));
