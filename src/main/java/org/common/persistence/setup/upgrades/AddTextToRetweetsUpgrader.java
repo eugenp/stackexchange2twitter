@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ import org.tweet.twitter.service.TwitterReadLiveService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
-public final class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent> {
+public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -41,24 +42,29 @@ public final class AddTextToRetweetsUpgrader implements ApplicationListener<Afte
     //
 
     @Override
-    public final void onApplicationEvent(final AfterSetupEvent event) {
+    @Async
+    public void onApplicationEvent(final AfterSetupEvent event) {
         if (env.getProperty("setup.upgrade.do", Boolean.class)) {
-            logger.info("Starting to execute the AddTextToRetweets Upgrader");
+            logger.info("Starting to execute the AddTextToRetweets Upgrader on threadId= ", Thread.currentThread().getId());
             addTextToRetweets();
-            logger.info("Finished executing the AddTextToRetweets Upgrader");
+            logger.info("Finished executing the AddTextToRetweets Upgrader on threadId= ", Thread.currentThread().getId());
         }
     }
 
     // util
 
-    final void addTextToRetweets() {
+    void addTextToRetweets() {
+        logger.info("Executing the AddTextToRetweets Upgrader on threadId= ", Thread.currentThread().getId());
         twitterApi = twitterLiveService.readOnlyTwitterApi();
 
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
+                    logger.info("Upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name());
                     final List<Retweet> allRetweetsForAccounts = retweetDao.findAllByTwitterAccount(twitterAccount.name());
                     addTextToRetweets(allRetweetsForAccounts);
+
+                    logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 mins...");
                     Thread.sleep(1000 * 60 * 2);
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), ex);
