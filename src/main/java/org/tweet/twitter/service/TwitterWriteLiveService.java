@@ -8,7 +8,7 @@ import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TwitterWriteLiveService {
+public class TwitterWriteLiveService implements ITwitterWriteLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -22,6 +22,7 @@ public class TwitterWriteLiveService {
 
     // write
 
+    @Override
     public boolean retweet(final String twitterAccount, final long tweetId) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
         try {
@@ -34,6 +35,7 @@ public class TwitterWriteLiveService {
         return false;
     }
 
+    @Override
     public boolean tweet(final String twitterAccount, final String tweetText) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
 
