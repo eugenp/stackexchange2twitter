@@ -33,18 +33,20 @@ public class Retweet implements IEntity {
         super();
     }
 
-    public Retweet(final long tweetId, final TwitterAccountEnum twitterAccount) {
+    public Retweet(final long tweetId, final TwitterAccountEnum twitterAccount, final String text) {
         super();
 
         this.tweetId = tweetId;
         this.twitterAccount = twitterAccount.name();
+        this.text = text;
     }
 
-    public Retweet(final long tweetId, final String twitterAccount) {
+    public Retweet(final long tweetId, final String twitterAccount, final String text) {
         super();
 
         this.tweetId = tweetId;
         this.twitterAccount = twitterAccount;
+        this.text = text;
     }
 
     // API

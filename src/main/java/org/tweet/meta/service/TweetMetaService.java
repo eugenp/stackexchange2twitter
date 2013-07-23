@@ -165,7 +165,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         }
 
         // mark
-        markDone(new Retweet(tweetId, twitterAccount));
+        markDone(new Retweet(tweetId, twitterAccount, processedTweetText));
 
         // done
         return true;
@@ -208,7 +208,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
             logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
-            if (!hasThisAlreadyBeenTweeted(new Retweet(tweetId, twitterAccount))) {
+            if (!hasThisAlreadyBeenTweeted(new Retweet(tweetId, twitterAccount, null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
                 final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
