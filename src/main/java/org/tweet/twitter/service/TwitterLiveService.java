@@ -174,4 +174,12 @@ public class TwitterLiveService {
         return search.getTweets();
     }
 
+    // internal API
+
+    public final Twitter readOnlyTwitterApi() {
+        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
+        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(randomAccount);
+        return readOnlyTwitterTemplate;
+    }
+
 }
