@@ -26,7 +26,7 @@ public class Retweet implements IEntity {
     @Column(nullable = false)
     private String twitterAccount;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String text;
 
     public Retweet() {
