@@ -10,8 +10,9 @@ import static org.classification.util.ClassificationUtil.PROGRAMMING;
 import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
 
@@ -98,8 +99,8 @@ public final class ClassificationDataUtil {
     }
 
     private static final List<NamedVector> trainingData(final String path, final String type, final int probes, final int features) throws IOException {
-        final String root = "src/main/resources";
-        final List<String> tweets = IOUtils.readLines(new BufferedReader(new FileReader(root + path)));
+        final InputStream is = ClassificationDataUtil.class.getResourceAsStream(path);
+        final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
 
         final List<NamedVector> vectors = Lists.<NamedVector> newArrayList();
         for (final String tweet : tweets) {
@@ -110,8 +111,8 @@ public final class ClassificationDataUtil {
     }
 
     private static final List<ImmutablePair<String, String>> testData(final String path, final String type) throws IOException {
-        final String root = "src/main/resources";
-        final List<String> tweets = IOUtils.readLines(new BufferedReader(new FileReader(root + path)));
+        final InputStream is = ClassificationDataUtil.class.getResourceAsStream(path);
+        final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
 
         final List<ImmutablePair<String, String>> data = Lists.newArrayList();
         for (final String tweet : tweets) {
