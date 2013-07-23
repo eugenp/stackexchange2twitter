@@ -26,6 +26,9 @@ public class Retweet implements IEntity {
     @Column(nullable = false)
     private String twitterAccount;
 
+    @Column(nullable = true)
+    private String text;
+
     public Retweet() {
         super();
     }
@@ -71,12 +74,21 @@ public class Retweet implements IEntity {
         this.tweetId = tweetId;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(final String text) {
+        this.text = text;
+    }
+
     //
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((text == null) ? 0 : text.hashCode());
         result = prime * result + (int) (tweetId ^ (tweetId >>> 32));
         result = prime * result + ((twitterAccount == null) ? 0 : twitterAccount.hashCode());
         return result;
@@ -84,26 +96,41 @@ public class Retweet implements IEntity {
 
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final Retweet other = (Retweet) obj;
-        if (tweetId != other.tweetId)
-            return false;
-        if (twitterAccount == null) {
-            if (other.twitterAccount != null)
+        if (text == null) {
+            if (other.text != null) {
                 return false;
-        } else if (!twitterAccount.equals(other.twitterAccount))
+            }
+        } else if (!text.equals(other.text)) {
             return false;
+        }
+        if (tweetId != other.tweetId) {
+            return false;
+        }
+        if (twitterAccount == null) {
+            if (other.twitterAccount != null) {
+                return false;
+            }
+        } else if (!twitterAccount.equals(other.twitterAccount)) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "Retweet [tweetId=" + tweetId + ", twitterAccount=" + twitterAccount + "]";
+        final StringBuilder builder = new StringBuilder();
+        builder.append("Retweet [tweetId=").append(tweetId).append(", twitterAccount=").append(twitterAccount).append(", text=").append(text).append("]");
+        return builder.toString();
     }
 
 }
