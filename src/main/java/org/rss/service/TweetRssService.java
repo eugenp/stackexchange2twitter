@@ -106,7 +106,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // construct full tweet
-        final String fullTweet = tweetService.constructTweet(processedTweetText, url);
+        final String fullTweet = tweetService.constructTweetLive(processedTweetText, url);
 
         // tweet
         twitterWriteLiveService.tweet(twitterAccount, fullTweet);

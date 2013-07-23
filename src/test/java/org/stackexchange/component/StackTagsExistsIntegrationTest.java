@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.api.constants.StackSite;
@@ -17,12 +18,15 @@ import org.stackexchange.spring.StackexchangeConfig;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
+import org.tweet.spring.util.SpringProfileUtil;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
+// TODO: profile temporarily active - fix
+@ActiveProfiles(SpringProfileUtil.LIVE)
 public class StackTagsExistsIntegrationTest {
 
     @Autowired

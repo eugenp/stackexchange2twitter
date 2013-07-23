@@ -122,7 +122,7 @@ public class TweetService {
         return tweet;
     }
 
-    public final String constructTweet(final String text, final String url) {
+    public final String constructTweetLive(final String text, final String url) {
         Preconditions.checkNotNull(text);
         Preconditions.checkNotNull(url);
 
