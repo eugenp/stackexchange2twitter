@@ -36,7 +36,7 @@ public class ClassificationAccuracyServiceLiveTest {
      */
     @Test
     @Ignore("long running - ignored by default")
-    public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
+    public final void givenCommercialClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         // final List<Integer> probeCounts = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         // final List<Integer> featuresCount = Lists.newArrayList(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000);
         final List<Integer> probeCounts = Lists.newArrayList(3, 4, 5, 6);
@@ -46,6 +46,28 @@ public class ClassificationAccuracyServiceLiveTest {
         for (final Integer features : featuresCount) {
             for (final Integer probes : probeCounts) {
                 final double mean = classificationAccuracyService.calculateCommercialClassifierAccuracy(runs, probes, features);
+                logger.warn("For features= " + features + " and probes= " + probes + " result is= " + mean);
+                System.out.println("For features= " + features + " and probes= " + probes + " result is= " + mean);
+            }
+        }
+    }
+
+    /**
+     * - note: the data to be classified has EMPTY type information included in the encoded vector <br/>
+     * - so the results are production-like, but not excellent
+     */
+    @Test
+    @Ignore("long running - ignored by default")
+    public final void givenProgrammingClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
+        // final List<Integer> probeCounts = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        // final List<Integer> featuresCount = Lists.newArrayList(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000);
+        final List<Integer> probeCounts = Lists.newArrayList(3, 4, 5, 6);
+        final List<Integer> featuresCount = Lists.newArrayList(5000, 7000);
+
+        final int runs = 1000;
+        for (final Integer features : featuresCount) {
+            for (final Integer probes : probeCounts) {
+                final double mean = classificationAccuracyService.calculateProgrammingClassifierAccuracy(runs, probes, features);
                 logger.warn("For features= " + features + " and probes= " + probes + " result is= " + mean);
                 System.out.println("For features= " + features + " and probes= " + probes + " result is= " + mean);
             }

@@ -113,22 +113,42 @@ public final class ClassificationUtil {
         return bestLearner;
     }
 
+    public static CrossFoldLearner programmingVsNonProgrammingBestLearner(final int probes, final int features) throws IOException {
+        final List<NamedVector> trainingData = ClassificationDataUtil.programmingVsNonProgrammingTrainingData(probes, features);
+        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainProgrammingClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
+        final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
+
+        return bestLearner;
+    }
+
     public static AdaptiveLogisticRegression trainCommercialClassifierDefault(final Iterable<NamedVector> vectors) throws IOException {
         return trainCommercialClassifier(vectors, FEATURES, LEARNERS_IN_THE_CLASSIFIER_POOL);
     }
 
-    public static AdaptiveLogisticRegression trainCommercialClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
+    public static AdaptiveLogisticRegression trainProgrammingClassifierDefault(final Iterable<NamedVector> vectors) throws IOException {
+        return trainProgrammingClassifier(vectors, FEATURES, LEARNERS_IN_THE_CLASSIFIER_POOL);
+    }
+
+    private static AdaptiveLogisticRegression trainCommercialClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
+        return trainGenericClassifier(COMMERCIAL, vectors, features, learners);
+    }
+
+    private static AdaptiveLogisticRegression trainProgrammingClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
+        return trainGenericClassifier(PROGRAMMING, vectors, features, learners);
+    }
+
+    private static AdaptiveLogisticRegression trainGenericClassifier(final String nameOfType, final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
         final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, features, new L1());
         Preconditions.checkState(learners > 25);
         metaLearner.setPoolSize(learners);
         for (final NamedVector vect : vectors) {
-            metaLearner.train(COMMERCIAL.equals(vect.getName()) ? 1 : 0, vect);
+            metaLearner.train(nameOfType.equals(vect.getName()) ? 1 : 0, vect); // example: nameOfType = COMMERCIAL
         }
         metaLearner.close();
         return metaLearner;
     }
 
-    static void trainCommercialClassifier(final SequenceFile.Reader reader, final int features, final int learners) throws IOException {
+    private static void trainCommercialClassifier(final SequenceFile.Reader reader, final int features, final int learners) throws IOException {
         final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, features, new L1());
         Preconditions.checkState(learners > 25);
         metaLearner.setPoolSize(learners);

@@ -65,11 +65,20 @@ public class ClassificationService implements InitializingBean {
         return cat == 1;
     }
 
+    public boolean isProgramming(final String text, final int probes, final int features) {
+        try {
+            return isProgrammingInternal(text, probes, features);
+        } catch (final Exception ex) {
+            logger.error("", ex);
+            return false;
+        }
+    }
+
     boolean isProgrammingInternal(final String text, final int probes, final int features) {
         final Vector encodedAsVector = encode(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(text), probes, features);
 
         final Vector collector = new DenseVector(2);
-        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
+        programmingVsNonProgrammingLerner.classifyFull(collector, encodedAsVector);
         final int cat = collector.maxValueIndex();
 
         return cat == 1;
@@ -80,11 +89,15 @@ public class ClassificationService implements InitializingBean {
     @Override
     public final void afterPropertiesSet() throws IOException {
         commercialVsNonCommercialLerner = ClassificationUtil.commercialVsNonCommercialBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
-        programmingVsNonProgrammingLerner = ClassificationUtil.commercialVsNonCommercialBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        programmingVsNonProgrammingLerner = ClassificationUtil.programmingVsNonProgrammingBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     public final void setCommercialVsNonCommercialLerner(final CrossFoldLearner commercialVsNonCommercialLerner) {
         this.commercialVsNonCommercialLerner = commercialVsNonCommercialLerner;
+    }
+
+    public final void setProgrammingVsNonProgrammingLerner(final CrossFoldLearner programmingVsNonProgrammingLerner) {
+        this.programmingVsNonProgrammingLerner = programmingVsNonProgrammingLerner;
     }
 
 }
