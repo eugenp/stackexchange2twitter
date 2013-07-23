@@ -51,7 +51,7 @@ public final class AddTextToRetweetsUpgrader implements ApplicationListener<Afte
 
     // util
 
-    private final void addTextToRetweets() {
+    final void addTextToRetweets() {
         twitterApi = twitterLiveService.readOnlyTwitterApi();
 
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
