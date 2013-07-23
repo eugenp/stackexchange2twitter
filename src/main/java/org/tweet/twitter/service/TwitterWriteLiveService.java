@@ -46,9 +46,9 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
             return true;
         } catch (final OperationNotPermittedException notPermittedEx) {
-            // likely tracked by https://github.com/eugenp/stackexchange2twitter/issues/11
-            logger.warn("Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, notPermittedEx);
-
+            // TODO: will be warn, for now, to see how often it happens and why, is error
+            logger.error("Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, notPermittedEx);
+            // possible cause: over 140 chars
             // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
             logger.error("Generic Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, ex);
