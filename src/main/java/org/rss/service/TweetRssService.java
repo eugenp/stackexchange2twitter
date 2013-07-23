@@ -10,9 +10,12 @@ import org.rss.persistence.model.RssEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.tweet.spring.util.SpringProfileUtil;
 
 @Service
+@Profile(SpringProfileUtil.WRITE)
 public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

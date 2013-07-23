@@ -17,7 +17,7 @@ import org.tweet.twitter.service.TwitterTemplateCreator;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TwitterConfig.class, StackexchangeContextConfig.class })
-@ActiveProfiles(SpringProfileUtil.LIVE)
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.PRODUCTION })
 @Ignore("by default, there should be no component that is not deployed in production, configured to tweet")
 public class TwitterLiveServiceLiveTest {
 

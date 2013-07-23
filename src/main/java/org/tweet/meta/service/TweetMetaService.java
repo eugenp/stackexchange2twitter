@@ -14,11 +14,13 @@ import org.common.util.LinkUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
+import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
 import org.tweet.twitter.util.TwitterUtil;
@@ -29,6 +31,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
 @Service
+@Profile(SpringProfileUtil.WRITE)
 public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
