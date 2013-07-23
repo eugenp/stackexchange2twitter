@@ -90,6 +90,11 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
     }
 
     private final void addTextToRetweetInternal(final Retweet retweet) {
+        if (retweet.getText() != null) {
+            logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
+            return;
+        }
+
         final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
         retweet.setText(status.getText());
         retweetDao.save(retweet);
