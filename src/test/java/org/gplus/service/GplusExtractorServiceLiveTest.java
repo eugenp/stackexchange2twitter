@@ -38,6 +38,7 @@ public class GplusExtractorServiceLiveTest {
     }
 
     @Test
+    // this has failed at some point because of some live data - java.net.URISyntaxException: Illegal character in query at index
     public final void whenTweetIsRetrievedScenario2_thenNoExceptions() throws IOException {
         final String bestTweetCandidate = gplusExtractorService.getBestTweetCandidate(TwitterTag.jquery.name());
         System.out.println("Best Tweet: " + bestTweetCandidate + "\n\n");

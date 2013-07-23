@@ -17,14 +17,13 @@
 		<param-value>org.common.spring org.classification.spring org.keyval.spring org.tweet.spring org.stackexchange.spring org.tweet.meta.spring org.rss.spring</param-value>
 	</context-param>
 	
-	<context-param>
-        <param-name>spring.profiles.active</param-name>
-        <param-value>deployed,live</param-value>
-    </context-param>
-    
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<context-param>
+        <param-name>contextInitializerClasses</param-name>
+        <param-value>org.common.spring.MyApplicationContextInitializerProv</param-value>
+    </context-param>
 
 	<!-- Disables servlet container welcome file handling. Needed for compatibility with Servlet 3.0 and Tomcat 7.0 -->
 	<welcome-file-list>
