@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.tweet.spring.util.SpringProfileUtil;
 
 @Service
-@Profile(SpringProfileUtil.LIVE)
+@Profile(SpringProfileUtil.PRODUCTION)
 public class TwitterWriteLiveService implements ITwitterWriteLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
