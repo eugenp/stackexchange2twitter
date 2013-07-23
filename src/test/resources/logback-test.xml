@@ -1,0 +1,31 @@
+<configuration>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>/var/log/stackexchange/stack.log</file>
+		<encoder>
+			<pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="org.common" level="INFO" />
+	<logger name="org.tweet" level="INFO" />
+	<logger name="org.tweet.meta" level="INFO" />
+	<logger name="org.gplus" level="INFO" />
+	<logger name="org.rss" level="INFO" />
+	<logger name="org.stackexchange" level="DEBUG" />
+
+	<logger name="org.apache.http" level="INFO" />
+
+	<root level="WARN">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+
+</configuration>
