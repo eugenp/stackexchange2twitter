@@ -1,161 +1,40 @@
-2013-07-23 01:08:26,635 INFO [main] o.s.a.c.HttpFactory [HttpFactory.java:35] Created new Http Client; count: 1
-2013-07-23 01:08:26,647 INFO [main] o.s.a.c.HttpFactory [HttpFactory.java:35] Created new Http Client; count: 2
-2013-07-23 01:08:27,823 INFO [main] o.t.m.p.s.TwitterMetaSetup [TwitterMetaSetup.java:34] Before Setup
-2013-07-23 01:08:27,823 INFO [main] o.t.m.p.s.TwitterMetaSetup [TwitterMetaSetup.java:40] After Setup
-2013-07-23 01:08:56,408 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestAlgorithms is= 0
-2013-07-23 01:08:56,408 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestAlgorithms
-2013-07-23 01:09:38,342 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestClojure is= 0
-2013-07-23 01:09:38,342 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestClojure
-2013-07-23 01:09:59,032 WARN [main] o.a.h.c.p.ResponseProcessCookies [ResponseProcessCookies.java:127] Cookie rejected: "[version: 0][name: msdn][value: L=1033][domain: .microsoft.com][path: /][expiry: Fri Aug 23 01:09:55 EEST 2013]". Illegal domain attribute "microsoft.com". Domain of origin: "blogs.msdn.com"
-2013-07-23 01:10:52,647 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestNoSQL is= 1
-2013-07-23 01:10:52,648 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestNoSQL
-2013-07-23 01:11:13,406 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestPHP is= 2
-2013-07-23 01:11:13,407 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestPHP
-2013-07-23 01:11:37,427 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestOfCocoa is= 0
-2013-07-23 01:11:37,428 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestOfCocoa
-2013-07-23 01:11:37,433 ERROR [main] o.t.t.s.TwitterLiveService [TwitterLiveService.java:126] Unable to list tweets on twitterAccount= BestOfCss
-java.lang.NullPointerException: consumerKey not found for BestOfCss
-	at com.google.common.base.Preconditions.checkNotNull(Preconditions.java:208) ~[guava-14.0.1.jar:na]
-	at org.tweet.twitter.service.TwitterTemplateCreator.getTwitterTemplate(TwitterTemplateCreator.java:24) ~[classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountRawInternal(TwitterLiveService.java:132) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountRaw(TwitterLiveService.java:124) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountInternal(TwitterLiveService.java:112) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccount(TwitterLiveService.java:101) [classes/:na]
-	at org.tweet.meta.service.RetweetScoresTuningLiveTest.analyzeScoresForAccount(RetweetScoresTuningLiveTest.java:76) ~[test-classes/:na]
-	at org.tweet.meta.service.RetweetScoresTuningLiveTest.whenAllAccountsAreAnalyzed_thenScoreSuggestionsAreGiven(RetweetScoresTuningLiveTest.java:69) ~[test-classes/:na]
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.7.0_25]
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:1.7.0_25]
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.7.0_25]
-	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:1.7.0_25]
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47) ~[junit-4.11.jar:na]
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) ~[junit-4.11.jar:na]
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44) ~[junit-4.11.jar:na]
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:74) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:83) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:72) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:231) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:88) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:71) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:174) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197) ~[.cp/:na]
-2013-07-23 01:11:37,434 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestOfCss is= 0
-2013-07-23 01:11:37,434 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestOfCss
-2013-07-23 01:12:00,777 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestOfJava is= 2
-2013-07-23 01:12:00,778 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestOfJava
-2013-07-23 01:13:06,176 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Number of links not to SO for account= BestOfSecurity is= 6
-2013-07-23 01:13:06,176 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:89] Scores (minrt) are probably to LOW for account= BestOfSecurity
-2013-07-23 01:13:54,607 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestSQL is= 2
-2013-07-23 01:13:54,607 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestSQL
-2013-07-23 01:14:19,656 ERROR [main] o.t.t.s.TwitterLiveService [TwitterLiveService.java:126] Unable to list tweets on twitterAccount= BestXML
-java.lang.NullPointerException: consumerKey not found for BestXML
-	at com.google.common.base.Preconditions.checkNotNull(Preconditions.java:208) ~[guava-14.0.1.jar:na]
-	at org.tweet.twitter.service.TwitterTemplateCreator.getTwitterTemplate(TwitterTemplateCreator.java:24) ~[classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountRawInternal(TwitterLiveService.java:132) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountRaw(TwitterLiveService.java:124) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountInternal(TwitterLiveService.java:112) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccount(TwitterLiveService.java:101) [classes/:na]
-	at org.tweet.meta.service.RetweetScoresTuningLiveTest.analyzeScoresForAccount(RetweetScoresTuningLiveTest.java:76) ~[test-classes/:na]
-	at org.tweet.meta.service.RetweetScoresTuningLiveTest.whenAllAccountsAreAnalyzed_thenScoreSuggestionsAreGiven(RetweetScoresTuningLiveTest.java:69) ~[test-classes/:na]
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.7.0_25]
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:1.7.0_25]
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.7.0_25]
-	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:1.7.0_25]
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47) ~[junit-4.11.jar:na]
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) ~[junit-4.11.jar:na]
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44) ~[junit-4.11.jar:na]
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:74) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:83) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:72) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:231) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:88) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:71) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:174) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197) ~[.cp/:na]
-2013-07-23 01:14:19,656 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= BestXML is= 0
-2013-07-23 01:14:19,656 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= BestXML
-2013-07-23 01:14:21,782 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= FacebookDigest is= 1
-2013-07-23 01:14:21,782 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= FacebookDigest
-2013-07-23 01:14:43,244 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= HTMLdaily is= 1
-2013-07-23 01:14:43,244 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= HTMLdaily
-2013-07-23 01:15:02,940 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= iOSdigest is= 2
-2013-07-23 01:15:02,940 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= iOSdigest
-2013-07-23 01:15:53,517 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= LispDaily is= 1
-2013-07-23 01:15:53,517 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= LispDaily
-2013-07-23 01:15:53,518 ERROR [main] o.t.t.s.TwitterLiveService [TwitterLiveService.java:126] Unable to list tweets on twitterAccount= LandOfSeo
-java.lang.NullPointerException: consumerKey not found for LandOfSeo
-	at com.google.common.base.Preconditions.checkNotNull(Preconditions.java:208) ~[guava-14.0.1.jar:na]
-	at org.tweet.twitter.service.TwitterTemplateCreator.getTwitterTemplate(TwitterTemplateCreator.java:24) ~[classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountRawInternal(TwitterLiveService.java:132) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountRaw(TwitterLiveService.java:124) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccountInternal(TwitterLiveService.java:112) [classes/:na]
-	at org.tweet.twitter.service.TwitterLiveService.listTweetsOfInternalAccount(TwitterLiveService.java:101) [classes/:na]
-	at org.tweet.meta.service.RetweetScoresTuningLiveTest.analyzeScoresForAccount(RetweetScoresTuningLiveTest.java:76) ~[test-classes/:na]
-	at org.tweet.meta.service.RetweetScoresTuningLiveTest.whenAllAccountsAreAnalyzed_thenScoreSuggestionsAreGiven(RetweetScoresTuningLiveTest.java:69) ~[test-classes/:na]
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:1.7.0_25]
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57) ~[na:1.7.0_25]
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:1.7.0_25]
-	at java.lang.reflect.Method.invoke(Method.java:606) ~[na:1.7.0_25]
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47) ~[junit-4.11.jar:na]
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12) ~[junit-4.11.jar:na]
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44) ~[junit-4.11.jar:na]
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.statements.RunBeforeTestMethodCallbacks.evaluate(RunBeforeTestMethodCallbacks.java:74) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.RunAfterTestMethodCallbacks.evaluate(RunAfterTestMethodCallbacks.java:83) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.SpringRepeat.evaluate(SpringRepeat.java:72) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:231) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:88) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53) ~[junit-4.11.jar:na]
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:71) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:309) ~[junit-4.11.jar:na]
-	at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:174) ~[spring-test-3.2.3.RELEASE.jar:3.2.3.RELEASE]
-	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390) ~[.cp/:na]
-	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197) ~[.cp/:na]
-2013-07-23 01:15:53,518 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= LandOfSeo is= 0
-2013-07-23 01:15:53,518 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= LandOfSeo
-2013-07-23 01:16:50,277 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= MysqlDaily is= 1
-2013-07-23 01:16:50,277 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= MysqlDaily
-2013-07-23 01:17:05,521 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= ObjectiveCDaily is= 0
-2013-07-23 01:17:05,521 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= ObjectiveCDaily
-2013-07-23 01:17:20,523 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= PythonDaily is= 1
-2013-07-23 01:17:20,523 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= PythonDaily
-2013-07-23 01:17:35,726 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= ParsingDaily is= 0
-2013-07-23 01:17:35,726 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= ParsingDaily
-2013-07-23 01:17:50,958 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= RegexDaily is= 0
-2013-07-23 01:17:50,958 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= RegexDaily
-2013-07-23 01:18:05,780 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:84] Number of links not to SO for account= PerlDaily is= 1
-2013-07-23 01:18:05,780 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:85] Scores (minrt) are probably to HIGH for account= PerlDaily
+2013-07-23 21:25:38,926 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestAlgorithms is= 0
+2013-07-23 21:25:38,927 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestAlgorithms
+2013-07-23 21:26:10,094 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestClojure is= 0
+2013-07-23 21:26:10,094 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestClojure
+2013-07-23 21:26:57,546 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestNoSQL is= 0
+2013-07-23 21:26:57,547 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestNoSQL
+2013-07-23 21:27:33,962 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestOfCocoa is= 0
+2013-07-23 21:27:33,962 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestOfCocoa
+2013-07-23 21:27:33,966 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestOfCss is= 0
+2013-07-23 21:27:33,966 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestOfCss
+2013-07-23 21:27:49,982 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestOfJava is= 2
+2013-07-23 21:27:49,982 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestOfJava
+2013-07-23 21:28:46,107 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestRubyOnRails is= 1
+2013-07-23 21:28:46,108 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestRubyOnRails
+2013-07-23 21:29:03,797 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestSQL is= 2
+2013-07-23 21:29:03,797 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestSQL
+2013-07-23 21:29:22,194 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestXML is= 0
+2013-07-23 21:29:22,194 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestXML
+2013-07-23 21:29:26,272 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= FacebookDigest is= 1
+2013-07-23 21:29:26,272 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= FacebookDigest
+2013-07-23 21:29:46,449 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= HTMLdaily is= 1
+2013-07-23 21:29:46,450 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= HTMLdaily
+2013-07-23 21:30:02,683 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= iOSdigest is= 2
+2013-07-23 21:30:02,684 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= iOSdigest
+2013-07-23 21:31:09,533 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= LispDaily is= 1
+2013-07-23 21:31:09,533 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= LispDaily
+2013-07-23 21:31:09,534 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= LandOfSeo is= 0
+2013-07-23 21:31:09,534 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= LandOfSeo
+2013-07-23 21:32:20,943 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= MysqlDaily is= 1
+2013-07-23 21:32:20,943 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= MysqlDaily
+2013-07-23 21:32:37,159 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= ObjectiveCDaily is= 0
+2013-07-23 21:32:37,160 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= ObjectiveCDaily
+2013-07-23 21:32:52,493 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= PythonDaily is= 1
+2013-07-23 21:32:52,493 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= PythonDaily
+2013-07-23 21:33:07,555 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= ParsingDaily is= 0
+2013-07-23 21:33:07,556 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= ParsingDaily
+2013-07-23 21:33:23,092 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= RegexDaily is= 0
+2013-07-23 21:33:23,092 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= RegexDaily
+2013-07-23 21:33:39,718 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= PerlDaily is= 2
+2013-07-23 21:33:39,718 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= PerlDaily

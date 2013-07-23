@@ -152,8 +152,8 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             final String tweetTextWithoutRetweetMention = TwitterUtil.extractTweetFromRt(tweetText);
             final Retweet alreadyExists = retweetApi.findOneByTextAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
             if (alreadyExists != null) {
-                // TODO: temporarily error
-                logger.error("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExists, tweetText);
+                // TODO: temporarily warn - should get to debug
+                logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExists, tweetText);
                 return false;
             }
 
