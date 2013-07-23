@@ -102,13 +102,13 @@ public class ClassificationUnitTest {
     public final void whenClassifierIsTrained_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = learningData();
 
-        ClassificationUtil.trainClassifierDefault(vectors);
+        ClassificationUtil.trainCommercialClassifierDefault(vectors);
     }
 
     @Test
     public final void givenClassifierWasTrained_whenPersistedToDisk_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = learningData();
-        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifierDefault(vectors);
+        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainCommercialClassifierDefault(vectors);
 
         ModelSerializer.writeBinary(CLASSIFIER_FILE_ON_DISK, classifier.getBest().getPayload().getLearner());
     }
@@ -122,7 +122,7 @@ public class ClassificationUnitTest {
     }
 
     private final List<NamedVector> learningData() throws IOException {
-        return ClassificationDataUtil.commercialVsNonCommercialLearningDataDefault();
+        return ClassificationDataUtil.commercialVsNonCommercialTrainingDataDefault();
     }
 
 }

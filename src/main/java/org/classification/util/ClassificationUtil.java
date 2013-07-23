@@ -51,7 +51,7 @@ public final class ClassificationUtil {
      * The following are encoded: the type of content and the actual bag of words
      * The label argument to the NamedVector is either commercial or non-commercial
      */
-    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probesForContent, final int features) {
+    static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probesForContent, final int features) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
         content_encoder.setProbes(probesForContent);
 
@@ -106,18 +106,18 @@ public final class ClassificationUtil {
     // classifier
 
     public static CrossFoldLearner commercialVsNonCommercialBestLearner(final int probes, final int features) throws IOException {
-        final List<NamedVector> learningData = ClassificationDataUtil.commercialVsNonCommercialLearningData(probes, features);
-        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainClassifier(learningData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
+        final List<NamedVector> learningData = ClassificationDataUtil.commercialVsNonCommercialTrainingData(probes, features);
+        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainCommercialClassifier(learningData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
         return bestLearner;
     }
 
-    public static AdaptiveLogisticRegression trainClassifierDefault(final Iterable<NamedVector> vectors) throws IOException {
-        return trainClassifier(vectors, FEATURES, LEARNERS_IN_THE_CLASSIFIER_POOL);
+    public static AdaptiveLogisticRegression trainCommercialClassifierDefault(final Iterable<NamedVector> vectors) throws IOException {
+        return trainCommercialClassifier(vectors, FEATURES, LEARNERS_IN_THE_CLASSIFIER_POOL);
     }
 
-    public static AdaptiveLogisticRegression trainClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
+    public static AdaptiveLogisticRegression trainCommercialClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
         final AdaptiveLogisticRegression metaLearner = new AdaptiveLogisticRegression(NUMBER_OF_CATEGORIES, features, new L1());
         Preconditions.checkState(learners > 25);
         metaLearner.setPoolSize(learners);

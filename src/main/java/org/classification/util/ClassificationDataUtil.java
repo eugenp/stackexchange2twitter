@@ -29,31 +29,51 @@ public final class ClassificationDataUtil {
         throw new AssertionError();
     }
 
-    // util
+    // API
 
-    // training
+    // training data
 
-    public static final List<NamedVector> programmingVsNonProgrammingLearningDataDefault() throws IOException {
-        return programmingVsNonProgrammingLearningData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    public static final List<NamedVector> programmingVsNonProgrammingTrainingDataDefault() throws IOException {
+        return programmingVsNonProgrammingTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    public static final List<NamedVector> programmingVsNonProgrammingLearningData(final int probes, final int features) throws IOException {
+    public static final List<NamedVector> commercialVsNonCommercialTrainingDataDefault() throws IOException {
+        return commercialVsNonCommercialTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    }
+
+    static final List<NamedVector> programmingVsNonProgrammingTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> nonProgrammingVectors = nonProgrammingTrainingData(probes, features);
         final List<NamedVector> programmingNamedVectors = programmingTrainingData(probes, features);
         return oneVsAnotherLearningData(probes, features, nonProgrammingVectors, programmingNamedVectors);
     }
 
-    public static final List<NamedVector> commercialVsNonCommercialLearningDataDefault() throws IOException {
-        return commercialVsNonCommercialLearningData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
-    }
-
-    public static final List<NamedVector> commercialVsNonCommercialLearningData(final int probes, final int features) throws IOException {
+    static final List<NamedVector> commercialVsNonCommercialTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialTrainingData(probes, features);
         return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
-    static final List<NamedVector> oneVsAnotherLearningData(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
+    // test data
+
+    static final List<ImmutablePair<String, String>> programmingTestData() throws IOException {
+        return testData("/classification/test/programming.classif", PROGRAMMING);
+    }
+
+    static final List<ImmutablePair<String, String>> nonprogrammingTestData() throws IOException {
+        return testData("/classification/test/nonprogramming.classif", NONPROGRAMMING);
+    }
+
+    static final List<ImmutablePair<String, String>> commercialTestData() throws IOException {
+        return testData("/classification/test/commercial.classif", COMMERCIAL);
+    }
+
+    static final List<ImmutablePair<String, String>> noncommercialTestData() throws IOException {
+        return testData("/classification/test/noncommercial.classif", NONCOMMERCIAL);
+    }
+
+    // util
+
+    private static final List<NamedVector> oneVsAnotherLearningData(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
         allNamedVectors.addAll(vectorsFirstSet);
         allNamedVectors.addAll(vectorsSecondSet);
@@ -61,23 +81,23 @@ public final class ClassificationDataUtil {
         return allNamedVectors;
     }
 
-    static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
+    private static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
         return trainingData("/classification/programming.classif", PROGRAMMING, probes, features);
     }
 
-    static final List<NamedVector> nonProgrammingTrainingData(final int probes, final int features) throws IOException {
+    private static final List<NamedVector> nonProgrammingTrainingData(final int probes, final int features) throws IOException {
         return trainingData("/classification/nonprogramming.classif", NONPROGRAMMING, probes, features);
     }
 
-    static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
+    private static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
         return trainingData("/classification/commercial.classif", COMMERCIAL, probes, features);
     }
 
-    static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
+    private static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
         return trainingData("/classification/noncommercial.classif", NONCOMMERCIAL, probes, features);
     }
 
-    static final List<NamedVector> trainingData(final String path, final String type, final int probes, final int features) throws IOException {
+    private static final List<NamedVector> trainingData(final String path, final String type, final int probes, final int features) throws IOException {
         final String root = "src/main/resources";
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new FileReader(root + path)));
 
@@ -89,25 +109,7 @@ public final class ClassificationDataUtil {
         return vectors;
     }
 
-    // test data
-
-    public static final List<ImmutablePair<String, String>> programmingTestData() throws IOException {
-        return testData("/classification/test/programming.classif", PROGRAMMING);
-    }
-
-    public static final List<ImmutablePair<String, String>> nonprogrammingTestData() throws IOException {
-        return testData("/classification/test/nonprogramming.classif", NONPROGRAMMING);
-    }
-
-    public static final List<ImmutablePair<String, String>> commercialTestData() throws IOException {
-        return testData("/classification/test/commercial.classif", COMMERCIAL);
-    }
-
-    public static final List<ImmutablePair<String, String>> noncommercialTestData() throws IOException {
-        return testData("/classification/test/noncommercial.classif", NONCOMMERCIAL);
-    }
-
-    static final List<ImmutablePair<String, String>> testData(final String path, final String type) throws IOException {
+    private static final List<ImmutablePair<String, String>> testData(final String path, final String type) throws IOException {
         final String root = "src/main/resources";
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new FileReader(root + path)));
 

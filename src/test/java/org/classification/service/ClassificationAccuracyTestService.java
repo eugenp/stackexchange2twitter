@@ -3,6 +3,7 @@ package org.classification.service;
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 import static org.classification.util.ClassificationUtil.COMMERCIAL;
+import static org.classification.util.ClassificationUtil.PROGRAMMING;
 
 import java.io.IOException;
 import java.util.List;
@@ -87,7 +88,7 @@ public class ClassificationAccuracyTestService {
         int total = 0;
         for (final Pair<String, String> tweetData : testData) {
             total++;
-            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
+            final boolean expected = PROGRAMMING.equals(tweetData.getLeft());
             final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight(), probes, features);
             if (isTweetCommercial == expected) {
                 correct++;
