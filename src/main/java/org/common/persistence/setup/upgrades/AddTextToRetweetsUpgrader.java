@@ -64,8 +64,10 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
                     final List<Retweet> allRetweetsForAccounts = retweetDao.findAllByTwitterAccount(twitterAccount.name());
                     addTextToRetweets(allRetweetsForAccounts);
 
-                    logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 mins...");
-                    Thread.sleep(1000 * 60 * 2);
+                    if (!allRetweetsForAccounts.isEmpty()) {
+                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 mins...");
+                        Thread.sleep(1000 * 60 * 2);
+                    }
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), ex);
                 } catch (final InterruptedException threadEx) {
