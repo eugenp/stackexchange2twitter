@@ -2,6 +2,7 @@ package org.stackexchange.persistence.setup;
 
 import java.util.List;
 
+import org.common.persistence.setup.AfterSetupEvent;
 import org.common.persistence.setup.BeforeSetupEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +33,8 @@ import com.google.common.base.Preconditions;
  */
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
-public class StackexchangeSetup implements ApplicationListener<ContextRefreshedEvent> {
-    private final Logger logger = LoggerFactory.getLogger(StackexchangeSetup.class);
+public class MainSetup implements ApplicationListener<ContextRefreshedEvent> {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private boolean setupDone;
 
@@ -46,7 +47,7 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
     @Autowired
     private IQuestionTweetJpaDAO questionTweetApi;
 
-    public StackexchangeSetup() {
+    public MainSetup() {
         super();
     }
 
@@ -64,6 +65,7 @@ public class StackexchangeSetup implements ApplicationListener<ContextRefreshedE
             }
 
             setupDone = true;
+            eventPublisher.publishEvent(new AfterSetupEvent(this));
             logger.info("After Setup");
         }
     }

@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
 import org.stackexchange.persistence.model.QuestionTweet;
-import org.stackexchange.persistence.setup.StackexchangeSetup;
+import org.stackexchange.persistence.setup.MainSetup;
 import org.stackexchange.persistence.setup.TwitterAccountToStackAccount;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TestStackexchangePersistenceJPAConfig;
@@ -29,13 +29,13 @@ public class StackexchangeSetupPersistenceIntegrationTest {
     @Autowired
     private BeanFactory beanFactory;
 
-    private StackexchangeSetup stackexchangeSetup;
+    private MainSetup stackexchangeSetup;
 
     // fixtures
 
     @Before
     public final void before() {
-        stackexchangeSetup = new StackexchangeSetup();
+        stackexchangeSetup = new MainSetup();
         final IQuestionTweetJpaDAO questionTweetJpaDAO = beanFactory.getBean(IQuestionTweetJpaDAO.class);
         ReflectionTestUtils.setField(stackexchangeSetup, "questionTweetApi", questionTweetJpaDAO);
     }
