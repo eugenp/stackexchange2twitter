@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -134,6 +135,14 @@ public class TweetMetaServiceLiveTest {
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario4_thenCorrectAnswer() {
         final String text = "#OOCSS + #Sass = The best way to #CSS - http://buff.ly/198JbJv  #webdev #html";
         final Retweet existing = tweetMetaService.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.HTMLdaily.name());
+        assertNotNull(existing);
+    }
+
+    @Test
+    @Ignore("it has just been tweeted - this will pass soon")
+    public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario5_thenCorrectAnswer() {
+        final String text = "Morning all! RT @ContractHire http://t.co/dxKq3cl03U follow and you could win a new #iPad Mini! #comp #Apple #ipad";
+        final Retweet existing = tweetMetaService.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.InTheAppleWorld.name());
         assertNotNull(existing);
     }
 

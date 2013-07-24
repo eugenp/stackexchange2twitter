@@ -42,4 +42,9 @@ public class TweetServiceUnitTest {
         assertTrue(instance.isRetweetMention("RT@WPGaze Top 20 #WordPress Themes for Entertainment Blogs http://www.wpgaze.com/top-20-wordpress-themes-for-entertainment-blogs.html \u2026 #WordPress #WPGaze #Themes #Entertainment #Blogs"));
     }
 
+    @Test
+    public final void givenTweet5_whenTweetIsCheckedForBeingRetweet_thenIsRetweet() {
+        assertTrue(instance.isRetweetMention("Morning all! RT @ContractHire http://t.co/dxKq3cl03U follow and you could win a new #iPad Mini! #comp #Apple #ipad"));
+    }
+
 }

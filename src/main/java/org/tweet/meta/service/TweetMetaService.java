@@ -172,15 +172,15 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         boolean success = false;
+
         // newly moved here
         if (tweetService.isRetweetMention(processedTweetText)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
             logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, processedTweetText); // TODO: temporarily error
 
-            // has a similar tweet been tweeted before
-            final Retweet alreadyExistingRetweet = hasThisAlreadyBeenTweetedByText(processedTweetText, twitterAccount);
-            if (alreadyExistingRetweet != null) {
-                logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExistingRetweet, processedTweetText); // TODO: temporarily warn - should get to debug
+            final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(processedTweetText, twitterAccount);
+            if (alreadyExistingRetweetByText != null) {
+                logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExistingRetweetByText, processedTweetText); // TODO: temporarily warn - should get to debug
                 return false;
             }
 
@@ -193,13 +193,12 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
                 logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, processedTweetText, originalUserFromRt);
                 return false;
             }
-        }
-
-        // tweet
-        if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
-            success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
-        } else {
-            success = twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
+        } else { // not retweet mention - normal tweet
+            if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
+                success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
+            } else {
+                success = twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
+            }
         }
 
         // mark
