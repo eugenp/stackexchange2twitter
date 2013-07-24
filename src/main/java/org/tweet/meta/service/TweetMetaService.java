@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import org.classification.service.ClassificationService;
 import org.common.service.BaseTweetFromSourceService;
 import org.common.service.HttpLiveService;
@@ -18,6 +20,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
+import org.stackexchange.util.TwitterAccountEnum;
+import org.tweet.meta.component.PredefinedAccountRetriever;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.spring.util.SpringProfileUtil;
@@ -27,6 +31,9 @@ import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.api.client.util.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
@@ -54,6 +61,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     private MinRtRetriever minRtRetriever;
 
     @Autowired
+    private PredefinedAccountRetriever predefinedAccountRetriever;
+
+    @Autowired
     private RetweetStrategy retweetStrategy;
 
     public TweetMetaService() {
@@ -61,6 +71,24 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     }
 
     // API
+
+    public final boolean retweetByHashtagOnlyFromPredefinedAccounts(final String twitterAccount) throws JsonProcessingException, IOException {
+        String twitterTag = null;
+        try {
+            twitterTag = tagService.pickTwitterTag(twitterAccount);
+            final boolean success = retweetByHashtagOnlyFromPredefinedAccountsInternal(twitterAccount, twitterTag);
+            if (!success) {
+                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}, from predefined accounts", twitterAccount, twitterTag);
+            }
+            return success;
+        } catch (final RuntimeException runtimeEx) {
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag + ", from predefined accounts", runtimeEx);
+            return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag + ", from predefined accounts", ex);
+            return false;
+        }
+    }
 
     public final boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
@@ -142,6 +170,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         // post-process
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
+        boolean success = false;
         // newly moved here
         if (tweetService.isRetweetMention(processedTweetText)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
@@ -158,8 +187,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
             final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
             final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
             if (isUserWorthInteractingWith) {
-                twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
-                return true;
+                success = twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
             } else {
                 logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, processedTweetText, originalUserFromRt);
                 return false;
@@ -168,16 +196,16 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         // tweet
         if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
-            twitterWriteLiveService.retweet(twitterAccount, tweetId);
+            success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
         } else {
-            twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
+            success = twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
         }
 
         // mark
         markDone(new Retweet(tweetId, twitterAccount, processedTweetText));
 
         // done
-        return true;
+        return success;
     }
 
     @Override
@@ -209,6 +237,33 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
     // util
 
+    private final boolean retweetByHashtagOnlyFromPredefinedAccountsInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+        logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
+
+        logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
+        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
+
+        // filter out tweets not on predefined accounts
+        final List<String> predefinedAccounts = predefinedAccountRetriever.predefinedAccount(twitterAccount);
+        final Iterable<Tweet> tweetsFromOnlyPredefinedAccountsRaw = Iterables.filter(tweetsOfHashtag, new Predicate<Tweet>() {
+            @Override
+            public final boolean apply(@Nullable final Tweet input) {
+                final String fromUser = input.getFromUser();
+                return predefinedAccounts.contains(fromUser);
+            }
+        });
+
+        final List<Tweet> tweetsFromOnlyPredefinedAccounts = Lists.newArrayList(tweetsFromOnlyPredefinedAccountsRaw);
+        Collections.sort(tweetsFromOnlyPredefinedAccounts, Ordering.from(new Comparator<Tweet>() {
+            @Override
+            public final int compare(final Tweet t1, final Tweet t2) {
+                return t2.getRetweetCount().compareTo(t1.getRetweetCount());
+            }
+        }));
+
+        return tryRetweetByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
+    }
+
     private final boolean retweetByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
@@ -225,6 +280,9 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     }
 
     private final boolean tryRetweetByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
+        if (!TwitterAccountEnum.valueOf(twitterAccount).isRt()) {
+            logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
+        }
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
             logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);

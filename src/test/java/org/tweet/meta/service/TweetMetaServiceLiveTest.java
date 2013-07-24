@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.junit.Test;
@@ -30,14 +31,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         CommonPersistenceJPAConfig.class, 
         CommonContextConfig.class, 
         
+        ClassificationConfig.class,
+        
         TwitterConfig.class, 
         TwitterLiveConfig.class,
-        TwitterMetaPersistenceJPAConfig.class, 
         
+        TwitterMetaPersistenceJPAConfig.class, 
         TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles(SpringProfileUtil.LIVE)
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.PRODUCTION })
 public class TweetMetaServiceLiveTest {
+
+    static {
+        System.setProperty("persistenceTarget", "prod");
+    }
 
     @Autowired
     private TweetMetaService tweetMetaService;
@@ -82,6 +89,19 @@ public class TweetMetaServiceLiveTest {
     @Test
     public final void whenTweetingAboutCloud_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
+        assertTrue(success);
+    }
+
+    @Test
+    // this is for discovery only - Eclipse should only be tweeted from the predefined accounts
+    public final void whenTweetingAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.BestEclipse.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingFromPredefinedAccountAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetByHashtagOnlyFromPredefinedAccounts(TwitterAccountEnum.BestEclipse.name());
         assertTrue(success);
     }
 

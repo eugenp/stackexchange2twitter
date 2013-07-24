@@ -112,13 +112,13 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         final String fullTweet = tweetService.constructTweetLive(processedTweetText, url);
 
         // tweet
-        twitterWriteLiveService.tweet(twitterAccount, fullTweet);
+        final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
         markDone(new RssEntry(twitterAccount, url, textOnly));
 
         // done
-        return true;
+        return success;
     }
 
     @Override
