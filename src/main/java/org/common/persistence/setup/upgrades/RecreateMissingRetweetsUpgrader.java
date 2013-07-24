@@ -22,7 +22,7 @@ import org.tweet.twitter.service.TwitterReadLiveService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
-public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent> {
+public class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupEvent> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -39,7 +39,7 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
 
     private Twitter twitterApi;
 
-    public AddTextToRetweetsUpgrader() {
+    public RecreateMissingRetweetsUpgrader() {
         super();
     }
 
@@ -48,7 +48,7 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
     @Override
     @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
-        if (env.getProperty("setup.upgrade.retweettext.do", Boolean.class)) {
+        if (env.getProperty("setup.upgrade.retweetmissing.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
             addTextToRetweets();
             logger.info("Finished executing the AddTextToRetweetsUpgrader Upgrader");
@@ -58,25 +58,25 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
     // util
 
     void addTextToRetweets() {
-        logger.info("Executing the AddTextToRetweets Upgrader");
+        logger.info("Executing the RecreateMissingRetweetsUpgrader Upgrader");
         twitterApi = twitterLiveService.readOnlyTwitterApi();
         int processed = 0;
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
-                    logger.info("Upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name());
+                    logger.info("Recreating all missing retweets of twitterAccount= " + twitterAccount.name());
                     final List<Retweet> allRetweetsForAccounts = retweetDao.findAllByTwitterAccount(twitterAccount.name());
                     addTextToRetweets(allRetweetsForAccounts);
 
                     if (!allRetweetsForAccounts.isEmpty()) {
                         processed += allRetweetsForAccounts.size();
-                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; processed= " + processed + "; sleeping for 9 secs...");
+                        logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; processed= " + processed + "; sleeping for 9 secs...");
                         Thread.sleep(1000 * 30 * 3); // 90 sec
                     }
                 } catch (final RuntimeException ex) {
-                    logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), ex);
+                    logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), ex);
                 } catch (final InterruptedException threadEx) {
-                    logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), threadEx);
+                    logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), threadEx);
                 }
             }
         }
@@ -98,9 +98,9 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
 
     private final void addTextToRetweetInternal(final Retweet retweet) {
         if (retweet.getText() != null) {
-            logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
-            return;
-            // this can be temporarily disabled if we need to re-analyze all retweets again for some reason
+            // logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
+            // return;
+            // TODO: temporarily disabling this so that texts are upgraded again
         }
 
         final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
