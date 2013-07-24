@@ -143,28 +143,28 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // newly moved here
-        if (tweetService.isRetweetMention(tweetText)) {
+        if (tweetService.isRetweetMention(processedTweetText)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
             // TODO: temporarily error
-            logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, tweetText);
+            logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, processedTweetText);
 
             // has a similar tweet been tweeted before
-            final String tweetTextWithoutRetweetMention = TwitterUtil.extractTweetFromRt(tweetText);
+            final String tweetTextWithoutRetweetMention = TwitterUtil.extractTweetFromRt(processedTweetText);
             final Retweet alreadyExists = retweetApi.findOneByTextAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
             if (alreadyExists != null) {
                 // TODO: temporarily warn - should get to debug
-                logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExists, tweetText);
+                logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExists, processedTweetText);
                 return false;
             }
 
-            final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(tweetText));
+            final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(processedTweetText));
             final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
             final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
             if (isUserWorthInteractingWith) {
                 twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
                 return true;
             } else {
-                logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, tweetText, originalUserFromRt);
+                logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, processedTweetText, originalUserFromRt);
                 return false;
             }
         }

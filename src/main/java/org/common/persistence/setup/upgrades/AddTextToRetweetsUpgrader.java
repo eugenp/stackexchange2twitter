@@ -17,6 +17,7 @@ import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.TwitterReadLiveService;
 
 @Component
@@ -29,6 +30,9 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
 
     @Autowired
     private IRetweetJpaDAO retweetDao;
+
+    @Autowired
+    private TweetService tweetService;
 
     @Autowired
     private TwitterReadLiveService twitterLiveService;
@@ -93,12 +97,17 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
 
     private final void addTextToRetweetInternal(final Retweet retweet) {
         if (retweet.getText() != null) {
-            logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
-            return;
+            // logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
+            // return;
+            // TODO: temporarily disabling this so that texts are upgraded again
         }
 
         final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
-        retweet.setText(status.getText());
+        final String textRaw = status.getText();
+        final String preProcessedText = tweetService.preValidityProcess(textRaw);
+        final String postProcessedText = tweetService.postValidityProcess(preProcessedText, retweet.getTwitterAccount());
+        retweet.setText(postProcessedText);
+
         retweetDao.save(retweet);
 
         logger.info("Upgraded retweet with text= {}", retweet.getText());

@@ -1,5 +1,7 @@
 package org.tweet.meta.persistence.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import org.common.persistence.AbstractRawServicePersistenceIntegrationTest;
 import org.common.persistence.IEntityOperations;
 import org.junit.Test;
@@ -29,11 +31,19 @@ public class RetweetPersistenceIntegrationTest extends AbstractRawServicePersist
 
     // tests
 
-    // find - one - by name
+    @Test
+    public void givenEntityExistsWithSameTextAndAccount_whenEntityIsRetrieved_thenEntityIsFound() {
+        // Given
+        final Retweet existingEntity = persistNewEntity();
 
-    // find - all
+        // When
+        final Retweet found = getApi().findOneByTextAndTwitterAccount(existingEntity.getText(), existingEntity.getTwitterAccount());
 
-    // count - all
+        // Then
+        assertNotNull(found);
+    }
+
+    // count
 
     @Test
     /**/public void whenAllResourcesAreCounted_thenNoExceptions() {
