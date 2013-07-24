@@ -2,7 +2,7 @@ package org.tweet.test;
 
 import org.classification.service.ClassificationServiceLiveTest;
 import org.common.service.ContentExtractorServiceLiveTest;
-import org.common.service.HttpServiceLiveTest;
+import org.common.service.live.HttpServiceLiveTest;
 import org.gplus.service.GplusExtractorServiceLiveTest;
 import org.gplus.stackexchange.GPlusLiveTest;
 import org.junit.runner.RunWith;
