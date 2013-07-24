@@ -60,7 +60,7 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
     void addTextToRetweets() {
         logger.info("Executing the AddTextToRetweets Upgrader on threadId= ", Thread.currentThread().getId());
         twitterApi = twitterLiveService.readOnlyTwitterApi();
-
+        int processed = 0;
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
@@ -69,8 +69,9 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
                     addTextToRetweets(allRetweetsForAccounts);
 
                     if (!allRetweetsForAccounts.isEmpty()) {
-                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 mins...");
-                        Thread.sleep(1000 * 60 * 2);
+                        processed += allRetweetsForAccounts.size();
+                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; processed= " + processed + "; sleeping for 9 secs...");
+                        Thread.sleep(1000 * 30 * 3); // 90 sec
                     }
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), ex);
