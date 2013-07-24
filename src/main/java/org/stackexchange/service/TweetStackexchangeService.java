@@ -180,7 +180,7 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
             final String title = questionJson.get(QuestionsApi.TITLE).toString();
             final String link = questionJson.get(QuestionsApi.LINK).toString();
             logger.trace("Considering to tweet on twitterAccount= {}, questionId= {}", twitterAccount, questionId);
-            if (!hasThisAlreadyBeenTweeted(new QuestionTweet(questionId, twitterAccount, null))) {
+            if (!hasThisAlreadyBeenTweetedById(new QuestionTweet(questionId, twitterAccount, null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, questionId= {}", twitterAccount, questionId);
                 final boolean success = tryTweetOneDelegator(title, link, questionId, stackSite, twitterAccount);
                 if (!success) {
@@ -272,7 +272,7 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
     }
 
     @Override
-    protected final boolean hasThisAlreadyBeenTweeted(final QuestionTweet question) {
+    protected final boolean hasThisAlreadyBeenTweetedById(final QuestionTweet question) {
         // TODO: findByQuestionIdAndTwitterAccount
         final QuestionTweet existingTweet = getApi().findByQuestionId(question.getQuestionId());
         return existingTweet != null;

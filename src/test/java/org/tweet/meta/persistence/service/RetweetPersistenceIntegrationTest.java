@@ -43,6 +43,21 @@ public class RetweetPersistenceIntegrationTest extends AbstractRawServicePersist
         assertNotNull(found);
     }
 
+    @Test
+    public void givenEntityExistsAsRtMention_whenSimilarEntityIsSearched_thenEntityIsFound() {
+        // Given
+        final Retweet newEntity = createNewEntity();
+        final String textOfTweet = "Text of tweet bla1";
+        newEntity.setText("RT @someuser: " + textOfTweet);
+        final Retweet existingEntity = getApi().save(newEntity);
+
+        // When
+        final Retweet found = getApi().findOneByTextEndsWithAndTwitterAccount(textOfTweet, existingEntity.getTwitterAccount());
+
+        // Then
+        assertNotNull(found);
+    }
+
     // count
 
     @Test

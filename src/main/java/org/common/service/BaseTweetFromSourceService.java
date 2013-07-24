@@ -26,7 +26,7 @@ public abstract class BaseTweetFromSourceService<T extends IEntity> {
     /**
      * - this should decide based also on the twitterAccount - currently, the implementations of T should actually contain the twitterAccount information
      */
-    protected abstract boolean hasThisAlreadyBeenTweeted(final T entity);
+    protected abstract boolean hasThisAlreadyBeenTweetedById(final T entity);
 
     protected abstract void markDone(final T entity);
 

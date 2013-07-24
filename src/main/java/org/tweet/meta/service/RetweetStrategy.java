@@ -76,13 +76,11 @@ public final class RetweetStrategy {
         final int retweets = countRetweets(tweetsOfAccount);
         final int mentions = countMentions(tweetsOfAccount);
         if (retweets < 6) {
-            // TODO: put back to info when I get some emails about this
-            logger.error("Should not interact with user= {} - the number of retweets (out of the last 200 tweets) is to small= {}", userHandle, retweets);
+            logger.info("Should not interact with user= {} - the number of retweets (out of the last 200 tweets) is to small= {}", userHandle, retweets);
             return false;
         }
         if (retweets + mentions < 12) {
-            // TODO: put back to info when I get some emails about this
-            logger.error("Should not interact with user= {} - the number of retweets+mentions (out of the last 200 tweets) is to small= {}", userHandle, retweets);
+            logger.info("Should not interact with user= {} - the number of retweets+mentions (out of the last 200 tweets) is to small= {}", userHandle, retweets);
             return false;
         }
 

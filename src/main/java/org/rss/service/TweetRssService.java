@@ -55,7 +55,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         final List<Pair<String, String>> rssEntries = rssService.extractTitlesAndLinks(rssUri);
         for (final Pair<String, String> potentialRssEntry : rssEntries) {
             logger.trace("Considering to tweet on twitterAccount= {}, from rssUri= {}, tweet text= {}", twitterAccount, rssUri, potentialRssEntry);
-            if (!hasThisAlreadyBeenTweeted(new RssEntry(twitterAccount, potentialRssEntry.getRight(), potentialRssEntry.getLeft()))) {
+            if (!hasThisAlreadyBeenTweetedById(new RssEntry(twitterAccount, potentialRssEntry.getRight(), potentialRssEntry.getLeft()))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, from rssUri= {}, tweet text= {}", twitterAccount, rssUri, potentialRssEntry);
                 final boolean success = tryTweetOneDelegator(potentialRssEntry, twitterAccount);
                 if (!success) {
@@ -122,7 +122,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
     }
 
     @Override
-    protected final boolean hasThisAlreadyBeenTweeted(final RssEntry rssEntry) {
+    protected final boolean hasThisAlreadyBeenTweetedById(final RssEntry rssEntry) {
         final RssEntry entry = getApi().findOneByRssUriAndTwitterAccount(rssEntry.getRssUri(), rssEntry.getTwitterAccount());
         return entry != null;
     }

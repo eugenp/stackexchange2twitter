@@ -145,15 +145,12 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         // newly moved here
         if (tweetService.isRetweetMention(processedTweetText)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-            // TODO: temporarily error
-            logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, processedTweetText);
+            logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, processedTweetText); // TODO: temporarily error
 
             // has a similar tweet been tweeted before
-            final String tweetTextWithoutRetweetMention = TwitterUtil.extractTweetFromRt(processedTweetText);
-            final Retweet alreadyExists = retweetApi.findOneByTextAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
-            if (alreadyExists != null) {
-                // TODO: temporarily warn - should get to debug
-                logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExists, processedTweetText);
+            final Retweet alreadyExistingRetweet = hasThisAlreadyBeenTweetedByText(processedTweetText, twitterAccount);
+            if (alreadyExistingRetweet != null) {
+                logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExistingRetweet, processedTweetText); // TODO: temporarily warn - should get to debug
                 return false;
             }
 
@@ -184,10 +181,20 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     }
 
     @Override
-    protected final boolean hasThisAlreadyBeenTweeted(final Retweet retweet) {
+    protected final boolean hasThisAlreadyBeenTweetedById(final Retweet retweet) {
         final Retweet existingTweetById = retweetApi.findOneByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
         final Retweet existingTweetByText = retweetApi.findOneByTextAndTwitterAccount(retweet.getText(), retweet.getTwitterAccount());
         return existingTweetById != null && existingTweetByText != null;
+    }
+
+    protected final Retweet hasThisAlreadyBeenTweetedByText(final String text, final String twitterAccount) {
+        final String tweetTextWithoutRetweetMention = TwitterUtil.extractTweetFromRt(text);
+        final Retweet exactMatchRetweet = retweetApi.findOneByTextAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
+        if (exactMatchRetweet != null) {
+            return exactMatchRetweet;
+        }
+        final Retweet endsWithRetweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
+        return endsWithRetweet;
     }
 
     @Override
@@ -221,7 +228,7 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
             logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
-            if (!hasThisAlreadyBeenTweeted(new Retweet(tweetId, twitterAccount, null))) {
+            if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
                 final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
