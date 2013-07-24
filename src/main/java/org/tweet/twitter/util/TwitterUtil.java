@@ -158,7 +158,7 @@ public final class TwitterUtil {
 
     public static Pair<String, String> breakByUrl(final String originalTweet) {
         final List<String> extractedUrls = LinkUtils.extractUrls(originalTweet);
-        if (extractedUrls.size() > 1) {
+        if (extractedUrls.size() != 1) {
             return null;
         }
         final String mainUrl = extractedUrls.get(0);

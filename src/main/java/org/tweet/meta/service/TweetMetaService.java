@@ -230,14 +230,18 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
         // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
         final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(text);
-        Retweet partialBestMatch = null;
-        if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
-            partialBestMatch = retweetApi.findOneByTextStartsWithAndTwitterAccount(beforeAndAfter.getLeft(), twitterAccount);
-        } else {
-            partialBestMatch = retweetApi.findOneByTextEndsWithAndTwitterAccount(beforeAndAfter.getRight(), twitterAccount);
+        if (beforeAndAfter == null) {
+            return null;
         }
-        if (partialBestMatch != null) {
-            return partialBestMatch;
+
+        final List<Retweet> partialMatches = Lists.newArrayList();
+        if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
+            partialMatches.addAll(retweetApi.findAllByTextStartsWithAndTwitterAccount(beforeAndAfter.getLeft(), twitterAccount));
+        } else {
+            partialMatches.addAll(retweetApi.findAllByTextEndsWithAndTwitterAccount(beforeAndAfter.getRight(), twitterAccount));
+        }
+        if (!partialMatches.isEmpty()) {
+            return partialMatches.get(0);
         }
 
         return null;
