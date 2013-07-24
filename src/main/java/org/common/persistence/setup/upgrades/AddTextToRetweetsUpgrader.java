@@ -43,7 +43,7 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
         super();
     }
 
-    //
+    // API
 
     @Override
     @Async
@@ -55,23 +55,17 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
         }
     }
 
-    // util
-
     @Override
     public void addTextToRetweets() {
         logger.info("Executing the AdsdTextToRetweets Upgrader");
         twitterApi = twitterLiveService.readOnlyTwitterApi();
-        int processed = 0;
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
                     logger.info("Upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name());
-                    final List<Retweet> allRetweetsForAccount = retweetDao.findAllByTwitterAccount(twitterAccount.name());
-                    addTextToRetweets(allRetweetsForAccount);
-
-                    if (!allRetweetsForAccount.isEmpty()) {
-                        processed += allRetweetsForAccount.size();
-                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; processed= " + processed + "; sleeping for 90 secs...");
+                    final boolean success = addTextToRetweetsOnAccount(twitterAccount.name());
+                    if (!success) {
+                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 90 secs...");
                         Thread.sleep(1000 * 30 * 3); // 90 sec
                     }
                 } catch (final RuntimeException ex) {
@@ -82,6 +76,15 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
             }
         }
     }
+
+    @Override
+    public boolean addTextToRetweetsOnAccount(final String twitterAccount) {
+        final List<Retweet> allRetweetsForAccount = retweetDao.findAllByTwitterAccount(twitterAccount);
+        addTextToRetweets(allRetweetsForAccount);
+        return !allRetweetsForAccount.isEmpty();
+    }
+
+    // util
 
     private final void addTextToRetweets(final List<Retweet> allRetweetsForAccount) {
         for (final Retweet retweet : allRetweetsForAccount) {
@@ -99,8 +102,8 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
 
     private final void addTextToRetweetInternal(final Retweet retweet) {
         if (retweet.getText() != null) {
-            logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
-            return;
+            // logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
+            // return;
             // this can be temporarily disabled if we need to re-analyze all retweets again for some reason
         }
 
