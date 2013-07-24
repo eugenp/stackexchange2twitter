@@ -24,6 +24,19 @@ public class LinkLiveService {
 
     // count links
 
+    public final boolean containsLinkToDomain(final String tweet, final String domain) {
+        final String mainUrl = LinkUtils.determineMainUrl(LinkUtils.extractUrls(tweet));
+        final String mainUrlExpanded = httpService.expand(mainUrl);
+        if (mainUrlExpanded == null) {
+            return false;
+        }
+        if (!mainUrlExpanded.contains(domain)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public final int countLinksToDomain(final Iterable<String> tweets, final String domain) {
         int count = 0;
         for (final String tweet : tweets) {

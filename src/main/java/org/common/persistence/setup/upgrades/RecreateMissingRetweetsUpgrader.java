@@ -3,6 +3,7 @@ package org.common.persistence.setup.upgrades;
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
+import org.common.service.LinkLiveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Component;
+import org.stackexchange.util.IDUtil;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
@@ -22,7 +24,7 @@ import org.tweet.twitter.service.TwitterReadLiveService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
-public class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupEvent> {
+class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IRecreateMissingRetweetsUpgrader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -37,6 +39,9 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
     @Autowired
     private TwitterReadLiveService twitterLiveService;
 
+    @Autowired
+    private LinkLiveService linkLiveService;
+
     private Twitter twitterApi;
 
     public RecreateMissingRetweetsUpgrader() {
@@ -50,28 +55,25 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
     public void onApplicationEvent(final AfterSetupEvent event) {
         if (env.getProperty("setup.upgrade.retweetmissing.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
-            addTextToRetweets();
+            recreateLocalRetweetsFromLiveTweets();
             logger.info("Finished executing the AddTextToRetweetsUpgrader Upgrader");
         }
     }
 
     // util
 
-    void addTextToRetweets() {
+    @Override
+    public void recreateLocalRetweetsFromLiveTweets() {
         logger.info("Executing the RecreateMissingRetweetsUpgrader Upgrader");
         twitterApi = twitterLiveService.readOnlyTwitterApi();
-        int processed = 0;
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
                     logger.info("Recreating all missing retweets of twitterAccount= " + twitterAccount.name());
-                    final List<Retweet> allRetweetsForAccounts = retweetDao.findAllByTwitterAccount(twitterAccount.name());
-                    addTextToRetweets(allRetweetsForAccounts);
-
-                    if (!allRetweetsForAccounts.isEmpty()) {
-                        processed += allRetweetsForAccounts.size();
-                        logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; processed= " + processed + "; sleeping for 9 secs...");
-                        Thread.sleep(1000 * 30 * 3); // 90 sec
+                    final boolean processedSomething = processAllLiveTweetsOnAccount(twitterAccount.name());
+                    if (processedSomething) {
+                        logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 120 secs...");
+                        Thread.sleep(1000 * 60 * 3); // 120 sec
                     }
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), ex);
@@ -82,36 +84,53 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
         }
     }
 
-    private final void addTextToRetweets(final List<Retweet> allRetweetsForAccounts) {
-        for (final Retweet retweet : allRetweetsForAccounts) {
-            addTextToRetweet(retweet);
+    @Override
+    public final boolean processAllLiveTweetsOnAccount(final String twitterAccount) {
+        final List<Tweet> allTweetsOnAccount = twitterLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
+        processAllLiveTweets(allTweetsOnAccount, twitterAccount);
+        return !allTweetsOnAccount.isEmpty();
+    }
+
+    private final void processAllLiveTweets(final List<Tweet> allTweetsForAccount, final String twitterAccount) {
+        for (final Tweet tweet : allTweetsForAccount) {
+            processLiveTweet(tweet, twitterAccount);
         }
     }
 
-    private final void addTextToRetweet(final Retweet retweet) {
+    private final void processLiveTweet(final Tweet tweet, final String twitterAccount) {
         try {
-            addTextToRetweetInternal(retweet);
+            processLiveTweetInternal(tweet.getText(), twitterAccount);
         } catch (final RuntimeException ex) {
-            logger.error("Unable to add text to retweet: " + retweet);
+            logger.error("Unable to add text to retweet: " + tweet);
         }
     }
 
-    private final void addTextToRetweetInternal(final Retweet retweet) {
-        if (retweet.getText() != null) {
-            // logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
-            // return;
-            // TODO: temporarily disabling this so that texts are upgraded again
+    private final void processLiveTweetInternal(final String tweetText, final String twitterAccount) {
+        final Retweet foundRetweet = retweetDao.findOneByTextAndTwitterAccount(tweetText, twitterAccount);
+        if (foundRetweet != null) {
+            logger.debug("Found local retweet: " + foundRetweet);
+            return;
         }
 
-        final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
-        final String textRaw = status.getText();
-        final String preProcessedText = tweetService.preValidityProcess(textRaw);
-        final String postProcessedText = tweetService.postValidityProcess(preProcessedText, retweet.getTwitterAccount());
-        retweet.setText(postProcessedText);
+        final boolean linkingToSo = linkLiveService.containsLinkToDomain(tweetText, "http://stackoverflow.com");
+        if (linkingToSo) {
+            logger.debug("Tweet is linking to SO - not a retweet= {}", tweetText);
+            return;
 
-        retweetDao.save(retweet);
+        }
 
-        logger.info("Upgraded retweet with text= {}", retweet.getText());
+        final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, tweetText);
+        retweetDao.save(newRetweet);
+
+        // final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
+        // final String textRaw = status.getText();
+        // final String preProcessedText = tweetService.preValidityProcess(textRaw);
+        // final String postProcessedText = tweetService.postValidityProcess(preProcessedText, retweet.getTwitterAccount());
+        // retweet.setText(postProcessedText);
+        //
+        // retweetDao.save(retweet);
+
+        logger.info("Created on twitterAccount= {}, new retweet= {}", twitterAccount, newRetweet);
     }
 
 }

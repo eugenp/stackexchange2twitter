@@ -9,31 +9,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, CommonPersistenceJPAConfig.class, KeyValPersistenceJPAConfig.class, TwitterConfig.class, TwitterLiveConfig.class, TwitterMetaPersistenceJPAConfig.class })
+@ContextConfiguration(classes = {//@formatter:off
+    CommonContextConfig.class, 
+    CommonPersistenceJPAConfig.class, 
+    
+    KeyValPersistenceJPAConfig.class, 
+    
+    TwitterMetaPersistenceJPAConfig.class,
+    
+    TwitterConfig.class, 
+    TwitterLiveConfig.class
+})//@formatter:on
 @ActiveProfiles({ SpringProfileUtil.DEPLOYED, SpringProfileUtil.LIVE })
 // @Ignore("only to be executed manually")
-public class SetupSimulationLiveTest {
+public class RecreateMissingRetweetsUpgraderLiveTest {
 
     static {
         System.setProperty("persistenceTarget", "prod");
     }
 
     @Autowired
-    private AddTextToRetweetsUpgrader addTextToRetweetsUpgrader;
+    private IRecreateMissingRetweetsUpgrader recreateMissingRetweetsUpgrader;
 
     // fixtures
 
     // tests
 
     @Test
+    public final void whenContextIsBootstrapped_thenNoException() {
+        //
+    }
+
+    @Test
     public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
-        addTextToRetweetsUpgrader.addTextToRetweets();
+        recreateMissingRetweetsUpgrader.processAllLiveTweetsOnAccount(TwitterAccountEnum.PerlDaily.name());
     }
 
 }

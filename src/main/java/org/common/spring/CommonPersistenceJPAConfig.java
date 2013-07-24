@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ComponentScan({ "org.common.persistence" })
 @ImportResource("classpath*:commonPersistenceConfig.xml")
 @EnableAsync
+// (proxyTargetClass = true)
 public class CommonPersistenceJPAConfig {
 
     public CommonPersistenceJPAConfig() {

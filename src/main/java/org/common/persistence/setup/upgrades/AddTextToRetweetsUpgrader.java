@@ -22,7 +22,7 @@ import org.tweet.twitter.service.TwitterReadLiveService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
-public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent> {
+class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IAddTextToRetweetsUpgrader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -57,20 +57,21 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
 
     // util
 
-    void addTextToRetweets() {
-        logger.info("Executing the AddTextToRetweets Upgrader");
+    @Override
+    public void addTextToRetweets() {
+        logger.info("Executing the AdsdTextToRetweets Upgrader");
         twitterApi = twitterLiveService.readOnlyTwitterApi();
         int processed = 0;
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
                     logger.info("Upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name());
-                    final List<Retweet> allRetweetsForAccounts = retweetDao.findAllByTwitterAccount(twitterAccount.name());
-                    addTextToRetweets(allRetweetsForAccounts);
+                    final List<Retweet> allRetweetsForAccount = retweetDao.findAllByTwitterAccount(twitterAccount.name());
+                    addTextToRetweets(allRetweetsForAccount);
 
-                    if (!allRetweetsForAccounts.isEmpty()) {
-                        processed += allRetweetsForAccounts.size();
-                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; processed= " + processed + "; sleeping for 9 secs...");
+                    if (!allRetweetsForAccount.isEmpty()) {
+                        processed += allRetweetsForAccount.size();
+                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; processed= " + processed + "; sleeping for 90 secs...");
                         Thread.sleep(1000 * 30 * 3); // 90 sec
                     }
                 } catch (final RuntimeException ex) {
@@ -82,8 +83,8 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
         }
     }
 
-    private final void addTextToRetweets(final List<Retweet> allRetweetsForAccounts) {
-        for (final Retweet retweet : allRetweetsForAccounts) {
+    private final void addTextToRetweets(final List<Retweet> allRetweetsForAccount) {
+        for (final Retweet retweet : allRetweetsForAccount) {
             addTextToRetweet(retweet);
         }
     }
