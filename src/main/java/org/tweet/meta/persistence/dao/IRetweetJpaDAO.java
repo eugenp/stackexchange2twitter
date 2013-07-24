@@ -4,18 +4,28 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.tweet.meta.persistence.model.Retweet;
 
 public interface IRetweetJpaDAO extends JpaRepository<Retweet, Long>, JpaSpecificationExecutor<Retweet> {
 
+    // find - one
+
     Retweet findOneByTweetId(final long tweetId);
+
+    Retweet findOneByTweetIdAndTwitterAccount(final long tweetId, final String twitterAccount);
+
+    Retweet findOneByTextAndTwitterAccount(final String text, final String twitterAccount);
+
+    // find - all
 
     List<Retweet> findAllByTweetId(final long tweetId);
 
     List<Retweet> findAllByTwitterAccount(final String twitterAccount);
 
-    Retweet findOneByTweetIdAndTwitterAccount(final long tweetId, final String twitterAccount);
+    // count
 
-    Retweet findOneByTextAndTwitterAccount(final String text, final String twitterAccount);
+    @Query("select count(r) from Retweet r where r.twitterAccount = ?1")
+    long countAllByTwitterAccount(final String twitterAccount);
 
 }

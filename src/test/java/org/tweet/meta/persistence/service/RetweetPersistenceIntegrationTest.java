@@ -1,4 +1,4 @@
-package org.stackexchange.persistence.service;
+package org.tweet.meta.persistence.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.Matchers.hasItem;
@@ -13,28 +13,33 @@ import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.keyval.spring.KeyValPersistenceJPAConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
-import org.stackexchange.persistence.model.QuestionTweet;
 import org.stackexchange.util.IDUtil;
 import org.stackexchange.util.TwitterAccountEnum;
-import org.tweet.spring.TestStackexchangePersistenceJPAConfig;
+import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
+import org.tweet.meta.persistence.model.Retweet;
+import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TestStackexchangePersistenceJPAConfig.class })
-public class QuestionTweetPersistenceIntegrationTest {
+@ContextConfiguration(classes = {// @formatter:off
+    KeyValPersistenceJPAConfig.class, 
+    
+    TwitterMetaPersistenceJPAConfig.class, 
+}) // @formatter:on
+public class RetweetPersistenceIntegrationTest {
 
     @Autowired
-    private IQuestionTweetJpaDAO api;
+    private IRetweetJpaDAO api;
 
     // tests
 
     @Test
     /**/public final void givenResourceDoesNotExist_whenResourceIsRetrieved_thenNoResourceIsReceived() {
         // When
-        final QuestionTweet createdResource = getApi().findOne(IDUtil.randomPositiveLong());
+        final Retweet createdResource = getApi().findOne(IDUtil.randomPositiveLong());
 
         // Then
         assertNull(createdResource);
@@ -42,7 +47,7 @@ public class QuestionTweetPersistenceIntegrationTest {
 
     @Test
     public void givenResourceExists_whenResourceIsRetrieved_thenNoExceptions() {
-        final QuestionTweet existingResource = persistNewEntity();
+        final Retweet existingResource = persistNewEntity();
         getApi().findOne(existingResource.getId());
     }
 
@@ -53,15 +58,15 @@ public class QuestionTweetPersistenceIntegrationTest {
 
     @Test
     public void givenResourceExists_whenResourceIsRetrieved_thenTheResultIsNotNull() {
-        final QuestionTweet existingResource = persistNewEntity();
-        final QuestionTweet retrievedResource = getApi().findOne(existingResource.getId());
+        final Retweet existingResource = persistNewEntity();
+        final Retweet retrievedResource = getApi().findOne(existingResource.getId());
         assertNotNull(retrievedResource);
     }
 
     @Test
     public void givenResourceExists_whenResourceIsRetrieved_thenResourceIsRetrievedCorrectly() {
-        final QuestionTweet existingResource = persistNewEntity();
-        final QuestionTweet retrievedResource = getApi().findOne(existingResource.getId());
+        final Retweet existingResource = persistNewEntity();
+        final Retweet retrievedResource = getApi().findOne(existingResource.getId());
         assertEquals(existingResource, retrievedResource);
     }
 
@@ -76,7 +81,7 @@ public class QuestionTweetPersistenceIntegrationTest {
 
     @Test
     /**/public void whenAllResourcesAreRetrieved_thenTheResultIsNotNull() {
-        final List<QuestionTweet> resources = getApi().findAll();
+        final List<Retweet> resources = getApi().findAll();
 
         assertNotNull(resources);
     }
@@ -86,17 +91,17 @@ public class QuestionTweetPersistenceIntegrationTest {
         persistNewEntity();
 
         // When
-        final List<QuestionTweet> allResources = getApi().findAll();
+        final List<Retweet> allResources = getApi().findAll();
 
         // Then
-        assertThat(allResources, not(Matchers.<QuestionTweet> empty()));
+        assertThat(allResources, not(Matchers.<Retweet> empty()));
     }
 
     @Test
     /**/public void givenAnResourceExists_whenAllResourcesAreRetrieved_thenTheExistingResourceIsIndeedAmongThem() {
-        final QuestionTweet existingResource = persistNewEntity();
+        final Retweet existingResource = persistNewEntity();
 
-        final List<QuestionTweet> resources = getApi().findAll();
+        final List<Retweet> resources = getApi().findAll();
 
         assertThat(resources, hasItem(existingResource));
     }
@@ -106,10 +111,10 @@ public class QuestionTweetPersistenceIntegrationTest {
         persistNewEntity();
 
         // When
-        final List<QuestionTweet> allResources = getApi().findAll();
+        final List<Retweet> allResources = getApi().findAll();
 
         // Then
-        for (final QuestionTweet resource : allResources) {
+        for (final Retweet resource : allResources) {
             assertNotNull(resource.getId());
         }
     }
@@ -131,7 +136,7 @@ public class QuestionTweetPersistenceIntegrationTest {
 
     @Test(expected = RuntimeException.class)
     /**/public void whenNullResourceIsCreated_thenException() {
-        getApi().save((QuestionTweet) null);
+        getApi().save((Retweet) null);
     }
 
     @Test
@@ -141,22 +146,22 @@ public class QuestionTweetPersistenceIntegrationTest {
 
     @Test
     /**/public void whenResourceIsCreated_thenResourceIsRetrievable() {
-        final QuestionTweet existingResource = persistNewEntity();
+        final Retweet existingResource = persistNewEntity();
 
         assertNotNull(getApi().findOne(existingResource.getId()));
     }
 
     @Test
     /**/public void whenResourceIsCreated_thenSavedResourceIsEqualToOriginalResource() {
-        final QuestionTweet originalResource = createNewEntity();
-        final QuestionTweet savedResource = getApi().save(originalResource);
+        final Retweet originalResource = createNewEntity();
+        final Retweet savedResource = getApi().save(originalResource);
 
         assertEquals(originalResource, savedResource);
     }
 
     @Test(expected = RuntimeException.class)
     public void whenResourceWithFailedConstraintsIsCreated_thenException() {
-        final QuestionTweet invalidResource = createNewEntity();
+        final Retweet invalidResource = createNewEntity();
         invalidate(invalidResource);
 
         getApi().save(invalidResource);
@@ -166,13 +171,13 @@ public class QuestionTweetPersistenceIntegrationTest {
 
     @Test(expected = RuntimeException.class)
     /**/public void whenNullResourceIsUpdated_thenException() {
-        getApi().save((QuestionTweet) null);
+        getApi().save((Retweet) null);
     }
 
     @Test
     /**/public void givenResourceExists_whenResourceIsUpdated_thenNoExceptions() {
         // Given
-        final QuestionTweet existingResource = persistNewEntity();
+        final Retweet existingResource = persistNewEntity();
 
         // When
         getApi().save(existingResource);
@@ -183,7 +188,7 @@ public class QuestionTweetPersistenceIntegrationTest {
      */
     @Test(expected = RuntimeException.class)
     public void whenResourceIsUpdatedWithFailedConstraints_thenException() {
-        final QuestionTweet existingResource = persistNewEntity();
+        final Retweet existingResource = persistNewEntity();
         invalidate(existingResource);
 
         getApi().save(existingResource);
@@ -192,13 +197,13 @@ public class QuestionTweetPersistenceIntegrationTest {
     @Test
     /**/public void givenResourceExists_whenResourceIsUpdated_thenUpdatesArePersisted() {
         // Given
-        final QuestionTweet existingResource = persistNewEntity();
+        final Retweet existingResource = persistNewEntity();
 
         // When
         change(existingResource);
         getApi().save(existingResource);
 
-        final QuestionTweet updatedResource = getApi().findOne(existingResource.getId());
+        final Retweet updatedResource = getApi().findOne(existingResource.getId());
 
         // Then
         assertEquals(existingResource, updatedResource);
@@ -221,7 +226,7 @@ public class QuestionTweetPersistenceIntegrationTest {
     @Test
     public void givenResourceExists_whenResourceIsDeleted_thenNoExceptions() {
         // Given
-        final QuestionTweet existingResource = persistNewEntity();
+        final Retweet existingResource = persistNewEntity();
 
         // When
         getApi().delete(existingResource.getId());
@@ -230,7 +235,7 @@ public class QuestionTweetPersistenceIntegrationTest {
     @Test
     /**/public final void givenResourceExists_whenResourceIsDeleted_thenResourceNoLongerExists() {
         // Given
-        final QuestionTweet existingResource = persistNewEntity();
+        final Retweet existingResource = persistNewEntity();
 
         // When
         getApi().delete(existingResource.getId());
@@ -241,23 +246,24 @@ public class QuestionTweetPersistenceIntegrationTest {
 
     // template method
 
-    protected IQuestionTweetJpaDAO getApi() {
+    protected IRetweetJpaDAO getApi() {
         return api;
     }
 
-    protected void change(final QuestionTweet entity) {
-        entity.setQuestionId(randomAlphabetic(6));
+    protected void change(final Retweet entity) {
+        entity.setText(randomAlphabetic(6));
     }
 
-    protected void invalidate(final QuestionTweet entity) {
-        entity.setQuestionId(null);
+    protected void invalidate(final Retweet entity) {
+        entity.setText(null);
+        entity.setTwitterAccount(null);
     }
 
-    protected QuestionTweet createNewEntity() {
-        return new QuestionTweet(randomAlphabetic(6), randomAlphabetic(6), randomAlphabetic(6));
+    protected Retweet createNewEntity() {
+        return new Retweet(IDUtil.randomPositiveLong(), randomAlphabetic(6), randomAlphabetic(6));
     }
 
-    protected QuestionTweet persistNewEntity() {
+    protected Retweet persistNewEntity() {
         return getApi().save(createNewEntity());
     }
 
