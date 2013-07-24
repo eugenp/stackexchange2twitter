@@ -2,12 +2,13 @@ package org.tweet.meta.persistence.dao;
 
 import java.util.List;
 
+import org.common.persistence.IOperations;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.tweet.meta.persistence.model.Retweet;
 
-public interface IRetweetJpaDAO extends JpaRepository<Retweet, Long>, JpaSpecificationExecutor<Retweet> {
+public interface IRetweetJpaDAO extends JpaRepository<Retweet, Long>, JpaSpecificationExecutor<Retweet>, IOperations<Retweet> {
 
     // find - one
 

@@ -25,6 +25,7 @@ public class TwitterAccount implements IEntity {
         return id;
     }
 
+    @Override
     public void setId(final long id) {
         this.id = id;
     }

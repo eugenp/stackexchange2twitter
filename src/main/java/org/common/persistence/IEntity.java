@@ -6,4 +6,6 @@ public interface IEntity extends Serializable {
 
     long getId();
 
+    void setId(long id);
+
 }
