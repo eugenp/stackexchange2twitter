@@ -3,8 +3,8 @@ package org.tweet.twitter.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.common.service.HttpLiveService;
 import org.common.service.LinkService;
+import org.common.service.live.HttpLiveService;
 import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

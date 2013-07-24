@@ -18,7 +18,7 @@ import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetService;
-import org.tweet.twitter.service.TwitterReadLiveService;
+import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)

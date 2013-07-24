@@ -12,6 +12,7 @@ import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.twitter.service.live.TwitterAnalysisLiveService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class })

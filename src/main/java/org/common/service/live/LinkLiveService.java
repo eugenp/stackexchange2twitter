@@ -1,4 +1,4 @@
-package org.common.service;
+package org.common.service.live;
 
 import org.common.util.LinkUtils;
 import org.slf4j.Logger;

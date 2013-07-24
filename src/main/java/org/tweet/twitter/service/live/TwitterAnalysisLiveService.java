@@ -1,4 +1,4 @@
-package org.tweet.twitter.service;
+package org.tweet.twitter.service.live;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +12,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.twitter.service.TwitterTemplateCreator;
 
 import com.google.common.collect.Maps;
 

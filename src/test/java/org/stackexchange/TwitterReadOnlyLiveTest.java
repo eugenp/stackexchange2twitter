@@ -17,8 +17,8 @@ import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TwitterReadLiveService;
 import org.tweet.twitter.service.TwitterTemplateCreator;
+import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 

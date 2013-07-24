@@ -1,4 +1,4 @@
-package org.tweet.twitter.service;
+package org.tweet.twitter.service.live;
 
 public interface ITwitterWriteLiveService {
 

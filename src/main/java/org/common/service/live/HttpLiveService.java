@@ -1,4 +1,4 @@
-package org.common.service;
+package org.common.service.live;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +9,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.common.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;

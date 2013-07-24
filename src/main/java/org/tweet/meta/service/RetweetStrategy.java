@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Component;
-import org.tweet.twitter.service.TwitterReadLiveService;
+import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 @Component
 public final class RetweetStrategy {

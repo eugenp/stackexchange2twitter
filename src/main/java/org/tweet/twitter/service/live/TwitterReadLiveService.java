@@ -1,4 +1,4 @@
-package org.tweet.twitter.service;
+package org.tweet.twitter.service.live;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.twitter.service.TwitterTemplateCreator;
 
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;

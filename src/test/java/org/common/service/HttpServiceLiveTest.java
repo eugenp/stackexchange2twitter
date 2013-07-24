@@ -11,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
+import org.common.service.live.HttpLiveService;
 import org.common.spring.CommonContextConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;

@@ -3,7 +3,7 @@ package org.tweet.meta.service;
 import java.util.List;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.service.LinkLiveService;
+import org.common.service.live.LinkLiveService;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TwitterReadLiveService;
+import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 import com.google.common.collect.Lists;
 
