@@ -17,6 +17,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.google.api.client.util.Preconditions;
+
 @Configuration
 @EnableTransactionManagement
 public class PersistenceJPACommonConfig {
@@ -39,9 +41,9 @@ public class PersistenceJPACommonConfig {
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter() {
             {
                 // setDatabase( Database.H2 ); // TODO: is this necessary
-                setDatabasePlatform(env.getProperty("hibernate.dialect"));
-                setShowSql(env.getProperty("hibernate.show_sql", Boolean.class));
-                setGenerateDdl(env.getProperty("jpa.generateDdl", Boolean.class));
+                setDatabasePlatform(Preconditions.checkNotNull(env.getProperty("hibernate.dialect")));
+                setShowSql(Preconditions.checkNotNull(env.getProperty("hibernate.show_sql", Boolean.class)));
+                setGenerateDdl(Preconditions.checkNotNull(env.getProperty("jpa.generateDdl", Boolean.class)));
             }
         };
         factoryBean.setJpaVendorAdapter(vendorAdapter);
