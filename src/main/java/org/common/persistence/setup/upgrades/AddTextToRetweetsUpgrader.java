@@ -48,7 +48,7 @@ public class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetup
     @Override
     @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
-        if (env.getProperty("setup.upgrade.do", Boolean.class)) {
+        if (env.getProperty("setup.upgrade.retweettext.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweets Upgrader on threadId= ", Thread.currentThread().getId());
             addTextToRetweets();
             logger.info("Finished executing the AddTextToRetweets Upgrader on threadId= ", Thread.currentThread().getId());
