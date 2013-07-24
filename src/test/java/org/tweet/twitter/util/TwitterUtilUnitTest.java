@@ -473,4 +473,33 @@ public final class TwitterUtilUnitTest {
         assertThat(result, equalTo(expected));
     }
 
+    // break up
+
+    @Test
+    public final void whenDeterminingTheLargerPartOfATweetScenario1_thenCorrectlyDetermined() {
+        final String originalTweet = "RT @vmbrasseur: This regex MUST become a t-shirt. #osb13 #perl #biking / Credit to @nickpatch http://t.co/Qhrk0b7kAZ";
+        final String expectedLargerPart = "RT @vmbrasseur: This regex MUST become a t-shirt. #osb13 #perl #biking / Credit to @nickpatch";
+
+        final String extractedLargerPart = TwitterUtil.extractLargerPart(originalTweet).trim();
+        assertThat(extractedLargerPart, equalTo(expectedLargerPart));
+    }
+
+    @Test
+    public final void whenDeterminingTheLargerPartOfATweetScenario2_thenCorrectlyDetermined() {
+        final String originalTweet = "RT @vmbrasseur: This regex MUST become a t-shirt. #osb13 #perl #biking / http://t.co/Qhrk0b7kAZ / Credit to @nickpatch";
+        final String expectedLargerPart = "RT @vmbrasseur: This regex MUST become a t-shirt. #osb13 #perl #biking /";
+
+        final String extractedLargerPart = TwitterUtil.extractLargerPart(originalTweet).trim();
+        assertThat(extractedLargerPart, equalTo(expectedLargerPart));
+    }
+
+    @Test
+    public final void whenDeterminingTheLargerPartOfATweetScenario3_thenCorrectlyDetermined() {
+        final String originalTweet = "RT @vmbrasseur: http://t.co/Qhrk0b7kAZ - This regex MUST become a t-shirt. #osb13 #perl #biking / Credit to @nickpatch";
+        final String expectedLargerPart = "- This regex MUST become a t-shirt. #osb13 #perl #biking / Credit to @nickpatch";
+
+        final String extractedLargerPart = TwitterUtil.extractLargerPart(originalTweet).trim();
+        assertThat(extractedLargerPart, equalTo(expectedLargerPart));
+    }
+
 }

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.common.util.LinkUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -150,6 +152,32 @@ public final class TwitterUtil {
         }
 
         return false;
+    }
+
+    // tweet - break
+
+    public static Pair<String, String> breakByUrl(final String originalTweet) {
+        final List<String> extractedUrls = LinkUtils.extractUrls(originalTweet);
+        if (extractedUrls.size() > 1) {
+            return null;
+        }
+        final String mainUrl = extractedUrls.get(0);
+        final int indexOfMainUrl = originalTweet.indexOf(mainUrl);
+        final String before = originalTweet.substring(0, indexOfMainUrl);
+        final String after = originalTweet.substring(indexOfMainUrl + mainUrl.length());
+        return new ImmutablePair<String, String>(before, after);
+    }
+
+    public static String extractLargerPart(final String originalTweet) {
+        final Pair<String, String> beforeAndAfter = breakByUrl(originalTweet);
+        if (beforeAndAfter == null) {
+            return originalTweet;
+        }
+        if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
+            return beforeAndAfter.getLeft();
+        } else {
+            return beforeAndAfter.getRight();
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.classification.service.ClassificationService;
 import org.common.service.BaseTweetFromSourceService;
 import org.common.service.LinkService;
@@ -221,8 +222,25 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
         if (exactMatchRetweet != null) {
             return exactMatchRetweet;
         }
-        final Retweet endsWithRetweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
-        return endsWithRetweet;
+
+        final Retweet endsWithFullRetweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
+        if (endsWithFullRetweet != null) {
+            return endsWithFullRetweet;
+        }
+
+        // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
+        final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(text);
+        Retweet partialBestMatch = null;
+        if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
+            partialBestMatch = retweetApi.findOneByTextStartsWithAndTwitterAccount(beforeAndAfter.getLeft(), twitterAccount);
+        } else {
+            partialBestMatch = retweetApi.findOneByTextEndsWithAndTwitterAccount(beforeAndAfter.getRight(), twitterAccount);
+        }
+        if (partialBestMatch != null) {
+            return partialBestMatch;
+        }
+
+        return null;
     }
 
     @Override
