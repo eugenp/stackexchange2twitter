@@ -130,4 +130,11 @@ public class TweetMetaServiceLiveTest {
         assertNotNull(existing);
     }
 
+    @Test
+    public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario4_thenCorrectAnswer() {
+        final String text = "#OOCSS + #Sass = The best way to #CSS - http://buff.ly/198JbJv  #webdev #html";
+        final Retweet existing = tweetMetaService.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.HTMLdaily.name());
+        assertNotNull(existing);
+    }
+
 }
