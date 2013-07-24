@@ -2,12 +2,12 @@ package org.stackexchange.persistence.dao;
 
 import java.util.List;
 
+import org.common.persistence.IOperations;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.stackexchange.persistence.model.QuestionTweet;
 
-public interface IQuestionTweetJpaDAO extends JpaRepository<QuestionTweet, Long>, JpaSpecificationExecutor<QuestionTweet> {
+public interface IQuestionTweetJpaDAO extends JpaRepository<QuestionTweet, Long>, IOperations<QuestionTweet> {
 
     QuestionTweet findByQuestionId(final String questionId);
 

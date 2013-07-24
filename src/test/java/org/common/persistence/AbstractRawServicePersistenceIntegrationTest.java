@@ -3,21 +3,16 @@ package org.common.persistence;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.common.persistence.meta.SearchField;
-import org.common.util.order.OrderById;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Sort;
 import org.stackexchange.util.IDUtil;
 
 public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEntity> {
@@ -71,7 +66,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
 
     @Test
     /**/public void whenAllResourcesAreRetrieved_thenTheResultIsNotNull() {
-        final List<T> resources = getApi().findAll();
+        final Iterable<T> resources = getApi().findAll();
 
         assertNotNull(resources);
     }
@@ -81,7 +76,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
         persistNewEntity();
 
         // When
-        final List<T> allResources = getApi().findAll();
+        final List<T> allResources = (List<T>) getApi().findAll();
 
         // Then
         assertThat(allResources, not(Matchers.<T> empty()));
@@ -91,7 +86,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
     /**/public void givenAnResourceExists_whenAllResourcesAreRetrieved_thenTheExistingResourceIsIndeedAmongThem() {
         final T existingResource = persistNewEntity();
 
-        final List<T> resources = getApi().findAll();
+        final Iterable<T> resources = getApi().findAll();
 
         assertThat(resources, hasItem(existingResource));
     }
@@ -101,7 +96,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
         persistNewEntity();
 
         // When
-        final List<T> allResources = getApi().findAll();
+        final Iterable<T> allResources = getApi().findAll();
 
         // Then
         for (final T resource : allResources) {
@@ -109,50 +104,9 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
         }
     }
 
-    // find - all - pagination
-
-    @Test
-    /**/public final void whenResourcesAreRetrievedPaginated_thenNoExceptions() {
-        getApi().findAllPaginated(1, 1);
-    }
-
-    @Test
-    /**/public final void whenFirstPageOfResourcesAreRetrieved_thenResourcesPageIsReturned() {
-        persistNewEntity();
-
-        // When
-        final List<T> allPaginated = getApi().findAllPaginated(0, 1);
-
-        // Then
-        assertFalse(allPaginated.isEmpty());
-    }
-
-    // find - all - sorting
-
-    @Test
-    /**/public final void whenResourcesAreRetrievedSortedDescById_thenNoExceptions() {
-        getApi().findAllSorted(SearchField.id.toString(), Sort.Direction.DESC.name());
-    }
-
-    @Test
-    /**/public final void whenResourcesAreRetrievedSortedAscById_thenResultsAreOrderedCorrectly() {
-        final List<T> resourcesOrderedById = getApi().findAllSorted(SearchField.id.toString(), Sort.Direction.ASC.name());
-
-        assertTrue(new OrderById<T>().isOrdered(resourcesOrderedById));
-    }
-
-    @Test
-    /**/public final void whenResourcesAreRetrievedSortedDescById_thenResultsAreOrderedCorrectly() {
-        final List<T> resourcesOrderedById = getApi().findAllSorted(SearchField.id.toString(), Sort.Direction.DESC.name());
-
-        assertTrue(new OrderById<T>().reverse().isOrdered(resourcesOrderedById));
-    }
-
-    // create
-
     @Test(expected = RuntimeException.class)
     /**/public void whenNullResourceIsCreated_thenException() {
-        getApi().create(null);
+        getApi().save((T) null);
     }
 
     @Test
@@ -170,7 +124,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
     @Test
     /**/public void whenResourceIsCreated_thenSavedResourceIsEqualToOriginalResource() {
         final T originalResource = createNewEntity();
-        final T savedResource = getApi().create(originalResource);
+        final T savedResource = getApi().save(originalResource);
 
         assertEquals(originalResource, savedResource);
     }
@@ -180,7 +134,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
         final T invalidResource = createNewEntity();
         getEntityOps().invalidate(invalidResource);
 
-        getApi().create(invalidResource);
+        getApi().save(invalidResource);
     }
 
     /**
@@ -192,14 +146,14 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
         final T resourceWithId = createNewEntity();
         resourceWithId.setId(IDUtil.randomPositiveLong());
 
-        getApi().create(resourceWithId);
+        getApi().save(resourceWithId);
     }
 
     // update
 
     @Test(expected = RuntimeException.class)
     /**/public void whenNullResourceIsUpdated_thenException() {
-        getApi().update(null);
+        getApi().save((T) null);
     }
 
     @Test
@@ -208,7 +162,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
         final T existingResource = persistNewEntity();
 
         // When
-        getApi().update(existingResource);
+        getApi().save(existingResource);
     }
 
     /**
@@ -219,7 +173,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
         final T existingResource = persistNewEntity();
         getEntityOps().invalidate(existingResource);
 
-        getApi().update(existingResource);
+        getApi().save(existingResource);
     }
 
     @Test
@@ -229,7 +183,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
 
         // When
         getEntityOps().change(existingResource);
-        getApi().update(existingResource);
+        getApi().save(existingResource);
 
         final T updatedResource = getApi().findOne(existingResource.getId());
 
@@ -283,7 +237,7 @@ public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEn
     protected abstract IEntityOperations<T> getEntityOps();
 
     protected T persistNewEntity() {
-        return getApi().create(createNewEntity());
+        return getApi().save(createNewEntity());
     }
 
 }
