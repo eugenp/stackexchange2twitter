@@ -1,7 +1,5 @@
 package org.tweet.meta.component;
 
-import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +27,14 @@ public class MetaPoller {
     // API
 
     @Scheduled(cron = "0 0 9 * * *")
-    public void checkRetweetsMatch() throws JsonProcessingException, IOException {
+    public void checkRetweetsMatch() throws JsonProcessingException, InterruptedException {
         logger.info("Starting Meta validity checks");
 
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 checkRetweetsMatchOnAccount(twitterAccount.name());
+                logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 60 secs...");
+                Thread.sleep(1000 * 60 * 1); // 60 sec
             }
         }
 
@@ -46,11 +46,25 @@ public class MetaPoller {
     /**
      * - the current implementation still works on the assumption that the account has less than 200 tweets
      */
-    final void checkRetweetsMatchOnAccount(final String twitterAccount) {
-        final long absDifference = twitterAnalysisLiveService.calculateAbsDifferenceBetweenLocalAndLiveRetweetsOnAccount(twitterAccount);
+    final boolean checkRetweetsMatchOnAccount(final String twitterAccount) {
+        try {
+            checkRetweetsMatchOnAccountInternal(twitterAccount);
+            return true;
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to verify that live and local retweets match on twitterAccount= " + twitterAccount, ex);
+            return false;
+        }
+    }
 
-        System.out.println("On twitterAccount= " + twitterAccount + ", the difference between the live and the local retweets is: " + absDifference);
-        logger.info("On twitterAccount= {}, the difference between the live and the local retweets is: {}", twitterAccount, absDifference);
+    /**
+     * - the current implementation still works on the assumption that the account has less than 200 tweets
+     */
+    final void checkRetweetsMatchOnAccountInternal(final String twitterAccount) {
+        final long absDifference = twitterAnalysisLiveService.calculateAbsDifferenceBetweenLocalAndLiveRetweetsOnAccount(twitterAccount);
+        if (absDifference > 2) {
+            System.out.println("On twitterAccount= " + twitterAccount + ", the difference between the live and the local retweets is: " + absDifference);
+            logger.info("On twitterAccount= {}, the difference between the live and the local retweets is: {}", twitterAccount, absDifference);
+        }
     }
 
 }
