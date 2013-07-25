@@ -40,6 +40,10 @@ import org.tweet.spring.util.SpringProfileUtil;
         TwitterMetaConfig.class 
 }) // @formatter:on
 @ActiveProfiles({ SpringProfileUtil.PRODUCTION })
+/**
+ * - note: this depends on the state of the database - so it may fail on Jenkins
+ * TODO: persist the tweets if they don't exist, before checking or make this a manual test
+ */
 public class TweetMetaServiceIntegrationTest {
 
     static {
