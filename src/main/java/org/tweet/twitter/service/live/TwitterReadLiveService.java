@@ -65,7 +65,7 @@ public class TwitterReadLiveService {
     /**
      * - note: will NOT return null
      */
-    public List<String> listTweetsOfInternalAccountInternal(final String twitterAccount) {
+    private final List<String> listTweetsOfInternalAccountInternal(final String twitterAccount) {
         return listTweetsOfInternalAccount(twitterAccount, 20);
     }
 
@@ -84,7 +84,7 @@ public class TwitterReadLiveService {
     /**
      * - note: will NOT return null
      */
-    public List<String> listTweetsOfInternalAccountInternal(final String twitterAccount, final int howmany) {
+    private final List<String> listTweetsOfInternalAccountInternal(final String twitterAccount, final int howmany) {
         final List<Tweet> userTimeline = listTweetsOfInternalAccountRaw(twitterAccount, howmany);
         final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
             @Override
@@ -104,7 +104,7 @@ public class TwitterReadLiveService {
         }
     }
 
-    public List<Tweet> listTweetsOfInternalAccountRawInternal(final String twitterAccount, final int howmany) {
+    private final List<Tweet> listTweetsOfInternalAccountRawInternal(final String twitterAccount, final int howmany) {
         final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline(howmany);
         return userTimeline;
@@ -121,7 +121,7 @@ public class TwitterReadLiveService {
         }
     }
 
-    public List<Tweet> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
+    private final List<Tweet> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
         final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(randomAccount);
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
@@ -148,6 +148,11 @@ public class TwitterReadLiveService {
     public final Twitter readOnlyTwitterApi() {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
         final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(randomAccount);
+        return readOnlyTwitterTemplate;
+    }
+
+    public final Twitter readOnlyTwitterApi(final String twitterAccount) {
+        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
         return readOnlyTwitterTemplate;
     }
 

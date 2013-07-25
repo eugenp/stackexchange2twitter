@@ -27,7 +27,7 @@ public class TwitterAnalysisLiveServiceLiveTest {
 
     @Test
     public final void whenAnalyzingAccount_thenNoExceptions() {
-        twitterAnalysisLiveService.analyzeAccount(TwitterAccountEnum.jQueryDaily.name());
+        twitterAnalysisLiveService.calculateLiveStatisticsForAccount(TwitterAccountEnum.jQueryDaily.name());
         System.out.println();
     }
 

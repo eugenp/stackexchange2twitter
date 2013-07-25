@@ -3,46 +3,53 @@ package org.tweet.twitter.service.live;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.common.service.live.LinkLiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.TimelineOperations;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
+import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TwitterTemplateCreator;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @Service
 @Profile(SpringProfileUtil.LIVE)
-@SuppressWarnings("unused")
 public class TwitterAnalysisLiveService {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    // private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TwitterReadLiveService twitterLiveService;
+    private TwitterReadLiveService twitterReadLiveService;
 
     @Autowired
-    private TwitterTemplateCreator twitterCreator;
+    private IRetweetJpaDAO retweetLocalApi;
 
     public TwitterAnalysisLiveService() {
         super();
     }
 
+    @Autowired
+    private LinkLiveService linkLiveService;
+
     // API
 
-    public final void analyzeAccount(final String twitterAccount) {
+    /**
+     * Analyzes the account and compiles a simple report of: <br/>
+     * - who retweeted you <br/>
+     * - who favorited you (not yet) <br/>
+     * - who mentioned you <br/>
+     */
+    public final void calculateLiveStatisticsForAccount(final String twitterAccount) {
         final Map<String, Integer> retweetsCollector = Maps.newHashMap();
-        final Map<String, Integer> favsCollector = Maps.newHashMap();
 
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+        final Twitter twitterTemplate = twitterReadLiveService.readOnlyTwitterApi(twitterAccount);
         final TimelineOperations timelineOperations = twitterTemplate.timelineOperations();
-        final List<Tweet> retweetsOfMe = timelineOperations.getRetweetsOfMe(1, 100);
-        for (final Tweet myTweet : retweetsOfMe) {
-            final List<Tweet> retweetsOfCurrentTweet = timelineOperations.getRetweets(myTweet.getId());
+        final List<Tweet> myRetweetedTweets = timelineOperations.getRetweetsOfMe(1, 100);
+        for (final Tweet myRetweetedTweet : myRetweetedTweets) {
+            final List<Tweet> retweetsOfCurrentTweet = timelineOperations.getRetweets(myRetweetedTweet.getId());
             for (final Tweet retweetOfMe : retweetsOfCurrentTweet) {
                 analyzeRetweetOfMe(retweetOfMe, retweetsCollector);
             }
@@ -52,13 +59,26 @@ public class TwitterAnalysisLiveService {
             analyzeMention(mention);
         }
 
-        final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
+        final List<Tweet> tweetsOfAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
         for (final Tweet tweet : tweetsOfAccount) {
             analyzeGenericTweet(tweet);
         }
 
         System.out.println("Retweets: " + retweetsCollector);
     }
+
+    public final long calculateAbsDifferenceBetweenLocalAndLiveRetweetsOnAccount(final String twitterAccount) {
+        final List<String> tweetsOnAccount = twitterReadLiveService.listTweetsOfInternalAccount(twitterAccount, 200);
+        final List<String> relevantDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
+        final int linkingToSo = linkLiveService.countLinksToAnyDomain(tweetsOnAccount, relevantDomains);
+        final int liveRetweetsOnAccount = tweetsOnAccount.size() - linkingToSo;
+        final long localRetweetsOnAccount = retweetLocalApi.countAllByTwitterAccount(twitterAccount);
+
+        final long absDifference = Math.abs(liveRetweetsOnAccount - localRetweetsOnAccount);
+        return absDifference;
+    }
+
+    // util
 
     private void analyzeRetweetOfMe(final Tweet tweet, final Map<String, Integer> retweetsCollector) {
         final Integer resultsForThatUser = retweetsCollector.get(tweet.getFromUser());
