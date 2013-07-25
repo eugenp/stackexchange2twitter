@@ -8,9 +8,8 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.classification.service.ClassificationService;
-import org.common.service.BaseTweetFromSourceService;
+import org.common.service.BaseTweetFromSourceLiveService;
 import org.common.service.LinkService;
 import org.common.service.live.HttpLiveService;
 import org.common.util.LinkUtils;
@@ -40,7 +39,7 @@ import com.google.common.collect.Ordering;
 
 @Service
 @Profile(SpringProfileUtil.WRITE)
-public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
+public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -56,9 +55,6 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     private LinkService linkService;
 
     @Autowired
-    private IRetweetJpaDAO retweetApi;
-
-    @Autowired
     private MinRtRetriever minRtRetriever;
 
     @Autowired
@@ -67,7 +63,10 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
     @Autowired
     private RetweetStrategy retweetStrategy;
 
-    public TweetMetaService() {
+    @Autowired
+    private TweetMetaLocalService tweetMetaLocalService;
+
+    public TweetMetaLiveService() {
         super();
     }
 
@@ -210,50 +209,22 @@ public class TweetMetaService extends BaseTweetFromSourceService<Retweet> {
 
     @Override
     protected final boolean hasThisAlreadyBeenTweetedById(final Retweet retweet) {
-        final Retweet existingTweetById = retweetApi.findOneByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
-        final Retweet existingTweetByText = retweetApi.findOneByTextAndTwitterAccount(retweet.getText(), retweet.getTwitterAccount());
-        return existingTweetById != null && existingTweetByText != null;
+        return tweetMetaLocalService.hasThisAlreadyBeenTweetedById(retweet);
     }
 
     protected final Retweet hasThisAlreadyBeenTweetedByText(final String text, final String twitterAccount) {
-        final String tweetTextWithoutRetweetMention = TwitterUtil.extractTweetFromRt(text);
-        final Retweet exactMatchRetweet = retweetApi.findOneByTextAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
-        if (exactMatchRetweet != null) {
-            return exactMatchRetweet;
-        }
+        return tweetMetaLocalService.hasThisAlreadyBeenTweetedByText(text, twitterAccount);
 
-        final Retweet endsWithFullRetweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
-        if (endsWithFullRetweet != null) {
-            return endsWithFullRetweet;
-        }
-
-        // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
-        final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(text);
-        if (beforeAndAfter == null) {
-            return null;
-        }
-
-        final List<Retweet> partialMatches = Lists.newArrayList();
-        if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
-            partialMatches.addAll(retweetApi.findAllByTextStartsWithAndTwitterAccount(beforeAndAfter.getLeft(), twitterAccount));
-        } else {
-            partialMatches.addAll(retweetApi.findAllByTextEndsWithAndTwitterAccount(beforeAndAfter.getRight(), twitterAccount));
-        }
-        if (!partialMatches.isEmpty()) {
-            return partialMatches.get(0);
-        }
-
-        return null;
     }
 
     @Override
     protected final void markDone(final Retweet entity) {
-        retweetApi.save(entity);
+        tweetMetaLocalService.markDone(entity);
     }
 
     @Override
     protected final IRetweetJpaDAO getApi() {
-        return retweetApi;
+        throw new UnsupportedOperationException();
     }
 
     // util

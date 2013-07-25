@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.common.service.LinkService;
-import org.common.service.live.HttpLiveService;
 import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +24,6 @@ public class TweetService {
 
     @Autowired
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
-
-    @Autowired
-    private HttpLiveService httpService;
 
     @Autowired
     private LinkService linkService;
@@ -119,18 +115,6 @@ public class TweetService {
 
         final String textOfTweet = tweetTextNoUrl;
         final String tweet = textOfTweet + " - " + url;
-        return tweet;
-    }
-
-    public final String constructTweetLive(final String text, final String url) {
-        Preconditions.checkNotNull(text);
-        Preconditions.checkNotNull(url);
-
-        final String expandedUrl = Preconditions.checkNotNull(httpService.expand(url));
-        final String cleanExpandedUrl = linkService.removeUrlParameters(expandedUrl);
-
-        final String textOfTweet = text;
-        final String tweet = textOfTweet + " - " + cleanExpandedUrl;
         return tweet;
     }
 

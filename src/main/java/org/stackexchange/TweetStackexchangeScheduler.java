@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.stackexchange.api.constants.StackSite;
-import org.stackexchange.service.TweetStackexchangeService;
+import org.stackexchange.service.TweetStackexchangeLiveService;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.util.SpringProfileUtil;
@@ -26,7 +26,7 @@ public class TweetStackexchangeScheduler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TweetStackexchangeService service;
+    private TweetStackexchangeLiveService service;
 
     @Autowired
     private TagRetrieverService tagService;

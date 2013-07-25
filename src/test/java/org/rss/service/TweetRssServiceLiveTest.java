@@ -24,7 +24,7 @@ import com.sun.syndication.io.FeedException;
 public class TweetRssServiceLiveTest {
 
     @Autowired
-    private TweetRssService tweetRssService;
+    private TweetRssLiveService tweetRssService;
 
     // tests
 

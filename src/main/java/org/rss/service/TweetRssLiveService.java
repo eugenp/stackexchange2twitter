@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.common.service.BaseTweetFromSourceService;
+import org.common.service.BaseTweetFromSourceLiveService;
 import org.rss.persistence.dao.IRssEntryJpaDAO;
 import org.rss.persistence.model.RssEntry;
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 
 @Service
 @Profile(SpringProfileUtil.WRITE)
-public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> {
+public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<RssEntry> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -25,7 +25,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
     @Autowired
     private IRssEntryJpaDAO rssEntryApi;
 
-    public TweetRssService() {
+    public TweetRssLiveService() {
         super();
     }
 
@@ -109,7 +109,7 @@ public final class TweetRssService extends BaseTweetFromSourceService<RssEntry> 
         final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // construct full tweet
-        final String fullTweet = tweetService.constructTweetLive(processedTweetText, url);
+        final String fullTweet = tweetLiveService.constructTweetLive(processedTweetText, url);
 
         // tweet
         final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweet);

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.stackexchange.util.TwitterAccountEnum;
-import org.tweet.meta.service.TweetMetaService;
+import org.tweet.meta.service.TweetMetaLiveService;
 import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,7 +20,7 @@ public class TweetMetaScheduler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TweetMetaService service;
+    private TweetMetaLiveService service;
 
     public TweetMetaScheduler() {
         super();

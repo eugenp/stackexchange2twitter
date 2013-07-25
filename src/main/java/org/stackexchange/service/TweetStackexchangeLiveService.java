@@ -3,7 +3,7 @@ package org.stackexchange.service;
 import java.io.IOException;
 import java.util.Map;
 
-import org.common.service.BaseTweetFromSourceService;
+import org.common.service.BaseTweetFromSourceLiveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ import com.google.common.collect.Maps;
 
 @Service
 @Profile(SpringProfileUtil.WRITE)
-public final class TweetStackexchangeService extends BaseTweetFromSourceService<QuestionTweet> {
+public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLiveService<QuestionTweet> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -44,7 +44,7 @@ public final class TweetStackexchangeService extends BaseTweetFromSourceService<
     @Autowired
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
 
-    public TweetStackexchangeService() {
+    public TweetStackexchangeLiveService() {
         super();
     }
 

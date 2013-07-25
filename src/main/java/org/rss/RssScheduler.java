@@ -2,7 +2,7 @@ package org.rss;
 
 import java.io.IOException;
 
-import org.rss.service.TweetRssService;
+import org.rss.service.TweetRssLiveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class RssScheduler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TweetRssService service;
+    private TweetRssLiveService service;
 
     public RssScheduler() {
         super();

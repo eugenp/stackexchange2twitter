@@ -35,7 +35,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class TweetStackexchangeServiceLiveTest {
 
     @Autowired
-    private TweetStackexchangeService tweetStackexchangeService;
+    private TweetStackexchangeLiveService tweetStackexchangeService;
 
     @Autowired
     private LinkService linkService;
