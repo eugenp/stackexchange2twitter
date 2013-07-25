@@ -380,6 +380,27 @@ public final class TwitterUtilUnitTest {
         assertThat(resultTweet, equalTo(expected));
     }
 
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario14_thenCorrectlyExtracted() {
+        final String expected = "#Akka 2.2 Spotlight: Publish/Subscribe in Cluster… http://t.co/ps3ZUrJnaq";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("#Akka 2.2 Spotlight: Publish/Subscribe in Cluster… http://t.co/ps3ZUrJnaq");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario15_thenCorrectlyExtracted() {
+        final String expected = "Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux ";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("Tizen 2.2 SDK Released | Tizen Experts http://tizen.ly/13YbYjb  #HTML5 #Linux ");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
+    @Test
+    public final void whenExtractingTweetOutOfRtScenario16_thenCorrectlyExtracted() {
+        final String expected = "#Akka 2.2 Spotlight: Publish/Subscribe in Cluster… http://t.co/ps3ZUrJnaq";
+        final String resultTweet = TwitterUtil.extractTweetFromRt("#Akka 2.2 Spotlight: Publish/Subscribe in Cluster… http://t.co/ps3ZUrJnaq - RT @akkateam");
+        assertThat(resultTweet, equalTo(expected));
+    }
+
     // rt - original user
 
     @Test

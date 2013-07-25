@@ -13,13 +13,13 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 public final class RetweetStrategyUnitTest {
 
-    private RetweetStrategy instance;
+    private RetweetLiveStrategy instance;
 
     // fixtures
 
     @Before
     public final void before() {
-        this.instance = new RetweetStrategy();
+        this.instance = new RetweetLiveStrategy();
     }
 
     // tests

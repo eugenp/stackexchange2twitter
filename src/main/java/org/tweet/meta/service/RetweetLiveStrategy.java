@@ -5,19 +5,22 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Component;
+import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 @Component
-public final class RetweetStrategy {
+@Profile(SpringProfileUtil.LIVE)
+public final class RetweetLiveStrategy {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private TwitterReadLiveService twitterLiveService;
 
-    public RetweetStrategy() {
+    public RetweetLiveStrategy() {
         super();
     }
 

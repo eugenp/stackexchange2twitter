@@ -61,7 +61,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private PredefinedAccountRetriever predefinedAccountRetriever;
 
     @Autowired
-    private RetweetStrategy retweetStrategy;
+    private RetweetLiveStrategy retweetStrategy;
 
     @Autowired
     private TweetMetaLocalService tweetMetaLocalService;
@@ -146,14 +146,15 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return false;
         }
 
-        // pre-process
+        // pre-validity
         final String tweetText = tweetService.preValidityProcess(text);
-
         // is it valid?
         if (!tweetService.isTweetTextValid(tweetText)) {
             logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
+        // post-validity
+        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
 
         // is this tweet pointing to something good?
         if (!isTweetPointingToSomethingGood(tweetText)) {
@@ -162,26 +163,22 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         // is the tweet rejected by some classifier?
-        if (isTweetRejectedByClassifier(tweetText)) {
-            logger.error("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+        if (isTweetRejectedByClassifier(processedTweetText)) {
+            logger.error("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, processedTweetText);
             return false;
         }
 
-        // post-process
-        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
+        // after text processing, check again if this has already been retweeted
+        final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(processedTweetText, twitterAccount);
+        if (alreadyExistingRetweetByText != null) {
+            logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExistingRetweetByText, processedTweetText); // TODO: temporarily warn - should get to debug
+            return false;
+        }
 
         boolean success = false;
-
-        // newly moved here
         if (tweetService.isRetweetMention(processedTweetText)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
             logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, processedTweetText); // TODO: temporarily error
-
-            final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(processedTweetText, twitterAccount);
-            if (alreadyExistingRetweetByText != null) {
-                logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExistingRetweetByText, processedTweetText); // TODO: temporarily warn - should get to debug
-                return false;
-            }
 
             final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(processedTweetText));
             final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);

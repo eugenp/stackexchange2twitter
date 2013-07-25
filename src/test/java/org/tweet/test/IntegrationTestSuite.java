@@ -8,6 +8,7 @@ import org.rss.service.RssEntryPersistenceIntegrationTest;
 import org.stackexchange.persistence.service.QuestionTweetPersistenceIntegrationTest;
 import org.stackexchange.persistence.setup.StackexchangeSetupPersistenceIntegrationTest;
 import org.tweet.meta.persistence.service.RetweetPersistenceIntegrationTest;
+import org.tweet.meta.service.TweetMetaServiceIntegrationTest;
 import org.tweet.twitter.service.TweetServiceIntegrationTest;
 
 @RunWith(Suite.class)
@@ -16,6 +17,8 @@ import org.tweet.twitter.service.TweetServiceIntegrationTest;
     RssEntryPersistenceIntegrationTest.class, 
     RetweetPersistenceIntegrationTest.class,
     KeyValPersistenceIntegrationTest.class,
+    
+    TweetMetaServiceIntegrationTest.class, 
     
     StackexchangeSetupPersistenceIntegrationTest.class, 
     

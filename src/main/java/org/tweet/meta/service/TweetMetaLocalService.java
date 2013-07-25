@@ -35,29 +35,32 @@ public class TweetMetaLocalService {
         return existingTweetById != null;
     }
 
-    protected final Retweet hasThisAlreadyBeenTweetedByText(final String text, final String twitterAccount) {
-        final Retweet existingTweetByText = retweetApi.findOneByTextAndTwitterAccount(text, twitterAccount);
-        if (existingTweetByText != null) {
-            return existingTweetByText;
+    protected final Retweet hasThisAlreadyBeenTweetedByText(final String fullTextAfterProcessing, final String twitterAccount) {
+        final Retweet existingTweetByFullText = retweetApi.findOneByTextAndTwitterAccount(fullTextAfterProcessing, twitterAccount);
+        if (existingTweetByFullText != null) {
+            return existingTweetByFullText;
         }
 
-        final String tweetTextWithoutRetweetMention = TwitterUtil.extractTweetFromRt(text);
-        final Retweet exactMatchRetweet = retweetApi.findOneByTextAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
+        // retweet mention
+        final String tweetTextPotentiallyWithoutRetweetMention = TwitterUtil.extractTweetFromRt(fullTextAfterProcessing);
+        final Retweet exactMatchRetweet = retweetApi.findOneByTextAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
         if (exactMatchRetweet != null) {
             return exactMatchRetweet;
         }
-
-        final Retweet endsWithFullRetweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextWithoutRetweetMention, twitterAccount);
-        if (endsWithFullRetweet != null) {
-            return endsWithFullRetweet;
+        final Retweet endsWithOriginalTweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
+        if (endsWithOriginalTweet != null) {
+            return endsWithOriginalTweet;
+        }
+        final Retweet startsWithOriginalTweet = retweetApi.findOneByTextStartsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
+        if (startsWithOriginalTweet != null) {
+            return startsWithOriginalTweet;
         }
 
         // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
-        final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(text);
+        final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(fullTextAfterProcessing);
         if (beforeAndAfter == null) {
             return null;
         }
-
         final List<Retweet> partialMatches = Lists.newArrayList();
         if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
             partialMatches.addAll(retweetApi.findAllByTextStartsWithAndTwitterAccount(beforeAndAfter.getLeft(), twitterAccount));

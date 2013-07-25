@@ -88,9 +88,19 @@ public final class TwitterUtil {
 
     // retweet logic
 
-    public static String extractTweetFromRt(final String rt) {
-        final String result = rt.replaceAll("\\ART @[a-zA-Z0-9_]+ ?[:-] ?", ""); // \A - anchor - matches before start of text block
-        return result;
+    public static String extractTweetFromRt(final String fullTweet) {
+        // \A - anchor - matches before start of text block
+        final String resultWhenRtIsStart = fullTweet.replaceAll("\\ART @[a-zA-Z0-9_]+ ?[:-] ?", "");
+        if (!resultWhenRtIsStart.equals(fullTweet)) {
+            return resultWhenRtIsStart;
+        }
+
+        final String resultWhenRtIsEnd = fullTweet.replaceAll(" ?[:-]? ?RT @[a-zA-Z0-9_]+ ?\\Z", "");
+        if (!resultWhenRtIsEnd.equals(fullTweet)) {
+            return resultWhenRtIsEnd;
+        }
+
+        return resultWhenRtIsStart;
     }
 
     public static String extractOriginalUserFromRt(final String rt) {

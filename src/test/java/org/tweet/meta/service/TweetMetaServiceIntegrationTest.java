@@ -23,7 +23,6 @@ import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
-import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,12 +35,11 @@ import org.tweet.spring.util.SpringProfileUtil;
         ClassificationConfig.class,
         
         TwitterConfig.class, 
-        TwitterLiveConfig.class,
         
         TwitterMetaPersistenceJPAConfig.class, 
         TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles({ SpringProfileUtil.WRITE, SpringProfileUtil.PRODUCTION, SpringProfileUtil.LIVE })
+@ActiveProfiles({ SpringProfileUtil.PRODUCTION })
 public class TweetMetaServiceIntegrationTest {
 
     static {
@@ -49,7 +47,7 @@ public class TweetMetaServiceIntegrationTest {
     }
 
     @Autowired
-    private TweetMetaLiveService tweetMetaService;
+    private TweetMetaLocalService service;
 
     @Autowired
     private IRetweetJpaDAO retweetApi;
@@ -66,28 +64,28 @@ public class TweetMetaServiceIntegrationTest {
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario1_thenCorrectAnswer() {
         final String text = "RT @vmbrasseur: This regex MUST become a t-shirt. #osb13 #perl #biking / Credit to @nickpatch http://pic.twitter.com/OrOCsWL2BC";
-        final Retweet existing = tweetMetaService.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.PerlDaily.name());
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.PerlDaily.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario2_thenCorrectAnswer() {
         final String text = "Blogged: #Scala #Redis client goes non blocking : uses #Akka IO .. http://debasishg.blogspot.in/2013/07/scala-redis-client-goes-non-blocking.html �";
-        final Retweet existing = tweetMetaService.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestScala.name());
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestScala.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario3_thenCorrectAnswer() {
         final String text = "Recipes for #Akka Dependency Injection - http://tmblr.co/ZlHOLwq7PxvL  by @typesafe";
-        final Retweet existing = tweetMetaService.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestScala.name());
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestScala.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario4_thenCorrectAnswer() {
         final String text = "#OOCSS + #Sass = The best way to #CSS - http://buff.ly/198JbJv  #webdev #html";
-        final Retweet existing = tweetMetaService.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.HTMLdaily.name());
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.HTMLdaily.name());
         assertNotNull(existing);
     }
 
@@ -95,14 +93,14 @@ public class TweetMetaServiceIntegrationTest {
     @Ignore("it has just been tweeted - this will pass soon")
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario5_thenCorrectAnswer() {
         final String text = "Morning all! RT @ContractHire http://t.co/dxKq3cl03U follow and you could win a new #iPad Mini! #comp #Apple #ipad";
-        final Retweet existing = tweetMetaService.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.InTheAppleWorld.name());
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.InTheAppleWorld.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void givenTweetHasNotBeenTweeted_whenCheckingIfItHasAlreadyBeenTweeted_thenNo() {
         final Retweet retweet = new Retweet(IDUtil.randomPositiveLong(), TwitterAccountEnum.BestAlgorithms.name(), randomAlphabetic(6));
-        final boolean hasIt = tweetMetaService.hasThisAlreadyBeenTweetedById(retweet);
+        final boolean hasIt = service.hasThisAlreadyBeenTweetedById(retweet);
         assertFalse(hasIt);
     }
 
@@ -111,7 +109,7 @@ public class TweetMetaServiceIntegrationTest {
         final Retweet retweet = new Retweet(IDUtil.randomPositiveLong(), TwitterAccountEnum.BestAlgorithms.name(), randomAlphabetic(6));
         retweetApi.save(retweet);
 
-        final boolean hasIt = tweetMetaService.hasThisAlreadyBeenTweetedById(retweet);
+        final boolean hasIt = service.hasThisAlreadyBeenTweetedById(retweet);
         assertTrue(hasIt);
     }
 

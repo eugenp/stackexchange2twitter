@@ -94,6 +94,7 @@ public class TweetService {
     }
 
     /**
+     * - adds hashtags, trims
      * - <b>note</b>: accepts tweet text with or without the URL
      */
     public final String postValidityProcess(final String tweetText, final String twitterAccount) {
