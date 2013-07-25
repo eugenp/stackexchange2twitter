@@ -33,7 +33,8 @@ public final class TwitterUtil {
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
         "buy", 
         "need", 
-        "dumb"
+        "dumb", 
+        "islamic", "islam"
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
             "photo: "

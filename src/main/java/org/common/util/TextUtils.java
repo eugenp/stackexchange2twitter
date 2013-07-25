@@ -17,18 +17,22 @@ public final class TextUtils {
         cleanedText = StringEscapeUtils.escapeHtml4(cleanedText);
         cleanedText = StringUtils.replaceAll(cleanedText, "&ldquo;", "\"");
         cleanedText = StringUtils.replaceAll(cleanedText, "&rdquo;", "\"");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&quot;", "\"");
+
         cleanedText = StringUtils.replaceAll(cleanedText, "&lt;", "<");
         cleanedText = StringUtils.replaceAll(cleanedText, "&gt;", ">");
+
         cleanedText = StringUtils.replaceAll(cleanedText, "&amp;", "&");
+
         cleanedText = StringUtils.replaceAll(cleanedText, "&mdash;", "-");
         cleanedText = StringUtils.replaceAll(cleanedText, "&ndash;", "-");
-        cleanedText = StringUtils.replaceAll(cleanedText, "&quot;", "\"");
-        cleanedText = StringUtils.replaceAll(cleanedText, "&nbsp;", " ");
 
-        // may not be necessary
+        cleanedText = StringUtils.replaceAll(cleanedText, "&nbsp;", " ");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&hellip;", "...");
+
         cleanedText = StringUtils.replaceAll(cleanedText, "&#39;", "'");
         cleanedText = StringUtils.replaceAll(cleanedText, "&rsquo;", "'");
-        cleanedText = StringUtils.replaceAll(cleanedText, "&hellip;", "...");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&lsquo;", "'");
 
         return cleanedText;
     }
