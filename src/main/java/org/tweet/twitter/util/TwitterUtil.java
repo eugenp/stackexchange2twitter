@@ -27,7 +27,13 @@ public final class TwitterUtil {
         "freelance", "job", "consulting", "hire", "hiring", "careers", 
         "need", 
         "football", "exclusive",
+        "dumb", 
         "escort", "escorts", "xxx", "porn", "fuck"
+    );// @formatter:on
+    final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
+        "buy", 
+        "need", 
+        "dumb"
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
             "photo: "
@@ -128,8 +134,18 @@ public final class TwitterUtil {
     }
 
     public static boolean isTweetBanned(final String text) {
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#.")).split(text)); // TODO: add `-` ?
+
+        // by contains keyword - maybe
+        for (final String tweetToken : tweetTokens) {
+            if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
+                // TODO: temporarily error to get some examples
+                logger.error("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
+                return true;
+            }
+        }
+
         // by contains keyword
-        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#.")).split(text));
         for (final String tweetToken : tweetTokens) {
             if (TwitterUtil.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
                 logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
