@@ -52,7 +52,7 @@ public class MetaPollerLiveTest {
 
     @Test
     @Ignore("long running - manual only")
-    public final void givenOnAllAccounts_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void givenOnAllAccounts_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() throws JsonProcessingException, IOException, InterruptedException {
         metaPoller.checkRetweetsMatch();
     }
 
