@@ -1,10 +1,15 @@
 package org.tweet.spring;
 
 import static org.junit.Assert.assertNotNull;
+import static org.tweet.spring.util.SpringProfileUtil.DEPLOYED;
+import static org.tweet.spring.util.SpringProfileUtil.LIVE;
+import static org.tweet.spring.util.SpringProfileUtil.PRODUCTION;
+import static org.tweet.spring.util.SpringProfileUtil.WRITE;
 
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.common.spring.MyApplicationContextInitializerProv;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +39,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
     
     // org.classification
     ClassificationConfig.class,
-
+    
     // org.rss
     RssContextConfig.class,
     RssPersistenceJPAConfig.class,
@@ -55,15 +60,15 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
     StackexchangeConfig.class, 
     StackexchangeContextConfig.class, 
     StackexchangePersistenceJPAConfig.class, 
-    
+       
     // org.gplus.spring
     GplusContextConfig.class
 }) // @formatter:on
-@ActiveProfiles({ "deployed", "live", "dev", "write" })
-public class DevFullContextTest {
+@ActiveProfiles({ DEPLOYED, LIVE, PRODUCTION, WRITE })
+public class ProdFullContextManualTest {
 
     static {
-        System.setProperty("persistenceTarget", "dev");
+        System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "prod");
     }
 
     @Autowired

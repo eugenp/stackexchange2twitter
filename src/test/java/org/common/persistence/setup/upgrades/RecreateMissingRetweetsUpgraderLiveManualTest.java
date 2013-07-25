@@ -2,7 +2,7 @@ package org.common.persistence.setup.upgrades;
 
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
-import org.junit.Ignore;
+import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -17,30 +17,39 @@ import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, CommonPersistenceJPAConfig.class, KeyValPersistenceJPAConfig.class, TwitterConfig.class, TwitterLiveConfig.class, TwitterMetaPersistenceJPAConfig.class })
+@ContextConfiguration(classes = {//@formatter:off
+    CommonContextConfig.class, 
+    CommonPersistenceJPAConfig.class, 
+    
+    KeyValPersistenceJPAConfig.class, 
+    
+    TwitterMetaPersistenceJPAConfig.class,
+    
+    TwitterConfig.class, 
+    TwitterLiveConfig.class
+})//@formatter:on
 @ActiveProfiles({ SpringProfileUtil.DEPLOYED, SpringProfileUtil.LIVE })
-@Ignore("only to be executed manually")
-public class AddTextToRetweetsUpgraderLiveTest {
+public class RecreateMissingRetweetsUpgraderLiveManualTest {
 
     static {
-        System.setProperty("persistenceTarget", "prod");
+        System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "prod");
     }
 
     @Autowired
-    private IAddTextToRetweetsUpgrader addTextToRetweetsUpgrader;
+    private IRecreateMissingRetweetsUpgrader recreateMissingRetweetsUpgrader;
 
     // fixtures
 
     // tests
 
     @Test
-    public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
-        addTextToRetweetsUpgrader.addTextToRetweets();
+    public final void whenContextIsBootstrapped_thenNoException() {
+        //
     }
 
     @Test
-    public final void whenRecreatingTheTweetedQuestionsOnSpecificAccount_thenNoExceptions() {
-        addTextToRetweetsUpgrader.addTextToRetweetsOnAccount(TwitterAccountEnum.BestScala.name());
+    public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
+        recreateMissingRetweetsUpgrader.processAllLiveTweetsOnAccount(TwitterAccountEnum.PerlDaily.name());
     }
 
 }

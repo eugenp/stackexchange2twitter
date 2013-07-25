@@ -311,7 +311,7 @@
 				<configuration>
 					<excludes>
 						<exclude>**/*LiveTest.java</exclude>
-						<exclude>**/*FullContextTest.java</exclude>
+						<exclude>**/*ManualTest.java</exclude>
 					</excludes>
 					<systemPropertyVariables>
 						<persistenceTarget>test</persistenceTarget>

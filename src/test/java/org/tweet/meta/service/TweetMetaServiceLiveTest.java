@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -44,7 +45,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class TweetMetaServiceLiveTest {
 
     static {
-        System.setProperty("persistenceTarget", "prod");
+        System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "prod");
     }
 
     @Autowired

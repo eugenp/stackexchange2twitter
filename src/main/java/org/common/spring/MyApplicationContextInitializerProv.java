@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 public class MyApplicationContextInitializerProv extends MyBaseApplicationContextInitializer {
 
     private static final String ENV_TARGET_KEY = "envTarget";
-    private static final String PERSISTENCE_TARGET_KEY = "persistenceTarget";
+    public static final String PERSISTENCE_TARGET_KEY = "persistenceTarget";
     private static final String DEFAULT_VALUE = "production";
 
     private final List<String> validEnvTargets = Lists.newArrayList("dev", "production");
