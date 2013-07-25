@@ -43,7 +43,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 public class TweetMetaServiceIntegrationTest {
 
     static {
-        System.setProperty("persistenceTarget", "prod");
+        // System.setProperty("persistenceTarget", "prod");
     }
 
     @Autowired

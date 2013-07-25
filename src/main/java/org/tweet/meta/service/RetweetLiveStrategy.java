@@ -40,7 +40,8 @@ public final class RetweetLiveStrategy {
     public final boolean shouldRetweet(final Tweet tweet) {
         final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
         if (!hasLessRtsThanTheTooPopularThreshold) {
-            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}", tweet.getText(), tweet.getRetweetCount());
+            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
+            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", tweet.getText(), tweet.getRetweetCount(), tweetUrl);
             return false;
         }
 
