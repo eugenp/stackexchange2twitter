@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
-import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -39,15 +38,7 @@ import org.tweet.spring.util.SpringProfileUtil;
         TwitterMetaConfig.class 
 }) // @formatter:on
 @ActiveProfiles({ SpringProfileUtil.PRODUCTION })
-/**
- * - note: this depends on the state of the database - so it may fail on Jenkins
- * TODO: persist the tweets if they don't exist, before checking or make this a manual test
- */
 public class TweetMetaLocalServiceIntegrationTest {
-
-    static {
-        System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "prod");
-    }
 
     @Autowired
     private TweetMetaLocalService service;
