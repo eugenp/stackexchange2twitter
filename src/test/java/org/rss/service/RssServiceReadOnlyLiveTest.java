@@ -23,7 +23,7 @@ import com.sun.syndication.io.FeedException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { RssContextConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public class RssServiceLiveTest {
+public class RssServiceReadOnlyLiveTest {
 
     @Autowired
     private RssService rssService;
