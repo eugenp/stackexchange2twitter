@@ -23,7 +23,14 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class, StackexchangeContextConfig.class })
+@ContextConfiguration(classes = {//@formatter:off
+    CommonContextConfig.class, 
+    
+    TwitterConfig.class, 
+    TwitterLiveConfig.class, 
+    
+    StackexchangeContextConfig.class 
+}) //@formatter:on
 @ActiveProfiles(SpringProfileUtil.LIVE)
 public class TwitterReadOnlyLiveTest {
 

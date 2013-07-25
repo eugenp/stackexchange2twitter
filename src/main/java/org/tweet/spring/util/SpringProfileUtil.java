@@ -2,6 +2,10 @@ package org.tweet.spring.util;
 
 public final class SpringProfileUtil {
 
+    public static final class Live {
+        public static final String ANALYSIS = "analysis";
+    }
+
     // these 3 profiles are modeling the environments - deployed is active for any deployment, dev and production for these specific environments
     public static final String DEPLOYED = "deployed";
     public static final String LIVE = "live";

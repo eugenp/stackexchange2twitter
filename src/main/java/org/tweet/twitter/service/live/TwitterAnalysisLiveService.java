@@ -17,7 +17,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @Service
-@Profile(SpringProfileUtil.LIVE)
+@Profile(SpringProfileUtil.Live.ANALYSIS)
 public class TwitterAnalysisLiveService {
     // private final Logger logger = LoggerFactory.getLogger(getClass());
 
