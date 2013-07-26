@@ -114,7 +114,8 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingSimilarToProductionScenario1_thenShouldNotTweet() {
-        // tweetMetaService.tryTweetOne("Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing", null, twitterAccount, customDetails)
+        final String twitterAccount = TwitterAccountEnum.BestOfCloud.name();
+        tweetMetaService.tryTweetOne("Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing", null, twitterAccount, null);
     }
 
 }

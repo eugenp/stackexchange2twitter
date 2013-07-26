@@ -99,4 +99,18 @@ public class TweetMetaLocalServiceManualTest {
         assertNotNull(existing);
     }
 
+    @Test
+    public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario7_thenCorrectAnswer() {
+        final String text = "You Can Now Embed Vine Videos on Your #WordPress Site http://t.co/wKygWrfDFN";
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.LandOfWordpress.name());
+        assertNotNull(existing);
+    }
+
+    @Test
+    public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario8_thenCorrectAnswer() {
+        final String text = "Blogged: #Scala #Redis client goes non blocking : uses #Akka IO .. http://t.co/Q3pB4KPeqb";
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestScala.name());
+        assertNotNull(existing);
+    }
+
 }
