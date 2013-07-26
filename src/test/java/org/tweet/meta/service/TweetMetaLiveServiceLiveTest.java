@@ -113,8 +113,8 @@ public class TweetMetaLiveServiceLiveTest {
     // production scenarios
 
     @Test
-    public final void whenTweetingSimilarToProductionScenario1_thenShouldNotTweet(){
-        tweetMetaService.tryTweetOne("Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing", url, twitterAccount, customDetails)
+    public final void whenTweetingSimilarToProductionScenario1_thenShouldNotTweet() {
+        // tweetMetaService.tryTweetOne("Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing", null, twitterAccount, customDetails)
     }
 
 }
