@@ -82,7 +82,7 @@ public final class TwitterUtil {
      * - the text has the <b>correct length</b> <br/>
      */
     public static boolean isTweetTextWithLinkValid(final String fullTweet) {
-        return fullTweet.length() <= 140;
+        return fullTweet.length() <= 142; // there is something about shortened urls - 20 to 18 characters - experimenting with 142 (from 140)
     }
 
     public static boolean isUserBannedFromRetweeting(final String username) {

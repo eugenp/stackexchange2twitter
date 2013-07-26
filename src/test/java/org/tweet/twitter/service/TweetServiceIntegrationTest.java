@@ -1,6 +1,7 @@
 package org.tweet.twitter.service;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.common.spring.CommonContextConfig;
 import org.junit.Test;
@@ -57,6 +58,23 @@ public class TweetServiceIntegrationTest {
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario8_thenRejected() {
         assertFalse(instance.isTweetWorthRetweetingByText("Spelersbus #GAE pic.twitter.com/2USMMHDbyJ"));
+    }
+
+    // check validity
+
+    @Test
+    public final void givenTweetScenario1_whenCheckingValidity_thenValid() {
+        assertTrue(instance.isTweetFullValid("RT @jtrnix: StarCluster 0.94 has been released! Tons of bug fixes/improvements and several new features: http://t.co/UY1eqvgnSe #EC2 #HPC #..."));
+    }
+
+    @Test
+    public final void givenTweetScenario2_whenCheckingValidity_thenValid() {
+        assertTrue(instance.isTweetFullValid("nrepl.el has new maintainers (me, @technomancy, @hugoduncan and @sanityinc) and a new home https://t.co/cHa0XbIEOR Please,RT #clojure #emacs"));
+    }
+
+    @Test
+    public final void givenTweetScenario3_whenCheckingValidity_thenValid() {
+        assertTrue(instance.isTweetFullValid("RT @zend: The latest release of Zend Studio - 10.1.0 - makes it easier than ever to work with #PHP libraries and Zend Server http://t.co/3k..."));
     }
 
 }
