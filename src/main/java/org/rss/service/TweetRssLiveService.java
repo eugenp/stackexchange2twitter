@@ -82,18 +82,18 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
     // template
 
     @Override
-    protected final boolean tryTweetOne(final String textOnly, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
-        logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, textOnly, url);
+    protected final boolean tryTweetOne(final String textRaw, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
+        logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, textRaw, url);
 
         // is it worth it by text only?
-        if (!tweetService.isTweetWorthRetweetingByText(textOnly)) {
+        if (!tweetService.isTweetWorthRetweetingByText(textRaw)) {
             return false;
         }
 
         // is it worth it in the context of all the current list of tweets? - yes
 
         // pre-process
-        final String tweetText = tweetService.preValidityProcess(textOnly);
+        final String tweetText = tweetService.preValidityProcess(textRaw);
 
         // is it valid?
         if (!tweetService.isTweetTextValid(tweetText)) {
@@ -115,7 +115,9 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
         final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
-        markDone(new RssEntry(twitterAccount, url, textOnly));
+        if (success) {
+            markDone(new RssEntry(twitterAccount, url, textRaw));
+        }
 
         // done
         return success;

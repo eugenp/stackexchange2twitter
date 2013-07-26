@@ -11,8 +11,11 @@ public final class TextUtils {
 
     // API
 
-    public static String preProcessTweetText(final String tweetText) {
-        String cleanedText = tweetText;
+    /**
+     * - cleans the invalid characters from text
+     */
+    public static String preProcessTweetText(final String text) {
+        String cleanedText = text;
         cleanedText = StringEscapeUtils.unescapeHtml4(cleanedText);
         cleanedText = StringEscapeUtils.escapeHtml4(cleanedText);
         cleanedText = StringUtils.replaceAll(cleanedText, "&ldquo;", "\"");

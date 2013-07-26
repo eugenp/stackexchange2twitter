@@ -89,13 +89,16 @@ public class TweetService {
         return true;
     }
 
+    /**
+     * - cleans the invalid characters from text
+     */
     public final String preValidityProcess(final String title) {
         return TextUtils.preProcessTweetText(title);
     }
 
     /**
-     * - adds hashtags, trims
-     * - <b>note</b>: accepts tweet text with or without the URL
+     * - adds hashtags, trims <br/>
+     * - <b>note</b>: accepts tweet text with or without the URL <br/>
      */
     public final String postValidityProcess(final String tweetText, final String twitterAccount) {
         String tweetTextProcessed = TwitterUtil.hashtagWords(tweetText, twitterTagsToHash(twitterAccount));
@@ -106,8 +109,21 @@ public class TweetService {
         return tweetTextProcessed;
     }
 
+    /**
+     * Verifies that: <br/>
+     * - the text has <b>no link</b> <br/>
+     * - the text has the <b>correct length</b> <br/>
+     */
     public final boolean isTweetTextValid(final String tweetTextNoUrl) {
         return TwitterUtil.isTweetTextWithoutLinkValid(tweetTextNoUrl);
+    }
+
+    /**
+     * Verifies that: <br/>
+     * - the text has the <b>correct length</b> <br/>
+     */
+    public final boolean isTweetFullValid(final String tweetTextWithUrl) {
+        return TwitterUtil.isTweetTextWithLinkValid(tweetTextWithUrl);
     }
 
     public final String constructTweetSimple(final String tweetTextNoUrl, final String url) {

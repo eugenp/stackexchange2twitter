@@ -127,78 +127,81 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     // template
 
     @Override
-    protected final boolean tryTweetOne(final String text, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
+    protected final boolean tryTweetOne(final String fullTweet, final String noUrl, final String twitterAccount, final Map<String, Object> customDetails) {
         final long tweetId = (long) customDetails.get("tweetId");
         final String hashtag = (String) customDetails.get("hashtag");
         final Tweet potentialTweet = (Tweet) customDetails.get("potentialTweet");
 
-        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
+        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, fullTweet);
 
         // is it worth it by text only?
-        if (!tweetService.isTweetWorthRetweetingByText(text)) {
-            logger.debug("Tweet not worth retweeting (by text only) on twitterAccount= {}, tweet text= {}", twitterAccount, text);
+        if (!tweetService.isTweetWorthRetweetingByText(fullTweet)) {
+            logger.debug("Tweet not worth retweeting (by text only) on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweet);
             return false;
         }
 
         // is it worth it by full tweet?
         if (!tweetService.isTweetWorthRetweetingByFullTweet(potentialTweet, hashtag)) {
-            logger.debug("Tweet not worth retweeting (by full tweet) on twitterAccount= {}, tweet text= {}", twitterAccount, text);
+            logger.debug("Tweet not worth retweeting (by full tweet) on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweet);
             return false;
         }
 
         // pre-validity
-        final String tweetText = tweetService.preValidityProcess(text);
+        final String fullTweetProcessedPreValidity = tweetService.preValidityProcess(fullTweet);
         // is it valid?
-        if (!tweetService.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+        if (!tweetService.isTweetFullValid(fullTweetProcessedPreValidity)) {
+            // TODO: was debug, temporarily error because for meta, this should not happen
+            logger.error("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweetProcessedPreValidity);
             return false;
         }
         // post-validity
-        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
+        final String fullTweetProcessed = tweetService.postValidityProcess(fullTweetProcessedPreValidity, twitterAccount);
 
         // is this tweet pointing to something good?
-        if (!isTweetPointingToSomethingGood(tweetText)) {
-            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+        if (!isTweetPointingToSomethingGood(fullTweetProcessed)) {
+            logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweetProcessed);
             return false;
         }
 
         // is the tweet rejected by some classifier?
-        if (isTweetRejectedByClassifier(processedTweetText)) {
-            logger.error("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, processedTweetText);
+        if (isTweetRejectedByClassifier(fullTweetProcessed)) {
+            logger.error("Tweet rejected by a classifier on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweetProcessed);
             return false;
         }
 
         // after text processing, check again if this has already been retweeted
-        final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(processedTweetText, twitterAccount);
+        final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(fullTweetProcessed, twitterAccount);
         if (alreadyExistingRetweetByText != null) {
-            logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExistingRetweetByText, processedTweetText); // TODO: temporarily warn - should get to debug
+            logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExistingRetweetByText, fullTweetProcessed); // TODO: temporarily warn - should get to debug
             return false;
         }
 
         boolean success = false;
-        if (tweetService.isRetweetMention(processedTweetText)) {
+        if (tweetService.isRetweetMention(fullTweetProcessed)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-            logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, processedTweetText); // TODO: temporarily error
+            logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, fullTweetProcessed); // TODO: temporarily error
 
-            final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(processedTweetText));
+            final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(fullTweetProcessed));
             final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
             final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
             if (isUserWorthInteractingWith) {
-                success = twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
+                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed);
             } else {
-                logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, processedTweetText, originalUserFromRt);
+                logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, fullTweetProcessed, originalUserFromRt);
                 return false;
             }
         } else { // not retweet mention - normal tweet
             if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
                 success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
             } else {
-                success = twitterWriteLiveService.tweet(twitterAccount, processedTweetText);
+                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed);
             }
         }
 
         // mark
-        markDone(new Retweet(tweetId, twitterAccount, processedTweetText));
+        if (success) {
+            markDone(new Retweet(tweetId, twitterAccount, fullTweetProcessed));
+        }
 
         // done
         return success;
@@ -327,7 +330,8 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         if (linkService.isHomepageUrl(singleMainUrl)) {
-            logger.debug("potentialTweet= {} rejected because the it is pointing to a homepage= {}", potentialTweet, singleMainUrl);
+            // TODO: was debug, error now to see if this actually happens
+            logger.error("potentialTweet= {} rejected because the it is pointing to a homepage= {}", potentialTweet, singleMainUrl);
             return false;
         }
 

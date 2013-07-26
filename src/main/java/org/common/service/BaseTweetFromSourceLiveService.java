@@ -24,6 +24,7 @@ public abstract class BaseTweetFromSourceLiveService<T extends IEntity> {
 
     // API
 
+    // TODO: make this consistent - url should probably be removed, the text should be clear - text only (without url) or full tweet
     protected abstract boolean tryTweetOne(final String text, final String url, final String twitterAccount, final Map<String, Object> customDetails);
 
     /**

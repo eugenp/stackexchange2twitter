@@ -42,7 +42,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         TwitterMetaConfig.class 
 }) // @formatter:on
 @ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.PRODUCTION })
-public class TweetMetaServiceLiveTest {
+public class TweetMetaLiveServiceLiveTest {
 
     static {
         System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "prod");
@@ -108,6 +108,13 @@ public class TweetMetaServiceLiveTest {
     public final void whenTweetingFromPredefinedAccountAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetByHashtagOnlyFromPredefinedAccounts(TwitterAccountEnum.BestEclipse.name());
         assertTrue(success);
+    }
+
+    // production scenarios
+
+    @Test
+    public final void whenTweetingSimilarToProductionScenario1_thenShouldNotTweet(){
+        tweetMetaService.tryTweetOne("Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing", url, twitterAccount, customDetails)
     }
 
 }

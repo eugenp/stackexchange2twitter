@@ -92,4 +92,11 @@ public class TweetMetaLocalServiceManualTest {
         assertNotNull(existing);
     }
 
+    @Test
+    public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario6_thenCorrectAnswer() {
+        final String text = "Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing";
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestOfCloud.name());
+        assertNotNull(existing);
+    }
+
 }

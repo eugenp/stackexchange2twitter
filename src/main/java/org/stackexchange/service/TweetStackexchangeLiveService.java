@@ -229,7 +229,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
     // template
 
     @Override
-    protected final boolean tryTweetOne(final String textRaw, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
+    protected final boolean tryTweetOne(final String tweetTextRaw, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
         final String questionId = (String) customDetails.get("questionId");
         final StackSite site = (StackSite) customDetails.get("site");
 
@@ -238,10 +238,13 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         // is it worth it in the context of all the current list of tweets? - yes
 
         // pre-process
-        final String tweetText = tweetService.preValidityProcess(textRaw);
+        final String tweetText = tweetService.preValidityProcess(tweetTextRaw);
+
+        // construct full tweet
+        final String fullTweet = tweetService.constructTweetSimple(tweetText, url);
 
         // is it valid?
-        if (!tweetService.isTweetTextValid(tweetText)) {
+        if (!tweetService.isTweetTextValid(tweetText)) { // verifying the text, not the full tweet because the url will be shortened
             logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
             return false;
         }
@@ -251,16 +254,15 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         // is the tweet rejected by some classifier? - no
 
         // post-process
-        final String processedTweetText = tweetService.postValidityProcess(tweetText, twitterAccount);
-
-        // construct full tweet
-        final String fullTweet = tweetService.constructTweetSimple(processedTweetText, url);
+        final String fullTweetProcessed = tweetService.postValidityProcess(fullTweet, twitterAccount);
 
         // tweet
-        final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweet);
+        final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed);
 
         // mark
-        markDone(new QuestionTweet(questionId, twitterAccount, site.name()));
+        if (success) {
+            markDone(new QuestionTweet(questionId, twitterAccount, site.name()));
+        }
 
         // done
         return success;

@@ -63,6 +63,11 @@ public final class TwitterUtil {
 
     // API
 
+    /**
+     * Verifies that: <br/>
+     * - the text has <b>no link</b> <br/>
+     * - the text has the <b>correct length</b> <br/>
+     */
     public static boolean isTweetTextWithoutLinkValid(final String text) {
         final int linkNoInTweet = LinkUtils.extractUrls(text).size();
         if (linkNoInTweet > 1) {
@@ -72,6 +77,10 @@ public final class TwitterUtil {
         return text.length() <= 122;
     }
 
+    /**
+     * Verifies that: <br/>
+     * - the text has the <b>correct length</b> <br/>
+     */
     public static boolean isTweetTextWithLinkValid(final String fullTweet) {
         return fullTweet.length() <= 140;
     }
