@@ -211,7 +211,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
     protected final Retweet hasThisAlreadyBeenTweetedByText(final String text, final String twitterAccount) {
         return tweetMetaLocalService.hasThisAlreadyBeenTweetedByText(text, twitterAccount);
-
     }
 
     @Override

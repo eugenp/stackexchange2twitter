@@ -2,6 +2,7 @@ package org.tweet.meta.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.classification.spring.ClassificationConfig;
@@ -69,6 +70,27 @@ public class TweetMetaLocalServiceIntegrationTest {
 
         final boolean hasIt = service.hasThisAlreadyBeenTweetedById(retweet);
         assertTrue(hasIt);
+    }
+
+    @Test
+    public final void givenTweetHasBeenTweetedScenario1_whenCheckingIfItHasAlreadyBeenTweeted_thenYes() {
+        final String text = "Check out some of the worst #iPhone cases out there! http://bit.ly/1bz9iu7";
+        final String twitterAccount = TwitterAccountEnum.InTheAppleWorld.name();
+        createIfNotExisting(text, twitterAccount);
+
+        final String verifyText = "#TeamiPhone check out some of the worst #iPhone cases out there! http://bit.ly/1bz9iu7";
+        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(verifyText, twitterAccount);
+        assertNotNull(existing);
+    }
+
+    // utils
+
+    private Retweet createIfNotExisting(final String text, final String twitterAccount) {
+        final Retweet retweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, text);
+        if (retweetApi.findOneByTextAndTwitterAccount(text, twitterAccount) == null) {
+            retweetApi.save(retweet);
+        }
+        return retweet;
     }
 
 }

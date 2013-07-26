@@ -44,7 +44,8 @@ public final class TwitterUtil {
         "application engineer", "application engineers", 
         "python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer", 
         "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
-        "on strike"
+        "on strike", 
+        "i need", "we need"
     ); // @formatter:on
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
         "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
@@ -137,11 +138,11 @@ public final class TwitterUtil {
     public static boolean isTweetBanned(final String text) {
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#.")).split(text)); // TODO: add `-` ?
 
-        // by contains keyword - maybe
-        for (final String tweetToken : tweetTokens) {
-            if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
-                // TODO: temporarily error to get some examples
-                logger.error("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
+        // by expression
+        final String textLowerCase = text.toLowerCase();
+        for (final String bannedExpression : bannedExpressions) {
+            if (textLowerCase.contains(bannedExpression)) {
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, text);
                 return true;
             }
         }
@@ -154,19 +155,19 @@ public final class TwitterUtil {
             }
         }
 
-        // by starts with keyword
-        for (final String bannedStartsWith : bannedStartsWithExprs) {
-            if (text.startsWith(bannedStartsWith)) {
-                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, text);
+        // by contains keyword - maybe
+        for (final String tweetToken : tweetTokens) {
+            if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
+                // TODO: temporarily error to get some examples
+                logger.error("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
                 return true;
             }
         }
 
-        // by expression
-        final String textLowerCase = text.toLowerCase();
-        for (final String bannedExpression : bannedExpressions) {
-            if (textLowerCase.contains(bannedExpression)) {
-                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, text);
+        // by starts with keyword
+        for (final String bannedStartsWith : bannedStartsWithExprs) {
+            if (text.startsWith(bannedStartsWith)) {
+                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, text);
                 return true;
             }
         }

@@ -43,9 +43,9 @@ public class TweetMetaLocalService {
 
         // retweet mention
         final String tweetTextPotentiallyWithoutRetweetMention = TwitterUtil.extractTweetFromRt(fullTextAfterProcessing);
-        final Retweet exactMatchRetweet = retweetApi.findOneByTextAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
-        if (exactMatchRetweet != null) {
-            return exactMatchRetweet;
+        final Retweet exactMatchWithoutRetweetMention = retweetApi.findOneByTextAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
+        if (exactMatchWithoutRetweetMention != null) {
+            return exactMatchWithoutRetweetMention;
         }
         final Retweet endsWithOriginalTweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
         if (endsWithOriginalTweet != null) {
