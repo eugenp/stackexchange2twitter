@@ -8,6 +8,7 @@ import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -113,6 +114,7 @@ public class TweetMetaLiveServiceLiveTest {
     // production scenarios
 
     @Test
+    @Ignore("not yet done")
     public final void whenTweetingSimilarToProductionScenario1_thenShouldNotTweet() {
         final String twitterAccount = TwitterAccountEnum.BestOfCloud.name();
         tweetMetaService.tryTweetOne("Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing", null, twitterAccount, null);

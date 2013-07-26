@@ -54,4 +54,9 @@ public class TweetServiceIntegrationTest {
         assertFalse(instance.isTweetWorthRetweetingByText("RT if you want to use minion case like this #iPhone #iOS #DespicableMe2 pic.twitter.com/IviFckCgba"));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario8_thenRejected() {
+        assertFalse(instance.isTweetWorthRetweetingByText("Spelersbus #GAE pic.twitter.com/2USMMHDbyJ"));
+    }
+
 }
