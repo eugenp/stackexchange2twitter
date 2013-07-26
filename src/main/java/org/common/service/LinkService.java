@@ -3,6 +3,7 @@ package org.common.service;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.common.util.LinkUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,11 @@ public class LinkService {
         final boolean google = url.startsWith("http://goo.gl/");
 
         return twitter || bitly || google;
+    }
+
+    public final String extractUrl(final String textWithUrl) {
+        final String mainUrl = LinkUtils.determineMainUrl(LinkUtils.extractUrls(textWithUrl));
+        return mainUrl;
     }
 
     // util

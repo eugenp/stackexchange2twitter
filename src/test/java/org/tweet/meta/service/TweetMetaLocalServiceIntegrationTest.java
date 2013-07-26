@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -74,7 +73,6 @@ public class TweetMetaLocalServiceIntegrationTest {
     }
 
     @Test
-    @Ignore("in progress")
     public final void givenTweetHasBeenTweetedScenario1_whenCheckingIfItHasAlreadyBeenTweeted_thenYes() {
         final String text = "Check out some of the worst #iPhone cases out there! http://bit.ly/1bz9iu7";
         final String twitterAccount = TwitterAccountEnum.InTheAppleWorld.name();

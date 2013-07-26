@@ -3,6 +3,9 @@ package org.tweet.meta.service;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.common.service.LinkService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
@@ -14,13 +17,16 @@ import com.google.common.collect.Lists;
 
 @Service
 public class TweetMetaLocalService {
-    // private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private IRetweetJpaDAO retweetApi;
 
     @Autowired
-    protected TweetService tweetService;
+    private TweetService tweetService;
+
+    @Autowired
+    private LinkService linkService;
 
     public TweetMetaLocalService() {
         super();
@@ -35,14 +41,14 @@ public class TweetMetaLocalService {
         return existingTweetById != null;
     }
 
-    protected final Retweet hasThisAlreadyBeenTweetedByText(final String fullTextAfterProcessing, final String twitterAccount) {
-        final Retweet existingTweetByFullText = retweetApi.findOneByTextAndTwitterAccount(fullTextAfterProcessing, twitterAccount);
+    protected final Retweet hasThisAlreadyBeenTweetedByText(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
+        final Retweet existingTweetByFullText = retweetApi.findOneByTextAndTwitterAccount(fullTextWithUrlAfterProcessing, twitterAccount);
         if (existingTweetByFullText != null) {
             return existingTweetByFullText;
         }
 
         // retweet mention
-        final String tweetTextPotentiallyWithoutRetweetMention = TwitterUtil.extractTweetFromRt(fullTextAfterProcessing);
+        final String tweetTextPotentiallyWithoutRetweetMention = TwitterUtil.extractTweetFromRt(fullTextWithUrlAfterProcessing);
         final Retweet exactMatchWithoutRetweetMention = retweetApi.findOneByTextAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
         if (exactMatchWithoutRetweetMention != null) {
             return exactMatchWithoutRetweetMention;
@@ -57,7 +63,7 @@ public class TweetMetaLocalService {
         }
 
         // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
-        final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(fullTextAfterProcessing);
+        final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(fullTextWithUrlAfterProcessing);
         if (beforeAndAfter == null) {
             return null;
         }
@@ -69,6 +75,16 @@ public class TweetMetaLocalService {
         }
         if (!partialMatches.isEmpty()) {
             return partialMatches.get(0);
+        }
+
+        // by url
+        final String mainUrl = linkService.extractUrl(fullTextWithUrlAfterProcessing);
+        final List<Retweet> retweetsPointingToTheSameUrl = retweetApi.findAllByTextContainsAndTwitterAccount(mainUrl, twitterAccount);
+        if (!retweetsPointingToTheSameUrl.isEmpty()) {
+            final Retweet foundPreviousRetweet = retweetsPointingToTheSameUrl.get(0);
+            // TODO: starting with error - will go down
+            logger.error("Tweet has already been retweeted (found other retweet pointing to the same URL);\n-thisTweet= {},\n-previous tweet= {}", fullTextWithUrlAfterProcessing, foundPreviousRetweet);
+            return foundPreviousRetweet;
         }
 
         return null;

@@ -21,6 +21,8 @@ public interface IRetweetJpaDAO extends JpaRepository<Retweet, Long>, IOperation
 
     List<Retweet> findAllByTextStartsWithAndTwitterAccount(final String text, final String twitterAccount);
 
+    List<Retweet> findAllByTextContainsAndTwitterAccount(final String text, final String twitterAccount);
+
     Retweet findOneByTextEndsWithAndTwitterAccount(final String text, final String twitterAccount);
 
     Retweet findOneByTextStartsWithAndTwitterAccount(final String text, final String twitterAccount);
