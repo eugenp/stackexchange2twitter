@@ -1,5 +1,7 @@
 package org.tweet.meta.persistence.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.common.persistence.IEntity;
-import org.stackexchange.util.TwitterAccountEnum;
 
 @Entity
 @Table(name = "retweet", uniqueConstraints = @UniqueConstraint(columnNames = { "tweetId", "twitterAccount" }))
@@ -29,24 +30,20 @@ public class Retweet implements IEntity {
     @Column(nullable = false)
     private String text;
 
+    @Column(nullable = true)
+    private Date when;
+
     public Retweet() {
         super();
     }
 
-    public Retweet(final long tweetId, final TwitterAccountEnum twitterAccount, final String text) {
-        super();
-
-        this.tweetId = tweetId;
-        this.twitterAccount = twitterAccount.name();
-        this.text = text;
-    }
-
-    public Retweet(final long tweetId, final String twitterAccount, final String text) {
+    public Retweet(final long tweetId, final String twitterAccount, final String text, final Date when) {
         super();
 
         this.tweetId = tweetId;
         this.twitterAccount = twitterAccount;
         this.text = text;
+        this.when = when;
     }
 
     // API
@@ -83,6 +80,14 @@ public class Retweet implements IEntity {
 
     public void setText(final String text) {
         this.text = text;
+    }
+
+    public Date getWhen() {
+        return when;
+    }
+
+    public void setWhen(final Date when) {
+        this.when = when;
     }
 
     //

@@ -41,20 +41,23 @@ public class HttpLiveService implements InitializingBean {
     // API
 
     /**
-     * - note: will return null (in case of any kind of IO error)
+     * - note: will return null (in case of any kind of IO error) or null input
      */
     public final String expand(final String urlArg) {
+        if (urlArg == null) {
+            return null;
+        }
         try {
             return expandInternal(urlArg);
         } catch (final IOException | IllegalStateException ex) {
             final Throwable cause = ex.getCause();
             if (cause != null && cause instanceof UnknownHostException) {
-                // TODO: keeping this as error for now - moving to warn soon
+                // TODO: move to warn soon (26.07)
                 logger.error("Target host may be down - error when expanding the url: " + urlArg, ex);
                 return null;
             }
             if (cause != null && cause instanceof ConnectTimeoutException) {
-                // TODO: keeping this as error for now - moving to warn soon
+                // TODO: move to warn soon (26.07)
                 logger.error("Target host may be timing out - error when expanding the url: " + urlArg, ex);
                 return null;
             }
@@ -64,7 +67,7 @@ public class HttpLiveService implements InitializingBean {
         }
     }
 
-    public final String expandInternal(final String urlArg) throws IOException {
+    final String expandInternal(final String urlArg) throws IOException {
         String originalUrl = urlArg;
         String newUrl = expandSingleLevel(originalUrl);
         while (!originalUrl.equals(newUrl)) {

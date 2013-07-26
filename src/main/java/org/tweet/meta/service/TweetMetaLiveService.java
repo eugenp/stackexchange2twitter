@@ -3,6 +3,7 @@ package org.tweet.meta.service;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -200,7 +201,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         // mark
         if (success) {
-            markDone(new Retweet(tweetId, twitterAccount, fullTweetProcessed));
+            markDone(new Retweet(tweetId, twitterAccount, fullTweetProcessed, new Date()));
         }
 
         // done
@@ -277,7 +278,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         for (final Tweet potentialTweet : potentialTweets) {
             final long tweetId = potentialTweet.getId();
             logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
-            if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null))) {
+            if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null, null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
                 final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
@@ -320,12 +321,12 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
         String singleMainUrl = LinkUtils.extractUrls(potentialTweet).get(0);
         try {
-            singleMainUrl = httpService.expandInternal(singleMainUrl);
+            singleMainUrl = httpService.expand(singleMainUrl);
         } catch (final RuntimeException ex) {
-            logger.error("Unable to expand URL: " + singleMainUrl, ex); // may become warn
+            logger.error("Unexpected error from URL expansion: " + singleMainUrl, ex);
             return false;
-        } catch (final IOException ioEx) {
-            logger.error("Unable to expand URL: " + singleMainUrl, ioEx);
+        }
+        if (singleMainUrl == null) {
             return false;
         }
 

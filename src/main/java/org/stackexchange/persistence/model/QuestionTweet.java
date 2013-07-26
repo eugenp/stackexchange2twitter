@@ -1,5 +1,7 @@
 package org.stackexchange.persistence.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +29,9 @@ public class QuestionTweet implements IEntity {
 
     @Column(nullable = true)
     private String stackAccount;
+
+    @Column(nullable = true)
+    private Date when;
 
     public QuestionTweet() {
         super();
@@ -86,6 +91,14 @@ public class QuestionTweet implements IEntity {
         this.stackAccount = stackAccount;
     }
 
+    public Date getWhen() {
+        return when;
+    }
+
+    public void setWhen(final Date when) {
+        this.when = when;
+    }
+
     //
 
     @Override
@@ -100,28 +113,37 @@ public class QuestionTweet implements IEntity {
 
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final QuestionTweet other = (QuestionTweet) obj;
         if (questionId == null) {
-            if (other.questionId != null)
+            if (other.questionId != null) {
                 return false;
-        } else if (!questionId.equals(other.questionId))
+            }
+        } else if (!questionId.equals(other.questionId)) {
             return false;
+        }
         if (stackAccount == null) {
-            if (other.stackAccount != null)
+            if (other.stackAccount != null) {
                 return false;
-        } else if (!stackAccount.equals(other.stackAccount))
+            }
+        } else if (!stackAccount.equals(other.stackAccount)) {
             return false;
+        }
         if (twitterAccount == null) {
-            if (other.twitterAccount != null)
+            if (other.twitterAccount != null) {
                 return false;
-        } else if (!twitterAccount.equals(other.twitterAccount))
+            }
+        } else if (!twitterAccount.equals(other.twitterAccount)) {
             return false;
+        }
         return true;
     }
 

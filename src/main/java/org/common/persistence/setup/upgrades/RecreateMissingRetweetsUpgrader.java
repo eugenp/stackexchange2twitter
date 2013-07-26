@@ -1,5 +1,6 @@
 package org.common.persistence.setup.upgrades;
 
+import java.util.Date;
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
@@ -12,7 +13,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Component;
 import org.stackexchange.util.IDUtil;
 import org.stackexchange.util.TwitterAccountEnum;
@@ -42,8 +42,6 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
     @Autowired
     private LinkLiveService linkLiveService;
 
-    private Twitter twitterApi;
-
     public RecreateMissingRetweetsUpgrader() {
         super();
     }
@@ -65,7 +63,6 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
     @Override
     public void recreateLocalRetweetsFromLiveTweets() {
         logger.info("Executing the RecreateMissingRetweetsUpgrader Upgrader");
-        twitterApi = twitterLiveService.readOnlyTwitterApi();
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
@@ -99,13 +96,13 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
     private final void processLiveTweet(final Tweet tweet, final String twitterAccount) {
         try {
-            processLiveTweetInternal(tweet.getText(), twitterAccount);
+            processLiveTweetInternal(tweet.getText(), twitterAccount, tweet.getCreatedAt());
         } catch (final RuntimeException ex) {
             logger.error("Unable to add text to retweet: " + tweet);
         }
     }
 
-    private final void processLiveTweetInternal(final String tweetText, final String twitterAccount) {
+    private final void processLiveTweetInternal(final String tweetText, final String twitterAccount, final Date when) {
         final Retweet foundRetweet = retweetDao.findOneByTextAndTwitterAccount(tweetText, twitterAccount);
         if (foundRetweet != null) {
             logger.debug("Found local retweet: " + foundRetweet);
@@ -119,7 +116,7 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
         }
 
-        final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, tweetText);
+        final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, tweetText, when);
         retweetDao.save(newRetweet);
 
         // final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());

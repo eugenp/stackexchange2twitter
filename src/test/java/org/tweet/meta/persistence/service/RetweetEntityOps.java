@@ -2,6 +2,8 @@ package org.tweet.meta.persistence.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
+import java.util.Date;
+
 import org.common.persistence.IEntityOperations;
 import org.springframework.stereotype.Component;
 import org.stackexchange.util.IDUtil;
@@ -20,7 +22,11 @@ public final class RetweetEntityOps implements IEntityOperations<Retweet> {
 
     @Override
     public final Retweet createNewEntity() {
-        return new Retweet(IDUtil.randomPositiveLong(), randomAlphabetic(6), randomAlphabetic(6));
+        return new Retweet(IDUtil.randomPositiveLong(), randomAlphabetic(6), randomAlphabetic(6), new Date());
+    }
+
+    public final Retweet createNewEntity(final String twitterAccount) {
+        return new Retweet(IDUtil.randomPositiveLong(), twitterAccount, randomAlphabetic(6), new Date());
     }
 
     @Override
