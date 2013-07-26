@@ -331,8 +331,8 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         if (linkService.isHomepageUrl(singleMainUrl)) {
-            // TODO: was debug, error now to see if this actually happens
-            logger.error("Tweet rejected because the it is pointing to a homepage= {}\n- potentialTweet= {} ", singleMainUrl, potentialTweet);
+            // note: this will experience high bursts when a popular tweet is returned (and analyzed) 20-30 times at once (do not set on error)
+            logger.trace("Tweet rejected because the it is pointing to a homepage= {}\n- potentialTweet= {} ", singleMainUrl, potentialTweet);
             return false;
         }
 

@@ -1,0 +1,48 @@
+2013-07-26 20:04:29,265 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestAlgorithms is= 1
+2013-07-26 20:04:29,265 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestAlgorithms
+2013-07-26 20:04:57,893 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:91] Number of links not to SO for account= BestAWS is= 6
+2013-07-26 20:04:57,893 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:92] Scores (minrt) are probably to LOW for account= BestAWS
+2013-07-26 20:05:14,268 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestClojure is= 0
+2013-07-26 20:05:14,268 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestClojure
+2013-07-26 20:06:00,401 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestNoSQL is= 2
+2013-07-26 20:06:00,401 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestNoSQL
+2013-07-26 20:06:21,806 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:91] Number of links not to SO for account= BestPHP is= 6
+2013-07-26 20:06:21,806 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:92] Scores (minrt) are probably to LOW for account= BestPHP
+2013-07-26 20:06:50,923 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:91] Number of links not to SO for account= BestOfCloud is= 10
+2013-07-26 20:06:50,923 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:92] Scores (minrt) are probably to LOW for account= BestOfCloud
+2013-07-26 20:06:51,691 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestOfCocoa is= 0
+2013-07-26 20:06:51,692 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestOfCocoa
+2013-07-26 20:06:52,470 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestOfCss is= 0
+2013-07-26 20:06:52,470 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestOfCss
+2013-07-26 20:07:31,858 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:91] Number of links not to SO for account= BestOfLinux is= 8
+2013-07-26 20:07:31,858 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:92] Scores (minrt) are probably to LOW for account= BestOfLinux
+2013-07-26 20:07:50,208 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:91] Number of links not to SO for account= BestOfSecurity is= 6
+2013-07-26 20:07:50,209 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:92] Scores (minrt) are probably to LOW for account= BestOfSecurity
+2013-07-26 20:08:06,692 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestRubyOnRails is= 2
+2013-07-26 20:08:06,693 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestRubyOnRails
+2013-07-26 20:08:21,979 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestSQL is= 1
+2013-07-26 20:08:21,980 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestSQL
+2013-07-26 20:08:38,353 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestXML is= 0
+2013-07-26 20:08:38,354 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= BestXML
+2013-07-26 20:08:50,648 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= FacebookDigest is= 2
+2013-07-26 20:08:50,648 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= FacebookDigest
+2013-07-26 20:09:09,613 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:91] Number of links not to SO for account= GoogleDigest is= 7
+2013-07-26 20:09:09,613 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:92] Scores (minrt) are probably to LOW for account= GoogleDigest
+2013-07-26 20:10:15,788 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:91] Number of links not to SO for account= jQueryDaily is= 6
+2013-07-26 20:10:15,788 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:92] Scores (minrt) are probably to LOW for account= jQueryDaily
+2013-07-26 20:10:31,995 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= LispDaily is= 1
+2013-07-26 20:10:31,995 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= LispDaily
+2013-07-26 20:10:41,587 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= LandOfSeo is= 1
+2013-07-26 20:10:41,587 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= LandOfSeo
+2013-07-26 20:11:31,163 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:91] Number of links not to SO for account= MathDaily is= 7
+2013-07-26 20:11:31,164 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:92] Scores (minrt) are probably to LOW for account= MathDaily
+2013-07-26 20:11:45,918 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= MysqlDaily is= 0
+2013-07-26 20:11:45,919 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= MysqlDaily
+2013-07-26 20:12:02,993 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= ObjectiveCDaily is= 2
+2013-07-26 20:12:02,993 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= ObjectiveCDaily
+2013-07-26 20:12:18,618 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= PythonDaily is= 2
+2013-07-26 20:12:18,618 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= PythonDaily
+2013-07-26 20:12:32,822 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= ParsingDaily is= 0
+2013-07-26 20:12:32,823 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= ParsingDaily
+2013-07-26 20:12:48,838 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= RegexDaily is= 1
+2013-07-26 20:12:48,838 WARN [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:88] Scores (minrt) are probably to HIGH for account= RegexDaily

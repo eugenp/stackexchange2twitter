@@ -1,6 +1,7 @@
 package org.stackexchange.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 import org.common.service.BaseTweetFromSourceLiveService;
@@ -180,7 +181,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
             final String title = questionJson.get(QuestionsApi.TITLE).toString();
             final String link = questionJson.get(QuestionsApi.LINK).toString();
             logger.trace("Considering to tweet on twitterAccount= {}, questionId= {}", twitterAccount, questionId);
-            if (!hasThisAlreadyBeenTweetedById(new QuestionTweet(questionId, twitterAccount, null))) {
+            if (!hasThisAlreadyBeenTweetedById(new QuestionTweet(questionId, twitterAccount, null, null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, questionId= {}", twitterAccount, questionId);
                 final boolean success = tryTweetOneDelegator(title, link, questionId, stackSite, twitterAccount);
                 if (!success) {
@@ -261,7 +262,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
 
         // mark
         if (success) {
-            markDone(new QuestionTweet(questionId, twitterAccount, site.name()));
+            markDone(new QuestionTweet(questionId, twitterAccount, site.name(), new Date()));
         }
 
         // done

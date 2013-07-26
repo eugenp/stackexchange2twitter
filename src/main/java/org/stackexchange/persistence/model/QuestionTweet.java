@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.common.persistence.IEntity;
-import org.stackexchange.api.constants.StackSite;
-import org.stackexchange.util.TwitterAccountEnum;
 
 // TODO: add site to the question tweet entity
 @Entity
@@ -37,22 +35,13 @@ public class QuestionTweet implements IEntity {
         super();
     }
 
-    public QuestionTweet(final String questionId, final TwitterAccountEnum twitterAccount, final StackSite stackAccount) {
-        super();
-
-        this.questionId = questionId;
-        this.twitterAccount = twitterAccount.name();
-        if (stackAccount != null) { // optional
-            this.stackAccount = stackAccount.name();
-        }
-    }
-
-    public QuestionTweet(final String questionId, final String twitterAccount, final String stackAccount) {
+    public QuestionTweet(final String questionId, final String twitterAccount, final String stackAccount, final Date when) {
         super();
 
         this.questionId = questionId;
         this.twitterAccount = twitterAccount;
         this.stackAccount = stackAccount;
+        this.when = when;
     }
 
     // API

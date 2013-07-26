@@ -4,6 +4,8 @@ import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +53,7 @@ public class StackexchangeSetupPersistenceIntegrationTest {
         stackexchangeSetup.recreateQuestions(new String[] { idOfQuestion, randomNumeric(3) }, TwitterAccountEnum.ServerFaultBest);
         final IQuestionTweetJpaDAO questionTweetJpaDAO = beanFactory.getBean(IQuestionTweetJpaDAO.class);
 
-        final QuestionTweet questionTweet = new QuestionTweet(idOfQuestion, TwitterAccountEnum.ServerFaultBest.name(), TwitterAccountToStackAccount.twitterAccountToStackSite(TwitterAccountEnum.ServerFaultBest).name());
+        final QuestionTweet questionTweet = new QuestionTweet(idOfQuestion, TwitterAccountEnum.ServerFaultBest.name(), TwitterAccountToStackAccount.twitterAccountToStackSite(TwitterAccountEnum.ServerFaultBest).name(), new Date());
         assertThat(questionTweetJpaDAO.findAll(), hasItem(questionTweet));
     }
 

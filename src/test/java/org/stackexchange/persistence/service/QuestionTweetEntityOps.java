@@ -2,6 +2,8 @@ package org.stackexchange.persistence.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
+import java.util.Date;
+
 import org.common.persistence.IEntityOperations;
 import org.springframework.stereotype.Component;
 import org.stackexchange.persistence.model.QuestionTweet;
@@ -19,7 +21,7 @@ public final class QuestionTweetEntityOps implements IEntityOperations<QuestionT
 
     @Override
     public final QuestionTweet createNewEntity() {
-        return new QuestionTweet(randomAlphabetic(6), randomAlphabetic(6), randomAlphabetic(6));
+        return new QuestionTweet(randomAlphabetic(6), randomAlphabetic(6), randomAlphabetic(6), new Date());
     }
 
     @Override

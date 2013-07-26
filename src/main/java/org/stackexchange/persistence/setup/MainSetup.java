@@ -73,9 +73,10 @@ public class MainSetup implements ApplicationListener<ContextRefreshedEvent> {
     // util
 
     final void repersistAllQuestionsOnAllTwitterAccounts() {
-        for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
-            recreateAllQuestionsOnTwitterAccount(twitterAccount);
-        }
+        // TODO: dates have been introduced now - we can no longer rely on the old format - update before running again
+        // for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
+        // recreateAllQuestionsOnTwitterAccount(twitterAccount);
+        // }
     }
 
     private void recreateAllQuestionsOnTwitterAccount(final TwitterAccountEnum twitterAccount) {
@@ -88,15 +89,15 @@ public class MainSetup implements ApplicationListener<ContextRefreshedEvent> {
 
     final void recreateQuestions(final String[] questionIds, final TwitterAccountEnum twitterAccount) {
         final List<StackSite> stackSitesForTwitterAccount = TwitterAccountToStackAccount.twitterAccountToStackSites(twitterAccount);
-        final StackSite site;
+        final String stackSite;
         if (stackSitesForTwitterAccount.size() == 1) {
-            site = stackSitesForTwitterAccount.get(0);
+            stackSite = stackSitesForTwitterAccount.get(0).name();
         } else {
-            site = null;
+            stackSite = null;
         }
 
         for (final String questionId : questionIds) {
-            final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount, site);
+            final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount.name(), stackSite, null);
             questionTweetApi.save(questionTweet);
         }
     }
