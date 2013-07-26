@@ -2,11 +2,13 @@ package org.common.service.live;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.UnknownHostException;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.common.service.LinkService;
@@ -45,6 +47,18 @@ public class HttpLiveService implements InitializingBean {
         try {
             return expandInternal(urlArg);
         } catch (final IOException | IllegalStateException ex) {
+            final Throwable cause = ex.getCause();
+            if (cause != null && cause instanceof UnknownHostException) {
+                // TODO: keeping this as error for now - moving to warn soon
+                logger.error("Target host may be down - error when expanding the url: " + urlArg, ex);
+                return null;
+            }
+            if (cause != null && cause instanceof ConnectTimeoutException) {
+                // TODO: keeping this as error for now - moving to warn soon
+                logger.error("Target host may be timing out - error when expanding the url: " + urlArg, ex);
+                return null;
+            }
+
             logger.error("Error when expanding the url: " + urlArg, ex);
             return null;
         }
