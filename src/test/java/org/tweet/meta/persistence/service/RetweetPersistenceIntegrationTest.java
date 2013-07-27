@@ -4,6 +4,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.common.persistence.AbstractRawServicePersistenceIntegrationTest;
 import org.common.persistence.IEntityOperations;
+import org.common.spring.MyApplicationContextInitializerProv;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -28,6 +30,14 @@ public class RetweetPersistenceIntegrationTest extends AbstractRawServicePersist
 
     @Autowired
     private RetweetEntityOps retweetEntityOps;
+
+    // fixtures
+
+    @BeforeClass
+    public static void beforeClass() {
+        System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "test");
+        System.out.println(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY + ": " + System.getProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY));
+    }
 
     // tests
 

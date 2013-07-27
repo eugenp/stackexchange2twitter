@@ -43,8 +43,13 @@ public final class TwitterUtilUnitTest {
     }
 
     @Test
+    public final void givenValidTweetLarge_whenCheckingForValidity_thenIsValid() {
+        assertTrue(TwitterUtil.isTweetTextWithLinkValid(randomAlphabetic(142)));
+    }
+
+    @Test
     public final void givenInvalidTweet_whenCheckingForValidity_thenIsNotValid() {
-        assertFalse(TwitterUtil.isTweetTextWithLinkValid(randomAlphabetic(141)));
+        assertFalse(TwitterUtil.isTweetTextWithLinkValid(randomAlphabetic(143)));
     }
 
     // prepareTweet

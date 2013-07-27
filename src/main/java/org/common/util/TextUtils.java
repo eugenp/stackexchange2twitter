@@ -14,7 +14,7 @@ public final class TextUtils {
     /**
      * - cleans the invalid characters from text
      */
-    public static String preProcessTweetText(final String text) {
+    public static String cleanupInvalidCharacters(final String text) {
         String cleanedText = text;
         cleanedText = StringEscapeUtils.unescapeHtml4(cleanedText);
         cleanedText = StringEscapeUtils.escapeHtml4(cleanedText);
@@ -38,6 +38,15 @@ public final class TextUtils {
         cleanedText = StringUtils.replaceAll(cleanedText, "&lsquo;", "'");
 
         return cleanedText;
+    }
+
+    public static String trimTweet(final String text) {
+        String result = text.trim();
+        if (text.endsWith("...")) {
+            result = result.substring(0, (result.length() - 2));
+        }
+
+        return result;
     }
 
 }

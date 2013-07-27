@@ -34,7 +34,8 @@ public final class TwitterUtil {
         "buy", 
         "need", 
         "dumb", 
-        "islamic", "islam"
+        "islamic", "islam", 
+        "$3.99", "$2.99", "$1.99", "$0.99"
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
             "photo: "
@@ -80,9 +81,10 @@ public final class TwitterUtil {
     /**
      * Verifies that: <br/>
      * - the text has the <b>correct length</b> <br/>
+     * - <b>note</b>: there is something about shortened urls - 20 to 18 characters - experimenting with 142 (from 140)
      */
     public static boolean isTweetTextWithLinkValid(final String fullTweet) {
-        return fullTweet.length() <= 142; // there is something about shortened urls - 20 to 18 characters - experimenting with 142 (from 140)
+        return fullTweet.length() <= 142;
     }
 
     public static boolean isUserBannedFromRetweeting(final String username) {
@@ -156,19 +158,20 @@ public final class TwitterUtil {
             }
         }
 
-        // by contains keyword
-        for (final String tweetToken : tweetTokens) {
-            if (TwitterUtil.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
-                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
-                return true;
-            }
-        }
-
         // by contains keyword - maybe
         for (final String tweetToken : tweetTokens) {
             if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
                 // TODO: temporarily error to get some examples
+                // also moved up so that it runs first and I see what kind of tweets would belong to this category
                 logger.error("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
+                return true;
+            }
+        }
+
+        // by contains keyword
+        for (final String tweetToken : tweetTokens) {
+            if (TwitterUtil.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
                 return true;
             }
         }
