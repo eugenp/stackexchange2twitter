@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.common.service.LinkService;
-import org.common.util.TextUtils;
+import org.common.util.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,8 +102,8 @@ public class TweetService {
      * - cleans the invalid characters from text
      */
     public final String preValidityProcess(final String title) {
-        String resultAfterCleanup = TextUtils.cleanupInvalidCharacters(title);
-        resultAfterCleanup = TextUtils.trimTweet(resultAfterCleanup);
+        String resultAfterCleanup = TextUtil.cleanupInvalidCharacters(title);
+        resultAfterCleanup = TextUtil.trimTweet(resultAfterCleanup);
         return resultAfterCleanup;
     }
 

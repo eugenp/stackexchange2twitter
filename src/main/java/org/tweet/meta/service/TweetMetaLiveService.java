@@ -13,7 +13,7 @@ import org.classification.service.ClassificationService;
 import org.common.service.BaseTweetFromSourceLiveService;
 import org.common.service.LinkService;
 import org.common.service.live.HttpLiveService;
-import org.common.util.LinkUtils;
+import org.common.util.LinkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -319,7 +319,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     private final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
-        String singleMainUrl = LinkUtils.extractUrls(potentialTweet).get(0);
+        String singleMainUrl = LinkUtil.extractUrls(potentialTweet).get(0);
         try {
             singleMainUrl = httpService.expand(singleMainUrl);
         } catch (final RuntimeException ex) {
@@ -336,7 +336,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return false;
         }
 
-        if (LinkUtils.belongsToBannedDomain(singleMainUrl)) {
+        if (LinkUtil.belongsToBannedDomain(singleMainUrl)) {
             logger.debug("potentialTweet= {} rejected because the it is pointing to a banned domain= {}", potentialTweet, singleMainUrl);
             return false;
         }

@@ -3,9 +3,9 @@ package org.common.util;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.h2.util.StringUtils;
 
-public final class TextUtils {
+public final class TextUtil {
 
-    private TextUtils() {
+    private TextUtil() {
         throw new AssertionError();
     }
 

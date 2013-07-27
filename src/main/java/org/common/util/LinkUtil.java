@@ -7,14 +7,14 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 
-public final class LinkUtils {
+public final class LinkUtil {
 
     final static List<String> bannedDomains = Lists.newArrayList(// @formatter:off
         "http://wp-plugin-archive.de",
         "http://www.blogging-inside.de"
     );// @formatter:on
 
-    private LinkUtils() {
+    private LinkUtil() {
         throw new AssertionError();
     }
 

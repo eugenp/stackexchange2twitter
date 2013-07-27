@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.common.util.LinkUtils;
+import org.common.util.LinkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +70,7 @@ public final class TwitterUtil {
      * - the text has the <b>correct length</b> <br/>
      */
     public static boolean isTweetTextWithoutLinkValid(final String text) {
-        final int linkNoInTweet = LinkUtils.extractUrls(text).size();
+        final int linkNoInTweet = LinkUtil.extractUrls(text).size();
         if (linkNoInTweet > 1) {
             return false;
         }
@@ -197,7 +197,7 @@ public final class TwitterUtil {
     // tweet - break
 
     public static Pair<String, String> breakByUrl(final String originalTweet) {
-        final List<String> extractedUrls = LinkUtils.extractUrls(originalTweet);
+        final List<String> extractedUrls = LinkUtil.extractUrls(originalTweet);
         if (extractedUrls.size() != 1) {
             return null;
         }

@@ -1,7 +1,7 @@
 package org.tweet.test;
 
 import org.classification.service.ClassificationUnitTest;
-import org.common.text.LinkUtilsUnitTest;
+import org.common.text.LinkUtilUnitTest;
 import org.common.text.TextUtilsUnitTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -15,7 +15,7 @@ import org.tweet.twitter.util.TwitterUtilUnitTest;
     HashtagUnitTest.class, 
     TwitterUtilUnitTest.class, 
     TextUtilsUnitTest.class, 
-    LinkUtilsUnitTest.class,
+    LinkUtilUnitTest.class,
     ClassificationUnitTest.class, 
     RetweetStrategyUnitTest.class
 }) //@formatter:off

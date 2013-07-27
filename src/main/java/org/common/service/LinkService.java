@@ -3,7 +3,7 @@ package org.common.service;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.common.util.LinkUtils;
+import org.common.util.LinkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -88,7 +88,7 @@ public class LinkService {
     }
 
     public final String extractUrl(final String textWithUrl) {
-        final String mainUrl = LinkUtils.determineMainUrl(LinkUtils.extractUrls(textWithUrl));
+        final String mainUrl = LinkUtil.determineMainUrl(LinkUtil.extractUrls(textWithUrl));
         return mainUrl;
     }
 
