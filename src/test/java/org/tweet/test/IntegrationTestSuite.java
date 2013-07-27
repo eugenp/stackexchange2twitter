@@ -9,7 +9,7 @@ import org.stackexchange.persistence.service.QuestionTweetPersistenceIntegration
 import org.stackexchange.persistence.setup.StackexchangeSetupPersistenceIntegrationTest;
 import org.tweet.meta.persistence.service.RetweetPersistenceIntegrationTest;
 import org.tweet.meta.service.TweetMetaLocalServiceIntegrationTest;
-import org.tweet.twitter.service.TweetServiceIntegrationTest;
+import org.tweet.twitter.service.TweetServiceLiveTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({// @formatter:off
@@ -24,7 +24,7 @@ import org.tweet.twitter.service.TweetServiceIntegrationTest;
     
     PropertiesExistIntegrationTestSuite.class, 
     
-    TweetServiceIntegrationTest.class
+    TweetServiceLiveTest.class
 }) // @formatter:on
 // SetupBackupIntegrationTest - not to be included
 public final class IntegrationTestSuite {

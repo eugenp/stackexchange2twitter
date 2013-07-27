@@ -3,6 +3,7 @@ package org.tweet.twitter.service.live;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.tweet.spring.util.SpringProfileUtil;
 
@@ -26,8 +27,14 @@ public class TwitterWriteDevLiveService implements ITwitterWriteLiveService {
     }
 
     @Override
-    public boolean tweet(final String twitterAccount, final String tweetText) {
-        logger.warn("Simmulating tweet on twitterAccount= {} or tweetText= {}", twitterAccount, tweetText);
+    public boolean tweet(final String twitterAccount, final String textToTweet) {
+        logger.warn("Simmulating tweet on twitterAccount= {} or tweetText= {}", twitterAccount, textToTweet);
+        return true;
+    }
+
+    @Override
+    public boolean tweet(final String twitterAccount, final String textToTweet, final Tweet originalTweet) {
+        logger.warn("Simmulating tweet on twitterAccount= {} or tweetText= {}", twitterAccount, textToTweet);
         return true;
     }
 

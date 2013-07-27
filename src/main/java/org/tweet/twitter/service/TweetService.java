@@ -8,6 +8,8 @@ import org.common.util.TextUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.Entities;
+import org.springframework.social.twitter.api.HashTagEntity;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.tweet.twitter.component.MinRtRetriever;
@@ -86,6 +88,13 @@ public class TweetService {
             return false;
         }
 
+        final int countHashtags = countHashtags(potentialTweet);
+        if (countHashtags > 5) {
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags= {}", potentialTweet, twitterTag, countHashtags);
+            // error temporary - debug or trace
+            return false;
+        }
+
         return true;
     }
 
@@ -154,6 +163,33 @@ public class TweetService {
         }
 
         return false;
+    }
+
+    public final int countHashtags(final Tweet tweet) {
+        return getHashtags(tweet).size();
+    }
+
+    public final int getCharacterLenghtOfHashTags(final Tweet tweet) {
+        int size = 0;
+        for (final HashTagEntity hashTag : getHashtags(tweet)) {
+            size += hashTag.getText().length();
+            size += 2;
+        }
+
+        return size;
+    }
+
+    final List<HashTagEntity> getHashtags(final Tweet tweet) {
+        final Entities entities = tweet.getEntities();
+        if (entities == null) {
+            return Lists.newArrayList();
+        }
+        final List<HashTagEntity> hashTags = entities.getHashTags();
+        if (hashTags == null) {
+            return Lists.newArrayList();
+        }
+
+        return hashTags;
     }
 
     // util

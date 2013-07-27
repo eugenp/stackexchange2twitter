@@ -186,7 +186,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
             final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
             if (isUserWorthInteractingWith) {
-                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed);
+                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
             } else {
                 logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, fullTweetProcessed, originalUserFromRt);
                 return false;
@@ -195,7 +195,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
                 success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
             } else {
-                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed);
+                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
             }
         }
 

@@ -19,7 +19,7 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
 @ContextConfiguration(classes = { TwitterConfig.class, StackexchangeContextConfig.class })
 @ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.PRODUCTION })
 @Ignore("by default, there should be no component that is not deployed in production, configured to tweet")
-public class TwitterLiveServiceLiveTest {
+public class ITwitterWriteLiveServiceLiveTest {
 
     @Autowired
     private TwitterReadLiveService twitterReadLiveService;

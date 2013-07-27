@@ -57,8 +57,8 @@ public class HttpLiveService implements InitializingBean {
                 return null;
             }
             if (cause != null && cause instanceof ConnectTimeoutException) {
-                // TODO: move to warn soon (26.07)
-                logger.error("Target host may be timing out - error when expanding the url: " + urlArg, ex);
+                // keep at warn or below - no need to know when this happens all the time
+                logger.warn("Target host may be timing out - error when expanding the url: " + urlArg, ex);
                 return null;
             }
 

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.OperationNotPermittedException;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Service;
 import org.tweet.spring.util.SpringProfileUtil;
@@ -53,6 +54,27 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
             // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
             logger.error("Generic Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, ex);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean tweet(final String twitterAccount, final String textToTweet, final Tweet originalTweet) {
+        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+
+        try {
+            twitterTemplate.timelineOperations().updateStatus(textToTweet);
+            return true;
+        } catch (final OperationNotPermittedException notPermittedEx) {
+            // TODO: will be warn, for now, to see how often it happens and why, is error
+            final String tweetUrl = "https://twitter.com/" + originalTweet.getFromUser() + "/status/" + originalTweet.getId();
+            logger.error("Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + textToTweet + "\nfrom original: " + tweetUrl, notPermittedEx);
+            // possible cause: over 140 chars
+            // another possible cause: OperationNotPermittedException: Status is a duplicate
+        } catch (final RuntimeException ex) {
+            final String tweetUrl = "https://twitter.com/" + originalTweet.getFromUser() + "/status/" + originalTweet.getId();
+            logger.error("Generic Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + textToTweet + "\nfrom original: " + tweetUrl, ex);
         }
 
         return false;

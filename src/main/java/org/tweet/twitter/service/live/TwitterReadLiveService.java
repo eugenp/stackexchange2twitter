@@ -143,6 +143,12 @@ public class TwitterReadLiveService {
         return search.getTweets();
     }
 
+    // single one
+
+    public Tweet findOne(final long id) {
+        return readOnlyTwitterApi().timelineOperations().getStatus(id);
+    }
+
     // internal API
 
     public final Twitter readOnlyTwitterApi() {
