@@ -6,14 +6,14 @@ public final class ClassificationSettings {
      * - TODO: figure out what this is exactly
      */
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 30;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 100;
     public static final int FEATURES = 5000;
     /*
     - 5000:
-    -- 3 - 0.890
+    -- 3 - 0.896
     -- 4 - 0.879
     - 7000: 
-    -- 3 - 0.894
+    -- 3 - 0.896
     -- 4 - 
     */
 
