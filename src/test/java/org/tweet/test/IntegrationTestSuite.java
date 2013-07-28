@@ -1,5 +1,6 @@
 package org.tweet.test;
 
+import org.classification.service.ClassificationServiceIntegrationTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -9,7 +10,8 @@ import org.tweet.meta.service.TweetMetaLocalServiceIntegrationTest;
 @RunWith(Suite.class)
 @SuiteClasses({// @formatter:off
     PersistenceIntegrationTestSuite.class, 
-    
+
+    ClassificationServiceIntegrationTest.class, 
     TweetMetaLocalServiceIntegrationTest.class, 
     
     StackexchangeSetupPersistenceIntegrationTest.class, 

@@ -1,4 +1,4 @@
-package org.classification.service;
+package org.classification.service.accuracy;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
@@ -12,6 +12,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
+import org.classification.service.ClassificationService;
 import org.classification.util.ClassificationTestData;
 import org.classification.util.ClassificationUtil;
 import org.springframework.beans.factory.annotation.Autowired;

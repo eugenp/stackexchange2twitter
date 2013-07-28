@@ -1,8 +1,9 @@
-package org.classification.service;
+package org.classification.service.accuracy;
 
 import java.io.IOException;
 import java.util.List;
 
+import org.classification.service.ClassificationService;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.gplus.spring.GplusContextConfig;
