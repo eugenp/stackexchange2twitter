@@ -149,4 +149,11 @@ public class TextUtilsUnitTest {
         assertTrue(TwitterUtil.isTweetTextWithLinkValid(trimmedTweet));
     }
 
+    @Test
+    public final void whenTrimmingLargeTweetScenario7_thenCorrectResult() {
+        final String largeTweet = "#NEW [#iOS] #Ace #Block ...|# #Games|$0.99-> #FREE #NOW| http://bit.ly/17KgsqD  #LIMITED #TIME|#iPhone|#DEAL|#RT|#App|657";
+        final String trimmedTweet = TextUtil.trimTweet(largeTweet);
+        assertTrue(TwitterUtil.isTweetTextWithLinkValid(trimmedTweet));
+    }
+
 }

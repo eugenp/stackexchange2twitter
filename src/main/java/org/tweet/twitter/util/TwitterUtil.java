@@ -51,7 +51,9 @@ public final class TwitterUtil {
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
         "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
         "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
-        "Follow us on (Linkedin|Twitter|G+) .*" // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
+        "Follow us on (Linkedin|Twitter|G+) .*", // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
+        ".*RT[ .!@\\-].*RT([ .!@\\-]|\\Z).*", // 2 RTs
+        ".*(?i)FREE[ .!@\\-].*RT([ .!@\\-]|\\Z).*" // Free ... RT
     ); // @formatter:on
 
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
@@ -185,6 +187,14 @@ public final class TwitterUtil {
         }
 
         // by regex
+        if (isRejectedByBannedRegexExpressions(text)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    static final boolean isRejectedByBannedRegexExpressions(final String text) {
         for (final String bannedRegEx : bannedRegExes) {
             if (text.matches(bannedRegEx)) {
                 return true;

@@ -52,8 +52,8 @@ public class HttpLiveService implements InitializingBean {
         } catch (final IOException | IllegalStateException ex) {
             final Throwable cause = ex.getCause();
             if (cause != null && cause instanceof UnknownHostException) {
-                // TODO: move to warn soon (26.07)
-                logger.error("Target host may be down - error when expanding the url: " + urlArg, ex);
+                // keep at warn or below - no need to know when this happens all the time
+                logger.warn("Target host may be down - error when expanding the url: " + urlArg, ex);
                 return null;
             }
             if (cause != null && cause instanceof ConnectTimeoutException) {
