@@ -64,50 +64,50 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutJQuery_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.jQueryDaily.name(), TwitterTag.jquery.name());
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.jQueryDaily.name(), TwitterTag.jquery.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutClojure_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.BestClojure.name(), TwitterTag.clojure.name());
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name(), TwitterTag.clojure.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutScala_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutGit_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.BestGit.name(), TwitterTag.git.name());
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestGit.name(), TwitterTag.git.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutLisp_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.LispDaily.name(), TwitterTag.lisp.name());
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.LispDaily.name(), TwitterTag.lisp.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutCloud_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
         assertTrue(success);
     }
 
     @Test
     // this is for discovery only - Eclipse should only be tweeted from the predefined accounts
     public final void whenTweetingAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetByHashtag(TwitterAccountEnum.BestEclipse.name());
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestEclipse.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingFromPredefinedAccountAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetByHashtagOnlyFromPredefinedAccounts(TwitterAccountEnum.BestEclipse.name());
+        final boolean success = tweetMetaService.retweetAnyByHashtagOnlyFromPredefinedAccounts(TwitterAccountEnum.BestEclipse.name());
         assertTrue(success);
     }
 

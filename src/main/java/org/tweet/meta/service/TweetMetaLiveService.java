@@ -73,11 +73,11 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
     // API
 
-    public final boolean retweetByHashtagOnlyFromPredefinedAccounts(final String twitterAccount) throws JsonProcessingException, IOException {
+    public final boolean retweetAnyByHashtagOnlyFromPredefinedAccounts(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
         try {
             twitterTag = tagService.pickTwitterTag(twitterAccount);
-            final boolean success = retweetByHashtagOnlyFromPredefinedAccountsInternal(twitterAccount, twitterTag);
+            final boolean success = retweetAnyByHashtagOnlyFromPredefinedAccountsInternal(twitterAccount, twitterTag);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}, from predefined accounts", twitterAccount, twitterTag);
             }
@@ -91,11 +91,11 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
-    public final boolean retweetByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
+    public final boolean retweetAnyByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
         try {
             twitterTag = tagService.pickTwitterTag(twitterAccount);
-            final boolean success = retweetByHashtagInternal(twitterAccount, twitterTag);
+            final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
             }
@@ -109,9 +109,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
-    public final boolean retweetByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
+    public final boolean retweetAnyByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
         try {
-            final boolean success = retweetByHashtagInternal(twitterAccount, twitterTag);
+            final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
             }
@@ -229,7 +229,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
     // util
 
-    private final boolean retweetByHashtagOnlyFromPredefinedAccountsInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    private final boolean retweetAnyByHashtagOnlyFromPredefinedAccountsInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
         logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
@@ -253,10 +253,10 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             }
         }));
 
-        return tryRetweetByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
+        return tryRetweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
     }
 
-    private final boolean retweetByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
         logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
@@ -268,14 +268,15 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             }
         }));
 
-        return tryRetweetByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
+        return tryRetweetAnyByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
     }
 
-    private final boolean tryRetweetByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
+    private final boolean tryRetweetAnyByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
         if (!TwitterAccountEnum.valueOf(twitterAccount).isRt()) {
             logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
         }
         for (final Tweet potentialTweet : potentialTweets) {
+            // TODO: add a tryRetweetOneByHashtagInternal and have a custom enum return from that
             final long tweetId = potentialTweet.getId();
             logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
             if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null, null))) {
@@ -296,6 +297,16 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     private final boolean tryTweetOneDelegator(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
+        try {
+            return tryTweetOneDelegatorInternal(potentialTweet, hashtag, twitterAccount);
+        } catch (final RuntimeException runEx) {
+            // this is new - the point it to recover, log and keep analyzing
+            logger.error("Unexpected exception trying to tweet on twitterAccount= {}, tweetText= {}", twitterAccount, potentialTweet);
+            return false;
+        }
+    }
+
+    private final boolean tryTweetOneDelegatorInternal(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
         final String text = potentialTweet.getText();
         final long tweetId = potentialTweet.getId();
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
@@ -318,8 +329,19 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         return false;
     }
 
+    /**
+     * Tweet is <b>not</b> pointing to something good if: <br/>
+     * - it has <b>no url</b><br/>
+     * - it points to a <b>homepage</b><br/>
+     * - it points to a <b>banned domain</b><br/>
+     */
     private final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
-        String singleMainUrl = LinkUtil.extractUrls(potentialTweet).get(0);
+        final List<String> extractedUrls = LinkUtil.extractUrls(potentialTweet);
+        if (extractedUrls.isEmpty()) {
+            logger.trace("Tweet rejected because the it contains no urls\n- potentialTweet= {} ", potentialTweet);
+            return false;
+        }
+        String singleMainUrl = extractedUrls.get(0);
         try {
             singleMainUrl = httpService.expand(singleMainUrl);
         } catch (final RuntimeException ex) {
@@ -327,6 +349,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return false;
         }
         if (singleMainUrl == null) {
+            logger.trace("Tweet rejected because the main url couldn't be identified\n- potentialTweet= {} ", potentialTweet);
             return false;
         }
 
