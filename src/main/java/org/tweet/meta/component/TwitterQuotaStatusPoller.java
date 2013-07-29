@@ -33,7 +33,7 @@ public class TwitterQuotaStatusPoller {
 
     // API
 
-    @Scheduled(cron = "0 */5 * * * * ?")
+    @Scheduled(cron = "0 */5 * * * *")
     public void checkTwitterApiQuotaOnAllAccounts() throws JsonProcessingException, InterruptedException {
         logger.info("Starting to check status of Twitter API Quota");
 
