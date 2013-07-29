@@ -50,16 +50,16 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
     @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
         if (env.getProperty("setup.upgrade.retweetdates.do", Boolean.class)) {
-            logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
+            logger.info("Starting to execute the FillInDatesOfRetweetsUpgrader Upgrader");
             fillInDatesOfRetweetsOfAllAccounts();
-            logger.info("Finished executing the AddTextToRetweetsUpgrader Upgrader");
+            logger.info("Finished executing the FillInDatesOfRetweetsUpgrader Upgrader");
         }
     }
 
     // util
 
     void fillInDatesOfRetweetsOfAllAccounts() {
-        logger.info("Executing the RecreateMissingRetweetsUpgrader Upgrader");
+        logger.info("Executing the FillInDatesOfRetweetsUpgrader Upgrader");
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             try {
                 logger.info("Recreating dates for all missing retweets of twitterAccount= " + twitterAccount.name());
