@@ -61,8 +61,8 @@ public class TweetService {
         }
 
         if (linkService.extractUrls(potentialTweetText).size() > 1) {
-            logger.error("Rejecting tweet because it has more than one link; tweet text= {}", potentialTweetText);
-            // error for now, to see when...
+            // keep below error - there are a lot of tweets that fall into this category and it's not really relevant
+            logger.debug("Rejecting tweet because it has more than one link; tweet text= {}", potentialTweetText);
             return false;
         }
 
@@ -103,8 +103,8 @@ public class TweetService {
             return false;
         }
 
-        final boolean worthByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
-        if (!worthByNumberOfHashtags) {
+        final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
+        if (!shouldByNumberOfHashtags) {
             logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags", potentialTweet.getText(), twitterTag);
             // error temporary - debug or trace
             return false;
