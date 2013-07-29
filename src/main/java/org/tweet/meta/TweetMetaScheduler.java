@@ -15,7 +15,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Component
-@Profile(SpringProfileUtil.DEPLOYED)
+@Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class TweetMetaScheduler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -42,7 +42,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         TwitterMetaPersistenceJPAConfig.class, 
         TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.PRODUCTION })
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.WRITE_PRODUCTION })
 public class TweetMetaLiveServiceLiveTest {
 
     static {

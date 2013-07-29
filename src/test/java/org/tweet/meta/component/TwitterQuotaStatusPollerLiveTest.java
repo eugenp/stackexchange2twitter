@@ -37,23 +37,28 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         TwitterMetaPersistenceJPAConfig.class, 
         TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.DEPLOYED, SpringProfileUtil.WRITE_PRODUCTION, SpringProfileUtil.WRITE })
-public class MetaPollerLiveTest {
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.DEPLOYED, SpringProfileUtil.Live.ANALYSIS })
+public class TwitterQuotaStatusPollerLiveTest {
 
     @Autowired
-    private MetaPoller metaPoller;
+    private TwitterQuotaStatusPoller twitterQuotaStatusPoller;
 
     // tests
 
     @Test
+    public final void whenContextIsBootstrapped_thenNoException() {
+        //
+    }
+
+    @Test
     public final void givenSingleAccount_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() {
-        metaPoller.checkRetweetsMatchOnAccount(TwitterAccountEnum.PerlDaily.name());
+        twitterQuotaStatusPoller.checkTwitterApiQuotaOnOneAccount(TwitterAccountEnum.PerlDaily.name());
     }
 
     @Test
     @Ignore("long running - manual only")
     public final void givenOnAllAccounts_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() throws JsonProcessingException, IOException, InterruptedException {
-        metaPoller.checkRetweetsMatch();
+        twitterQuotaStatusPoller.checkTwitterApiQuotaOnAllAccounts();
     }
 
 }

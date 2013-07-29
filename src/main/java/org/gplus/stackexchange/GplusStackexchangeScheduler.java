@@ -1,7 +1,8 @@
 package org.gplus.stackexchange;
 
+
 // @Service
-//@Profile(SpringProfileUtil.DEPLOYED)
+// @Profile(SpringProfileUtil.WRITE_PRODUCTION)
 //public class GplusStackexchangeScheduler {
 //    private final Logger logger = LoggerFactory.getLogger(getClass());
 //

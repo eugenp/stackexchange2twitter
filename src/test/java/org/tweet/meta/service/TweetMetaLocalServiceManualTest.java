@@ -35,7 +35,7 @@ import org.tweet.spring.util.SpringProfileUtil;
         TwitterMetaPersistenceJPAConfig.class, 
         TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles({ SpringProfileUtil.PRODUCTION })
+@ActiveProfiles({ SpringProfileUtil.WRITE_PRODUCTION })
 public class TweetMetaLocalServiceManualTest {
 
     static {

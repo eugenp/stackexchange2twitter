@@ -21,7 +21,7 @@ import org.tweet.twitter.service.TagRetrieverService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Component
-@Profile(SpringProfileUtil.DEPLOYED)
+@Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class TweetStackexchangeScheduler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

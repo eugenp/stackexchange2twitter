@@ -12,7 +12,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TwitterTemplateCreator;
 
 @Service
-@Profile(SpringProfileUtil.PRODUCTION)
+@Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class TwitterWriteLiveService implements ITwitterWriteLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
