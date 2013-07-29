@@ -31,7 +31,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class, StackexchangeContextConfig.class, StackexchangePersistenceJPAConfig.class, StackexchangeConfig.class })
-@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE })
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.WRITE_PRODUCTION })
 public class TweetStackexchangeServiceLiveTest {
 
     @Autowired

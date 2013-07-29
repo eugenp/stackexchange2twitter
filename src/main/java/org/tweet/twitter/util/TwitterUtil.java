@@ -13,14 +13,13 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 public final class TwitterUtil {
     final static Logger logger = LoggerFactory.getLogger(TwitterUtil.class);
 
-    final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults(); // if this would include more chars, then recreating the tweet would not be exact
-    final static Joiner joiner = Joiner.on(' ');
+    public final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults(); // if this would include more chars, then recreating the tweet would not be exact
+    public final static Joiner joiner = Joiner.on(' ');
 
     final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
         "buy", 
@@ -91,24 +90,6 @@ public final class TwitterUtil {
 
     public static boolean isUserBannedFromRetweeting(final String username) {
         return bannedTwitterUsers.contains(username);
-    }
-
-    // pre-processing
-
-    public static String hashtagWords(final String fullTweet, final List<String> wordsToHash) {
-        final Iterable<String> tokens = splitter.split(fullTweet);
-
-        final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
-        final Iterable<String> transformedTokens = Iterables.transform(tokens, hashtagWordFunction);
-
-        final String processedTweet = joiner.join(transformedTokens);
-
-        // check that hashtags + original tweet do not go over 142 chars
-        if (fullTweet.length() + hashtagWordFunction.getTransformationsDone() > 142) {
-            return fullTweet;
-        }
-
-        return processedTweet;
     }
 
     // retweet logic

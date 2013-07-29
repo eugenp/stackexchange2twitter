@@ -255,7 +255,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         // is the tweet rejected by some classifier? - no
 
         // post-process
-        final String fullTweetProcessed = tweetService.postValidityProcess(fullTweet, twitterAccount);
+        final String fullTweetProcessed = tweetService.postValidityProcessForFullTweet(fullTweet, twitterAccount);
 
         // tweet
         final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed);

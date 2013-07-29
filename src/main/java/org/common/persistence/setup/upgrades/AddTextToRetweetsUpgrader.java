@@ -107,10 +107,10 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
             // this can be temporarily disabled if we need to re-analyze all retweets again for some reason
         }
 
-        final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
-        final String textRaw = status.getText();
+        final Tweet tweet = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
+        final String textRaw = tweet.getText();
         final String preProcessedText = tweetService.preValidityProcess(textRaw);
-        final String postProcessedText = tweetService.postValidityProcess(preProcessedText, retweet.getTwitterAccount());
+        final String postProcessedText = tweetService.postValidityProcessForFullTweet(preProcessedText, retweet.getTwitterAccount());
         retweet.setText(postProcessedText);
 
         retweetDao.save(retweet);

@@ -14,10 +14,12 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
+import org.tweet.twitter.util.HashtagWordFunction;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @Service
@@ -109,15 +111,62 @@ public class TweetService {
 
     /**
      * - adds hashtags, trims <br/>
-     * - <b>note</b>: accepts tweet text with or without the URL <br/>
+     * - <b>note</b>: the text should be the full tweet (including url) <br/>
      */
-    public final String postValidityProcess(final String tweetText, final String twitterAccount) {
-        String tweetTextProcessed = TwitterUtil.hashtagWords(tweetText, twitterTagsToHash(twitterAccount));
+    public final String postValidityProcessForFullTweet(final String fullTweet, final String twitterAccount) {
+        String tweetTextProcessed = hashtagWordsFullTweet(fullTweet, twitterTagsToHash(twitterAccount));
+        if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
+            logger.error("It's happening; original text= {}", tweetTextProcessed);
+            tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
+            logger.error("It has happened; original text= {}", tweetTextProcessed);
+        }
+
+        return tweetTextProcessed;
+    }
+
+    /**
+     * - adds hashtags, trims <br/>
+     * - <b>note</b>: the text should be the tweet text only (no url) <br/>
+     */
+    public final String postValidityProcessForTweetTextOnly(final String textOnly, final String twitterAccount) {
+        String tweetTextProcessed = hashtagWordsTweetTextOnly(textOnly, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
             tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
         }
 
         return tweetTextProcessed;
+    }
+
+    final String hashtagWordsFullTweet(final String fullTweet, final List<String> wordsToHash) {
+        final Iterable<String> tokens = TwitterUtil.splitter.split(fullTweet);
+
+        final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
+        final Iterable<String> transformedTokens = Iterables.transform(tokens, hashtagWordFunction);
+
+        final String processedTweet = TwitterUtil.joiner.join(transformedTokens);
+
+        // check that hashtags + original tweet do not go over 142 chars
+        if (fullTweet.length() + hashtagWordFunction.getTransformationsDone() > 142) {
+            return fullTweet;
+        }
+
+        return processedTweet;
+    }
+
+    final String hashtagWordsTweetTextOnly(final String tweetTextOnly, final List<String> wordsToHash) {
+        final Iterable<String> tokens = TwitterUtil.splitter.split(tweetTextOnly);
+
+        final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
+        final Iterable<String> transformedTokens = Iterables.transform(tokens, hashtagWordFunction);
+
+        final String processedTweet = TwitterUtil.joiner.join(transformedTokens);
+
+        // check that hashtags + original tweet do not go over 142 chars
+        if (tweetTextOnly.length() + hashtagWordFunction.getTransformationsDone() > 122) {
+            return tweetTextOnly;
+        }
+
+        return processedTweet;
     }
 
     /**

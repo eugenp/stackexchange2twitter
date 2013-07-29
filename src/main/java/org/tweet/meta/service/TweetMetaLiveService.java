@@ -152,11 +152,12 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         // is it valid?
         if (!tweetService.isTweetFullValid(fullTweetProcessedPreValidity)) {
             // TODO: was debug, temporarily error because for meta, this should not happen
-            logger.error("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweetProcessedPreValidity);
+            final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+            logger.error("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}\n- url={}", twitterAccount, fullTweetProcessedPreValidity, tweetUrl);
             return false;
         }
         // post-validity
-        final String fullTweetProcessed = tweetService.postValidityProcess(fullTweetProcessedPreValidity, twitterAccount);
+        final String fullTweetProcessed = tweetService.postValidityProcessForFullTweet(fullTweetProcessedPreValidity, twitterAccount);
 
         // is this tweet pointing to something good?
         if (!isTweetPointingToSomethingGood(fullTweetProcessed)) {
