@@ -10,6 +10,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.rss.service.RssServiceReadOnlyLiveTest;
 import org.stackexchange.TwitterReadOnlyLiveTest;
+import org.tweet.twitter.service.TweetServiceReadOnlyLiveTest;
 import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
 
 @RunWith(Suite.class)
@@ -26,7 +27,8 @@ import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
     ContentExtractorServiceLiveTest.class, 
     HttpServiceLiveTest.class, 
     
-    TwitterReadOnlyLiveTest.class
+    TwitterReadOnlyLiveTest.class, 
+    TweetServiceReadOnlyLiveTest.class
 }) // @formatter:on
 // QuestionsApiLiveTest.class - not in the jar
 public final class LiveReadOnlyTestSuite {

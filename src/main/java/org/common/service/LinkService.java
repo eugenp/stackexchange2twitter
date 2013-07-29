@@ -113,6 +113,9 @@ public class LinkService {
         return null;
     }
 
+    /**
+     * - note: will NOT return null
+     */
     public final List<String> extractUrls(final String input) {
         final List<String> result = new ArrayList<String>();
 

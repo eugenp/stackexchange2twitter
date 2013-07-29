@@ -60,6 +60,12 @@ public class TweetService {
             return false;
         }
 
+        if (linkService.extractUrls(potentialTweetText).size() > 1) {
+            logger.error("Rejecting tweet because it has more than one link; tweet text= {}", potentialTweetText);
+            // error for now, to see when...
+            return false;
+        }
+
         // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
         return true;
     }

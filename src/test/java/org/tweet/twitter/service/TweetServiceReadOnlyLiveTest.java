@@ -19,7 +19,7 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public class TweetServiceLiveTest {
+public class TweetServiceReadOnlyLiveTest {
 
     @Autowired
     private TweetService instance;
