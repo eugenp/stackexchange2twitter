@@ -9,6 +9,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.common.service.LinkService;
@@ -59,6 +60,12 @@ public class HttpLiveService implements InitializingBean {
             if (cause != null && cause instanceof ConnectTimeoutException) {
                 // keep at warn or below - no need to know when this happens all the time
                 logger.warn("Target host may be timing out - error when expanding the url: " + urlArg, ex);
+                return null;
+            }
+            // connection refused
+            if (cause != null && cause instanceof HttpHostConnectException) {
+                // keep at warn or below - no need to know when this happens all the time
+                logger.warn("Connection to target host was refused - error when expanding the url: " + urlArg, ex);
                 return null;
             }
 
