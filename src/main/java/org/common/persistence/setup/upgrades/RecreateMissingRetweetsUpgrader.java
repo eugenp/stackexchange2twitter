@@ -70,7 +70,7 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
                     final boolean processedSomething = processAllLiveTweetsOnAccount(twitterAccount.name());
                     if (processedSomething) {
                         logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 120 secs...");
-                        Thread.sleep(1000 * 60 * 3); // 120 sec
+                        Thread.sleep(1000 * 60 * 2); // 120 sec
                     }
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), ex);
