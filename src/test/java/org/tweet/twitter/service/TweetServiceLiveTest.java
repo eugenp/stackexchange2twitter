@@ -1,5 +1,7 @@
 package org.tweet.twitter.service;
 
+import static org.junit.Assert.assertFalse;
+
 import org.common.spring.CommonContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +10,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.util.TwitterTag;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
@@ -39,6 +42,37 @@ public class TweetServiceLiveTest {
         System.out.println("Number of Hashtags= " + hashtagCount);
         System.out.println("Character Lenght of Hashtags= " + characterLenghtOfHashTags);
         System.out.println("Lenght of full Tweet= " + tweet.getText().length());
+    }
+
+    // checks
+
+    @Test
+    public final void givenTweetShouldNotBeRetweetedByHashtagsScenario1_whenChecking_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(361420950450872320l);
+        final boolean should = instance.isTweetWorthRetweetingByNumberOfHashtags(tweet);
+        assertFalse(should);
+    }
+
+    @Test
+    public final void givenTweetShouldNotBeRetweetedScenario1_whenChecking_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(361419047868440576l);
+        final boolean should = instance.isTweetWorthRetweetingByFullTweet(tweet, TwitterTag.ipad.name());
+        assertFalse(should);
+    }
+
+    @Test
+    public final void givenTweetShouldNotBeRetweetedScenario2_whenChecking_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(361244545452740608l);
+        final boolean should = instance.isTweetWorthRetweetingByFullTweet(tweet, TwitterTag.ios.name());
+        assertFalse(should);
+    }
+
+    @Test
+    public final void givenTweetShouldNotBeRetweetedScenario3_whenChecking_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(361230305383821312l);
+        final boolean should1 = instance.isTweetWorthRetweetingByFullTweet(tweet, TwitterTag.ipad.name());
+        final boolean should2 = instance.isTweetWorthRetweetingByText(tweet.getText());
+        assertFalse(should1 || should2);
     }
 
 }

@@ -80,6 +80,11 @@ public class TweetService {
             return false;
         }
 
+        if (potentialTweet.getLanguageCode() == null) {
+            // temporary error
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the no language", potentialTweet, twitterTag);
+            return false;
+        }
         if (!potentialTweet.getLanguageCode().equals("en")) {
             logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", potentialTweet, twitterTag, potentialTweet.getLanguageCode());
             // info temporary - should be debug
@@ -92,9 +97,9 @@ public class TweetService {
             return false;
         }
 
-        final int countHashtags = countHashtags(potentialTweet);
-        if (countHashtags > 5) {
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags= {}", potentialTweet, twitterTag, countHashtags);
+        final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
+        if (shouldByNumberOfHashtags) {
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags", potentialTweet, twitterTag);
             // error temporary - debug or trace
             return false;
         }
@@ -205,6 +210,15 @@ public class TweetService {
     }
 
     // util
+
+    final boolean isTweetWorthRetweetingByNumberOfHashtags(final Tweet tweet) {
+        final int countHashtags = countHashtags(tweet);
+        if (countHashtags > 5) {
+            return false;
+        }
+
+        return true;
+    }
 
     final String hashtagWordsFullTweet(final String fullTweet, final List<String> wordsToHash) {
         final Iterable<String> tokens = TwitterUtil.splitter.split(fullTweet);

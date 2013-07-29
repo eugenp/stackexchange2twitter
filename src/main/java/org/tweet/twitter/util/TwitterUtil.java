@@ -30,7 +30,7 @@ public final class TwitterUtil {
         "escort", "escorts", "xxx", "porn", "fuck"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-        "buy", 
+        "buy", "gift",
         "need", 
         "dumb", 
         "islamic", "islam", 
