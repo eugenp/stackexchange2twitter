@@ -103,9 +103,9 @@ public class TweetService {
             return false;
         }
 
-        final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
-        if (shouldByNumberOfHashtags) {
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags", potentialTweet, twitterTag);
+        final boolean worthByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
+        if (!worthByNumberOfHashtags) {
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags", potentialTweet.getText(), twitterTag);
             // error temporary - debug or trace
             return false;
         }
