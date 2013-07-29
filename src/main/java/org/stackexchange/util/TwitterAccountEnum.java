@@ -8,8 +8,8 @@ public enum TwitterAccountEnum {// @formatter:off
     BestAWS(true), 
     BestBash(false), // 
     BestClojure(true), 
-    BestEclipse(false), // 
-    BestGit(false), // 
+    BestEclipse(false), // predefined some accounts
+    BestGit(false), // predefined some accounts
     BestJavaScript(true),  
     BestJPA(false), // 
     BestJSP(false), // 

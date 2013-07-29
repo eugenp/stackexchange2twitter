@@ -62,7 +62,7 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion2() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 2");
 
-        // 9
+        // 10
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestScala), TwitterAccountEnum.BestScala.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.jQueryDaily), TwitterAccountEnum.jQueryDaily.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.RESTDaily), TwitterAccountEnum.RESTDaily.name());
@@ -86,7 +86,7 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion3() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 3");
 
-        // 8
+        // 9
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestOfJava), TwitterAccountEnum.BestOfJava.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.SpringAtSO), TwitterAccountEnum.SpringAtSO.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestNoSQL), TwitterAccountEnum.BestNoSQL.name());
@@ -95,6 +95,7 @@ public class TweetStackexchangeScheduler {
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.ObjectiveCDaily), TwitterAccountEnum.ObjectiveCDaily.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestOfSecurity), TwitterAccountEnum.BestOfSecurity.name());
         service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestOfCloud), TwitterAccountEnum.BestOfCloud.name());
+        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.HTMLdaily), TwitterAccountEnum.HTMLdaily.name());
 
         logger.info("Finished tweet schedule - 3");
     }

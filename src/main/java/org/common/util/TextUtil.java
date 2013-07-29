@@ -37,6 +37,9 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "&rsquo;", "'");
         cleanedText = StringUtils.replaceAll(cleanedText, "&lsquo;", "'");
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "&laquo;", "<<");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&raquo;", ">>");
+
         return cleanedText;
     }
 

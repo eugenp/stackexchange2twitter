@@ -21,16 +21,16 @@ public final class PredefinedAccountRetriever {
 
     // API
 
-    public final String predefinedAccountRaw(final String twitterAccount) {
-        return env.getProperty(twitterAccount + ".predefined");
-    }
-
     public final List<String> predefinedAccount(final String twitterAccount) {
         final String allPredefinedAccountsRaw = predefinedAccountRaw(twitterAccount);
         Preconditions.checkNotNull(allPredefinedAccountsRaw);
 
         final String[] questionIds = allPredefinedAccountsRaw.split(",");
         return Lists.newArrayList(questionIds);
+    }
+
+    final String predefinedAccountRaw(final String twitterAccount) {
+        return env.getProperty(twitterAccount + ".predefined");
     }
 
 }
