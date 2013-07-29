@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonContextConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -57,7 +58,7 @@ public class TwitterQuotaStatusPollerLiveTest {
     }
 
     @Test
-    // @Ignore("long running - manual only")
+    @Ignore("long running - manual only")
     public final void givenOnAllAccounts_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() throws JsonProcessingException, IOException, InterruptedException {
         twitterQuotaStatusPoller.checkTwitterApiQuotaOnAllAccounts();
     }
