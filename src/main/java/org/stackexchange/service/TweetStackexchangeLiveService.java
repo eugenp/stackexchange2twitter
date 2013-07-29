@@ -239,26 +239,26 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         // is it worth it in the context of all the current list of tweets? - yes
 
         // pre-process
-        final String tweetText = tweetService.preValidityProcess(tweetTextRaw);
-
-        // construct full tweet
-        final String fullTweet = tweetService.constructTweetSimple(tweetText, url);
+        final String cleanTweetText = tweetService.preValidityProcess(tweetTextRaw);
 
         // is it valid?
-        if (!tweetService.isTweetTextValid(tweetText)) { // verifying the text, not the full tweet because the url will be shortened
-            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+        if (!tweetService.isTweetTextValid(cleanTweetText)) { // verifying the text, not the full tweet because the url will be shortened
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, cleanTweetText);
             return false;
         }
+
+        // post-process
+        final String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextOnly(cleanTweetText, twitterAccount);
+
+        // construct full tweet
+        final String fullTweet = tweetService.constructTweetSimple(fullyCleanedTweetText, url);
 
         // is this tweet pointing to something good? - yes
 
         // is the tweet rejected by some classifier? - no
 
-        // post-process
-        final String fullTweetProcessed = tweetService.postValidityProcessForFullTweet(fullTweet, twitterAccount);
-
         // tweet
-        final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed);
+        final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
         if (success) {
