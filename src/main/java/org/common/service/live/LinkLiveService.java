@@ -1,6 +1,6 @@
 package org.common.service.live;
 
-import org.common.util.LinkUtil;
+import org.common.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,9 @@ public class LinkLiveService {
     @Autowired
     private HttpLiveService httpService;
 
+    @Autowired
+    private LinkService linkService;
+
     public LinkLiveService() {
         super();
     }
@@ -23,7 +26,7 @@ public class LinkLiveService {
     // count links
 
     public final boolean containsLinkToDomain(final String tweet, final String domain) {
-        final String mainUrl = LinkUtil.determineMainUrl(LinkUtil.extractUrls(tweet));
+        final String mainUrl = linkService.extractUrl(tweet);
         final String mainUrlExpanded = httpService.expand(mainUrl);
         if (mainUrlExpanded == null) {
             return false;
@@ -38,7 +41,7 @@ public class LinkLiveService {
     public final int countLinksToDomain(final Iterable<String> tweets, final String domain) {
         int count = 0;
         for (final String tweet : tweets) {
-            final String mainUrl = LinkUtil.determineMainUrl(LinkUtil.extractUrls(tweet));
+            final String mainUrl = linkService.extractUrl(tweet);
             final String mainUrlExpanded = httpService.expand(mainUrl);
             if (mainUrlExpanded == null) {
                 continue;
@@ -54,7 +57,7 @@ public class LinkLiveService {
     public final int countLinksToAnyDomain(final Iterable<String> tweets, final Iterable<String> domains) {
         int count = 0;
         for (final String tweet : tweets) {
-            final String mainUrl = LinkUtil.determineMainUrl(LinkUtil.extractUrls(tweet));
+            final String mainUrl = linkService.extractUrl(tweet);
             final String mainUrlExpanded = httpService.expand(mainUrl);
             if (mainUrlExpanded == null) {
                 continue;
@@ -69,7 +72,6 @@ public class LinkLiveService {
 
         return count;
     }
-
     // util
 
 }
