@@ -10,8 +10,9 @@ public final class SpringProfileUtil {
     public static final String DEPLOYED = "deployed";
     public static final String LIVE = "live";
     public static final String DEV = "dev";
-    /** > WRITE */
+    /** > WRITE > LIVE */
     public static final String WRITE_PRODUCTION = "production";
+    /** > LIVE */
     public static final String WRITE = "write";
 
     // common

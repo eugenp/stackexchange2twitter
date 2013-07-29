@@ -33,21 +33,17 @@ public class TwitterQuotaStatusPoller {
 
     // API
 
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(cron = "0 */5 * * * * ?")
     public void checkTwitterApiQuotaOnAllAccounts() throws JsonProcessingException, InterruptedException {
         logger.info("Starting to check status of Twitter API Quota");
 
-        // for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
-        // if (twitterAccount.isRt()) {
-        // checkTwitterApiQuotaInternal(twitterAccount.name());
-        // logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 60 secs...");
-        // Thread.sleep(1000 * 60 * 1); // 60 sec
-        // }
-        // }
-
-        checkTwitterApiQuotaOnOneAccount(TwitterAccountEnum.PerlDaily.name());
-        checkTwitterApiQuotaOnOneAccount(TwitterAccountEnum.BestScala.name());
-        checkTwitterApiQuotaOnOneAccount(TwitterAccountEnum.JavaTopSO.name());
+        for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
+            if (twitterAccount.isRt()) {
+                checkTwitterApiQuotaOnOneAccount(twitterAccount.name());
+                logger.info("Done checking Quota status twitterAccount= " + twitterAccount.name() + "; sleeping for 10 secs...");
+                Thread.sleep(1000 * 10 * 1); // 10 sec
+            }
+        }
 
         logger.info("Finished checking status of Twitter API Quota");
     }
@@ -67,10 +63,16 @@ public class TwitterQuotaStatusPoller {
     final void checkTwitterApiQuotaOnOneAccountInternal(final String twitterAccount) {
         final Twitter readOnlyTwitterApi = twitterReadLiveService.readOnlyTwitterApi(twitterAccount);
         final UserOperations userOperations = readOnlyTwitterApi.userOperations();
-        final Map<ResourceFamily, List<RateLimitStatus>> applicationRateLimitStatus = userOperations.getRateLimitStatus(ResourceFamily.APPLICATION);
-        final Map<ResourceFamily, List<RateLimitStatus>> accountRateLimitStatus = userOperations.getRateLimitStatus(ResourceFamily.ACCOUNT);
-        logger.warn("Application Rate Limit Status is= {}", applicationRateLimitStatus);
-        logger.warn("Account Rate Limit Status is= {}", accountRateLimitStatus);
+
+        final Map<ResourceFamily, List<RateLimitStatus>> applicationRateLimitStatusMap = userOperations.getRateLimitStatus(ResourceFamily.APPLICATION);
+        final List<RateLimitStatus> applicationRateLimitStatusList = applicationRateLimitStatusMap.values().iterator().next();
+        final RateLimitStatus appRate = applicationRateLimitStatusList.get(0);
+        logger.warn("Application of account= {} - remaining API hits= {} out of= {}; reset in {} mins", twitterAccount, appRate.getRemainingHits(), appRate.getQuarterOfHourLimit(), (appRate.getResetTimeInSeconds() / 216000000));
+
+        final Map<ResourceFamily, List<RateLimitStatus>> accountRateLimitStatusMap = userOperations.getRateLimitStatus(ResourceFamily.ACCOUNT);
+        final List<RateLimitStatus> accountRateLimitStatusList = accountRateLimitStatusMap.values().iterator().next();
+        final RateLimitStatus accountRate = accountRateLimitStatusList.get(0);
+        logger.warn("Account= {} - remaining API hits= {} out of= {}; reset in {} mins", twitterAccount, accountRate.getRemainingHits(), accountRate.getQuarterOfHourLimit(), appRate.getResetTimeInSeconds() / 216000000);
     }
 
 }
