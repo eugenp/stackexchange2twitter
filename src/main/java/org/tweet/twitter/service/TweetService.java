@@ -41,6 +41,8 @@ public class TweetService {
 
     // API
 
+    // checks
+
     /**
      * Determines if a tweet is worth tweeting based on only its text; by the following <b>criteria</b>: <br/>
      * - has link <br/>
@@ -101,6 +103,25 @@ public class TweetService {
     }
 
     /**
+     * Verifies that: <br/>
+     * - the text has <b>no link</b> <br/>
+     * - the text has the <b>correct length</b> <br/>
+     */
+    public final boolean isTweetTextValid(final String tweetTextNoUrl) {
+        return TwitterUtil.isTweetTextWithoutLinkValid(tweetTextNoUrl);
+    }
+
+    /**
+     * Verifies that: <br/>
+     * - the text has the <b>correct length</b> <br/>
+     */
+    public final boolean isTweetFullValid(final String tweetTextWithUrl) {
+        return TwitterUtil.isTweetTextWithLinkValid(tweetTextWithUrl);
+    }
+
+    // processing
+
+    /**
      * - cleans the invalid characters from text
      */
     public final String preValidityProcess(final String title) {
@@ -131,59 +152,12 @@ public class TweetService {
     public final String postValidityProcessForTweetTextOnly(final String textOnly, final String twitterAccount) {
         String tweetTextProcessed = hashtagWordsTweetTextOnly(textOnly, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
+            logger.error("It's happening; original text= {}", tweetTextProcessed);
             tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
+            logger.error("It has happened; original text= {}", tweetTextProcessed);
         }
 
         return tweetTextProcessed;
-    }
-
-    final String hashtagWordsFullTweet(final String fullTweet, final List<String> wordsToHash) {
-        final Iterable<String> tokens = TwitterUtil.splitter.split(fullTweet);
-
-        final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
-        final Iterable<String> transformedTokens = Iterables.transform(tokens, hashtagWordFunction);
-
-        final String processedTweet = TwitterUtil.joiner.join(transformedTokens);
-
-        // check that hashtags + original tweet do not go over 142 chars
-        if (fullTweet.length() + hashtagWordFunction.getTransformationsDone() > 142) {
-            return fullTweet;
-        }
-
-        return processedTweet;
-    }
-
-    final String hashtagWordsTweetTextOnly(final String tweetTextOnly, final List<String> wordsToHash) {
-        final Iterable<String> tokens = TwitterUtil.splitter.split(tweetTextOnly);
-
-        final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
-        final Iterable<String> transformedTokens = Iterables.transform(tokens, hashtagWordFunction);
-
-        final String processedTweet = TwitterUtil.joiner.join(transformedTokens);
-
-        // check that hashtags + original tweet do not go over 142 chars
-        if (tweetTextOnly.length() + hashtagWordFunction.getTransformationsDone() > 122) {
-            return tweetTextOnly;
-        }
-
-        return processedTweet;
-    }
-
-    /**
-     * Verifies that: <br/>
-     * - the text has <b>no link</b> <br/>
-     * - the text has the <b>correct length</b> <br/>
-     */
-    public final boolean isTweetTextValid(final String tweetTextNoUrl) {
-        return TwitterUtil.isTweetTextWithoutLinkValid(tweetTextNoUrl);
-    }
-
-    /**
-     * Verifies that: <br/>
-     * - the text has the <b>correct length</b> <br/>
-     */
-    public final boolean isTweetFullValid(final String tweetTextWithUrl) {
-        return TwitterUtil.isTweetTextWithLinkValid(tweetTextWithUrl);
     }
 
     public final String constructTweetSimple(final String tweetTextNoUrl, final String url) {
@@ -230,6 +204,40 @@ public class TweetService {
         return size;
     }
 
+    // util
+
+    final String hashtagWordsFullTweet(final String fullTweet, final List<String> wordsToHash) {
+        final Iterable<String> tokens = TwitterUtil.splitter.split(fullTweet);
+
+        final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
+        final Iterable<String> transformedTokens = Iterables.transform(tokens, hashtagWordFunction);
+
+        final String processedTweet = TwitterUtil.joiner.join(transformedTokens);
+
+        // check that hashtags + original tweet do not go over 142 chars
+        if (fullTweet.length() + hashtagWordFunction.getTransformationsDone() > 142) {
+            return fullTweet;
+        }
+
+        return processedTweet;
+    }
+
+    final String hashtagWordsTweetTextOnly(final String tweetTextOnly, final List<String> wordsToHash) {
+        final Iterable<String> tokens = TwitterUtil.splitter.split(tweetTextOnly);
+
+        final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
+        final Iterable<String> transformedTokens = Iterables.transform(tokens, hashtagWordFunction);
+
+        final String processedTweet = TwitterUtil.joiner.join(transformedTokens);
+
+        // check that hashtags + original tweet do not go over 142 chars
+        if (tweetTextOnly.length() + hashtagWordFunction.getTransformationsDone() > 122) {
+            return tweetTextOnly;
+        }
+
+        return processedTweet;
+    }
+
     final List<HashTagEntity> getHashtags(final Tweet tweet) {
         final Entities entities = tweet.getEntities();
         if (entities == null) {
@@ -242,8 +250,6 @@ public class TweetService {
 
         return hashTags;
     }
-
-    // util
 
     private final List<String> twitterTagsToHash(final String twitterAccount) {
         final String wordsToHashForAccount = twitterHashtagsRetriever.hashtags(twitterAccount);
