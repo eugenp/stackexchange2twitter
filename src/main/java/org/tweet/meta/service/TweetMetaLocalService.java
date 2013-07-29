@@ -76,6 +76,10 @@ public class TweetMetaLocalService {
         if (!partialMatches.isEmpty()) {
             return partialMatches.get(0);
         }
+        if (partialMatches.size() > 1) {
+            // if this happens, then I will add more logging around this area
+            logger.error("Temporary 1 - yes, more than one retweet found locally: ");
+        }
 
         // by url
         final String mainUrl = linkService.extractUrl(fullTextWithUrlAfterProcessing);
@@ -85,6 +89,10 @@ public class TweetMetaLocalService {
             // TODO: starting with error - will go down
             logger.error("Tweet has already been retweeted (found other retweet pointing to the same URL);\n-thisTweet= {},\n-previous tweet= {}", fullTextWithUrlAfterProcessing, foundPreviousRetweet);
             return foundPreviousRetweet;
+        }
+        if (retweetsPointingToTheSameUrl.size() > 1) {
+            // if this happens, then I will add more logging around this area
+            logger.error("Temporary 2 - yes, more than one retweet found locally: ");
         }
 
         return null;

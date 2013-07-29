@@ -40,8 +40,8 @@ public class TwitterQuotaStatusPoller {
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 checkTwitterApiQuotaOnOneAccount(twitterAccount.name());
-                logger.info("Done checking Quota status twitterAccount= " + twitterAccount.name() + "; sleeping for 10 secs...");
-                Thread.sleep(1000 * 10 * 1); // 10 sec
+                logger.info("Done checking Quota status twitterAccount= " + twitterAccount.name() + "; sleeping for 30 secs...");
+                Thread.sleep(1000 * 30 * 1); // 10 sec
             }
         }
 
