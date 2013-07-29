@@ -111,6 +111,12 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutMath_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+        assertTrue(success);
+    }
+
     // production scenarios
 
     @Test

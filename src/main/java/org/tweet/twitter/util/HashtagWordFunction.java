@@ -6,6 +6,7 @@ import com.google.common.base.Function;
 
 public class HashtagWordFunction implements Function<String, String> {
     private final List<String> wordsToHash;
+    private int transformationsDone = 0;
 
     public HashtagWordFunction(final List<String> wordsToHash) {
         this.wordsToHash = wordsToHash;
@@ -18,6 +19,12 @@ public class HashtagWordFunction implements Function<String, String> {
         return wordToHashtag(input);
     }
 
+    public int getTransformationsDone() {
+        return transformationsDone;
+    }
+
+    // util
+
     private final String wordToHashtag(final String originalCandidate) {
         String candidate = originalCandidate;
         if (candidate.endsWith("?") || candidate.endsWith("!") || candidate.endsWith(",")) {
@@ -25,6 +32,7 @@ public class HashtagWordFunction implements Function<String, String> {
         }
         for (final String wordToHash : wordsToHash) {
             if (wordToHash.equals(candidate.toLowerCase())) {
+                transformationsDone++;
                 return "#" + originalCandidate;
             }
         }

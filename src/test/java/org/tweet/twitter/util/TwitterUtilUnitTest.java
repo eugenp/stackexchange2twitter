@@ -203,6 +203,14 @@ public final class TwitterUtilUnitTest {
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
+    @Test
+    public final void givenTweetWouldGoOverLimitIfHashtagsWereAddedScenario1_whenHashtagsAreAdded_thenCorrectlyNotChanged() {
+        final String originalTweet = "\"Infuse fun math bla b in the classroom\" MT @edutopia: via @blkgrlphd: Do the #Math Right http://edut.to/1atgftH  #mathchat #studentengagement";
+        final String targetTweet = "\"Infuse fun math bla b in the classroom\" MT @edutopia: via @blkgrlphd: Do the #Math Right http://edut.to/1atgftH  #mathchat #studentengagement";
+        final String processedTweet = TwitterUtil.hashtagWords(originalTweet, Lists.newArrayList("math"));
+        assertThat(targetTweet, equalTo(processedTweet));
+    }
+
     // tweetContainsBannedKeywords
 
     @Test

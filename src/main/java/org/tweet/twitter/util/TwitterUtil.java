@@ -97,13 +97,17 @@ public final class TwitterUtil {
 
     public static String hashtagWords(final String fullTweet, final List<String> wordsToHash) {
         final Iterable<String> tokens = splitter.split(fullTweet);
-        // if (fullTweet.length() + countWordsToHash(tokens, wordsToHash) > 140) {
-        // return fullTweet;
-        // }
 
-        final Iterable<String> transformedTokens = Iterables.transform(tokens, new HashtagWordFunction(wordsToHash));
+        final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
+        final Iterable<String> transformedTokens = Iterables.transform(tokens, hashtagWordFunction);
 
         final String processedTweet = joiner.join(transformedTokens);
+
+        // check that hashtags + original tweet do not go over 142 chars
+        if (fullTweet.length() + hashtagWordFunction.getTransformationsDone() > 142) {
+            return fullTweet;
+        }
+
         return processedTweet;
     }
 
