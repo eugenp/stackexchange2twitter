@@ -67,7 +67,7 @@ Session issues in web.py framework? Check out - http://j.mp/pif8Xt - may have fi
 Communicating Sequential Processes http://swannodette.github.io/2013/07/12/communicating-sequential-processes/ #clojure
 Home office finally set up ready to rock some #clojure today http://instagram.com/p/b03q0-B4tC/
 Elastisch 1.2.0-beta3 is released http://blog.clojurewerkz.org/blog/2013/07/11/elastisch-1-dot-2-0-beta3-is-released/ #clojure #elasticsearch
-Kudos to Fernando Dobladez for improving Monger 1.6â€™s Ragtime integration https://github.com/michaelklishin/monger/pull/57 #clojure #mongodb
+Kudos to Fernando Dobladez for improving Monger 1.6™s Ragtime integration https://github.com/michaelklishin/monger/pull/57 #clojure #mongodb
 Promises and futures in #Clojure http://buff.ly/123S6TZ
 Podcast - #clojure and #datomic applied, with much success: http://thinkrelevance.com/blog/2013/06/12/kurt-zimmer-of-room-key-podcast-episode-033 
 Now on DZone: Spring Book Chapter 8 - Data Access by Tomcy John http://bit.ly/1apcw05 @tomcyjohn #ibatis #hibernate #jdbc #jpa #java #dzone
@@ -123,7 +123,7 @@ Proper usage of #Spring mvc 3 with #hibernate (Spring ORM) - http://stackoverflo
 The Blur Project: Marrying #Hadoop with #Lucene http://ow.ly/mON0c #search #textmining #bigdata
 Big fan of #Lucene, the #opensource #search makes it level playing field for smaller players.
 Apache #Solr and #Lucene 4.3.1 now available for download! http://bit.ly/14vzBvX
-SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in SÃ£o Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx
+SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in Sao Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx
 Lucene 4.3 & Solr 4.3 are out with loads of goodies! http://ow.ly/kKmXF http://ow.ly/kKmZl #lucene #solr
 RT @tteofili: Lucene 4.2 with a classification module http://search-lucene.com/m/8oR5U1DK1SY&subj=+ANNOUNCE+Apache+Lucene+4+2+released < curious to see what users think #lucene << congrats!
 #PHP #code Possible security risk?: Whenever I have a form that inputs to a php page. Ive noticed that it is p... http://tinyurl.com/lvbffzy
@@ -170,35 +170,35 @@ Blogged: #Scala #Redis client goes non blocking : uses #Akka IO .. http://t.co/Q
 ARM Cuts New Java Deal with Oracle - http://t.co/LAAodyUA3G #Java
 #linux Smuxi 0.8.11 IRC Client Is Built for the GNOME Desktop: Smuxi, an irssi-inspired, flexible, user-friend... http://bit.ly/152mqFp
 #linux MythTV 0.27 Alpha Features Radio Streaming: MythTV, a Digital Video Recorder and home media center hub ... http://bit.ly/1bBgN4M
-Free Professional Creation Suite Blender 2.68a Released with Multiple Fixes http://dlvr.it/3k7vFV  #linux
-Manjaro #gnu #linux has a sense of humour https://diasp.org/uploads/images/scaled_full_8c93d65bad913a58c86d.png â€¦
-10 secrets to sustainable in open source communities http://bit.ly/14rZOIg  #linux
-The future of server deployment should look a lot like this: http://blog.james-carr.org/2013/07/24/immutable-servers-with-packer-and-puppet/ â€¦ #packer #puppet #vagrant #linux
-Whoo HOO! Congrats to @klauskiwi - 100,000 views! "Logical Volume Management on #Linux" http://ow.ly/neVc9  ^KS
-Gnome-based desktop environments explained: Mate vs. Gnome Shell vs. Unity vs. Cinnamon http://muo.fm/15ZJXTP  by @dmaxel 
+Free Professional Creation Suite Blender 2.68a Released with Multiple Fixes http://dlvr.it/3k7vFV #linux
+Manjaro #gnu #linux has a sense of humour https://diasp.org/uploads/images/scaled_full_8c93d65bad913a58c86d.png ¦
+10 secrets to sustainable in open source communities http://bit.ly/14rZOIg #linux
+The future of server deployment should look a lot like this: http://blog.james-carr.org/2013/07/24/immutable-servers-with-packer-and-puppet/ ¦ #packer #puppet #vagrant #linux
+Whoo HOO! Congrats to @klauskiwi - 100,000 views! "Logical Volume Management on #Linux" http://ow.ly/neVc9 ^KS
+Gnome-based desktop environments explained: Mate vs. Gnome Shell vs. Unity vs. Cinnamon http://muo.fm/15ZJXTP by @dmaxel 
 Last day to apply for Linux Foundation #Linux Training Scholarships. Please submit! http://bit.ly/14ICLgq
-12 Unexpected Things That Exist Because Of #Linux http://read.bi/15HVyJp  with @jzemlin
+12 Unexpected Things That Exist Because Of #Linux http://read.bi/15HVyJp with @jzemlin
 nrepl.el has new maintainers (me, @technomancy, @hugoduncan and @sanityinc) and a new home https://t.co/cHa0XbIEOR Please,RT #clojure #emacs
-Devoxx online registration is now open @ https://t.co/myujyZOEdz  #Java #Android #HTML5
+Devoxx online registration is now open @ https://t.co/myujyZOEdz #Java #Android #HTML5
 human readable regular expressions library with ports for #ruby #java #javascript #csharp #python #php #groovy https://t.co/uhJg8QC8Qs vcool
 http://t.co/dDild52gwY - gnu make gets guile as extension language soon. wow. #lisp #scheme
 RT @epiloic: VerbalExpressions, #PHP regular expressions made easy: https://t.co/vz9rPn0itU
-Practicing #Ruby Manuscripts -> https://github.com/elm-city-craftworks/practicing-ruby-manuscripts/blob/master/articles/v1/README.md â€¦
-Exercism.io â€“ â€œCrowd-sourced code reviews on daily practice problemsâ€ to bett... http://bit.ly/14sxXrz  #ruby #rails
-Effortless Two-Factor Authentication in Rails #ruby #protip http://coderwall.com/p/qw7hwq  via @coderwall
-Next generation Rails development: http://d.pr/i/J177  @koding - #rails #ruby
-Make a painless web API in Ruby #ruby #protip http://coderwall.com/p/dgj6hq  via @coderwall
-Fighting bundler, rvm and cron #ruby #protip http://coderwall.com/p/vhv8aw  via @coderwall
-Rails 4 Facebook Applications #ruby #protip http://coderwall.com/p/k7xlxa  via @coderwall
+Practicing #Ruby Manuscripts -> https://github.com/elm-city-craftworks/practicing-ruby-manuscripts/blob/master/articles/v1/README.md ¦
+Exercism.io " Crowd-sourced code reviews on daily practice problems to bett... http://bit.ly/14sxXrz #ruby #rails
+Effortless Two-Factor Authentication in Rails #ruby #protip http://coderwall.com/p/qw7hwq via @coderwall
+Next generation Rails development: http://d.pr/i/J177 @koding - #rails #ruby
+Make a painless web API in Ruby #ruby #protip http://coderwall.com/p/dgj6hq via @coderwall
+Fighting bundler, rvm and cron #ruby #protip http://coderwall.com/p/vhv8aw via @coderwall
+Rails 4 Facebook Applications #ruby #protip http://coderwall.com/p/k7xlxa via @coderwall
 Endless pagination com o kaminari facinho! #ruby #rails http://buff.ly/15HivKq 
-Great write-up on the status of shoes4 for #ruby; check it out! http://pragtob.wordpress.com/2013/07/17/shoes-4-a-progress-report/ â€¦ #jruby @shoooesrb
-Wonderful 5 min. presentation on WAT and the problems with programming languages: https://www.destroyallsoftware.com/talks/wat  #ruby #JavaScript
-if you are going to @rubyconf check out @RubyOnSails http://rubyonsails.info/  happening the day before. tickets are selling out fast! #ruby
-Automatically Create Icons for iOS Apps #ruby #protip http://coderwall.com/p/otmx2g  via @coderwall
-RT @cdickmann: Released rbvmomi 1.6.0: #ruby #vSphere API bindings with support for vSphere 5.1 http://bit.ly/UoXLU0  <-awesome stuff!
-Looking to get into #Ruby? @apeacox has written a great article for @12Devs ~ writing a web app with Ruby on Rails - http://12devs.co.uk/articles/writing-a-web-application-with-ruby-on-rails/ â€¦
-Ruby Version Manager (RVM) Overview for Rails Newbs (like me). http://strandcode.com/2013/07/11/ruby-version-manager-rvm-overview-for-rails-newbs/ â€¦ #Ruby #Rails @rails
-Today's code quickie: A script to bootstrap rvm, #Ruby, bundler and any defined gems in a Ruby project directory. https://github.com/miguno/ruby-bootstrap â€¦
-Running production apps on @Heroku part1 - building a great foundation for your scalable app http://ow.ly/mSl9z  #ruby
-Cleanup Rails' views with decorators by @af83 - Nice introduction to Draper gem. http://buff.ly/1di8kit  #ruby #rails
+Great write-up on the status of shoes4 for #ruby; check it out! http://pragtob.wordpress.com/2013/07/17/shoes-4-a-progress-report/ ¦ #jruby @shoooesrb
+Wonderful 5 min. presentation on WAT and the problems with programming languages: https://www.destroyallsoftware.com/talks/wat #ruby #JavaScript
+if you are going to @rubyconf check out @RubyOnSails http://rubyonsails.info/ happening the day before. tickets are selling out fast! #ruby
+Automatically Create Icons for iOS Apps #ruby #protip http://coderwall.com/p/otmx2g via @coderwall
+RT @cdickmann: Released rbvmomi 1.6.0: #ruby #vSphere API bindings with support for vSphere 5.1 http://bit.ly/UoXLU0 <-awesome stuff!
+Looking to get into #Ruby? @apeacox has written a great article for @12Devs ~ writing a web app with Ruby on Rails - http://12devs.co.uk/articles/writing-a-web-application-with-ruby-on-rails/ ¦
+Ruby Version Manager (RVM) Overview for Rails Newbs (like me). http://strandcode.com/2013/07/11/ruby-version-manager-rvm-overview-for-rails-newbs/ ¦ #Ruby #Rails @rails
+Today's code quickie: A script to bootstrap rvm, #Ruby, bundler and any defined gems in a Ruby project directory. https://github.com/miguno/ruby-bootstrap ¦
+Running production apps on @Heroku part1 - building a great foundation for your scalable app http://ow.ly/mSl9z #ruby
+Cleanup Rails' views with decorators by @af83 - Nice introduction to Draper gem. http://buff.ly/1di8kit #ruby #rails
 New books arrived, freshly shipped from China! :D #programming #ruby cc @yukihiro_matz pic.twitter.com/zFJI37Sj5j

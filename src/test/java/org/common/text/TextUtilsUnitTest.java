@@ -105,6 +105,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario13_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in Sao Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in SÃ£o Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // trim
 
     @Test

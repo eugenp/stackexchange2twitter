@@ -40,6 +40,10 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "&laquo;", "<<");
         cleanedText = StringUtils.replaceAll(cleanedText, "&raquo;", ">>");
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "Ã£", "a");
+        cleanedText = StringUtils.replaceAll(cleanedText, "ã", "a");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&Atilde;&pound;", "a");
+
         return cleanedText;
     }
 

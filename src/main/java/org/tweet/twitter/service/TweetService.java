@@ -138,6 +138,11 @@ public class TweetService {
     public final String preValidityProcess(final String title) {
         String resultAfterCleanup = TextUtil.cleanupInvalidCharacters(title);
         resultAfterCleanup = TextUtil.trimTweet(resultAfterCleanup);
+
+        if (resultAfterCleanup.matches(".*&.*;.*")) {
+            logger.error("Probably unclean characters in: {}", resultAfterCleanup);
+        }
+
         return resultAfterCleanup;
     }
 
