@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java/org/common/util/TextUtil.java=UTF-8
+encoding//src/main/resources/classification/commercial.classif=UTF-8
 encoding//src/test/java/org/common/text/LinkUtilUnitTest.java=UTF-8
 encoding//src/test/java/org/common/text/TextUtilsUnitTest.java=UTF-8

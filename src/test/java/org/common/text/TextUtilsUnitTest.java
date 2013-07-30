@@ -112,6 +112,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario14_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "#PHP #Cron #Job: #How #to #Execute #PHP #Script #Using #wget #in #Crontab #in #Linux #bash  http://www.ipaste.eu/view.php?id=2064 ...";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("#PHP #Cron #Job: #How #to #Execute #PHP #Script #Using #wget #in #Crontab #in #Linux #bash ✔ http://www.ipaste.eu/view.php?id=2064 …");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // trim
 
     @Test
