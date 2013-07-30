@@ -46,6 +46,8 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "✔", "");
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "&prime;", "'");
+
         return cleanedText;
     }
 

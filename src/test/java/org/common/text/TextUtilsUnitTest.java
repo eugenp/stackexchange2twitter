@@ -119,6 +119,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario15_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Custom USB sticks bypassing Windows 7/8's AutoRun protection measure going mainstream - http://is.gd/5TlNuz  #security #malware";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Custom USB sticks bypassing Windows 7/8′s AutoRun protection measure going mainstream - http://is.gd/5TlNuz  #security #malware");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // trim
 
     @Test
