@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.tweet.spring.TwitterConfig;
-import org.tweet.spring.TwitterLiveConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class })
+@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class })
 // @ActiveProfiles(SpringProfileUtil.LIVE)
 public class TweetServiceIntegrationTest {
 

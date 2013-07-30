@@ -10,10 +10,9 @@ public final class ClassificationSettings {
     public static final int FEATURES = 5000;
     /*
     - 5000:
-    -- 3 - 0.896
-    -- 4 - 0.879
+    -- 3 - 0.927
     - 7000: 
-    -- 3 - 0.896
+    -- 3 - 0.923
     -- 4 - 
     */
 
