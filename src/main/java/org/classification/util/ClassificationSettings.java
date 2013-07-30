@@ -13,7 +13,6 @@ public final class ClassificationSettings {
     -- 3 - 0.927
     - 7000: 
     -- 3 - 0.923
-    -- 4 - 
     */
 
     public static final String TWEET_TOKENIZER = " ,.!?\":()|-"; // `_` can be included as well
