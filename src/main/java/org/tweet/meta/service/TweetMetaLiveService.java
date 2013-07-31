@@ -174,7 +174,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         // after text processing, check again if this has already been retweeted
         final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(fullTweetProcessed, twitterAccount);
         if (alreadyExistingRetweetByText != null) {
-            logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= ", alreadyExistingRetweetByText, fullTweetProcessed); // TODO: temporarily warn - should get to debug
+            logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= {}", alreadyExistingRetweetByText, fullTweetProcessed); // TODO: temporarily warn - should get to debug
             return false;
         }
 
