@@ -140,6 +140,13 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario18_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "What is the \"Grave\" button?";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("What is the “Grave” button?");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // trim
 
     @Test

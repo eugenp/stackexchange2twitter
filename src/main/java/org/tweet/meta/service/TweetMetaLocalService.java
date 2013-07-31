@@ -91,7 +91,7 @@ public class TweetMetaLocalService {
         if (!retweetsPointingToTheSameUrl.isEmpty()) {
             if (retweetsPointingToTheSameUrl.size() > 1) {
                 // if this happens, then I will add more logging around this area
-                logger.error("Temporary 2 - yes, more than one retweet found locally: ");
+                logger.error("Temporary 1 - yes, more than one retweet found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, retweetsPointingToTheSameUrl);
             }
             return retweetsPointingToTheSameUrl;
         }
