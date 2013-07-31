@@ -43,7 +43,7 @@ public class ClassificationAccuracyServiceLiveTest {
     public final void givenCommercialClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         // final List<Integer> probeCounts = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         // final List<Integer> featuresCount = Lists.newArrayList(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000);
-        final List<Integer> probeCounts = Lists.newArrayList(3);
+        final List<Integer> probeCounts = Lists.newArrayList(2, 3, 4, 5);
         final List<Integer> featuresCount = Lists.newArrayList(5000, 7000);
 
         final int runs = 1000;
