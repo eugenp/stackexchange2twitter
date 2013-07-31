@@ -65,7 +65,7 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
                 logger.info("Recreating dates for all missing retweets of twitterAccount= " + twitterAccount.name());
                 final boolean processedSomething = fillInDatesOfRetweetsOfOneAccount(twitterAccount.name());
                 if (processedSomething) {
-                    logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 60 secs...");
+                    logger.info("Done recreating dates on retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 60 secs...");
                     Thread.sleep(1000 * 60 * 1); // 60 sec
                 }
             } catch (final RuntimeException ex) {

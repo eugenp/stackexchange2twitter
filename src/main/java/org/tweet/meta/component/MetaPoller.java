@@ -33,7 +33,7 @@ public class MetaPoller {
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 checkRetweetsMatchOnAccount(twitterAccount.name());
-                logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 60 secs...");
+                logger.info("Done performing meta validity checks for twitterAccount= " + twitterAccount.name() + "; sleeping for 60 secs...");
                 Thread.sleep(1000 * 60 * 1); // 60 sec
             }
         }
