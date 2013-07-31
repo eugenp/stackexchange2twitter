@@ -15,13 +15,6 @@ public class TextUtilsUnitTest {
     // pre-processing text
 
     @Test
-    public final void whenProcessingTweetText_thenCorrectlyProcessed() {
-        final String expectedText = ".htaccess & Wordpress: Exclude folder from RewriteRule";
-        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters(".htaccess & Wordpress: Exclude folder from RewriteRule");
-        assertThat(preProcessedTweet, equalTo(expectedText));
-    }
-
-    @Test
     public final void givenTextContainsInvalidCharactersScenario1_whenProcessingTweetText_thenCorrectlyProcessed() {
         final String expectedText = "System(\"pause\"); - Why is it wrong? - stackoverflow.com/questions/1107";
         final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("System(“pause”); - Why is it wrong? - stackoverflow.com/questions/1107");
@@ -113,13 +106,6 @@ public class TextUtilsUnitTest {
     }
 
     @Test
-    public final void givenTextContainsInvalidCharactersScenario14_whenProcessingTweetText_thenCorrectlyProcessed() {
-        final String expectedText = "#PHP #Cron #Job: #How #to #Execute #PHP #Script #Using #wget #in #Crontab #in #Linux #bash  http://www.ipaste.eu/view.php?id=2064 ...";
-        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("#PHP #Cron #Job: #How #to #Execute #PHP #Script #Using #wget #in #Crontab #in #Linux #bash ✔ http://www.ipaste.eu/view.php?id=2064 …");
-        assertThat(preProcessedTweet, equalTo(expectedText));
-    }
-
-    @Test
     public final void givenTextContainsInvalidCharactersScenario15_whenProcessingTweetText_thenCorrectlyProcessed() {
         final String expectedText = "Custom USB sticks bypassing Windows 7/8's AutoRun protection measure going mainstream - http://is.gd/5TlNuz  #security #malware";
         final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Custom USB sticks bypassing Windows 7/8′s AutoRun protection measure going mainstream - http://is.gd/5TlNuz  #security #malware");
@@ -146,6 +132,8 @@ public class TextUtilsUnitTest {
         final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("What is the “Grave” button?");
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
+
+    // ✔ - I cannot add this into some Strings - it simply get replaced by a square with something inside
 
     // trim
 
