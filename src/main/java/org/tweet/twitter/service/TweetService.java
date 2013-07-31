@@ -135,11 +135,11 @@ public class TweetService {
     /**
      * - cleans the invalid characters from text
      */
-    public final String preValidityProcess(final String title) {
+    public final String processPreValidity(final String title) {
         String resultAfterCleanup = TextUtil.cleanupInvalidCharacters(title);
         resultAfterCleanup = TextUtil.trimTweet(resultAfterCleanup);
 
-        if (resultAfterCleanup.matches(".*&.*;.*")) {
+        if (resultAfterCleanup.matches(".*&\\S*;.*")) {
             logger.error("Probably unclean characters in: {}", resultAfterCleanup);
         }
 

@@ -148,7 +148,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         // pre-validity
-        final String fullTweetProcessedPreValidity = tweetService.preValidityProcess(fullTweet);
+        final String fullTweetProcessedPreValidity = tweetService.processPreValidity(fullTweet);
         // is it valid?
         if (!tweetService.isTweetFullValid(fullTweetProcessedPreValidity)) {
             // TODO: was debug, temporarily error because for meta, this should not happen

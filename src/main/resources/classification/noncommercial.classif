@@ -67,7 +67,7 @@ Session issues in web.py framework? Check out - http://j.mp/pif8Xt - may have fi
 Communicating Sequential Processes http://swannodette.github.io/2013/07/12/communicating-sequential-processes/ #clojure
 Home office finally set up ready to rock some #clojure today http://instagram.com/p/b03q0-B4tC/
 Elastisch 1.2.0-beta3 is released http://blog.clojurewerkz.org/blog/2013/07/11/elastisch-1-dot-2-0-beta3-is-released/ #clojure #elasticsearch
-Kudos to Fernando Dobladez for improving Monger 1.6™s Ragtime integration https://github.com/michaelklishin/monger/pull/57 #clojure #mongodb
+Kudos to Fernando Dobladez for improving Monger 1.6s Ragtime integration https://github.com/michaelklishin/monger/pull/57 #clojure #mongodb
 Promises and futures in #Clojure http://buff.ly/123S6TZ
 Podcast - #clojure and #datomic applied, with much success: http://thinkrelevance.com/blog/2013/06/12/kurt-zimmer-of-room-key-podcast-episode-033 
 Now on DZone: Spring Book Chapter 8 - Data Access by Tomcy John http://bit.ly/1apcw05 @tomcyjohn #ibatis #hibernate #jdbc #jpa #java #dzone
@@ -171,9 +171,9 @@ ARM Cuts New Java Deal with Oracle - http://t.co/LAAodyUA3G #Java
 #linux Smuxi 0.8.11 IRC Client Is Built for the GNOME Desktop: Smuxi, an irssi-inspired, flexible, user-friend... http://bit.ly/152mqFp
 #linux MythTV 0.27 Alpha Features Radio Streaming: MythTV, a Digital Video Recorder and home media center hub ... http://bit.ly/1bBgN4M
 Free Professional Creation Suite Blender 2.68a Released with Multiple Fixes http://dlvr.it/3k7vFV #linux
-Manjaro #gnu #linux has a sense of humour https://diasp.org/uploads/images/scaled_full_8c93d65bad913a58c86d.png ¦
+Manjaro #gnu #linux has a sense of humour https://diasp.org/uploads/images/scaled_full_8c93d65bad913a58c86d.png 
 10 secrets to sustainable in open source communities http://bit.ly/14rZOIg #linux
-The future of server deployment should look a lot like this: http://blog.james-carr.org/2013/07/24/immutable-servers-with-packer-and-puppet/ ¦ #packer #puppet #vagrant #linux
+The future of server deployment should look a lot like this: http://blog.james-carr.org/2013/07/24/immutable-servers-with-packer-and-puppet/ #packer #puppet #vagrant #linux
 Whoo HOO! Congrats to @klauskiwi - 100,000 views! "Logical Volume Management on #Linux" http://ow.ly/neVc9 ^KS
 Gnome-based desktop environments explained: Mate vs. Gnome Shell vs. Unity vs. Cinnamon http://muo.fm/15ZJXTP by @dmaxel 
 Last day to apply for Linux Foundation #Linux Training Scholarships. Please submit! http://bit.ly/14ICLgq
@@ -183,7 +183,7 @@ Devoxx online registration is now open @ https://t.co/myujyZOEdz #Java #Android 
 human readable regular expressions library with ports for #ruby #java #javascript #csharp #python #php #groovy https://t.co/uhJg8QC8Qs vcool
 http://t.co/dDild52gwY - gnu make gets guile as extension language soon. wow. #lisp #scheme
 RT @epiloic: VerbalExpressions, #PHP regular expressions made easy: https://t.co/vz9rPn0itU
-Practicing #Ruby Manuscripts -> https://github.com/elm-city-craftworks/practicing-ruby-manuscripts/blob/master/articles/v1/README.md ¦
+Practicing #Ruby Manuscripts -> https://github.com/elm-city-craftworks/practicing-ruby-manuscripts/blob/master/articles/v1/README.md 
 Exercism.io " Crowd-sourced code reviews on daily practice problems to bett... http://bit.ly/14sxXrz #ruby #rails
 Effortless Two-Factor Authentication in Rails #ruby #protip http://coderwall.com/p/qw7hwq via @coderwall
 Next generation Rails development: http://d.pr/i/J177 @koding - #rails #ruby
@@ -191,37 +191,36 @@ Make a painless web API in Ruby #ruby #protip http://coderwall.com/p/dgj6hq via 
 Fighting bundler, rvm and cron #ruby #protip http://coderwall.com/p/vhv8aw via @coderwall
 Rails 4 Facebook Applications #ruby #protip http://coderwall.com/p/k7xlxa via @coderwall
 Endless pagination com o kaminari facinho! #ruby #rails http://buff.ly/15HivKq 
-Great write-up on the status of shoes4 for #ruby; check it out! http://pragtob.wordpress.com/2013/07/17/shoes-4-a-progress-report/ ¦ #jruby @shoooesrb
+Great write-up on the status of shoes4 for #ruby; check it out! http://pragtob.wordpress.com/2013/07/17/shoes-4-a-progress-report/ #jruby @shoooesrb
 Wonderful 5 min. presentation on WAT and the problems with programming languages: https://www.destroyallsoftware.com/talks/wat #ruby #JavaScript
 if you are going to @rubyconf check out @RubyOnSails http://rubyonsails.info/ happening the day before. tickets are selling out fast! #ruby
 Automatically Create Icons for iOS Apps #ruby #protip http://coderwall.com/p/otmx2g via @coderwall
 RT @cdickmann: Released rbvmomi 1.6.0: #ruby #vSphere API bindings with support for vSphere 5.1 http://bit.ly/UoXLU0 <-awesome stuff!
-Looking to get into #Ruby? @apeacox has written a great article for @12Devs ~ writing a web app with Ruby on Rails - http://12devs.co.uk/articles/writing-a-web-application-with-ruby-on-rails/ ¦
-Ruby Version Manager (RVM) Overview for Rails Newbs (like me). http://strandcode.com/2013/07/11/ruby-version-manager-rvm-overview-for-rails-newbs/ ¦ #Ruby #Rails @rails
-Today's code quickie: A script to bootstrap rvm, #Ruby, bundler and any defined gems in a Ruby project directory. https://github.com/miguno/ruby-bootstrap ¦
+Looking to get into #Ruby? @apeacox has written a great article for @12Devs ~ writing a web app with Ruby on Rails - http://12devs.co.uk/articles/writing-a-web-application-with-ruby-on-rails/ 
+Ruby Version Manager (RVM) Overview for Rails Newbs (like me). http://strandcode.com/2013/07/11/ruby-version-manager-rvm-overview-for-rails-newbs/ #Ruby #Rails @rails
+Today's code quickie: A script to bootstrap rvm, #Ruby, bundler and any defined gems in a Ruby project directory. https://github.com/miguno/ruby-bootstrap 
 Running production apps on @Heroku part1 - building a great foundation for your scalable app http://ow.ly/mSl9z #ruby
 Cleanup Rails' views with decorators by @af83 - Nice introduction to Draper gem. http://buff.ly/1di8kit #ruby #rails
 New books arrived, freshly shipped from China! :D #programming #ruby cc @yukihiro_matz pic.twitter.com/zFJI37Sj5j
 Between http://goo.gl/aoWmJi & http://goo.gl/vIkrL cross-compatible scripting is easier to obtain than first thought #bash #tech
 Bash Configurations Demystified - http://s.shr.lc/13t3Kbz #bash #unix
-Ever "cd gem; make install" by accident? Now it works! https://gist.github.com/ConradIrwin/6084463 … #zsh #bash
+Ever "cd gem; make install" by accident? Now it works! https://gist.github.com/ConradIrwin/6084463 #zsh #bash
 How to prevent a password or other sensitive information from being stored in the bash history? http://superuser.com/q/624149?atw=1 #bash
-ShellCheck – Online shell script analyzer - http://kcy.me/p06z #Bash #Linux
+ShellCheck Online shell script analyzer - http://kcy.me/p06z #Bash #Linux
 Bash - Count unique users from a log file for a given time period - http://goo.gl/HQt65 #bash #snippet
 Bash - Grep for files that do not match a pattern - http://goo.gl/5LWvL #bash #snippet
-This .bashrc .profile or .bash_profile and mostly .local.bash(rc) is quite interesting! http://dghubble.com/.bashprofile-.profile-and-.bashrc-conventions.html … #bash #unix #linux #shell
+This .bashrc .profile or .bash_profile and mostly .local.bash(rc) is quite interesting! http://dghubble.com/.bashprofile-.profile-and-.bashrc-conventions.html #bash #unix #linux #shell
 Bash - PING SITE WITH HTTP_AUTH - http://goo.gl/BUrwIX #bash #snippet
-Using #Sed to Replace Tabs in File L#inux #Shell Tutorial - #BASH http://www.youtube.com/watch?v=XAsCzhQ4S48 …
+Using #Sed to Replace Tabs in File L#inux #Shell Tutorial - #BASH http://www.youtube.com/watch?v=XAsCzhQ4S48 
 Bash - Enable autoplay of movies in QuickTime Player - http://goo.gl/bbvhQt #bash #snippet
-Optimizing images with #Bash #script » http://bit.ly/1c6fWZa 
+Optimizing images with #Bash #script http://bit.ly/1c6fWZa 
 Tracebacks in #bash http://goo.gl/fb/sXbmA #docwhat #programming
 Multithreading in BASH -> http://ur1.ca/e3b04 #bash
 Concise #bash #programming skills http://zite.to/12rwgvz via @zite
 Deixa o script rodar. #bash #linux #terminal #programming @ Funn Digital http://instagram.com/p/ZEi59quAmC/ 
 Looking Back: The BASH Shell: Wildcards & Command Line... http://tinyurl.com/7fvyc26 #bash #linux #programming #servermanagement #tutorial
 How to parse command line arguments/parameters in C/C++/Perl/Python/Bash - http://bit.ly/12CkvXb #code #bash #script #cmd
-Shelling Out Sucks http://julialang.org/blog/2012/03/shelling-out-sucks/ … #programming #devel #shell #bash #ruby
-Shelling Out Sucks http://julialang.org/blog/2012/03/shelling-out-sucks/ … #programming #devel #shell #bash #ruby
+Shelling Out Sucks http://julialang.org/blog/2012/03/shelling-out-sucks/ #programming #devel #shell #bash #ruby
 BASH Programming - Introduction HOW-TO http://bit.ly/15hG26m via http://bit.ly/MJFsIm VPS #bash #devops #sysadmin #linux #unix
 Looking Back: The BASH Shell: Command History & Aliases http://tinyurl.com/6rmcmwy #bash #linux #programming #servermanagement #tutorial
 #Bash: Parse Options And Non-Options With Getopts http://bit.ly/11jBzQa #programming

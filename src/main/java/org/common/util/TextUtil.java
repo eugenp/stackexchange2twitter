@@ -48,6 +48,8 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&prime;", "'");
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "&brvbar;", "|");
+
         return cleanedText;
     }
 

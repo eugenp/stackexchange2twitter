@@ -74,12 +74,12 @@ public final class ClassificationDataUtil {
 
     // util
 
-    private static final List<NamedVector> oneVsAnotherLearningData(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
-        final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
-        allNamedVectors.addAll(vectorsFirstSet);
-        allNamedVectors.addAll(vectorsSecondSet);
-        Collections.shuffle(allNamedVectors);
-        return allNamedVectors;
+    static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
+        return trainingData("/classification/commercial.classif", COMMERCIAL, probes, features);
+    }
+
+    static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
+        return trainingData("/classification/noncommercial.classif", NONCOMMERCIAL, probes, features);
     }
 
     private static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
@@ -90,12 +90,12 @@ public final class ClassificationDataUtil {
         return trainingData("/classification/nonprogramming.classif", NONPROGRAMMING, probes, features);
     }
 
-    private static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
-        return trainingData("/classification/commercial.classif", COMMERCIAL, probes, features);
-    }
-
-    private static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
-        return trainingData("/classification/noncommercial.classif", NONCOMMERCIAL, probes, features);
+    private static final List<NamedVector> oneVsAnotherLearningData(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
+        final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
+        allNamedVectors.addAll(vectorsFirstSet);
+        allNamedVectors.addAll(vectorsSecondSet);
+        Collections.shuffle(allNamedVectors);
+        return allNamedVectors;
     }
 
     private static final List<NamedVector> trainingData(final String path, final String type, final int probes, final int features) throws IOException {

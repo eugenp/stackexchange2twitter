@@ -93,7 +93,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
         // is it worth it in the context of all the current list of tweets? - yes
 
         // pre-process
-        final String tweetText = tweetService.preValidityProcess(textRaw);
+        final String tweetText = tweetService.processPreValidity(textRaw);
 
         // is it valid?
         if (!tweetService.isTweetTextValid(tweetText)) {

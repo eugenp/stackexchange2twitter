@@ -34,10 +34,11 @@ public final class TwitterUtil {
         "need", 
         "dumb", 
         "islamic", "islam", 
-        "$3.99", "$2.99", "$1.99", "$0.99"
+        "$3.99", "$2.99", "$1.99", "$0.99", 
+        "&pound;", "£"
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
-            "photo: "
+        "photo: "
     );// @formatter:on
     final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
         "web developer", "web developers", 

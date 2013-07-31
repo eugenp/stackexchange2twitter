@@ -1,5 +1,13 @@
 package org.tweet.twitter.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
+import org.apache.commons.io.IOUtils;
+import org.classification.util.ClassificationDataUtil;
 import org.common.spring.CommonContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,8 +34,31 @@ public class TweetServiceIntegrationTest {
     // process
 
     @Test
-    public final void whenTextIsNotProcessedCorrectly_thenNoExceptions() {
-        instance.preValidityProcess("SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in São Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx");
+    public final void whenTextIsNotProcessedCorrectlyScenario1_thenNoExceptions() {
+        instance.processPreValidity("SearchHub: Join @ErikHatcher at the #Lucene/Solr Meetup in São Paulo, June 11th. Don't miss out! http://wp.me/p3cNDk-2vx");
+    }
+
+    @Test
+    public final void whenTextIsNotProcessedCorrectlyScenario2_thenNoExceptions() {
+        instance.processPreValidity("Verivo is looking for a Sr. Build Engineer with #Maven & #Jenkins experience; interested? Apply here: http://ow.ly/h8naT #jobs");
+    }
+
+    @Test
+    public final void whenAllNonCommercialTweetsFromClassifierAreProcessed_thenNoExceptions() throws IOException {
+        final InputStream is = ClassificationDataUtil.class.getResourceAsStream("/classification/noncommercial.classif");
+        final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
+        for (final String tweet : tweets) {
+            instance.processPreValidity(tweet);
+        }
+    }
+
+    @Test
+    public final void whenAllCommercialTweetsFromClassifierAreProcessed_thenNoExceptions() throws IOException {
+        final InputStream is = ClassificationDataUtil.class.getResourceAsStream("/classification/commercial.classif");
+        final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
+        for (final String tweet : tweets) {
+            instance.processPreValidity(tweet);
+        }
     }
 
 }

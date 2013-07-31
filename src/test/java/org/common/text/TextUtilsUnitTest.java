@@ -126,6 +126,20 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario16_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Know anyone for this job? Ruby on Rails Developer in Chicago, IL http://bull.hn/l/14445f889f1d5ebf504e098c9429f3d1/5 | #job #ruby #chicago";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Know anyone for this job? Ruby on Rails Developer in Chicago, IL http://bull.hn/l/14445f889f1d5ebf504e098c9429f3d1/5 ¦ #job #ruby #chicago");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario17_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Verivo is looking for a Sr. Build Engineer with #Maven & #Jenkins experience; interested? Apply here: http://ow.ly/h8naT #jobs";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Verivo is looking for a Sr. Build Engineer with #Maven & #Jenkins experience; interested? Apply here: http://ow.ly/h8naT #jobs");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // trim
 
     @Test

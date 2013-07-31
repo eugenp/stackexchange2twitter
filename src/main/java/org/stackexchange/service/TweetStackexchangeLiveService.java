@@ -239,7 +239,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         // is it worth it in the context of all the current list of tweets? - yes
 
         // pre-process
-        final String cleanTweetText = tweetService.preValidityProcess(tweetTextRaw);
+        final String cleanTweetText = tweetService.processPreValidity(tweetTextRaw);
 
         // is it valid?
         if (!tweetService.isTweetTextValid(cleanTweetText)) { // verifying the text, not the full tweet because the url will be shortened
