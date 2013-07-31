@@ -21,7 +21,7 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Component
-@Profile(SpringProfileUtil.DEPLOYED)
+@Profile(SpringProfileUtil.DEPLOYED_POLLER)
 public class TwitterQuotaStatusPoller {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

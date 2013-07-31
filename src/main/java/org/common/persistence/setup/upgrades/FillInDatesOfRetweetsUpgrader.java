@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
+import org.tweet.meta.service.TweetMetaLocalService;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
@@ -30,6 +31,9 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
 
     @Autowired
     private IRetweetJpaDAO retweetDao;
+
+    @Autowired
+    private TweetMetaLocalService tweetMetaLocalService;
 
     @Autowired
     private TweetService tweetService;
@@ -80,11 +84,16 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
     public boolean fillInDatesOfRetweetsOfOneAccount(final String twitterAccount) {
         final List<Tweet> allTweetsOfAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
         for (final Tweet tweet : allTweetsOfAccount) {
-            final Retweet correspondingLocalRetweet = retweetDao.findOneByTextAndTwitterAccount(tweet.getText(), twitterAccount);
-            if (correspondingLocalRetweet != null && correspondingLocalRetweet.getWhen() == null && tweet.getCreatedAt() != null) {
-                correspondingLocalRetweet.setWhen(tweet.getCreatedAt());
-                retweetDao.save(correspondingLocalRetweet);
-                logger.info("Upgraded retweet with date; retweet= {}", tweet.getText());
+            final String fullTweetRaw = tweet.getText();
+            final String fullTweetProcessedPreValidity = tweetService.processPreValidity(fullTweetRaw);
+            final String fullTweetProcessed = tweetService.postValidityProcessForFullTweet(fullTweetProcessedPreValidity, twitterAccount);
+            final List<Retweet> correspondingLocalRetweets = tweetMetaLocalService.findLocalCandidatesAdvanced(fullTweetProcessed, twitterAccount);
+            for (final Retweet correspondingLocalRetweet : correspondingLocalRetweets) {
+                if (correspondingLocalRetweet != null && correspondingLocalRetweet.getWhen() == null && tweet.getCreatedAt() != null) {
+                    correspondingLocalRetweet.setWhen(tweet.getCreatedAt());
+                    retweetDao.save(correspondingLocalRetweet);
+                    logger.info("Upgraded retweet with date; retweet= {}", tweet.getText());
+                }
             }
         }
 

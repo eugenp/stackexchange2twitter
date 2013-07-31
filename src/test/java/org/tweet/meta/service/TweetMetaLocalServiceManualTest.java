@@ -60,56 +60,56 @@ public class TweetMetaLocalServiceManualTest {
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario1_thenCorrectAnswer() {
         final String text = "RT @vmbrasseur: This regex MUST become a t-shirt. #osb13 #perl #biking / Credit to @nickpatch http://pic.twitter.com/OrOCsWL2BC";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.PerlDaily.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.PerlDaily.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario2_thenCorrectAnswer() {
         final String text = "Blogged: #Scala #Redis client goes non blocking : uses #Akka IO .. http://debasishg.blogspot.in/2013/07/scala-redis-client-goes-non-blocking.html �";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestScala.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestScala.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario3_thenCorrectAnswer() {
         final String text = "Recipes for #Akka Dependency Injection - http://tmblr.co/ZlHOLwq7PxvL  by @typesafe";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestScala.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestScala.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario4_thenCorrectAnswer() {
         final String text = "#OOCSS + #Sass = The best way to #CSS - http://buff.ly/198JbJv  #webdev #html";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.HTMLdaily.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.HTMLdaily.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario5_thenCorrectAnswer() {
         final String text = "Morning all! RT @ContractHire http://t.co/dxKq3cl03U follow and you could win a new #iPad Mini! #comp #Apple #ipad";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.InTheAppleWorld.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.InTheAppleWorld.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario6_thenCorrectAnswer() {
         final String text = "Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestOfCloud.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestOfCloud.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario7_thenCorrectAnswer() {
         final String text = "You Can Now Embed Vine Videos on Your #WordPress Site http://t.co/wKygWrfDFN";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.LandOfWordpress.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.LandOfWordpress.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario8_thenCorrectAnswer() {
         final String text = "Blogged: #Scala #Redis client goes non blocking : uses #Akka IO .. http://t.co/Q3pB4KPeqb";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(text, TwitterAccountEnum.BestScala.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestScala.name());
         assertNotNull(existing);
     }
 

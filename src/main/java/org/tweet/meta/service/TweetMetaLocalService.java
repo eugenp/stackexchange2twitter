@@ -13,6 +13,7 @@ import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.util.TwitterUtil;
 
+import com.google.api.client.util.Preconditions;
 import com.google.common.collect.Lists;
 
 @Service
@@ -34,38 +35,41 @@ public class TweetMetaLocalService {
 
     // API
 
-    // template
+    public final Retweet findLocalCandidateAdvanced(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
+        final List<Retweet> foundLocalCandidates = findLocalCandidatesAdvanced(fullTextWithUrlAfterProcessing, twitterAccount);
+        Preconditions.checkNotNull(foundLocalCandidates);
+        if (foundLocalCandidates.isEmpty()) {
+            return null;
+        }
 
-    protected final boolean hasThisAlreadyBeenTweetedById(final Retweet retweet) {
-        final Retweet existingTweetById = retweetApi.findOneByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
-        return existingTweetById != null;
+        return foundLocalCandidates.get(0);
     }
 
-    protected final Retweet hasThisAlreadyBeenTweetedByText(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
+    public final List<Retweet> findLocalCandidatesAdvanced(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
         final Retweet existingTweetByFullText = retweetApi.findOneByTextAndTwitterAccount(fullTextWithUrlAfterProcessing, twitterAccount);
         if (existingTweetByFullText != null) {
-            return existingTweetByFullText;
+            return Lists.newArrayList(existingTweetByFullText);
         }
 
         // retweet mention
         final String tweetTextPotentiallyWithoutRetweetMention = TwitterUtil.extractTweetFromRt(fullTextWithUrlAfterProcessing);
         final Retweet exactMatchWithoutRetweetMention = retweetApi.findOneByTextAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
         if (exactMatchWithoutRetweetMention != null) {
-            return exactMatchWithoutRetweetMention;
+            return Lists.newArrayList(exactMatchWithoutRetweetMention);
         }
         final Retweet endsWithOriginalTweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
         if (endsWithOriginalTweet != null) {
-            return endsWithOriginalTweet;
+            return Lists.newArrayList(endsWithOriginalTweet);
         }
         final Retweet startsWithOriginalTweet = retweetApi.findOneByTextStartsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
         if (startsWithOriginalTweet != null) {
-            return startsWithOriginalTweet;
+            return Lists.newArrayList(startsWithOriginalTweet);
         }
 
         // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
         final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(fullTextWithUrlAfterProcessing);
         if (beforeAndAfter == null) {
-            return null;
+            return Lists.newArrayList();
         }
         final List<Retweet> partialMatches = Lists.newArrayList();
         if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
@@ -74,28 +78,32 @@ public class TweetMetaLocalService {
             partialMatches.addAll(retweetApi.findAllByTextEndsWithAndTwitterAccount(beforeAndAfter.getRight(), twitterAccount));
         }
         if (!partialMatches.isEmpty()) {
-            return partialMatches.get(0);
-        }
-        if (partialMatches.size() > 1) {
-            // if this happens, then I will add more logging around this area
-            logger.error("Temporary 1 - yes, more than one retweet found locally: ");
+            if (partialMatches.size() > 1) {
+                // if this happens, then I will add more logging around this area
+                logger.error("Temporary 1 - yes, more than one retweet found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, partialMatches);
+            }
+            return partialMatches;
         }
 
         // by url
         final String mainUrl = linkService.extractUrl(fullTextWithUrlAfterProcessing);
         final List<Retweet> retweetsPointingToTheSameUrl = retweetApi.findAllByTextContainsAndTwitterAccount(mainUrl, twitterAccount);
         if (!retweetsPointingToTheSameUrl.isEmpty()) {
-            final Retweet foundPreviousRetweet = retweetsPointingToTheSameUrl.get(0);
-            // TODO: starting with error - will go down
-            logger.error("Tweet has already been retweeted (found other retweet pointing to the same URL);\n-thisTweet= {},\n-previous tweet= {}", fullTextWithUrlAfterProcessing, foundPreviousRetweet);
-            return foundPreviousRetweet;
-        }
-        if (retweetsPointingToTheSameUrl.size() > 1) {
-            // if this happens, then I will add more logging around this area
-            logger.error("Temporary 2 - yes, more than one retweet found locally: ");
+            if (retweetsPointingToTheSameUrl.size() > 1) {
+                // if this happens, then I will add more logging around this area
+                logger.error("Temporary 2 - yes, more than one retweet found locally: ");
+            }
+            return retweetsPointingToTheSameUrl;
         }
 
-        return null;
+        return Lists.newArrayList();
+    }
+
+    // template
+
+    protected final boolean hasThisAlreadyBeenTweetedById(final Retweet retweet) {
+        final Retweet existingTweetById = retweetApi.findOneByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
+        return existingTweetById != null;
     }
 
     protected final void markDone(final Retweet entity) {

@@ -84,7 +84,7 @@ public class TweetMetaLocalServiceIntegrationTest {
         createIfNotExisting(text, twitterAccount);
 
         final String verifyText = "#TeamiPhone check out some of the worst #iPhone cases out there! http://bit.ly/1bz9iu7";
-        final Retweet existing = service.hasThisAlreadyBeenTweetedByText(verifyText, twitterAccount);
+        final Retweet existing = service.findLocalCandidateAdvanced(verifyText, twitterAccount);
         assertNotNull(existing);
     }
 
