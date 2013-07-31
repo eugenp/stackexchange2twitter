@@ -193,7 +193,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 return false;
             }
         } else { // not retweet mention - normal tweet
-            if (retweetStrategy.shouldRetweetRandomized(potentialTweet)) {
+            if (retweetStrategy.shouldRetweet(potentialTweet)) {
                 success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
             } else {
                 success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);

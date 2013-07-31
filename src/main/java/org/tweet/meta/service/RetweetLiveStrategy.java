@@ -26,17 +26,6 @@ public final class RetweetLiveStrategy {
 
     // API
 
-    public final boolean shouldRetweetRandomized(final Tweet tweet) {
-        if (!shouldRetweet(tweet)) {
-            return false;
-        }
-        if (Math.random() < 0.75) {
-            return true;
-        }
-
-        return false;
-    }
-
     public final boolean shouldRetweet(final Tweet tweet) {
         final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
         if (!hasLessRtsThanTheTooPopularThreshold) {
