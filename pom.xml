@@ -231,6 +231,14 @@
 			<version>7.0.42</version>
 		</dependency>
 
+		<!-- ops -->
+
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		
 		<!-- logging -->
 
 		<dependency>
@@ -395,6 +403,9 @@
 		<h2.version>1.3.173</h2.version>
 		<hsqldb.version>2.3.0</hsqldb.version>
 
+		<!-- ops -->
+		<metrics.version>3.0.1</metrics.version>
+		
 		<!-- logging -->
 		<org.slf4j.version>1.7.5</org.slf4j.version>
 		<logback.version>1.0.11</logback.version>
