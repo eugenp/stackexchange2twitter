@@ -133,6 +133,20 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario19_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Hibernate Spatial: \"No Dialect mapping for JDBC type: 3000\"";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Hibernate Spatial: “No Dialect mapping for JDBC type: 3000”");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario20_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Find largest rectangle containing only zeros in an NxN binary matrix";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Find largest rectangle containing only zeros in an N×N binary matrix");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // ✔ - I cannot add this into some Strings - it simply get replaced by a square with something inside
 
     // trim

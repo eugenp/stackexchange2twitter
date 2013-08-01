@@ -50,6 +50,13 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&brvbar;", "|");
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "&Omega;", "O");
+
+        cleanedText = StringUtils.replaceAll(cleanedText, "&times;", "x");
+
+        // backtick - not on the keyboard
+        cleanedText = StringUtils.replaceAll(cleanedText, "&acute;", "´"); // ? does it work on twitter (though the API)? - not sure
+
         return cleanedText;
     }
 
