@@ -186,14 +186,14 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         // after text processing, check again if this has already been retweeted
         final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(fullTweetProcessed, twitterAccount);
         if (alreadyExistingRetweetByText != null) {
-            logger.warn("Tweet with retweet mention already exists; original tweet= {}\n new tweet(not retweeted)= {}", alreadyExistingRetweetByText, fullTweetProcessed); // TODO: temporarily warn - should get to debug
+            logger.warn("Tweet with retweet mention already exists:\n-original tweet= {}\n-new tweet (not retweeted)= {}", alreadyExistingRetweetByText.getText(), fullTweetProcessed); // TODO: temporarily warn - should get to debug
             return false;
         }
 
         boolean success = false;
         if (tweetService.isRetweetMention(fullTweetProcessed)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-            logger.error("Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, fullTweetProcessed); // TODO: temporarily error
+            logger.error("(temporary error)Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, fullTweetProcessed); // TODO: temporarily error
 
             final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(fullTweetProcessed));
             final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
