@@ -68,63 +68,11 @@ public class TweetStackexchangeServiceLiveTest {
         assertTrue(success);
     }
 
-    @Test
-    public final void whenTweetingByTagJava_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.JavaTopSO), StackTag.java.name(), TwitterAccountEnum.JavaTopSO.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagClojure_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestClojure), StackTag.clojure.name(), TwitterAccountEnum.BestClojure.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagScala_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestScala), StackTag.scala.name(), TwitterAccountEnum.BestScala.name());
-        assertTrue(success);
-    }
+    // by specific tag
 
     @Test
     public final void whenTweetingByTagAkka_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestScala), StackTag.akka.name(), TwitterAccountEnum.BestScala.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagJquery_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.jQueryDaily), StackTag.jquery.name(), TwitterAccountEnum.jQueryDaily.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagREST_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.RESTDaily), StackTag.rest.name(), TwitterAccountEnum.RESTDaily.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestEclipse), StackTag.eclipse.name(), TwitterAccountEnum.BestEclipse.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagGit_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestGit), StackTag.git.name(), TwitterAccountEnum.BestGit.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagMaven_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestMaven), StackTag.maven.name(), TwitterAccountEnum.BestMaven.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagJPA_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestJPA), StackTag.jpa.name(), TwitterAccountEnum.BestJPA.name());
         assertTrue(success);
     }
 
@@ -141,32 +89,20 @@ public class TweetStackexchangeServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingByDefaultObjectiveCDailyTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.ObjectiveCDaily), TwitterAccountEnum.ObjectiveCDaily.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagWordpress_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.LandOfWordpress), StackTag.wordpress.name(), TwitterAccountEnum.LandOfWordpress.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingByTagGoogle_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.GoogleDigest), StackTag.google.name(), TwitterAccountEnum.GoogleDigest.name());
-        assertTrue(success);
-    }
-
-    @Test
     public final void whenTweetingByTagApple_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.InTheAppleWorld), StackTag.apple.name(), TwitterAccountEnum.InTheAppleWorld.name());
         assertTrue(success);
     }
 
     @Test
-    public final void whenTweetingByTagHibernate_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.HibernateDaily), StackTag.hibernate.name(), TwitterAccountEnum.HibernateDaily.name());
+    public final void whenTweetingByTagClojure_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestClojure), StackTag.clojure.name(), TwitterAccountEnum.BestClojure.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestEclipse), StackTag.eclipse.name(), TwitterAccountEnum.BestEclipse.name());
         assertTrue(success);
     }
 
@@ -177,9 +113,77 @@ public class TweetStackexchangeServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingByTagGit_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestGit), StackTag.git.name(), TwitterAccountEnum.BestGit.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagGoogle_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.GoogleDigest), StackTag.google.name(), TwitterAccountEnum.GoogleDigest.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagHibernate_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.HibernateDaily), StackTag.hibernate.name(), TwitterAccountEnum.HibernateDaily.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagJava_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.JavaTopSO), StackTag.java.name(), TwitterAccountEnum.JavaTopSO.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagJquery_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.jQueryDaily), StackTag.jquery.name(), TwitterAccountEnum.jQueryDaily.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagJPA_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestJPA), StackTag.jpa.name(), TwitterAccountEnum.BestJPA.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagMaven_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestMaven), StackTag.maven.name(), TwitterAccountEnum.BestMaven.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagREST_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.RESTDaily), StackTag.rest.name(), TwitterAccountEnum.RESTDaily.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagScala_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestScala), StackTag.scala.name(), TwitterAccountEnum.BestScala.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByTagWordpress_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.LandOfWordpress), StackTag.wordpress.name(), TwitterAccountEnum.LandOfWordpress.name());
+        assertTrue(success);
+    }
+
+    // by tag
+
+    @Test
     public final void whenTweetingByRandomTag_thenNoExceptions() throws JsonProcessingException, IOException {
         final StackSite randomSite = GenericUtil.pickOneGeneric(twitterAccountToStackSites(TwitterAccountEnum.BestBash));
         final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(randomSite, StackTag.bash.name(), TwitterAccountEnum.BestBash.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByDefaultObjectiveCDailyTag_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetStackexchangeService.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.ObjectiveCDaily), TwitterAccountEnum.ObjectiveCDaily.name());
         assertTrue(success);
     }
 
