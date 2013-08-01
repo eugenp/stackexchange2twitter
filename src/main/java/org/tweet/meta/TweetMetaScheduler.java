@@ -69,7 +69,7 @@ public class TweetMetaScheduler {
         logger.info("Finished retweet schedule - 2");
     }
 
-    @Scheduled(cron = "0 10 11,14,17,20,23 * * *")
+    @Scheduled(cron = "0 0 11,14,17,20,23 * * *")
     public void tweetMeta3() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 3");
 
