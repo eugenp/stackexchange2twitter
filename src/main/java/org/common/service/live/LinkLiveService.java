@@ -1,6 +1,8 @@
 package org.common.service.live;
 
 import org.common.service.LinkService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 @Service
 @Profile(SpringProfileUtil.LIVE)
 public class LinkLiveService {
-    // private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private HttpLiveService httpService;
@@ -60,6 +62,7 @@ public class LinkLiveService {
             final String mainUrl = linkService.extractUrl(tweet);
             final String mainUrlExpanded = httpService.expand(mainUrl);
             if (mainUrlExpanded == null) {
+                logger.error("Unable to expand link= {} \nfrom tweet: {}", mainUrl, tweet);
                 continue;
             }
             for (final String domain : domains) {
