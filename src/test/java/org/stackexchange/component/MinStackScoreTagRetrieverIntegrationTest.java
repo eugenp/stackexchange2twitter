@@ -2,7 +2,7 @@ package org.stackexchange.component;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.stackexchange.util.StackTag;
 import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
 // @ActiveProfiles(SpringProfileUtil.LIVE)
 public class MinStackScoreTagRetrieverIntegrationTest {
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, ClassificationConfig.class, GplusContextConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, ClassificationConfig.class, GplusContextConfig.class })
 public class ClassificationServiceIntegrationTest {
 
     @Autowired

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.classification.service.accuracy.ClassificationAccuracyTestService;
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import org.tweet.spring.util.SpringProfileUtil;
  * - note: this test is not actually live, just long running
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, ClassificationConfig.class, GplusContextConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, ClassificationConfig.class, GplusContextConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
 public class ClassificationServiceLiveTest {
 

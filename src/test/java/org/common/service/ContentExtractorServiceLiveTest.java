@@ -6,7 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
 public class ContentExtractorServiceLiveTest {
 

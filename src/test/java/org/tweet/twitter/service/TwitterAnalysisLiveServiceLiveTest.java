@@ -1,6 +1,6 @@
 package org.tweet.twitter.service;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterAnalysisLiveService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, TwitterLiveConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
 @Ignore("only dev - to many requests against the twitter APIs")
 public class TwitterAnalysisLiveServiceLiveTest {

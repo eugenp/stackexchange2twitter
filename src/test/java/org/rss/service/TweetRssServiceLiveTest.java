@@ -2,7 +2,7 @@ package org.rss.service;
 
 import java.io.IOException;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rss.spring.RssContextConfig;
@@ -19,7 +19,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import com.sun.syndication.io.FeedException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class, RssContextConfig.class, RssPersistenceJPAConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, TwitterLiveConfig.class, RssContextConfig.class, RssPersistenceJPAConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
 public class TweetRssServiceLiveTest {
 

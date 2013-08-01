@@ -7,7 +7,7 @@ import static org.tweet.spring.util.SpringProfileUtil.WRITE_PRODUCTION;
 import static org.tweet.spring.util.SpringProfileUtil.WRITE;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
 import org.gplus.spring.GplusContextConfig;
@@ -35,7 +35,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
     // org.common.spring
     CommonPersistenceJPAConfig.class,
     // PersistenceJPACommonConfig.class, // imported
-    CommonContextConfig.class, 
+    CommonServiceConfig.class, 
     
     // org.classification
     ClassificationConfig.class,

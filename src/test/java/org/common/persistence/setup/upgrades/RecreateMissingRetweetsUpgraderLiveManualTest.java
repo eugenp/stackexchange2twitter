@@ -1,6 +1,6 @@
 package org.common.persistence.setup.upgrades;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {//@formatter:off
-    CommonContextConfig.class, 
+    CommonServiceConfig.class, 
     CommonPersistenceJPAConfig.class, 
     
     KeyValPersistenceJPAConfig.class, 

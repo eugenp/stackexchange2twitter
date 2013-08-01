@@ -9,7 +9,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 import org.common.service.LinkService;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.gplus.service.ActivityHelper;
 import org.gplus.service.GplusService;
 import org.gplus.spring.GplusContextConfig;
@@ -25,7 +25,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import com.google.api.services.plus.model.Activity;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, GplusContextConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, GplusContextConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
 public class GPlusLiveTest {
 

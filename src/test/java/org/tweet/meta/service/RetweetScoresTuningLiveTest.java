@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.classification.spring.ClassificationConfig;
 import org.common.service.live.LinkLiveService;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
     KeyValPersistenceJPAConfig.class, 
         
     CommonPersistenceJPAConfig.class, 
-    CommonContextConfig.class, 
+    CommonServiceConfig.class, 
     
     ClassificationConfig.class,
     

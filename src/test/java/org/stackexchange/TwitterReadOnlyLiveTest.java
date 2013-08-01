@@ -3,7 +3,7 @@ package org.stackexchange;
 import java.io.IOException;
 import java.util.List;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {//@formatter:off
-    CommonContextConfig.class, 
+    CommonServiceConfig.class, 
     
     TwitterConfig.class, 
     TwitterLiveConfig.class, 

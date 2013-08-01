@@ -3,7 +3,7 @@ package org.tweet.meta.component;
 import java.io.IOException;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         KeyValPersistenceJPAConfig.class, 
         
         CommonPersistenceJPAConfig.class, 
-        CommonContextConfig.class, 
+        CommonServiceConfig.class, 
         
         ClassificationConfig.class,
         

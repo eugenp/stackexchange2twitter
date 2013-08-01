@@ -10,12 +10,14 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import org.classification.service.ClassificationService;
+import org.common.metrics.MetricsUtil;
 import org.common.service.BaseTweetFromSourceLiveService;
 import org.common.service.LinkService;
 import org.common.service.live.HttpLiveService;
 import org.common.util.LinkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
@@ -30,6 +32,8 @@ import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
 import org.tweet.twitter.util.TwitterUtil;
 
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.Predicate;
@@ -40,7 +44,7 @@ import com.google.common.collect.Ordering;
 
 @Service
 @Profile(SpringProfileUtil.WRITE)
-public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet> {
+public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet> implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -67,11 +71,37 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     @Autowired
     private TweetMetaLocalService tweetMetaLocalService;
 
+    // metrics
+
+    @Autowired
+    private MetricRegistry metrics;
+    private Counter anyByHashtagErrorsCounter;
+
     public TweetMetaLiveService() {
         super();
     }
 
     // API
+
+    public final boolean retweetAnyByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
+        String twitterTag = null;
+        try {
+            twitterTag = tagService.pickTwitterTag(twitterAccount);
+            final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
+            if (!success) {
+                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
+            }
+            return success;
+        } catch (final RuntimeException runtimeEx) {
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, runtimeEx);
+            anyByHashtagErrorsCounter.inc();
+            return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, ex);
+            anyByHashtagErrorsCounter.inc();
+            return false;
+        }
+    }
 
     public final boolean retweetAnyByHashtagOnlyFromPredefinedAccounts(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
@@ -91,25 +121,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
-    public final boolean retweetAnyByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
-        String twitterTag = null;
-        try {
-            twitterTag = tagService.pickTwitterTag(twitterAccount);
-            final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
-            if (!success) {
-                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
-            }
-            return success;
-        } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, runtimeEx);
-            return false;
-        } catch (final Exception ex) {
-            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, ex);
-            return false;
-        }
-    }
-
-    public final boolean retweetAnyByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
+    /*test only*/final boolean retweetAnyByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
         try {
             final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
             if (!success) {
@@ -366,6 +378,13 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         return true;
+    }
+
+    // Spring
+
+    @Override
+    public void afterPropertiesSet() {
+        anyByHashtagErrorsCounter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
     }
 
 }

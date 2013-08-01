@@ -2,7 +2,7 @@ package org.tweet.twitter.component;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.stackexchange.util.TwitterTag;
 import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class })
 // @ActiveProfiles(SpringProfileUtil.LIVE)
 public class TwitterMinRtScoreExistsIntegrationTest {
 

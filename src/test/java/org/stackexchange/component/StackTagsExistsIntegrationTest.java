@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
 // @ActiveProfiles(SpringProfileUtil. )
 public class StackTagsExistsIntegrationTest {
 

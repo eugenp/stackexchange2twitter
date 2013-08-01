@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.classification.service.ClassificationService;
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -21,7 +21,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, ClassificationConfig.class, GplusContextConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, ClassificationConfig.class, GplusContextConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
 public class ClassificationAccuracyServiceLiveTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());

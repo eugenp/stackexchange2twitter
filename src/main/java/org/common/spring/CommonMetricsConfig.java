@@ -4,10 +4,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({ "org.common.service" })
-public class CommonContextConfig {
+@ComponentScan({ "org.common.metrics" })
+public class CommonMetricsConfig {
 
-    public CommonContextConfig() {
+    public CommonMetricsConfig() {
         super();
     }
 

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ import org.stackexchange.util.TwitterTag;
 import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, GplusContextConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, GplusContextConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
 public class GplusExtractorServiceLiveTest {
 

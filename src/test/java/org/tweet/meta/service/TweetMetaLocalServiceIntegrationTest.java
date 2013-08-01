@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,7 +29,7 @@ import org.tweet.spring.util.SpringProfileUtil;
         KeyValPersistenceJPAConfig.class, 
         
         CommonPersistenceJPAConfig.class, 
-        CommonContextConfig.class, 
+        CommonServiceConfig.class, 
         
         ClassificationConfig.class,
         

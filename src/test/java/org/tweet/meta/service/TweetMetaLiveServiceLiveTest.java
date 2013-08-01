@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Ignore;
@@ -32,7 +32,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         KeyValPersistenceJPAConfig.class, 
         
         CommonPersistenceJPAConfig.class, 
-        CommonContextConfig.class, 
+        CommonServiceConfig.class, 
         
         ClassificationConfig.class,
         

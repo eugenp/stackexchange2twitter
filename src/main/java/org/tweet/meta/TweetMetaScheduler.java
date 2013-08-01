@@ -2,6 +2,7 @@ package org.tweet.meta;
 
 import java.io.IOException;
 
+import org.common.metrics.MetricsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.service.TweetMetaLiveService;
 import org.tweet.spring.util.SpringProfileUtil;
 
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @Component
@@ -21,6 +24,9 @@ public class TweetMetaScheduler {
 
     @Autowired
     private TweetMetaLiveService service;
+
+    @Autowired
+    private MetricRegistry metrics;
 
     public TweetMetaScheduler() {
         super();
@@ -34,6 +40,9 @@ public class TweetMetaScheduler {
     @Scheduled(cron = "0 0 9,12,15,18,21 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 1");
+
+        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
+        counter.dec(counter.getCount());
 
         // 10
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
@@ -54,6 +63,9 @@ public class TweetMetaScheduler {
     public void tweetMeta2() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 2");
 
+        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
+        counter.dec(counter.getCount());
+
         // 10
         service.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name());
@@ -72,6 +84,9 @@ public class TweetMetaScheduler {
     @Scheduled(cron = "0 0 11,14,17,20,23 * * *")
     public void tweetMeta3() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 3");
+
+        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
+        counter.dec(counter.getCount());
 
         // 10
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());

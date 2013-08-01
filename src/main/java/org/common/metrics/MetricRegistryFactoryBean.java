@@ -1,9 +1,13 @@
 package org.common.metrics;
 
+import java.util.concurrent.TimeUnit;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.stereotype.Component;
 
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Slf4jReporter;
 
 @Component
 public final class MetricRegistryFactoryBean implements FactoryBean<MetricRegistry> {
@@ -16,7 +20,12 @@ public final class MetricRegistryFactoryBean implements FactoryBean<MetricRegist
 
     @Override
     public final MetricRegistry getObject() throws Exception {
-        return new MetricRegistry();
+        final MetricRegistry metricRegistry = new MetricRegistry();
+
+        final Slf4jReporter reporter = Slf4jReporter.forRegistry(metricRegistry).outputTo(LoggerFactory.getLogger("org.common.metrics")).convertRatesTo(TimeUnit.SECONDS).convertDurationsTo(TimeUnit.MILLISECONDS).build();
+        reporter.start(1, TimeUnit.MINUTES);
+
+        return metricRegistry;
     }
 
     @Override

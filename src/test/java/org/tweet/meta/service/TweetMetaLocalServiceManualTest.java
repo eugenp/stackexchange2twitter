@@ -3,7 +3,7 @@ package org.tweet.meta.service;
 import static org.junit.Assert.assertNotNull;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Test;
@@ -26,7 +26,7 @@ import org.tweet.spring.util.SpringProfileUtil;
         KeyValPersistenceJPAConfig.class, 
         
         CommonPersistenceJPAConfig.class, 
-        CommonContextConfig.class, 
+        CommonServiceConfig.class, 
         
         ClassificationConfig.class,
         

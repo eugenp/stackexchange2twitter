@@ -2,7 +2,7 @@ package org.tweet.twitter.service;
 
 import static org.junit.Assert.assertFalse;
 
-import org.common.spring.CommonContextConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonContextConfig.class, TwitterConfig.class, TwitterLiveConfig.class })
+@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, TwitterLiveConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
 public class TweetServiceReadOnlyLiveTest {
 
