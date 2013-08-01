@@ -20,8 +20,6 @@ import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.RandomAccessSparseVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
-import org.apache.mahout.utils.vectors.io.SequenceFileVectorWriter;
-import org.apache.mahout.utils.vectors.io.VectorWriter;
 import org.apache.mahout.vectorizer.encoders.AdaptiveWordValueEncoder;
 import org.apache.mahout.vectorizer.encoders.FeatureVectorEncoder;
 import org.apache.mahout.vectorizer.encoders.StaticWordValueEncoder;
@@ -84,15 +82,15 @@ public final class ClassificationUtil {
 
     // data read/write to disk
 
-    public static VectorWriter writeData(final String pathOnDisk) throws IOException {
-        final URI path = URI.create(pathOnDisk);
-        final Configuration hconf = new Configuration();
-        final FileSystem fs = FileSystem.get(path, hconf);
-
-        final SequenceFile.Writer writer = SequenceFile.createWriter(fs, hconf, new Path(path), LongWritable.class, VectorWritable.class);
-        final VectorWriter vw = new SequenceFileVectorWriter(writer);
-        return vw;
-    }
+    // public static VectorWriter writeData(final String pathOnDisk) throws IOException {
+    // final URI path = URI.create(pathOnDisk);
+    // final Configuration hconf = new Configuration();
+    // final FileSystem fs = FileSystem.get(path, hconf);
+    //
+    // final SequenceFile.Writer writer = SequenceFile.createWriter(fs, hconf, new Path(path), LongWritable.class, VectorWritable.class);
+    // final VectorWriter vw = new SequenceFileVectorWriter(writer);
+    // return vw;
+    // }
 
     public static SequenceFile.Reader readBackData(final String pathOnDisk) throws IOException {
         final URI path = URI.create(pathOnDisk);
