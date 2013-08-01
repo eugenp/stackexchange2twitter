@@ -8,7 +8,8 @@ public final class LinkUtil {
 
     final static List<String> bannedDomains = Lists.newArrayList(// @formatter:off
         "http://wp-plugin-archive.de",
-        "http://www.blogging-inside.de"
+        "http://www.blogging-inside.de", 
+        "http://www.perun.net"
     );// @formatter:on
 
     private LinkUtil() {

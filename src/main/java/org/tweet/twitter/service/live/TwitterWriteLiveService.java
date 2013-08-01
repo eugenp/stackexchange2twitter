@@ -29,7 +29,7 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
 
     @Override
     public boolean retweet(final String twitterAccount, final long tweetId) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+        final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
         try {
             twitterTemplate.timelineOperations().retweet(tweetId);
             return true;
@@ -42,7 +42,7 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
 
     @Override
     public boolean tweet(final String twitterAccount, final String tweetText) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+        final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
 
         try {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
@@ -61,7 +61,7 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
 
     @Override
     public boolean tweet(final String twitterAccount, final String textToTweet, final Tweet originalTweet) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+        final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
 
         try {
             twitterTemplate.timelineOperations().updateStatus(textToTweet);

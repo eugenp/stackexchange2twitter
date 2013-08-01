@@ -43,7 +43,7 @@ public class TwitterReadLiveService {
      */
     public TwitterProfile getProfileOfUser(final String userHandle) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
-        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(randomAccount);
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
         final TwitterProfile userProfile = readOnlyTwitterTemplate.userOperations().getUserProfile(userHandle);
         return Preconditions.checkNotNull(userProfile);
     }
@@ -105,7 +105,7 @@ public class TwitterReadLiveService {
     }
 
     private final List<Tweet> listTweetsOfInternalAccountRawInternal(final String twitterAccount, final int howmany) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+        final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline(howmany);
         return userTimeline;
     }
@@ -123,7 +123,7 @@ public class TwitterReadLiveService {
 
     private final List<Tweet> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
-        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(randomAccount);
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
         return userTimeline;
     }
@@ -134,7 +134,7 @@ public class TwitterReadLiveService {
      * TODO: include the sinceId as a parameter
      */
     public List<Tweet> listTweetsOfHashtag(final String readOnlyAccountName, final String hashtag) {
-        final Twitter twitterTemplate = twitterCreator.getTwitterTemplate(readOnlyAccountName);
+        final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(readOnlyAccountName);
 
         // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.POPULAR);
         final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.MIXED);
@@ -153,12 +153,12 @@ public class TwitterReadLiveService {
 
     public final Twitter readOnlyTwitterApi() {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
-        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(randomAccount);
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
         return readOnlyTwitterTemplate;
     }
 
     public final Twitter readOnlyTwitterApi(final String twitterAccount) {
-        final Twitter readOnlyTwitterTemplate = twitterCreator.getTwitterTemplate(twitterAccount);
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
         return readOnlyTwitterTemplate;
     }
 

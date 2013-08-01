@@ -23,13 +23,13 @@ public class TwitterTemplateCreatorLiveTest {
 
     @Test(expected = RuntimeException.class)
     public final void givenInvalidAccount_whenRetrievingTwitterClient_thenException() {
-        twitterTemplateCreator.getTwitterTemplate(randomAlphabetic(6));
+        twitterTemplateCreator.createTwitterTemplate(randomAlphabetic(6));
     }
 
     @Test
     public final void givenValidAccount_whenRetrievingTwitterClient_thenNoException() {
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
-            twitterTemplateCreator.getTwitterTemplate(twitterAccount.name());
+            twitterTemplateCreator.createTwitterTemplate(twitterAccount.name());
         }
     }
 
