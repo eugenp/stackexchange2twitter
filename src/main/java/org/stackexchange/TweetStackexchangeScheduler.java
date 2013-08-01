@@ -82,7 +82,7 @@ public class TweetStackexchangeScheduler {
     /**
      * - these accounts are not StackExchange specific
      */
-    @Scheduled(cron = "0 0 14,18 * * *")
+    @Scheduled(cron = "0 05 14,18 * * *")
     public void tweetDailyTopQuestion3() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 3");
 
