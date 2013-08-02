@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 @Service
 @Profile(SpringProfileUtil.LIVE)
 public class TwitterReadLiveService {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -86,13 +87,7 @@ public class TwitterReadLiveService {
      */
     private final List<String> listTweetsOfInternalAccountInternal(final String twitterAccount, final int howmany) {
         final List<Tweet> userTimeline = listTweetsOfInternalAccountRaw(twitterAccount, howmany);
-        final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
-            @Override
-            public final String apply(final Tweet input) {
-                return input.getText();
-            }
-        };
-        return Lists.transform(userTimeline, tweetToStringFunction);
+        return Lists.transform(userTimeline, new TweetToStringFunction());
     }
 
     public List<Tweet> listTweetsOfInternalAccountRaw(final String twitterAccount, final int howmany) {
@@ -132,12 +127,7 @@ public class TwitterReadLiveService {
 
     private final List<String> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
         final List<Tweet> rawTweets = listTweetsOfAccountRawInternal(twitterAccount, howmany);
-        final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
-            @Override
-            public final String apply(final Tweet input) {
-                return input.getText();
-            }
-        };
+        final Function<Tweet, String> tweetToStringFunction = new TweetToStringFunction();
         return Lists.transform(rawTweets, tweetToStringFunction);
     }
 
