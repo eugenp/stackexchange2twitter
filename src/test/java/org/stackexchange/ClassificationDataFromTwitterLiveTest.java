@@ -1,9 +1,12 @@
 package org.stackexchange;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,11 +20,9 @@ import org.stackexchange.spring.StackexchangeContextConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TwitterTemplateCreator;
 import org.tweet.twitter.service.live.TweetToStringFunction;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -40,16 +41,12 @@ public class ClassificationDataFromTwitterLiveTest {
     @Autowired
     private TwitterReadLiveService twitterService;
 
-    @Autowired
-    private TwitterTemplateCreator twitterCreator;
-
     // tests
 
-    // list tweets
-
     @Test
-    public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
-        int pages = 3;
+    public final void whenListingTweets_thenNoExceptions() throws IOException {
+        final int fullPageCount = 0;
+        int pageIndex = fullPageCount;
         final String account = "ulohjobs";
 
         final Set<String> collector = Sets.newHashSet();
@@ -59,14 +56,18 @@ public class ClassificationDataFromTwitterLiveTest {
         collector.addAll(Lists.transform(currentPage, new TweetToStringFunction()));
 
         long lastId = currentPage.get(currentPage.size() - 1).getId();
-        while (pages > 0) {
-            System.out.println("Processing page: " + (10 - pages));
+        while (pageIndex > 0) {
+            System.out.println("Processing page: " + (fullPageCount - pageIndex));
             currentPage = timelineOperations.getUserTimeline(account, 200, 01, lastId);
 
             collector.addAll(Lists.transform(currentPage, new TweetToStringFunction()));
             lastId = currentPage.get(currentPage.size() - 1).getId();
-            pages--;
+            pageIndex--;
         }
+
+        final File file = new File("/opt/sandbox/commercial_raw.classif");
+        final FileWriter fw = new FileWriter(file); // it creates the file writer and the actual file
+        IOUtils.writeLines(collector, "\n", fw);
 
         System.out.println("Gathered: " + collector.size());
     }
