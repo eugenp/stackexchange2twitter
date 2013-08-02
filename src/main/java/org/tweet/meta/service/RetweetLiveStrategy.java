@@ -65,7 +65,7 @@ public final class RetweetLiveStrategy {
 
         // final int followingCount = user.getFriendsCount();
 
-        final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccount(userHandle, 200);
+        final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountRaw(userHandle, 200);
         final int retweets = countRetweets(tweetsOfAccount);
         final int mentions = countMentions(tweetsOfAccount);
         if (retweets < 6) {

@@ -57,7 +57,8 @@ public final class TwitterUtil {
     ); // @formatter:on
 
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
-        "blogginginside" // in German - https://twitter.com/blogginginside 
+        "blogginginside", // in German - https://twitter.com/blogginginside
+        "ulohjobs" // jobs
     ); // @formatter:on
 
     private TwitterUtil() {

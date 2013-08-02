@@ -112,7 +112,7 @@ public class TwitterReadLiveService {
 
     // by external accounts
 
-    public List<Tweet> listTweetsOfAccount(final String twitterAccount, final int howmany) {
+    public List<String> listTweetsOfAccount(final String twitterAccount, final int howmany) {
         try {
             return listTweetsOfAccountInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
@@ -121,7 +121,27 @@ public class TwitterReadLiveService {
         }
     }
 
-    private final List<Tweet> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
+    public List<Tweet> listTweetsOfAccountRaw(final String twitterAccount, final int howmany) {
+        try {
+            return listTweetsOfAccountRawInternal(twitterAccount, howmany);
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            return Lists.newArrayList();
+        }
+    }
+
+    private final List<String> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
+        final List<Tweet> rawTweets = listTweetsOfAccountRawInternal(twitterAccount, howmany);
+        final Function<Tweet, String> tweetToStringFunction = new Function<Tweet, String>() {
+            @Override
+            public final String apply(final Tweet input) {
+                return input.getText();
+            }
+        };
+        return Lists.transform(rawTweets, tweetToStringFunction);
+    }
+
+    private final List<Tweet> listTweetsOfAccountRawInternal(final String twitterAccount, final int howmany) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
         final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
