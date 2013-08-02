@@ -6,7 +6,6 @@ import org.classification.service.accuracy.ClassificationAccuracyTestService;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +34,9 @@ public class ClassificationServiceLiveTest {
      * - so the results are production-like, but not excellent
      */
     @Test
-    @Ignore("long running - ignored by default")
+    // @Ignore("long running - ignored by default")
     public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
-        final int runs = 100;
+        final int runs = 250;
         final double mean = classificationAccuracyService.calculateCommercialClassifierAccuracyDefault(runs);
         System.out.println("Average Success Rate: " + mean);
     }
