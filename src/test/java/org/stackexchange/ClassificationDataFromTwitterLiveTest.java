@@ -45,7 +45,7 @@ public class ClassificationDataFromTwitterLiveTest {
 
     @Test
     public final void whenListingTweets_thenNoExceptions() throws IOException {
-        final int fullPageCount = 15;
+        final int fullPageCount = 17;
         int pageIndex = fullPageCount;
         // Sidejob_
         final String account = "ulohjobs";
