@@ -37,7 +37,7 @@ public class TweetMetaScheduler {
     // git - not 100% sure that hashtag will only return relevant tweets - look into this further
     // for accounts - not yet: BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
 
-    @Scheduled(cron = "0 0 9,12,15,18,21 * * *")
+    @Scheduled(cron = "0 2 9,12,15,18,21 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 1");
 
@@ -59,7 +59,7 @@ public class TweetMetaScheduler {
         logger.info("Finished retweet schedule - 1");
     }
 
-    @Scheduled(cron = "0 0 10,13,16,19,22 * * *")
+    @Scheduled(cron = "0 2 10,13,16,19,22 * * *")
     public void tweetMeta2() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 2");
 
@@ -81,7 +81,7 @@ public class TweetMetaScheduler {
         logger.info("Finished retweet schedule - 2");
     }
 
-    @Scheduled(cron = "0 0 11,14,17,20,23 * * *")
+    @Scheduled(cron = "0 2 11,14,17,20,23 * * *")
     public void tweetMeta3() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 3");
 
