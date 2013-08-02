@@ -7,12 +7,12 @@ public final class ClassificationSettings {
      */
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
     public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 150;
-    public static final int FEATURES = 5000;
+    public static final int FEATURES = 7000;
     /*
     - 5000:
-    -- 3 - 0.872
+    -- 3 - 0.869
     - 7000: 
-    -- 3 - 0.
+    -- 3 - 0.883
     */
 
     public static final String TWEET_TOKENIZER = " ,.!?\":()|-"; // `_` can be included as well
