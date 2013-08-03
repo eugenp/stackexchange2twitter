@@ -147,7 +147,22 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario21_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "#FACEBOOK Facebook Likes - 5k by majsi: I would like 5,000 likes for my my Facebook Page for 10E Condition... http://bit.ly/15tGJrT";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("#FACEBOOK Facebook Likes - 5k by majsi: I would like 5,000 likes for my my Facebook Page for 10€ Condition... http://bit.ly/15tGJrT");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario22_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Write a series of 6 articles by TrakRecruit: Background: I'm an Australian executive recruiter ... http://bit.ly/14fPkBB  #Ghostwriting";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Write a series of 6 articles by TrakRecruit: Background: I’m an Australian executive recruiter ... http://bit.ly/14fPkBB  #Ghostwriting");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // ✔ - I cannot add this into some Strings - it simply get replaced by a square with something inside
+    // others: ü
 
     // trim
 

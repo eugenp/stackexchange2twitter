@@ -8,7 +8,13 @@ public class CleanupStringFunction implements Function<String, String> {
 
     @Override
     public final String apply(final String input) {
-        return TextUtil.cleanupInvalidCharacters(input);
+        String cleanText = TextUtil.cleanupInvalidCharacters(input);
+        cleanText = cleanText.replaceAll("  ", " ");
+        cleanText = cleanText.trim();
+        if (cleanText.matches(".*&\\S*;.*")) {
+            return "";
+        }
+        return cleanText;
     }
 
 }

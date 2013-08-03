@@ -36,6 +36,7 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "&#39;", "'");
         cleanedText = StringUtils.replaceAll(cleanedText, "&rsquo;", "'");
         cleanedText = StringUtils.replaceAll(cleanedText, "&lsquo;", "'");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&acirc;&euro;&trade;", "'");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&laquo;", "<<");
         cleanedText = StringUtils.replaceAll(cleanedText, "&raquo;", ">>");
@@ -56,6 +57,12 @@ public final class TextUtil {
 
         // backtick - not on the keyboard
         cleanedText = StringUtils.replaceAll(cleanedText, "&acute;", "´"); // ? does it work on twitter (though the API)? - not sure
+
+        cleanedText = StringUtils.replaceAll(cleanedText, "&aacute;", "a"); // a with an accent
+
+        cleanedText = StringUtils.replaceAll(cleanedText, "&euro;", "E");
+
+        cleanedText = StringUtils.replaceAll(cleanedText, "&bull;", " ");
 
         return cleanedText;
     }
