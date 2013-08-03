@@ -18,36 +18,36 @@ import org.apache.mahout.math.NamedVector;
 
 public final class SpecificClassificationDataUtil {
 
-    static final class TrainingFull {
-        private static final String CLASSIFICATION_NONCOMMERCIAL = "/classification/commercial/noncommercial-full.classif";
-        private static final String CLASSIFICATION_COMMERCIAL = "/classification/commercial/commercial-full.classif";
+    public static final class TrainingFull {
+        static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-full.classif";
+        static final String COMMERCIAL = "/classification/commercial/commercial-full.classif";
 
-        private static final String CLASSIFICATION_NONPROGRAMMING = "/classification/programming/nonprogramming-full.classif";
-        private static final String CLASSIFICATION_PROGRAMMING = "/classification/programming/programming-full.classif";
+        static final String NONPROGRAMMING = "/classification/programming/nonprogramming-full.classif";
+        static final String PROGRAMMING = "/classification/programming/programming-full.classif";
     }
 
-    static final class TrainingCore {
-        private static final String CLASSIFICATION_NONCOMMERCIAL = "/classification/commercial/noncommercial-core.classif";
-        private static final String CLASSIFICATION_COMMERCIAL = "/classification/commercial/commercial-core.classif";
+    public static final class TrainingCore {
+        static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-core.classif";
+        static final String COMMERCIAL = "/classification/commercial/commercial-core.classif";
 
-        private static final String CLASSIFICATION_NONPROGRAMMING = "/classification/programming/nonprogramming-core.classif";
-        private static final String CLASSIFICATION_PROGRAMMING = "/classification/programming/programming-core.classif";
+        static final String NONPROGRAMMING = "/classification/programming/nonprogramming-core.classif";
+        static final String PROGRAMMING = "/classification/programming/programming-core.classif";
     }
 
-    static final class Training {
-        private static final String CLASSIFICATION_NONCOMMERCIAL = "/classification/commercial/noncommercial.classif";
-        private static final String CLASSIFICATION_COMMERCIAL = "/classification/commercial/commercial.classif";
+    public static final class Training {
+        public static final String NONCOMMERCIAL = "/classification/commercial/noncommercial.classif";
+        public static final String COMMERCIAL = "/classification/commercial/commercial.classif";
 
-        private static final String CLASSIFICATION_NONPROGRAMMING = "/classification/programming/nonprogramming.classif";
-        private static final String CLASSIFICATION_PROGRAMMING = "/classification/programming/programming.classif";
+        public static final String NONPROGRAMMING = "/classification/programming/nonprogramming.classif";
+        public static final String PROGRAMMING = "/classification/programming/programming.classif";
     }
 
-    static final class Test {
-        private static final String CLASSIFICATION_NONCOMMERCIAL = "/classification/test/commercial/noncommercial.classif";
-        private static final String CLASSIFICATION_COMMERCIAL = "/classification/test/commercial/commercial.classif";
+    public static final class Test {
+        static final String NONCOMMERCIAL = "/classification/test/commercial/noncommercial.classif";
+        static final String COMMERCIAL = "/classification/test/commercial/commercial.classif";
 
-        private static final String CLASSIFICATION_NONPROGRAMMING = "/classification/test/programming/nonprogramming.classif";
-        private static final String CLASSIFICATION_PROGRAMMING = "/classification/test/programming/programming.classif";
+        static final String NONPROGRAMMING = "/classification/test/programming/nonprogramming.classif";
+        static final String PROGRAMMING = "/classification/test/programming/programming.classif";
     }
 
     private SpecificClassificationDataUtil() {
@@ -93,57 +93,57 @@ public final class SpecificClassificationDataUtil {
     // test data
 
     static final List<ImmutablePair<String, String>> programmingTestData() throws IOException {
-        return testData(Test.CLASSIFICATION_PROGRAMMING, PROGRAMMING);
+        return testData(Test.PROGRAMMING, PROGRAMMING);
     }
 
     static final List<ImmutablePair<String, String>> nonprogrammingTestData() throws IOException {
-        return testData(Test.CLASSIFICATION_NONPROGRAMMING, NONPROGRAMMING);
+        return testData(Test.NONPROGRAMMING, NONPROGRAMMING);
     }
 
     static final List<ImmutablePair<String, String>> commercialTestData() throws IOException {
-        return testData(Test.CLASSIFICATION_COMMERCIAL, COMMERCIAL);
+        return testData(Test.COMMERCIAL, COMMERCIAL);
     }
 
     static final List<ImmutablePair<String, String>> noncommercialTestData() throws IOException {
-        return testData(Test.CLASSIFICATION_NONCOMMERCIAL, NONCOMMERCIAL);
+        return testData(Test.NONCOMMERCIAL, NONCOMMERCIAL);
     }
 
     // training data
 
     static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(Training.CLASSIFICATION_COMMERCIAL, COMMERCIAL, probes, features);
+        return trainingData(Training.COMMERCIAL, COMMERCIAL, probes, features);
     }
 
     static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(Training.CLASSIFICATION_NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+        return trainingData(Training.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
     }
 
     static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(Training.CLASSIFICATION_PROGRAMMING, PROGRAMMING, probes, features);
+        return trainingData(Training.PROGRAMMING, PROGRAMMING, probes, features);
     }
 
     static final List<NamedVector> nonProgrammingTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(Training.CLASSIFICATION_NONPROGRAMMING, NONPROGRAMMING, probes, features);
+        return trainingData(Training.NONPROGRAMMING, NONPROGRAMMING, probes, features);
     }
 
     // core training data
 
     static final List<NamedVector> commercialCoreTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(TrainingCore.CLASSIFICATION_COMMERCIAL, COMMERCIAL, probes, features);
+        return trainingData(TrainingCore.COMMERCIAL, COMMERCIAL, probes, features);
     }
 
     static final List<NamedVector> nonCommercialCoreTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(TrainingCore.CLASSIFICATION_NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+        return trainingData(TrainingCore.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
     }
 
     // full training data
 
     static final List<NamedVector> commercialFullTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(TrainingFull.CLASSIFICATION_COMMERCIAL, COMMERCIAL, probes, features);
+        return trainingData(TrainingFull.COMMERCIAL, COMMERCIAL, probes, features);
     }
 
     static final List<NamedVector> nonCommercialFullTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(TrainingFull.CLASSIFICATION_NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+        return trainingData(TrainingFull.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
     }
 
 }
