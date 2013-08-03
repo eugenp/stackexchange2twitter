@@ -70,6 +70,12 @@ public final class SpecificClassificationDataUtil {
         return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
+    static final List<NamedVector> commercialVsNonCommercialCoreTrainingData(final int probes, final int features) throws IOException {
+        final List<NamedVector> nonCommercialvectors = nonCommercialCoreTrainingData(probes, features);
+        final List<NamedVector> commercialNamedVectors = commercialCoreTrainingData(probes, features);
+        return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
+    }
+
     // test data
 
     static final List<ImmutablePair<String, String>> programmingTestData() throws IOException {
