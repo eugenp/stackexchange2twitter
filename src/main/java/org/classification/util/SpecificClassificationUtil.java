@@ -25,24 +25,24 @@ public final class SpecificClassificationUtil {
     // classifier
 
     public static CrossFoldLearner trainNewLearnerCommercialWithCoreTrainingData(final int probes, final int features) throws IOException {
-        final List<NamedVector> learningData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingData(probes, features);
-        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(learningData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
-        final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
-
-        return bestLearner;
+        final List<NamedVector> coreTrainingData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingDataShuffled(probes, features);
+        return trainNewLearnerCommercial(coreTrainingData, probes, features);
     }
 
     public static CrossFoldLearner trainNewLearnerCommercialWithFullTrainingData(final int probes, final int features) throws IOException {
-        final List<NamedVector> learningData = SpecificClassificationDataUtil.commercialVsNonCommercialTrainingData(probes, features);
-        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(learningData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
+        final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialTrainingDataShuffled(probes, features);
+        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
-
         return bestLearner;
     }
 
     public static CrossFoldLearner trainNewLearnerProgramming(final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = SpecificClassificationDataUtil.programmingVsNonProgrammingTrainingData(probes, features);
-        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainProgrammingClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
+        final List<NamedVector> trainingData = SpecificClassificationDataUtil.programmingVsNonProgrammingTrainingDataShuffled(probes, features);
+        return trainNewLearnerCommercial(trainingData, probes, features);
+    }
+
+    public static CrossFoldLearner trainNewLearnerCommercial(final List<NamedVector> trainingData, final int probes, final int features) throws IOException {
+        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
         return bestLearner;

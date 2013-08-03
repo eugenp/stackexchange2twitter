@@ -12,8 +12,10 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
+import org.apache.mahout.math.NamedVector;
 import org.classification.service.ClassificationService;
 import org.classification.util.ClassificationTestData;
+import org.classification.util.SpecificClassificationDataUtil;
 import org.classification.util.SpecificClassificationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,12 +39,15 @@ public class ClassificationCommercialAccuracyTestService {
     }
 
     final double calculateCommercialClassifierAccuracy(final int runs, final int probes, final int features) throws IOException {
+        final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {
             Collections.shuffle(testData);
-            final double percentageCorrect = trainNewClassifierAndAnalyzeCommercialWithCoreTrainingData(testData, probes, features);
+            Collections.shuffle(trainingData);
+            final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerCommercial(trainingData, probes, features);
+            final double percentageCorrect = analyzeCommercialData(bestLearnerWithCoreTraining, testData, probes, features);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
                 System.out.println("Processing 100 ... - " + ((i / 100) + 1));
@@ -62,8 +67,8 @@ public class ClassificationCommercialAccuracyTestService {
     // util
 
     private final double trainNewClassifierAndAnalyzeCommercialWithCoreTrainingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = SpecificClassificationUtil.trainNewLearnerCommercialWithCoreTrainingData(probes, features);
-        return analyzeCommercialData(bestLearner, testData, probes, features);
+        final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerCommercialWithCoreTrainingData(probes, features);
+        return analyzeCommercialData(bestLearnerWithCoreTraining, testData, probes, features);
     }
 
     private final double analyzeCommercialWithFullTrainingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {

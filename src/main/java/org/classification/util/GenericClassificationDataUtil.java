@@ -28,13 +28,13 @@ public final class GenericClassificationDataUtil {
 
     // util
 
-    public static final List<NamedVector> oneVsAnotherLearningDataShuffled(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
-        final List<NamedVector> allNamedVectors = oneVsAnotherLearningData(probes, features, vectorsFirstSet, vectorsSecondSet);
+    public static final List<NamedVector> oneVsAnotherTrainingDataShuffled(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
+        final List<NamedVector> allNamedVectors = oneVsAnotherTrainingData(probes, features, vectorsFirstSet, vectorsSecondSet);
         Collections.shuffle(allNamedVectors);
         return allNamedVectors;
     }
 
-    public static final List<NamedVector> oneVsAnotherLearningData(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
+    public static final List<NamedVector> oneVsAnotherTrainingData(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
         final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
         allNamedVectors.addAll(vectorsFirstSet);
         allNamedVectors.addAll(vectorsSecondSet);

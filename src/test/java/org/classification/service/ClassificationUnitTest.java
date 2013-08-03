@@ -87,14 +87,14 @@ public class ClassificationUnitTest {
     // TODO: fix
     @Ignore("java heap space")
     public final void whenClassifierIsTrained_thenNoExceptions() throws IOException {
-        final List<NamedVector> vectors = learningData();
+        final List<NamedVector> vectors = trainingData();
 
         SpecificClassificationUtil.trainCommercialClassifierDefault(vectors);
     }
 
     @Test
     public final void givenClassifierWasTrained_whenPersistedToDisk_thenNoExceptions() throws IOException {
-        final List<NamedVector> vectors = learningData();
+        final List<NamedVector> vectors = trainingData();
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifierDefault(vectors);
 
         ModelSerializer.writeBinary(CLASSIFIER_FILE_ON_DISK, classifier.getBest().getPayload().getLearner());
@@ -103,12 +103,12 @@ public class ClassificationUnitTest {
     // util
 
     // private final List<Vector> vectors() throws IOException {
-    // final List<NamedVector> namedVectors = learningData();
+    // final List<NamedVector> namedVectors = trainingData();
     // final List<Vector> vectors = Lists.<Vector> newArrayList(namedVectors);
     // return vectors;
     // }
 
-    private final List<NamedVector> learningData() throws IOException {
+    private final List<NamedVector> trainingData() throws IOException {
         return SpecificClassificationDataUtil.commercialVsNonCommercialTrainingDataDefault();
     }
 

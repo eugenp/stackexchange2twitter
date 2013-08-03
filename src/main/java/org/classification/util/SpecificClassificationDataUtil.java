@@ -2,7 +2,7 @@ package org.classification.util;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.GenericClassificationDataUtil.oneVsAnotherLearningDataShuffled;
+import static org.classification.util.GenericClassificationDataUtil.oneVsAnotherTrainingDataShuffled;
 import static org.classification.util.GenericClassificationDataUtil.testData;
 import static org.classification.util.GenericClassificationDataUtil.trainingData;
 import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
@@ -59,35 +59,35 @@ public final class SpecificClassificationDataUtil {
     // training data
 
     public static final List<NamedVector> programmingVsNonProgrammingTrainingDataDefault() throws IOException {
-        return programmingVsNonProgrammingTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        return programmingVsNonProgrammingTrainingDataShuffled(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     public static final List<NamedVector> commercialVsNonCommercialTrainingDataDefault() throws IOException {
-        return commercialVsNonCommercialTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        return commercialVsNonCommercialTrainingDataShuffled(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    static final List<NamedVector> programmingVsNonProgrammingTrainingData(final int probes, final int features) throws IOException {
+    static final List<NamedVector> programmingVsNonProgrammingTrainingDataShuffled(final int probes, final int features) throws IOException {
         final List<NamedVector> nonProgrammingVectors = nonProgrammingTrainingData(probes, features);
         final List<NamedVector> programmingNamedVectors = programmingTrainingData(probes, features);
-        return oneVsAnotherLearningDataShuffled(probes, features, nonProgrammingVectors, programmingNamedVectors);
+        return oneVsAnotherTrainingDataShuffled(probes, features, nonProgrammingVectors, programmingNamedVectors);
     }
 
-    static final List<NamedVector> commercialVsNonCommercialTrainingData(final int probes, final int features) throws IOException {
+    static final List<NamedVector> commercialVsNonCommercialTrainingDataShuffled(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialTrainingData(probes, features);
-        return oneVsAnotherLearningDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
+        return oneVsAnotherTrainingDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
-    static final List<NamedVector> commercialVsNonCommercialCoreTrainingData(final int probes, final int features) throws IOException {
+    public static final List<NamedVector> commercialVsNonCommercialCoreTrainingDataShuffled(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialCoreTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialCoreTrainingData(probes, features);
-        return oneVsAnotherLearningDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
+        return oneVsAnotherTrainingDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
-    static final List<NamedVector> commercialVsNonCommercialFullTrainingData(final int probes, final int features) throws IOException {
+    static final List<NamedVector> commercialVsNonCommercialFullTrainingDataShuffled(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialFullTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialFullTrainingData(probes, features);
-        return oneVsAnotherLearningDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
+        return oneVsAnotherTrainingDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
     // test data
