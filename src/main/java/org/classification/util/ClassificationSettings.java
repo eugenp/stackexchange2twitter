@@ -5,15 +5,16 @@ public final class ClassificationSettings {
     /**
      * - TODO: figure out what this is exactly
      */
-    public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 5;
+    public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
     public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 200;
     public static final int FEATURES = 7000;
     /*
     - 5000:
-    -- 3 - 0.869
+    -- 2 - 0.843
+    -- 3 - 0.839
     - 7000: 
-    -- 3 - 0.883
-    -- 5 - 0.898,0.852
+    -- 3 - 0.8
+    -- 5 - 0.852,0.850
     */
 
     public static final String TWEET_TOKENIZER = " ,.!?\":()|-"; // `_` can be included as well
