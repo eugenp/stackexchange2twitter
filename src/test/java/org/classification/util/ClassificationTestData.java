@@ -16,12 +16,23 @@ public final class ClassificationTestData {
 
     // API
 
+    public static List<ImmutablePair<String, String>> commercialAndNonCommercialTestDataShuffled() throws IOException {
+        final List<ImmutablePair<String, String>> allTestData = commercialAndNonCommercialTestData();
+        Collections.shuffle(allTestData);
+        return allTestData;
+    }
+
     public static List<ImmutablePair<String, String>> commercialAndNonCommercialTestData() throws IOException {
         final List<ImmutablePair<String, String>> noncommercialTweets = SpecificClassificationDataUtil.noncommercialTestData();
         final List<ImmutablePair<String, String>> commercialTweets = SpecificClassificationDataUtil.commercialTestData();
         final List<ImmutablePair<String, String>> allTestData = Lists.newArrayList();
         allTestData.addAll(noncommercialTweets);
         allTestData.addAll(commercialTweets);
+        return allTestData;
+    }
+
+    public static List<ImmutablePair<String, String>> programmingAndNonProgrammingTestDataShuffled() throws IOException {
+        final List<ImmutablePair<String, String>> allTestData = programmingAndNonProgrammingTestData();
         Collections.shuffle(allTestData);
         return allTestData;
     }
@@ -32,7 +43,6 @@ public final class ClassificationTestData {
         final List<ImmutablePair<String, String>> allTestData = Lists.newArrayList();
         allTestData.addAll(nonprogrammingTweets);
         allTestData.addAll(programmingTweets);
-        Collections.shuffle(allTestData);
         return allTestData;
     }
 

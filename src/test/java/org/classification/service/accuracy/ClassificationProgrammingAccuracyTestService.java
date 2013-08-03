@@ -5,6 +5,7 @@ import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_
 import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -36,10 +37,11 @@ public class ClassificationProgrammingAccuracyTestService {
     }
 
     final double calculateProgrammingClassifierAccuracy(final int runs, final int probes, final int features) throws IOException {
+        final List<ImmutablePair<String, String>> testData = ClassificationTestData.programmingAndNonProgrammingTestData();
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {
-            final List<ImmutablePair<String, String>> testData = ClassificationTestData.programmingAndNonProgrammingTestData();
+            Collections.shuffle(testData);
             final double percentageCorrect = analyzeProgrammingData(testData, probes, features);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
