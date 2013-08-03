@@ -9,6 +9,7 @@ public final class ClassificationSettings {
     public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 150;
     public static final int FEATURES = 7000;
     /*
+    # Actual Scores
     - 5000:
     -- 2 - 0.843
     -- 3 - 0.839
@@ -18,6 +19,7 @@ public final class ClassificationSettings {
     */
 
     /*
+    # Vary the size of the pool
     - pool =  50 - 0.789
     - pool = 100 - 0.806
     - pool = 150 - 0.812,0.829
@@ -25,11 +27,21 @@ public final class ClassificationSettings {
      * - note: it's not important how well they perform, just how much is the gap between 50-200 
     */
 
+    /*
+    # Vary the size of the runs
+    - runs =   100 - 
+    - runs =   250 - 0.824
+    - runs =   500 - 0.823
+    - runs =   750 - 
+    - runs =  1000 - 0.826
+     * - note: it's not important how well they perform, just how much is the gap between runs is 
+    */
+
     /**
      * `_` can be included as well
-     * - potential: / + &
+     * - TODO: potential: / + &
      */
-    public static final String TWEET_TOKENIZER = " ,.!?\":()|-/+";
+    public static final String TWEET_TOKENIZER = " ,.!?\":()|-";
 
     // @ is an important signal - do not add to the tokenizer
 
