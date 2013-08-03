@@ -53,7 +53,7 @@ public final class SpecificClassificationUtil {
     // classifier
 
     public static CrossFoldLearner commercialVsNonCommercialBestLearner(final int probes, final int features) throws IOException {
-        final List<NamedVector> learningData = ClassificationDataUtil.commercialVsNonCommercialTrainingData(probes, features);
+        final List<NamedVector> learningData = SpecificClassificationDataUtil.commercialVsNonCommercialTrainingData(probes, features);
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(learningData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 
@@ -61,7 +61,7 @@ public final class SpecificClassificationUtil {
     }
 
     public static CrossFoldLearner programmingVsNonProgrammingBestLearner(final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = ClassificationDataUtil.programmingVsNonProgrammingTrainingData(probes, features);
+        final List<NamedVector> trainingData = SpecificClassificationDataUtil.programmingVsNonProgrammingTrainingData(probes, features);
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainProgrammingClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
 

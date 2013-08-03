@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.ModelSerializer;
 import org.apache.mahout.math.NamedVector;
-import org.classification.util.ClassificationDataUtil;
+import org.classification.util.SpecificClassificationDataUtil;
 import org.classification.util.SpecificClassificationUtil;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -109,7 +109,7 @@ public class ClassificationUnitTest {
     // }
 
     private final List<NamedVector> learningData() throws IOException {
-        return ClassificationDataUtil.commercialVsNonCommercialTrainingDataDefault();
+        return SpecificClassificationDataUtil.commercialVsNonCommercialTrainingDataDefault();
     }
 
 }

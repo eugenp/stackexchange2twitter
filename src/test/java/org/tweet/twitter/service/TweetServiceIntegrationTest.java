@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.classification.util.ClassificationDataUtil;
+import org.classification.util.SpecificClassificationDataUtil;
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +45,7 @@ public class TweetServiceIntegrationTest {
 
     @Test
     public final void whenAllNonCommercialTweetsFromClassifierAreProcessed_thenNoExceptions() throws IOException {
-        final InputStream is = ClassificationDataUtil.class.getResourceAsStream("/classification/noncommercial.classif");
+        final InputStream is = SpecificClassificationDataUtil.class.getResourceAsStream("/classification/noncommercial.classif");
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         for (final String tweet : tweets) {
             instance.processPreValidity(tweet);
@@ -54,7 +54,7 @@ public class TweetServiceIntegrationTest {
 
     @Test
     public final void whenAllCommercialTweetsFromClassifierAreProcessed_thenNoExceptions() throws IOException {
-        final InputStream is = ClassificationDataUtil.class.getResourceAsStream("/classification/commercial.classif");
+        final InputStream is = SpecificClassificationDataUtil.class.getResourceAsStream("/classification/commercial.classif");
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         for (final String tweet : tweets) {
             instance.processPreValidity(tweet);

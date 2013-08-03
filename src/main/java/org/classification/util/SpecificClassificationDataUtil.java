@@ -2,31 +2,33 @@ package org.classification.util;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.ClassificationSettings.TWEET_TOKENIZER;
+import static org.classification.util.GenericClassificationDataUtil.oneVsAnotherLearningData;
+import static org.classification.util.GenericClassificationDataUtil.testData;
+import static org.classification.util.GenericClassificationDataUtil.trainingData;
 import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
 import static org.classification.util.SpecificClassificationUtil.NONCOMMERCIAL;
 import static org.classification.util.SpecificClassificationUtil.NONPROGRAMMING;
 import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
-import static org.classification.util.GenericClassificationUtil.encodeWithTypeInfo;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.mahout.math.NamedVector;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
+public final class SpecificClassificationDataUtil {
 
-public final class ClassificationDataUtil {
+    private static final String CLASSIFICATION_NONPROGRAMMING = "/classification/nonprogramming.classif";
+    private static final String CLASSIFICATION_PROGRAMMING = "/classification/programming.classif";
+    private static final String CLASSIFICATION_NONCOMMERCIAL = "/classification/noncommercial.classif";
+    private static final String CLASSIFICATION_COMMERCIAL = "/classification/commercial.classif";
 
-    private ClassificationDataUtil() {
+    private static final String CLASSIFICATION_TEST_NONCOMMERCIAL = "/classification/test/noncommercial.classif";
+    private static final String CLASSIFICATION_TEST_COMMERCIAL = "/classification/test/commercial.classif";
+    private static final String CLASSIFICATION_TEST_NONPROGRAMMING = "/classification/test/nonprogramming.classif";
+    private static final String CLASSIFICATION_TEST_PROGRAMMING = "/classification/test/programming.classif";
+
+    private SpecificClassificationDataUtil() {
         throw new AssertionError();
     }
 
@@ -57,69 +59,37 @@ public final class ClassificationDataUtil {
     // test data
 
     static final List<ImmutablePair<String, String>> programmingTestData() throws IOException {
-        return testData("/classification/test/programming.classif", PROGRAMMING);
+        return testData(CLASSIFICATION_TEST_PROGRAMMING, PROGRAMMING);
     }
 
     static final List<ImmutablePair<String, String>> nonprogrammingTestData() throws IOException {
-        return testData("/classification/test/nonprogramming.classif", NONPROGRAMMING);
+        return testData(CLASSIFICATION_TEST_NONPROGRAMMING, NONPROGRAMMING);
     }
 
     static final List<ImmutablePair<String, String>> commercialTestData() throws IOException {
-        return testData("/classification/test/commercial.classif", COMMERCIAL);
+        return testData(CLASSIFICATION_TEST_COMMERCIAL, COMMERCIAL);
     }
 
     static final List<ImmutablePair<String, String>> noncommercialTestData() throws IOException {
-        return testData("/classification/test/noncommercial.classif", NONCOMMERCIAL);
+        return testData(CLASSIFICATION_TEST_NONCOMMERCIAL, NONCOMMERCIAL);
     }
 
     // util
 
     static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
-        return trainingData("/classification/commercial.classif", COMMERCIAL, probes, features);
+        return trainingData(CLASSIFICATION_COMMERCIAL, COMMERCIAL, probes, features);
     }
 
     static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
-        return trainingData("/classification/noncommercial.classif", NONCOMMERCIAL, probes, features);
+        return trainingData(CLASSIFICATION_NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
     }
 
     private static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
-        return trainingData("/classification/programming.classif", PROGRAMMING, probes, features);
+        return trainingData(CLASSIFICATION_PROGRAMMING, PROGRAMMING, probes, features);
     }
 
     private static final List<NamedVector> nonProgrammingTrainingData(final int probes, final int features) throws IOException {
-        return trainingData("/classification/nonprogramming.classif", NONPROGRAMMING, probes, features);
-    }
-
-    private static final List<NamedVector> oneVsAnotherLearningData(final int probes, final int features, final List<NamedVector> vectorsFirstSet, final List<NamedVector> vectorsSecondSet) throws IOException {
-        final List<NamedVector> allNamedVectors = Lists.<NamedVector> newArrayList();
-        allNamedVectors.addAll(vectorsFirstSet);
-        allNamedVectors.addAll(vectorsSecondSet);
-        Collections.shuffle(allNamedVectors);
-        return allNamedVectors;
-    }
-
-    private static final List<NamedVector> trainingData(final String path, final String type, final int probes, final int features) throws IOException {
-        final InputStream is = ClassificationDataUtil.class.getResourceAsStream(path);
-        final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
-
-        final List<NamedVector> vectors = Lists.<NamedVector> newArrayList();
-        for (final String tweet : tweets) {
-            vectors.add(encodeWithTypeInfo(type, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(tweet), probes, features));
-        }
-
-        return vectors;
-    }
-
-    private static final List<ImmutablePair<String, String>> testData(final String path, final String type) throws IOException {
-        final InputStream is = ClassificationDataUtil.class.getResourceAsStream(path);
-        final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
-
-        final List<ImmutablePair<String, String>> data = Lists.newArrayList();
-        for (final String tweet : tweets) {
-            data.add(new ImmutablePair<String, String>(type, tweet));
-        }
-
-        return data;
+        return trainingData(CLASSIFICATION_NONPROGRAMMING, NONPROGRAMMING, probes, features);
     }
 
 }
