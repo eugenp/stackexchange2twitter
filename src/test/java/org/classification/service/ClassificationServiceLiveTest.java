@@ -36,7 +36,7 @@ public class ClassificationServiceLiveTest {
     @Test
     // @Ignore("long running - ignored by default")
     public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
-        final int runs = 750;
+        final int runs = 500;
         final double mean = classificationAccuracyService.calculateCommercialClassifierAccuracyDefault(runs);
         System.out.println("Average Success Rate: " + mean);
     }

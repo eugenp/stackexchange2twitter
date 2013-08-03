@@ -29,19 +29,21 @@ public final class ClassificationSettings {
 
     /*
     # Vary the size of the runs
-    - runs =   100 - 
     - runs =   250 - 0.824
     - runs =   500 - 0.823
-    - runs =   750 - 
+    - runs =   750 - 0.826
     - runs =  1000 - 0.826
      * - note: it's not important how well they perform, just how much is the gap between runs is 
     */
 
     /**
-     * `_` can be included as well
-     * - TODO: potential: / + &
+     *  can be included as well
+     * - TODO: potential: 
+     * `/` with = 0.772; without = 0.830
+     * `+` with = ~0.825; without = 0.830
+     * `_` with = ~0.828; without = 0.830
      */
-    public static final String TWEET_TOKENIZER = " ,.!?\":()|-";
+    public static final String TWEET_TOKENIZER = " ,.!?\":()|-&";
 
     // @ is an important signal - do not add to the tokenizer
 
@@ -52,6 +54,3 @@ public final class ClassificationSettings {
     // util
 
 }
-// features = 10000, pool = 200 => sec 1122 (0.561)
-// features = 5000, pool = 150 => sec 559
-// features = 5000, pool = 30 => sec 100
