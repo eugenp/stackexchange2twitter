@@ -2,7 +2,7 @@ package org.classification.util;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.GenericClassificationDataUtil.oneVsAnotherLearningData;
+import static org.classification.util.GenericClassificationDataUtil.oneVsAnotherLearningDataShuffled;
 import static org.classification.util.GenericClassificationDataUtil.testData;
 import static org.classification.util.GenericClassificationDataUtil.trainingData;
 import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
@@ -69,25 +69,25 @@ public final class SpecificClassificationDataUtil {
     static final List<NamedVector> programmingVsNonProgrammingTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> nonProgrammingVectors = nonProgrammingTrainingData(probes, features);
         final List<NamedVector> programmingNamedVectors = programmingTrainingData(probes, features);
-        return oneVsAnotherLearningData(probes, features, nonProgrammingVectors, programmingNamedVectors);
+        return oneVsAnotherLearningDataShuffled(probes, features, nonProgrammingVectors, programmingNamedVectors);
     }
 
     static final List<NamedVector> commercialVsNonCommercialTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialTrainingData(probes, features);
-        return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
+        return oneVsAnotherLearningDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
     static final List<NamedVector> commercialVsNonCommercialCoreTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialCoreTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialCoreTrainingData(probes, features);
-        return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
+        return oneVsAnotherLearningDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
     static final List<NamedVector> commercialVsNonCommercialFullTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialFullTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialFullTrainingData(probes, features);
-        return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
+        return oneVsAnotherLearningDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
     // test data

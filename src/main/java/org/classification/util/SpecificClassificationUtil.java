@@ -4,13 +4,8 @@ import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.LEARNERS_IN_THE_CLASSIFIER_POOL;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.SequenceFile;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.NamedVector;
@@ -27,32 +22,9 @@ public final class SpecificClassificationUtil {
         throw new AssertionError();
     }
 
-    // encoding
-
-    // data read/write to disk
-
-    // public static VectorWriter writeData(final String pathOnDisk) throws IOException {
-    // final URI path = URI.create(pathOnDisk);
-    // final Configuration hconf = new Configuration();
-    // final FileSystem fs = FileSystem.get(path, hconf);
-    //
-    // final SequenceFile.Writer writer = SequenceFile.createWriter(fs, hconf, new Path(path), LongWritable.class, VectorWritable.class);
-    // final VectorWriter vw = new SequenceFileVectorWriter(writer);
-    // return vw;
-    // }
-
-    public static SequenceFile.Reader readBackData(final String pathOnDisk) throws IOException {
-        final URI path = URI.create(pathOnDisk);
-        final Configuration hconf = new Configuration();
-        final FileSystem fs = FileSystem.get(path, hconf);
-
-        final SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(path), hconf);
-        return reader;
-    }
-
     // classifier
 
-    public static CrossFoldLearner commercialVsNonCommercialBestLearnerWithCoreTrainingData(final int probes, final int features) throws IOException {
+    public static CrossFoldLearner trainNewLearnerCommercialWithCoreTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> learningData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingData(probes, features);
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(learningData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
@@ -60,7 +32,7 @@ public final class SpecificClassificationUtil {
         return bestLearner;
     }
 
-    public static CrossFoldLearner commercialVsNonCommercialBestLearnerWithFullTrainingData(final int probes, final int features) throws IOException {
+    public static CrossFoldLearner trainNewLearnerCommercialWithFullTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> learningData = SpecificClassificationDataUtil.commercialVsNonCommercialTrainingData(probes, features);
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(learningData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
@@ -68,7 +40,7 @@ public final class SpecificClassificationUtil {
         return bestLearner;
     }
 
-    public static CrossFoldLearner programmingVsNonProgrammingBestLearner(final int probes, final int features) throws IOException {
+    public static CrossFoldLearner trainNewLearnerProgramming(final int probes, final int features) throws IOException {
         final List<NamedVector> trainingData = SpecificClassificationDataUtil.programmingVsNonProgrammingTrainingData(probes, features);
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainProgrammingClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();

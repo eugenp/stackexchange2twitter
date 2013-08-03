@@ -62,7 +62,7 @@ public class ClassificationProgrammingAccuracyTestService {
     // util
 
     private final double analyzeProgrammingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = SpecificClassificationUtil.programmingVsNonProgrammingBestLearner(probes, features);
+        final CrossFoldLearner bestLearner = SpecificClassificationUtil.trainNewLearnerProgramming(probes, features);
         classificationService.setProgrammingVsNonProgrammingLerner(bestLearner);
 
         int correct = 0;

@@ -42,7 +42,7 @@ public class ClassificationCommercialAccuracyTestService {
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {
             Collections.shuffle(testData);
-            final double percentageCorrect = analyzeCommercialWithCoreTrainingData(testData, probes, features);
+            final double percentageCorrect = trainNewClassifierAndAnalyzeCommercialWithCoreTrainingData(testData, probes, features);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
                 System.out.println("Processing 100 ... - " + ((i / 100) + 1));
@@ -61,13 +61,13 @@ public class ClassificationCommercialAccuracyTestService {
 
     // util
 
-    private final double analyzeCommercialWithCoreTrainingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = SpecificClassificationUtil.commercialVsNonCommercialBestLearnerWithCoreTrainingData(probes, features);
+    private final double trainNewClassifierAndAnalyzeCommercialWithCoreTrainingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
+        final CrossFoldLearner bestLearner = SpecificClassificationUtil.trainNewLearnerCommercialWithCoreTrainingData(probes, features);
         return analyzeCommercialData(bestLearner, testData, probes, features);
     }
 
     private final double analyzeCommercialWithFullTrainingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = SpecificClassificationUtil.commercialVsNonCommercialBestLearnerWithFullTrainingData(probes, features);
+        final CrossFoldLearner bestLearner = SpecificClassificationUtil.trainNewLearnerCommercialWithFullTrainingData(probes, features);
         return analyzeCommercialData(bestLearner, testData, probes, features);
     }
 
