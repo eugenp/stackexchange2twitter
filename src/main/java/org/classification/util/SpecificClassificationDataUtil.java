@@ -84,7 +84,7 @@ public final class SpecificClassificationDataUtil {
         return oneVsAnotherTrainingDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
-    static final List<NamedVector> commercialVsNonCommercialFullTrainingDataShuffled(final int probes, final int features) throws IOException {
+    public static final List<NamedVector> commercialVsNonCommercialFullTrainingDataShuffled(final int probes, final int features) throws IOException {
         final List<NamedVector> nonCommercialvectors = nonCommercialFullTrainingData(probes, features);
         final List<NamedVector> commercialNamedVectors = commercialFullTrainingData(probes, features);
         return oneVsAnotherTrainingDataShuffled(probes, features, nonCommercialvectors, commercialNamedVectors);

@@ -35,12 +35,24 @@ public class ClassificationCommercialAccuracyTestService {
     // API
 
     public final double calculateCommercialClassifierAccuracyDefault(final int runs) throws IOException {
-        return calculateCommercialClassifierAccuracy(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        return calculateCommercialClassifierAccuracyWithCoreTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    final double calculateCommercialClassifierAccuracy(final int runs, final int probes, final int features) throws IOException {
+    final double calculateCommercialClassifierAccuracyWithCoreTrainingData(final int runs, final int probes, final int features) throws IOException {
         final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
+
+        return calculateCommercialClassifierAccuracy(trainingData, testData, runs, probes, features);
+    }
+
+    final double calculateCommercialClassifierAccuracyWithFullTrainingData(final int runs, final int probes, final int features) throws IOException {
+        final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialFullTrainingDataShuffled(probes, features);
+        final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
+
+        return calculateCommercialClassifierAccuracy(trainingData, testData, runs, probes, features);
+    }
+
+    final double calculateCommercialClassifierAccuracy(final List<NamedVector> trainingData, final List<ImmutablePair<String, String>> testData, final int runs, final int probes, final int features) throws IOException {
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {
@@ -65,16 +77,6 @@ public class ClassificationCommercialAccuracyTestService {
     }
 
     // util
-
-    private final double trainNewClassifierAndAnalyzeCommercialWithCoreTrainingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerCommercialWithCoreTrainingData(probes, features);
-        return analyzeCommercialData(bestLearnerWithCoreTraining, testData, probes, features);
-    }
-
-    private final double analyzeCommercialWithFullTrainingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = SpecificClassificationUtil.trainNewLearnerCommercialWithFullTrainingData(probes, features);
-        return analyzeCommercialData(bestLearner, testData, probes, features);
-    }
 
     private final double analyzeCommercialData(final CrossFoldLearner bestLearner, final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
         classificationService.setCommercialVsNonCommercialLerner(bestLearner);

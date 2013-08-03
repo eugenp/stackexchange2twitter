@@ -52,7 +52,7 @@ public class ClassificationAccuracyServiceLiveTest {
         final int runs = 1000;
         for (final Integer features : featuresCount) {
             for (final Integer probes : probeCounts) {
-                final double mean = classificationCommercialAccuracyTestService.calculateCommercialClassifierAccuracy(runs, probes, features);
+                final double mean = classificationCommercialAccuracyTestService.calculateCommercialClassifierAccuracyWithCoreTrainingData(runs, probes, features);
                 logger.warn("For features= " + features + " and probes= " + probes + " result is= " + mean);
                 System.out.println("For features= " + features + " and probes= " + probes + " result is= " + mean);
             }
