@@ -2,7 +2,7 @@ package org.classification.service;
 
 import java.io.IOException;
 
-import org.classification.service.accuracy.ClassificationAccuracyTestService;
+import org.classification.service.accuracy.ClassificationCommercialAccuracyTestService;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
@@ -23,7 +23,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 public class ClassificationServiceLiveTest {
 
     @Autowired
-    private ClassificationAccuracyTestService classificationAccuracyService;
+    private ClassificationCommercialAccuracyTestService classificationAccuracyService;
 
     // tests
 
