@@ -20,12 +20,16 @@ public final class ClassificationSettings {
     /*
     - pool =  50 - 0.789
     - pool = 100 - 0.806
-    - pool = 150 - 0.812
+    - pool = 150 - 0.812,0.829
     - pool = 200 - 
      * - note: it's not important how well they perform, just how much is the gap between 50-200 
     */
 
-    public static final String TWEET_TOKENIZER = " ,.!?\":()|-"; // `_` can be included as well
+    /**
+     * `_` can be included as well
+     * - potential: / + &
+     */
+    public static final String TWEET_TOKENIZER = " ,.!?\":()|-/+";
 
     // @ is an important signal - do not add to the tokenizer
 

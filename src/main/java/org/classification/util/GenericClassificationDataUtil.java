@@ -71,9 +71,13 @@ public final class GenericClassificationDataUtil {
         final List<String> wordsOfTweet = Lists.newLinkedList(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(tweet));
         final Iterator<String> it = wordsOfTweet.iterator();
         while (it.hasNext()) {
-            if (it.next().trim().isEmpty()) {
+            final String next = it.next().trim();
+            if (next.isEmpty()) {
                 it.remove();
             }
+            // else if (next.length() < 2) {
+            // System.out.println();
+            // }
         }
 
         return wordsOfTweet;
