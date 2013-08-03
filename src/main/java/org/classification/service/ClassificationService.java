@@ -88,7 +88,7 @@ public class ClassificationService implements InitializingBean {
 
     @Override
     public final void afterPropertiesSet() throws IOException {
-        commercialVsNonCommercialLerner = SpecificClassificationUtil.commercialVsNonCommercialBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        commercialVsNonCommercialLerner = SpecificClassificationUtil.commercialVsNonCommercialBestLearnerWithCoreTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
         programmingVsNonProgrammingLerner = SpecificClassificationUtil.programmingVsNonProgrammingBestLearner(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 

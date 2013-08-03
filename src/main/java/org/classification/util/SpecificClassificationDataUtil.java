@@ -18,6 +18,14 @@ import org.apache.mahout.math.NamedVector;
 
 public final class SpecificClassificationDataUtil {
 
+    static final class TrainingFull {
+        private static final String CLASSIFICATION_NONCOMMERCIAL = "/classification/commercial/noncommercial-full.classif";
+        private static final String CLASSIFICATION_COMMERCIAL = "/classification/commercial/commercial-full.classif";
+
+        private static final String CLASSIFICATION_NONPROGRAMMING = "/classification/programming/nonprogramming-full.classif";
+        private static final String CLASSIFICATION_PROGRAMMING = "/classification/programming/programming-full.classif";
+    }
+
     static final class TrainingCore {
         private static final String CLASSIFICATION_NONCOMMERCIAL = "/classification/commercial/noncommercial-core.classif";
         private static final String CLASSIFICATION_COMMERCIAL = "/classification/commercial/commercial-core.classif";
@@ -76,6 +84,12 @@ public final class SpecificClassificationDataUtil {
         return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
     }
 
+    static final List<NamedVector> commercialVsNonCommercialFullTrainingData(final int probes, final int features) throws IOException {
+        final List<NamedVector> nonCommercialvectors = nonCommercialFullTrainingData(probes, features);
+        final List<NamedVector> commercialNamedVectors = commercialFullTrainingData(probes, features);
+        return oneVsAnotherLearningData(probes, features, nonCommercialvectors, commercialNamedVectors);
+    }
+
     // test data
 
     static final List<ImmutablePair<String, String>> programmingTestData() throws IOException {
@@ -120,6 +134,16 @@ public final class SpecificClassificationDataUtil {
 
     static final List<NamedVector> nonCommercialCoreTrainingData(final int probes, final int features) throws IOException {
         return trainingData(TrainingCore.CLASSIFICATION_NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+    }
+
+    // full training data
+
+    static final List<NamedVector> commercialFullTrainingData(final int probes, final int features) throws IOException {
+        return trainingData(TrainingFull.CLASSIFICATION_COMMERCIAL, COMMERCIAL, probes, features);
+    }
+
+    static final List<NamedVector> nonCommercialFullTrainingData(final int probes, final int features) throws IOException {
+        return trainingData(TrainingFull.CLASSIFICATION_NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
     }
 
 }

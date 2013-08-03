@@ -87,7 +87,7 @@ public class ClassificationAccuracyTestService {
     // util
 
     private final double analyzeCommercialData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = SpecificClassificationUtil.commercialVsNonCommercialBestLearner(probes, features);
+        final CrossFoldLearner bestLearner = SpecificClassificationUtil.commercialVsNonCommercialBestLearnerWithCoreTrainingData(probes, features);
         classificationService.setCommercialVsNonCommercialLerner(bestLearner);
 
         int correct = 0;
