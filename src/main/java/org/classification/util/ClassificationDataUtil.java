@@ -3,11 +3,11 @@ package org.classification.util;
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 import static org.classification.util.ClassificationSettings.TWEET_TOKENIZER;
-import static org.classification.util.ClassificationUtil.COMMERCIAL;
-import static org.classification.util.ClassificationUtil.NONCOMMERCIAL;
-import static org.classification.util.ClassificationUtil.NONPROGRAMMING;
-import static org.classification.util.ClassificationUtil.PROGRAMMING;
-import static org.classification.util.ClassificationUtil.encodeWithTypeInfo;
+import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
+import static org.classification.util.SpecificClassificationUtil.NONCOMMERCIAL;
+import static org.classification.util.SpecificClassificationUtil.NONPROGRAMMING;
+import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
+import static org.classification.util.GenericClassificationUtil.encodeWithTypeInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;

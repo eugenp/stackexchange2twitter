@@ -2,8 +2,8 @@ package org.classification.service.accuracy;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.ClassificationUtil.COMMERCIAL;
-import static org.classification.util.ClassificationUtil.PROGRAMMING;
+import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
+import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.classification.service.ClassificationService;
 import org.classification.util.ClassificationTestData;
-import org.classification.util.ClassificationUtil;
+import org.classification.util.SpecificClassificationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -87,7 +87,7 @@ public class ClassificationAccuracyTestService {
     // util
 
     private final double analyzeCommercialData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = ClassificationUtil.commercialVsNonCommercialBestLearner(probes, features);
+        final CrossFoldLearner bestLearner = SpecificClassificationUtil.commercialVsNonCommercialBestLearner(probes, features);
         classificationService.setCommercialVsNonCommercialLerner(bestLearner);
 
         int correct = 0;
@@ -108,7 +108,7 @@ public class ClassificationAccuracyTestService {
     }
 
     private final double analyzeProgrammingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = ClassificationUtil.programmingVsNonProgrammingBestLearner(probes, features);
+        final CrossFoldLearner bestLearner = SpecificClassificationUtil.programmingVsNonProgrammingBestLearner(probes, features);
         classificationService.setProgrammingVsNonProgrammingLerner(bestLearner);
 
         int correct = 0;

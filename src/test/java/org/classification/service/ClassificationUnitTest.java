@@ -1,7 +1,7 @@
 package org.classification.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.classification.util.ClassificationUtil.encodeWithTypeInfoDefault;
+import static org.classification.util.GenericClassificationUtil.encodeWithTypeInfoDefault;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.ModelSerializer;
 import org.apache.mahout.math.NamedVector;
 import org.classification.util.ClassificationDataUtil;
-import org.classification.util.ClassificationUtil;
+import org.classification.util.SpecificClassificationUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -89,13 +89,13 @@ public class ClassificationUnitTest {
     public final void whenClassifierIsTrained_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = learningData();
 
-        ClassificationUtil.trainCommercialClassifierDefault(vectors);
+        SpecificClassificationUtil.trainCommercialClassifierDefault(vectors);
     }
 
     @Test
     public final void givenClassifierWasTrained_whenPersistedToDisk_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = learningData();
-        final AdaptiveLogisticRegression classifier = ClassificationUtil.trainCommercialClassifierDefault(vectors);
+        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifierDefault(vectors);
 
         ModelSerializer.writeBinary(CLASSIFIER_FILE_ON_DISK, classifier.getBest().getPayload().getLearner());
     }

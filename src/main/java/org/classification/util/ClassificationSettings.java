@@ -13,7 +13,7 @@ public final class ClassificationSettings {
     -- 2 - 0.843
     -- 3 - 0.839
     - 7000: 
-    -- 3 - 0.8
+    -- 3 - 0.861
     -- 5 - 0.852,0.850
     */
 
