@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -47,7 +48,8 @@ public final class GenericClassificationDataUtil {
 
         final List<NamedVector> vectors = Lists.<NamedVector> newArrayList();
         for (final String tweet : tweets) {
-            vectors.add(encodeWithTypeInfo(type, Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(tweet), probes, features));
+            final Iterable<String> wordsOfTweet = tokenizeTweet(tweet);
+            vectors.add(encodeWithTypeInfo(type, wordsOfTweet, probes, features));
         }
 
         return vectors;
@@ -63,6 +65,18 @@ public final class GenericClassificationDataUtil {
         }
 
         return data;
+    }
+
+    public static Iterable<String> tokenizeTweet(final String tweet) {
+        final List<String> wordsOfTweet = Lists.newLinkedList(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(tweet));
+        final Iterator<String> it = wordsOfTweet.iterator();
+        while (it.hasNext()) {
+            if (it.next().trim().isEmpty()) {
+                it.remove();
+            }
+        }
+
+        return wordsOfTweet;
     }
 
 }

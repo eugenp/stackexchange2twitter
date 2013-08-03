@@ -6,7 +6,7 @@ public final class ClassificationSettings {
      * - TODO: figure out what this is exactly
      */
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 100;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 150;
     public static final int FEATURES = 7000;
     /*
     - 5000:
@@ -19,8 +19,8 @@ public final class ClassificationSettings {
 
     /*
     - pool =  50 - 0.789
-    - pool = 100 - 
-    - pool = 150 - 
+    - pool = 100 - 0.806
+    - pool = 150 - 0.812
     - pool = 200 - 
      * - note: it's not important how well they perform, just how much is the gap between 50-200 
     */
