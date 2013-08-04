@@ -1,6 +1,7 @@
 package org.stackexchange;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import org.common.spring.CommonServiceConfig;
@@ -15,10 +16,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.stackexchange.util.TwitterTag;
+import org.tweet.meta.service.TweetByRtComparator;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
+import org.tweet.twitter.util.TweetUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -63,12 +66,13 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
     @Test
     public final void whenTweetIsRetrieved_thenTextContainsFullLink() {
         final Tweet tweet = instance.findOne(363444216342786048l);
-        System.out.println(tweet.getText());
+        System.out.println(TweetUtil.getText(tweet));
     }
 
     @Test
     public final void whenTweetsIsRetrievedByTag_thenAllTweetsContainsFullLinks() {
         final List<Tweet> tweetsOfHashtag = instance.listTweetsOfHashtag(TwitterTag.mysql.name());
+        Collections.sort(tweetsOfHashtag, new TweetByRtComparator());
         System.out.println(tweetsOfHashtag);
     }
 

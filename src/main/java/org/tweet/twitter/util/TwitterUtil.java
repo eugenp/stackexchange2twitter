@@ -180,7 +180,7 @@ public final class TwitterUtil {
         return false;
     }
 
-    static final boolean isRejectedByBannedRegexExpressions(final String text) {
+    static boolean isRejectedByBannedRegexExpressions(final String text) {
         for (final String bannedRegEx : bannedRegExes) {
             if (text.matches(bannedRegEx)) {
                 return true;

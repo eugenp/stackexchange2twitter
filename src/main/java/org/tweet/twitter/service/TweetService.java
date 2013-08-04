@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 import org.tweet.twitter.util.HashtagWordFunction;
+import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.google.common.base.Preconditions;
@@ -105,7 +106,7 @@ public class TweetService {
 
         final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
         if (!shouldByNumberOfHashtags) {
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags", potentialTweet.getText(), twitterTag);
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags", TweetUtil.getText(potentialTweet), twitterTag);
             // error temporary - debug or trace
             return false;
         }

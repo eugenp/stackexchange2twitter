@@ -24,6 +24,7 @@ import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TweetToStringFunction;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
+import org.tweet.twitter.util.TweetUtil;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -85,7 +86,7 @@ public class ClassificationDataFromTwitterLiveTest {
     static class TweetIsValidPredicate implements Predicate<Tweet> {
         @Override
         public final boolean apply(@Nullable final Tweet input) {
-            if (input.getText().contains("\n")) {
+            if (TweetUtil.getText(input).contains("\n")) {
                 return false;
             }
             return true;

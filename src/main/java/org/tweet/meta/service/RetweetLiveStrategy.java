@@ -11,6 +11,7 @@ import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Component;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
+import org.tweet.twitter.util.TweetUtil;
 
 @Component
 @Profile(SpringProfileUtil.LIVE)
@@ -30,12 +31,12 @@ public final class RetweetLiveStrategy {
         final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
         if (!hasLessRtsThanTheTooPopularThreshold) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", tweet.getText(), tweet.getRetweetCount(), tweetUrl);
+            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", TweetUtil.getText(tweet), tweet.getRetweetCount(), tweetUrl);
             return false;
         }
 
         final TwitterProfile user = tweet.getUser();
-        final String text = tweet.getText();
+        final String text = TweetUtil.getText(tweet);
         final String userHandle = tweet.getFromUser();
 
         if (!isUserWorthInteractingWith(user, userHandle)) {
@@ -95,7 +96,7 @@ public final class RetweetLiveStrategy {
     private final int countMentions(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
-            if (tweet.getText().contains("@")) {
+            if (TweetUtil.getText(tweet).contains("@")) {
                 count++;
             }
         }

@@ -2,7 +2,6 @@ package org.tweet.meta.service;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +29,7 @@ import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
+import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.codahale.metrics.Counter;
@@ -259,12 +259,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         final List<Tweet> tweetsFromOnlyPredefinedAccounts = Lists.newArrayList(tweetsFromOnlyPredefinedAccountsRaw);
-        Collections.sort(tweetsFromOnlyPredefinedAccounts, Ordering.from(new Comparator<Tweet>() {
-            @Override
-            public final int compare(final Tweet t1, final Tweet t2) {
-                return t2.getRetweetCount().compareTo(t1.getRetweetCount());
-            }
-        }));
+        Collections.sort(tweetsFromOnlyPredefinedAccounts, Ordering.from(new TweetByRtComparator()));
 
         return tryRetweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
     }
@@ -274,12 +269,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
-        Collections.sort(tweetsOfHashtag, Ordering.from(new Comparator<Tweet>() {
-            @Override
-            public final int compare(final Tweet t1, final Tweet t2) {
-                return t2.getRetweetCount().compareTo(t1.getRetweetCount());
-            }
-        }));
+        Collections.sort(tweetsOfHashtag, Ordering.from(new TweetByRtComparator()));
 
         return tryRetweetAnyByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
     }
@@ -296,11 +286,11 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
                 final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
-                    logger.trace("Didn't retweet on twitterAccount= {}, from hashtag= {}, tweet text= {}", twitterAccount, hashtag, potentialTweet.getText());
+                    logger.trace("Didn't retweet on twitterAccount= {}, from hashtag= {}, tweet text= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet));
                     continue;
                 } else {
                     final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-                    logger.info("Successfully retweeted on twitterAccount= {}, from hashtag= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, hashtag, potentialTweet.getText(), tweetUrl);
+                    logger.info("Successfully retweeted on twitterAccount= {}, from hashtag= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet), tweetUrl);
                     return true;
                 }
             }
@@ -320,7 +310,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     private final boolean tryTweetOneDelegatorInternal(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
-        final String text = potentialTweet.getText();
+        final String text = TweetUtil.getText(potentialTweet);
         final long tweetId = potentialTweet.getId();
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
