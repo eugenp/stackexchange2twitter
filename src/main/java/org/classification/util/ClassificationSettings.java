@@ -5,19 +5,22 @@ public final class ClassificationSettings {
     /**
      * - TODO: figure out what this is exactly
      */
-    public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 5;
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 200;
-    public static final int FEATURES = 5000;
+    public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 7;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 150;
+    public static final int FEATURES = 7000;
     /*
     # Actual Scores (training data - core vs full)
     - 5000:
     -- 2 - 0.XXX
     -- 3 - 0.847
+    -- 5 - 0.864
+    -- 6 - 0.869
     - 7000: 
     -- 3 - 0.903
     -- 4 - 0.909
     -- 5 - 0.910
     -- 6 - 0.913
+    -- 7 - 
     */
 
     /*
