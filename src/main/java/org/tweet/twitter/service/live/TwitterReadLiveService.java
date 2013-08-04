@@ -140,6 +140,11 @@ public class TwitterReadLiveService {
 
     // by hashtag
 
+    public List<Tweet> listTweetsOfHashtag(final String hashtag) {
+        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
+        return listTweetsOfHashtag(randomAccount, hashtag);
+    }
+
     /**
      * TODO: include the sinceId as a parameter
      */

@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.rss.service.RssServiceReadOnlyLiveTest;
-import org.stackexchange.TwitterReadOnlyLiveTest;
+import org.stackexchange.TwitterReadLiveServiceReadOnlyLiveTest;
 import org.tweet.twitter.service.TweetServiceReadOnlyLiveTest;
 import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
 
@@ -27,7 +27,7 @@ import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
     ContentExtractorServiceLiveTest.class, 
     HttpServiceLiveTest.class, 
     
-    TwitterReadOnlyLiveTest.class, 
+    TwitterReadLiveServiceReadOnlyLiveTest.class, 
     TweetServiceReadOnlyLiveTest.class
 }) // @formatter:on
 // QuestionsApiLiveTest.class - not in the jar

@@ -161,6 +161,14 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    // new
+    public final void givenTextContainsInvalidCharactersScenario23_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "RT @Finding4Job: Facebook for Business and Marketing - The 5 Advantages #fb #business #marketing http://t.co/r8928HLoqH #business #facebook";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("RT @Finding4Job: Facebook for Business and Marketing � The 5 Advantages #fb #business #marketing http://t.co/r8928HLoqH #business #facebook");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // ✔ - I cannot add this into some Strings - it simply get replaced by a square with something inside
     // others: ü
 

@@ -62,6 +62,8 @@ public class LinkLiveService {
             final String mainUrl = linkService.extractUrl(tweet);
             final String mainUrlExpanded = httpService.expand(mainUrl);
             if (mainUrlExpanded == null) {
+                // temporary error - go to debug when I'm done
+                // it does happen and it may be worth investigating why - for example:
                 logger.error("Unable to expand link= {} \nfrom tweet: {}", mainUrl, tweet);
                 continue;
             }
@@ -75,6 +77,7 @@ public class LinkLiveService {
 
         return count;
     }
+
     // util
 
 }

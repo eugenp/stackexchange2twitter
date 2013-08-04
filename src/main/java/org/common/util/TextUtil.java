@@ -67,6 +67,8 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&bull;", " ");
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "�", "-");
+
         return cleanedText;
     }
 

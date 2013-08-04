@@ -17,6 +17,7 @@ public final class ClassificationSettings {
     -- 3 - 0.903
     -- 4 - 0.909
     -- 5 - 0.910
+    -- 6 - 0.913
     */
 
     /*

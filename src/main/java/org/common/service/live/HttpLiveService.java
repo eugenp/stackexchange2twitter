@@ -2,6 +2,7 @@ package org.common.service.live;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import org.apache.http.Header;
@@ -60,6 +61,11 @@ public class HttpLiveService implements InitializingBean {
             if (cause != null && cause instanceof ConnectTimeoutException) {
                 // keep at warn or below - no need to know when this happens all the time
                 logger.warn("Target host may be timing out - error when expanding the url: " + urlArg, ex);
+                return null;
+            }
+            if (cause != null && cause instanceof SocketTimeoutException) {
+                // keep at warn or below - no need to know when this happens all the time
+                logger.warn("Target host socket data may be timing out - error when expanding the url: " + urlArg, ex);
                 return null;
             }
             // connection refused

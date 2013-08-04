@@ -14,10 +14,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.spring.StackexchangeContextConfig;
 import org.stackexchange.util.TwitterAccountEnum;
+import org.stackexchange.util.TwitterTag;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TwitterTemplateCreator;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,13 +32,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
     StackexchangeContextConfig.class 
 }) //@formatter:on
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public class TwitterReadOnlyLiveTest {
+public class TwitterReadLiveServiceReadOnlyLiveTest {
 
     @Autowired
-    private TwitterReadLiveService twitterService;
-
-    @Autowired
-    private TwitterTemplateCreator twitterCreator;
+    private TwitterReadLiveService instance;
 
     // tests
 
@@ -46,21 +43,33 @@ public class TwitterReadOnlyLiveTest {
 
     @Test
     public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<String> tweets = twitterService.listTweetsOfInternalAccount(TwitterAccountEnum.JavaTopSO.name());
+        final List<String> tweets = instance.listTweetsOfInternalAccount(TwitterAccountEnum.JavaTopSO.name());
         System.out.println(tweets);
     }
 
     @Test
     public final void whenListingTweetsForHash_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<Tweet> tweets = twitterService.listTweetsOfHashtag(TwitterAccountEnum.JavaTopSO.name(), "java");
+        final List<Tweet> tweets = instance.listTweetsOfHashtag(TwitterAccountEnum.JavaTopSO.name(), "java");
         System.out.println(tweets);
     }
 
     @Test
     public final void whenRetrievingTwitterProfile_thenNoxceptions() throws JsonProcessingException, IOException {
-        final TwitterProfile profileOfUser = twitterService.getProfileOfUser("selsaber");
+        final TwitterProfile profileOfUser = instance.getProfileOfUser("selsaber");
         System.out.println(profileOfUser);
         System.out.println(profileOfUser.getLanguage());
+    }
+
+    @Test
+    public final void whenTweetIsRetrieved_thenTextContainsFullLink() {
+        final Tweet tweet = instance.findOne(363444216342786048l);
+        System.out.println(tweet.getText());
+    }
+
+    @Test
+    public final void whenTweetsIsRetrievedByTag_thenAllTweetsContainsFullLinks() {
+        final List<Tweet> tweetsOfHashtag = instance.listTweetsOfHashtag(TwitterTag.mysql.name());
+        System.out.println(tweetsOfHashtag);
     }
 
 }
