@@ -25,7 +25,7 @@ import com.google.common.base.Preconditions;
  * <b>SETUP</b>: </p></p>
  * - export the production DB </p>
  * - drop the local (prod) DB and import the new one locally </p>
- * - run {@link SetupBackupIntegrationTest}, update the setup.properties file with the new values </p>
+ * - run {@link SetupBackupManualTest}, update the setup.properties file with the new values </p>
  * - change, in setup.properties - setup.do=false to setup.do=true </p>
  * -- test locally - erase the local DB, restart the server, check that everything gets created correctly </p>
  * - erase the production DB </p>

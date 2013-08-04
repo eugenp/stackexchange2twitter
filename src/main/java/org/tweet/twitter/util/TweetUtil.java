@@ -14,10 +14,10 @@ public final class TweetUtil {
     // API
 
     public static String getText(final Tweet tweet) {
-        final String text = tweet.getText();
-        // if (tweet.getRetweetedStatus() != null) {
-        // text = tweet.getRetweetedStatus().getText();
-        // }
+        String text = tweet.getText();
+        if (tweet.getRetweetedStatus() != null) {
+            text = tweet.getRetweetedStatus().getText();
+        }
 
         return text;
     }

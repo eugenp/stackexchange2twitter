@@ -20,8 +20,8 @@ import com.google.common.collect.Maps;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { SetupPersistenceTestConfig.class })
-@Ignore
-public class SetupBackupIntegrationTest {
+@Ignore("manual only - and deprecated as well")
+public class SetupBackupManualTest {
 
     class TweetRowMapper implements RowMapper<String> {
         private final Map<String, List<Long>> twitterAccountToQuestions;
