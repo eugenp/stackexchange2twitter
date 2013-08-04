@@ -19,19 +19,19 @@ import org.apache.mahout.math.NamedVector;
 public final class SpecificClassificationDataUtil {
 
     public static final class TrainingFull {
-        static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-full.classif";
-        static final String COMMERCIAL = "/classification/commercial/commercial-full.classif";
+        public static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-full.classif";
+        public static final String COMMERCIAL = "/classification/commercial/commercial-full.classif";
 
-        static final String NONPROGRAMMING = "/classification/programming/nonprogramming-full.classif";
-        static final String PROGRAMMING = "/classification/programming/programming-full.classif";
+        public static final String NONPROGRAMMING = "/classification/programming/nonprogramming-full.classif";
+        public static final String PROGRAMMING = "/classification/programming/programming-full.classif";
     }
 
     public static final class TrainingCore {
-        static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-core.classif";
-        static final String COMMERCIAL = "/classification/commercial/commercial-core.classif";
+        public static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-core.classif";
+        public static final String COMMERCIAL = "/classification/commercial/commercial-core.classif";
 
-        static final String NONPROGRAMMING = "/classification/programming/nonprogramming-core.classif";
-        static final String PROGRAMMING = "/classification/programming/programming-core.classif";
+        public static final String NONPROGRAMMING = "/classification/programming/nonprogramming-core.classif";
+        public static final String PROGRAMMING = "/classification/programming/programming-core.classif";
     }
 
     public static final class Training {
@@ -43,11 +43,11 @@ public final class SpecificClassificationDataUtil {
     }
 
     public static final class Test {
-        static final String NONCOMMERCIAL = "/classification/test/commercial/noncommercial.classif";
-        static final String COMMERCIAL = "/classification/test/commercial/commercial.classif";
+        public static final String NONCOMMERCIAL = "/classification/test/commercial/noncommercial.classif";
+        public static final String COMMERCIAL = "/classification/test/commercial/commercial.classif";
 
-        static final String NONPROGRAMMING = "/classification/test/programming/nonprogramming.classif";
-        static final String PROGRAMMING = "/classification/test/programming/programming.classif";
+        public static final String NONPROGRAMMING = "/classification/test/programming/nonprogramming.classif";
+        public static final String PROGRAMMING = "/classification/test/programming/programming.classif";
     }
 
     private SpecificClassificationDataUtil() {

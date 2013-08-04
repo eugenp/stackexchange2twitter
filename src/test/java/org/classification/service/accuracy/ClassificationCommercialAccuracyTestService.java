@@ -14,6 +14,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.NamedVector;
 import org.classification.service.ClassificationService;
+import org.classification.util.ClassificationSettings;
 import org.classification.util.ClassificationTestData;
 import org.classification.util.SpecificClassificationDataUtil;
 import org.classification.util.SpecificClassificationUtil;
@@ -34,7 +35,11 @@ public class ClassificationCommercialAccuracyTestService {
 
     // API
 
-    public final double calculateCommercialClassifierAccuracyDefault(final int runs) throws IOException {
+    public final double calculateCommercialClassifierAccuracyWithFullTrainingDataDefault(final int runs) throws IOException {
+        return calculateCommercialClassifierAccuracyWithFullTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    }
+
+    public final double calculateCommercialClassifierAccuracyWithCoreTrainingDataDefault(final int runs) throws IOException {
         return calculateCommercialClassifierAccuracyWithCoreTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
@@ -53,6 +58,7 @@ public class ClassificationCommercialAccuracyTestService {
     }
 
     final double calculateCommercialClassifierAccuracy(final List<NamedVector> trainingData, final List<ImmutablePair<String, String>> testData, final int runs, final int probes, final int features) throws IOException {
+        System.out.println("Current tokenizer: " + ClassificationSettings.TWEET_TOKENIZER);
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {

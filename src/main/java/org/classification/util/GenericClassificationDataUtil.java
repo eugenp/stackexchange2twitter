@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.mahout.math.NamedVector;
+import org.common.util.LinkUtil;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -68,7 +69,13 @@ public final class GenericClassificationDataUtil {
     }
 
     public static Iterable<String> tokenizeTweet(final String tweet) {
-        final List<String> wordsOfTweet = Lists.newLinkedList(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(tweet));
+        String tweetInternal = tweet;
+        final List<String> urlsInTweet = LinkUtil.extractUrls(tweetInternal);
+        for (final String urlInTweet : urlsInTweet) {
+            tweetInternal = tweetInternal.replaceAll(urlInTweet, "");
+        }
+
+        final List<String> wordsOfTweet = Lists.newLinkedList(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(tweetInternal));
         final Iterator<String> it = wordsOfTweet.iterator();
         while (it.hasNext()) {
             final String next = it.next().trim();

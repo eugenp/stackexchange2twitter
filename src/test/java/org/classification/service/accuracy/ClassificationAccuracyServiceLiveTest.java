@@ -42,17 +42,17 @@ public class ClassificationAccuracyServiceLiveTest {
      * - so the results are production-like, but not excellent
      */
     @Test
-    @Ignore("long running - ignored by default")
+    // @Ignore("long running - ignored by default")
     public final void givenCommercialClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         // final List<Integer> probeCounts = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         // final List<Integer> featuresCount = Lists.newArrayList(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000);
-        final List<Integer> probeCounts = Lists.newArrayList(2, 3, 4, 5, 5);
-        final List<Integer> featuresCount = Lists.newArrayList(5000, 7000);
+        final List<Integer> probeCounts = Lists.newArrayList(4, 5, 6);
+        final List<Integer> featuresCount = Lists.newArrayList(7000);
 
         final int runs = 1000;
         for (final Integer features : featuresCount) {
             for (final Integer probes : probeCounts) {
-                final double mean = classificationCommercialAccuracyTestService.calculateCommercialClassifierAccuracyWithCoreTrainingData(runs, probes, features);
+                final double mean = classificationCommercialAccuracyTestService.calculateCommercialClassifierAccuracyWithFullTrainingData(runs, probes, features);
                 logger.warn("For features= " + features + " and probes= " + probes + " result is= " + mean);
                 System.out.println("For features= " + features + " and probes= " + probes + " result is= " + mean);
             }

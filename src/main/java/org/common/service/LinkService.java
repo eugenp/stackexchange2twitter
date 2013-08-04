@@ -2,11 +2,9 @@ package org.common.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import org.common.util.LinkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -117,18 +115,7 @@ public class LinkService {
      * - note: will NOT return null
      */
     public final List<String> extractUrls(final String input) {
-        final List<String> result = new ArrayList<String>();
-
-        final Pattern pattern = Pattern.compile("\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" + "(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" + "|mil|biz|info|mobi|name|aero|jobs|museum" + "|travel|[a-z]{2}))(:[\\d]{1,5})?"
-                + "(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" + "((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" + "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" + "(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" + "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*"
-                + "(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
-
-        final Matcher matcher = pattern.matcher(input);
-        while (matcher.find()) {
-            result.add(matcher.group());
-        }
-
-        return result;
+        return LinkUtil.extractUrls(input);
     }
 
     // util

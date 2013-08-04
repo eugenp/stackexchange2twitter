@@ -6,16 +6,17 @@ public final class ClassificationSettings {
      * - TODO: figure out what this is exactly
      */
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 3;
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 150;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 200;
     public static final int FEATURES = 7000;
     /*
-    # Actual Scores
+    # Actual Scores (training data - core vs full)
     - 5000:
-    -- 2 - 0.843
-    -- 3 - 0.839
+    -- 2 - 0.XXX
+    -- 3 - 0.XXX
     - 7000: 
-    -- 3 - 0.861
-    -- 5 - 0.852,0.850
+    -- 3 - 0.903
+    -- 4 - 0.909
+    -- 5 - 0.910
     */
 
     /*
@@ -39,11 +40,11 @@ public final class ClassificationSettings {
     /**
      *  can be included as well
      * - TODO: potential: 
-     * `/` with = 0.772; without = 0.830
-     * `+` with = ~0.825; without = 0.830
-     * `_` with = ~0.828; without = 0.830
+     * `/` with = 0.9xx; without = 0.9xx
+     * `+` with = ~0.9x; without = 0.907 - data shows it should be kept out - counterexample: C++
+     * `_` with = ~0.908; without = 0.900 - data shows that it should be in
      */
-    public static final String TWEET_TOKENIZER = " ,.!?\":()|-&";
+    public static final String TWEET_TOKENIZER = " ,.!?\":()|-&/_";
 
     // @ is an important signal - do not add to the tokenizer
 

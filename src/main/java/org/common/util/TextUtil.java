@@ -29,14 +29,17 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&mdash;", "-");
         cleanedText = StringUtils.replaceAll(cleanedText, "&ndash;", "-");
+        cleanedText = StringUtils.replaceAll(cleanedText, "\u2013", "-");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&nbsp;", " ");
         cleanedText = StringUtils.replaceAll(cleanedText, "&hellip;", "...");
+        cleanedText = StringUtils.replaceAll(cleanedText, "\u2026", "...");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&#39;", "'");
         cleanedText = StringUtils.replaceAll(cleanedText, "&rsquo;", "'");
         cleanedText = StringUtils.replaceAll(cleanedText, "&lsquo;", "'");
         cleanedText = StringUtils.replaceAll(cleanedText, "&acirc;&euro;&trade;", "'");
+        cleanedText = StringUtils.replaceAll(cleanedText, "\u2019", "'");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&laquo;", "<<");
         cleanedText = StringUtils.replaceAll(cleanedText, "&raquo;", ">>");
