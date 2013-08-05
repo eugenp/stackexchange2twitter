@@ -129,7 +129,17 @@ public class TweetService {
      * - the text has the <b>correct length</b> <br/>
      */
     public final boolean isTweetFullValid(final String tweetTextWithUrl) {
-        return TwitterUtil.isTweetTextWithLinkValid(tweetTextWithUrl);
+        if (!TwitterUtil.isTweetTextWithLinkValid(tweetTextWithUrl)) {
+            return false;
+        }
+
+        if (tweetTextWithUrl.matches(".*&\\S*;.*")) {
+            // after cleanup, still contains unclean characters - fail validation
+            logger.error("Probably unclean characters in: {}", tweetTextWithUrl);
+            return false;
+        }
+
+        return true;
     }
 
     // processing
@@ -140,10 +150,6 @@ public class TweetService {
     public final String processPreValidity(final String title) {
         String resultAfterCleanup = TextUtil.cleanupInvalidCharacters(title);
         resultAfterCleanup = TextUtil.trimTweet(resultAfterCleanup);
-
-        if (resultAfterCleanup.matches(".*&\\S*;.*")) {
-            logger.error("Probably unclean characters in: {}", resultAfterCleanup);
-        }
 
         return resultAfterCleanup;
     }
