@@ -56,7 +56,7 @@ public class ClassificationDataFromTwitterManualTest {
         int pageIndex = fullPageCount;
         final Function<Tweet, String> composedFunction = Functions.compose(new CleanupStringFunction(), new TweetToStringFunction());
 
-        final String account = "DZone"; // Zone - done
+        final String account = "JobsProgramming"; // done: JobsProgramming
 
         final Set<String> collector = Sets.newHashSet();
         final TimelineOperations timelineOperations = twitterService.readOnlyTwitterApi().timelineOperations();
