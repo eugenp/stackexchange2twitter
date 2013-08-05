@@ -43,7 +43,7 @@ import com.google.common.collect.Sets;
     StackexchangeContextConfig.class 
 }) //@formatter:on
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public class ClassificationDataFromTwitterLiveTest {
+public class ClassificationDataFromTwitterManualTest {
 
     @Autowired
     private TwitterReadLiveService twitterService;
@@ -56,7 +56,7 @@ public class ClassificationDataFromTwitterLiveTest {
         int pageIndex = fullPageCount;
         final Function<Tweet, String> composedFunction = Functions.compose(new CleanupStringFunction(), new TweetToStringFunction());
 
-        final String account = "JavaPerformance";
+        final String account = "DZone"; // Zone - done
 
         final Set<String> collector = Sets.newHashSet();
         final TimelineOperations timelineOperations = twitterService.readOnlyTwitterApi().timelineOperations();

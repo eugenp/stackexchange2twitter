@@ -20,7 +20,7 @@ public class ClassificationDataCleanupManualTest {
 
     @Test
     public final void whenCleaningClassificationData_thenNoExceptions() throws IOException {
-        final String path = SpecificClassificationDataUtil.TrainingFull.NONCOMMERCIAL;
+        final String path = SpecificClassificationDataUtil.Other.SAMPLE;
         final InputStream is = SpecificClassificationDataUtil.class.getResourceAsStream(path);
         final List<String> tweetsForClassification = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
 

@@ -18,6 +18,10 @@ import org.apache.mahout.math.NamedVector;
 
 public final class SpecificClassificationDataUtil {
 
+    public static final class Other {
+        public static final String SAMPLE = "/classification/sample.classif";
+    }
+
     public static final class TrainingFull {
         public static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-full.classif";
         public static final String COMMERCIAL = "/classification/commercial/commercial-full.classif";
