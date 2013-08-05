@@ -49,6 +49,7 @@ public class TweetService {
      * - has link <br/>
      * - is not banned (mostly by keywords, expressions and regexes) <br/>
      * - does not contain link to banned services<br/>
+     * - it does not contain more than one link
      */
     public final boolean isTweetWorthRetweetingByText(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {

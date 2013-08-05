@@ -10,6 +10,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Component;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
 
@@ -20,6 +21,9 @@ public final class RetweetLiveStrategy {
 
     @Autowired
     private TwitterReadLiveService twitterLiveService;
+
+    @Autowired
+    private TweetService tweetService;
 
     public RetweetLiveStrategy() {
         super();
@@ -91,7 +95,7 @@ public final class RetweetLiveStrategy {
     private final int countRetweets(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
-            if (tweet.isRetweet()) {
+            if (isTweetGoodRetweet(tweet)) {
                 count++;
             }
         }
@@ -108,4 +112,15 @@ public final class RetweetLiveStrategy {
         return count;
     }
 
+    private boolean isTweetGoodRetweet(final Tweet tweet) {
+        if (!tweet.isRetweet()) {
+            return false;
+        }
+        final String text = tweet.getRetweetedStatus().getText();
+        if (!tweetService.isTweetWorthRetweetingByText(text)) {
+            return false;
+        }
+
+        return true;
+    }
 }
