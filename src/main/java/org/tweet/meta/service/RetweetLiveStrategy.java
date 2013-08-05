@@ -47,6 +47,11 @@ public final class RetweetLiveStrategy {
         return hasLessRtsThanTheTooPopularThreshold;
     }
 
+    public final boolean isUserWorthInteractingWith(final String userHandle) {
+        final TwitterProfile user = twitterLiveService.getProfileOfUser(userHandle);
+        return isUserWorthInteractingWith(user, userHandle);
+    }
+
     public final boolean isUserWorthInteractingWith(final TwitterProfile user, final String userHandle) {
         final String languageOfUser = user.getLanguage();
         if (!languageOfUser.equals("en")) {

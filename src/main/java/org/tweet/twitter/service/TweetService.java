@@ -240,8 +240,8 @@ public class TweetService {
 
         final String processedTweet = TwitterUtil.joiner.join(transformedTokens);
 
-        // check that hashtags + original tweet do not go over 142 chars
-        if (fullTweet.length() + hashtagWordFunction.getTransformationsDone() > 142) {
+        // check that hashtags + original tweet do not go over 141 chars
+        if (fullTweet.length() + hashtagWordFunction.getTransformationsDone() > 141) {
             return fullTweet;
         }
 

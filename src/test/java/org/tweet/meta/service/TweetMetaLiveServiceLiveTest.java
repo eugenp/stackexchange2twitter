@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -114,6 +114,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutMath_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutAlgorithms_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name());
         assertTrue(success);
     }
 

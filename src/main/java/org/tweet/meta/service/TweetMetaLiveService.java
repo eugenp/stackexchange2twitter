@@ -186,7 +186,8 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         // after text processing, check again if this has already been retweeted
         final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(fullTweetProcessed, twitterAccount);
         if (alreadyExistingRetweetByText != null) {
-            logger.warn("Tweet with retweet mention already exists:\n-original tweet= {}\n-new tweet (not retweeted)= {}", alreadyExistingRetweetByText.getText(), fullTweetProcessed); // TODO: temporarily warn - should get to debug
+            // was warn, but an already existing tweet is likely OK so - debug
+            logger.debug("Tweet with retweet mention already exists:\n-original tweet= {}\n-new tweet (not retweeted)= {}", alreadyExistingRetweetByText.getText(), fullTweetProcessed); // TODO: temporarily warn - should get to debug
             return false;
         }
 
@@ -310,14 +311,19 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     private final boolean tryTweetOneDelegatorInternal(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
-        final String text = TweetUtil.getText(potentialTweet);
-        final long tweetId = potentialTweet.getId();
+        // temp: checking if retweet and extract original tweet out of it
+        Tweet potentialTweetInternal = potentialTweet;
+        if (potentialTweetInternal.getRetweetedStatus() != null) {
+            potentialTweetInternal = potentialTweetInternal.getRetweetedStatus();
+        }
+        final String text = TweetUtil.getText(potentialTweetInternal);
+        final long tweetId = potentialTweetInternal.getId();
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
         final Map<String, Object> customDetails = Maps.newHashMap();
         customDetails.put("tweetId", tweetId);
         customDetails.put("hashtag", hashtag);
-        customDetails.put("potentialTweet", potentialTweet);
+        customDetails.put("potentialTweet", potentialTweetInternal);
 
         return tryTweetOne(text, null, twitterAccount, customDetails);
     }
