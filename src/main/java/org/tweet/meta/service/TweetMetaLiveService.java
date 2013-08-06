@@ -130,6 +130,8 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
+    // util - any
+
     /**any*/
     /*test only*/final boolean retweetAnyByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
         try {
@@ -146,8 +148,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return false;
         }
     }
-
-    // util - any
 
     /**any*/
     private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
@@ -324,8 +324,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         return success;
     }
 
-    // checks
-
     /**one*/
     private final boolean isTweetRejectedByClassifier(final String text) {
         if (classificationService.isCommercialDefault(text)) {
@@ -374,29 +372,32 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         return true;
     }
 
+    /**one*/
     @Override
     protected final boolean hasThisAlreadyBeenTweetedById(final Retweet retweet) {
         return tweetMetaLocalService.hasThisAlreadyBeenTweetedById(retweet);
     }
 
+    /**one*/
     protected final Retweet hasThisAlreadyBeenTweetedByText(final String text, final String twitterAccount) {
         return tweetMetaLocalService.findLocalCandidateAdvanced(text, twitterAccount);
     }
 
+    /**one*/
     @Override
     protected final void markDone(final Retweet entity) {
         tweetMetaLocalService.markDone(entity);
     }
+
+    // helpers
 
     @Override
     protected final IRetweetJpaDAO getApi() {
         throw new UnsupportedOperationException();
     }
 
-    // Spring
-
     @Override
-    public void afterPropertiesSet() {
+    public final void afterPropertiesSet() {
         anyByHashtagErrorsCounter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
     }
 
