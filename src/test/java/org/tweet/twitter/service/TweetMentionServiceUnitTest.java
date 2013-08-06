@@ -68,4 +68,10 @@ public class TweetMentionServiceUnitTest {
         assertThat(mentions, hasItems("@russmiles", "@skillsmatter"));
     }
 
+    @Test
+    public final void whenExtractingMentionsFromTweetText3_thenCorrect() {
+        final List<String> mentions = instance.extractMentions("@AmitSin94906455 I participated to this course: https://www.coursera.org/course/progfun  The http://scala-lang.org  has great docs: http://www.scala-lang.org/documentation/");
+        assertThat(mentions, hasItems("@AmitSin94906455"));
+    }
+
 }

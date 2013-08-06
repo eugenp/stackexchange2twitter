@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.common.service.LinkService;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -21,6 +22,7 @@ public class TweetServiceUnitTest {
     @Before
     public final void before() {
         instance = new TweetService();
+        instance.linkService = new LinkService();
     }
 
     // tests

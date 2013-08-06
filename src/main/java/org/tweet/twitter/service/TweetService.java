@@ -36,7 +36,7 @@ public class TweetService {
     private MinRtRetriever minRtRetriever;
 
     @Autowired
-    private LinkService linkService;
+    LinkService linkService;
 
     public TweetService() {
         super();
