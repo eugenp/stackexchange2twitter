@@ -67,25 +67,21 @@ public class TweetMetaLocalService {
         }
 
         // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
-        final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(fullTextWithUrlAfterProcessing);
-        if (beforeAndAfter == null) {
-            return Lists.newArrayList();
-        }
-        final List<Retweet> partialMatches = Lists.newArrayList();
-        if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
-            partialMatches.addAll(retweetApi.findAllByTextStartsWithAndTwitterAccount(beforeAndAfter.getLeft(), twitterAccount));
-        } else {
-            partialMatches.addAll(retweetApi.findAllByTextEndsWithAndTwitterAccount(beforeAndAfter.getRight(), twitterAccount));
-        }
-        if (!partialMatches.isEmpty()) {
-            if (partialMatches.size() > 1) {
-                // if this happens, then I will add more logging around this area
-                logger.error("Temporary 1 - yes, more than one retweet found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, partialMatches);
-            }
-            return partialMatches;
+        final List<Retweet> partialResultsFromPrePostUrl = findPartialResultsFromPrePostUrl(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (partialResultsFromPrePostUrl != null) {
+            return partialResultsFromPrePostUrl;
         }
 
-        // by url
+        // by URL
+        final List<Retweet> partialResultsFromUrl = findPartialResultsFromUrl(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (partialResultsFromUrl != null) {
+            return partialResultsFromUrl;
+        }
+
+        return Lists.newArrayList();
+    }
+
+    final List<Retweet> findPartialResultsFromUrl(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
         final String mainUrl = linkService.extractUrl(fullTextWithUrlAfterProcessing);
         final List<Retweet> retweetsPointingToTheSameUrl = retweetApi.findAllByTextContainsAndTwitterAccount(mainUrl, twitterAccount);
         if (!retweetsPointingToTheSameUrl.isEmpty()) {
@@ -100,7 +96,28 @@ public class TweetMetaLocalService {
             return retweetsPointingToTheSameUrl;
         }
 
-        return Lists.newArrayList();
+        return null;
+    }
+
+    final List<Retweet> findPartialResultsFromPrePostUrl(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
+        final Pair<String, String> beforeAndAfter = TwitterUtil.breakByUrl(fullTextWithUrlAfterProcessing);
+        if (beforeAndAfter != null) {
+            final List<Retweet> partialMatches = Lists.newArrayList();
+            if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
+                partialMatches.addAll(retweetApi.findAllByTextStartsWithAndTwitterAccount(beforeAndAfter.getLeft(), twitterAccount));
+            } else {
+                partialMatches.addAll(retweetApi.findAllByTextEndsWithAndTwitterAccount(beforeAndAfter.getRight(), twitterAccount));
+            }
+            if (!partialMatches.isEmpty()) {
+                if (partialMatches.size() > 1) {
+                    // if this happens, then I will add more logging around this area
+                    logger.error("Temporary 1 - yes, more than one retweet found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, partialMatches);
+                }
+                return partialMatches;
+            }
+        }
+
+        return null;
     }
 
     // template

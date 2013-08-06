@@ -195,6 +195,9 @@ public final class TwitterUtil {
 
     // tweet - break
 
+    /**
+     * - returns null if there the text doesn't contain a single link
+     */
     public static Pair<String, String> breakByUrl(final String originalTweet) {
         final List<String> extractedUrls = new LinkService().extractUrls(originalTweet);
         if (extractedUrls.size() != 1) {
