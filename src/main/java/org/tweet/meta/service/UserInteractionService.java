@@ -13,7 +13,7 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
 
 @Service
-public final class UserInteractionService {
+public class UserInteractionService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -32,20 +32,14 @@ public final class UserInteractionService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public final boolean isUserWorthInteractingWith(final TwitterProfile user, final String userHandle) {
-        final String languageOfUser = user.getLanguage();
-        if (!languageOfUser.equals("en")) {
-            logger.info("Should not interact with user= {} because user language is= {}", userHandle, languageOfUser);
+    public boolean isUserWorthInteractingWith(final TwitterProfile user, final String userHandle) {
+        if (!isWorthInteractingWithBasedOnLanguage(user)) {
             return false;
         }
-        final int followersCount = user.getFollowersCount();
-        if (followersCount < 300) {
-            logger.info("Should not interact with user= {} because the followerCount is to small= {}", userHandle, followersCount);
+        if (!isWorthInteractingWithBasedOnFollowerCount(user)) {
             return false;
         }
-        final int tweetsCount = user.getStatusesCount();
-        if (tweetsCount < 300) {
-            logger.info("Should not interact with user= {} because the tweetsCount is to small= {}", userHandle, tweetsCount);
+        if (!isWorthInteractingWithBasedOnTweetsCount(user)) {
             return false;
         }
 
@@ -73,7 +67,53 @@ public final class UserInteractionService {
 
     // util
 
-    private boolean isTweetGoodRetweet(final Tweet tweet) {
+    private boolean isWorthInteractingWithBasedOnLanguage(final TwitterProfile user) {
+        final String languageOfUser = user.getLanguage();
+        if (languageOfUser.equals("en")) {
+            return true;
+        }
+
+        logger.info("Should not interact with user= {} because user language is= {}", user.getScreenName(), languageOfUser);
+        return false;
+    }
+
+    private boolean isWorthInteractingWithBasedOnFollowerCount(final TwitterProfile user) {
+        final int followersCount = user.getFollowersCount();
+        if (followersCount > 300) {
+            return true;
+        }
+
+        logger.info("Should not interact with user= {} because the followerCount is to small= {}", user.getScreenName(), followersCount);
+        return false;
+    }
+
+    private boolean isWorthInteractingWithBasedOnTweetsCount(final TwitterProfile user) {
+        final int tweetsCount = user.getStatusesCount();
+        if (tweetsCount > 300) {
+            return true;
+        }
+
+        logger.info("Should not interact with user= {} because the tweetsCount is to small= {}", user.getScreenName(), tweetsCount);
+        return false;
+    }
+
+    /**
+     * - local
+     */
+    final int countGoodRetweets(final List<Tweet> tweetsOfAccount) {
+        int count = 0;
+        for (final Tweet tweet : tweetsOfAccount) {
+            if (isTweetGoodRetweet(tweet)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * - local
+     */
+    boolean isTweetGoodRetweet(final Tweet tweet) {
         if (!tweet.isRetweet()) {
             return false;
         }
@@ -85,17 +125,10 @@ public final class UserInteractionService {
         return true;
     }
 
-    private final int countGoodRetweets(final List<Tweet> tweetsOfAccount) {
-        int count = 0;
-        for (final Tweet tweet : tweetsOfAccount) {
-            if (isTweetGoodRetweet(tweet)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    private final int countMentions(final List<Tweet> tweetsOfAccount) {
+    /**
+     * - local
+     */
+    final int countMentions(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (TweetUtil.getText(tweet).contains("@")) {

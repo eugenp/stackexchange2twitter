@@ -2,6 +2,7 @@ package org.tweet.meta.service;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
@@ -55,6 +56,11 @@ public final class UserInteractionServiceLiveTest {
     @Test
     public final void whenTestingIfUser2ShouldBeInteractedWith_thenNo() {
         assertFalse(userInteractionService.isUserWorthInteractingWith("Moz"));
+    }
+
+    @Test
+    public final void whenTestingIfUser3ShouldBeInteractedWith_thenNo() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("russmiles"));
     }
 
 }

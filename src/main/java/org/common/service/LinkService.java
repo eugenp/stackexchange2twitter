@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+/**
+ * - local
+ */
 @Service
 public class LinkService {
     private final Logger logger = LoggerFactory.getLogger(getClass());

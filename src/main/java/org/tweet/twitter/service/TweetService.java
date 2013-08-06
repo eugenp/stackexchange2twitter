@@ -23,6 +23,9 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
+/**
+ * - local
+ */
 @Service
 public class TweetService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -45,6 +48,7 @@ public class TweetService {
     // checks
 
     /**
+     * - local <br/>
      * Determines if a tweet is worth tweeting based on only its text; by the following <b>criteria</b>: <br/>
      * - has link <br/>
      * - is not banned (mostly by keywords, expressions and regexes) <br/>

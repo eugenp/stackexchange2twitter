@@ -13,10 +13,10 @@ import org.tweet.twitter.util.TweetUtil;
 @Component
 @Profile(SpringProfileUtil.LIVE)
 public final class RetweetLiveStrategy {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private UserInteractionService userInteractionService;
+    UserInteractionService userInteractionService;
 
     public RetweetLiveStrategy() {
         super();
