@@ -54,27 +54,26 @@ public class UserInteractionLiveService {
 
         // final int followingCount = user.getFriendsCount();
         final TwitterUserSnapshot userSnapshot = analyzeUserInteractions(user, userHandle);
-        System.out.println(userSnapshot);
 
         final int goodRetweetsPercentage = userSnapshot.getGoodRetweetPercentage();
         if (goodRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()) {
-            logger.info("Should not interact with user= {} - the percentage of retweets is to small= {}%", userHandle, goodRetweetsPercentage);
+            logger.info("Should not interact with user= {} \n- reason: the percentage of retweets is to small= {}%", userHandle, goodRetweetsPercentage);
             return false;
         }
 
         final int largeAccountRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsPercentage();
         if (largeAccountRetweetsPercentage > twitterInteractionValuesRetriever.getMaxLargeAccountRetweetsPercentage()) {
-            logger.info("Should not interact with user= {} - the percentage of retweets of very large accounts is simply to high= {}", userHandle, largeAccountRetweetsPercentage);
+            logger.info("Should not interact with user= {} \n- reason: the percentage of retweets of very large accounts is simply to high= {}%", userHandle, largeAccountRetweetsPercentage);
             return false;
         }
 
         final int mentionsPercentage = userSnapshot.getMentionsPercentage();
         if (goodRetweetsPercentage + mentionsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
-            logger.info("Should not interact with user= {} - the number of retweets+mentions percentage is to small= {}", userHandle, (goodRetweetsPercentage + mentionsPercentage));
+            logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandle, (goodRetweetsPercentage + mentionsPercentage));
             return false;
         }
 
-        logger.info("User= {} has \n{} good retweets \n{}% of retweets of large accounts, \n{} mentions - worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage, mentionsPercentage);
+        logger.info("\n{} profile: \n{}% - good retweets \n{}% - retweets of large accounts, \n{}% - mentions \n=> worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage, mentionsPercentage);
         return true;
     }
 

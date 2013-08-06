@@ -61,6 +61,11 @@ public final class UserInteractionServiceLiveTest {
         assertFalse(userInteractionService.isUserWorthInteractingWith("Moz"));
     }
 
+    @Test
+    public final void whenTestingIfUser3ShouldBeInteractedWith_thenNo() {
+        assertFalse(userInteractionService.isUserWorthInteractingWith("gopivotal"));
+    }
+
     // yes
 
     @Test

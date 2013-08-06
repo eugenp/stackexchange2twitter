@@ -18,7 +18,7 @@ public class TwitterInteractionValuesRetriever {
 
     /**
      * - twitter.value.user.retweets.percentage.min <br/>
-     * - default = 3
+     * - default = 3%
      */
     public int getMinRetweetsPercentageOfValuableUser() {
         return env.getProperty("twitter.value.user.retweets.percentage.min", Integer.class);
@@ -26,7 +26,7 @@ public class TwitterInteractionValuesRetriever {
 
     /**
      * - twitter.value.user.retweetsandmentions.min <br/>
-     * - default = 20
+     * - default = 10%
      */
     public int getMinRetweetsPlusMentionsOfValuableUser() {
         return env.getProperty("twitter.value.user.retweetsandmentions.min", Integer.class);
@@ -34,7 +34,7 @@ public class TwitterInteractionValuesRetriever {
 
     /**
      * - twitter.value.user.largeaccountretweets.percentage.max <br/>
-     * - default = 90(%)
+     * - default = 90%
      */
     public int getMaxLargeAccountRetweetsPercentage() {
         return env.getProperty("twitter.value.user.largeaccountretweets.percentage.max", Integer.class);
