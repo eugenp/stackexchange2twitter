@@ -4,14 +4,14 @@ public final class TwitterUserSnapshot {
 
     private int mentionsOutsideOfRetweetsPercentage;
     private int goodRetweetPercentage;
-    private int retweetsOfLargeAccountsPercentage;
+    private int retweetsOfLargeAccountsOutOfAllGoodRetweets;
     private int retweetsOfSelfMentionsPercentage;
 
-    public TwitterUserSnapshot(final int goodRetweetPercentage, final int retweetsOfLargeAccountsPercentage, final int retweetsOfSelfMentionsPercentage, final int mentionsOutsideOfRetweetsPercentage) {
+    public TwitterUserSnapshot(final int goodRetweetPercentage, final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, final int retweetsOfSelfMentionsPercentage, final int mentionsOutsideOfRetweetsPercentage) {
         super();
 
         this.goodRetweetPercentage = goodRetweetPercentage;
-        this.retweetsOfLargeAccountsPercentage = retweetsOfLargeAccountsPercentage;
+        this.retweetsOfLargeAccountsOutOfAllGoodRetweets = retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage;
         this.retweetsOfSelfMentionsPercentage = retweetsOfSelfMentionsPercentage;
 
         this.mentionsOutsideOfRetweetsPercentage = mentionsOutsideOfRetweetsPercentage;
@@ -23,8 +23,8 @@ public final class TwitterUserSnapshot {
         return goodRetweetPercentage;
     }
 
-    public final int getRetweetsOfLargeAccountsPercentage() {
-        return retweetsOfLargeAccountsPercentage;
+    public final int getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage() {
+        return retweetsOfLargeAccountsOutOfAllGoodRetweets;
     }
 
     public final int getRetweetsOfSelfMentionsPercentage() {
@@ -39,7 +39,7 @@ public final class TwitterUserSnapshot {
     public final String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("TwitterUserSnapshot [mentionsOutsideOfRetweetsPercentage=").append(mentionsOutsideOfRetweetsPercentage).append(", goodRetweetPercentage=").append(goodRetweetPercentage).append(", retweetsOfLargeAccountsPercentage=")
-                .append(retweetsOfLargeAccountsPercentage).append(", retweetsOfSelfMentionsPercentage=").append(retweetsOfSelfMentionsPercentage).append("]");
+                .append(retweetsOfLargeAccountsOutOfAllGoodRetweets).append(", retweetsOfSelfMentionsPercentage=").append(retweetsOfSelfMentionsPercentage).append("]");
         return builder.toString();
     }
 

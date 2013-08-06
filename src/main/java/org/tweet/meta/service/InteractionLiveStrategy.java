@@ -38,11 +38,15 @@ public final class InteractionLiveStrategy {
         final TwitterAccountInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
         switch (bestInteractionWithAuthor) {
         case None:
+            // either the tweet has no mention - in which case - OK
+            // or the tweet has valuable mentions - in which case - still OK (since it will get tweeted as it is)
             final String text = TweetUtil.getText(tweet);
             logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, tweet.getFromUser());
             return false;
         case Mention:
-            return true; //
+            // if the tweet has no mention itself - OK - TODO: add mention and tweet
+            // if the tweet does have valuable mentions - we need to see which is more valuable - adding a mention and tweeting, or tweeting as is
+            return true;
         case Retweet:
             return true;
         default:

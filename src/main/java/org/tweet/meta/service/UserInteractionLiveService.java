@@ -70,14 +70,14 @@ public class UserInteractionLiveService {
             return TwitterAccountInteraction.None;
         }
 
-        final int largeAccountRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsPercentage();
+        final int largeAccountRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage();
         if (largeAccountRetweetsPercentage > twitterInteractionValuesRetriever.getMaxLargeAccountRetweetsPercentage()) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of retweets of very large accounts is simply to high= {}%", userHandle, largeAccountRetweetsPercentage);
             return TwitterAccountInteraction.None;
         }
 
-        logger.info("\n{} profile: \n{}% - good retweets \n{}% - retweets of large accounts, \n{}% - retweets of self mentions \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle, goodRetweetsPercentage,
-                largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfSelfMentionsPercentage(), mentionsPercentage);
+        logger.info("\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage,
+                userSnapshot.getRetweetsOfSelfMentionsPercentage(), mentionsPercentage);
 
         return decideBestInteractionWithUser(userSnapshot);
     }
@@ -122,8 +122,8 @@ public class UserInteractionLiveService {
         final int goodRetweets = countGoodRetweets(tweetsOfAccount);
         final int goodRetweetsPercentage = (goodRetweets * 100) / (pagesToAnalyze * 200);
 
-        final int retweetsOfLargeAccounts = countRetweetsOfLargeAccounts(tweetsOfAccount);
-        final int retweetsOfLargeAccountsPercentage = (retweetsOfLargeAccounts * 100) / (pagesToAnalyze * 200);
+        final int retweetsOfLargeAccountsOutOfAllGoodRetweets = countRetweetsOfLargeAccounts(tweetsOfAccount);
+        final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = (retweetsOfLargeAccountsOutOfAllGoodRetweets * 100) / goodRetweets;
 
         final int retweetsOfSelfMentions = countRetweetsOfTweetsThatMentionsSelf(tweetsOfAccount, userHandle);
         final int retweetsOfSelfMentionsPercentage = (retweetsOfSelfMentions * 100) / (pagesToAnalyze * 200);
@@ -131,7 +131,7 @@ public class UserInteractionLiveService {
         final int mentions = countMentionsOutsideOfRetweets(tweetsOfAccount);
         final int mentionsPercentage = (mentions * 100) / (pagesToAnalyze * 200);
 
-        return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage);
+        return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage);
     }
 
     // util
