@@ -24,6 +24,9 @@ public final class RetweetLiveStrategy {
 
     // API
 
+    /**
+     * TODO: check if it's already a RT, if so, consider going for the original tweet - especially since getText will already do that
+     */
     public final boolean shouldRetweet(final Tweet tweet) {
         if (isTweetToPopular(tweet)) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
@@ -31,20 +34,27 @@ public final class RetweetLiveStrategy {
             return false;
         }
 
-        final TwitterProfile user = tweet.getUser();
-        final String userHandle = tweet.getFromUser();
-        if (!userInteractionLiveService.isUserWorthInteractingWith(user, userHandle)) {
+        if (!isAuthorOfTweetWorthInteractingWith(tweet)) {
             final String text = TweetUtil.getText(tweet);
-            logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, userHandle);
+            logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, tweet.getFromUser());
             return false;
         }
 
         return true;
     }
 
+    // util
+
     private final boolean isTweetToPopular(final Tweet tweet) {
         final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
         return hasLessRtsThanTheTooPopularThreshold;
+    }
+
+    private final boolean isAuthorOfTweetWorthInteractingWith(final Tweet tweet) {
+        final TwitterProfile user = tweet.getUser();
+        final String userHandle = tweet.getFromUser();
+
+        return userInteractionLiveService.isUserWorthInteractingWith(user, userHandle);
     }
 
 }
