@@ -1,10 +1,14 @@
 package org.tweet.meta.service;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.List;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -111,6 +115,13 @@ public class TweetMetaLocalServiceManualTest {
         final String text = "Blogged: #Scala #Redis client goes non blocking : uses #Akka IO .. http://t.co/Q3pB4KPeqb";
         final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestScala.name());
         assertNotNull(existing);
+    }
+
+    @Test
+    public final void whenRetrievingCorrespondingTweets_thenCorrect() {
+        final String tweet = "Announcing causatum 0.1.0, a #clojure library for generating event streams based on stochastic state machines. http://t.co.";
+        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());
+        assertThat(correspondingLocalRetweets, hasSize(1));
     }
 
 }

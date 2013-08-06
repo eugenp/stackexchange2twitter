@@ -1,12 +1,8 @@
 package org.tweet.meta.service;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
 
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
@@ -90,13 +86,6 @@ public class TweetMetaLocalServiceIntegrationTest {
         final String verifyText = "#TeamiPhone check out some of the worst #iPhone cases out there! http://bit.ly/1bz9iu7";
         final Retweet existing = service.findLocalCandidateAdvanced(verifyText, twitterAccount);
         assertNotNull(existing);
-    }
-
-    @Test
-    public final void whenRetrievingCorrespondingTweets_thenCorrect() {
-        final String tweet = "Announcing causatum 0.1.0, a #clojure library for generating event streams based on stochastic state machines. http://t.co.";
-        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());
-        assertThat(correspondingLocalRetweets, hasSize(1));
     }
 
     // utils
