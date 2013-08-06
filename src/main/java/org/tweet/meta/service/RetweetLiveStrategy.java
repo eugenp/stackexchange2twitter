@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Component;
+import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.util.TweetUtil;
 
@@ -17,6 +18,9 @@ public final class RetweetLiveStrategy {
 
     @Autowired
     UserInteractionLiveService userInteractionLiveService;
+
+    @Autowired
+    TwitterInteractionValuesRetriever twitterInteraction;
 
     public RetweetLiveStrategy() {
         super();
@@ -50,7 +54,7 @@ public final class RetweetLiveStrategy {
     // util
 
     private final boolean isTweetToPopular(final Tweet tweet) {
-        final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
+        final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < twitterInteraction.getMaxRetweetsForTweet();
         return !hasLessRtsThanTheTooPopularThreshold;
     }
 

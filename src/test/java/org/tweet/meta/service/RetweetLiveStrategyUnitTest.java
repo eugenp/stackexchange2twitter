@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 
 public final class RetweetLiveStrategyUnitTest {
 
@@ -24,6 +25,7 @@ public final class RetweetLiveStrategyUnitTest {
         this.instance = new RetweetLiveStrategy();
         this.instance.logger = mock(Logger.class);
         this.instance.userInteractionLiveService = mock(UserInteractionLiveService.class);
+        this.instance.twitterInteraction = mock(TwitterInteractionValuesRetriever.class);
     }
 
     // tests

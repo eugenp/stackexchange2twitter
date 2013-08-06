@@ -63,7 +63,7 @@ public class UserInteractionLiveService {
         }
 
         final int largeAccountRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsPercentage();
-        if (largeAccountRetweetsPercentage > twitterInteractionValuesRetriever.getLargeAccountRetweetsMaxPercentage()) {
+        if (largeAccountRetweetsPercentage > twitterInteractionValuesRetriever.getMaxLargeAccountRetweetsPercentage()) {
             logger.info("Should not interact with user= {} - the percentage of retweets of very large accounts is simply to high= {}", userHandle, largeAccountRetweetsPercentage);
             return false;
         }
