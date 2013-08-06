@@ -54,6 +54,7 @@ public class UserInteractionLiveService {
 
         // final int followingCount = user.getFriendsCount();
         final TwitterUserSnapshot userSnapshot = analyzeUserInteractions(user, userHandle);
+        System.out.println(userSnapshot);
 
         final int goodRetweetsPercentage = userSnapshot.getGoodRetweetPercentage();
         if (goodRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()) {
@@ -85,7 +86,7 @@ public class UserInteractionLiveService {
     // util
 
     private final TwitterUserSnapshot analyzeUserInteractions(final TwitterProfile user, final String userHandle) {
-        final int pagesToAnalyze = 1;
+        final int pagesToAnalyze = 2;
         final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
 
         final int goodRetweets = countGoodRetweets(tweetsOfAccount);

@@ -35,4 +35,12 @@ public final class TwitterUserSnapshot {
         return mentionsPercentage;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("TwitterUserSnapshot [mentionsPercentage=").append(mentionsPercentage).append(", goodRetweetPercentage=").append(goodRetweetPercentage).append(", retweetsOfLargeAccountsPercentage=").append(retweetsOfLargeAccountsPercentage)
+                .append(", retweetsOfSelfMentionsPercentage=").append(retweetsOfSelfMentionsPercentage).append("]");
+        return builder.toString();
+    }
+
 }
