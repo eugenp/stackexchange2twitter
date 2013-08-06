@@ -44,7 +44,7 @@ public class UserInteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public final TwitterAccountInteraction decideBestInteractionWithUser(final TwitterProfile user, final String userHandle) {
+    public final TwitterAccountInteraction decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle) {
         if (!isWorthInteractingWithBasedOnLanguage(user)) {
             return TwitterAccountInteraction.None;
         }
@@ -99,8 +99,8 @@ public class UserInteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public final boolean isUserWorthInteractingWith(final TwitterProfile user, final String userHandle) {
-        final TwitterAccountInteraction bestInteractionWithUser = decideBestInteractionWithUser(user, userHandle);
+    public final boolean isUserWorthInteractingWithLive(final TwitterProfile user, final String userHandle) {
+        final TwitterAccountInteraction bestInteractionWithUser = decideBestInteractionWithAuthorLive(user, userHandle);
         if (bestInteractionWithUser.equals(TwitterAccountInteraction.None)) {
             return false;
         }
@@ -109,7 +109,7 @@ public class UserInteractionLiveService {
 
     /*test only*/final boolean isUserWorthInteractingWith(final String userHandle) {
         final TwitterProfile user = twitterLiveService.getProfileOfUser(userHandle);
-        return isUserWorthInteractingWith(user, userHandle);
+        return isUserWorthInteractingWithLive(user, userHandle);
     }
 
     /**

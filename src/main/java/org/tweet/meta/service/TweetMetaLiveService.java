@@ -322,7 +322,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(fullTweetProcessed));
         final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
 
-        final boolean isUserWorthInteractingWith = userInteractionService.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
+        final boolean isUserWorthInteractingWith = userInteractionService.isUserWorthInteractingWithLive(profileOfUser, originalUserFromRt);
         if (isUserWorthInteractingWith) {
             success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
         } else {
