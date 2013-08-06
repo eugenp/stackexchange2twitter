@@ -35,26 +35,26 @@ import org.tweet.spring.util.SpringProfileUtil;
     TwitterMetaConfig.class 
 }) // @formatter:on
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public final class RetweetLiveStrategyLiveTest {
+public final class UserInteractionServiceLiveTest {
 
     @Autowired
-    private RetweetLiveStrategy retweetStrategy;
+    private UserInteractionService userInteractionService;
 
     // tests
 
     @Test
     public final void whenContextIsBootstrapped_thenNoException() {
-        assertNotNull(retweetStrategy);
+        assertNotNull(userInteractionService);
     }
 
     @Test
     public final void whenTestingIfUser1ShouldBeInteractedWith_thenNo() {
-        assertFalse(retweetStrategy.isUserWorthInteractingWith("johnhike"));
+        assertFalse(userInteractionService.isUserWorthInteractingWith("johnhike"));
     }
 
     @Test
     public final void whenTestingIfUser2ShouldBeInteractedWith_thenNo() {
-        assertFalse(retweetStrategy.isUserWorthInteractingWith("Moz"));
+        assertFalse(userInteractionService.isUserWorthInteractingWith("Moz"));
     }
 
 }

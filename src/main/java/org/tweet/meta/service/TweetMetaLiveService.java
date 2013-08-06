@@ -69,6 +69,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private RetweetLiveStrategy retweetStrategy;
 
     @Autowired
+    private UserInteractionService userInteractionService;
+
+    @Autowired
     private TweetMetaLocalService tweetMetaLocalService;
 
     // metrics
@@ -198,7 +201,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
             final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(fullTweetProcessed));
             final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
-            final boolean isUserWorthInteractingWith = retweetStrategy.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
+            final boolean isUserWorthInteractingWith = userInteractionService.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
             if (isUserWorthInteractingWith) {
                 success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
             } else {
