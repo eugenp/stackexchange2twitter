@@ -110,9 +110,12 @@ public final class TwitterUtil {
         return resultWhenRtIsStart;
     }
 
-    public static String extractOriginalUserFromRt(final String rt) {
+    /**
+     * - note: only for a very special case of tweet - the retweet mention (which I am not sure really happens without the added `RT @`)
+     */
+    public static String extractOriginalUserFromRt(final String textOfRetweet) {
         final Pattern pattern = Pattern.compile("@[a-zA-Z0-9_]*");
-        final Matcher matcher = pattern.matcher(rt);
+        final Matcher matcher = pattern.matcher(textOfRetweet);
         if (matcher.find()) {
             final String user = matcher.group(0);
             return user.substring(1);

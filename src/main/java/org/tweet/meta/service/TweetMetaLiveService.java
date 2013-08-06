@@ -67,7 +67,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private PredefinedAccountRetriever predefinedAccountRetriever;
 
     @Autowired
-    private RetweetLiveStrategy retweetStrategy;
+    private InteractionLiveStrategy interactionStrategy;
 
     @Autowired
     private UserInteractionLiveService userInteractionService;
@@ -294,20 +294,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         boolean success = false;
         if (tweetMentionService.isRetweetMention(fullTweetProcessed)) {
-            final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-            logger.error("(temporary error)Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, fullTweetProcessed); // TODO: temporarily error
-
-            final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(fullTweetProcessed));
-            final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
-            final boolean isUserWorthInteractingWith = userInteractionService.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
-            if (isUserWorthInteractingWith) {
-                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
-            } else {
-                logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, fullTweetProcessed, originalUserFromRt);
-                return false;
-            }
-        } else { // not retweet mention - normal tweet
-            if (retweetStrategy.shouldRetweet(potentialTweet)) {
+            success = dealWithRtMention(twitterAccount, potentialTweet, fullTweetProcessed);
+        } else {
+            if (interactionStrategy.shouldRetweet(potentialTweet)) {
                 success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
             } else {
                 success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
@@ -320,6 +309,26 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         // done
+        return success;
+    }
+
+    /**one*/
+    private final boolean dealWithRtMention(final String twitterAccount, final Tweet potentialTweet, final String fullTweetProcessed) {
+        boolean success;
+        final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+        logger.error("(temporary error)Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, fullTweetProcessed); // TODO: temporarily error
+
+        // TODO: if this code path is actually executed, then look into extracting the original user from the tweet itself, not from the text
+        final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(fullTweetProcessed));
+        final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
+
+        final boolean isUserWorthInteractingWith = userInteractionService.isUserWorthInteractingWith(profileOfUser, originalUserFromRt);
+        if (isUserWorthInteractingWith) {
+            success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
+        } else {
+            logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, fullTweetProcessed, originalUserFromRt);
+            success = false;
+        }
         return success;
     }
 

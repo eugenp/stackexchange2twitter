@@ -107,7 +107,7 @@ public class UserInteractionLiveService {
         return true;
     }
 
-    public final boolean isUserWorthInteractingWith(final String userHandle) {
+    /*test only*/final boolean isUserWorthInteractingWith(final String userHandle) {
         final TwitterProfile user = twitterLiveService.getProfileOfUser(userHandle);
         return isUserWorthInteractingWith(user, userHandle);
     }

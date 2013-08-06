@@ -13,7 +13,7 @@ import org.tweet.twitter.util.TweetUtil;
 
 @Component
 @Profile(SpringProfileUtil.LIVE)
-public final class RetweetLiveStrategy {
+public final class InteractionLiveStrategy {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -22,7 +22,7 @@ public final class RetweetLiveStrategy {
     @Autowired
     TwitterInteractionValuesRetriever twitterInteraction;
 
-    public RetweetLiveStrategy() {
+    public InteractionLiveStrategy() {
         super();
     }
 

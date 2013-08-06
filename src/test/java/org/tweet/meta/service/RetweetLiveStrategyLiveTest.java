@@ -40,7 +40,7 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
 public final class RetweetLiveStrategyLiveTest {
 
     @Autowired
-    private RetweetLiveStrategy retweetLiveStrategy;
+    private InteractionLiveStrategy retweetLiveStrategy;
 
     @Autowired
     private TwitterReadLiveService twitterReadLiveService;

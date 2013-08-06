@@ -16,13 +16,13 @@ import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 
 public final class RetweetLiveStrategyUnitTest {
 
-    private RetweetLiveStrategy instance;
+    private InteractionLiveStrategy instance;
 
     // fixtures
 
     @Before
     public final void before() {
-        this.instance = new RetweetLiveStrategy();
+        this.instance = new InteractionLiveStrategy();
         this.instance.logger = mock(Logger.class);
         this.instance.userInteractionLiveService = mock(UserInteractionLiveService.class);
         this.instance.twitterInteraction = mock(TwitterInteractionValuesRetriever.class);
