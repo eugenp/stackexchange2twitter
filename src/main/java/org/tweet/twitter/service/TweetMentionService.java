@@ -1,5 +1,10 @@
 package org.tweet.twitter.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.common.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +56,19 @@ public class TweetMentionService {
         }
 
         return false;
+    }
+
+    public final List<String> extractMentions(final String tweet) {
+        final List<String> result = new ArrayList<String>();
+
+        final Pattern pattern = Pattern.compile("(?<!\\w)@[\\w]+");
+
+        final Matcher matcher = pattern.matcher(tweet);
+        while (matcher.find()) {
+            result.add(matcher.group());
+        }
+
+        return result;
     }
 
     // util

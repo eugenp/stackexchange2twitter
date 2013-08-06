@@ -1,7 +1,12 @@
 package org.tweet.twitter.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +52,20 @@ public class TweetMentionServiceUnitTest {
     @Test
     public final void givenTweet5_whenTweetIsCheckedForBeingRetweet_thenIsRetweet() {
         assertTrue(instance.isRetweetMention("Morning all! RT @ContractHire http://t.co/dxKq3cl03U follow and you could win a new #iPad Mini! #comp #Apple #ipad"));
+    }
+
+    // extract mentions
+
+    @Test
+    public final void whenExtractingMentionsFromTweetText1_thenCorrect() {
+        final List<String> mentions = instance.extractMentions("@fmueller_bln When you are talking about layer, do you mean the XML change sets of Liquibase?");
+        assertThat(mentions, hasItem("@fmueller_bln"));
+    }
+
+    @Test
+    public final void whenExtractingMentionsFromTweetText2_thenCorrect() {
+        final List<String> mentions = instance.extractMentions("DON'T MISS: Join @russmiles for a talk on #Clojure #Lisp & #Simplicity on THURSDAY @skillsmatter: http://ow.ly/nCZ5o  #london");
+        assertThat(mentions, hasItems("@russmiles", "@skillsmatter"));
     }
 
 }
