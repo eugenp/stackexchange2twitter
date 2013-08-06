@@ -39,7 +39,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 public final class UserInteractionServiceLiveTest {
 
     @Autowired
-    private UserInteractionService userInteractionService;
+    private UserInteractionLiveService userInteractionService;
 
     // tests
 
@@ -76,6 +76,11 @@ public final class UserInteractionServiceLiveTest {
     @Test
     public final void whenTestingIfUser3ShouldBeInteractedWith_thenYes() {
         assertTrue(userInteractionService.isUserWorthInteractingWith("SpringSource"));
+    }
+
+    @Test
+    public final void whenTestingIfUser4ShouldBeInteractedWith_thenYes() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("skillsmatter"));
     }
 
     //

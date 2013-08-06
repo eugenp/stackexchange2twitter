@@ -70,7 +70,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private RetweetLiveStrategy retweetStrategy;
 
     @Autowired
-    private UserInteractionService userInteractionService;
+    private UserInteractionLiveService userInteractionService;
 
     @Autowired
     private TweetMetaLocalService tweetMetaLocalService;

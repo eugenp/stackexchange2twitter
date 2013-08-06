@@ -13,7 +13,7 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
 
 @Service
-public class UserInteractionService {
+public class UserInteractionLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -22,7 +22,7 @@ public class UserInteractionService {
     @Autowired
     private TweetService tweetService;
 
-    public UserInteractionService() {
+    public UserInteractionLiveService() {
         super();
     }
 

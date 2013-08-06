@@ -23,7 +23,7 @@ public final class RetweetStrategyUnitTest {
     public final void before() {
         this.instance = new RetweetLiveStrategy();
         this.instance.logger = mock(Logger.class);
-        this.instance.userInteractionService = mock(UserInteractionService.class);
+        this.instance.userInteractionLiveService = mock(UserInteractionLiveService.class);
     }
 
     // tests

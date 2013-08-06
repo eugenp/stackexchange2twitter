@@ -16,7 +16,7 @@ public final class RetweetLiveStrategy {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    UserInteractionService userInteractionService;
+    UserInteractionLiveService userInteractionLiveService;
 
     public RetweetLiveStrategy() {
         super();
@@ -25,22 +25,25 @@ public final class RetweetLiveStrategy {
     // API
 
     public final boolean shouldRetweet(final Tweet tweet) {
-        final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
-        if (!hasLessRtsThanTheTooPopularThreshold) {
+        if (isTweetToPopular(tweet)) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", TweetUtil.getText(tweet), tweet.getRetweetCount(), tweetUrl);
             return false;
         }
 
         final TwitterProfile user = tweet.getUser();
-        final String text = TweetUtil.getText(tweet);
         final String userHandle = tweet.getFromUser();
-
-        if (!userInteractionService.isUserWorthInteractingWith(user, userHandle)) {
+        if (!userInteractionLiveService.isUserWorthInteractingWith(user, userHandle)) {
+            final String text = TweetUtil.getText(tweet);
             logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, userHandle);
             return false;
         }
 
+        return true;
+    }
+
+    private final boolean isTweetToPopular(final Tweet tweet) {
+        final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
         return hasLessRtsThanTheTooPopularThreshold;
     }
 
