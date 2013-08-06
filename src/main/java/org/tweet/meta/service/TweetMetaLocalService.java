@@ -46,24 +46,14 @@ public class TweetMetaLocalService {
     }
 
     public final List<Retweet> findLocalCandidatesAdvanced(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
-        final Retweet existingTweetByFullText = retweetApi.findOneByTextAndTwitterAccount(fullTextWithUrlAfterProcessing, twitterAccount);
-        if (existingTweetByFullText != null) {
-            return Lists.newArrayList(existingTweetByFullText);
+        final List<Retweet> byExactMatch = findByExactMatch(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (byExactMatch != null) {
+            return byExactMatch;
         }
 
-        // retweet mention
-        final String tweetTextPotentiallyWithoutRetweetMention = TwitterUtil.extractTweetFromRt(fullTextWithUrlAfterProcessing);
-        final Retweet exactMatchWithoutRetweetMention = retweetApi.findOneByTextAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
-        if (exactMatchWithoutRetweetMention != null) {
-            return Lists.newArrayList(exactMatchWithoutRetweetMention);
-        }
-        final Retweet endsWithOriginalTweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
-        if (endsWithOriginalTweet != null) {
-            return Lists.newArrayList(endsWithOriginalTweet);
-        }
-        final Retweet startsWithOriginalTweet = retweetApi.findOneByTextStartsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
-        if (startsWithOriginalTweet != null) {
-            return Lists.newArrayList(startsWithOriginalTweet);
+        final List<Retweet> byPartialMatch = findByTweetExtractedFromRtMention(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (byPartialMatch != null) {
+            return byPartialMatch;
         }
 
         // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
@@ -79,6 +69,33 @@ public class TweetMetaLocalService {
         }
 
         return Lists.newArrayList();
+    }
+
+    final List<Retweet> findByExactMatch(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
+        final Retweet existingTweetByFullText = retweetApi.findOneByTextAndTwitterAccount(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (existingTweetByFullText != null) {
+            return Lists.newArrayList(existingTweetByFullText);
+        }
+
+        return null;
+    }
+
+    final List<Retweet> findByTweetExtractedFromRtMention(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
+        final String tweetTextPotentiallyWithoutRetweetMention = TwitterUtil.extractTweetFromRt(fullTextWithUrlAfterProcessing);
+        final Retweet exactMatchWithoutRetweetMention = retweetApi.findOneByTextAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
+        if (exactMatchWithoutRetweetMention != null) {
+            return Lists.newArrayList(exactMatchWithoutRetweetMention);
+        }
+        final Retweet endsWithOriginalTweet = retweetApi.findOneByTextEndsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
+        if (endsWithOriginalTweet != null) {
+            return Lists.newArrayList(endsWithOriginalTweet);
+        }
+        final Retweet startsWithOriginalTweet = retweetApi.findOneByTextStartsWithAndTwitterAccount(tweetTextPotentiallyWithoutRetweetMention, twitterAccount);
+        if (startsWithOriginalTweet != null) {
+            return Lists.newArrayList(startsWithOriginalTweet);
+        }
+
+        return null;
     }
 
     final List<Retweet> findPartialResultsFromUrl(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
