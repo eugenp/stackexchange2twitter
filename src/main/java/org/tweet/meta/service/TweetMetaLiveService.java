@@ -196,7 +196,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
             if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null, null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
-                final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
+                final boolean success = tryTweetOneWrap(potentialTweet, hashtag, twitterAccount);
                 if (!success) {
                     logger.trace("Didn't retweet on twitterAccount= {}, from hashtag= {}, tweet text= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet));
                     continue;
@@ -214,9 +214,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     // util - one
 
     /**one*/
-    private final boolean tryTweetOneDelegator(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
+    private final boolean tryTweetOneWrap(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
         try {
-            return tryTweetOneDelegatorInternal(potentialTweet, hashtag, twitterAccount);
+            return tryTweetOnePrepare(potentialTweet, hashtag, twitterAccount);
         } catch (final RuntimeException runEx) {
             // this is new - the point it to recover, log and keep analyzing
             logger.error("Unexpected exception trying to tweet on twitterAccount= {}, tweetText= {}", twitterAccount, potentialTweet);
@@ -225,20 +225,16 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     /**one*/
-    private final boolean tryTweetOneDelegatorInternal(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
-        // temp: checking if retweet and extract original tweet out of it
-        Tweet potentialTweetInternal = potentialTweet;
-        if (potentialTweetInternal.getRetweetedStatus() != null) {
-            potentialTweetInternal = potentialTweetInternal.getRetweetedStatus();
-        }
-        final String text = TweetUtil.getText(potentialTweetInternal);
-        final long tweetId = potentialTweetInternal.getId();
+    private final boolean tryTweetOnePrepare(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
+        Preconditions.checkState(potentialTweet.getRetweetedStatus() == null, "By the `one` level - this should be the original tweet");
+        final String text = TweetUtil.getText(potentialTweet);
+        final long tweetId = potentialTweet.getId();
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
         final Map<String, Object> customDetails = Maps.newHashMap();
         customDetails.put("tweetId", tweetId);
         customDetails.put("hashtag", hashtag);
-        customDetails.put("potentialTweet", potentialTweetInternal);
+        customDetails.put("potentialTweet", potentialTweet);
 
         return tryTweetOne(text, null, twitterAccount, customDetails);
     }
