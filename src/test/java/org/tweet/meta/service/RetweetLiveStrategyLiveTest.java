@@ -66,4 +66,10 @@ public final class RetweetLiveStrategyLiveTest {
         assertFalse(retweetLiveStrategy.shouldRetweet(tweet));
     }
 
+    @Test
+    public final void whenCheckingIfShouldRetweetTweet3_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(364420762922668032l);
+        assertFalse(retweetLiveStrategy.shouldRetweet(tweet));
+    }
+
 }

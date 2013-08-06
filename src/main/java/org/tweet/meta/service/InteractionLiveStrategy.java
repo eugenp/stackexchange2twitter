@@ -1,5 +1,7 @@
 package org.tweet.meta.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Component;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterAccountInteraction;
 
@@ -21,6 +24,9 @@ public final class InteractionLiveStrategy {
 
     @Autowired
     TwitterInteractionValuesRetriever twitterInteraction;
+
+    @Autowired
+    TweetMentionService tweetMentionService;
 
     public InteractionLiveStrategy() {
         super();
@@ -48,6 +54,15 @@ public final class InteractionLiveStrategy {
             // if the tweet does have valuable mentions - we need to see which is more valuable - adding a mention and tweeting, or tweeting as is
             return true;
         case Retweet:
+            // TODO: is there any way to extract the mentions from the tweet entity?
+            final List<String> mentions = tweetMentionService.extractMentions(tweet.getText());
+            for (final String mentionedUser : mentions) {
+                if (userInteractionLiveService.decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterAccountInteraction.Mention)) {
+                    logger.info("More value in tweeting as is - the tweet has valuable mentions: {}", tweet.getText());
+                    return false;
+                }
+            }
+            // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
             return true;
         default:
             throw new IllegalStateException();

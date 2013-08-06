@@ -44,6 +44,15 @@ public class UserInteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
+    public final TwitterAccountInteraction decideBestInteractionWithAuthorLive(final String userHandle) {
+        final TwitterProfile user = twitterLiveService.getProfileOfUser(userHandle);
+        return decideBestInteractionWithAuthorLive(user, userHandle);
+    }
+
+    /**
+     * - <b>live</b>: interacts with the twitter API <br/>
+     * - <b>local</b>: everything else
+     */
     public final TwitterAccountInteraction decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle) {
         if (!isWorthInteractingWithBasedOnLanguage(user)) {
             return TwitterAccountInteraction.None;
@@ -82,19 +91,6 @@ public class UserInteractionLiveService {
         return decideBestInteractionWithUser(userSnapshot);
     }
 
-    private final TwitterAccountInteraction decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
-        // userSnapshot.getGoodRetweetPercentage(); - it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
-        // userSnapshot.getMentionsOutsideOfRetweetsPercentage(); - the account (somehow) finds content and mentions it - good, but no help
-        // userSnapshot.getRetweetsOfLargeAccountsPercentage(); - this also doesn't decide anything about how to best interact with the account
-        final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
-        if (retweetsOfSelfMentionsPercentage > 4) {
-            // the account likes to retweet tweets that mention it
-            return TwitterAccountInteraction.Mention;
-        }
-
-        return TwitterAccountInteraction.Retweet;
-    }
-
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
@@ -115,7 +111,7 @@ public class UserInteractionLiveService {
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
      */
-    public final TwitterUserSnapshot analyzeUserInteractionsLive(final TwitterProfile user, final String userHandle) {
+    final TwitterUserSnapshot analyzeUserInteractionsLive(final TwitterProfile user, final String userHandle) {
         final int pagesToAnalyze = 2;
         final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
 
@@ -135,6 +131,19 @@ public class UserInteractionLiveService {
     }
 
     // util
+
+    private final TwitterAccountInteraction decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
+        // userSnapshot.getGoodRetweetPercentage(); - it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
+        // userSnapshot.getMentionsOutsideOfRetweetsPercentage(); - the account (somehow) finds content and mentions it - good, but no help
+        // userSnapshot.getRetweetsOfLargeAccountsPercentage(); - this also doesn't decide anything about how to best interact with the account
+        final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
+        if (retweetsOfSelfMentionsPercentage > 5) {
+            // the account likes to retweet tweets that mention it
+            return TwitterAccountInteraction.Mention;
+        }
+
+        return TwitterAccountInteraction.Retweet;
+    }
 
     private boolean isWorthInteractingWithBasedOnLanguage(final TwitterProfile user) {
         final String languageOfUser = user.getLanguage();
@@ -212,7 +221,12 @@ public class UserInteractionLiveService {
      */
     final int countRetweetsOfTweetsThatMentionsSelf(final List<Tweet> tweetsOfAccount, final String userHandle) {
         int count = 0;
-        final String userHandleAsMentioned = "@" + userHandle;
+        final String userHandleAsMentioned;
+        if (userHandle.startsWith("@")) {
+            userHandleAsMentioned = userHandle;
+        } else {
+            userHandleAsMentioned = "@" + userHandle;
+        }
         for (final Tweet tweet : tweetsOfAccount) {
             if (tweet.isRetweet()) {
                 if (tweetMentionService.extractMentions(tweet.getText()).contains(userHandleAsMentioned)) {
