@@ -18,7 +18,7 @@ public class TwitterInteractionValuesRetriever {
 
     /**
      * - twitter.value.user.retweets.percentage.min <br/>
-     * - default = 3%
+     * - default = 4%
      */
     public int getMinRetweetsPercentageOfValuableUser() {
         return env.getProperty("twitter.value.user.retweets.percentage.min", Integer.class);

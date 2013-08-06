@@ -14,6 +14,9 @@ import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
+import org.tweet.twitter.util.TwitterAccountInteraction;
+
+import com.google.api.client.util.Preconditions;
 
 @Service
 public class UserInteractionLiveService {
@@ -41,39 +44,66 @@ public class UserInteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public boolean isUserWorthInteractingWith(final TwitterProfile user, final String userHandle) {
+    public final TwitterAccountInteraction decideBestInteractionWithUser(final TwitterProfile user, final String userHandle) {
         if (!isWorthInteractingWithBasedOnLanguage(user)) {
-            return false;
+            return TwitterAccountInteraction.None;
         }
         if (!isWorthInteractingWithBasedOnFollowerCount(user)) {
-            return false;
+            return TwitterAccountInteraction.None;
         }
         if (!isWorthInteractingWithBasedOnTweetsCount(user)) {
-            return false;
+            return TwitterAccountInteraction.None;
         }
 
-        // final int followingCount = user.getFriendsCount();
-        final TwitterUserSnapshot userSnapshot = analyzeUserInteractions(user, userHandle);
+        // minor requirements for considering an interaction with this account valuable
 
+        final TwitterUserSnapshot userSnapshot = analyzeUserInteractionsLive(user, userHandle);
         final int goodRetweetsPercentage = userSnapshot.getGoodRetweetPercentage();
         if (goodRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of retweets is to small= {}%", userHandle, goodRetweetsPercentage);
-            return false;
+            return TwitterAccountInteraction.None;
+        }
+
+        final int mentionsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage();
+        if (goodRetweetsPercentage + mentionsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
+            logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandle, (goodRetweetsPercentage + mentionsPercentage));
+            return TwitterAccountInteraction.None;
         }
 
         final int largeAccountRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsPercentage();
         if (largeAccountRetweetsPercentage > twitterInteractionValuesRetriever.getMaxLargeAccountRetweetsPercentage()) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of retweets of very large accounts is simply to high= {}%", userHandle, largeAccountRetweetsPercentage);
-            return false;
+            return TwitterAccountInteraction.None;
         }
 
-        final int mentionsPercentage = userSnapshot.getMentionsPercentage();
-        if (goodRetweetsPercentage + mentionsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
-            logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandle, (goodRetweetsPercentage + mentionsPercentage));
-            return false;
+        logger.info("\n{} profile: \n{}% - good retweets \n{}% - retweets of large accounts, \n{}% - retweets of self mentions \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle, goodRetweetsPercentage,
+                largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfSelfMentionsPercentage(), mentionsPercentage);
+
+        return decideBestInteractionWithUser(userSnapshot);
+    }
+
+    private final TwitterAccountInteraction decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
+        // userSnapshot.getGoodRetweetPercentage(); - it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
+        // userSnapshot.getMentionsOutsideOfRetweetsPercentage(); - the account (somehow) finds content and mentions it - good, but no help
+        // userSnapshot.getRetweetsOfLargeAccountsPercentage(); - this also doesn't decide anything about how to best interact with the account
+        final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
+        if (retweetsOfSelfMentionsPercentage > 4) {
+            // the account likes to retweet tweets that mention it
+            return TwitterAccountInteraction.Mention;
         }
 
-        logger.info("\n{} profile: \n{}% - good retweets \n{}% - retweets of large accounts, \n{}% - mentions \n=> worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage, mentionsPercentage);
+        return TwitterAccountInteraction.Retweet;
+    }
+
+    /**
+     * - <b>live</b>: interacts with the twitter API <br/>
+     * - <b>local</b>: everything else
+     */
+    public final boolean isUserWorthInteractingWith(final TwitterProfile user, final String userHandle) {
+        final TwitterAccountInteraction bestInteractionWithUser = decideBestInteractionWithUser(user, userHandle);
+        if (bestInteractionWithUser.equals(TwitterAccountInteraction.None)) {
+            return false;
+        }
         return true;
     }
 
@@ -82,9 +112,10 @@ public class UserInteractionLiveService {
         return isUserWorthInteractingWith(user, userHandle);
     }
 
-    // util
-
-    private final TwitterUserSnapshot analyzeUserInteractions(final TwitterProfile user, final String userHandle) {
+    /**
+     * - <b>live</b>: interacts with the twitter API <br/>
+     */
+    public final TwitterUserSnapshot analyzeUserInteractionsLive(final TwitterProfile user, final String userHandle) {
         final int pagesToAnalyze = 2;
         final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
 
@@ -97,11 +128,13 @@ public class UserInteractionLiveService {
         final int retweetsOfSelfMentions = countRetweetsOfTweetsThatMentionsSelf(tweetsOfAccount, userHandle);
         final int retweetsOfSelfMentionsPercentage = (retweetsOfSelfMentions * 100) / (pagesToAnalyze * 200);
 
-        final int mentions = countMentions(tweetsOfAccount);
+        final int mentions = countMentionsOutsideOfRetweets(tweetsOfAccount);
         final int mentionsPercentage = (mentions * 100) / (pagesToAnalyze * 200);
 
         return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage);
     }
+
+    // util
 
     private boolean isWorthInteractingWithBasedOnLanguage(final TwitterProfile user) {
         final String languageOfUser = user.getLanguage();
@@ -208,10 +241,11 @@ public class UserInteractionLiveService {
     /**
      * - local
      */
-    final int countMentions(final List<Tweet> tweetsOfAccount) {
+    final int countMentionsOutsideOfRetweets(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
-            if (TweetUtil.getText(tweet).contains("@")) {
+            if (!tweet.isRetweet() && TweetUtil.getText(tweet).contains("@")) {
+                Preconditions.checkState(tweet.getRetweetedStatus() == null);
                 count++;
             }
         }
