@@ -48,6 +48,8 @@ public final class UserInteractionServiceLiveTest {
         assertNotNull(userInteractionService);
     }
 
+    // no
+
     @Test
     public final void whenTestingIfUser1ShouldBeInteractedWith_thenNo() {
         assertFalse(userInteractionService.isUserWorthInteractingWith("johnhike"));
@@ -55,12 +57,27 @@ public final class UserInteractionServiceLiveTest {
 
     @Test
     public final void whenTestingIfUser2ShouldBeInteractedWith_thenNo() {
+        // no retweets
         assertFalse(userInteractionService.isUserWorthInteractingWith("Moz"));
     }
 
+    // yes
+
     @Test
-    public final void whenTestingIfUser3ShouldBeInteractedWith_thenNo() {
-        assertTrue(userInteractionService.isUserWorthInteractingWith("russmiles"));
+    public final void whenTestingIfUser1ShouldBeInteractedWith_thenYes() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("russmiles")); // for lisp
     }
+
+    @Test
+    public final void whenTestingIfUser2ShouldBeInteractedWith_thenYes() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("petrikainulaine"));
+    }
+
+    @Test
+    public final void whenTestingIfUser3ShouldBeInteractedWith_thenYes() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("SpringSource"));
+    }
+
+    //
 
 }

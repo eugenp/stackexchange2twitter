@@ -29,6 +29,7 @@ import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
+import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterUtil;
 
@@ -73,6 +74,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
     @Autowired
     private TweetMetaLocalService tweetMetaLocalService;
+
+    @Autowired
+    protected TweetMentionService tweetMentionService;
 
     // metrics
 
@@ -195,7 +199,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         boolean success = false;
-        if (tweetService.isRetweetMention(fullTweetProcessed)) {
+        if (tweetMentionService.isRetweetMention(fullTweetProcessed)) {
             final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
             logger.error("(temporary error)Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, fullTweetProcessed); // TODO: temporarily error
 

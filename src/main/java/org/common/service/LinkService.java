@@ -2,12 +2,15 @@ package org.common.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.common.util.LinkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 /**
  * - local
@@ -119,6 +122,23 @@ public class LinkService {
      */
     public final List<String> extractUrls(final String input) {
         return LinkUtil.extractUrls(input);
+    }
+
+    /**
+     * - current banned services: instagram, pic.twitter
+     */
+    public final boolean containsLinkToBannedServices(final String tweetText) {
+        final ArrayList<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
+
+        for (final String bannedService : bannedServices) {
+            final boolean linkToBannedService = tweetText.contains(bannedService);
+            if (linkToBannedService) {
+                logger.trace("Tweet = {} contains link to banned service= {} - skipping", tweetText, bannedService);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // util

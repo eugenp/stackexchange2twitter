@@ -47,9 +47,15 @@ public class UserInteractionService {
 
         final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, 1);
         final int retweets = countGoodRetweets(tweetsOfAccount);
+        final int retweetsOfVeryLargeAccounts = countRetweetsOfVeryLargeAccounts(tweetsOfAccount);
         final int mentions = countMentions(tweetsOfAccount);
         if (retweets < 6) {
             logger.info("Should not interact with user= {} - the number of retweets (out of the last 200 tweets) is to small= {}", userHandle, retweets);
+            return false;
+        }
+        final int percentageOfRetweetsOfVeryLargeAccounts = (retweetsOfVeryLargeAccounts * 100) / retweets;
+        if (percentageOfRetweetsOfVeryLargeAccounts > 90) {
+            logger.info("Should not interact with user= {} - the percentage of retweets of very large accounts is simply to high= {}", userHandle, percentageOfRetweetsOfVeryLargeAccounts);
             return false;
         }
         if (retweets + mentions < 12) {
@@ -57,6 +63,7 @@ public class UserInteractionService {
             return false;
         }
 
+        logger.info("User= {} has {} retweets ({}% of large accounts) and {} mentions - worth interacting with", userHandle, retweets, percentageOfRetweetsOfVeryLargeAccounts, mentions);
         return true;
     }
 
@@ -105,6 +112,34 @@ public class UserInteractionService {
         for (final Tweet tweet : tweetsOfAccount) {
             if (isTweetGoodRetweet(tweet)) {
                 count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * - local
+     */
+    final int countRetweets(final List<Tweet> tweetsOfAccount) {
+        int count = 0;
+        for (final Tweet tweet : tweetsOfAccount) {
+            if (tweet.isRetweet()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * - local
+     */
+    final int countRetweetsOfVeryLargeAccounts(final List<Tweet> tweetsOfAccount) {
+        int count = 0;
+        for (final Tweet tweet : tweetsOfAccount) {
+            if (tweet.isRetweet()) {
+                if (tweet.getRetweetedStatus().getUser().getFollowersCount() > 5000) {
+                    count++;
+                }
             }
         }
         return count;

@@ -25,38 +25,6 @@ public class TweetServiceUnitTest {
 
     // tests
 
-    // check if retweet
-
-    @Test
-    public final void whenTweetIsCheckedForBeingRetweet_thenNoExceptions() {
-        instance.isRetweetMention(randomAlphabetic(120));
-    }
-
-    @Test
-    public final void givenTweet1_whenTweetIsCheckedForBeingRetweet_thenIsRetweet() {
-        assertTrue(instance.isRetweetMention("RT @DefuseSec: This is the worst crypto I've ever seen. http://www.cryptofails.com/2013/07/osticket-fail-open-fail-often.html \u2026 #php #cryptofails"));
-    }
-
-    @Test
-    public final void givenTweet2_whenTweetIsCheckedForBeingRetweet_thenIsRetweet() {
-        assertTrue(instance.isRetweetMention("RT@DefuseSec: This is the worst crypto I've ever seen. http://www.cryptofails.com/2013/07/osticket-fail-open-fail-often.html \u2026 #php #cryptofails"));
-    }
-
-    @Test
-    public final void givenTweet3_whenTweetIsCheckedForBeingRetweet_thenIsRetweet() {
-        assertTrue(instance.isRetweetMention("OMG. RT @DefuseSec: This is the worst crypto I've ever seen. http://www.cryptofails.com/2013/07/osticket-fail-open-fail-often.html \u2026 #php #cryptofails"));
-    }
-
-    @Test
-    public final void givenTweet4_whenTweetIsCheckedForBeingRetweet_thenIsRetweet() {
-        assertTrue(instance.isRetweetMention("RT@WPGaze Top 20 #WordPress Themes for Entertainment Blogs http://www.wpgaze.com/top-20-wordpress-themes-for-entertainment-blogs.html \u2026 #WordPress #WPGaze #Themes #Entertainment #Blogs"));
-    }
-
-    @Test
-    public final void givenTweet5_whenTweetIsCheckedForBeingRetweet_thenIsRetweet() {
-        assertTrue(instance.isRetweetMention("Morning all! RT @ContractHire http://t.co/dxKq3cl03U follow and you could win a new #iPad Mini! #comp #Apple #ipad"));
-    }
-
     // check validity
 
     @Test
@@ -125,27 +93,27 @@ public class TweetServiceUnitTest {
 
     @Test
     public final void givenTweet_whenPreProcessingTweet_thenNoExceptions() {
-        new TweetService().hashtagWordsFullTweet(randomAlphabetic(50), Lists.<String> newArrayList());
+        instance.hashtagWordsFullTweet(randomAlphabetic(50), Lists.<String> newArrayList());
     }
 
     @Test
     public final void givenNoWordsToHash_whenPreProcessingTweet_thenNoChanges() {
         final String originalTweet = randomAlphabetic(50);
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.<String> newArrayList());
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.<String> newArrayList());
         assertThat(originalTweet, equalTo(processedTweet));
     }
 
     @Test
     public final void givenSomeWordsToHash_whenTweetDoesNotContainTheWord_thenNoChanges() {
         final String originalTweet = "word1 word2 word3";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("otherword"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("otherword"));
         assertThat(originalTweet, equalTo(processedTweet));
     }
 
     @Test
     public final void givenSomeWordsToHash_whenTweetDoesContainTheWord_thenTweetChanged1() {
         final String originalTweet = "word1 word2 word3";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("word2"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("word2"));
         assertThat(originalTweet, not(equalTo(processedTweet)));
     }
 
@@ -153,7 +121,7 @@ public class TweetServiceUnitTest {
     public final void givenSomeWordsToHash_whenTweetDoesContainTheWord_thenTweetChanged2() {
         final String originalTweet = "Testing with Guava";
         final String targetResultTweet = "Testing with #Guava";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("guava"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("guava"));
         assertThat(targetResultTweet, equalTo(processedTweet));
     }
 
@@ -162,7 +130,7 @@ public class TweetServiceUnitTest {
     public final void givenSomeWordsToHash_whenTweetIsToLongToHash_thenNoChange() {
         final String prefix = randomAlphabetic(122);
         final String originalTweet = prefix + "Testing with Guava";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("guava"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("guava"));
         assertThat(originalTweet, equalTo(processedTweet));
     }
 
@@ -170,7 +138,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario1_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "Hibernate + Spring using multiple datasources? - http://stackoverflow.com/questions/860918/hibernate-spring-using-multiple-datasources";
         final String targetTweet = "Hibernate + #Spring using multiple datasources? - http://stackoverflow.com/questions/860918/hibernate-spring-using-multiple-datasources";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("spring"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("spring"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -178,7 +146,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario2_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "How are Anonymous (inner) classes used in Java? - http://stackoverflow.com/questions/355167/how-are-anonymous-inner-classes-used-in-java";
         final String targetTweet = "How are Anonymous (inner) classes used in #Java? - http://stackoverflow.com/questions/355167/how-are-anonymous-inner-classes-used-in-java";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("java"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("java"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -186,7 +154,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario3_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "What's the best Web interface for Git repositories? - http://stackoverflow.com/questions/438163/whats";
         final String targetTweet = "What's the best Web interface for #Git repositories? - http://stackoverflow.com/questions/438163/whats";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("git"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("git"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -194,7 +162,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario4_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "Programmatically showing a View from an Eclipse Plug-in - http://stackoverflow.com/questions/171824/programmatically-showing";
         final String targetTweet = "Programmatically showing a View from an #Eclipse Plug-in - http://stackoverflow.com/questions/171824/programmatically-showing";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("eclipse"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("eclipse"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -202,7 +170,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario5_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "Static return type of Scala macros - http://stackoverflow.com/questions/13669974/static-return-type-of-scala-macros";
         final String targetTweet = "Static return type of #Scala macros - http://stackoverflow.com/questions/13669974/static-return-type-of-scala-macros";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("scala"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("scala"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -210,7 +178,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario6_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "Tweet: 25+ Highly Useful #jQuery Plugins Bringing Life back to HTML Tables http://t.co/smTFbBO8l4";
         final String targetTweet = "Tweet: 25+ Highly Useful #jQuery Plugins Bringing Life back to HTML Tables http://t.co/smTFbBO8l4";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("jquery"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("jquery"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -218,7 +186,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario7_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "Fast vector math in #Clojure / Incanter - http://stackoverflow.com/questions/3814048/fast-vector-math-in-clojure-incanter";
         final String targetTweet = "Fast vector math in #Clojure / #Incanter - http://stackoverflow.com/questions/3814048/fast-vector-math-in-clojure-incanter";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList(TwitterTag.clojure.name(), "incanter"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList(TwitterTag.clojure.name(), "incanter"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -226,7 +194,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario8_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "Problem installing Maven plugin (m2eclipse) in Eclipse (Galileo) - http://stackoverflow.com/questions/2802";
         final String targetTweet = "Problem installing #Maven plugin (m2eclipse) in Eclipse (Galileo) - http://stackoverflow.com/questions/2802";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("maven"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("maven"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -234,7 +202,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario9_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "\"string could not resolved\" error in eclipse for C++ - http://stackoverflow.com/questions/7905025/string-could-not-resolved-error-in-eclipse-for-c";
         final String targetTweet = "\"string could not resolved\" error in eclipse for C++ - http://stackoverflow.com/questions/7905025/string-could-not-resolved-error-in-eclipse-for-c";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("eclipse"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("eclipse"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -243,7 +211,7 @@ public class TweetServiceUnitTest {
     public final void givenRealCaseScenario10_whenHashtagsAreAdded_thenCorrect() {
         final String originalTweet = "Understanding EJB3/JPA container-level transactions and isolation level - http://stackoverflow.com/questions/4136852/understanding-ejb3-jpa-container-level-transactions-and-isolation-level";
         final String targetTweet = "Understanding #EJB3/#JPA container-level transactions and isolation level - http://stackoverflow.com/questions/4136852/understanding-ejb3-jpa-container-level-transactions-and-isolation-level";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("ejb3", "jpa"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("ejb3", "jpa"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -251,7 +219,7 @@ public class TweetServiceUnitTest {
     public final void givenTweetWouldGoOverLimitIfHashtagsWereAddedScenario1_whenHashtagsAreAdded_thenCorrectlyNotChanged() {
         final String originalTweet = "\"Infuse fun math bla b in the classroom\" MT @edutopia: via @blkgrlphd: Do the #Math Right http://edut.to/1atgftH  #mathchat #studentengagement";
         final String targetTweet = "\"Infuse fun math bla b in the classroom\" MT @edutopia: via @blkgrlphd: Do the #Math Right http://edut.to/1atgftH  #mathchat #studentengagement";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("math"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("math"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -259,7 +227,7 @@ public class TweetServiceUnitTest {
     public final void givenTweetWouldGoOverLimitIfHashtagsWereAddedScenario2_whenHashtagsAreAdded_thenCorrectlyNotChanged() {
         final String originalTweet = "Best Way to Inject Hibernate Session by Spring 3 - http://stackoverflow.com/questions/4699381/best-way-to-inject-hibernate-session-by-spring-3";
         final String targetTweet = "Best Way to Inject Hibernate Session by Spring 3 - http://stackoverflow.com/questions/4699381/best-way-to-inject-hibernate-session-by-spring-3";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("spring", "hibernate"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("spring", "hibernate"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 
@@ -267,7 +235,7 @@ public class TweetServiceUnitTest {
     public final void givenTweetWouldGoOverLimitIfHashtagsWereAddedScenario3_whenHashtagsAreAdded_thenCorrectlyNotChanged() {
         final String originalTweet = "Hot deploying changes with Netbeans, Maven, and Glassfish - http://stackoverflow.com/questions/2290935/hot-deploying-changes-with-netbeans-maven-and-glassfish";
         final String targetTweet = "Hot deploying changes with Netbeans, Maven, and Glassfish - http://stackoverflow.com/questions/2290935/hot-deploying-changes-with-netbeans-maven-and-glassfish";
-        final String processedTweet = new TweetService().hashtagWordsFullTweet(originalTweet, Lists.newArrayList("maven", "pom"));
+        final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("maven", "pom"));
         assertThat(targetTweet, equalTo(processedTweet));
     }
 

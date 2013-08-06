@@ -1,6 +1,5 @@
 package org.tweet.twitter.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.common.service.LinkService;
@@ -62,7 +61,7 @@ public class TweetService {
         if (TwitterUtil.isTweetBanned(potentialTweetText)) {
             return false;
         }
-        if (containsLinkToBannedServices(potentialTweetText)) {
+        if (linkService.containsLinkToBannedServices(potentialTweetText)) {
             return false;
         }
 
@@ -197,32 +196,13 @@ public class TweetService {
         return tweet;
     }
 
-    /**
-     * - example: <i>RT @someuser: Original Tweet Stuff</i>
-     */
-    public final boolean isRetweetMention(final String potentialTweet) {
-        final boolean startsWith = potentialTweet.startsWith("RT @");
-        if (startsWith) {
-            return true;
-        }
-        final boolean contains = potentialTweet.contains("RT @");
-        if (contains) {
-            return true;
-        }
-
-        final boolean containsRtInfo = potentialTweet.matches(".*RT.{0,3}@.*");
-        if (containsRtInfo) {
-            return true;
-        }
-
-        return false;
-    }
-
     public final int countHashtags(final Tweet tweet) {
         return getHashtags(tweet).size();
     }
 
-    public final int getCharacterLenghtOfHashTags(final Tweet tweet) {
+    // util
+
+    final int getCharacterLenghtOfHashTags(final Tweet tweet) {
         int size = 0;
         for (final HashTagEntity hashTag : getHashtags(tweet)) {
             size += hashTag.getText().length();
@@ -231,8 +211,6 @@ public class TweetService {
 
         return size;
     }
-
-    // util
 
     final boolean isTweetWorthRetweetingByNumberOfHashtags(final Tweet tweet) {
         final int countHashtags = countHashtags(tweet);
@@ -259,7 +237,7 @@ public class TweetService {
         return processedTweet;
     }
 
-    final String hashtagWordsTweetTextOnly(final String tweetTextOnly, final List<String> wordsToHash) {
+    private final String hashtagWordsTweetTextOnly(final String tweetTextOnly, final List<String> wordsToHash) {
         final Iterable<String> tokens = TwitterUtil.splitter.split(tweetTextOnly);
 
         final HashtagWordFunction hashtagWordFunction = new HashtagWordFunction(wordsToHash);
@@ -275,7 +253,7 @@ public class TweetService {
         return processedTweet;
     }
 
-    final List<HashTagEntity> getHashtags(final Tweet tweet) {
+    private final List<HashTagEntity> getHashtags(final Tweet tweet) {
         final Entities entities = tweet.getEntities();
         if (entities == null) {
             return Lists.newArrayList();
@@ -299,23 +277,6 @@ public class TweetService {
      */
     private final boolean containsLink(final String text) {
         return text.contains("http://") || text.contains("https://");
-    }
-
-    /**
-     * - current banned services: instagram, pic.twitter
-     */
-    private final boolean containsLinkToBannedServices(final String tweetText) {
-        final ArrayList<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
-
-        for (final String bannedService : bannedServices) {
-            final boolean linkToBannedService = tweetText.contains(bannedService);
-            if (linkToBannedService) {
-                logger.trace("Tweet = {} contains link to banned service= {} - skipping", tweetText, bannedService);
-                return true;
-            }
-        }
-
-        return false;
     }
 
 }
