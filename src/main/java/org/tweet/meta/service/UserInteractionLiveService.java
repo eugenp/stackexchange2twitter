@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
+import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
@@ -21,6 +22,9 @@ public class UserInteractionLiveService {
 
     @Autowired
     private TweetService tweetService;
+
+    @Autowired
+    private TwitterInteractionValuesRetriever twitterInteractionValuesRetriever;
 
     public UserInteractionLiveService() {
         super();
@@ -49,16 +53,16 @@ public class UserInteractionLiveService {
         final int retweets = countGoodRetweets(tweetsOfAccount);
         final int retweetsOfVeryLargeAccounts = countRetweetsOfVeryLargeAccounts(tweetsOfAccount);
         final int mentions = countMentions(tweetsOfAccount);
-        if (retweets < 6) {
+        if (retweets < twitterInteractionValuesRetriever.getMinRetweetsOfValuableUser()) {
             logger.info("Should not interact with user= {} - the number of retweets (out of the last 200 tweets) is to small= {}", userHandle, retweets);
             return false;
         }
         final int percentageOfRetweetsOfVeryLargeAccounts = (retweetsOfVeryLargeAccounts * 100) / retweets;
-        if (percentageOfRetweetsOfVeryLargeAccounts > 90) {
+        if (percentageOfRetweetsOfVeryLargeAccounts > twitterInteractionValuesRetriever.getMaxPercentageOfLargeAccountRetweets()) {
             logger.info("Should not interact with user= {} - the percentage of retweets of very large accounts is simply to high= {}", userHandle, percentageOfRetweetsOfVeryLargeAccounts);
             return false;
         }
-        if (retweets + mentions < 12) {
+        if (retweets + mentions < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
             logger.info("Should not interact with user= {} - the number of retweets+mentions (out of the last 200 tweets) is to small= {}", userHandle, retweets);
             return false;
         }
@@ -86,7 +90,7 @@ public class UserInteractionLiveService {
 
     private boolean isWorthInteractingWithBasedOnFollowerCount(final TwitterProfile user) {
         final int followersCount = user.getFollowersCount();
-        if (followersCount > 300) {
+        if (followersCount > twitterInteractionValuesRetriever.getMinFolowersOfValuableUser()) {
             return true;
         }
 
@@ -96,7 +100,7 @@ public class UserInteractionLiveService {
 
     private boolean isWorthInteractingWithBasedOnTweetsCount(final TwitterProfile user) {
         final int tweetsCount = user.getStatusesCount();
-        if (tweetsCount > 300) {
+        if (tweetsCount > twitterInteractionValuesRetriever.getMinTweetsOfValuableUser()) {
             return true;
         }
 

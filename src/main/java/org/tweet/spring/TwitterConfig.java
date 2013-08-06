@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan({ "org.tweet.twitter" })
-@PropertySource({ "classpath:twitterInternal.properties" })
+@PropertySource({ "classpath:twitterInternal.properties", "classpath:interaction.properties" })
 public class TwitterConfig {
 
     public TwitterConfig() {
