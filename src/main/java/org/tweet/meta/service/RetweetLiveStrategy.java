@@ -40,6 +40,10 @@ public final class RetweetLiveStrategy {
             return false;
         }
 
+        // TODO: OK, so the author may be worth interacting with - but if it contains mentions, then it may also be worth simply tweeting:
+        // https://twitter.com/jameschesters/status/50510953187516416
+        // https://twitter.com/LispDaily/status/364476542711504896
+
         return true;
     }
 
