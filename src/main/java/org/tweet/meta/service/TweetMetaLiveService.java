@@ -161,32 +161,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     /**any*/
-    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
-        if (!TwitterAccountEnum.valueOf(twitterAccount).isRt()) {
-            logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
-        }
-        for (final Tweet potentialTweet : potentialTweets) {
-            // TODO: add a tryRetweetOneByHashtagInternal and have a custom enum return from that
-            final long tweetId = potentialTweet.getId();
-            logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
-            if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null, null))) {
-                logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
-                final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
-                if (!success) {
-                    logger.trace("Didn't retweet on twitterAccount= {}, from hashtag= {}, tweet text= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet));
-                    continue;
-                } else {
-                    final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-                    logger.info("Successfully retweeted on twitterAccount= {}, from hashtag= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet), tweetUrl);
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**any*/
     private final boolean retweetAnyByHashtagOnlyFromPredefinedAccountsInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
@@ -207,6 +181,34 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         Collections.sort(tweetsFromOnlyPredefinedAccounts, Ordering.from(new TweetByRtComparator()));
 
         return retweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
+    }
+
+    /**any*/
+    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweetsSorted, final String hashtag) throws IOException, JsonProcessingException {
+        if (!TwitterAccountEnum.valueOf(twitterAccount).isRt()) {
+            logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
+        }
+        for (final Tweet potentialTweetUnprocessed : potentialTweetsSorted) {
+            // TODO: add a tryRetweetOneByHashtagInternal and have a custom enum return from that
+
+            final Tweet potentialTweet = TweetUtil.getTweet(potentialTweetUnprocessed);
+            final long tweetId = potentialTweet.getId();
+            logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
+            if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null, null))) {
+                logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
+                final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
+                if (!success) {
+                    logger.trace("Didn't retweet on twitterAccount= {}, from hashtag= {}, tweet text= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet));
+                    continue;
+                } else {
+                    final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+                    logger.info("Successfully retweeted on twitterAccount= {}, from hashtag= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet), tweetUrl);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     // util - one

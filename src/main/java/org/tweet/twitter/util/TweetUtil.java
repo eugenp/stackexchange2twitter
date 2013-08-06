@@ -22,4 +22,12 @@ public final class TweetUtil {
         return text;
     }
 
+    public static Tweet getTweet(final Tweet tweet) {
+        if (tweet.getRetweetedStatus() != null) {
+            return tweet.getRetweetedStatus();
+        }
+
+        return tweet;
+    }
+
 }
