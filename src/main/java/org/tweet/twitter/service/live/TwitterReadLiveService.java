@@ -166,7 +166,6 @@ public class TwitterReadLiveService {
         final List<Tweet> collector = Lists.newArrayList();
         List<Tweet> currentPage = timelineOperations.getUserTimeline(twitterAccount, 200);
         collector.addAll(currentPage);
-
         long lastId = currentPage.get(currentPage.size() - 1).getId();
         while (pageIndex > 1) {
             currentPage = timelineOperations.getUserTimeline(twitterAccount, 200, 01, lastId);

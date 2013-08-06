@@ -96,7 +96,7 @@ public class UserInteractionLiveService {
         final int retweetsOfLargeAccountsPercentage = (retweetsOfLargeAccounts * 100) / (pagesToAnalyze * 200);
 
         final int retweetsOfSelfMentions = countRetweetsOfTweetsThatMentionsSelf(tweetsOfAccount, userHandle);
-        final int retweetsOfSelfMentionsPercentage = (retweetsOfSelfMentions * 100) / goodRetweets;
+        final int retweetsOfSelfMentionsPercentage = (retweetsOfSelfMentions * 100) / (pagesToAnalyze * 200);
 
         final int mentions = countMentions(tweetsOfAccount);
         final int mentionsPercentage = (mentions * 100) / (pagesToAnalyze * 200);
