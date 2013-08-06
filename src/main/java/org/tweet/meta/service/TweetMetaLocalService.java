@@ -36,7 +36,7 @@ public class TweetMetaLocalService {
     // API
 
     public final Retweet findLocalCandidateAdvanced(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
-        final List<Retweet> foundLocalCandidates = findLocalCandidatesAdvanced(fullTextWithUrlAfterProcessing, twitterAccount);
+        final List<Retweet> foundLocalCandidates = findLocalCandidatesStrict(fullTextWithUrlAfterProcessing, twitterAccount);
         Preconditions.checkNotNull(foundLocalCandidates);
         if (foundLocalCandidates.isEmpty()) {
             return null;
@@ -45,7 +45,7 @@ public class TweetMetaLocalService {
         return foundLocalCandidates.get(0);
     }
 
-    public final List<Retweet> findLocalCandidatesAdvanced(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
+    public final List<Retweet> findLocalCandidatesStrict(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
         final List<Retweet> byExactMatch = findByExactMatch(fullTextWithUrlAfterProcessing, twitterAccount);
         if (byExactMatch != null) {
             return byExactMatch;
@@ -66,6 +66,32 @@ public class TweetMetaLocalService {
         final List<Retweet> partialResultsFromUrl = findPartialResultsFromUrl(fullTextWithUrlAfterProcessing, twitterAccount);
         if (partialResultsFromUrl != null) {
             return partialResultsFromUrl;
+        }
+
+        return Lists.newArrayList();
+    }
+
+    public final List<Retweet> findLocalCandidatesRelaxed(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
+        // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
+        final List<Retweet> partialResultsFromPrePostUrl = findPartialResultsFromPrePostUrl(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (partialResultsFromPrePostUrl != null) {
+            return partialResultsFromPrePostUrl;
+        }
+
+        // by URL
+        final List<Retweet> partialResultsFromUrl = findPartialResultsFromUrl(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (partialResultsFromUrl != null) {
+            return partialResultsFromUrl;
+        }
+
+        final List<Retweet> byPartialMatch = findByTweetExtractedFromRtMention(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (byPartialMatch != null) {
+            return byPartialMatch;
+        }
+
+        final List<Retweet> byExactMatch = findByExactMatch(fullTextWithUrlAfterProcessing, twitterAccount);
+        if (byExactMatch != null) {
+            return byExactMatch;
         }
 
         return Lists.newArrayList();

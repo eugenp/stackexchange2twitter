@@ -95,7 +95,7 @@ public class TweetMetaLocalServiceIntegrationTest {
     @Test
     public final void whenRetrievingCorrespondingTweets_thenCorrect() {
         final String tweet = "Announcing causatum 0.1.0, a #clojure library for generating event streams based on stochastic state machines. http://t.co.";
-        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesAdvanced(tweet, TwitterAccountEnum.BestClojure.name());
+        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());
         assertThat(correspondingLocalRetweets, hasSize(1));
     }
 
