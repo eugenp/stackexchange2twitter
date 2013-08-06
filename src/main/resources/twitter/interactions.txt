@@ -11,3 +11,4 @@ DON'T MISS: Join @russmiles for a talk on #Clojure #Lisp & #Simplicity on THURSD
 
 2. Types of pre/post fixes: 
 Useful stuff.
+Very cool. 

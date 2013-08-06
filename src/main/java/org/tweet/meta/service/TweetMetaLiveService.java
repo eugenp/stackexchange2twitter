@@ -90,6 +90,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
     // API
 
+    /**any*/
     public final boolean retweetAnyByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
         try {
@@ -110,6 +111,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
+    /**any*/
     public final boolean retweetAnyByHashtagOnlyFromPredefinedAccounts(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
         try {
@@ -128,6 +130,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
+    /**any*/
     /*test only*/final boolean retweetAnyByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
         try {
             final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
@@ -144,10 +147,102 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
-    // template
+    // util - any
+
+    /**any*/
+    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+        logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
+
+        logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
+        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
+        Collections.sort(tweetsOfHashtag, Ordering.from(new TweetByRtComparator()));
+
+        return retweetAnyByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
+    }
+
+    /**any*/
+    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
+        if (!TwitterAccountEnum.valueOf(twitterAccount).isRt()) {
+            logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
+        }
+        for (final Tweet potentialTweet : potentialTweets) {
+            // TODO: add a tryRetweetOneByHashtagInternal and have a custom enum return from that
+            final long tweetId = potentialTweet.getId();
+            logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
+            if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null, null))) {
+                logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
+                final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
+                if (!success) {
+                    logger.trace("Didn't retweet on twitterAccount= {}, from hashtag= {}, tweet text= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet));
+                    continue;
+                } else {
+                    final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+                    logger.info("Successfully retweeted on twitterAccount= {}, from hashtag= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet), tweetUrl);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**any*/
+    private final boolean retweetAnyByHashtagOnlyFromPredefinedAccountsInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+        logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
+
+        logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
+        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
+
+        // filter out tweets not on predefined accounts
+        final List<String> predefinedAccounts = predefinedAccountRetriever.predefinedAccount(twitterAccount);
+        final Iterable<Tweet> tweetsFromOnlyPredefinedAccountsRaw = Iterables.filter(tweetsOfHashtag, new Predicate<Tweet>() {
+            @Override
+            public final boolean apply(@Nullable final Tweet input) {
+                final String fromUser = input.getFromUser();
+                return predefinedAccounts.contains(fromUser);
+            }
+        });
+
+        final List<Tweet> tweetsFromOnlyPredefinedAccounts = Lists.newArrayList(tweetsFromOnlyPredefinedAccountsRaw);
+        Collections.sort(tweetsFromOnlyPredefinedAccounts, Ordering.from(new TweetByRtComparator()));
+
+        return retweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
+    }
+
+    // util - one
+
+    /**one*/
+    private final boolean tryTweetOneDelegator(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
+        try {
+            return tryTweetOneDelegatorInternal(potentialTweet, hashtag, twitterAccount);
+        } catch (final RuntimeException runEx) {
+            // this is new - the point it to recover, log and keep analyzing
+            logger.error("Unexpected exception trying to tweet on twitterAccount= {}, tweetText= {}", twitterAccount, potentialTweet);
+            return false;
+        }
+    }
+
+    /**one*/
+    private final boolean tryTweetOneDelegatorInternal(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
+        // temp: checking if retweet and extract original tweet out of it
+        Tweet potentialTweetInternal = potentialTweet;
+        if (potentialTweetInternal.getRetweetedStatus() != null) {
+            potentialTweetInternal = potentialTweetInternal.getRetweetedStatus();
+        }
+        final String text = TweetUtil.getText(potentialTweetInternal);
+        final long tweetId = potentialTweetInternal.getId();
+        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
+
+        final Map<String, Object> customDetails = Maps.newHashMap();
+        customDetails.put("tweetId", tweetId);
+        customDetails.put("hashtag", hashtag);
+        customDetails.put("potentialTweet", potentialTweetInternal);
+
+        return tryTweetOne(text, null, twitterAccount, customDetails);
+    }
 
     @Override
-    protected final boolean tryTweetOne(final String fullTweet, final String noUrl, final String twitterAccount, final Map<String, Object> customDetails) {
+    /**one*/protected final boolean tryTweetOne(final String fullTweet, final String noUrl, final String twitterAccount, final Map<String, Object> customDetails) {
         final long tweetId = (long) customDetails.get("tweetId");
         final String hashtag = (String) customDetails.get("hashtag");
         final Tweet potentialTweet = (Tweet) customDetails.get("potentialTweet");
@@ -229,114 +324,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         return success;
     }
 
-    @Override
-    protected final boolean hasThisAlreadyBeenTweetedById(final Retweet retweet) {
-        return tweetMetaLocalService.hasThisAlreadyBeenTweetedById(retweet);
-    }
-
-    protected final Retweet hasThisAlreadyBeenTweetedByText(final String text, final String twitterAccount) {
-        return tweetMetaLocalService.findLocalCandidateAdvanced(text, twitterAccount);
-    }
-
-    @Override
-    protected final void markDone(final Retweet entity) {
-        tweetMetaLocalService.markDone(entity);
-    }
-
-    @Override
-    protected final IRetweetJpaDAO getApi() {
-        throw new UnsupportedOperationException();
-    }
-
-    // util
-
-    private final boolean retweetAnyByHashtagOnlyFromPredefinedAccountsInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
-        logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
-
-        logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
-        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
-
-        // filter out tweets not on predefined accounts
-        final List<String> predefinedAccounts = predefinedAccountRetriever.predefinedAccount(twitterAccount);
-        final Iterable<Tweet> tweetsFromOnlyPredefinedAccountsRaw = Iterables.filter(tweetsOfHashtag, new Predicate<Tweet>() {
-            @Override
-            public final boolean apply(@Nullable final Tweet input) {
-                final String fromUser = input.getFromUser();
-                return predefinedAccounts.contains(fromUser);
-            }
-        });
-
-        final List<Tweet> tweetsFromOnlyPredefinedAccounts = Lists.newArrayList(tweetsFromOnlyPredefinedAccountsRaw);
-        Collections.sort(tweetsFromOnlyPredefinedAccounts, Ordering.from(new TweetByRtComparator()));
-
-        return tryRetweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
-    }
-
-    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
-        logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
-
-        logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
-        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
-        Collections.sort(tweetsOfHashtag, Ordering.from(new TweetByRtComparator()));
-
-        return tryRetweetAnyByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
-    }
-
-    private final boolean tryRetweetAnyByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweets, final String hashtag) throws IOException, JsonProcessingException {
-        if (!TwitterAccountEnum.valueOf(twitterAccount).isRt()) {
-            logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
-        }
-        for (final Tweet potentialTweet : potentialTweets) {
-            // TODO: add a tryRetweetOneByHashtagInternal and have a custom enum return from that
-            final long tweetId = potentialTweet.getId();
-            logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
-            if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null, null))) {
-                logger.debug("Attempting to tweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
-                final boolean success = tryTweetOneDelegator(potentialTweet, hashtag, twitterAccount);
-                if (!success) {
-                    logger.trace("Didn't retweet on twitterAccount= {}, from hashtag= {}, tweet text= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet));
-                    continue;
-                } else {
-                    final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-                    logger.info("Successfully retweeted on twitterAccount= {}, from hashtag= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet), tweetUrl);
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private final boolean tryTweetOneDelegator(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
-        try {
-            return tryTweetOneDelegatorInternal(potentialTweet, hashtag, twitterAccount);
-        } catch (final RuntimeException runEx) {
-            // this is new - the point it to recover, log and keep analyzing
-            logger.error("Unexpected exception trying to tweet on twitterAccount= {}, tweetText= {}", twitterAccount, potentialTweet);
-            return false;
-        }
-    }
-
-    private final boolean tryTweetOneDelegatorInternal(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
-        // temp: checking if retweet and extract original tweet out of it
-        Tweet potentialTweetInternal = potentialTweet;
-        if (potentialTweetInternal.getRetweetedStatus() != null) {
-            potentialTweetInternal = potentialTweetInternal.getRetweetedStatus();
-        }
-        final String text = TweetUtil.getText(potentialTweetInternal);
-        final long tweetId = potentialTweetInternal.getId();
-        logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
-
-        final Map<String, Object> customDetails = Maps.newHashMap();
-        customDetails.put("tweetId", tweetId);
-        customDetails.put("hashtag", hashtag);
-        customDetails.put("potentialTweet", potentialTweetInternal);
-
-        return tryTweetOne(text, null, twitterAccount, customDetails);
-    }
-
     // checks
 
+    /**one*/
     private final boolean isTweetRejectedByClassifier(final String text) {
         if (classificationService.isCommercialDefault(text)) {
             return true; // temporarily - to see how it works
@@ -351,6 +341,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
      * - it points to a <b>homepage</b><br/>
      * - it points to a <b>banned domain</b><br/>
      */
+    /**one*/
     private final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
         final List<String> extractedUrls = linkService.extractUrls(potentialTweet);
         if (extractedUrls.isEmpty()) {
@@ -381,6 +372,25 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         return true;
+    }
+
+    @Override
+    protected final boolean hasThisAlreadyBeenTweetedById(final Retweet retweet) {
+        return tweetMetaLocalService.hasThisAlreadyBeenTweetedById(retweet);
+    }
+
+    protected final Retweet hasThisAlreadyBeenTweetedByText(final String text, final String twitterAccount) {
+        return tweetMetaLocalService.findLocalCandidateAdvanced(text, twitterAccount);
+    }
+
+    @Override
+    protected final void markDone(final Retweet entity) {
+        tweetMetaLocalService.markDone(entity);
+    }
+
+    @Override
+    protected final IRetweetJpaDAO getApi() {
+        throw new UnsupportedOperationException();
     }
 
     // Spring
