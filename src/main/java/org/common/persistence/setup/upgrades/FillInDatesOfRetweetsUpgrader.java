@@ -20,6 +20,7 @@ import org.tweet.meta.service.TweetMetaLocalService;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
+import org.tweet.twitter.util.TweetUtil;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
@@ -83,7 +84,8 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
     @Override
     public boolean fillInDatesOfRetweetsOfOneAccount(final String twitterAccount) {
         final List<Tweet> allTweetsOfAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
-        for (final Tweet tweet : allTweetsOfAccount) {
+        for (final Tweet tweetRaw : allTweetsOfAccount) {
+            final Tweet tweet = TweetUtil.getTweet(tweetRaw);
             final String fullTweetRaw = tweet.getText();
             final String fullTweetProcessedPreValidity = tweetService.processPreValidity(fullTweetRaw);
             final String fullTweetProcessed = tweetService.postValidityProcessForFullTweet(fullTweetProcessedPreValidity, twitterAccount);

@@ -2,8 +2,8 @@ package org.common.persistence.setup.upgrades;
 
 import static org.junit.Assert.assertTrue;
 
-import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +53,7 @@ public class FillInDatesOfRetweetsUpgraderLiveTest {
 
     @Test
     public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
-        assertTrue(fillInDatesOnRetweetsUpgrader.fillInDatesOfRetweetsOfOneAccount(TwitterAccountEnum.GoogleDigest.name()));
+        assertTrue(fillInDatesOnRetweetsUpgrader.fillInDatesOfRetweetsOfOneAccount(TwitterAccountEnum.BestClojure.name()));
     }
 
 }
