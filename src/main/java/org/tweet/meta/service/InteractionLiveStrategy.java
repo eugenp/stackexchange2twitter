@@ -58,7 +58,7 @@ public final class InteractionLiveStrategy {
             final List<String> mentions = tweetMentionService.extractMentions(tweet.getText());
             for (final String mentionedUser : mentions) {
                 if (userInteractionLiveService.decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterAccountInteraction.Mention)) {
-                    logger.info("More value in tweeting as is - the tweet has valuable mentions: {}", tweet.getText());
+                    logger.error("(temp-error)More value in tweeting as is - the tweet has valuable mentions: {}", tweet.getText());
                     return false;
                 }
             }
