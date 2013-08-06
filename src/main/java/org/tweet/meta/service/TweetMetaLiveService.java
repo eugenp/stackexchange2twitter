@@ -239,8 +239,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         return tryTweetOne(text, null, twitterAccount, customDetails);
     }
 
+    /**one*/
     @Override
-    /**one*/protected final boolean tryTweetOne(final String fullTweet, final String noUrl, final String twitterAccount, final Map<String, Object> customDetails) {
+    protected final boolean tryTweetOne(final String fullTweet, final String noUrl, final String twitterAccount, final Map<String, Object> customDetails) {
         final long tweetId = (long) customDetails.get("tweetId");
         final String hashtag = (String) customDetails.get("hashtag");
         final Tweet potentialTweet = (Tweet) customDetails.get("potentialTweet");
@@ -259,7 +260,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return false;
         }
 
-        // pre-validity
+        // pre-validity processing
         final String fullTweetProcessedPreValidity = tweetService.processPreValidity(fullTweet);
         // is it valid?
         if (!tweetService.isTweetFullValid(fullTweetProcessedPreValidity)) {
@@ -268,7 +269,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             // TODO: was debug, temporarily error because for meta, this should not happen
             return false;
         }
-        // post-validity
+        // post-validity processing
         final String fullTweetProcessed = tweetService.postValidityProcessForFullTweet(fullTweetProcessedPreValidity, twitterAccount);
 
         // is this tweet pointing to something good?
@@ -331,13 +332,13 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         return false;
     }
 
+    /**one*/
     /**
      * Tweet is <b>not</b> pointing to something good if: <br/>
      * - it has <b>no url</b><br/>
      * - it points to a <b>homepage</b><br/>
      * - it points to a <b>banned domain</b><br/>
      */
-    /**one*/
     private final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
         final List<String> extractedUrls = linkService.extractUrls(potentialTweet);
         if (extractedUrls.isEmpty()) {
