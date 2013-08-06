@@ -47,7 +47,7 @@ public final class RetweetLiveStrategy {
 
     private final boolean isTweetToPopular(final Tweet tweet) {
         final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < 15;
-        return hasLessRtsThanTheTooPopularThreshold;
+        return !hasLessRtsThanTheTooPopularThreshold;
     }
 
     private final boolean isAuthorOfTweetWorthInteractingWith(final Tweet tweet) {

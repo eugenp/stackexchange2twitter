@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.stackexchange.component.StackExchangePageStrategyUnitTest;
-import org.tweet.meta.service.RetweetStrategyUnitTest;
+import org.tweet.meta.service.RetweetLiveStrategyUnitTest;
 import org.tweet.twitter.service.TweetServiceUnitTest;
 import org.tweet.twitter.util.HashtagUnitTest;
 import org.tweet.twitter.util.TwitterUtilUnitTest;
@@ -30,7 +30,7 @@ import org.tweet.twitter.util.TwitterUtilUnitTest;
     ClassificationUnitTest.class,
     
     // meta
-    RetweetStrategyUnitTest.class,
+    RetweetLiveStrategyUnitTest.class,
     
 }) //@formatter:off
 public final class UnitTestSuite {

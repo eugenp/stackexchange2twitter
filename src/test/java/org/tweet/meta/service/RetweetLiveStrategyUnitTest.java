@@ -13,7 +13,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.test.util.ReflectionTestUtils;
 
-public final class RetweetStrategyUnitTest {
+public final class RetweetLiveStrategyUnitTest {
 
     private RetweetLiveStrategy instance;
 
