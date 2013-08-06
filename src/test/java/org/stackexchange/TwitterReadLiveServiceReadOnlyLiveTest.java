@@ -1,5 +1,8 @@
 package org.stackexchange;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertThat;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -74,6 +77,15 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
         final List<Tweet> tweetsOfHashtag = instance.listTweetsOfHashtag(TwitterTag.mysql.name());
         Collections.sort(tweetsOfHashtag, new TweetByRtComparator());
         System.out.println(tweetsOfHashtag);
+    }
+
+    // list operations
+
+    @Test
+    public final void whenOver200TweetsAreListedFromAccount1_thenCorrect() {
+        final int howManyPages = 2;
+        final List<Tweet> tweetsOfHashtag = instance.listTweetsOfAccountMultiRequestRaw("Moz", howManyPages);
+        assertThat(tweetsOfHashtag, hasSize(200 * howManyPages));
     }
 
 }

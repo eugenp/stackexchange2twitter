@@ -56,6 +56,10 @@ public final class RetweetLiveStrategy {
         return isUserWorthInteractingWith(user, userHandle);
     }
 
+    /**
+     * - <b>live</b>: interacts with the twitter API <br/>
+     * - <b>local</b>: everything else
+     */
     public final boolean isUserWorthInteractingWith(final TwitterProfile user, final String userHandle) {
         final String languageOfUser = user.getLanguage();
         if (!languageOfUser.equals("en")) {
@@ -76,7 +80,7 @@ public final class RetweetLiveStrategy {
         // final int followingCount = user.getFriendsCount();
 
         final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountRaw(userHandle, 200);
-        final int retweets = countRetweets(tweetsOfAccount);
+        final int retweets = countGoodRetweets(tweetsOfAccount);
         final int mentions = countMentions(tweetsOfAccount);
         if (retweets < 6) {
             logger.info("Should not interact with user= {} - the number of retweets (out of the last 200 tweets) is to small= {}", userHandle, retweets);
@@ -92,7 +96,7 @@ public final class RetweetLiveStrategy {
 
     // util
 
-    private final int countRetweets(final List<Tweet> tweetsOfAccount) {
+    private final int countGoodRetweets(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (isTweetGoodRetweet(tweet)) {

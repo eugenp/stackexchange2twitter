@@ -31,10 +31,10 @@ public class TweetService {
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
 
     @Autowired
-    private LinkService linkService;
+    private MinRtRetriever minRtRetriever;
 
     @Autowired
-    private MinRtRetriever minRtRetriever;
+    private LinkService linkService;
 
     public TweetService() {
         super();

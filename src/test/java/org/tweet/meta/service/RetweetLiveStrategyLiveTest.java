@@ -22,7 +22,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off
     KeyValPersistenceJPAConfig.class, 
-        
+    
     CommonPersistenceJPAConfig.class, 
     CommonServiceConfig.class, 
     
@@ -48,8 +48,13 @@ public final class RetweetLiveStrategyLiveTest {
     }
 
     @Test
-    public final void whenTestingIfUserShouldBeInteractedWith_thenNo() {
+    public final void whenTestingIfUser1ShouldBeInteractedWith_thenNo() {
         assertFalse(retweetStrategy.isUserWorthInteractingWith("johnhike"));
+    }
+
+    @Test
+    public final void whenTestingIfUser2ShouldBeInteractedWith_thenNo() {
+        assertFalse(retweetStrategy.isUserWorthInteractingWith("Moz"));
     }
 
 }

@@ -13,7 +13,6 @@ import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.twitter.api.TimelineOperations;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,7 +28,6 @@ import org.tweet.twitter.util.TweetUtil;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -46,36 +44,21 @@ import com.google.common.collect.Sets;
 public class ClassificationDataFromTwitterManualTest {
 
     @Autowired
-    private TwitterReadLiveService twitterService;
+    private TwitterReadLiveService twitterReadLiveService;
 
     // tests
 
     @Test
     public final void whenListingTweets_thenNoExceptions() throws IOException {
         final int fullPageCount = 20;
-        int pageIndex = fullPageCount;
-        final Function<Tweet, String> composedFunction = Functions.compose(new CleanupStringFunction(), new TweetToStringFunction());
-
         final String account = "JobsProgramming"; // done: JobsProgramming
 
-        final Set<String> collector = Sets.newHashSet();
-        final TimelineOperations timelineOperations = twitterService.readOnlyTwitterApi().timelineOperations();
+        final List<Tweet> relevantTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(account, fullPageCount);
+        final Function<Tweet, String> composedFunction = Functions.compose(new CleanupStringFunction(), new TweetToStringFunction());
+        final List<String> allTweetsAsList = Lists.transform(relevantTweetsOnAccount, composedFunction);
+        final Set<String> collector = Sets.newHashSet(allTweetsAsList);
 
-        List<Tweet> currentPage = timelineOperations.getUserTimeline(account, 200);
-        currentPage = Lists.newArrayList(Collections2.filter(currentPage, new TweetIsValidPredicate()));
-        collector.addAll(Lists.transform(currentPage, composedFunction));
-
-        long lastId = currentPage.get(currentPage.size() - 1).getId();
-        while (pageIndex > 0) {
-            System.out.println("Processing page: " + (fullPageCount - pageIndex));
-            currentPage = timelineOperations.getUserTimeline(account, 200, 01, lastId);
-            currentPage = Lists.newArrayList(Collections2.filter(currentPage, new TweetIsValidPredicate()));
-
-            collector.addAll(Lists.transform(currentPage, composedFunction));
-            lastId = currentPage.get(currentPage.size() - 1).getId();
-            pageIndex--;
-        }
-
+        // write results to disk
         final File file = new File("/opt/sandbox/commercial_raw.classif");
         final FileWriter fw = new FileWriter(file); // it creates the file writer and the actual file
         IOUtils.writeLines(collector, "\n", fw);

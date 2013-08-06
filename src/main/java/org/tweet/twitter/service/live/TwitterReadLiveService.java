@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.SearchResults;
+import org.springframework.social.twitter.api.TimelineOperations;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
@@ -125,6 +126,15 @@ public class TwitterReadLiveService {
         }
     }
 
+    public List<Tweet> listTweetsOfAccountMultiRequestRaw(final String twitterAccount, final int howManyPages) {
+        try {
+            return listTweetsOfAccountMultiRequestRawInternal(twitterAccount, howManyPages);
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            return Lists.newArrayList();
+        }
+    }
+
     private final List<String> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
         final List<Tweet> rawTweets = listTweetsOfAccountRawInternal(twitterAccount, howmany);
         final Function<Tweet, String> tweetToStringFunction = new TweetToStringFunction();
@@ -136,6 +146,36 @@ public class TwitterReadLiveService {
         final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
         return userTimeline;
+    }
+
+    private final List<Tweet> listTweetsOfAccountMultiRequestRawInternal(final String twitterAccount, final int howManyPages) {
+        if (howManyPages <= 1) {
+            return listTweetsOfAccountRawInternal(twitterAccount, 200);
+        }
+        if (howManyPages > 20) {
+            throw new IllegalStateException();
+        }
+
+        final int reqCount = howManyPages;
+        int pageIndex = reqCount;
+
+        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
+        final TimelineOperations timelineOperations = readOnlyTwitterTemplate.timelineOperations();
+
+        final List<Tweet> collector = Lists.newArrayList();
+        List<Tweet> currentPage = timelineOperations.getUserTimeline(twitterAccount, 200);
+        collector.addAll(currentPage);
+
+        long lastId = currentPage.get(currentPage.size() - 1).getId();
+        while (pageIndex > 1) {
+            currentPage = timelineOperations.getUserTimeline(twitterAccount, 200, 01, lastId);
+            collector.addAll(currentPage);
+            lastId = currentPage.get(currentPage.size() - 1).getId();
+            pageIndex--;
+        }
+
+        return collector;
     }
 
     // by hashtag
