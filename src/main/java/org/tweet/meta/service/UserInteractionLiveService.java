@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
+import org.tweet.meta.TwitterUserSnapshot;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
+import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
@@ -22,6 +24,9 @@ public class UserInteractionLiveService {
 
     @Autowired
     private TweetService tweetService;
+
+    @Autowired
+    private TweetMentionService tweetMentionService;
 
     @Autowired
     private TwitterInteractionValuesRetriever twitterInteractionValuesRetriever;
@@ -48,26 +53,27 @@ public class UserInteractionLiveService {
         }
 
         // final int followingCount = user.getFriendsCount();
+        final TwitterUserSnapshot userSnapshot = analyzeUserInteractions(user, userHandle);
 
-        final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, 1);
-        final int retweets = countGoodRetweets(tweetsOfAccount);
-        final int retweetsOfVeryLargeAccounts = countRetweetsOfVeryLargeAccounts(tweetsOfAccount);
-        final int mentions = countMentions(tweetsOfAccount);
-        if (retweets < twitterInteractionValuesRetriever.getMinRetweetsOfValuableUser()) {
-            logger.info("Should not interact with user= {} - the number of retweets (out of the last 200 tweets) is to small= {}", userHandle, retweets);
-            return false;
-        }
-        final int percentageOfRetweetsOfVeryLargeAccounts = (retweetsOfVeryLargeAccounts * 100) / retweets;
-        if (percentageOfRetweetsOfVeryLargeAccounts > twitterInteractionValuesRetriever.getMaxPercentageOfLargeAccountRetweets()) {
-            logger.info("Should not interact with user= {} - the percentage of retweets of very large accounts is simply to high= {}", userHandle, percentageOfRetweetsOfVeryLargeAccounts);
-            return false;
-        }
-        if (retweets + mentions < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
-            logger.info("Should not interact with user= {} - the number of retweets+mentions (out of the last 200 tweets) is to small= {}", userHandle, retweets);
+        final int goodRetweetsPercentage = userSnapshot.getGoodRetweetPercentage();
+        if (goodRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()) {
+            logger.info("Should not interact with user= {} - the percentage of retweets is to small= {}%", userHandle, goodRetweetsPercentage);
             return false;
         }
 
-        logger.info("User= {} has {} retweets ({}% of large accounts) and {} mentions - worth interacting with", userHandle, retweets, percentageOfRetweetsOfVeryLargeAccounts, mentions);
+        final int largeAccountRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsPercentage();
+        if (largeAccountRetweetsPercentage > twitterInteractionValuesRetriever.getLargeAccountRetweetsMaxPercentage()) {
+            logger.info("Should not interact with user= {} - the percentage of retweets of very large accounts is simply to high= {}", userHandle, largeAccountRetweetsPercentage);
+            return false;
+        }
+
+        final int mentionsPercentage = userSnapshot.getMentionsPercentage();
+        if (goodRetweetsPercentage + mentionsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
+            logger.info("Should not interact with user= {} - the number of retweets+mentions percentage is to small= {}", userHandle, (goodRetweetsPercentage + mentionsPercentage));
+            return false;
+        }
+
+        logger.info("User= {} has \n{} good retweets \n{}% of retweets of large accounts, \n{} mentions - worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage, mentionsPercentage);
         return true;
     }
 
@@ -77,6 +83,25 @@ public class UserInteractionLiveService {
     }
 
     // util
+
+    private final TwitterUserSnapshot analyzeUserInteractions(final TwitterProfile user, final String userHandle) {
+        final int pagesToAnalyze = 1;
+        final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
+
+        final int goodRetweets = countGoodRetweets(tweetsOfAccount);
+        final int goodRetweetsPercentage = (goodRetweets * 100) / (pagesToAnalyze * 200);
+
+        final int retweetsOfLargeAccounts = countRetweetsOfLargeAccounts(tweetsOfAccount);
+        final int retweetsOfLargeAccountsPercentage = (retweetsOfLargeAccounts * 100) / (pagesToAnalyze * 200);
+
+        final int retweetsOfSelfMentions = countRetweetsOfTweetsThatMentionsSelf(tweetsOfAccount, userHandle);
+        final int retweetsOfSelfMentionsPercentage = (retweetsOfSelfMentions * 100) / goodRetweets;
+
+        final int mentions = countMentions(tweetsOfAccount);
+        final int mentionsPercentage = (mentions * 100) / (pagesToAnalyze * 200);
+
+        return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage);
+    }
 
     private boolean isWorthInteractingWithBasedOnLanguage(final TwitterProfile user) {
         final String languageOfUser = user.getLanguage();
@@ -137,11 +162,27 @@ public class UserInteractionLiveService {
     /**
      * - local
      */
-    final int countRetweetsOfVeryLargeAccounts(final List<Tweet> tweetsOfAccount) {
+    final int countRetweetsOfLargeAccounts(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (tweet.isRetweet()) {
                 if (tweet.getRetweetedStatus().getUser().getFollowersCount() > 5000) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * - local
+     */
+    final int countRetweetsOfTweetsThatMentionsSelf(final List<Tweet> tweetsOfAccount, final String userHandle) {
+        int count = 0;
+        final String userHandleAsMentioned = "@" + userHandle;
+        for (final Tweet tweet : tweetsOfAccount) {
+            if (tweet.isRetweet()) {
+                if (tweetMentionService.extractMentions(tweet.getText()).contains(userHandleAsMentioned)) {
                     count++;
                 }
             }
