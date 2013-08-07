@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonServiceConfig.class, GplusContextConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
+@Ignore("G+ is not in use")
 public class GplusExtractorServiceLiveTest {
 
     @Autowired
