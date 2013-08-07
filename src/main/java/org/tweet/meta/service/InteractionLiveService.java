@@ -18,6 +18,7 @@ import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
 
 import com.google.api.client.util.Preconditions;
+import com.google.common.collect.Lists;
 
 @Service
 public class InteractionLiveService {
@@ -62,15 +63,25 @@ public class InteractionLiveService {
     }
 
     public final boolean containsValuableMentionsLive(final String text) {
-        final List<String> mentions = tweetMentionService.extractMentions(text);
-        for (final String mentionedUser : mentions) {
-            if (decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterInteraction.Mention)) {
+        final List<TwitterInteractionWithValue> analyzeValueOfMentions = analyzeValueOfMentions(text);
+        for (final TwitterInteractionWithValue valueOfMention : analyzeValueOfMentions) {
+            if (valueOfMention.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
                 return true;
             }
         }
 
-        // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
         return false;
+    }
+
+    public final List<TwitterInteractionWithValue> analyzeValueOfMentions(final String text) {
+        final List<TwitterInteractionWithValue> mentionsAnalyzed = Lists.newArrayList();
+        final List<String> mentions = tweetMentionService.extractMentions(text);
+        for (final String mentionedUser : mentions) {
+            final TwitterInteractionWithValue interactionWithAuthor = decideBestInteractionWithAuthorLive(mentionedUser);
+            mentionsAnalyzed.add(interactionWithAuthor);
+        }
+
+        return mentionsAnalyzed;
     }
 
     // - with author
