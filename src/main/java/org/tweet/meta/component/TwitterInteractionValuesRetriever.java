@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import com.google.api.client.util.Preconditions;
+
 @Component
 public class TwitterInteractionValuesRetriever {
 
@@ -69,7 +71,9 @@ public class TwitterInteractionValuesRetriever {
      * - default = 1
      */
     public int getPagesToAnalyze() {
-        return env.getProperty("twitter.value.pagestoanalyze", Integer.class);
+        final Integer value = env.getProperty("twitter.value.pagestoanalyze", Integer.class);
+        Preconditions.checkState(value > 0);
+        return value;
     }
 
     /**

@@ -178,8 +178,15 @@ public class InteractionLiveService {
         final int goodRetweets = countGoodRetweets(tweetsOfAccount);
         final int goodRetweetsPercentage = (goodRetweets * 100) / (pagesToAnalyze * 200);
 
-        final int retweetsOfLargeAccountsOutOfAllGoodRetweets = countRetweetsOfLargeAccounts(tweetsOfAccount);
-        final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = (retweetsOfLargeAccountsOutOfAllGoodRetweets * 100) / goodRetweets;
+        final int retweetsOfLargeAccountsOutOfAllGoodRetweets;
+        final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage;
+        if (goodRetweets > 0) {
+            retweetsOfLargeAccountsOutOfAllGoodRetweets = countRetweetsOfLargeAccounts(tweetsOfAccount);
+            retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = (retweetsOfLargeAccountsOutOfAllGoodRetweets * 100) / goodRetweets;
+        } else {
+            retweetsOfLargeAccountsOutOfAllGoodRetweets = 0;
+            retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = 0;
+        }
 
         final int retweetsOfSelfMentions = countRetweetsOfTweetsThatMentionsSelf(tweetsOfAccount, userHandle);
         final int retweetsOfSelfMentionsPercentage = (retweetsOfSelfMentions * 100) / (pagesToAnalyze * 200);
