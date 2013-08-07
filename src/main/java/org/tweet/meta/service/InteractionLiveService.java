@@ -45,8 +45,10 @@ public class InteractionLiveService {
     public TwitterInteraction decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
         final boolean containsValuableMentions = containsValuableMentionsLive(tweet.getText());
         if (containsValuableMentions) {
-            // doesn't matter if it's popular or not - mention
+            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
+            logger.error("(temp-error)More value in tweeting as is - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl);
             return TwitterInteraction.Mention;
+            // doesn't matter if it's popular or not - mention
         }
 
         if (isTweetToPopular(tweet)) {
@@ -62,7 +64,6 @@ public class InteractionLiveService {
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
             if (decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterInteraction.Mention)) {
-                logger.error("(temp-error)More value in tweeting as is - the tweet has valuable mentions: {}", text);
                 return true;
             }
         }
