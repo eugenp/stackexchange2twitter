@@ -184,9 +184,6 @@ public class TwitterReadLiveService {
         return listTweetsOfHashtag(randomAccount, hashtag);
     }
 
-    /**
-     * TODO: include the sinceId as a parameter
-     */
     public List<Tweet> listTweetsOfHashtag(final String readOnlyAccountName, final String hashtag) {
         final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(readOnlyAccountName);
 

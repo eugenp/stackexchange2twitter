@@ -190,8 +190,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
         }
         for (final Tweet potentialTweetUnprocessed : potentialTweetsSorted) {
-            // TODO: add a tryRetweetOneByHashtagInternal and have a custom enum return from that
-
             final Tweet potentialTweet = TweetUtil.getTweet(potentialTweetUnprocessed);
             final long tweetId = potentialTweet.getId();
             logger.trace("Considering to retweet on twitterAccount= {}, from hashtag= {}, tweetId= {}", twitterAccount, hashtag, tweetId);
@@ -289,7 +287,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(fullTweetProcessed, twitterAccount);
         if (alreadyExistingRetweetByText != null) {
             // was warn, but an already existing tweet is likely OK so - debug
-            logger.debug("Tweet with retweet mention already exists:\n-original tweet= {}\n-new tweet (not retweeted)= {}", alreadyExistingRetweetByText.getText(), fullTweetProcessed); // TODO: temporarily warn - should get to debug
+            logger.debug("Tweet with retweet mention already exists:\n-original tweet= {}\n-new tweet (not retweeted)= {}", alreadyExistingRetweetByText.getText(), fullTweetProcessed);
             return false;
         }
 

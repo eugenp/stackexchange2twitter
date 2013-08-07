@@ -135,7 +135,7 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario16_thenRejected() {
-        assertTrue(TwitterUtil.isTweetBanned("Photo: #Akka is on strike! Stores closed pic.twitter.com/16iZBYKZBF #AngerStrike #StopPrawerPlan #\u0628\u0631\u0627\u0641\u0631_\u0644\u0646_\u064A\u0645\u0631"));
+        assertTrue(TwitterUtil.isTweetBanned("I have a big problem -need some help!"));
     }
 
     // reject by regex
