@@ -130,9 +130,10 @@ public class TweetMetaLocalService {
         if (!retweetsPointingToTheSameUrl.isEmpty()) {
             if (retweetsPointingToTheSameUrl.size() > 1) {
                 // if this happens, then I will add more logging around this area
-                logger.error("Temporary 1 - yes, more than one retweet found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, retweetsPointingToTheSameUrl);
+                logger.error("Temporary 1 - yes, more than ONE retweet found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, retweetsPointingToTheSameUrl);
                 if (retweetsPointingToTheSameUrl.size() > 2) {
                     // mistake - to many results - probably an truncated link like `http://t.co` resulting in a lot of results
+                    logger.error("Temporary 2 - more than TWO retweets found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, retweetsPointingToTheSameUrl);
                     return Lists.newArrayList();
                 }
             }
@@ -154,7 +155,7 @@ public class TweetMetaLocalService {
             if (!partialMatches.isEmpty()) {
                 if (partialMatches.size() > 1) {
                     // if this happens, then I will add more logging around this area
-                    logger.error("Temporary 1 - yes, more than one retweet found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, partialMatches);
+                    logger.error("Temporary 3 - yes, more than ONE retweet found locally: \n-- this tweet = {}\n-- found locally: {}", fullTextWithUrlAfterProcessing, partialMatches);
                 }
                 return partialMatches;
             }

@@ -219,7 +219,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return tryTweetOnePrepare(potentialTweet, hashtag, twitterAccount);
         } catch (final RuntimeException runEx) {
             // this is new - the point it to recover, log and keep analyzing
-            logger.error("Unexpected exception trying to tweet on twitterAccount= {}, tweetText= {}", twitterAccount, potentialTweet);
+            logger.error("Unexpected exception trying to tweet on twitterAccount= " + twitterAccount + ", tweetText= " + potentialTweet.getText(), runEx);
             return false;
         }
     }

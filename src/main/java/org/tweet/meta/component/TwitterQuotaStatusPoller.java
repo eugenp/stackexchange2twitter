@@ -36,16 +36,14 @@ public class TwitterQuotaStatusPoller {
 
     @Scheduled(cron = "0 0 */1 * * *")
     public void checkTwitterApiQuotaOnAllAccounts() throws JsonProcessingException, InterruptedException {
-        logger.info("Starting to check status of Twitter API Quotas for 3 random accounts");
+        logger.info("Starting to check status of Twitter API Quotas for 2 random accounts");
 
         final TwitterAccountEnum account1 = GenericUtil.pickOneGeneric(TwitterAccountEnum.values());
         final TwitterAccountEnum account2 = GenericUtil.pickOneGeneric(TwitterAccountEnum.values());
-        final TwitterAccountEnum account3 = GenericUtil.pickOneGeneric(TwitterAccountEnum.values());
         checkTwitterApiQuotaOnOneAccount(account1.name());
         checkTwitterApiQuotaOnOneAccount(account2.name());
-        checkTwitterApiQuotaOnOneAccount(account3.name());
 
-        logger.info("Finished checking status of Twitter API Quotas for the 3 random accounts");
+        logger.info("Finished checking status of Twitter API Quotas for the 2 random accounts");
     }
 
     // util
