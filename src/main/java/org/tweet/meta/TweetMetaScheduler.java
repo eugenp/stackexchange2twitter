@@ -97,8 +97,8 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.MysqlDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfLinux.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestXML.name());
+        // disabled for now - no results // service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
 
         logger.info("Finished retweet schedule - 3");
     }

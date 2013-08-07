@@ -54,7 +54,7 @@ public enum TwitterAccountEnum {// @formatter:off
     ObjectiveCDaily(true), 
     
     PythonDaily(true), 
-    ParsingDaily(true), 
+    ParsingDaily(false), // the hashtag (parsing) doesn't return any results
     
     RESTDaily(false), // 
     RegexDaily(true), 
