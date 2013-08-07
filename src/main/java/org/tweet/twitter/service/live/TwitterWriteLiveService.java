@@ -60,7 +60,7 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
     }
 
     @Override
-    public boolean tweet(final String twitterAccount, final String textToTweet, final Tweet originalTweet) {
+    public boolean tweet(final String twitterAccount, final String textToTweet, final Tweet originalTweetForLogging) {
         final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
 
         try {
@@ -68,12 +68,12 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
             return true;
         } catch (final OperationNotPermittedException notPermittedEx) {
             // TODO: will be warn, for now, to see how often it happens and why, is error
-            final String tweetUrl = "https://twitter.com/" + originalTweet.getFromUser() + "/status/" + originalTweet.getId();
+            final String tweetUrl = "https://twitter.com/" + originalTweetForLogging.getFromUser() + "/status/" + originalTweetForLogging.getId();
             logger.error("Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + textToTweet + "\nfrom original: " + tweetUrl, notPermittedEx);
             // possible cause: over 140 chars
             // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
-            final String tweetUrl = "https://twitter.com/" + originalTweet.getFromUser() + "/status/" + originalTweet.getId();
+            final String tweetUrl = "https://twitter.com/" + originalTweetForLogging.getFromUser() + "/status/" + originalTweetForLogging.getId();
             logger.error("Generic Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + textToTweet + "\nfrom original: " + tweetUrl, ex);
         }
 
