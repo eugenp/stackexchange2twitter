@@ -15,6 +15,7 @@ import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterInteraction;
+import org.tweet.twitter.util.TwitterInteractionWithValue;
 
 import com.google.api.client.util.Preconditions;
 
@@ -122,7 +123,7 @@ public class InteractionLiveService {
         logger.info("\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage,
                 userSnapshot.getRetweetsOfSelfMentionsPercentage(), mentionsOutsideOfRetweetsPercentage);
 
-        return decideBestInteractionWithUser(userSnapshot);
+        return decideBestInteractionWithUser(userSnapshot).getTwitterInteraction();
     }
 
     /**
@@ -166,17 +167,17 @@ public class InteractionLiveService {
         return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage);
     }
 
-    final TwitterInteraction decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
+    final TwitterInteractionWithValue decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
         // userSnapshot.getGoodRetweetPercentage(); - it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
         // userSnapshot.getMentionsOutsideOfRetweetsPercentage(); - the account (somehow) finds content and mentions it - good, but no help
         // userSnapshot.getRetweetsOfLargeAccountsPercentage(); - this also doesn't decide anything about how to best interact with the account
         final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
         if (retweetsOfSelfMentionsPercentage > 5) {
             // the account likes to retweet tweets that mention it
-            return TwitterInteraction.Mention;
+            return new TwitterInteractionWithValue(TwitterInteraction.Mention, 1);
         }
 
-        return TwitterInteraction.Retweet;
+        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, 1);
     }
 
     //
