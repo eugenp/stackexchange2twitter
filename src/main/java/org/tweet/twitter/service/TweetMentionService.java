@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
 
+import com.google.api.client.util.Preconditions;
+
 /**
  * - local
  */
@@ -74,7 +76,14 @@ public class TweetMentionService {
     // construct mention
 
     public final String addMention(final String authorUserToMention, final String textWithoutMentionOfAuthor) {
-        return textWithoutMentionOfAuthor;
+        Preconditions.checkNotNull(authorUserToMention);
+        Preconditions.checkNotNull(textWithoutMentionOfAuthor);
+        final String withMention = textWithoutMentionOfAuthor + " - via @" + authorUserToMention;
+        if (withMention.length() > 141) {
+            return textWithoutMentionOfAuthor;
+        }
+
+        return withMention;
     }
 
     // util

@@ -1,5 +1,8 @@
 package org.tweet.twitter.service;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +24,13 @@ public class TweetMentionServiceIntegrationTest {
     @Test
     public final void whenContextIsInitialized_thenNoExceptions() {
         //
+    }
+
+    @Test
+    public final void whenAddingMentionToTweet_thenCorrect() {
+        final String expected = "some text here in the tweet - via @user1";
+        final String actual = instance.addMention("user1", "some text here in the tweet");
+        assertThat(expected, equalTo(actual));
     }
 
 }
