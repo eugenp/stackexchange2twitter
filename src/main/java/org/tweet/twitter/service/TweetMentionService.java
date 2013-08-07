@@ -74,8 +74,7 @@ public class TweetMentionService {
     // construct mention
 
     public final String addMention(final String authorUserToMention, final String textWithoutMentionOfAuthor) {
-
-        return null;
+        return textWithoutMentionOfAuthor;
     }
 
     // util
