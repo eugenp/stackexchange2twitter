@@ -21,4 +21,11 @@ public final class TwitterInteractionWithValue {
         return twitterInteraction;
     }
 
+    @Override
+    public final String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("TwitterInteractionWithValue [val=").append(val).append(", twitterInteraction=").append(twitterInteraction).append("]");
+        return builder.toString();
+    }
+
 }

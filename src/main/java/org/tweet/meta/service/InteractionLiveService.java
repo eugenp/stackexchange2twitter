@@ -45,11 +45,13 @@ public class InteractionLiveService {
     // - with tweet
 
     public TwitterInteractionWithValue decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
-        final boolean containsValuableMentions = containsValuableMentionsLive(tweet.getText());
+        final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentions(tweet.getText());
+        final boolean containsValuableMentions = containsValuableMentionsLive(valueOfMentions);
         if (containsValuableMentions) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.error("(temp-error)More value in tweeting as is - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl);
-            return new TwitterInteractionWithValue(TwitterInteraction.Mention, 0);
+            final TwitterInteractionWithValue totalValueOfMentions = valueOfMentions(valueOfMentions);
+            return totalValueOfMentions;
             // doesn't matter if it's popular or not - mention
         }
 
@@ -62,8 +64,7 @@ public class InteractionLiveService {
         return new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0);
     }
 
-    public final boolean containsValuableMentionsLive(final String text) {
-        final List<TwitterInteractionWithValue> analyzeValueOfMentions = analyzeValueOfMentions(text);
+    private final boolean containsValuableMentionsLive(final List<TwitterInteractionWithValue> analyzeValueOfMentions) {
         for (final TwitterInteractionWithValue valueOfMention : analyzeValueOfMentions) {
             if (valueOfMention.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
                 return true;
@@ -73,7 +74,7 @@ public class InteractionLiveService {
         return false;
     }
 
-    public final List<TwitterInteractionWithValue> analyzeValueOfMentions(final String text) {
+    private final List<TwitterInteractionWithValue> analyzeValueOfMentions(final String text) {
         final List<TwitterInteractionWithValue> mentionsAnalyzed = Lists.newArrayList();
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
@@ -82,6 +83,17 @@ public class InteractionLiveService {
         }
 
         return mentionsAnalyzed;
+    }
+
+    private final TwitterInteractionWithValue valueOfMentions(final List<TwitterInteractionWithValue> valueOfMentions) {
+        int score = 0;
+        for (final TwitterInteractionWithValue twitterInteractionWithValue : valueOfMentions) {
+            if (twitterInteractionWithValue.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
+                // only mentions matter - retweets do have score, but this is calculating the value, IF the tweet is mentioned, so retweet doesn't come into this
+                score += twitterInteractionWithValue.getVal();
+            }
+        }
+        return new TwitterInteractionWithValue(TwitterInteraction.Mention, score);
     }
 
     // - with author
