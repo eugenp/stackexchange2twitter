@@ -42,8 +42,8 @@ public class InteractionLiveService {
 
     // - with tweet
 
-    public TwitterInteraction decideBestInteractionWithTweetNotAuthor(final Tweet tweet) {
-        final boolean containsValuableMentions = containsValuableMentions(tweet.getText());
+    public TwitterInteraction decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
+        final boolean containsValuableMentions = containsValuableMentionsLive(tweet.getText());
         if (containsValuableMentions) {
             // doesn't matter if it's popular or not - mention
             return TwitterInteraction.Mention;
@@ -58,7 +58,7 @@ public class InteractionLiveService {
         return TwitterInteraction.Retweet;
     }
 
-    public final boolean containsValuableMentions(final String text) {
+    public final boolean containsValuableMentionsLive(final String text) {
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
             if (decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterInteraction.Mention)) {

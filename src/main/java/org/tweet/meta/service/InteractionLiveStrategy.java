@@ -30,7 +30,7 @@ public final class InteractionLiveStrategy {
 
     public final TwitterInteraction decideBestInteraction(final Tweet tweet) {
         final TwitterInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
-        final TwitterInteraction bestInteractionWithTweet = userInteractionLiveService.decideBestInteractionWithTweetNotAuthor(tweet);
+        final TwitterInteraction bestInteractionWithTweet = userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(tweet);
         final String text = TweetUtil.getText(tweet);
 
         switch (bestInteractionWithAuthor) {
@@ -61,39 +61,22 @@ public final class InteractionLiveStrategy {
     }
 
     public final boolean shouldRetweetOld(final Tweet tweet) {
-        if (userInteractionLiveService.isTweetToPopular(tweet)) {
-            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", TweetUtil.getText(tweet), tweet.getRetweetCount(), tweetUrl);
-            return false;
-        }
+        final TwitterInteraction bestInteraction = decideBestInteraction(tweet);
 
-        final TwitterInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
-        switch (bestInteractionWithAuthor) {
+        switch (bestInteraction) {
         case None:
-            // either the tweet has no mention - in which case - OK
-            // or the tweet has valuable mentions - in which case - still OK (since it will get tweeted as it is)
-            final String text = TweetUtil.getText(tweet);
-            logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, tweet.getFromUser());
+
             return false;
         case Mention:
-            // final String newTextWithMention = tweetMentionService.addMention(tweet.getFromUser(), tweet.getText());
-            // if the tweet has no mention itself - OK - TODO: add mention and tweet
-            // if the tweet does have valuable mentions - we need to see which is more valuable - adding a mention and tweeting, or tweeting as is
-            return true;
+
+            return false;
         case Retweet:
-            // TODO: is there any way to extract the mentions from the tweet entity?
-            if (userInteractionLiveService.containsValuableMentions(tweet.getText())) {
-                return false; // do not retweet - just tweet
-            }
-            // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
+
             return true;
+
         default:
             throw new IllegalStateException();
         }
-
-        // TODO: OK, so the author may be worth interacting with - but if it contains mentions, then it may also be worth simply tweeting:
-        // https://twitter.com/jameschesters/status/50510953187516416
-        // https://twitter.com/LispDaily/status/364476542711504896
     }
 
     // util

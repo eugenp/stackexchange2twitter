@@ -95,6 +95,11 @@ public final class UserInteractionServiceLiveTest {
         assertTrue(userInteractionService.isUserWorthInteractingWith("skillsmatter"));
     }
 
+    @Test
+    public final void whenTestingIfUser5ShouldBeInteractedWith_thenYes() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("jameschesters"));
+    }
+
     //
 
 }
