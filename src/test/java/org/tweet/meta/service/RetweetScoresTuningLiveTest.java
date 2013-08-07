@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.classification.spring.ClassificationConfig;
 import org.common.service.live.LinkLiveService;
-import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;

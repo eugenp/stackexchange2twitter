@@ -3,8 +3,8 @@ package org.tweet.meta.component;
 import java.io.IOException;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.common.spring.CommonServiceConfig;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -3,12 +3,12 @@ package org.tweet.spring;
 import static org.junit.Assert.assertNotNull;
 import static org.tweet.spring.util.SpringProfileUtil.DEPLOYED;
 import static org.tweet.spring.util.SpringProfileUtil.LIVE;
-import static org.tweet.spring.util.SpringProfileUtil.WRITE_PRODUCTION;
 import static org.tweet.spring.util.SpringProfileUtil.WRITE;
+import static org.tweet.spring.util.SpringProfileUtil.WRITE_PRODUCTION;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.spring.CommonServiceConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
+import org.common.spring.CommonServiceConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;

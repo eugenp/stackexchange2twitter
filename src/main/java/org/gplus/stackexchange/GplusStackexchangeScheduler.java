@@ -1,6 +1,5 @@
 package org.gplus.stackexchange;
 
-
 // @Service
 // @Profile(SpringProfileUtil.WRITE_PRODUCTION)
 //public class GplusStackexchangeScheduler {
