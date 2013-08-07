@@ -61,9 +61,16 @@ public final class UserInteractionServiceLiveTest {
         assertFalse(userInteractionService.isUserWorthInteractingWith("Moz"));
     }
 
+    // barely
+
     @Test
-    public final void whenTestingIfUser3ShouldBeInteractedWith_thenNo() {
-        assertFalse(userInteractionService.isUserWorthInteractingWith("gopivotal"));
+    public final void whenTestingIfUser1ShouldBeInteractedWith_thenYesButBarely() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("mitsuhiko"));
+    }
+
+    @Test
+    public final void whenTestingIfUser2ShouldBeInteractedWith_thenYesButBarely() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("gopivotal"));
     }
 
     // yes

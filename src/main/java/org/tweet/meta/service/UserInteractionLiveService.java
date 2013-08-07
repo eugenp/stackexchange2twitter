@@ -73,9 +73,9 @@ public class UserInteractionLiveService {
             return TwitterAccountInteraction.None;
         }
 
-        final int mentionsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage();
-        if (goodRetweetsPercentage + mentionsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
-            logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandle, (goodRetweetsPercentage + mentionsPercentage));
+        final int mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage();
+        if (goodRetweetsPercentage + mentionsOutsideOfRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
+            logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandle, (goodRetweetsPercentage + mentionsOutsideOfRetweetsPercentage));
             return TwitterAccountInteraction.None;
         }
 
@@ -86,7 +86,7 @@ public class UserInteractionLiveService {
         }
 
         logger.info("\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage,
-                userSnapshot.getRetweetsOfSelfMentionsPercentage(), mentionsPercentage);
+                userSnapshot.getRetweetsOfSelfMentionsPercentage(), mentionsOutsideOfRetweetsPercentage);
 
         return decideBestInteractionWithUser(userSnapshot);
     }
