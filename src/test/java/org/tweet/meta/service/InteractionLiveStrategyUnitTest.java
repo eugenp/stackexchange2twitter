@@ -18,7 +18,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
-import org.tweet.twitter.util.TwitterAccountInteraction;
+import org.tweet.twitter.util.TwitterInteraction;
 
 public final class InteractionLiveStrategyUnitTest {
 
@@ -31,7 +31,7 @@ public final class InteractionLiveStrategyUnitTest {
         this.instance = new InteractionLiveStrategy();
         this.instance.logger = mock(Logger.class);
         this.instance.userInteractionLiveService = mock(UserInteractionLiveService.class);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterAccountInteraction.None);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
 
         this.instance.twitterInteraction = mock(TwitterInteractionValuesRetriever.class);
         when(this.instance.twitterInteraction.getMinFolowersOfValuableUser()).thenReturn(300);
@@ -60,29 +60,29 @@ public final class InteractionLiveStrategyUnitTest {
 
     @Test
     public final void givenTweetHasToManyRetweetsAndHasNoMentionValue_whenDeterminingBestInteraction_thenNone() {
-        final TwitterAccountInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
-        assertThat(bestInteraction, equalTo(TwitterAccountInteraction.None));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void givenTweetHasToManyRetweetsAndHasMentionValue_whenDeterminingBestInteraction_thenMention() {
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterAccountInteraction.Mention);
-        final TwitterAccountInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
-        assertThat(bestInteraction, equalTo(TwitterAccountInteraction.Mention));
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Mention);
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
     }
 
     @Test
     public final void givenAuthorHasValueAndTweetHasToManyRetweets_whenDeterminingBestInteraction_thenNone() {
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterAccountInteraction.Retweet);
-        final TwitterAccountInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
-        assertThat(bestInteraction, equalTo(TwitterAccountInteraction.None));
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Retweet);
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void givenAuthorHasValue_whenDeterminingBestInteraction_thenRetweet() {
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterAccountInteraction.Retweet);
-        final TwitterAccountInteraction bestInteraction = instance.decideBestInteraction(createTweet(5));
-        assertThat(bestInteraction, equalTo(TwitterAccountInteraction.Retweet));
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Retweet);
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(5));
+        assertThat(bestInteraction, equalTo(TwitterInteraction.Retweet));
     }
 
     private final Tweet createTweet(final int retweetCount) {

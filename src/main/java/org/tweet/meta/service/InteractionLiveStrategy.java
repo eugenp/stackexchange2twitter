@@ -12,7 +12,7 @@ import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TweetUtil;
-import org.tweet.twitter.util.TwitterAccountInteraction;
+import org.tweet.twitter.util.TwitterInteraction;
 
 @Component
 @Profile(SpringProfileUtil.LIVE)
@@ -34,16 +34,16 @@ public final class InteractionLiveStrategy {
 
     // API
 
-    public final TwitterAccountInteraction decideBestInteraction(final Tweet tweet) {
-        final TwitterAccountInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
+    public final TwitterInteraction decideBestInteraction(final Tweet tweet) {
+        final TwitterInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
 
         if (isTweetToPopular(tweet)) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", TweetUtil.getText(tweet), tweet.getRetweetCount(), tweetUrl);
-            if (bestInteractionWithAuthor.equals(TwitterAccountInteraction.Mention)) {
-                return TwitterAccountInteraction.Mention;
+            if (bestInteractionWithAuthor.equals(TwitterInteraction.Mention)) {
+                return TwitterInteraction.Mention;
             }
-            return TwitterAccountInteraction.None;
+            return TwitterInteraction.None;
         }
 
         return bestInteractionWithAuthor;
@@ -56,7 +56,7 @@ public final class InteractionLiveStrategy {
             return false;
         }
 
-        final TwitterAccountInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
+        final TwitterInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
         switch (bestInteractionWithAuthor) {
         case None:
             // either the tweet has no mention - in which case - OK
@@ -88,7 +88,7 @@ public final class InteractionLiveStrategy {
     private final boolean containsValuableMentions(final String text) {
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
-            if (userInteractionLiveService.decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterAccountInteraction.Mention)) {
+            if (userInteractionLiveService.decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterInteraction.Mention)) {
                 logger.error("(temp-error)More value in tweeting as is - the tweet has valuable mentions: {}", text);
                 return true;
             }

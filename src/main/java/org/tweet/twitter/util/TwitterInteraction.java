@@ -1,6 +1,6 @@
 package org.tweet.twitter.util;
 
-public enum TwitterAccountInteraction {
+public enum TwitterInteraction {
 
     /**
      * No value in interacting with the user
