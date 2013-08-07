@@ -8,6 +8,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.stackexchange.component.StackExchangePageStrategyUnitTest;
 import org.tweet.meta.service.InteractionLiveStrategyUnitTest;
+import org.tweet.meta.service.InteractionServiceUnitTest;
 import org.tweet.twitter.service.TweetMentionServiceUnitTest;
 import org.tweet.twitter.service.TweetServiceUnitTest;
 import org.tweet.twitter.util.HashtagUnitTest;
@@ -15,6 +16,7 @@ import org.tweet.twitter.util.TwitterUtilUnitTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({//@formatter:off
+    
     // common
     TextUtilsUnitTest.class, 
     LinkUtilUnitTest.class,
@@ -33,6 +35,7 @@ import org.tweet.twitter.util.TwitterUtilUnitTest;
     
     // meta
     InteractionLiveStrategyUnitTest.class,
+    InteractionServiceUnitTest.class
     
 }) //@formatter:off
 public final class UnitTestSuite {

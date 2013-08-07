@@ -28,4 +28,11 @@ public final class InteractionServiceUnitTest {
         assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
     }
 
+    @Test
+    public final void givenUserHasLowSelfMentionRetweetRate_whenDecidingInteractionWithUser_thenNoExceptions() {
+        final int selfRetweetPercentage = 1;
+        final TwitterInteraction bestInteractionWithUser = instance.decideBestInteractionWithUser(new TwitterUserSnapshot(10, 30, selfRetweetPercentage, 20));
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
+    }
+
 }
