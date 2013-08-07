@@ -1,14 +1,11 @@
 package org.tweet.meta.service;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Component;
-import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TweetUtil;
@@ -23,9 +20,6 @@ public final class InteractionLiveStrategy {
     UserInteractionLiveService userInteractionLiveService;
 
     @Autowired
-    TwitterInteractionValuesRetriever twitterInteraction;
-
-    @Autowired
     TweetMentionService tweetMentionService;
 
     public InteractionLiveStrategy() {
@@ -36,21 +30,38 @@ public final class InteractionLiveStrategy {
 
     public final TwitterInteraction decideBestInteraction(final Tweet tweet) {
         final TwitterInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
+        final TwitterInteraction bestInteractionWithTweet = userInteractionLiveService.decideBestInteractionWithTweetNotAuthor(tweet);
+        final String text = TweetUtil.getText(tweet);
 
-        if (isTweetToPopular(tweet)) {
-            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", TweetUtil.getText(tweet), tweet.getRetweetCount(), tweetUrl);
-            if (bestInteractionWithAuthor.equals(TwitterInteraction.Mention)) {
-                return TwitterInteraction.Mention;
-            }
+        switch (bestInteractionWithAuthor) {
+        case None:
+            // there is no value in an interaction with the AUTHOR - if the TWEET itself has mention value - the tweet as is; if not, still tweet as is
+            logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, tweet.getFromUser());
             return TwitterInteraction.None;
-        }
+        case Mention:
+            // we should mention the AUTHOR; if the TWEET itself has mention value as well - see which is more valuable; if not, mention
+            if (bestInteractionWithTweet.equals(TwitterInteraction.Mention)) {
+                // TODO: determine which is more valuable - mentioning the author or tweeting the tweet with the mentions it has
+            }
 
-        return bestInteractionWithAuthor;
+            logger.info("Should add a mention of the original author= {} and tweet the new tweet= {} user= {}", tweet.getFromUser(), text);
+            return TwitterInteraction.Mention;
+        case Retweet:
+            // we should retweet the AUTHOR; however, if the TWEET itself has mention value, that is more important => tweet as is (with mentions); if not, retweet it
+            if (bestInteractionWithTweet.equals(TwitterInteraction.Mention)) {
+                return TwitterInteraction.None;
+            }
+
+            return TwitterInteraction.Retweet;
+            // TODO: is there any way to extract the mentions from the tweet entity?
+            // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
+        default:
+            throw new IllegalStateException();
+        }
     }
 
     public final boolean shouldRetweetOld(final Tweet tweet) {
-        if (isTweetToPopular(tweet)) {
+        if (userInteractionLiveService.isTweetToPopular(tweet)) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", TweetUtil.getText(tweet), tweet.getRetweetCount(), tweetUrl);
             return false;
@@ -71,7 +82,7 @@ public final class InteractionLiveStrategy {
             return true;
         case Retweet:
             // TODO: is there any way to extract the mentions from the tweet entity?
-            if (containsValuableMentions(tweet.getText())) {
+            if (userInteractionLiveService.containsValuableMentions(tweet.getText())) {
                 return false; // do not retweet - just tweet
             }
             // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
@@ -85,27 +96,6 @@ public final class InteractionLiveStrategy {
         // https://twitter.com/LispDaily/status/364476542711504896
     }
 
-    private final boolean containsValuableMentions(final String text) {
-        final List<String> mentions = tweetMentionService.extractMentions(text);
-        for (final String mentionedUser : mentions) {
-            if (userInteractionLiveService.decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterInteraction.Mention)) {
-                logger.error("(temp-error)More value in tweeting as is - the tweet has valuable mentions: {}", text);
-                return true;
-            }
-        }
-
-        // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
-        return false;
-    }
-
     // util
-
-    /**
-     * - local
-     */
-    private final boolean isTweetToPopular(final Tweet tweet) {
-        final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < twitterInteraction.getMaxRetweetsForTweet();
-        return !hasLessRtsThanTheTooPopularThreshold;
-    }
 
 }

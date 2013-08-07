@@ -23,22 +23,55 @@ public class UserInteractionLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TwitterReadLiveService twitterLiveService;
+    TwitterReadLiveService twitterLiveService;
 
     @Autowired
-    private TweetService tweetService;
+    TweetService tweetService;
 
     @Autowired
-    private TweetMentionService tweetMentionService;
+    TweetMentionService tweetMentionService;
 
     @Autowired
-    private TwitterInteractionValuesRetriever twitterInteractionValuesRetriever;
+    TwitterInteractionValuesRetriever twitterInteractionValuesRetriever;
 
     public UserInteractionLiveService() {
         super();
     }
 
     // API
+
+    // - with tweet
+
+    public TwitterInteraction decideBestInteractionWithTweetNotAuthor(final Tweet tweet) {
+        final boolean containsValuableMentions = containsValuableMentions(tweet.getText());
+        if (containsValuableMentions) {
+            // doesn't matter if it's popular or not - mention
+            return TwitterInteraction.Mention;
+        }
+
+        if (isTweetToPopular(tweet)) {
+            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
+            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", TweetUtil.getText(tweet), tweet.getRetweetCount(), tweetUrl);
+            return TwitterInteraction.None;
+        }
+
+        return TwitterInteraction.Retweet;
+    }
+
+    public final boolean containsValuableMentions(final String text) {
+        final List<String> mentions = tweetMentionService.extractMentions(text);
+        for (final String mentionedUser : mentions) {
+            if (decideBestInteractionWithAuthorLive(mentionedUser).equals(TwitterInteraction.Mention)) {
+                logger.error("(temp-error)More value in tweeting as is - the tweet has valuable mentions: {}", text);
+                return true;
+            }
+        }
+
+        // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
+        return false;
+    }
+
+    // - with author
 
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
@@ -265,5 +298,14 @@ public class UserInteractionLiveService {
         }
         return count;
     }
+
+    /**
+     * - local
+     */
+    public boolean isTweetToPopular(final Tweet tweet) {
+        final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < twitterInteractionValuesRetriever.getMaxRetweetsForTweet();
+        return !hasLessRtsThanTheTooPopularThreshold;
+    }
+    // TODO: make private back soon
 
 }
