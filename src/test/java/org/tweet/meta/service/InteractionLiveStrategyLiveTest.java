@@ -37,7 +37,7 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
     TwitterMetaConfig.class 
 }) // @formatter:on
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public final class RetweetLiveStrategyLiveTest {
+public final class InteractionLiveStrategyLiveTest {
 
     @Autowired
     private InteractionLiveStrategy retweetLiveStrategy;
@@ -57,19 +57,19 @@ public final class RetweetLiveStrategyLiveTest {
     @Test
     public final void whenCheckingIfShouldRetweetTweet1_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(50510953187516416l);
-        assertFalse(retweetLiveStrategy.shouldRetweet(tweet));
+        assertFalse(retweetLiveStrategy.shouldRetweetOld(tweet));
     }
 
     @Test
     public final void whenCheckingIfShouldRetweetTweet2_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(362887164880629762l);
-        assertFalse(retweetLiveStrategy.shouldRetweet(tweet));
+        assertFalse(retweetLiveStrategy.shouldRetweetOld(tweet));
     }
 
     @Test
     public final void whenCheckingIfShouldRetweetTweet3_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(364420762922668032l);
-        assertFalse(retweetLiveStrategy.shouldRetweet(tweet));
+        assertFalse(retweetLiveStrategy.shouldRetweetOld(tweet));
     }
 
 }

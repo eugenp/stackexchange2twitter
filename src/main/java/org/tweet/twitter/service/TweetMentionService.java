@@ -71,6 +71,13 @@ public class TweetMentionService {
         return result;
     }
 
+    // construct mention
+
+    public final String addMention(final String authorUserToMention, final String textWithoutMentionOfAuthor) {
+
+        return null;
+    }
+
     // util
 
 }

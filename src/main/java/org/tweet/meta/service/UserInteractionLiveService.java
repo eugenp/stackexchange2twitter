@@ -53,7 +53,7 @@ public class UserInteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public final TwitterAccountInteraction decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle) {
+    public TwitterAccountInteraction decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle) {
         if (!isWorthInteractingWithBasedOnLanguage(user)) {
             return TwitterAccountInteraction.None;
         }

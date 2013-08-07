@@ -296,7 +296,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         if (tweetMentionService.isRetweetMention(fullTweetProcessed)) {
             success = dealWithRtMention(twitterAccount, potentialTweet, fullTweetProcessed);
         } else {
-            if (interactionStrategy.shouldRetweet(potentialTweet)) {
+            if (interactionStrategy.shouldRetweetOld(potentialTweet)) {
                 success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
             } else {
                 success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
