@@ -165,7 +165,7 @@ public class InteractionLiveService {
 
     // util
 
-    private final TwitterInteraction decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
+    final TwitterInteraction decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
         // userSnapshot.getGoodRetweetPercentage(); - it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
         // userSnapshot.getMentionsOutsideOfRetweetsPercentage(); - the account (somehow) finds content and mentions it - good, but no help
         // userSnapshot.getRetweetsOfLargeAccountsPercentage(); - this also doesn't decide anything about how to best interact with the account

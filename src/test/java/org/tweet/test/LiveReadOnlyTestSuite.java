@@ -10,7 +10,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.rss.service.RssServiceReadOnlyLiveTest;
 import org.stackexchange.TwitterReadLiveServiceReadOnlyLiveTest;
-import org.tweet.meta.service.UserInteractionServiceLiveTest;
+import org.tweet.meta.service.InteractionServiceLiveTest;
 import org.tweet.twitter.service.TweetServiceReadOnlyLiveTest;
 import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
 
@@ -26,7 +26,7 @@ import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
     TweetServiceReadOnlyLiveTest.class,
     
     // twitter meta
-    UserInteractionServiceLiveTest.class,
+    InteractionServiceLiveTest.class,
     
     // gplus
     GplusExtractorServiceLiveTest.class, 

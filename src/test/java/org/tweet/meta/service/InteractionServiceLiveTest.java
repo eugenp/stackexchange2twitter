@@ -36,7 +36,7 @@ import org.tweet.spring.util.SpringProfileUtil;
     TwitterMetaConfig.class 
 }) // @formatter:on
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public final class UserInteractionServiceLiveTest {
+public final class InteractionServiceLiveTest {
 
     @Autowired
     private InteractionLiveService userInteractionService;
@@ -99,7 +99,5 @@ public final class UserInteractionServiceLiveTest {
     public final void whenTestingIfUser5ShouldBeInteractedWith_thenYes() {
         assertTrue(userInteractionService.isUserWorthInteractingWith("jameschesters"));
     }
-
-    //
 
 }
