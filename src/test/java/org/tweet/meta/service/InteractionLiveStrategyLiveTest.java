@@ -1,7 +1,8 @@
 package org.tweet.meta.service;
 
-import static org.junit.Assert.assertFalse;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
@@ -20,6 +21,7 @@ import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
+import org.tweet.twitter.util.TwitterInteraction;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off
@@ -57,19 +59,22 @@ public final class InteractionLiveStrategyLiveTest {
     @Test
     public final void whenCheckingIfShouldRetweetTweet1_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(50510953187516416l);
-        assertFalse(retweetLiveStrategy.shouldRetweetOld(tweet));
+        final TwitterInteraction bestInteraction = retweetLiveStrategy.decideBestInteraction(tweet);
+        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenCheckingIfShouldRetweetTweet2_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(362887164880629762l);
-        assertFalse(retweetLiveStrategy.shouldRetweetOld(tweet));
+        final TwitterInteraction bestInteraction = retweetLiveStrategy.decideBestInteraction(tweet);
+        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenCheckingIfShouldRetweetTweet3_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(364420762922668032l);
-        assertFalse(retweetLiveStrategy.shouldRetweetOld(tweet));
+        final TwitterInteraction bestInteraction = retweetLiveStrategy.decideBestInteraction(tweet);
+        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
 }

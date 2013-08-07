@@ -1,6 +1,5 @@
 package org.tweet.meta.service;
 
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -9,14 +8,12 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.tweet.test.TweetFixture;
 import org.tweet.twitter.util.TwitterInteraction;
 
 public final class InteractionLiveStrategyUnitTest {
@@ -38,13 +35,13 @@ public final class InteractionLiveStrategyUnitTest {
 
     @Test
     public final void whenCheckingIfTweetIsToBeRetweeted_thenNoExceptions() {
-        final Tweet tweet = createTweet(10);
+        final Tweet tweet = TweetFixture.createTweet(10);
         instance.shouldRetweetOld(tweet);
     }
 
     @Test
     public final void givenTweetWith100Rts_whenCheckingIfItShouldBeRetweeted_thenNo() {
-        final Tweet tweet = createTweet(100);
+        final Tweet tweet = TweetFixture.createTweet(100);
         assertFalse(instance.shouldRetweetOld(tweet));
     }
 
@@ -57,7 +54,7 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Mention);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
@@ -66,7 +63,7 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Mention);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Mention);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention)); // or None
     }
 
@@ -75,7 +72,7 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Mention);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Retweet);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
@@ -86,7 +83,7 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.None);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
@@ -95,7 +92,7 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.None);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Mention);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
     }
 
@@ -104,7 +101,7 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.None);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Retweet);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Retweet));
     }
 
@@ -115,7 +112,7 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Retweet);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
@@ -124,7 +121,7 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Retweet);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Mention);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
     }
 
@@ -133,20 +130,8 @@ public final class InteractionLiveStrategyUnitTest {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Retweet);
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Retweet);
 
-        final TwitterInteraction bestInteraction = instance.decideBestInteraction(createTweet(20));
+        final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Retweet));
-    }
-
-    // util
-
-    private final Tweet createTweet(final int retweetCount) {
-        final Tweet tweet = new Tweet(0l, randomAlphabetic(6), new Date(), null, null, null, 0l, "en", null);
-        final TwitterProfile user = new TwitterProfile(0l, randomAlphabetic(6), randomAlphabetic(6), null, null, null, null, new Date());
-        ReflectionTestUtils.setField(user, "language", "en");
-        ReflectionTestUtils.setField(user, "screenName", randomAlphabetic(6));
-        tweet.setUser(user);
-        tweet.setRetweetCount(retweetCount);
-        return tweet;
     }
 
 }

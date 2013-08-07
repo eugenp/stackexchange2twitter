@@ -31,6 +31,7 @@ import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TweetUtil;
+import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.codahale.metrics.Counter;
@@ -296,10 +297,21 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         if (tweetMentionService.isRetweetMention(fullTweetProcessed)) {
             success = dealWithRtMention(twitterAccount, potentialTweet, fullTweetProcessed);
         } else {
-            if (interactionStrategy.shouldRetweetOld(potentialTweet)) {
-                success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
-            } else {
+            final TwitterInteraction bestInteraction = interactionStrategy.decideBestInteraction(potentialTweet);
+            switch (bestInteraction) {
+            case None:
                 success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
+                break;
+            case Mention:
+                // TODO: add mention
+                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
+                break;
+            case Retweet:
+                success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
+                break;
+            default:
+                logger.error("Invalid State");
+                break;
             }
         }
 

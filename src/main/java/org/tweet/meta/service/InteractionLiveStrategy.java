@@ -60,7 +60,7 @@ public final class InteractionLiveStrategy {
         }
     }
 
-    public final boolean shouldRetweetOld(final Tweet tweet) {
+    final boolean shouldRetweetOld(final Tweet tweet) {
         final TwitterInteraction bestInteraction = decideBestInteraction(tweet);
 
         switch (bestInteraction) {
