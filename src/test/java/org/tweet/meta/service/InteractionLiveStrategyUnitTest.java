@@ -29,7 +29,7 @@ public final class InteractionLiveStrategyUnitTest {
     public final void before() {
         this.instance = new InteractionLiveStrategy();
         this.instance.logger = mock(Logger.class);
-        final UserInteractionLiveService userInteractionLiveServiceMock = mock(UserInteractionLiveService.class);
+        final InteractionLiveService userInteractionLiveServiceMock = mock(InteractionLiveService.class);
         this.instance.userInteractionLiveService = userInteractionLiveServiceMock;
         when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
     }

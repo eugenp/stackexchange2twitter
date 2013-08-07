@@ -19,7 +19,7 @@ import org.tweet.twitter.util.TwitterInteraction;
 import com.google.api.client.util.Preconditions;
 
 @Service
-public class UserInteractionLiveService {
+public class InteractionLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -34,7 +34,7 @@ public class UserInteractionLiveService {
     @Autowired
     TwitterInteractionValuesRetriever twitterInteractionValuesRetriever;
 
-    public UserInteractionLiveService() {
+    public InteractionLiveService() {
         super();
     }
 

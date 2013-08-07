@@ -17,7 +17,7 @@ public final class InteractionLiveStrategy {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    UserInteractionLiveService userInteractionLiveService;
+    InteractionLiveService userInteractionLiveService;
 
     @Autowired
     TweetMentionService tweetMentionService;

@@ -39,7 +39,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 public final class UserInteractionServiceLiveTest {
 
     @Autowired
-    private UserInteractionLiveService userInteractionService;
+    private InteractionLiveService userInteractionService;
 
     // tests
 
