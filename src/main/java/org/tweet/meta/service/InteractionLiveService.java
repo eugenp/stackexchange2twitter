@@ -136,6 +136,8 @@ public class InteractionLiveService {
         return true;
     }
 
+    // util
+
     /*test only*/final boolean isUserWorthInteractingWith(final String userHandle) {
         final TwitterProfile user = twitterLiveService.getProfileOfUser(userHandle);
         return isUserWorthInteractingWithLive(user, userHandle);
@@ -163,8 +165,6 @@ public class InteractionLiveService {
         return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage);
     }
 
-    // util
-
     final TwitterInteraction decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
         // userSnapshot.getGoodRetweetPercentage(); - it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
         // userSnapshot.getMentionsOutsideOfRetweetsPercentage(); - the account (somehow) finds content and mentions it - good, but no help
@@ -177,6 +177,8 @@ public class InteractionLiveService {
 
         return TwitterInteraction.Retweet;
     }
+
+    //
 
     private boolean isWorthInteractingWithBasedOnLanguage(final TwitterProfile user) {
         final String languageOfUser = user.getLanguage();
@@ -211,7 +213,7 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    final int countGoodRetweets(final List<Tweet> tweetsOfAccount) {
+    private final int countGoodRetweets(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (isTweetGoodRetweet(tweet)) {
@@ -224,7 +226,7 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    final int countRetweets(final List<Tweet> tweetsOfAccount) {
+    private final int countRetweets(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (tweet.isRetweet()) {
@@ -237,7 +239,7 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    final int countRetweetsOfLargeAccounts(final List<Tweet> tweetsOfAccount) {
+    private final int countRetweetsOfLargeAccounts(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (tweet.isRetweet()) {
@@ -252,7 +254,7 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    final int countRetweetsOfTweetsThatMentionsSelf(final List<Tweet> tweetsOfAccount, final String userHandle) {
+    private final int countRetweetsOfTweetsThatMentionsSelf(final List<Tweet> tweetsOfAccount, final String userHandle) {
         int count = 0;
         final String userHandleAsMentioned;
         if (userHandle.startsWith("@")) {
@@ -273,7 +275,7 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    boolean isTweetGoodRetweet(final Tweet tweet) {
+    private boolean isTweetGoodRetweet(final Tweet tweet) {
         if (!tweet.isRetweet()) {
             return false;
         }
@@ -288,7 +290,7 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    final int countMentionsOutsideOfRetweets(final List<Tweet> tweetsOfAccount) {
+    private final int countMentionsOutsideOfRetweets(final List<Tweet> tweetsOfAccount) {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (!tweet.isRetweet() && TweetUtil.getText(tweet).contains("@")) {
@@ -302,10 +304,9 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    public boolean isTweetToPopular(final Tweet tweet) {
+    private boolean isTweetToPopular(final Tweet tweet) {
         final boolean hasLessRtsThanTheTooPopularThreshold = tweet.getRetweetCount() < twitterInteractionValuesRetriever.getMaxRetweetsForTweet();
         return !hasLessRtsThanTheTooPopularThreshold;
     }
-    // TODO: make private back soon
 
 }

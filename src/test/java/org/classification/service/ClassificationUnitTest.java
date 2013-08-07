@@ -93,6 +93,7 @@ public class ClassificationUnitTest {
     }
 
     @Test
+    @Ignore("long running")
     public final void givenClassifierWasTrained_whenPersistedToDisk_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = trainingData();
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifierDefault(vectors);
