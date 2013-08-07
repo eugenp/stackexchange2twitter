@@ -147,7 +147,7 @@ public class InteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      */
     final TwitterUserSnapshot analyzeUserInteractionsLive(final TwitterProfile user, final String userHandle) {
-        final int pagesToAnalyze = 2;
+        final int pagesToAnalyze = twitterInteractionValuesRetriever.getPagesToAnalyze();
         final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
 
         final int goodRetweets = countGoodRetweets(tweetsOfAccount);
@@ -243,7 +243,7 @@ public class InteractionLiveService {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (tweet.isRetweet()) {
-                if (tweet.getRetweetedStatus().getUser().getFollowersCount() > 5000) {
+                if (isTweetGoodRetweet(tweet) && tweet.getRetweetedStatus().getUser().getFollowersCount() > 5000) {
                     count++;
                 }
             }

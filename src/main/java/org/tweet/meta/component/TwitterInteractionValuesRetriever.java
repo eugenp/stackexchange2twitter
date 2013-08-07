@@ -64,4 +64,12 @@ public class TwitterInteractionValuesRetriever {
         return env.getProperty("twitter.value.tweet.retweets.max", Integer.class);
     }
 
+    /**
+     * - twitter.value.pagestoanalyze <br/>
+     * - default = 2
+     */
+    public int getPagesToAnalyze() {
+        return env.getProperty("twitter.value.pagestoanalyze", Integer.class);
+    }
+
 }
