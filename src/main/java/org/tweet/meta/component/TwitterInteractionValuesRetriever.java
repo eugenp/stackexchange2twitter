@@ -66,10 +66,18 @@ public class TwitterInteractionValuesRetriever {
 
     /**
      * - twitter.value.pagestoanalyze <br/>
-     * - default = 2
+     * - default = 1
      */
     public int getPagesToAnalyze() {
         return env.getProperty("twitter.value.pagestoanalyze", Integer.class);
+    }
+
+    /**
+     * - twitter.value.largeaccount <br/>
+     * - default = 3000
+     */
+    public int getLargeAccountDefinition() {
+        return env.getProperty("twitter.value.largeaccount", Integer.class);
     }
 
 }

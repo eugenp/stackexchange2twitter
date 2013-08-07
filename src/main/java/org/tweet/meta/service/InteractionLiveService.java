@@ -274,7 +274,7 @@ public class InteractionLiveService {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (tweet.isRetweet()) {
-                if (isTweetGoodRetweet(tweet) && tweet.getRetweetedStatus().getUser().getFollowersCount() > 5000) {
+                if (isTweetGoodRetweet(tweet) && tweet.getRetweetedStatus().getUser().getFollowersCount() > twitterInteractionValuesRetriever.getLargeAccountDefinition()) {
                     count++;
                 }
             }
