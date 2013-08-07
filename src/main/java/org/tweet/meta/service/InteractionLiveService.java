@@ -79,7 +79,7 @@ public class InteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public final TwitterInteraction decideBestInteractionWithAuthorLive(final String userHandle) {
+    public final TwitterInteractionWithValue decideBestInteractionWithAuthorLive(final String userHandle) {
         final TwitterProfile user = twitterLiveService.getProfileOfUser(userHandle);
         return decideBestInteractionWithAuthorLive(user, userHandle);
     }
@@ -88,15 +88,15 @@ public class InteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public TwitterInteraction decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle) {
+    public TwitterInteractionWithValue decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle) {
         if (!isWorthInteractingWithBasedOnLanguage(user)) {
-            return TwitterInteraction.None;
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
         if (!isWorthInteractingWithBasedOnFollowerCount(user)) {
-            return TwitterInteraction.None;
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
         if (!isWorthInteractingWithBasedOnTweetsCount(user)) {
-            return TwitterInteraction.None;
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
         // minor requirements for considering an interaction with this account valuable
@@ -105,25 +105,25 @@ public class InteractionLiveService {
         final int goodRetweetsPercentage = userSnapshot.getGoodRetweetPercentage();
         if (goodRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of retweets is to small= {}%", userHandle, goodRetweetsPercentage);
-            return TwitterInteraction.None;
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
         final int mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage();
         if (goodRetweetsPercentage + mentionsOutsideOfRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
             logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandle, (goodRetweetsPercentage + mentionsOutsideOfRetweetsPercentage));
-            return TwitterInteraction.None;
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
         final int largeAccountRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage();
         if (largeAccountRetweetsPercentage > twitterInteractionValuesRetriever.getMaxLargeAccountRetweetsPercentage()) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of retweets of very large accounts is simply to high= {}%", userHandle, largeAccountRetweetsPercentage);
-            return TwitterInteraction.None;
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
         logger.info("\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage,
                 userSnapshot.getRetweetsOfSelfMentionsPercentage(), mentionsOutsideOfRetweetsPercentage);
 
-        return decideBestInteractionWithUser(userSnapshot).getTwitterInteraction();
+        return decideBestInteractionWithUser(userSnapshot);
     }
 
     /**
@@ -131,7 +131,7 @@ public class InteractionLiveService {
      * - <b>local</b>: everything else
      */
     public final boolean isUserWorthInteractingWithLive(final TwitterProfile user, final String userHandle) {
-        final TwitterInteraction bestInteractionWithUser = decideBestInteractionWithAuthorLive(user, userHandle);
+        final TwitterInteraction bestInteractionWithUser = decideBestInteractionWithAuthorLive(user, userHandle).getTwitterInteraction();
         if (bestInteractionWithUser.equals(TwitterInteraction.None)) {
             return false;
         }
@@ -168,16 +168,22 @@ public class InteractionLiveService {
     }
 
     final TwitterInteractionWithValue decideBestInteractionWithUser(final TwitterUserSnapshot userSnapshot) {
-        // userSnapshot.getGoodRetweetPercentage(); - it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
-        // userSnapshot.getMentionsOutsideOfRetweetsPercentage(); - the account (somehow) finds content and mentions it - good, but no help
-        // userSnapshot.getRetweetsOfLargeAccountsPercentage(); - this also doesn't decide anything about how to best interact with the account
+        final int goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage(); // it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
+        // final int mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage(); // the account (somehow) finds content and mentions it - good, but no help
+        final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage(); // this also doesn't decide anything about how to best interact with the account
         final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
+
+        // good = 12%
+        // large = 60%
+        // good and not large = 12 - (60*12/100)
+        final int goodRetweetsOfNonLargeAccountsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
+
+        final int score = goodRetweetsOfNonLargeAccountsPercentage + retweetsOfSelfMentionsPercentage * 3;
         if (retweetsOfSelfMentionsPercentage > 5) {
             // the account likes to retweet tweets that mention it
-            return new TwitterInteractionWithValue(TwitterInteraction.Mention, 1);
+            return new TwitterInteractionWithValue(TwitterInteraction.Mention, score);
         }
-
-        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, 1);
+        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, score);
     }
 
     //

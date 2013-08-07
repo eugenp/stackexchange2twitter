@@ -15,6 +15,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.tweet.test.TweetFixture;
 import org.tweet.twitter.util.TwitterInteraction;
+import org.tweet.twitter.util.TwitterInteractionWithValue;
 
 public final class InteractionLiveStrategyUnitTest {
 
@@ -28,7 +29,7 @@ public final class InteractionLiveStrategyUnitTest {
         this.instance.logger = mock(Logger.class);
         final InteractionLiveService userInteractionLiveServiceMock = mock(InteractionLiveService.class);
         this.instance.userInteractionLiveService = userInteractionLiveServiceMock;
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.None, 0));
     }
 
     // tests
@@ -52,7 +53,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     public final void givenTweetHasMentionValue_BestInteractionWithAuthorIsNone_whenDeterminingBestInteraction_thenNone() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Mention);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.None, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
@@ -61,7 +62,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     public final void givenTweetHasMentionValue_BestInteractionWithAuthorIsMention_whenDeterminingBestInteraction_thenUnclear() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Mention);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Mention);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.Mention, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention)); // or None
@@ -70,7 +71,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     public final void givenTweetHasMentionValue_BestInteractionWithAuthorIsRetweet_whenDeterminingBestInteraction_thenNone() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Mention);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Retweet);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
@@ -81,7 +82,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     public final void givenTweetHasValueNone_BestInteractionWithAuthorIsNone_whenDeterminingBestInteraction_thenNone() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.None);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.None, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
@@ -90,7 +91,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     public final void givenTweetHasValueNone_BestInteractionWithAuthorIsMention_whenDeterminingBestInteraction_thenMention() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.None);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Mention);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.Mention, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
@@ -99,7 +100,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     public final void givenTweetHasValueNone_BestInteractionWithAuthorIsRetweet_whenDeterminingBestInteraction_thenNone() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.None);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Retweet);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Retweet));
@@ -110,7 +111,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     /*?*/public final void givenTweetHasValueRetweet_BestInteractionWithAuthorIsNone_whenDeterminingBestInteraction_thenNone() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Retweet);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.None);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.None, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
@@ -119,7 +120,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     public final void givenTweetHasValueRetweet_BestInteractionWithAuthorIsMention_whenDeterminingBestInteraction_thenMention() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Retweet);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Mention);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.Mention, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
@@ -128,7 +129,7 @@ public final class InteractionLiveStrategyUnitTest {
     @Test
     public final void givenTweetHasValueRetweet_BestInteractionWithAuthorIsRetweet_whenDeterminingBestInteraction_thenNone() {
         when(this.instance.userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(any(Tweet.class))).thenReturn(TwitterInteraction.Retweet);
-        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(TwitterInteraction.Retweet);
+        when(this.instance.userInteractionLiveService.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
         assertThat(bestInteraction, equalTo(TwitterInteraction.Retweet));

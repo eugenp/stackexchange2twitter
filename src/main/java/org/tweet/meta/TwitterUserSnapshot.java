@@ -23,6 +23,9 @@ public final class TwitterUserSnapshot {
         return goodRetweetPercentage;
     }
 
+    /**
+     * - note that this relative to the total number of good retweets
+     */
     public final int getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage() {
         return retweetsOfLargeAccountsOutOfAllGoodRetweets;
     }

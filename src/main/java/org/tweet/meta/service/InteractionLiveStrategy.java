@@ -10,6 +10,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterInteraction;
+import org.tweet.twitter.util.TwitterInteractionWithValue;
 
 @Component
 @Profile(SpringProfileUtil.LIVE)
@@ -29,11 +30,11 @@ public final class InteractionLiveStrategy {
     // API
 
     public final TwitterInteraction decideBestInteraction(final Tweet tweet) {
-        final TwitterInteraction bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
+        final TwitterInteractionWithValue bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
         final TwitterInteraction bestInteractionWithTweet = userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(tweet);
         final String text = TweetUtil.getText(tweet);
 
-        switch (bestInteractionWithAuthor) {
+        switch (bestInteractionWithAuthor.getTwitterInteraction()) {
         case None:
             // there is no value in an interaction with the AUTHOR - if the TWEET itself has mention value - the tweet as is; if not, still tweet as is
             logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, tweet.getFromUser());
