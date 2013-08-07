@@ -31,7 +31,7 @@ public final class InteractionLiveStrategy {
 
     public final TwitterInteraction decideBestInteraction(final Tweet tweet) {
         final TwitterInteractionWithValue bestInteractionWithAuthor = userInteractionLiveService.decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
-        final TwitterInteraction bestInteractionWithTweet = userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(tweet);
+        final TwitterInteractionWithValue bestInteractionWithTweet = userInteractionLiveService.decideBestInteractionWithTweetNotAuthorLive(tweet);
         final String text = TweetUtil.getText(tweet);
 
         switch (bestInteractionWithAuthor.getTwitterInteraction()) {
@@ -41,7 +41,7 @@ public final class InteractionLiveStrategy {
             return TwitterInteraction.None;
         case Mention:
             // we should mention the AUTHOR; if the TWEET itself has mention value as well - see which is more valuable; if not, mention
-            if (bestInteractionWithTweet.equals(TwitterInteraction.Mention)) {
+            if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
                 // TODO: determine which is more valuable - mentioning the author or tweeting the tweet with the mentions it has
             }
 
@@ -49,32 +49,13 @@ public final class InteractionLiveStrategy {
             return TwitterInteraction.Mention;
         case Retweet:
             // we should retweet the AUTHOR; however, if the TWEET itself has mention value, that is more important => tweet as is (with mentions); if not, retweet it
-            if (bestInteractionWithTweet.equals(TwitterInteraction.Mention)) {
+            if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
                 return TwitterInteraction.None;
             }
 
             return TwitterInteraction.Retweet;
             // TODO: is there any way to extract the mentions from the tweet entity?
             // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
-        default:
-            throw new IllegalStateException();
-        }
-    }
-
-    final boolean shouldRetweetOld(final Tweet tweet) {
-        final TwitterInteraction bestInteraction = decideBestInteraction(tweet);
-
-        switch (bestInteraction) {
-        case None:
-
-            return false;
-        case Mention:
-
-            return false;
-        case Retweet:
-
-            return true;
-
         default:
             throw new IllegalStateException();
         }

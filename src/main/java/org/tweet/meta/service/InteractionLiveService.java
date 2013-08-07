@@ -43,22 +43,22 @@ public class InteractionLiveService {
 
     // - with tweet
 
-    public TwitterInteraction decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
+    public TwitterInteractionWithValue decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
         final boolean containsValuableMentions = containsValuableMentionsLive(tweet.getText());
         if (containsValuableMentions) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.error("(temp-error)More value in tweeting as is - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl);
-            return TwitterInteraction.Mention;
+            return new TwitterInteractionWithValue(TwitterInteraction.Mention, 0);
             // doesn't matter if it's popular or not - mention
         }
 
         if (isTweetToPopular(tweet)) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", TweetUtil.getText(tweet), tweet.getRetweetCount(), tweetUrl);
-            return TwitterInteraction.None;
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
-        return TwitterInteraction.Retweet;
+        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0);
     }
 
     public final boolean containsValuableMentionsLive(final String text) {

@@ -13,6 +13,7 @@ import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.test.TweetFixture;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TwitterInteraction;
+import org.tweet.twitter.util.TwitterInteractionWithValue;
 
 public final class InteractionLiveServiceUnitTest {
 
@@ -56,21 +57,21 @@ public final class InteractionLiveServiceUnitTest {
 
     @Test
     public final void givenTweetHasNoValuableMentions_whenDecidingInteractionWithTweet_thenRetweet() {
-        final TwitterInteraction bestInteractionWithTweet = instance.decideBestInteractionWithTweetNotAuthorLive(TweetFixture.createTweet(2));
-        assertThat(bestInteractionWithTweet, equalTo(TwitterInteraction.Retweet));
+        final TwitterInteractionWithValue bestInteractionWithTweet = instance.decideBestInteractionWithTweetNotAuthorLive(TweetFixture.createTweet(2));
+        assertThat(bestInteractionWithTweet.getTwitterInteraction(), equalTo(TwitterInteraction.Retweet));
     }
 
     @Test
     public final void givenPopularTweetHasNoValuableMentions_whenDecidingInteractionWithTweet_thenNone() {
-        final TwitterInteraction bestInteractionWithTweet = instance.decideBestInteractionWithTweetNotAuthorLive(TweetFixture.createTweet(20));
-        assertThat(bestInteractionWithTweet, equalTo(TwitterInteraction.None));
+        final TwitterInteractionWithValue bestInteractionWithTweet = instance.decideBestInteractionWithTweetNotAuthorLive(TweetFixture.createTweet(20));
+        assertThat(bestInteractionWithTweet.getTwitterInteraction(), equalTo(TwitterInteraction.None));
     }
 
     @Test
     @Ignore("no way to mock valuable mentions without a lot of refactoring - do at some point - extract a MentionsLiveService")
     public final void givenTweetHasValuableMentions_whenDecidingInteractionWithTweet_thenRetweet() {
-        final TwitterInteraction bestInteractionWithTweet = instance.decideBestInteractionWithTweetNotAuthorLive(TweetFixture.createTweet(2));
-        assertThat(bestInteractionWithTweet, equalTo(TwitterInteraction.None));
+        final TwitterInteractionWithValue bestInteractionWithTweet = instance.decideBestInteractionWithTweetNotAuthorLive(TweetFixture.createTweet(2));
+        assertThat(bestInteractionWithTweet.getTwitterInteraction(), equalTo(TwitterInteraction.None));
     }
 
 }
