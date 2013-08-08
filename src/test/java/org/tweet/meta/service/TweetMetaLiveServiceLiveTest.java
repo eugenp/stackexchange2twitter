@@ -9,6 +9,8 @@ import org.common.metrics.MetricsUtil;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.CommonServiceConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +50,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         TwitterMetaPersistenceJPAConfig.class, 
         TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.WRITE_PRODUCTION })
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.DEV })
 public class TweetMetaLiveServiceLiveTest {
 
     static {
@@ -66,6 +68,18 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Autowired
     private MetricRegistry metrics;
+
+    // before and after
+
+    @Before
+    public final void before() {
+        System.out.println("Before - read operations usage is: " + metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).getCount());
+    }
+
+    @After
+    public final void after() {
+        System.out.println("After - read operations usage is: " + metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).getCount());
+    }
 
     // tests
 
@@ -89,8 +103,6 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutScala_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
-
-        System.out.println(metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).getCount());
         assertTrue(success);
     }
 
