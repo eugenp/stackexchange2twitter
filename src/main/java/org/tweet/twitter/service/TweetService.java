@@ -88,6 +88,7 @@ public class TweetService {
     /*meta*/public final boolean isTweetWorthRetweetingByFullTweet(final Tweet potentialTweet, final String twitterTag) {
         final int requiredMinRts = minRtRetriever.minRt(twitterTag);
         if (potentialTweet.getRetweetCount() < requiredMinRts) {
+            // TODO: this is a problem now that the tweets are no longer strictly sorted by RT count
             logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
             return false;
         }
