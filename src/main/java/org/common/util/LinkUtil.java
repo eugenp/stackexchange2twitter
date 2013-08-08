@@ -35,6 +35,7 @@ public final class LinkUtil {
     }
 
     /**
+     * - <b>local</b> <br/>
      * - note: will NOT return null
      */
     public static List<String> extractUrls(final String input) {

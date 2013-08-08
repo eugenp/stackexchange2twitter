@@ -139,6 +139,9 @@ public final class TwitterUtil {
         return countWordsToHash;
     }
 
+    /**
+     * - <b>local</b> <br/>
+    */
     public static boolean isTweetBanned(final String text) {
         // final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#.")).split(text)); // on 07.08 - see what happens
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(text));
@@ -186,6 +189,9 @@ public final class TwitterUtil {
         return false;
     }
 
+    /**
+     * - <b>local</b> <br/>
+     */
     static boolean isRejectedByBannedRegexExpressions(final String text) {
         for (final String bannedRegEx : bannedRegExes) {
             if (text.matches(bannedRegEx)) {

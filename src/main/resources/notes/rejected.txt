@@ -26,7 +26,7 @@
 (invalid) On #Lisp, by Paul Graham, epub format, no cost. You don’t need to buy a new printed version for 959 Euro via Amazon.
 (invalid) Nice addition! “@github: Choosing an open source license doesn't need to be scary. Introducing choosealicense .com https://t.co/9vUN1JhqSs”
 (invalid) MT “@Christo4Ferris: My thoughts on the need of an open platform for #Cloud apps http://t.co/phZZm9U6wA” #CloudFoundry #paas #CloudExpo
-(invalid) 
+(invalid) What You Need to Know About #Facebook’s News Feed Algorithm http://t.co/uGQVx0r9G2 #important #socialmedia
 (invalid) 
 (invalid) 
 (invalid) 

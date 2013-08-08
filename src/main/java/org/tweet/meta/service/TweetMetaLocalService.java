@@ -166,6 +166,9 @@ public class TweetMetaLocalService {
 
     // template
 
+    /**
+     * Checks the local database for an exact match Retweet entity (by tweet id) 
+     */
     protected final boolean hasThisAlreadyBeenTweetedById(final Retweet retweet) {
         final Retweet existingTweetById = retweetApi.findOneByTweetIdAndTwitterAccount(retweet.getTweetId(), retweet.getTwitterAccount());
         return existingTweetById != null;

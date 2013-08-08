@@ -47,7 +47,8 @@ public class TweetService {
     // checks
 
     /**
-     * - local <br/>
+     * - <b>local</b> <br/>
+     * 
      * Determines if a tweet is worth tweeting based on only its text; by the following <b>criteria</b>: <br/>
      * - has link <br/>
      * - is not banned (mostly by keywords, expressions and regexes) <br/>

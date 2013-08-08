@@ -118,6 +118,7 @@ public class LinkService {
     }
 
     /**
+     * - <b>local</b> <br/>
      * - note: will NOT return null
      */
     public final List<String> extractUrls(final String input) {
@@ -125,6 +126,7 @@ public class LinkService {
     }
 
     /**
+     * - <b>local</b> <br/>
      * - current banned services: instagram, pic.twitter
      */
     public final boolean containsLinkToBannedServices(final String tweetText) {

@@ -174,7 +174,13 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final Collection<Tweet> tweetSetFiltered = Collections2.filter(tweetsSet, new Predicate<Tweet>() {
             @Override
             public final boolean apply(final Tweet tweet) {
-                return tweet.getRetweetCount() > 1;
+                if (tweet.getRetweetCount() <= 1) {
+                    return false;
+                }
+                if (!tweetService.isTweetWorthRetweetingByText(tweet.getText())) {
+                    return false;
+                }
+                return true;
             }
         });
 
@@ -248,7 +254,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     /**one*/
     private final boolean tryTweetOnePrepare(final Tweet potentialTweet, final String hashtag, final String twitterAccount) {
         Preconditions.checkState(potentialTweet.getRetweetedStatus() == null, "By the `one` level - this should be the original tweet");
-        final String text = TweetUtil.getText(potentialTweet);
+        final String text = potentialTweet.getText();
         final long tweetId = potentialTweet.getId();
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, text);
 
