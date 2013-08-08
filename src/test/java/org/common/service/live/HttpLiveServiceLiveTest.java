@@ -25,7 +25,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonServiceConfig.class, GplusContextConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public class HttpServiceLiveTest {
+public class HttpLiveServiceLiveTest {
 
     @Autowired
     private HttpLiveService httpService;
@@ -88,7 +88,6 @@ public class HttpServiceLiveTest {
     }
 
     @Test
-    // failing now
     public final void whenShortenedUriIsUnshortednedScenario3_thenResultIsCorrect() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expandInternal("http://t.co/0ibisJsGBS");
         System.out.println(unshortenedUrl);
@@ -97,7 +96,6 @@ public class HttpServiceLiveTest {
     }
 
     @Test
-    // failing now
     public final void whenShortenedUriIsUnshortednedScenario4_thenResultIsCorrect() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expandInternal("https://www.digitalocean.com/community/articles/securing-mysql-and-mariadb-databases-in-a-linux-vps");
         System.out.println(unshortenedUrl);

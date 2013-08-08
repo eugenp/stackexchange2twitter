@@ -2,7 +2,7 @@ package org.tweet.test;
 
 import org.classification.service.ClassificationServiceLiveTest;
 import org.common.service.ContentExtractorServiceLiveTest;
-import org.common.service.live.HttpServiceLiveTest;
+import org.common.service.live.HttpLiveServiceLiveTest;
 import org.gplus.service.GplusExtractorServiceLiveTest;
 import org.gplus.stackexchange.GPlusLiveTest;
 import org.junit.runner.RunWith;
@@ -19,7 +19,7 @@ import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
     
     // common
     ContentExtractorServiceLiveTest.class, 
-    HttpServiceLiveTest.class, 
+    HttpLiveServiceLiveTest.class, 
     
     // twitter
     TwitterTemplateCreatorLiveTest.class, 
