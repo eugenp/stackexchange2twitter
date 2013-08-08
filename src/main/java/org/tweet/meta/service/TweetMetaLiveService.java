@@ -189,12 +189,15 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final Map<TwitterInteractionWithValue, Tweet> valueToTweet = Maps.newTreeMap(new Comparator<TwitterInteractionWithValue>() {
             @Override
             public final int compare(final TwitterInteractionWithValue o1, final TwitterInteractionWithValue o2) {
-                return Integer.compare(o1.getVal(), o2.getVal());
+                return Integer.compare(o2.getVal(), o1.getVal());
             }
         });
 
         for (final Tweet tweet : tweets) {
-            valueToTweet.put(interactionLiveService.decideBestInteractionRaw(tweet), tweet);
+            final TwitterInteractionWithValue interactionValue = interactionLiveService.decideBestInteractionRaw(tweet);
+            // tweak score based on the number of RTs
+            final int newScore = interactionValue.getVal() + tweet.getRetweetCount() * 50 / 100;
+            valueToTweet.put(new TwitterInteractionWithValue(interactionValue.getTwitterInteraction(), newScore), tweet);
         }
 
         return Lists.newArrayList(valueToTweet.values());
