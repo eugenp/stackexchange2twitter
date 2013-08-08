@@ -39,10 +39,10 @@ import org.tweet.twitter.util.TwitterInteraction;
     TwitterMetaConfig.class 
 }) // @formatter:on
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public final class InteractionLiveStrategyLiveTest {
+public final class InteractionLiveServiceLiveTest {
 
     @Autowired
-    private InteractionLiveStrategy retweetLiveStrategy;
+    private InteractionLiveService interactionLiveService;
 
     @Autowired
     private TwitterReadLiveService twitterReadLiveService;
@@ -51,36 +51,37 @@ public final class InteractionLiveStrategyLiveTest {
 
     @Test
     public final void whenContextIsBootstrapped_thenNoException() {
-        assertNotNull(retweetLiveStrategy);
+        assertNotNull(interactionLiveService);
+        assertNotNull(twitterReadLiveService);
     }
 
-    //
+    // decide ...
 
     @Test
     public final void whenDecidingBestInteractionWithTweet1_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(50510953187516416l);
-        final TwitterInteraction bestInteraction = retweetLiveStrategy.decideBestInteraction(tweet);
+        final TwitterInteraction bestInteraction = interactionLiveService.decideBestInteraction(tweet);
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet2_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(362887164880629762l);
-        final TwitterInteraction bestInteraction = retweetLiveStrategy.decideBestInteraction(tweet);
+        final TwitterInteraction bestInteraction = interactionLiveService.decideBestInteraction(tweet);
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet3_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(364420762922668032l);
-        final TwitterInteraction bestInteraction = retweetLiveStrategy.decideBestInteraction(tweet);
+        final TwitterInteraction bestInteraction = interactionLiveService.decideBestInteraction(tweet);
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet4_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(364424663704670208l);
-        final TwitterInteraction bestInteraction = retweetLiveStrategy.decideBestInteraction(tweet);
+        final TwitterInteraction bestInteraction = interactionLiveService.decideBestInteraction(tweet);
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
         // mention for now - later on, may be None
     }

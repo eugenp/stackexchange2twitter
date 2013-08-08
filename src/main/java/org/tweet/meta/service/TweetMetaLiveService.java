@@ -54,13 +54,13 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TagRetrieverService tagService;
+    private TagRetrieverService tagRetrieverService;
 
     @Autowired
     private ClassificationService classificationService;
 
     @Autowired
-    private HttpLiveService httpService;
+    private HttpLiveService httpLiveService;
 
     @Autowired
     private LinkService linkService;
@@ -72,16 +72,13 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private PredefinedAccountRetriever predefinedAccountRetriever;
 
     @Autowired
-    private InteractionLiveStrategy interactionStrategy;
-
-    @Autowired
-    private InteractionLiveService userInteractionService;
+    private InteractionLiveService interactionLiveService;
 
     @Autowired
     private TweetMetaLocalService tweetMetaLocalService;
 
     @Autowired
-    protected TweetMentionService tweetMentionService;
+    private TweetMentionService tweetMentionService;
 
     // metrics
 
@@ -99,7 +96,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     public final boolean retweetAnyByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
         try {
-            twitterTag = tagService.pickTwitterTag(twitterAccount);
+            twitterTag = tagRetrieverService.pickTwitterTag(twitterAccount);
             final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
@@ -120,7 +117,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     public final boolean retweetAnyByHashtagOnlyFromPredefinedAccounts(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
         try {
-            twitterTag = tagService.pickTwitterTag(twitterAccount);
+            twitterTag = tagRetrieverService.pickTwitterTag(twitterAccount);
             final boolean success = retweetAnyByHashtagOnlyFromPredefinedAccountsInternal(twitterAccount, twitterTag);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}, from predefined accounts", twitterAccount, twitterTag);
@@ -323,7 +320,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         if (tweetMentionService.isRetweetMention(fullTweetProcessed)) {
             success = dealWithRtMention(twitterAccount, potentialTweet, fullTweetProcessed);
         } else {
-            final TwitterInteraction bestInteraction = interactionStrategy.decideBestInteraction(potentialTweet);
+            final TwitterInteraction bestInteraction = interactionLiveService.decideBestInteraction(potentialTweet);
             switch (bestInteraction) {
             case None:
                 success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
@@ -361,7 +358,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(fullTweetProcessed));
         final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
 
-        final boolean isUserWorthInteractingWith = userInteractionService.isUserWorthInteractingWithLive(profileOfUser, originalUserFromRt);
+        final boolean isUserWorthInteractingWith = interactionLiveService.isUserWorthInteractingWithLive(profileOfUser, originalUserFromRt);
         if (isUserWorthInteractingWith) {
             success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
         } else {
@@ -395,7 +392,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
         String singleMainUrl = linkService.determineMainUrl(extractedUrls);
         try {
-            singleMainUrl = httpService.expand(singleMainUrl);
+            singleMainUrl = httpLiveService.expand(singleMainUrl);
         } catch (final RuntimeException ex) {
             logger.error("Unexpected error from URL expansion: " + singleMainUrl, ex);
             return false;

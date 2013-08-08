@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 
 @Service
 public class InteractionLiveService {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     TwitterReadLiveService twitterLiveService;
@@ -44,7 +44,52 @@ public class InteractionLiveService {
 
     // - with tweet
 
-    public TwitterInteractionWithValue decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
+    public final TwitterInteraction decideBestInteraction(final Tweet tweet) {
+        final TwitterInteractionWithValue bestInteractionWithAuthor = decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
+        final TwitterInteractionWithValue bestInteractionWithTweet = decideBestInteractionWithTweetNotAuthorLive(tweet);
+        final String text = TweetUtil.getText(tweet);
+
+        switch (bestInteractionWithAuthor.getTwitterInteraction()) {
+        case None:
+            // there is no value in an interaction with the AUTHOR - if the TWEET itself has mention value - the tweet as is; if not, still tweet as is
+            logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, tweet.getFromUser());
+            return TwitterInteraction.None;
+        case Mention:
+            // we should mention the AUTHOR; if the TWEET itself has mention value as well - see which is more valuable; if not, mention
+            if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
+                if (text.contains("@" + tweet.getFromUser())) {
+                    // tweet already contains a mention of the author - no point in adding a new one
+                    return TwitterInteraction.None;
+                }
+                // determine which is more valuable - mentioning the author or tweeting the tweet with the mentions it has
+                if (bestInteractionWithAuthor.getVal() >= bestInteractionWithTweet.getVal()) {
+                    final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
+                    logger.error("(temp-error)More value in interacting with the author then with the mentions - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl);
+                    return TwitterInteraction.Mention;
+                } else {
+                    final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
+                    logger.error("(temp-error)More value in interacting with the mentions then with the author - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl);
+                    return TwitterInteraction.None;
+                }
+            }
+
+            logger.info("Should add a mention of the original author= {} and tweet the new tweet= {} user= {}", tweet.getFromUser(), text);
+            return TwitterInteraction.Mention;
+        case Retweet:
+            // we should retweet the AUTHOR; however, if the TWEET itself has mention value, that is more important => tweet as is (with mentions); if not, retweet it
+            if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
+                return TwitterInteraction.None;
+            }
+
+            return TwitterInteraction.Retweet;
+            // TODO: is there any way to extract the mentions from the tweet entity?
+            // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
+        default:
+            throw new IllegalStateException();
+        }
+    }
+
+    TwitterInteractionWithValue decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
         final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentions(tweet.getText());
         final boolean containsValuableMentions = containsValuableMentionsLive(valueOfMentions);
         if (containsValuableMentions) {

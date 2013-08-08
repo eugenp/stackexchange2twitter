@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.stackexchange.component.StackExchangePageStrategyUnitTest;
-import org.tweet.meta.service.InteractionLiveStrategyUnitTest;
+import org.tweet.meta.service.InteractionLiveServiceMockUnitTest;
 import org.tweet.meta.service.InteractionLiveServiceUnitTest;
 import org.tweet.twitter.service.TweetMentionServiceUnitTest;
 import org.tweet.twitter.service.TweetServiceUnitTest;
@@ -34,7 +34,7 @@ import org.tweet.twitter.util.TwitterUtilUnitTest;
     ClassificationUnitTest.class,
     
     // meta
-    InteractionLiveStrategyUnitTest.class,
+    InteractionLiveServiceMockUnitTest.class,
     InteractionLiveServiceUnitTest.class,
     
 }) //@formatter:off
