@@ -34,6 +34,7 @@ import org.tweet.twitter.service.TagRetrieverService;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterInteraction;
+import org.tweet.twitter.util.TwitterInteractionWithValue;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.codahale.metrics.Counter;
@@ -183,6 +184,12 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         final List<Tweet> tweets = Lists.newArrayList(tweetSetFiltered);
         Collections.sort(tweets, Ordering.from(new TweetByRtComparator()));
+
+        final Map<TwitterInteractionWithValue, Tweet> valueToTweet = Maps.newHashMap();
+        for (final Tweet tweet : tweets) {
+            valueToTweet.put(interactionLiveService.decideBestInteractionRaw(tweet), tweet);
+        }
+
         return tweets;
     }
 
