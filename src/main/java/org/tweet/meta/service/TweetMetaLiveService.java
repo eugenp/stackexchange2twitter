@@ -345,7 +345,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 break;
             case Mention:
                 // TODO: add mention
-                final String fullTweetProcessedWithMention = tweetMentionService.addMention(twitterAccount, fullTweetProcessed);
+                final String fullTweetProcessedWithMention = tweetMentionService.addMention(potentialTweet.getFromUser(), fullTweetProcessed);
                 success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessedWithMention, potentialTweet);
                 break;
             case Retweet:
