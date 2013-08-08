@@ -105,4 +105,9 @@ public final class InteractionServiceLiveTest {
         assertTrue(userInteractionService.isUserWorthInteractingWith("jameschesters"));
     }
 
+    @Test
+    public final void whenTestingIfUser6ShouldBeInteractedWith_thenYes() {
+        userInteractionService.decideBestInteractionWithAuthorLive("javacodegeeks");
+    }
+
 }

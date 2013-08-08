@@ -3,6 +3,7 @@ package org.tweet.meta.service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -185,12 +186,19 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final List<Tweet> tweets = Lists.newArrayList(tweetSetFiltered);
         Collections.sort(tweets, Ordering.from(new TweetByRtComparator()));
 
-        final Map<TwitterInteractionWithValue, Tweet> valueToTweet = Maps.newHashMap();
+        final Map<TwitterInteractionWithValue, Tweet> valueToTweet = Maps.newTreeMap(new Comparator<TwitterInteractionWithValue>() {
+            @Override
+            public final int compare(final TwitterInteractionWithValue o1, final TwitterInteractionWithValue o2) {
+                return Integer.compare(o1.getVal(), o2.getVal());
+            }
+        });
+
         for (final Tweet tweet : tweets) {
             valueToTweet.put(interactionLiveService.decideBestInteractionRaw(tweet), tweet);
         }
 
-        return tweets;
+        return Lists.newArrayList(valueToTweet.values());
+        // return tweets;
     }
 
     /**any*/
