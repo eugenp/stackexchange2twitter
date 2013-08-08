@@ -1,5 +1,6 @@
 package org.tweet.twitter.service.live;
 
+import org.common.metrics.MetricsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TwitterTemplateCreator;
 
+import com.codahale.metrics.MetricRegistry;
+
 @Service
 @Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class TwitterWriteLiveService implements ITwitterWriteLiveService {
@@ -18,6 +21,9 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
 
     @Autowired
     private TwitterTemplateCreator twitterCreator;
+
+    @Autowired
+    private MetricRegistry metrics;
 
     public TwitterWriteLiveService() {
         super();
@@ -32,6 +38,8 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
         final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
         try {
             twitterTemplate.timelineOperations().retweet(tweetId);
+            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OP).inc();
+
             return true;
         } catch (final RuntimeException ex) {
             logger.error("Unable to retweet on twitterAccount= " + twitterAccount + "; tweetid: " + tweetId, ex);
@@ -46,6 +54,8 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
 
         try {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
+            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OP).inc();
+
             return true;
         } catch (final OperationNotPermittedException notPermittedEx) {
             // TODO: will be warn, for now, to see how often it happens and why, is error
@@ -65,6 +75,8 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
 
         try {
             twitterTemplate.timelineOperations().updateStatus(textToTweet);
+            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OP).inc();
+
             return true;
         } catch (final OperationNotPermittedException notPermittedEx) {
             // TODO: will be warn, for now, to see how often it happens and why, is error
