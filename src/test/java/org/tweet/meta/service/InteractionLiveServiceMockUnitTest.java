@@ -31,12 +31,6 @@ public final class InteractionLiveServiceMockUnitTest {
 
     // tests
 
-    @Test
-    public final void whenCheckingIfTweetIsToBeRetweeted_thenNoExceptions() {
-        final Tweet tweet = TweetFixture.createTweet(10);
-        instance.decideBestInteraction(tweet);
-    }
-
     // determine best interaction
 
     // - tweet itself has mention value
