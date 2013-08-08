@@ -1,10 +1,12 @@
 package org.tweet.meta.service;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -39,10 +41,12 @@ import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 
 @Service
 @Profile(SpringProfileUtil.WRITE)
@@ -156,9 +160,27 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
-        Collections.sort(tweetsOfHashtag, Ordering.from(new TweetByRtComparator()));
 
-        return retweetAnyByHashtagInternal(twitterAccount, tweetsOfHashtag, hashtag);
+        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag);
+
+        return retweetAnyByHashtagInternal(twitterAccount, prunedTweets, hashtag);
+    }
+
+    private final Collection<Tweet> pruneTweets(final List<Tweet> tweetsOfHashtag) {
+        final Set<Tweet> tweetsSet = Sets.newHashSet();
+        for (final Tweet tweet : tweetsOfHashtag) {
+            tweetsSet.add(TweetUtil.getTweet(tweet));
+        }
+        final Collection<Tweet> tweetSetFiltered = Collections2.filter(tweetsSet, new Predicate<Tweet>() {
+            @Override
+            public final boolean apply(final Tweet tweet) {
+                return tweet.getRetweetCount() > 1;
+            }
+        });
+
+        final List<Tweet> tweets = Lists.newArrayList(tweetSetFiltered);
+        Collections.sort(tweets, Ordering.from(new TweetByRtComparator()));
+        return tweets;
     }
 
     /**any*/
@@ -179,13 +201,13 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         final List<Tweet> tweetsFromOnlyPredefinedAccounts = Lists.newArrayList(tweetsFromOnlyPredefinedAccountsRaw);
-        Collections.sort(tweetsFromOnlyPredefinedAccounts, Ordering.from(new TweetByRtComparator()));
+        pruneTweets(tweetsFromOnlyPredefinedAccounts);
 
         return retweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
     }
 
     /**any*/
-    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final List<Tweet> potentialTweetsSorted, final String hashtag) throws IOException, JsonProcessingException {
+    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final Collection<Tweet> potentialTweetsSorted, final String hashtag) throws IOException, JsonProcessingException {
         if (!TwitterAccountEnum.valueOf(twitterAccount).isRt()) {
             logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
         }

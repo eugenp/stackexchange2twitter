@@ -21,13 +21,13 @@ public class MinRtRetriever {
 
     // API
 
-    final String minRtRaw(final String twitterTag) {
-        return env.getProperty(twitterTag + ".minrt");
-    }
-
     public final int minRt(final String twitterTag) {
         Preconditions.checkNotNull(minRtRaw(twitterTag), "Unable to find min rt value for twitterTag= " + twitterTag);
         return env.getProperty(twitterTag + ".minrt", Integer.class);
+    }
+
+    final String minRtRaw(final String twitterTag) {
+        return env.getProperty(twitterTag + ".minrt");
     }
 
 }
