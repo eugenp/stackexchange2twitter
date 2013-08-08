@@ -34,6 +34,7 @@ public final class TwitterUtil {
         "buy", "gift",
         "need", 
         "dumb", 
+        "snake", // python snake...yes, it happened
         "islamic", "islam", 
         "$3.99", "$2.99", "$1.99", "$0.99" 
     );// @formatter:on

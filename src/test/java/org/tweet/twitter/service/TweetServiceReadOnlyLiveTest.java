@@ -109,4 +109,12 @@ public class TweetServiceReadOnlyLiveTest {
         assertFalse(should1 && should2);
     }
 
+    @Test
+    public final void givenTweetShouldNotBeRetweetedScenario9_whenChecking_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(365243842020114432l);
+        final boolean should1 = instance.isTweetWorthRetweetingByFullTweet(tweet, TwitterTag.python.name());
+        final boolean should2 = instance.isTweetWorthRetweetingByText(TweetUtil.getText(tweet));
+        assertFalse(should1 && should2);
+    }
+
 }
