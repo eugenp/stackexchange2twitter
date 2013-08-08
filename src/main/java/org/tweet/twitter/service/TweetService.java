@@ -165,7 +165,7 @@ public class TweetService {
     public final String postValidityProcessForFullTweet(final String fullTweet, final String twitterAccount) {
         String tweetTextProcessed = hashtagWordsFullTweet(fullTweet, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
-            logger.error("It's happening; original text= {}", tweetTextProcessed);
+            logger.error("It's happening - 1; original text= {}", tweetTextProcessed);
             tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
             logger.error("It has happened; original text= {}", tweetTextProcessed);
         }
@@ -180,7 +180,7 @@ public class TweetService {
     public final String postValidityProcessForTweetTextOnly(final String textOnly, final String twitterAccount) {
         String tweetTextProcessed = hashtagWordsTweetTextOnly(textOnly, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
-            logger.error("It's happening; original text= {}", tweetTextProcessed);
+            logger.error("It's happening - 2; original text= {}", tweetTextProcessed);
             tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
             logger.error("It has happened; original text= {}", tweetTextProcessed);
         }

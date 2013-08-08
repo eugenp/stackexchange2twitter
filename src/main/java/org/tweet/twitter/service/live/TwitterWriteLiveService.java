@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.OperationNotPermittedException;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
@@ -63,7 +64,11 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
             // possible cause: over 140 chars
             // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
-            logger.error("Generic Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, ex);
+            if (ex.getCause() instanceof NotAuthorizedException) {
+                // TODO: go to warn soon
+                logger.error("Unable to authenticate - tweeting on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, ex);
+            }
+            logger.error("Generic Unable to tweet - 1 - on twitterAccount= " + twitterAccount + "; tweet: " + tweetText, ex);
         }
 
         return false;
@@ -86,7 +91,7 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
             // another possible cause: OperationNotPermittedException: Status is a duplicate
         } catch (final RuntimeException ex) {
             final String tweetUrl = "https://twitter.com/" + originalTweetForLogging.getFromUser() + "/status/" + originalTweetForLogging.getId();
-            logger.error("Generic Unable to tweet on twitterAccount= " + twitterAccount + "; tweet: " + textToTweet + "\nfrom original: " + tweetUrl, ex);
+            logger.error("Generic Unable to tweet - 2 - on twitterAccount= " + twitterAccount + "; tweet: " + textToTweet + "\nfrom original: " + tweetUrl, ex);
         }
 
         return false;

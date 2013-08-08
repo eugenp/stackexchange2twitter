@@ -47,6 +47,7 @@ public final class TwitterUtil {
         "python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer", 
         "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
         "on strike", 
+        "for sale", 
         "i need", "we need"
     ); // @formatter:on
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off

@@ -42,14 +42,14 @@ public final class InteractionLiveServiceUnitTest {
     @Test
     public final void givenUserHasHighSelfMentionRetweetRate_whenDecidingInteractionWithUser_thenMention() {
         final int selfRetweetPercentage = 20;
-        final TwitterInteraction bestInteractionWithUser = instance.decideBestInteractionWithUser(new TwitterUserSnapshot(10, 30, selfRetweetPercentage, 20)).getTwitterInteraction();
+        final TwitterInteraction bestInteractionWithUser = instance.decideAndScoreBestInteractionWithUser(new TwitterUserSnapshot(10, 30, selfRetweetPercentage, 20)).getTwitterInteraction();
         assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
     }
 
     @Test
     public final void givenUserHasLowSelfMentionRetweetRate_whenDecidingInteractionWithUser_thenRetweet() {
         final int selfRetweetPercentage = 1;
-        final TwitterInteraction bestInteractionWithUser = instance.decideBestInteractionWithUser(new TwitterUserSnapshot(10, 30, selfRetweetPercentage, 20)).getTwitterInteraction();
+        final TwitterInteraction bestInteractionWithUser = instance.decideAndScoreBestInteractionWithUser(new TwitterUserSnapshot(10, 30, selfRetweetPercentage, 20)).getTwitterInteraction();
         assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
     }
 
