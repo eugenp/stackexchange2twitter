@@ -257,12 +257,15 @@ public class InteractionLiveService {
         // good and not large = 12 - (60*12/100)
         final int goodRetweetsOfNonLargeAccountsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
 
-        final int score = goodRetweetsOfNonLargeAccountsPercentage + retweetsOfSelfMentionsPercentage * 3;
-        if (retweetsOfSelfMentionsPercentage > 5) {
-            // the account likes to retweet tweets that mention it
-            return new TwitterInteractionWithValue(TwitterInteraction.Mention, score);
+        final int mentionScore = goodRetweetsOfNonLargeAccountsPercentage + retweetsOfSelfMentionsPercentage * 3;
+        final int retweetScore = goodRetweetsOfNonLargeAccountsPercentage * 75 / 100;
+        if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning
+            return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
         }
-        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, score);
+        if (mentionScore > 10) {
+            return new TwitterInteractionWithValue(TwitterInteraction.Mention, mentionScore);
+        }
+        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
     }
 
     //
