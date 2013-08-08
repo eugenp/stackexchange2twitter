@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.classification.spring.ClassificationConfig;
+import org.common.metrics.MetricsUtil;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.CommonServiceConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
@@ -29,6 +30,7 @@ import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 
+import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,6 +64,9 @@ public class TweetMetaLiveServiceLiveTest {
     @Autowired
     private IRetweetJpaDAO retweetApi;
 
+    @Autowired
+    private MetricRegistry metrics;
+
     // tests
 
     @Test
@@ -84,6 +89,8 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutScala_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
+
+        System.out.println(metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).getCount());
         assertTrue(success);
     }
 

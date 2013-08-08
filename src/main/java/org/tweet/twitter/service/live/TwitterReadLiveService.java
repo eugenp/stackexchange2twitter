@@ -2,6 +2,7 @@ package org.tweet.twitter.service.live;
 
 import java.util.List;
 
+import org.common.metrics.MetricsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TwitterTemplateCreator;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -26,11 +28,13 @@ import com.google.common.collect.Lists;
 @Service
 @Profile(SpringProfileUtil.LIVE)
 public class TwitterReadLiveService {
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private TwitterTemplateCreator twitterCreator;
+
+    @Autowired
+    private MetricRegistry metrics;
 
     public TwitterReadLiveService() {
         super();
@@ -46,7 +50,10 @@ public class TwitterReadLiveService {
     public TwitterProfile getProfileOfUser(final String userHandle) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
         final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
+
         final TwitterProfile userProfile = readOnlyTwitterTemplate.userOperations().getUserProfile(userHandle);
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+
         return Preconditions.checkNotNull(userProfile);
     }
 
@@ -102,7 +109,10 @@ public class TwitterReadLiveService {
 
     private final List<Tweet> listTweetsOfInternalAccountRawInternal(final String twitterAccount, final int howmany) {
         final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
+
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline(howmany);
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+
         return userTimeline;
     }
 
@@ -144,7 +154,10 @@ public class TwitterReadLiveService {
     private final List<Tweet> listTweetsOfAccountRawInternal(final String twitterAccount, final int howmany) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
         final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
+
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+
         return userTimeline;
     }
 
@@ -165,10 +178,14 @@ public class TwitterReadLiveService {
 
         final List<Tweet> collector = Lists.newArrayList();
         List<Tweet> currentPage = timelineOperations.getUserTimeline(twitterAccount, 200);
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+
         collector.addAll(currentPage);
         long lastId = currentPage.get(currentPage.size() - 1).getId();
         while (pageIndex > 1) {
             currentPage = timelineOperations.getUserTimeline(twitterAccount, 200, 01, lastId);
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+
             collector.addAll(currentPage);
             lastId = currentPage.get(currentPage.size() - 1).getId();
             pageIndex--;
@@ -191,6 +208,8 @@ public class TwitterReadLiveService {
         final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.MIXED);
         // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.RECENT);
         final SearchResults search = twitterTemplate.searchOperations().search(searchParameters);
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+
         return search.getTweets();
     }
 
