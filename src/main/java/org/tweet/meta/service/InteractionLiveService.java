@@ -272,7 +272,13 @@ public class InteractionLiveService {
         // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
         final int goodRetweetsOfNonLargeAccountsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
 
-        final int mentionScoreFollowerCountPortion = (int) Math.log(user.getFollowersCount());
+        final int mentionScoreFollowerCountPortion;
+        if (user.getFollowersCount() > 0) {
+            mentionScoreFollowerCountPortion = (int) Math.log(user.getFollowersCount());
+        } else {
+            mentionScoreFollowerCountPortion = 0;
+        }
+
         final int mentionScore = goodRetweetsOfNonLargeAccountsPercentage + retweetsOfSelfMentionsPercentage * 3 + mentionScoreFollowerCountPortion;
         final int retweetScore = goodRetweetsOfNonLargeAccountsPercentage * 75 / 100 + mentionScoreFollowerCountPortion / 2;
         if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning
