@@ -14,7 +14,7 @@ public class LinkLiveService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private HttpLiveService httpService;
+    private HttpLiveService httpLiveService;
 
     @Autowired
     private LinkService linkService;
@@ -27,9 +27,12 @@ public class LinkLiveService {
 
     // count links
 
+    /**
+     * - <b>live</b><br/>
+     */
     public final boolean containsLinkToDomain(final String tweet, final String domain) {
         final String mainUrl = linkService.extractUrl(tweet);
-        final String mainUrlExpanded = httpService.expand(mainUrl);
+        final String mainUrlExpanded = httpLiveService.expand(mainUrl);
         if (mainUrlExpanded == null) {
             return false;
         }
@@ -40,11 +43,14 @@ public class LinkLiveService {
         return true;
     }
 
+    /**
+     * - <b>live</b><br/>
+     */
     public final int countLinksToDomain(final Iterable<String> tweets, final String domain) {
         int count = 0;
         for (final String tweet : tweets) {
             final String mainUrl = linkService.extractUrl(tweet);
-            final String mainUrlExpanded = httpService.expand(mainUrl);
+            final String mainUrlExpanded = httpLiveService.expand(mainUrl);
             if (mainUrlExpanded == null) {
                 continue;
             }
@@ -56,11 +62,14 @@ public class LinkLiveService {
         return count;
     }
 
+    /**
+     * - <b>live</b><br/>
+     */
     public final int countLinksToAnyDomain(final Iterable<String> tweets, final Iterable<String> domains) {
         int count = 0;
         for (final String tweet : tweets) {
             final String mainUrl = linkService.extractUrl(tweet);
-            final String mainUrlExpanded = httpService.expand(mainUrl);
+            final String mainUrlExpanded = httpLiveService.expand(mainUrl);
             if (mainUrlExpanded == null) {
                 // temporary error - go to debug when I'm done
                 // it does happen and it may be worth investigating why - for example:

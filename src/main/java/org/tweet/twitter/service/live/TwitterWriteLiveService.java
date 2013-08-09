@@ -39,7 +39,7 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
         final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
         try {
             twitterTemplate.timelineOperations().retweet(tweetId);
-            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OP).inc();
+            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OK).inc();
 
             return true;
         } catch (final RuntimeException ex) {
@@ -55,7 +55,7 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
 
         try {
             twitterTemplate.timelineOperations().updateStatus(tweetText);
-            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OP).inc();
+            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OK).inc();
 
             return true;
         } catch (final OperationNotPermittedException notPermittedEx) {
@@ -80,7 +80,7 @@ public class TwitterWriteLiveService implements ITwitterWriteLiveService {
 
         try {
             twitterTemplate.timelineOperations().updateStatus(textToTweet);
-            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OP).inc();
+            metrics.counter(MetricsUtil.Meta.TWITTER_WRITE_OK).inc();
 
             return true;
         } catch (final OperationNotPermittedException notPermittedEx) {

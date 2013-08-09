@@ -73,12 +73,12 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Before
     public final void before() {
-        System.out.println("Before - read operations usage is: " + metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).getCount());
+        System.out.println("Before - read operations usage is: " + metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).getCount());
     }
 
     @After
     public final void after() {
-        System.out.println("After - read operations usage is: " + metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).getCount());
+        System.out.println("After - read operations usage is: " + metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).getCount());
     }
 
     // tests

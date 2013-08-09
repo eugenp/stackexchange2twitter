@@ -15,21 +15,27 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.common.metrics.MetricsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.HttpFactory;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.api.client.util.Preconditions;
 
 @Service
-public class ContentExtractorService implements InitializingBean {
+public class ContentExtractorLiveService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private MetricRegistry metrics;
 
     private DefaultHttpClient client;
 
-    public ContentExtractorService() {
+    public ContentExtractorLiveService() {
         super();
     }
 
@@ -59,11 +65,14 @@ public class ContentExtractorService implements InitializingBean {
         try {
             request = new HttpGet(sourceUrl);
             final HttpResponse httpResponse = client.execute(request);
+            metrics.counter(MetricsUtil.Meta.HTTP_OK);
+
             httpEntity = httpResponse.getEntity();
             entityContentStream = httpEntity.getContent();
             final String outputAsEscapedHtml = IOUtils.toString(entityContentStream, Charset.forName("utf-8"));
             return outputAsEscapedHtml;
         } catch (final IOException ex) {
+            metrics.counter(MetricsUtil.Meta.HTTP_ERR);
             throw new IllegalStateException(ex);
         } finally {
             if (request != null) {

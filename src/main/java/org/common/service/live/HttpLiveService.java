@@ -13,6 +13,7 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.common.metrics.MetricsUtil;
 import org.common.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.stackexchange.api.client.HttpFactory;
 import org.tweet.spring.util.SpringProfileUtil;
 
+import com.codahale.metrics.MetricRegistry;
 import com.google.api.client.util.Preconditions;
 import com.google.common.net.HttpHeaders;
 
@@ -36,6 +38,9 @@ public class HttpLiveService implements InitializingBean {
     @Autowired
     private LinkService linkService;
 
+    @Autowired
+    private MetricRegistry metrics;
+
     public HttpLiveService() {
         super();
     }
@@ -43,6 +48,7 @@ public class HttpLiveService implements InitializingBean {
     // API
 
     /**
+     * - <b>live</b><br/>
      * - note: will return null (in case of any kind of IO error) or null input
      */
     public final String expand(final String urlArg) {
@@ -50,7 +56,8 @@ public class HttpLiveService implements InitializingBean {
             return null;
         }
         try {
-            return expandInternal(urlArg);
+            final String expandedInternal = expandInternal(urlArg);
+            return expandedInternal;
         } catch (final IOException | IllegalStateException ex) {
             final Throwable cause = ex.getCause();
             if (cause != null && cause instanceof UnknownHostException) {
@@ -101,6 +108,8 @@ public class HttpLiveService implements InitializingBean {
         try {
             request = new HttpGet(url);
             final HttpResponse httpResponse = client.execute(request);
+            metrics.counter(MetricsUtil.Meta.HTTP_OK);
+
             httpEntity = httpResponse.getEntity();
             entityContentStream = httpEntity.getContent();
 
@@ -115,8 +124,10 @@ public class HttpLiveService implements InitializingBean {
             return newUrl;
         } catch (final IllegalArgumentException uriEx) {
             logger.warn("Unable to parse the URL: " + url, uriEx);
+            metrics.counter(MetricsUtil.Meta.HTTP_ERR);
             return url;
         } catch (final IOException ex) {
+            metrics.counter(MetricsUtil.Meta.HTTP_ERR);
             throw new IllegalStateException(ex);
         } finally {
             if (request != null) {

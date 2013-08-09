@@ -1,7 +1,7 @@
 package org.tweet.test;
 
 import org.classification.service.ClassificationServiceLiveTest;
-import org.common.service.ContentExtractorServiceLiveTest;
+import org.common.service.ContentExtractorLiveServiceLiveTest;
 import org.common.service.live.HttpLiveServiceLiveTest;
 import org.gplus.service.GplusExtractorServiceLiveTest;
 import org.gplus.stackexchange.GPlusLiveTest;
@@ -18,7 +18,7 @@ import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
 @SuiteClasses({// @formatter:off
     
     // common
-    ContentExtractorServiceLiveTest.class, 
+    ContentExtractorLiveServiceLiveTest.class, 
     HttpLiveServiceLiveTest.class, 
     
     // twitter

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.common.service.ContentExtractorService;
+import org.common.service.ContentExtractorLiveService;
 import org.common.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class GplusExtractorService {
     private GplusService gplusService;
 
     @Autowired
-    private ContentExtractorService contentExtractorService;
+    private ContentExtractorLiveService contentExtractorService;
 
     @Autowired
     private LinkService linkService;

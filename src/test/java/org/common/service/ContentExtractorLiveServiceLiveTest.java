@@ -18,10 +18,10 @@ import org.tweet.spring.util.SpringProfileUtil;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonServiceConfig.class })
 @ActiveProfiles(SpringProfileUtil.LIVE)
-public class ContentExtractorServiceLiveTest {
+public class ContentExtractorLiveServiceLiveTest {
 
     @Autowired
-    private ContentExtractorService contentExtractorService;
+    private ContentExtractorLiveService contentExtractorService;
 
     // tests
 

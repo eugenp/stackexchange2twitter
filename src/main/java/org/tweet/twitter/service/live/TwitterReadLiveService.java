@@ -52,7 +52,7 @@ public class TwitterReadLiveService {
         final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
 
         final TwitterProfile userProfile = readOnlyTwitterTemplate.userOperations().getUserProfile(userHandle);
-        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
         return Preconditions.checkNotNull(userProfile);
     }
@@ -111,7 +111,7 @@ public class TwitterReadLiveService {
         final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(twitterAccount);
 
         final List<Tweet> userTimeline = twitterTemplate.timelineOperations().getUserTimeline(howmany);
-        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
         return userTimeline;
     }
@@ -156,7 +156,7 @@ public class TwitterReadLiveService {
         final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
 
         final List<Tweet> userTimeline = readOnlyTwitterTemplate.timelineOperations().getUserTimeline(twitterAccount, howmany);
-        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
         return userTimeline;
     }
@@ -178,13 +178,13 @@ public class TwitterReadLiveService {
 
         final List<Tweet> collector = Lists.newArrayList();
         List<Tweet> currentPage = timelineOperations.getUserTimeline(twitterAccount, 200);
-        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
         collector.addAll(currentPage);
         long lastId = currentPage.get(currentPage.size() - 1).getId();
         while (pageIndex > 1) {
             currentPage = timelineOperations.getUserTimeline(twitterAccount, 200, 01, lastId);
-            metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
             collector.addAll(currentPage);
             lastId = currentPage.get(currentPage.size() - 1).getId();
@@ -208,7 +208,7 @@ public class TwitterReadLiveService {
         final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.MIXED);
         // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.RECENT);
         final SearchResults search = twitterTemplate.searchOperations().search(searchParameters);
-        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OP).inc();
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
         return search.getTweets();
     }
