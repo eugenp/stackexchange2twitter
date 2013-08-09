@@ -250,8 +250,15 @@ public class InteractionLiveService {
         final int mentions = countMentionsOutsideOfRetweets(tweetsOfAccount);
         final int mentionsPercentage = (mentions * 100) / (pagesToAnalyze * 200);
 
-        final int retweetsOfNonFollowedUsers = countRetweetsOfAccountsTheyDoNotFollow(tweetsOfAccount, user);
-        final int retweetsOfNonFollowedUsersPercentage = (retweetsOfNonFollowedUsers * 100) / allRetweets;
+        final int retweetsOfNonFollowedUsers;
+        final int retweetsOfNonFollowedUsersPercentage;
+        if (allRetweets > 0) {
+            retweetsOfNonFollowedUsers = countRetweetsOfAccountsTheyDoNotFollow(tweetsOfAccount, user);
+            retweetsOfNonFollowedUsersPercentage = (retweetsOfNonFollowedUsers * 100) / allRetweets;
+        } else {
+            retweetsOfNonFollowedUsers = 0;
+            retweetsOfNonFollowedUsersPercentage = 0;
+        }
 
         return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage, retweetsOfNonFollowedUsersPercentage);
     }
