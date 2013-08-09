@@ -25,7 +25,7 @@ public final class TwitterUtil {
     final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
         "buy", 
         "freelance", "job", "consulting", "hire", "hiring", "careers", 
-        "need", 
+        // "need", // in the maybe pile for now 
         "football", "exclusive",
         "dumb", 
         "escort", "escorts", "xxx", "porn", "fuck"
@@ -48,7 +48,7 @@ public final class TwitterUtil {
         "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
         "on strike", 
         "for sale", 
-        "i need", "we need"
+        "i need", "we need", "need help", "need someone"
     ); // @formatter:on
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
         "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
