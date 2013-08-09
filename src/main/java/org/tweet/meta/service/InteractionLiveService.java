@@ -1,15 +1,18 @@
 package org.tweet.meta.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.TwitterUserSnapshot;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
+import org.tweet.meta.util.TweetIsRetweetPredicate;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
@@ -18,6 +21,8 @@ import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
 
 import com.google.api.client.util.Preconditions;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 @Service
@@ -25,7 +30,7 @@ public class InteractionLiveService {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    TwitterReadLiveService twitterLiveService;
+    TwitterReadLiveService twitterReadLiveService;
 
     @Autowired
     TweetService tweetService;
@@ -152,7 +157,7 @@ public class InteractionLiveService {
      * - <b>local</b>: everything else
      */
     public final TwitterInteractionWithValue decideBestInteractionWithAuthorLive(final String userHandle) {
-        final TwitterProfile user = twitterLiveService.getProfileOfUser(userHandle);
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         return decideBestInteractionWithAuthorLive(user, userHandle);
     }
 
@@ -192,8 +197,8 @@ public class InteractionLiveService {
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
-        logger.info("\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage,
-                userSnapshot.getRetweetsOfSelfMentionsPercentage(), mentionsOutsideOfRetweetsPercentage);
+        logger.info("\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - retweets of non-followed accounts \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle,
+                goodRetweetsPercentage, largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfSelfMentionsPercentage(), userSnapshot.getRetweetsOfNonFollowedUsersPercentage(), mentionsOutsideOfRetweetsPercentage);
 
         return decideAndScoreBestInteractionWithUser(userSnapshot, user);
     }
@@ -213,7 +218,7 @@ public class InteractionLiveService {
     // util
 
     /*test only*/final boolean isUserWorthInteractingWith(final String userHandle) {
-        final TwitterProfile user = twitterLiveService.getProfileOfUser(userHandle);
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         return isUserWorthInteractingWithLive(user, userHandle);
     }
 
@@ -222,7 +227,9 @@ public class InteractionLiveService {
      */
     final TwitterUserSnapshot analyzeUserInteractionsLive(final TwitterProfile user, final String userHandle) {
         final int pagesToAnalyze = twitterInteractionValuesRetriever.getPagesToAnalyze();
-        final List<Tweet> tweetsOfAccount = twitterLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
+        final List<Tweet> tweetsOfAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
+
+        final int allRetweets = countRetweets(tweetsOfAccount);
 
         final int goodRetweets = countGoodRetweets(tweetsOfAccount);
         final int goodRetweetsPercentage = (goodRetweets * 100) / (pagesToAnalyze * 200);
@@ -243,7 +250,10 @@ public class InteractionLiveService {
         final int mentions = countMentionsOutsideOfRetweets(tweetsOfAccount);
         final int mentionsPercentage = (mentions * 100) / (pagesToAnalyze * 200);
 
-        return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage);
+        final int retweetsOfNonFollowedUsers = countRetweetsOfAccountsTheyDoNotFollow(tweetsOfAccount, user);
+        final int retweetsOfNonFollowedUsersPercentage = (retweetsOfNonFollowedUsers * 100) / allRetweets;
+
+        return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage, retweetsOfNonFollowedUsersPercentage);
     }
 
     final TwitterInteractionWithValue decideAndScoreBestInteractionWithUser(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
@@ -384,6 +394,32 @@ public class InteractionLiveService {
         for (final Tweet tweet : tweetsOfAccount) {
             if (!tweet.isRetweet() && TweetUtil.getText(tweet).contains("@")) {
                 Preconditions.checkState(tweet.getRetweetedStatus() == null);
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * - local
+     */
+    private final int countRetweetsOfAccountsTheyDoNotFollow(final List<Tweet> tweetsOfAccount, final TwitterProfile account) {
+        if (account.getFollowersCount() > 5000) { // TODO: temp - go to 10K or more once I have a better understanding of the API limits
+            return -1;
+        }
+        final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
+        final Collection<Long> originalUserIds = Collections2.transform(retweets, new Function<Tweet, Long>() {
+            @Override
+            public final Long apply(final Tweet input) {
+                return input.getRetweetedStatus().getFromUserId();
+            }
+        });
+
+        final CursoredList<Long> friendIds = twitterReadLiveService.readOnlyTwitterApi().friendOperations().getFriendIds();
+
+        int count = 0;
+        for (final long userIdOfRetweet : originalUserIds) {
+            if (!friendIds.contains(userIdOfRetweet)) {
                 count++;
             }
         }
