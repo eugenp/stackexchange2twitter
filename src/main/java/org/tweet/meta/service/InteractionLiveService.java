@@ -103,7 +103,7 @@ public class InteractionLiveService {
         final boolean containsValuableMentions = containsValuableMentionsLive(valueOfMentions);
         if (containsValuableMentions) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-            logger.error("(temp-error)Tweet does contain valuable mention(s): {}\n- url= {}", tweet.getText(), tweetUrl);
+            logger.debug("Tweet does contain valuable mention(s): {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
             final TwitterInteractionWithValue totalValueOfMentions = valueOfMentions(valueOfMentions);
             return totalValueOfMentions;
             // doesn't matter if it's popular or not - mention
