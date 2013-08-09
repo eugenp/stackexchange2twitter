@@ -19,7 +19,6 @@ import org.common.service.live.HttpLiveService;
 import org.common.util.LinkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
@@ -38,7 +37,6 @@ import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
 import org.tweet.twitter.util.TwitterUtil;
 
-import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.api.client.util.Preconditions;
@@ -52,7 +50,7 @@ import com.google.common.collect.Sets;
 
 @Service
 @Profile(SpringProfileUtil.WRITE)
-public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet> implements InitializingBean {
+public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -86,7 +84,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
     @Autowired
     private MetricRegistry metrics;
-    private Counter anyByHashtagErrorsCounter;
 
     public TweetMetaLiveService() {
         super();
@@ -106,11 +103,11 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, runtimeEx);
-            anyByHashtagErrorsCounter.inc();
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
             return false;
         } catch (final Exception ex) {
             logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, ex);
-            anyByHashtagErrorsCounter.inc();
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
             return false;
         }
     }
@@ -127,9 +124,11 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag + ", from predefined accounts", runtimeEx);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
             return false;
         } catch (final Exception ex) {
             logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag + ", from predefined accounts", ex);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
             return false;
         }
     }
@@ -146,9 +145,11 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return success;
         } catch (final RuntimeException runtimeEx) {
             logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, runtimeEx);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
             return false;
         } catch (final Exception ex) {
             logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, ex);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
             return false;
         }
     }
@@ -262,6 +263,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         } catch (final RuntimeException runEx) {
             // this is new - the point it to recover, log and keep analyzing
             logger.error("Unexpected exception trying to tweet on twitterAccount= " + twitterAccount + ", tweetText= " + potentialTweet.getText(), runEx);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ONE_ERROR).inc();
             return false;
         }
     }
@@ -456,11 +458,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     @Override
     protected final IRetweetJpaDAO getApi() {
         throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public final void afterPropertiesSet() {
-        anyByHashtagErrorsCounter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
     }
 
 }

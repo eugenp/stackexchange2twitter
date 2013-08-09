@@ -41,7 +41,7 @@ public class TweetMetaScheduler {
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 1");
 
-        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
+        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR);
         counter.dec(counter.getCount());
 
         // 10
@@ -63,7 +63,7 @@ public class TweetMetaScheduler {
     public void tweetMeta2() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 2");
 
-        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
+        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR);
         counter.dec(counter.getCount());
 
         // 10
@@ -85,7 +85,7 @@ public class TweetMetaScheduler {
     public void tweetMeta3() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 3");
 
-        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_BY_HASHTAG);
+        final Counter counter = metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR);
         counter.dec(counter.getCount());
 
         // 10
