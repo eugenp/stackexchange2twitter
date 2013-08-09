@@ -193,7 +193,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
             logger.trace("Considering to tweet on twitterAccount= {}, questionId= {}", twitterAccount, questionId);
             if (!hasThisAlreadyBeenTweetedById(new QuestionTweet(questionId, twitterAccount, null, null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, questionId= {}", twitterAccount, questionId);
-                final boolean success = tryTweetOneDelegator(title, link, questionId, stackSite, twitterAccount);
+                final boolean success = tryTweetOnePrepare(title, link, questionId, stackSite, twitterAccount);
                 if (!success) {
                     logger.debug("Tried and failed to tweet on twitterAccount= {}, tweet text= {}", twitterAccount, title);
                     continue;
@@ -208,7 +208,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
     }
 
     /**one*/
-    private final boolean tryTweetOneDelegator(final String textRaw, final String url, final String questionId, final StackSite site, final String twitterAccount) {
+    private final boolean tryTweetOnePrepare(final String textRaw, final String url, final String questionId, final StackSite site, final String twitterAccount) {
         final Map<String, Object> customDetails = Maps.newHashMap();
         customDetails.put("questionId", questionId);
         customDetails.put("site", site);
@@ -241,17 +241,17 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         // pre-process
         final String cleanTweetText = tweetService.processPreValidity(tweetTextRaw);
 
-        // is it valid?
-        if (!tweetService.isTweetTextValid(cleanTweetText)) { // verifying the text, not the full tweet because the url will be shortened
-            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, cleanTweetText);
-            return false;
-        }
-
         // post-process
         final String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextOnly(cleanTweetText, twitterAccount);
 
         // construct full tweet
         final String fullTweet = tweetService.constructTweetSimple(fullyCleanedTweetText, url);
+
+        // is it valid?
+        if (!tweetService.isTweetFullValid(fullTweet)) {
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweet);
+            return false;
+        }
 
         // is this tweet pointing to something good? - yes
 
