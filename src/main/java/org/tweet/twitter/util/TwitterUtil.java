@@ -25,14 +25,14 @@ public final class TwitterUtil {
     final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
         "buy", 
         "freelance", "job", "consulting", "hire", "hiring", "careers", 
-        // "need", // in the maybe pile for now 
+        "need", // was in the maybe pile - temporarily moved up here, to see results 
         "football", "exclusive",
         "dumb", 
         "escort", "escorts", "xxx", "porn", "fuck"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
         "buy", "gift",
-        "need", 
+        // "need", // moving from the maybe pile for now - just to see
         "dumb", 
         "snake", // python snake...yes, it happened
         "islamic", "islam", 
