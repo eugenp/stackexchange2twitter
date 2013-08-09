@@ -6,7 +6,7 @@ public final class ClassificationSettings {
      * - TODO: figure out what this is exactly
      */
     public static final int PROBES_FOR_CONTENT_ENCODER_VECTOR = 8;
-    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 150;
+    public static final int LEARNERS_IN_THE_CLASSIFIER_POOL = 200;
     public static final int FEATURES = 7000;
     /*
     # Actual Scores (training data - core vs full)

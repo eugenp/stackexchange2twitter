@@ -169,6 +169,14 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    // new
+    public final void givenTextContainsInvalidCharactersScenario24_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "RT #iPhone #App #Best #Phone #Tools # #Utilities $1.99-> #FREE http://t.co/zWgezCu9EN #DEAL #iOS #heyyou #heyyouapp 4 http://t.co/e8RB2K2VxG";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("RT #iPhone #App #Best #Phone #Tools # #Utilities $1.99-&gt; #FREE http://t.co/zWgezCu9EN #DEAL #iOS #heyyou #heyyouapp 4 http://t.co/e8RB2K2VxG");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // ✔ - I cannot add this into some Strings - it simply get replaced by a square with something inside
     // others: ü
 

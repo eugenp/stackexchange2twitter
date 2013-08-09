@@ -68,11 +68,11 @@ public class InteractionLiveService {
                 // determine which is more valuable - mentioning the author or tweeting the tweet with the mentions it has
                 if (bestInteractionWithAuthor.getVal() >= bestInteractionWithTweet.getVal()) {
                     final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-                    logger.error("(temp-error)More value in interacting with the author then with the mentions - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl);
+                    logger.debug("More value in interacting with the author then with the mentions - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
                     return new TwitterInteractionWithValue(TwitterInteraction.Mention, bestInteractionWithAuthor.getVal());
                 } else {
                     final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-                    logger.error("(temp-error)More value in interacting with the mentions then with the author - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl);
+                    logger.debug("More value in interacting with the mentions then with the author - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
                     return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
                 }
             }
