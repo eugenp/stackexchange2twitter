@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.List;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -26,6 +29,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 
 import com.codahale.metrics.MetricRegistry;
 import com.google.api.client.util.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.net.HttpHeaders;
 
 @Service
@@ -89,10 +93,16 @@ public class HttpLiveService implements InitializingBean {
 
     final String expandInternal(final String urlArg) throws IOException {
         String originalUrl = urlArg;
-        String newUrl = expandSingleLevel(originalUrl);
+        String newUrl = expandSingleLevel(originalUrl).getRight();
+        final List<String> alreadyVisited = Lists.newArrayList(originalUrl, newUrl);
         while (!originalUrl.equals(newUrl)) {
             originalUrl = newUrl;
-            newUrl = expandSingleLevel(originalUrl);
+            final Pair<Integer, String> statusAndUrl = expandSingleLevel(originalUrl);
+            newUrl = statusAndUrl.getRight();
+            if ((statusAndUrl.getLeft() == 301 || statusAndUrl.getLeft() == 302) && alreadyVisited.contains(newUrl)) {
+                throw new IllegalStateException("Likely a redirect loop");
+            }
+            alreadyVisited.add(newUrl);
         }
 
         return newUrl;
@@ -100,7 +110,7 @@ public class HttpLiveService implements InitializingBean {
 
     // util
 
-    final String expandSingleLevel(final String url) throws IOException {
+    final Pair<Integer, String> expandSingleLevel(final String url) throws IOException {
         HttpGet request = null;
         HttpEntity httpEntity = null;
         InputStream entityContentStream = null;
@@ -113,19 +123,20 @@ public class HttpLiveService implements InitializingBean {
             httpEntity = httpResponse.getEntity();
             entityContentStream = httpEntity.getContent();
 
-            if (httpResponse.getStatusLine().getStatusCode() != 301) {
-                return url;
+            final int statusCode = httpResponse.getStatusLine().getStatusCode();
+            if (statusCode != 301 && statusCode != 302) {
+                return new ImmutablePair<Integer, String>(statusCode, url);
             }
             final Header[] headers = httpResponse.getHeaders(HttpHeaders.LOCATION);
             Preconditions.checkState(headers.length == 1);
             String newUrl = headers[0].getValue();
             newUrl = processNewUrl(url, newUrl);
 
-            return newUrl;
+            return new ImmutablePair<Integer, String>(statusCode, newUrl);
         } catch (final IllegalArgumentException uriEx) {
             logger.warn("Unable to parse the URL: " + url, uriEx);
             metrics.counter(MetricsUtil.Meta.HTTP_ERR);
-            return url;
+            return new ImmutablePair<Integer, String>(500, url);
         } catch (final IOException ex) {
             metrics.counter(MetricsUtil.Meta.HTTP_ERR);
             throw new IllegalStateException(ex);

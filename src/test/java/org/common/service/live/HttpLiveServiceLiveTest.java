@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -42,7 +43,7 @@ public class HttpLiveServiceLiveTest {
 
     @Test
     public final void whenRssUriIsExpandedScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String unshortenedUrl = httpService.expandSingleLevel("http://feedproxy.google.com/~r/Baeldung/~3/WK4JN2S5KCU/spring-nosuchbeandefinitionexception");
+        final String unshortenedUrl = httpService.expandSingleLevel("http://feedproxy.google.com/~r/Baeldung/~3/WK4JN2S5KCU/spring-nosuchbeandefinitionexception").getRight();
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
         assertThat(unshortenedUrl, not(containsString("feedproxy")));
@@ -51,7 +52,7 @@ public class HttpLiveServiceLiveTest {
 
     @Test
     public final void whenShortenedUriIsUnshortednedBySingleLevelScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String unshortenedUrl = httpService.expandSingleLevel("http://t.co/wCD5WnAFGi");
+        final String unshortenedUrl = httpService.expandSingleLevel("http://t.co/wCD5WnAFGi").getRight();
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
         assertThat(unshortenedUrl, not(containsString("t.co")));
@@ -60,7 +61,7 @@ public class HttpLiveServiceLiveTest {
     @Test
     public final void whenStandardUriIsUnshortednedBySingleLevelScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
         final String url = "http://www.yahoo.com";
-        final String unshortenedUrl = httpService.expandSingleLevel(url);
+        final String unshortenedUrl = httpService.expandSingleLevel(url).getRight();
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
         assertThat(unshortenedUrl, equalTo(url));
@@ -101,6 +102,20 @@ public class HttpLiveServiceLiveTest {
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
         assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
+    }
+
+    // invalid urls
+
+    @Test
+    public final void givenInvalidUrl1_whenUnshortening_thenException() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expand("http://t.co/nzFMCOOdEw");
+        assertNull(unshortenedUrl);
+    }
+
+    @Test
+    public final void givenInvalidUrl2_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expand("http://web.blackberry.com/business/software/bes-10.html");
+        assertNull(unshortenedUrl);
     }
 
     // is homepage url
