@@ -162,7 +162,13 @@ public final class TwitterUtil {
             if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
                 // TODO: temporarily error to get some examples
                 // also moved up so that it runs first and I see what kind of tweets would belong to this category
-                logger.error("Rejecting the following tweet because a token matches one of the banned maybe keywords: token= {}; tweet= \n{}", tweetToken, text);
+
+                // try catch to at least get the stack
+                try {
+                    throw new IllegalStateException();
+                } catch (final Exception ex) {
+                    logger.error("Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n{}" + text, ex);
+                }
                 return true;
             }
         }
