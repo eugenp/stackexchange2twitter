@@ -161,20 +161,22 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
 
-        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag);
+        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, hashtag);
 
         return retweetAnyByHashtagInternal(twitterAccount, prunedTweets, hashtag);
     }
 
-    private final Collection<Tweet> pruneTweets(final List<Tweet> tweetsOfHashtag) {
+    private final Collection<Tweet> pruneTweets(final List<Tweet> tweetsOfHashtag, final String hashtag) {
         final Set<Tweet> tweetsSet = Sets.newHashSet();
         for (final Tweet tweet : tweetsOfHashtag) {
             tweetsSet.add(TweetUtil.getTweet(tweet));
         }
+
+        final int minRt = minRtRetriever.minRt(hashtag);
         final Collection<Tweet> tweetSetFiltered = Collections2.filter(tweetsSet, new Predicate<Tweet>() {
             @Override
             public final boolean apply(final Tweet tweet) {
-                if (tweet.getRetweetCount() <= 1) {
+                if (tweet.getRetweetCount() <= (minRt / 2)) {
                     return false;
                 }
                 if (!tweetService.isTweetWorthRetweetingByText(tweet.getText())) {
@@ -197,8 +199,15 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         for (final Tweet tweet : tweets) {
             final TwitterInteractionWithValue interactionValue = interactionLiveService.decideBestInteractionRaw(tweet);
             // tweak score based on the number of RTs
-            final int newScore = interactionValue.getVal() + tweet.getRetweetCount() * 50 / 100;
+            final int newScore = interactionValue.getVal() + tweet.getRetweetCount() * 33 / 100;
             valueToTweet.put(new TwitterInteractionWithValue(interactionValue.getTwitterInteraction(), newScore), tweet);
+        }
+
+        // adjust the RT counts
+        for (final Map.Entry<TwitterInteractionWithValue, Tweet> valueAndTweet : valueToTweet.entrySet()) {
+            final Tweet theTweet = valueAndTweet.getValue();
+            final int newRtCount = theTweet.getRetweetCount() + valueAndTweet.getKey().getVal() / 10;
+            theTweet.setRetweetCount(newRtCount);
         }
 
         return Lists.newArrayList(valueToTweet.values());
@@ -223,7 +232,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         final List<Tweet> tweetsFromOnlyPredefinedAccounts = Lists.newArrayList(tweetsFromOnlyPredefinedAccountsRaw);
-        pruneTweets(tweetsFromOnlyPredefinedAccounts);
+        pruneTweets(tweetsFromOnlyPredefinedAccounts, hashtag);
 
         return retweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
     }

@@ -10,6 +10,8 @@ public enum StackTag {// @formatter:off
     akka, 
     bash, 
     clojure, 
+    css, 
+    css3,
     cloud, 
     couchdb,
     cassandra,

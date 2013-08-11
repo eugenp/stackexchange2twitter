@@ -88,6 +88,8 @@ public class TweetMetaLiveServiceLiveTest {
         //
     }
 
+    //
+
     @Test
     public final void whenTweetingAboutJQuery_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.jQueryDaily.name(), TwitterTag.jquery.name());
@@ -138,12 +140,6 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingFromPredefinedAccountAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaService.retweetAnyByHashtagOnlyFromPredefinedAccounts(TwitterAccountEnum.BestEclipse.name());
-        assertTrue(success);
-    }
-
-    @Test
     public final void whenTweetingAboutMath_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
         assertTrue(success);
@@ -152,6 +148,20 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutAlgorithms_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutNoSql_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
+        assertTrue(success);
+    }
+
+    // predefined account
+
+    @Test
+    public final void whenTweetingFromPredefinedAccountAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetAnyByHashtagOnlyFromPredefinedAccounts(TwitterAccountEnum.BestEclipse.name());
         assertTrue(success);
     }
 

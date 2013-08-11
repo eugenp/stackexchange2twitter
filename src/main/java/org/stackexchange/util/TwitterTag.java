@@ -12,6 +12,8 @@ public enum TwitterTag {// @formatter:off
     bash, 
     clojure, 
     cloud, 
+    css, 
+    css3, 
     couchdb,
     cassandra,
     captcha,
