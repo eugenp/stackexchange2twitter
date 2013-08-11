@@ -8,11 +8,3 @@
 2013-08-12 00:38:07,494 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= ObjectiveCDaily is= 3
 2013-08-12 00:33:22,632 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestScala is= 3
 2013-08-12 00:33:28,665 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestXML is= 3
-
-2013-08-12 00:31:53,921 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestOfJava is= 2
-2013-08-12 00:32:48,868 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestRubyOnRails is= 2
-2013-08-12 00:33:45,475 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= FacebookDigest is= 2
-2013-08-12 00:39:02,416 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= PerlDaily is= 2
-
-2013-08-12 00:31:32,015 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestOfCss is= 0
-2013-08-12 00:31:31,237 INFO [main] o.t.m.s.RetweetScoresTuningLiveTest [RetweetScoresTuningLiveTest.java:87] Number of links not to SO for account= BestOfCocoa is= 0
