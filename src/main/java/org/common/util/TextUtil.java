@@ -69,6 +69,10 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "�", "-");
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "&eacute;", "e");
+
+        cleanedText = StringUtils.replaceAll(cleanedText, "&reg;", ""); // &reg; = ®
+
         return cleanedText;
     }
 

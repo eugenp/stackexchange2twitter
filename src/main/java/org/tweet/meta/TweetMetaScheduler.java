@@ -65,7 +65,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCocoa.name());
+        // service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCocoa.name()); // no
 
         /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
 

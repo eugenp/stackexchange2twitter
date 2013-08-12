@@ -28,10 +28,11 @@ public final class TwitterUtil {
         "need", // was in the maybe pile - temporarily moved up here, to see results 
         "football", "exclusive",
         "dumb", 
+        "gift", 
         "escort", "escorts", "xxx", "porn", "fuck"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-        "buy", "gift",
+        "buy", 
         // "need", // moving from the maybe pile for now - just to see
         "dumb", 
         "snake", // python snake...yes, it happened
@@ -165,9 +166,9 @@ public final class TwitterUtil {
 
                 // try catch to at least get the stack
                 try {
-                    throw new IllegalStateException();
+                    throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
-                    logger.error("Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n{}" + text, ex);
+                    logger.error("Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + text, ex);
                 }
                 return true;
             }
