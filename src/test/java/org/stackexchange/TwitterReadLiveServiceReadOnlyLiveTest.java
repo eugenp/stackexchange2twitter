@@ -1,11 +1,13 @@
 package org.stackexchange;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
@@ -77,6 +79,15 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
         final List<Tweet> tweetsOfHashtag = instance.listTweetsOfHashtag(TwitterTag.mysql.name());
         Collections.sort(tweetsOfHashtag, new TweetByRtComparator());
         System.out.println(tweetsOfHashtag);
+    }
+
+    // friends
+
+    @Test
+    public final void whenFriendIdsAreRetrieved_thenCorrect() {
+        final TwitterProfile account = instance.getProfileOfUser("GreatestQuotes");
+        final Set<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
+        assertThat(friendsOfHashtag.size(), equalTo(10000));
     }
 
     // list operations

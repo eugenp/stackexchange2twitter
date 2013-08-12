@@ -2,11 +2,11 @@ package org.tweet.meta.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
@@ -417,7 +417,8 @@ public class InteractionLiveService {
      * - local
      */
     private final int countRetweetsOfAccountsTheyDoNotFollow(final List<Tweet> tweetsOfAccount, final TwitterProfile account) {
-        if (account.getFollowersCount() > 5000) { // TODO: temp - go to 10K or more once I have a better understanding of the API limits
+        final int pages = 2;
+        if (account.getFollowersCount() > (pages * 5000)) {
             return -1;
         }
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
@@ -428,7 +429,7 @@ public class InteractionLiveService {
             }
         });
 
-        final CursoredList<Long> friendIds = twitterReadLiveService.readOnlyTwitterApi().friendOperations().getFriendIds();
+        final Set<Long> friendIds = twitterReadLiveService.getFriendIds(account, pages);
 
         int count = 0;
         for (final long userIdOfRetweet : originalUserIds) {

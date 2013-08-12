@@ -1,12 +1,15 @@
 package org.tweet.twitter.service.live;
 
 import java.util.List;
+import java.util.Set;
 
 import org.common.metrics.MetricsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.social.twitter.api.CursoredList;
+import org.springframework.social.twitter.api.FriendOperations;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.TimelineOperations;
 import org.springframework.social.twitter.api.Tweet;
@@ -24,6 +27,7 @@ import com.codahale.metrics.MetricRegistry;
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 @Service
 @Profile(SpringProfileUtil.LIVE)
@@ -217,6 +221,27 @@ public class TwitterReadLiveService {
 
     public Tweet findOne(final long id) {
         return readOnlyTwitterApi().timelineOperations().getStatus(id);
+    }
+
+    // friends
+
+    public Set<Long> getFriendIds(final TwitterProfile account, final int maxPages) {
+        final Set<Long> fullListOfFriends = Sets.newHashSet();
+        final FriendOperations friendOperations = readOnlyTwitterApi().friendOperations();
+        final String screenName = account.getScreenName();
+
+        CursoredList<Long> currentPage = friendOperations.getFriendIds(screenName);
+        fullListOfFriends.addAll(currentPage);
+
+        final int maxNecessaryPages = (account.getFriendsCount() / 5000) + 1;
+        final int maxActualPages = Math.min(maxNecessaryPages, maxPages) - 1;
+        for (int i = 0; i < maxActualPages; i++) {
+            final long nextCursor = currentPage.getNextCursor();
+            currentPage = friendOperations.getFriendIdsInCursor(screenName, nextCursor);
+            fullListOfFriends.addAll(currentPage);
+        }
+
+        return fullListOfFriends;
     }
 
     // internal API
