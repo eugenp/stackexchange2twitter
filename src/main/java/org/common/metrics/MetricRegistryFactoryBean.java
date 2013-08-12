@@ -23,7 +23,7 @@ public final class MetricRegistryFactoryBean implements FactoryBean<MetricRegist
         final MetricRegistry metricRegistry = new MetricRegistry();
 
         final Slf4jReporter reporter = Slf4jReporter.forRegistry(metricRegistry).outputTo(LoggerFactory.getLogger("org.common.metrics")).convertRatesTo(TimeUnit.SECONDS).convertDurationsTo(TimeUnit.MILLISECONDS).build();
-        reporter.start(10, TimeUnit.MINUTES);
+        reporter.start(20, TimeUnit.MINUTES);
 
         return metricRegistry;
     }
