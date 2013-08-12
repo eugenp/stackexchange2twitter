@@ -197,10 +197,21 @@ public class InteractionLiveService {
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
-        logger.info(
-                "\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - retweets of non-followed accounts \n{}% - mentions (outside of retweets)\n{}% - retweets of non followed accounts\n=> worth interacting with",
-                userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfSelfMentionsPercentage(), userSnapshot.getRetweetsOfNonFollowedUsersPercentage(), mentionsOutsideOfRetweetsPercentage,
-                userSnapshot.getRetweetsOfNonFollowedUsersPercentage());
+        // @formatter:off
+        final String analysisResult = new StringBuilder().append("\n")
+            .append("{} profile: ").append("\n")
+            .append("{}% - good retweets - ").append("{}% of large accounts, ").append("{}% of non followed accounts, ").append("\n")
+            .append("{}% - retweets of self mentions ").append("\n")
+            .append("{}% - mentions (outside of retweets) ").append("\n")
+            .append("=> worth interacting with")
+            .toString();
+        logger.info(analysisResult, 
+            userHandle, 
+            goodRetweetsPercentage, largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfNonFollowedUsersPercentage(), 
+            userSnapshot.getRetweetsOfSelfMentionsPercentage(), 
+            mentionsOutsideOfRetweetsPercentage 
+        );
+        // @formatter:on
 
         return decideAndScoreBestInteractionWithUser(userSnapshot, user);
     }
@@ -231,8 +242,6 @@ public class InteractionLiveService {
         final int pagesToAnalyze = twitterInteractionValuesRetriever.getPagesToAnalyze();
         final List<Tweet> tweetsOfAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
 
-        final int allRetweets = countRetweets(tweetsOfAccount);
-
         final int goodRetweets = countGoodRetweets(tweetsOfAccount);
         final int goodRetweetsPercentage = (goodRetweets * 100) / (pagesToAnalyze * 200);
 
@@ -254,9 +263,13 @@ public class InteractionLiveService {
 
         final int retweetsOfNonFollowedUsers;
         final int retweetsOfNonFollowedUsersPercentage;
-        if (allRetweets > 0) {
+        if (goodRetweets > 0) {
             retweetsOfNonFollowedUsers = countRetweetsOfAccountsTheyDoNotFollow(tweetsOfAccount, user);
-            retweetsOfNonFollowedUsersPercentage = (retweetsOfNonFollowedUsers * 100) / allRetweets;
+            if (retweetsOfNonFollowedUsers > 0) {
+                retweetsOfNonFollowedUsersPercentage = (retweetsOfNonFollowedUsers * 100) / goodRetweets;
+            } else {
+                retweetsOfNonFollowedUsersPercentage = 0;
+            }
         } else {
             retweetsOfNonFollowedUsers = 0;
             retweetsOfNonFollowedUsersPercentage = 0;
@@ -420,7 +433,7 @@ public class InteractionLiveService {
      */
     private final int countRetweetsOfAccountsTheyDoNotFollow(final List<Tweet> tweetsOfAccount, final TwitterProfile account) {
         final int pages = 2;
-        if (account.getFollowersCount() > (pages * 5000)) {
+        if (account.getFriendsCount() > (pages * 5000)) {
             return -1;
         }
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
