@@ -2,11 +2,11 @@ package org.stackexchange.util;
 
 public enum TwitterAccountEnum {// @formatter:off
     AskUbuntuBest(false), // SO specific
-    AspnetDaily(false), // 
+    AspnetDaily(false), 
     
     BestAlgorithms(true), 
     BestAWS(true), 
-    BestBash(false), // 
+    BestBash(false),  
     BestClojure(true), 
     BestEclipse(false), // predefined some accounts
     BestGit(false), // predefined some accounts
@@ -14,7 +14,7 @@ public enum TwitterAccountEnum {// @formatter:off
     BestJPA(false), // predefined some accounts
     BestJSP(false), // predefined some accounts
     BestJSON(true), 
-    BestMaven(false), // 
+    BestMaven(false),  
     BestNoSQL(true), 
     BestPHP(true), 
     BestOfCloud(true), 
@@ -22,21 +22,23 @@ public enum TwitterAccountEnum {// @formatter:off
     BestOfCss(true), 
     BestOfJava(true), 
     BestOfLinux(true), 
-    BestOfRuby(false), // 
+    BestOfRuby(false), 
     BestOfSecurity(true), 
     BestRubyOnRails(true), 
     BestSQL(true), 
     BestScala(true), 
     BestXML(true), 
     
-    DjangoDaily(false), // 
+    DjangoDaily(false), 
     
     FacebookDigest(true), 
     
     GoogleDigest(true), 
 
-    HibernateDaily(false), // 
+    HadoopDaily(true), 
+    HibernateDaily(false), 
     HTMLdaily(true), 
+    BestOfHTML5(true), 
     
     iOSdigest(true), 
     InTheAppleWorld(true), 

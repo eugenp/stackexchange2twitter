@@ -69,6 +69,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfJava:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestOfHTML5:
+            return Lists.newArrayList(StackSite.StackOverflow);
 
         case BestPHP:
             return Lists.newArrayList(StackSite.StackOverflow);
@@ -90,6 +92,8 @@ public final class TwitterAccountToStackAccount {
         case GoogleDigest:
             return Lists.newArrayList(StackSite.StackOverflow);
 
+        case HadoopDaily:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case HibernateDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
         case HTMLdaily:

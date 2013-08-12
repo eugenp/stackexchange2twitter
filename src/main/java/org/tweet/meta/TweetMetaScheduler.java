@@ -35,7 +35,7 @@ public class TweetMetaScheduler {
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 1");
 
-        // 10
+        // 11
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
@@ -46,6 +46,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
 
         logger.info("Finished retweet schedule - 1");
     }
@@ -66,6 +67,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
         // service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCocoa.name()); // no
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
 
         /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
 
