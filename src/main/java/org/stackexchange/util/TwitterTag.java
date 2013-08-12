@@ -31,6 +31,7 @@ public enum TwitterTag {// @formatter:off
     gae,
     gmail,
     gdrive, 
+    hadoop,
     hbase,
     // hibernate,
 
@@ -49,6 +50,7 @@ public enum TwitterTag {// @formatter:off
     lisp, 
     linux, 
     
+    multithreading,
     mysql, 
     maven, 
     macbook,
@@ -91,5 +93,6 @@ public enum TwitterTag {// @formatter:off
 
     wordpress, 
     
-    xml
+    xml,
+    wpf
 }// @formatter:on

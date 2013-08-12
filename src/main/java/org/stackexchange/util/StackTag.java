@@ -26,6 +26,7 @@ public enum StackTag {// @formatter:off
     git, 
     google,
     gmail,
+    hadoop,
     hbase,
     hibernate,
 
@@ -46,6 +47,7 @@ public enum StackTag {// @formatter:off
     maven, 
     macbook,
     mongodb, 
+    multithreading, 
     nosql, 
     neo4j, 
     parsing,
@@ -75,5 +77,6 @@ public enum StackTag {// @formatter:off
 
     wordpress, 
     
-    xml
+    xml, 
+    wpf
 }// @formatter:on
