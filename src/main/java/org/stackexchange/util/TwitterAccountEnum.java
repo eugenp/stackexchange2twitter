@@ -15,6 +15,7 @@ public enum TwitterAccountEnum {// @formatter:off
     BestJSP(false), // predefined some accounts
     BestJSON(true), 
     BestMaven(false),  
+    BestMultithread(true), 
     BestNoSQL(true), 
     BestPHP(true), 
     BestOfCloud(true), 
@@ -28,6 +29,7 @@ public enum TwitterAccountEnum {// @formatter:off
     BestSQL(true), 
     BestScala(true), 
     BestXML(true), 
+    BestWPF(false), 
     
     DjangoDaily(false), 
     

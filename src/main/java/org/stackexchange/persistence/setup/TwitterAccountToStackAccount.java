@@ -52,6 +52,9 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestMaven:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case BestMultithread:
+            return Lists.newArrayList(StackSite.StackOverflow);
+
         case BestNoSQL:
             return Lists.newArrayList(StackSite.StackOverflow);
 
@@ -71,7 +74,6 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfHTML5:
             return Lists.newArrayList(StackSite.StackOverflow);
-
         case BestPHP:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestRubyOnRails:
@@ -81,6 +83,8 @@ public final class TwitterAccountToStackAccount {
         case BestSQL:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestXML:
+            return Lists.newArrayList(StackSite.StackOverflow);
+        case BestWPF:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case DjangoDaily:
