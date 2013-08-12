@@ -47,6 +47,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
 
         logger.info("Finished retweet schedule - 1");
     }
