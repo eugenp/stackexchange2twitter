@@ -197,8 +197,10 @@ public class InteractionLiveService {
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
-        logger.info("\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - retweets of non-followed accounts \n{}% - mentions (outside of retweets)\n=> worth interacting with", userHandle,
-                goodRetweetsPercentage, largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfSelfMentionsPercentage(), userSnapshot.getRetweetsOfNonFollowedUsersPercentage(), mentionsOutsideOfRetweetsPercentage);
+        logger.info(
+                "\n{} profile: \n{}% - good retweets - {}% of large accounts, \n{}% - retweets of self mentions \n{}% - retweets of non-followed accounts \n{}% - mentions (outside of retweets)\n{}% - retweets of non followed accounts\n=> worth interacting with",
+                userHandle, goodRetweetsPercentage, largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfSelfMentionsPercentage(), userSnapshot.getRetweetsOfNonFollowedUsersPercentage(), mentionsOutsideOfRetweetsPercentage,
+                userSnapshot.getRetweetsOfNonFollowedUsersPercentage());
 
         return decideAndScoreBestInteractionWithUser(userSnapshot, user);
     }
