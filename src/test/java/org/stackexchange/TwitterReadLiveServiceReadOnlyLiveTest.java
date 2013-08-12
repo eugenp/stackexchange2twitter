@@ -1,13 +1,14 @@
 package org.stackexchange;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
@@ -84,10 +85,24 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
     // friends
 
     @Test
-    public final void whenFriendIdsAreRetrieved_thenCorrect() {
+    public final void whenFriendIdsAreRetrievedFromAccount1_thenCorrect() {
         final TwitterProfile account = instance.getProfileOfUser("GreatestQuotes");
-        final Set<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
+        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
         assertThat(friendsOfHashtag.size(), equalTo(10000));
+    }
+
+    @Test
+    public final void whenFriendIdsAreRetrievedFromAccount2_thenCorrect() {
+        final TwitterProfile account = instance.getProfileOfUser("skillsmatter");
+        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
+        assertThat(friendsOfHashtag.size(), greaterThan(3300));
+    }
+
+    @Test
+    public final void whenFriendIdsAreRetrievedFromAccount3_thenCorrect() {
+        final TwitterProfile account = instance.getProfileOfUser("davesbargains");
+        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
+        assertThat(friendsOfHashtag.size(), greaterThan(8000));
     }
 
     // list operations

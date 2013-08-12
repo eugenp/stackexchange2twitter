@@ -414,7 +414,7 @@ public class InteractionLiveService {
     }
 
     /**
-     * - local
+     * - live
      */
     private final int countRetweetsOfAccountsTheyDoNotFollow(final List<Tweet> tweetsOfAccount, final TwitterProfile account) {
         final int pages = 2;
