@@ -72,6 +72,7 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "&eacute;", "e");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&reg;", ""); // &reg; = ®
+        cleanedText = StringUtils.replaceAll(cleanedText, "&ouml;", "o"); // &ouml; = ö
 
         return cleanedText;
     }

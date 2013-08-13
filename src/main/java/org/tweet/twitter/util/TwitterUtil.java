@@ -36,7 +36,7 @@ public final class TwitterUtil {
         // "need", // moving from the maybe pile for now - just to see
         "dumb", 
         "snake", // python snake...yes, it happened
-        "islamic", "islam", 
+        "islamic", "islam", "muslim", "muslims", 
         "$3.99", "$2.99", "$1.99", "$0.99" 
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
@@ -50,6 +50,9 @@ public final class TwitterUtil {
         "on strike", 
         "for sale", 
         "i need", "we need", "need help", "need someone"
+    ); // @formatter:on
+    final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
+        "RT if"
     ); // @formatter:on
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
         "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
@@ -151,6 +154,14 @@ public final class TwitterUtil {
 
         // by expression
         final String textLowerCase = text.toLowerCase();
+
+        for (final String bannedExpressionMaybe : bannedExpressionsMaybe) {
+            if (textLowerCase.contains(bannedExpressionMaybe)) {
+                logger.error("Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, text);
+                return true;
+            }
+        }
+
         for (final String bannedExpression : bannedExpressions) {
             if (textLowerCase.contains(bannedExpression)) {
                 logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, text);
