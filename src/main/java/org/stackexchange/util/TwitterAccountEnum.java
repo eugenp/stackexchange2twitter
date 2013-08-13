@@ -19,7 +19,7 @@ public enum TwitterAccountEnum {// @formatter:off
     BestNoSQL(true), 
     BestPHP(true), 
     BestOfCloud(true), 
-    BestOfCocoa(true), 
+    BestOfCocoa(false), // newly false because cocoa has multiple meanings 
     BestOfCss(true), 
     BestOfJava(true), 
     BestOfLinux(true), 
