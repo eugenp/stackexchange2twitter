@@ -208,9 +208,9 @@ public class TwitterReadLiveService {
     public List<Tweet> listTweetsOfHashtag(final String readOnlyAccountName, final String hashtag) {
         final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(readOnlyAccountName);
 
-        // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.POPULAR);
-        final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.MIXED);
-        // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.RECENT);
+        // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(true).resultType(ResultType.POPULAR);
+        final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(true).resultType(ResultType.MIXED);
+        // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(true).resultType(ResultType.RECENT);
         final SearchResults search = twitterTemplate.searchOperations().search(searchParameters);
         metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 

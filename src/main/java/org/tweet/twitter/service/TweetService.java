@@ -198,12 +198,18 @@ public class TweetService {
         return tweet;
     }
 
-    public final int countHashtags(final Tweet tweet) {
+    /**
+     * - local
+     */
+    final int countHashtags(final Tweet tweet) {
         return getHashtags(tweet).size();
     }
 
     // util
 
+    /**
+     * - local
+     */
     final int getCharacterLenghtOfHashTags(final Tweet tweet) {
         int size = 0;
         for (final HashTagEntity hashTag : getHashtags(tweet)) {
@@ -255,6 +261,9 @@ public class TweetService {
         return processedTweet;
     }
 
+    /**
+     * - local
+     */
     private final List<HashTagEntity> getHashtags(final Tweet tweet) {
         final Entities entities = tweet.getEntities();
         if (entities == null) {

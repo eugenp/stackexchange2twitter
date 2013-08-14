@@ -295,9 +295,10 @@ public class InteractionLiveService {
 
         final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
         // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
-        final int goodRetweetsOfNonLargeAccountsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
-        final int mentionScore = goodRetweetsOfNonLargeAccountsPercentage + (retweetsOfSelfMentionsPercentage * 3) + addFollowersCountToMentionScore;
-        final int retweetScore = (goodRetweetsOfNonLargeAccountsPercentage * 75 / 100) + addPartOfFollowerCountToRetweetScore;
+        final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
+
+        final int mentionScore = goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage + (retweetsOfSelfMentionsPercentage * 3) + addFollowersCountToMentionScore;
+        final int retweetScore = (goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage * 75 / 100) + addPartOfFollowerCountToRetweetScore;
         if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning
             return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
         }
