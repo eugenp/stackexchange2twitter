@@ -84,4 +84,14 @@ public class TwitterInteractionValuesRetriever {
         return env.getProperty("twitter.value.largeaccount", Integer.class);
     }
 
+    /**
+     * When calculating <b>the value of an RETWEET interaction with a USER</b>, the number of followers of that account will add something to the score <i>Math.log(followerCount)</i><br/>
+     * This percentage will be applied to that base score - the reason is simple - the value of a retweet is smaller than the value of a mention, so the actual value of the follower count is also a bit lower
+     * - <b>twitter.retweet.score.followers.percentage</b> <br/>
+     * - default = 50
+     */
+    public int getRetweetScoreFollowersPercentage() {
+        return env.getProperty("twitter.value.largeaccount", Integer.class);
+    }
+
 }

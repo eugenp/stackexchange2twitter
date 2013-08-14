@@ -51,62 +51,67 @@ public final class InteractionServiceLiveTest {
     // no
 
     @Test
-    public final void whenTestingIfUser1ShouldBeInteractedWith_thenNo() {
+    public final void whenTestingIfShouldInteractWithUser1_thenNo() {
         assertFalse(userInteractionService.isUserWorthInteractingWith("johnhike"));
     }
 
     @Test
-    public final void whenTestingIfUser2ShouldBeInteractedWith_thenNo() {
+    public final void whenTestingIfShouldInteractWithUser2_thenNo() {
         // no retweets
         assertFalse(userInteractionService.isUserWorthInteractingWith("Moz"));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser3_thenNo() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("HuffPostTech"));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser4_thenNo() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("mitsuhiko"));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser5_thenNo() {
+        assertTrue(userInteractionService.isUserWorthInteractingWith("gopivotal"));
     }
 
     // barely
 
     @Test
-    public final void whenTestingIfUser1ShouldBeInteractedWith_thenYesButBarely() {
-        assertTrue(userInteractionService.isUserWorthInteractingWith("mitsuhiko"));
-    }
-
-    @Test
-    public final void whenTestingIfUser2ShouldBeInteractedWith_thenYesButBarely() {
-        assertTrue(userInteractionService.isUserWorthInteractingWith("gopivotal"));
-    }
-
-    @Test
-    public final void whenTestingIfUser3ShouldBeInteractedWith_thenYesButBarely() {
+    public final void whenTestingIfShouldInteractWithUser1_thenYesButBarely() {
         assertTrue(userInteractionService.isUserWorthInteractingWith("chalkers"));
     }
 
     // yes
 
     @Test
-    public final void whenTestingIfUser1ShouldBeInteractedWith_thenYes() {
+    public final void whenTestingIfShouldInteractWithUser1_thenYes() {
         assertTrue(userInteractionService.isUserWorthInteractingWith("russmiles")); // for lisp
     }
 
     @Test
-    public final void whenTestingIfUser2ShouldBeInteractedWith_thenYes() {
+    public final void whenTestingIfShouldInteractWithUser2_thenYes() {
         assertTrue(userInteractionService.isUserWorthInteractingWith("petrikainulaine"));
     }
 
     @Test
-    public final void whenTestingIfUser3ShouldBeInteractedWith_thenYes() {
+    public final void whenTestingIfShouldInteractWithUser3_thenYes() {
         assertTrue(userInteractionService.isUserWorthInteractingWith("SpringSource"));
     }
 
     @Test
-    public final void whenTestingIfUser4ShouldBeInteractedWith_thenYes() {
+    public final void whenTestingIfShouldInteractWithUser4_thenYes() {
         assertTrue(userInteractionService.isUserWorthInteractingWith("skillsmatter"));
     }
 
     @Test
-    public final void whenTestingIfUser5ShouldBeInteractedWith_thenYes() {
+    public final void whenTestingIfShouldInteractWithUser5_thenYes() {
         assertTrue(userInteractionService.isUserWorthInteractingWith("jameschesters"));
     }
 
     @Test
-    public final void whenTestingIfUser6ShouldBeInteractedWith_thenYes() {
+    public final void whenTestingIfShouldInteractWithUser6_thenYes() {
         userInteractionService.decideBestInteractionWithAuthorLive("javacodegeeks");
     }
 
