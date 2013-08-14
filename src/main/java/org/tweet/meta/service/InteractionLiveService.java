@@ -207,7 +207,7 @@ public class InteractionLiveService {
             .toString();
         logger.info(analysisResult, 
             userHandle, 
-            goodRetweetsPercentage, largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfNonFollowedUsersPercentage(), 
+            goodRetweetsPercentage, largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage(), 
             userSnapshot.getRetweetsOfSelfMentionsPercentage(), 
             mentionsOutsideOfRetweetsPercentage 
         );
@@ -262,29 +262,26 @@ public class InteractionLiveService {
         final int mentionsPercentage = (mentions * 100) / (pagesToAnalyze * 200);
 
         final int retweetsOfNonFollowedUsers;
-        final int retweetsOfNonFollowedUsersPercentage;
+        final int retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage;
         if (goodRetweets > 0) {
             retweetsOfNonFollowedUsers = countRetweetsOfAccountsTheyDoNotFollow(tweetsOfAccount, user);
             if (retweetsOfNonFollowedUsers > 0) {
-                retweetsOfNonFollowedUsersPercentage = (retweetsOfNonFollowedUsers * 100) / goodRetweets;
+                retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage = (retweetsOfNonFollowedUsers * 100) / goodRetweets;
             } else {
-                retweetsOfNonFollowedUsersPercentage = 0;
+                retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage = 0;
             }
         } else {
             retweetsOfNonFollowedUsers = 0;
-            retweetsOfNonFollowedUsersPercentage = 0;
+            retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage = 0;
         }
 
-        return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage, retweetsOfNonFollowedUsersPercentage);
+        return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage, retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage);
     }
 
     final TwitterInteractionWithValue decideAndScoreBestInteractionWithUser(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
         final int goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage(); // it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
         // final int mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage(); // the account (somehow) finds content and mentions it - good, but no help
         final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage(); // this also doesn't decide anything about how to best interact with the account
-
-        // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
-        final int goodRetweetsOfNonLargeAccountsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
 
         // the follower count of the user should increase the overall interaction score (not by much, but still)
         final int addFollowersCountToMentionScore;
@@ -294,9 +291,11 @@ public class InteractionLiveService {
             addFollowersCountToMentionScore = 0;
         }
         twitterInteractionValuesRetriever.getLargeAccountDefinition();
-        final int addPartOfFollowerCountToRetweetScore = addFollowersCountToMentionScore * (twitterInteractionValuesRetriever.getRetweetScoreFollowersPercentage() / 100);
+        final int addPartOfFollowerCountToRetweetScore = addFollowersCountToMentionScore * twitterInteractionValuesRetriever.getRetweetScoreFollowersPercentage() / 100;
 
         final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
+        // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
+        final int goodRetweetsOfNonLargeAccountsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
         final int mentionScore = goodRetweetsOfNonLargeAccountsPercentage + (retweetsOfSelfMentionsPercentage * 3) + addFollowersCountToMentionScore;
         final int retweetScore = (goodRetweetsOfNonLargeAccountsPercentage * 75 / 100) + addPartOfFollowerCountToRetweetScore;
         if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning

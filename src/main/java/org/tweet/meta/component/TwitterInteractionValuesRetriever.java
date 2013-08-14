@@ -91,7 +91,7 @@ public class TwitterInteractionValuesRetriever {
      * - default = 50
      */
     public int getRetweetScoreFollowersPercentage() {
-        return env.getProperty("twitter.value.largeaccount", Integer.class);
+        return env.getProperty("twitter.retweet.score.followers.percentage", Integer.class);
     }
 
 }

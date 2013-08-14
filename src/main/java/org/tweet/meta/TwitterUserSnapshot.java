@@ -4,20 +4,20 @@ public final class TwitterUserSnapshot {
 
     private final int mentionsOutsideOfRetweetsPercentage;
     private final int goodRetweetPercentage;
-    private final int retweetsOfLargeAccountsOutOfAllGoodRetweets;
+    private final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage;
     private final int retweetsOfSelfMentionsPercentage;
-    private final int retweetsOfNonFollowedUsersPercentage;
+    private final int retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage;
 
     public TwitterUserSnapshot(final int goodRetweetPercentage, final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, final int retweetsOfSelfMentionsPercentage, final int mentionsOutsideOfRetweetsPercentage,
-            final int retweetsOfNonFollowedUsersPercentage) {
+            final int retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage) {
         super();
 
         this.goodRetweetPercentage = goodRetweetPercentage;
-        this.retweetsOfLargeAccountsOutOfAllGoodRetweets = retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage;
+        this.retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage;
         this.retweetsOfSelfMentionsPercentage = retweetsOfSelfMentionsPercentage;
 
         this.mentionsOutsideOfRetweetsPercentage = mentionsOutsideOfRetweetsPercentage;
-        this.retweetsOfNonFollowedUsersPercentage = retweetsOfNonFollowedUsersPercentage;
+        this.retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage = retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage;
     }
 
     // API
@@ -30,7 +30,7 @@ public final class TwitterUserSnapshot {
      * - note that this relative to the total number of good retweets
      */
     public final int getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage() {
-        return retweetsOfLargeAccountsOutOfAllGoodRetweets;
+        return retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage;
     }
 
     public final int getRetweetsOfSelfMentionsPercentage() {
@@ -41,21 +41,18 @@ public final class TwitterUserSnapshot {
         return mentionsOutsideOfRetweetsPercentage;
     }
 
-    /**
-     * - NEW
-     */
-    public final int getRetweetsOfNonFollowedUsersPercentage() {
-        return retweetsOfNonFollowedUsersPercentage;
+    public final int getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage() {
+        return retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage;
     }
 
     //
 
     @Override
-    public final String toString() {
+    public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("TwitterUserSnapshot [mentionsOutsideOfRetweetsPercentage=").append(mentionsOutsideOfRetweetsPercentage).append(", goodRetweetPercentage=").append(goodRetweetPercentage).append(", retweetsOfLargeAccountsOutOfAllGoodRetweets=")
-                .append(retweetsOfLargeAccountsOutOfAllGoodRetweets).append(", retweetsOfSelfMentionsPercentage=").append(retweetsOfSelfMentionsPercentage).append(", retweetsOfNonFollowedUsersPercentage=").append(retweetsOfNonFollowedUsersPercentage)
-                .append("]");
+        builder.append("TwitterUserSnapshot [mentionsOutsideOfRetweetsPercentage=").append(mentionsOutsideOfRetweetsPercentage).append(", goodRetweetPercentage=").append(goodRetweetPercentage).append(", retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage=")
+                .append(retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage).append(", retweetsOfSelfMentionsPercentage=").append(retweetsOfSelfMentionsPercentage).append(", retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage=")
+                .append(retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage).append("]");
         return builder.toString();
     }
 
