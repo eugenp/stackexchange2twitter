@@ -163,6 +163,18 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutSEO_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name(), TwitterTag.seo.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutRubyOnRails_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaService.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
+        assertTrue(success);
+    }
+
     // predefined account
 
     @Test

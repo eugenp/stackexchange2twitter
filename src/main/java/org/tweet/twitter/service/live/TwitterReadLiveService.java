@@ -208,9 +208,18 @@ public class TwitterReadLiveService {
     public List<Tweet> listTweetsOfHashtag(final String readOnlyAccountName, final String hashtag) {
         final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(readOnlyAccountName);
 
-        // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(true).resultType(ResultType.POPULAR);
-        final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(true).resultType(ResultType.MIXED);
-        // final SearchParameters searchParameters = new SearchParameters("#" + hashtag).lang("en").count(100).includeEntities(true).resultType(ResultType.RECENT);
+        // ruby_rails
+        final StringBuilder param = new StringBuilder();
+        if (hashtag.contains("_")) {
+            final String[] hashtags = hashtag.split("_");
+            for (final String hashtagIndividual : hashtags) {
+                param.append("#").append(hashtagIndividual).append(" ");
+            }
+        } else {
+            param.append("#").append(hashtag);
+        }
+
+        final SearchParameters searchParameters = new SearchParameters(param.toString().trim()).lang("en").count(100).includeEntities(true).resultType(ResultType.MIXED);
         final SearchResults search = twitterTemplate.searchOperations().search(searchParameters);
         metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 

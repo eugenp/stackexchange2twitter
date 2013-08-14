@@ -136,19 +136,19 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     // util - any
 
     /**any*/
-    /*test only*/final boolean retweetAnyByHashtag(final String twitterAccount, final String twitterTag) throws JsonProcessingException, IOException {
+    /*test only*/final boolean retweetAnyByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         try {
-            final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
+            final boolean success = retweetAnyByHashtagInternal(twitterAccount, hashtag);
             if (!success) {
-                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
+                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, hashtag);
             }
             return success;
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, runtimeEx);
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + hashtag, runtimeEx);
             metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
             return false;
         } catch (final Exception ex) {
-            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag, ex);
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + hashtag, ex);
             metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
             return false;
         }
@@ -158,7 +158,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
-        logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
 
         final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, hashtag);

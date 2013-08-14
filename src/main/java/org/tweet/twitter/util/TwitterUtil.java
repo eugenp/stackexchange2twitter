@@ -28,7 +28,7 @@ public final class TwitterUtil {
         "need", // was in the maybe pile - temporarily moved up here, to see results 
         "football", "exclusive",
         "dumb", 
-        "gift", 
+        "gift", "highheels",
         "djmix", "housemusic",
         "escort", "escorts", "xxx", "porn", "fuck", "boobs"
     );// @formatter:on
@@ -38,7 +38,7 @@ public final class TwitterUtil {
         "dumb", 
         "dance",
         "snake", // python snake...yes, it happened
-        "islamic", "islam", "muslim", "muslims", 
+        "islamic", "islam", "muslim", "muslims", "pakistan",
         "$3.99", "$2.99", "$1.99", "$0.99" 
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off

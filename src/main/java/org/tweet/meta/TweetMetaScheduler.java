@@ -48,6 +48,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
 
         logger.info("Finished retweet schedule - 1");
     }
@@ -71,6 +72,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
 
         /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
+        /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name());
 
         logger.info("Finished retweet schedule - 2");
     }

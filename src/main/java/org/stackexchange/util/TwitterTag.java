@@ -62,6 +62,7 @@ public enum TwitterTag {// @formatter:off
     passwords, 
     parsing, 
     php, 
+    php5, 
     python, 
     perl,
     perl5, 
@@ -95,5 +96,7 @@ public enum TwitterTag {// @formatter:off
     wordpress, 
     
     xml,
+    xcode,
+    
     wpf
 }// @formatter:on
