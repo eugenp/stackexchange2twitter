@@ -29,12 +29,14 @@ public final class TwitterUtil {
         "football", "exclusive",
         "dumb", 
         "gift", 
+        "djmix", "housemusic",
         "escort", "escorts", "xxx", "porn", "fuck", "boobs"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
         "buy", 
         // "need", // moving from the maybe pile for now - just to see
         "dumb", 
+        "dance",
         "snake", // python snake...yes, it happened
         "islamic", "islam", "muslim", "muslims", 
         "$3.99", "$2.99", "$1.99", "$0.99" 

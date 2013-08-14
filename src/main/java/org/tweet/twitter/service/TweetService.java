@@ -47,6 +47,31 @@ public class TweetService {
     // checks
 
     /**
+     * - temporarily added so that it can log information about the hashtag
+     */
+    public final boolean isTweetWorthRetweetingByText(final String potentialTweetText, final String hashtag) {
+        if (!containsLink(potentialTweetText)) {
+            return false;
+        }
+        if (TwitterUtil.isTweetBanned(potentialTweetText)) {
+            logger.error("(temp-new-error)Rejecting tweet because it is banned: \ntweet= {}\nhashtag={}", potentialTweetText, hashtag);
+            return false;
+        }
+        if (linkService.containsLinkToBannedServices(potentialTweetText)) {
+            return false;
+        }
+
+        if (linkService.extractUrls(potentialTweetText).size() > 1) {
+            // keep below error - there are a lot of tweets that fall into this category and it's not really relevant
+            logger.debug("Rejecting tweet because it has more than one link; tweet text= {}", potentialTweetText);
+            return false;
+        }
+
+        // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
+        return true;
+    }
+
+    /**
      * - <b>local</b> <br/>
      * 
      * Determines if a tweet is worth tweeting based on only its text; by the following <b>criteria</b>: <br/>
@@ -112,7 +137,7 @@ public class TweetService {
 
         final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
         if (!shouldByNumberOfHashtags) {
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because the it contained to many hashtags", TweetUtil.getText(potentialTweet), twitterTag);
+            logger.error("Rejected because the it contained to many hashtags - potentialTweet= {} on twitterTag= {} ", TweetUtil.getText(potentialTweet), twitterTag);
             // error temporary - debug or trace
             return false;
         }
@@ -222,7 +247,8 @@ public class TweetService {
 
     final boolean isTweetWorthRetweetingByNumberOfHashtags(final Tweet tweet) {
         final int countHashtags = countHashtags(tweet);
-        if (countHashtags > 5) {
+        if (countHashtags > 7) {
+            // I have seen a lot of valid tweets with 7
             return false;
         }
 
