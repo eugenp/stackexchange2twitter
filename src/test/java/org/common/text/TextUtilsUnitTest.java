@@ -170,10 +170,17 @@ public class TextUtilsUnitTest {
     }
 
     @Test
-    // new
     public final void givenTextContainsInvalidCharactersScenario24_whenProcessingTweetText_thenCorrectlyProcessed() {
         final String expectedText = "RT #iPhone #App #Best #Phone #Tools # #Utilities $1.99-> #FREE http://t.co/zWgezCu9EN #DEAL #iOS #heyyou #heyyouapp 4 http://t.co/e8RB2K2VxG";
         final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("RT #iPhone #App #Best #Phone #Tools # #Utilities $1.99-&gt; #FREE http://t.co/zWgezCu9EN #DEAL #iOS #heyyou #heyyouapp 4 http://t.co/e8RB2K2VxG");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    @Test
+    // new
+    public final void givenTextContainsInvalidCharactersScenario25_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "1st β of #KDE Software Compilation 4.11 released. Help us find bugs, translate it - http://www.kde.org/announcements/announce-4.11-beta1.php … — #Linux #OpenSource";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("1st β of #KDE Software Compilation 4.11 released. Help us find bugs, translate it → http://www.kde.org/announcements/announce-4.11-beta1.php … — #Linux #OpenSource");
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
