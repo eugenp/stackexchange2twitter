@@ -179,8 +179,8 @@ public class TextUtilsUnitTest {
     @Test
     // new
     public final void givenTextContainsInvalidCharactersScenario25_whenProcessingTweetText_thenCorrectlyProcessed() {
-        final String expectedText = "1st β of #KDE Software Compilation 4.11 released. Help us find bugs, translate it - http://www.kde.org/announcements/announce-4.11-beta1.php … — #Linux #OpenSource";
-        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("1st β of #KDE Software Compilation 4.11 released. Help us find bugs, translate it → http://www.kde.org/announcements/announce-4.11-beta1.php … — #Linux #OpenSource");
+        final String expectedText = "#KDE Software Compilation 4.11 released. Help us find bugs, translate it - http://www.kde.org/announcements/announce-4.11-beta1.php";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("#KDE Software Compilation 4.11 released. Help us find bugs, translate it → http://www.kde.org/announcements/announce-4.11-beta1.php");
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
