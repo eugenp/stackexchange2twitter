@@ -102,7 +102,7 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
             retweet.setText(postProcessedText);
             retweetDao.save(retweet);
 
-            logger.info("Upgraded retweet from \ntext= {} to text= {}", textRaw, postProcessedText);
+            logger.info("Upgraded retweet from \ntext= {} to \ntext= {}", textRaw, postProcessedText);
         }
     }
 
