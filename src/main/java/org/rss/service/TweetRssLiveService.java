@@ -106,7 +106,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
         // is the tweet rejected by some classifier? - no
 
         // post-process
-        final String processedTweetText = tweetService.postValidityProcessForTweetTextOnly(tweetText, twitterAccount);
+        final String processedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(tweetText, twitterAccount);
 
         // construct full tweet
         final String fullTweet = tweetLiveService.constructTweetLive(processedTweetText, url);

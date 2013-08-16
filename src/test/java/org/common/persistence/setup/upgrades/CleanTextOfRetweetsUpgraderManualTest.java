@@ -11,35 +11,52 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.util.TwitterAccountEnum;
+import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonServiceConfig.class, CommonPersistenceJPAConfig.class, KeyValPersistenceJPAConfig.class, TwitterConfig.class, TwitterLiveConfig.class, TwitterMetaPersistenceJPAConfig.class })
+@ContextConfiguration(classes = {//@formatter:off
+    CommonServiceConfig.class, 
+    CommonPersistenceJPAConfig.class, 
+    
+    KeyValPersistenceJPAConfig.class, 
+    
+    TwitterMetaPersistenceJPAConfig.class,
+    TwitterMetaConfig.class,
+    
+    TwitterConfig.class, 
+    TwitterLiveConfig.class
+})//@formatter:on
 @ActiveProfiles({ SpringProfileUtil.DEPLOYED, SpringProfileUtil.LIVE })
-public class AddTextToRetweetsUpgraderLiveManualTest {
+public class CleanTextOfRetweetsUpgraderManualTest {
 
     static {
         System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "prod");
     }
 
     @Autowired
-    private IAddTextToRetweetsUpgrader addTextToRetweetsUpgrader;
+    private ICleanTextOfRetweetsUpgrader cleanTextOfRetweetsUpgrader;
 
     // fixtures
 
     // tests
 
     @Test
-    public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
-        addTextToRetweetsUpgrader.addTextOfRetweets();
+    public final void whenContextIsBootstrapped_thenNoException() {
+        //
     }
 
     @Test
-    public final void whenRecreatingTheTweetedQuestionsOnSpecificAccount_thenNoExceptions() {
-        addTextToRetweetsUpgrader.addTextOfRetweetsOnAccount(TwitterAccountEnum.BestScala.name());
+    public final void whenCleaningTextOfRetweetsOnSingleAccount_thenNoExceptions() {
+        cleanTextOfRetweetsUpgrader.cleanTextOfRetweetsOnAccount(TwitterAccountEnum.PerlDaily.name());
+    }
+
+    @Test
+    public final void whenCleaningTextOfRetweetsOnAllAccounts_thenNoExceptions() {
+        cleanTextOfRetweetsUpgrader.cleanTextOfRetweets();
     }
 
 }

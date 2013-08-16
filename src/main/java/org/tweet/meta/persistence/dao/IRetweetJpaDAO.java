@@ -11,9 +11,9 @@ public interface IRetweetJpaDAO extends JpaRepository<Retweet, Long>, IOperation
 
     // find - one
 
-    Retweet findOneByTweetId(final long tweetId);
+    /*0*/Retweet findOneByTweetId(final long tweetId);
 
-    Retweet findOneByTweetIdAndTwitterAccount(final long tweetId, final String twitterAccount);
+    /*1*/Retweet findOneByTweetIdAndTwitterAccount(final long tweetId, final String twitterAccount);
 
     Retweet findOneByTextAndTwitterAccount(final String text, final String twitterAccount);
 
@@ -29,7 +29,7 @@ public interface IRetweetJpaDAO extends JpaRepository<Retweet, Long>, IOperation
 
     // find - all
 
-    List<Retweet> findAllByTweetId(final long tweetId);
+    /*0*/List<Retweet> findAllByTweetId(final long tweetId);
 
     List<Retweet> findAllByTwitterAccount(final String twitterAccount);
 

@@ -87,6 +87,28 @@ public class LinkLiveService {
         return count;
     }
 
+    /**
+     * - <b>live</b><br/>
+     */
+    public final int countLinksToAnyDomain(final String tweet, final Iterable<String> domains) {
+        int count = 0;
+        final String mainUrl = linkService.extractUrl(tweet);
+        final String mainUrlExpanded = httpLiveService.expand(mainUrl);
+        if (mainUrlExpanded == null) {
+            // temporary error - go to debug when I'm done
+            // it does happen and it may be worth investigating why - for example:
+            logger.error("Unable to expand link= {} \nfrom tweet: {}", mainUrl, tweet);
+        }
+        for (final String domain : domains) {
+            if (mainUrlExpanded.contains(domain)) {
+                count++;
+                continue;
+            }
+        }
+
+        return count;
+    }
+
     // util
 
 }

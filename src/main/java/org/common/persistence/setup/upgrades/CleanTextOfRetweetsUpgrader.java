@@ -10,19 +10,16 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Component;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetService;
-import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
-class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IAddTextToRetweetsUpgrader {
+class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, ICleanTextOfRetweetsUpgrader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -34,12 +31,7 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
     @Autowired
     private TweetService tweetService;
 
-    @Autowired
-    private TwitterReadLiveService twitterLiveService;
-
-    private Twitter twitterApi;
-
-    public AddTextToRetweetsUpgrader() {
+    public CleanTextOfRetweetsUpgrader() {
         super();
     }
 
@@ -48,25 +40,24 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
     @Override
     @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
-        if (env.getProperty("setup.upgrade.retweettext.do", Boolean.class)) {
-            logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
-            addTextOfRetweets();
-            logger.info("Finished executing the AddTextToRetweetsUpgrader Upgrader");
+        if (env.getProperty("setup.upgrade.cleanretweettext.do", Boolean.class)) {
+            logger.info("Starting to execute the CleanTextOfRetweetsUpgrader Upgrader");
+            cleanTextOfRetweets();
+            logger.info("Finished executing the CleanTextOfRetweetsUpgrader Upgrader");
         }
     }
 
     @Override
-    public void addTextOfRetweets() {
+    public void cleanTextOfRetweets() {
         logger.info("Executing the AdsdTextToRetweets Upgrader");
-        twitterApi = twitterLiveService.readOnlyTwitterApi();
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
                     logger.info("Upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name());
-                    final boolean success = addTextOfRetweetsOnAccount(twitterAccount.name());
+                    final boolean success = cleanTextOfRetweetsOnAccount(twitterAccount.name());
                     if (!success) {
-                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 90 secs...");
-                        Thread.sleep(1000 * 30 * 3); // 90 sec
+                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 secs...");
+                        Thread.sleep(1000 * 2 * 1); // 2 sec
                     }
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), ex);
@@ -78,43 +69,41 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
     }
 
     @Override
-    public boolean addTextOfRetweetsOnAccount(final String twitterAccount) {
+    public boolean cleanTextOfRetweetsOnAccount(final String twitterAccount) {
         final List<Retweet> allRetweetsForAccount = retweetDao.findAllByTwitterAccount(twitterAccount);
-        addTextOfRetweets(allRetweetsForAccount);
+        cleanTextOfRetweets(allRetweetsForAccount);
         return !allRetweetsForAccount.isEmpty();
     }
 
     // util
 
-    private final void addTextOfRetweets(final List<Retweet> allRetweetsForAccount) {
+    private final void cleanTextOfRetweets(final List<Retweet> allRetweetsForAccount) {
+        logger.info("Starting to clean text for {} retweets ", allRetweetsForAccount.size());
+
         for (final Retweet retweet : allRetweetsForAccount) {
-            addTextOfRetweet(retweet);
+            cleanTextOfRetweet(retweet);
         }
     }
 
-    private final void addTextOfRetweet(final Retweet retweet) {
+    private final void cleanTextOfRetweet(final Retweet retweet) {
         try {
-            addTextOfRetweetInternal(retweet);
+            cleanTextOfRetweetInternal(retweet);
         } catch (final RuntimeException ex) {
             logger.error("Unable to add text to retweet: " + retweet);
         }
     }
 
-    private final void addTextOfRetweetInternal(final Retweet retweet) {
-        if (retweet.getText() != null) {
-            logger.trace("Retweet already has text - no need to upgrade; retweet= {}", retweet);
-            return;
-        }
-
-        final Tweet tweet = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
-        final String textRaw = tweet.getText();
+    private final void cleanTextOfRetweetInternal(final Retweet retweet) {
+        final String textRaw = retweet.getText();
         final String preProcessedText = tweetService.processPreValidity(textRaw);
         final String postProcessedText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, retweet.getTwitterAccount());
-        retweet.setText(postProcessedText);
 
-        retweetDao.save(retweet);
+        if (!postProcessedText.equals(textRaw)) {
+            retweet.setText(postProcessedText);
+            retweetDao.save(retweet);
 
-        logger.info("Upgraded retweet with text= {}", retweet.getText());
+            logger.info("Upgraded retweet from \ntext= {} to text= {}", textRaw, postProcessedText);
+        }
     }
 
 }

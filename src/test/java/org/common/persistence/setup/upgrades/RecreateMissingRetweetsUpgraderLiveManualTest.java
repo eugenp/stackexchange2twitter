@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.util.TwitterAccountEnum;
+import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
@@ -24,6 +25,7 @@ import org.tweet.spring.util.SpringProfileUtil;
     KeyValPersistenceJPAConfig.class, 
     
     TwitterMetaPersistenceJPAConfig.class,
+    TwitterMetaConfig.class,
     
     TwitterConfig.class, 
     TwitterLiveConfig.class

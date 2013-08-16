@@ -188,7 +188,7 @@ public class TweetService {
      * - adds hashtags, trims <br/>
      * - <b>note</b>: the text should be the full tweet (including url) <br/>
      */
-    public final String postValidityProcessForFullTweet(final String fullTweet, final String twitterAccount) {
+    public final String postValidityProcessTweetTextWithUrl(final String fullTweet, final String twitterAccount) {
         String tweetTextProcessed = hashtagWordsFullTweet(fullTweet, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
             logger.error("It's happening - 1; original text= {}", tweetTextProcessed);
@@ -203,7 +203,7 @@ public class TweetService {
      * - adds hashtags, trims <br/>
      * - <b>note</b>: the text should be the tweet text only (no url) <br/>
      */
-    public final String postValidityProcessForTweetTextOnly(final String textOnly, final String twitterAccount) {
+    public final String postValidityProcessForTweetTextNoUrl(final String textOnly, final String twitterAccount) {
         String tweetTextProcessed = hashtagWordsTweetTextOnly(textOnly, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
             logger.error("It's happening - 2; original text= {}", tweetTextProcessed);

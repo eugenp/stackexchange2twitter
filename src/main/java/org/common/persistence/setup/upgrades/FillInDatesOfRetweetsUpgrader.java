@@ -88,7 +88,7 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
             final Tweet tweet = TweetUtil.getTweet(tweetRaw);
             final String fullTweetRaw = tweet.getText();
             final String fullTweetProcessedPreValidity = tweetService.processPreValidity(fullTweetRaw);
-            final String fullTweetProcessed = tweetService.postValidityProcessForFullTweet(fullTweetProcessedPreValidity, twitterAccount);
+            final String fullTweetProcessed = tweetService.postValidityProcessTweetTextWithUrl(fullTweetProcessedPreValidity, twitterAccount);
             final List<Retweet> correspondingLocalRetweets = tweetMetaLocalService.findLocalCandidatesRelaxed(fullTweetProcessed, twitterAccount);
             for (final Retweet correspondingLocalRetweet : correspondingLocalRetweets) {
                 if (correspondingLocalRetweet != null && correspondingLocalRetweet.getWhen() == null && tweet.getCreatedAt() != null) {

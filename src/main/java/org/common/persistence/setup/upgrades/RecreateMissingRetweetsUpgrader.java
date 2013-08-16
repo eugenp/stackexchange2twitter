@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
 import org.common.service.live.LinkLiveService;
+import org.common.util.LinkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,21 +103,23 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
         }
     }
 
-    private final void processLiveTweetInternal(final String tweetText, final String twitterAccount, final Date when) {
-        final Retweet foundRetweet = retweetDao.findOneByTextAndTwitterAccount(tweetText, twitterAccount);
+    private final void processLiveTweetInternal(final String rawTweetText, final String twitterAccount, final Date when) {
+        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweetText, LinkUtil.seDomains) > 0;
+        if (linkingToSe) {
+            logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
+            return;
+        }
+
+        final String preProcessedText = tweetService.processPreValidity(rawTweetText);
+        final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
+
+        final Retweet foundRetweet = retweetDao.findOneByTextAndTwitterAccount(goodText, twitterAccount);
         if (foundRetweet != null) {
             logger.debug("Found local retweet: " + foundRetweet);
             return;
         }
 
-        final boolean linkingToSo = linkLiveService.containsLinkToDomain(tweetText, "http://stackoverflow.com");
-        if (linkingToSo) {
-            logger.debug("Tweet is linking to SO - not a retweet= {}", tweetText);
-            return;
-
-        }
-
-        final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, tweetText, when);
+        final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, goodText, when);
         retweetDao.save(newRetweet);
 
         // final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
@@ -124,7 +127,6 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
         // final String preProcessedText = tweetService.preValidityProcess(textRaw);
         // final String postProcessedText = tweetService.postValidityProcess(preProcessedText, retweet.getTwitterAccount());
         // retweet.setText(postProcessedText);
-        //
         // retweetDao.save(retweet);
 
         logger.info("Created on twitterAccount= {}, new retweet= {}", twitterAccount, newRetweet);

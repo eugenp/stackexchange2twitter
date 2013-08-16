@@ -2,8 +2,8 @@ package org.common.persistence.setup.upgrades;
 
 public interface IAddTextToRetweetsUpgrader {
 
-    void addTextToRetweets();
+    void addTextOfRetweets();
 
-    boolean addTextToRetweetsOnAccount(String twitterAccount);
+    boolean addTextOfRetweetsOnAccount(String twitterAccount);
 
 }

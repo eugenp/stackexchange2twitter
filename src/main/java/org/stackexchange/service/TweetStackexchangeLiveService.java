@@ -242,7 +242,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         final String cleanTweetText = tweetService.processPreValidity(tweetTextRaw);
 
         // post-process
-        final String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextOnly(cleanTweetText, twitterAccount);
+        final String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
 
         // construct full tweet
         final String fullTweet = tweetService.constructTweetSimple(fullyCleanedTweetText, url);

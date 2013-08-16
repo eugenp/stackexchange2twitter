@@ -322,7 +322,15 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return false;
         }
         // post-validity processing
-        final String fullTweetProcessed = tweetService.postValidityProcessForFullTweet(fullTweetProcessedPreValidity, twitterAccount);
+        final String fullTweetProcessed = tweetService.postValidityProcessTweetTextWithUrl(fullTweetProcessedPreValidity, twitterAccount);
+
+        // after text processing, check again if this has already been retweeted
+        final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(fullTweetProcessed, twitterAccount);
+        if (alreadyExistingRetweetByText != null) {
+            // was warn, but an already existing tweet is likely OK so - debug
+            logger.debug("Tweet with retweet mention already exists:\n-original tweet= {}\n-new tweet (not retweeted)= {}", alreadyExistingRetweetByText.getText(), fullTweetProcessed);
+            return false;
+        }
 
         // is this tweet pointing to something good?
         if (!isTweetPointingToSomethingGood(fullTweetProcessed)) {
@@ -333,14 +341,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         // is the tweet rejected by some classifier?
         if (isTweetRejectedByClassifier(fullTweetProcessed)) {
             logger.error("Tweet rejected by a classifier on twitterAccount= {}\n--tweet text= {}", twitterAccount, fullTweetProcessed);
-            return false;
-        }
-
-        // after text processing, check again if this has already been retweeted
-        final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(fullTweetProcessed, twitterAccount);
-        if (alreadyExistingRetweetByText != null) {
-            // was warn, but an already existing tweet is likely OK so - debug
-            logger.debug("Tweet with retweet mention already exists:\n-original tweet= {}\n-new tweet (not retweeted)= {}", alreadyExistingRetweetByText.getText(), fullTweetProcessed);
             return false;
         }
 

@@ -9,6 +9,8 @@ import com.google.common.collect.Lists;
 
 public final class LinkUtil {
 
+    public final static List<String> seDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
+
     final static List<String> bannedDomains = Lists.newArrayList(// @formatter:off
         "http://wp-plugin-archive.de",
         "http://www.blogging-inside.de", 
