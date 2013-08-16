@@ -38,7 +38,7 @@ public class RemoveLocalDuplicateRetweetsUpgraderLiveManualTest {
     }
 
     @Autowired
-    private IRemoveDuplicateRetweetsUpgrader removeDuplicateRetweetsUpgrader;
+    private IRemoveLocalDuplicateRetweetsUpgrader removeDuplicateRetweetsUpgrader;
 
     // fixtures
 
@@ -51,17 +51,17 @@ public class RemoveLocalDuplicateRetweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount1_thenNoExceptions() {
-        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.InTheAppleWorld.name());
+        removeDuplicateRetweetsUpgrader.removeLocalDuplicateRetweetsOnAccount(TwitterAccountEnum.InTheAppleWorld.name());
     }
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount2_thenNoExceptions() {
-        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.BestClojure.name());
+        removeDuplicateRetweetsUpgrader.removeLocalDuplicateRetweetsOnAccount(TwitterAccountEnum.BestClojure.name());
     }
 
     @Test
     public final void whenRecreatingTheRetweetsOfAllAccounts_thenNoExceptions() {
-        removeDuplicateRetweetsUpgrader.removeDuplicateLocalRetweets();
+        removeDuplicateRetweetsUpgrader.removeLocalDuplicateRetweets();
     }
 
 }
