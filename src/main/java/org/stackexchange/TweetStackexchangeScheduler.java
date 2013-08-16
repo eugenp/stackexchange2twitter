@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.stackexchange.api.constants.StackSite;
@@ -31,6 +32,9 @@ public class TweetStackexchangeScheduler {
     @Autowired
     private TagRetrieverService tagService;
 
+    @Autowired
+    private Environment env;
+
     public TweetStackexchangeScheduler() {
         super();
     }
@@ -40,6 +44,11 @@ public class TweetStackexchangeScheduler {
     @Scheduled(cron = "0 0 12,16 * * *")
     public void tweetStackExchangeTopQuestion1() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 1");
+
+        if (env.getProperty("mode.maintainance", Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
 
         // 11
         service.tweetAnyTopQuestionBySite(twitterAccountToStackSite(TwitterAccountEnum.ServerFaultBest), TwitterAccountEnum.ServerFaultBest.name());
@@ -63,6 +72,11 @@ public class TweetStackexchangeScheduler {
     @Scheduled(cron = "0 0 13,17 * * *")
     public void tweetDailyTopQuestion2() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 2");
+
+        if (env.getProperty("mode.maintainance", Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
 
         // 10
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestScala), TwitterAccountEnum.BestScala.name());
@@ -88,6 +102,11 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion3() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 3");
 
+        if (env.getProperty("mode.maintainance", Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
         // 10
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestOfJava), TwitterAccountEnum.BestOfJava.name());
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.SpringAtSO), TwitterAccountEnum.SpringAtSO.name());
@@ -107,6 +126,11 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion4() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 4");
 
+        if (env.getProperty("mode.maintainance", Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
         // 9
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.iOSdigest), TwitterAccountEnum.iOSdigest.name());
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestJavaScript), TwitterAccountEnum.BestJavaScript.name());
@@ -125,6 +149,11 @@ public class TweetStackexchangeScheduler {
     @Scheduled(cron = "0 0 16,20 * * *")
     public void tweetDailyTopQuestion5() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 5");
+
+        if (env.getProperty("mode.maintainance", Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
 
         // 8
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.AspnetDaily), TwitterAccountEnum.AspnetDaily.name());

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.stackexchange.util.TwitterAccountEnum;
@@ -22,6 +23,9 @@ public class TweetMetaScheduler {
     @Autowired
     private TweetMetaLiveService service;
 
+    @Autowired
+    private Environment env;
+
     public TweetMetaScheduler() {
         super();
     }
@@ -34,6 +38,11 @@ public class TweetMetaScheduler {
     @Scheduled(cron = "0 3 9,12,15,18,21 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 1");
+
+        if (env.getProperty("mode.maintainance", Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
 
         // 11
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
@@ -56,6 +65,11 @@ public class TweetMetaScheduler {
     @Scheduled(cron = "0 3 10,13,16,19,22 * * *")
     public void tweetMeta2() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 2");
+
+        if (env.getProperty("mode.maintainance", Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
 
         // 12
         service.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name());
@@ -80,6 +94,11 @@ public class TweetMetaScheduler {
     @Scheduled(cron = "0 3 11,14,17,20,23 * * *")
     public void tweetMeta3() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 3");
+
+        if (env.getProperty("mode.maintainance", Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
 
         // 11
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
