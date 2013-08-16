@@ -4,6 +4,6 @@ public interface IRecreateMissingRetweetsUpgrader {
 
     void recreateLocalRetweetsFromLiveTweets();
 
-    boolean processAllLiveTweetsOnAccount(final String twitterAccount);
+    void processAllLiveTweetsOnAccount(final String twitterAccount);
 
 }

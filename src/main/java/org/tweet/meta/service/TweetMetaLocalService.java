@@ -126,6 +126,9 @@ public class TweetMetaLocalService {
 
     final List<Retweet> findPartialResultsFromUrl(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
         final String mainUrl = linkService.extractUrl(fullTextWithUrlAfterProcessing);
+        if (mainUrl == null) {
+            return Lists.newArrayList();
+        }
         final List<Retweet> retweetsPointingToTheSameUrl = retweetApi.findAllByTextContainsAndTwitterAccount(mainUrl, twitterAccount);
         if (!retweetsPointingToTheSameUrl.isEmpty()) {
             if (retweetsPointingToTheSameUrl.size() > 1) {

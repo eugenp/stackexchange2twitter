@@ -28,7 +28,7 @@ import org.tweet.twitter.util.TweetUtil;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
-class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IRecreateMissingRetweetsUpgrader {
+public class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IRecreateMissingRetweetsUpgrader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -56,7 +56,7 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
     //
 
     @Override
-    @Async
+    // @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
         if (env.getProperty("setup.upgrade.retweetmissing.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
@@ -74,25 +74,19 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
             if (twitterAccount.isRt()) {
                 try {
                     logger.info("Recreating all missing retweets of twitterAccount= " + twitterAccount.name());
-                    final boolean processedSomething = processAllLiveTweetsOnAccount(twitterAccount.name());
-                    if (processedSomething) {
-                        logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 10 secs...");
-                        Thread.sleep(1000 * 10 * 1); // 10 sec
-                    }
+                    processAllLiveTweetsOnAccount(twitterAccount.name());
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), ex);
-                } catch (final InterruptedException threadEx) {
-                    logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), threadEx);
                 }
             }
         }
     }
 
     @Override
-    public final boolean processAllLiveTweetsOnAccount(final String twitterAccount) {
+    @Async
+    public void processAllLiveTweetsOnAccount(final String twitterAccount) {
         final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         processAllLiveTweets(allTweetsOnAccount, twitterAccount);
-        return !allTweetsOnAccount.isEmpty();
     }
 
     private final void processAllLiveTweets(final List<Tweet> allTweetsForAccount, final String twitterAccount) {

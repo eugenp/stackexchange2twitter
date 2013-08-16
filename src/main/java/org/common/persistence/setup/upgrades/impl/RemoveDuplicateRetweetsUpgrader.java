@@ -1,6 +1,5 @@
 package org.common.persistence.setup.upgrades.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
@@ -106,14 +105,14 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
     private final void removeDuplicateRetweets(final Tweet tweet, final String twitterAccount) {
         try {
-            removeDuplicateRetweetsInternal(TweetUtil.getText(tweet), twitterAccount, tweet.getCreatedAt());
+            removeDuplicateRetweetsInternal(TweetUtil.getText(tweet), twitterAccount);
         } catch (final RuntimeException ex) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.error("Unable to remove duplicates for retweet: " + TweetUtil.getText(tweet) + " from \nlive tweet url= " + tweetUrl, ex);
         }
     }
 
-    private final void removeDuplicateRetweetsInternal(final String rawTweetText, final String twitterAccount, final Date when) {
+    private final void removeDuplicateRetweetsInternal(final String rawTweetText, final String twitterAccount) {
         final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweetText, LinkUtil.seDomains) > 0;
         if (linkingToSe) {
             logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
@@ -123,6 +122,11 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
         final String preProcessedText = tweetService.processPreValidity(rawTweetText);
         final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
 
+        cleanRetweetExactMatches(goodText, twitterAccount);
+        cleanRetweetRelaxedMatches(goodText, twitterAccount);
+    }
+
+    private final void cleanRetweetExactMatches(final String goodText, final String twitterAccount) {
         final List<Retweet> foundRetweets = retweetDao.findAllByTextAndTwitterAccount(goodText, twitterAccount);
         if (foundRetweets.size() <= 1) {
             return;
@@ -131,8 +135,28 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
         for (final Retweet duplicateRetweet : foundRetweets) {
             retweetDao.delete(duplicateRetweet);
         }
-
         logger.info("Removed on twitterAccount= {} - {} retweet= {}", twitterAccount, foundRetweets.size(), keepingOne.getText());
+    }
+
+    private final void cleanRetweetRelaxedMatches(final String goodText, final String twitterAccount) {
+        // final List<Retweet> allLocalTweetsStrict = tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount);
+        final List<Retweet> allLocalTweetsRelaxed = tweetMetaLocalService.findLocalCandidatesRelaxed(goodText, twitterAccount);
+        if (allLocalTweetsRelaxed.size() <= 1) {
+            return;
+        } else {
+            final Retweet exactMatch = retweetDao.findOneByTextAndTwitterAccount(goodText, twitterAccount);
+            if (exactMatch == null) {
+                logger.error("Found relative matches, but no exact match to prefer (and delete the rest)");
+                return;
+            }
+            allLocalTweetsRelaxed.remove(exactMatch);
+            for (final Retweet remainingMatch : allLocalTweetsRelaxed) {
+                retweetDao.delete(remainingMatch);
+            }
+            logger.warn("Removed {} partial match retweets", allLocalTweetsRelaxed.size());
+        }
+
+        // logger.info("Removed on twitterAccount= {} - {} retweet= {}", twitterAccount, allLocalTweetsRelaxed.size(), keepingOne.getText());
     }
 
 }

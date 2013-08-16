@@ -98,6 +98,7 @@ public class LinkLiveService {
             // temporary error - go to debug when I'm done
             // it does happen and it may be worth investigating why - for example:
             logger.error("Unable to expand link= {} \nfrom tweet: {}", mainUrl, tweet);
+            return 0;
         }
         for (final String domain : domains) {
             if (mainUrlExpanded.contains(domain)) {
