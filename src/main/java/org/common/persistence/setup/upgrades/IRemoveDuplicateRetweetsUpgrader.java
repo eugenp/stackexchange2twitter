@@ -4,6 +4,6 @@ public interface IRemoveDuplicateRetweetsUpgrader {
 
     void removeDuplicateLocalRetweets();
 
-    boolean removeDuplicateLocalRetweetsOnAccount(final String twitterAccount);
+    boolean removeDuplicateRetweetsOnAccount(final String twitterAccount);
 
 }
