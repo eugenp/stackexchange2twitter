@@ -136,6 +136,14 @@ public class HttpLiveServiceLiveTest {
         assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
     }
 
+    @Test
+    public final void whenShortenedUriIsUnshortednedScenario9_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expandInternal("http://www.marketwatch.com/enf/rss.asp?guid={3B615536-E289-11E2-ACAD-002128040CF6}");
+        System.out.println(unshortenedUrl);
+        assertNotNull(unshortenedUrl);
+        assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
+    }
+
     // invalid urls
 
     @Test

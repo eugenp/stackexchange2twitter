@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class LinkServiceIntegrationTest {
 
     @Autowired
-    private LinkService httpService;
+    private LinkService linkService;
 
     // tests
 
@@ -33,38 +33,38 @@ public class LinkServiceIntegrationTest {
 
     @Test
     public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepageScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        assertTrue(httpService.isHomepageUrl("http://www.google.com"));
+        assertTrue(linkService.isHomepageUrl("http://www.google.com"));
     }
 
     @Test
     public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepageScenario2_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        assertTrue(httpService.isHomepageUrl("http://www.blog.something.org"));
+        assertTrue(linkService.isHomepageUrl("http://www.blog.something.org"));
     }
 
     @Test
     public final void givenUrlUnshortened_whenVerifyingIfUrlIsHomepageScenario3_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        assertTrue(httpService.isHomepageUrl("http://www.yahoo.com/"));
+        assertTrue(linkService.isHomepageUrl("http://www.yahoo.com/"));
     }
 
     // remove parameters
 
     @Test
     public final void givenUrlHasParameters_whenRemovingUrlParametersScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String urlWithNoParameters = httpService.removeUrlParameters("https://www.yahoo.com?utc=abc");
+        final String urlWithNoParameters = linkService.removeUrlParameters("https://www.yahoo.com?utc=abc");
         final String expectedUrl = "https://www.yahoo.com";
         assertThat(urlWithNoParameters, equalTo(expectedUrl));
     }
 
     @Test
     public final void givenUrlHasParameters_whenRemovingUrlParametersScenario2_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String urlWithNoParameters = httpService.removeUrlParameters("http://www.baeldung.com/something?utc=abc");
+        final String urlWithNoParameters = linkService.removeUrlParameters("http://www.baeldung.com/something?utc=abc");
         final String expectedUrl = "http://www.baeldung.com/something";
         assertThat(urlWithNoParameters, equalTo(expectedUrl));
     }
 
     @Test
     public final void givenUrlHasParameters_whenRemovingUrlParametersScenario3_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String urlWithNoParameters = httpService.removeUrlParameters("http://www.baeldung.com/spring-nosuchbeandefinitionexception?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+Baeldung+%28baeldung%29");
+        final String urlWithNoParameters = linkService.removeUrlParameters("http://www.baeldung.com/spring-nosuchbeandefinitionexception?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+Baeldung+%28baeldung%29");
         final String expectedUrl = "http://www.baeldung.com/spring-nosuchbeandefinitionexception";
         assertThat(urlWithNoParameters, equalTo(expectedUrl));
     }

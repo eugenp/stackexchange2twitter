@@ -41,6 +41,9 @@ public class LinkService {
         return false;
     }
 
+    /**
+     * - local
+     */
     public final String removeUrlParameters(final String urlWithPotentialParameters) {
         URL url = null;
         try {

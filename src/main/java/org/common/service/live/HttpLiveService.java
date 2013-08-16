@@ -92,7 +92,8 @@ public class HttpLiveService implements InitializingBean {
     }
 
     final String expandInternal(final String urlArg) throws IOException {
-        String originalUrl = urlArg;
+        final String originalUrlWithParams = urlArg;
+        String originalUrl = linkService.removeUrlParameters(originalUrlWithParams);
         String newUrl = expandSingleLevel(originalUrl).getRight();
         final List<String> alreadyVisited = Lists.newArrayList(originalUrl, newUrl);
         while (!originalUrl.equals(newUrl)) {
