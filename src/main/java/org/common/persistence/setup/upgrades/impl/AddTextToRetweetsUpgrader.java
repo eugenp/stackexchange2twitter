@@ -1,8 +1,9 @@
-package org.common.persistence.setup.upgrades;
+package org.common.persistence.setup.upgrades.impl;
 
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
+import org.common.persistence.setup.upgrades.IAddTextToRetweetsUpgrader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
     private TweetService tweetService;
 
     @Autowired
-    private TwitterReadLiveService twitterLiveService;
+    private TwitterReadLiveService twitterReadLiveService;
 
     private Twitter twitterApi;
 
@@ -58,7 +59,7 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
     @Override
     public void addTextOfRetweets() {
         logger.info("Executing the AdsdTextToRetweets Upgrader");
-        twitterApi = twitterLiveService.readOnlyTwitterApi();
+        twitterApi = twitterReadLiveService.readOnlyTwitterApi();
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {

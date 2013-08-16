@@ -1,9 +1,10 @@
-package org.common.persistence.setup.upgrades;
+package org.common.persistence.setup.upgrades.impl;
 
 import java.util.Date;
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
+import org.common.persistence.setup.upgrades.IRecreateMissingRetweetsUpgrader;
 import org.common.service.live.LinkLiveService;
 import org.common.util.LinkUtil;
 import org.slf4j.Logger;
@@ -89,7 +90,7 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
     @Override
     public final boolean processAllLiveTweetsOnAccount(final String twitterAccount) {
-        final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
+        final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         processAllLiveTweets(allTweetsOnAccount, twitterAccount);
         return !allTweetsOnAccount.isEmpty();
     }

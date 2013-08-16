@@ -1,8 +1,9 @@
-package org.common.persistence.setup.upgrades;
+package org.common.persistence.setup.upgrades.impl;
 
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
+import org.common.persistence.setup.upgrades.IFillInDatesOfRetweetsUpgrader;
 import org.common.service.live.LinkLiveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +84,7 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
 
     @Override
     public boolean fillInDatesOfRetweetsOfOneAccount(final String twitterAccount) {
-        final List<Tweet> allTweetsOfAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
+        final List<Tweet> allTweetsOfAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         for (final Tweet tweetRaw : allTweetsOfAccount) {
             final Tweet tweet = TweetUtil.getTweet(tweetRaw);
             final String fullTweetRaw = tweet.getText();
