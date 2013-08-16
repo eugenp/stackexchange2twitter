@@ -75,8 +75,8 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
                     logger.info("Recreating all missing retweets of twitterAccount= " + twitterAccount.name());
                     final boolean processedSomething = processAllLiveTweetsOnAccount(twitterAccount.name());
                     if (processedSomething) {
-                        logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 60 secs...");
-                        Thread.sleep(1000 * 60 * 1); // 60 sec
+                        logger.info("Done recreating all missing retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 10 secs...");
+                        Thread.sleep(1000 * 10 * 1); // 10 sec
                     }
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), ex);
@@ -104,7 +104,8 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
         try {
             processLiveTweetInternal(TweetUtil.getText(tweet), twitterAccount, tweet.getCreatedAt());
         } catch (final RuntimeException ex) {
-            logger.error("Unable to add text to retweet: " + tweet);
+            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
+            logger.error("Unable to recreate retweet: {} from \nlive tweet url= {}", tweet.getText(), tweetUrl);
         }
     }
 

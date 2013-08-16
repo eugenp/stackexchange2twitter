@@ -49,20 +49,20 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
 
     @Override
     public void cleanTextOfRetweets() {
-        logger.info("Executing the AdsdTextToRetweets Upgrader");
+        logger.info("Executing the CleanTextOfRetweetsUpgrader Upgrader");
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
-                    logger.info("Upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name());
+                    logger.info("Upgrading (cleaning text) of retweets of twitterAccount= " + twitterAccount.name());
                     final boolean success = cleanTextOfRetweetsOnAccount(twitterAccount.name());
                     if (success) {
-                        logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 secs...");
+                        logger.info("Done upgrading (cleaning text) of retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 secs...");
                         Thread.sleep(1000 * 2 * 1); // 2 sec
                     }
                 } catch (final RuntimeException ex) {
-                    logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), ex);
+                    logger.error("Unable to clean text of retweets of twitterAccount= " + twitterAccount.name(), ex);
                 } catch (final InterruptedException threadEx) {
-                    logger.error("Unable to add text to retweets of twitterAccount= " + twitterAccount.name(), threadEx);
+                    logger.error("Unable to clean text of retweets of twitterAccount= " + twitterAccount.name(), threadEx);
                 }
             }
         }
@@ -89,7 +89,7 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
         try {
             cleanTextOfRetweetInternal(retweet);
         } catch (final RuntimeException ex) {
-            logger.error("Unable to add text to retweet: " + retweet);
+            logger.error("Unable clean text of retweet: " + retweet);
         }
     }
 
