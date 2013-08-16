@@ -105,7 +105,7 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
             processLiveTweetInternal(TweetUtil.getText(tweet), twitterAccount, tweet.getCreatedAt());
         } catch (final RuntimeException ex) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-            logger.error("Unable to recreate retweet: {} from \nlive tweet url= {}", tweet.getText(), tweetUrl);
+            logger.error("Unable to recreate retweet: " + TweetUtil.getText(tweet) + " from \nlive tweet url= " + tweetUrl, ex);
         }
     }
 
