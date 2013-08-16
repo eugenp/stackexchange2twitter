@@ -57,16 +57,15 @@ public enum TwitterAccountEnum {// @formatter:off
     
     ObjectiveCDaily(true), 
     
-    PythonDaily(true), 
     ParsingDaily(false), // the hashtag (parsing) doesn't return any results
+    PerlDaily(true),
+    PythonDaily(true), 
     
     RESTDaily(false), // 
     RegexDaily(true), 
     
     ServerFaultBest(false),  // SO specific
-    SpringAtSO(false), // SO specific
-    
-    PerlDaily(true);
+    SpringAtSO(false); // SO specific
     
     private final boolean rt; 
     
@@ -78,4 +77,4 @@ public enum TwitterAccountEnum {// @formatter:off
         return rt;
     }
 }
-// @formatter:ons
+// @formatter:on
