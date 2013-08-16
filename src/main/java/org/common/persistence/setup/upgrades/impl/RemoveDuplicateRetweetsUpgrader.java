@@ -91,7 +91,8 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
     }
 
     @Override
-    public final boolean removeDuplicateRetweetsOnAccount(final String twitterAccount) {
+    @Async
+    public boolean removeDuplicateRetweetsOnAccount(final String twitterAccount) {
         final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         removeDuplicateRetweetsOnAccount(allTweetsOnAccount, twitterAccount);
         return !allTweetsOnAccount.isEmpty();
