@@ -177,8 +177,8 @@ public class TweetService {
     /**
      * - cleans the invalid characters from text
      */
-    public final String processPreValidity(final String title) {
-        String resultAfterCleanup = TextUtil.cleanupInvalidCharacters(title);
+    public final String processPreValidity(final String text) {
+        String resultAfterCleanup = TextUtil.cleanupInvalidCharacters(text);
         resultAfterCleanup = TextUtil.trimTweet(resultAfterCleanup);
 
         return resultAfterCleanup;

@@ -55,7 +55,7 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
                 try {
                     logger.info("Upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name());
                     final boolean success = cleanTextOfRetweetsOnAccount(twitterAccount.name());
-                    if (!success) {
+                    if (success) {
                         logger.info("Done upgrading (adding text) to retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 secs...");
                         Thread.sleep(1000 * 2 * 1); // 2 sec
                     }
@@ -95,6 +95,10 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
 
     private final void cleanTextOfRetweetInternal(final Retweet retweet) {
         final String textRaw = retweet.getText();
+        if (textRaw == null) {
+            logger.info("No Text - skipping retweet= {}", retweet);
+            return;
+        }
         final String preProcessedText = tweetService.processPreValidity(textRaw);
         final String postProcessedText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, retweet.getTwitterAccount());
 

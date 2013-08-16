@@ -19,9 +19,11 @@ import org.stackexchange.util.IDUtil;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
+import org.tweet.meta.service.TweetMetaLocalService;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
+import org.tweet.twitter.util.TweetUtil;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
@@ -38,7 +40,10 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
     private TweetService tweetService;
 
     @Autowired
-    private TwitterReadLiveService twitterLiveService;
+    private TweetMetaLocalService tweetMetaLocalService;
+
+    @Autowired
+    private TwitterReadLiveService twitterReadLiveService;
 
     @Autowired
     private LinkLiveService linkLiveService;
@@ -84,7 +89,7 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
     @Override
     public final boolean processAllLiveTweetsOnAccount(final String twitterAccount) {
-        final List<Tweet> allTweetsOnAccount = twitterLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
+        final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
         processAllLiveTweets(allTweetsOnAccount, twitterAccount);
         return !allTweetsOnAccount.isEmpty();
     }
@@ -97,7 +102,7 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
     private final void processLiveTweet(final Tweet tweet, final String twitterAccount) {
         try {
-            processLiveTweetInternal(tweet.getText(), twitterAccount, tweet.getCreatedAt());
+            processLiveTweetInternal(TweetUtil.getText(tweet), twitterAccount, tweet.getCreatedAt());
         } catch (final RuntimeException ex) {
             logger.error("Unable to add text to retweet: " + tweet);
         }
@@ -119,15 +124,14 @@ class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupE
             return;
         }
 
+        final boolean foundRetweetsAdvancedSearch = !tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount).isEmpty();
+        if (foundRetweetsAdvancedSearch) {
+            logger.debug("Found local retweet (advanced)s: " + foundRetweetsAdvancedSearch);
+            return;
+        }
+
         final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, goodText, when);
         retweetDao.save(newRetweet);
-
-        // final Tweet status = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
-        // final String textRaw = status.getText();
-        // final String preProcessedText = tweetService.preValidityProcess(textRaw);
-        // final String postProcessedText = tweetService.postValidityProcess(preProcessedText, retweet.getTwitterAccount());
-        // retweet.setText(postProcessedText);
-        // retweetDao.save(retweet);
 
         logger.info("Created on twitterAccount= {}, new retweet= {}", twitterAccount, newRetweet);
     }
