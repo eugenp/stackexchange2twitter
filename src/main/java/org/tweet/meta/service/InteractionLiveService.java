@@ -179,21 +179,27 @@ public class InteractionLiveService {
         // minor requirements for considering an interaction with this account valuable
 
         final TwitterUserSnapshot userSnapshot = analyzeUserInteractionsLive(user, userHandle);
-        final int goodRetweetsPercentage = userSnapshot.getGoodRetweetPercentage();
-        if (goodRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()) {
-            logger.info("Should not interact with user= {} \n- reason: the percentage of retweets is to small= {}%", userHandle, goodRetweetsPercentage);
+        final int goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage();
+        if (goodRetweetPercentage < twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()) {
+            logger.info("Should not interact with user= {} \n- reason: the percentage of retweets is to small= {}%", userHandle, goodRetweetPercentage);
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
         final int mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage();
-        if (goodRetweetsPercentage + mentionsOutsideOfRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
-            logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandle, (goodRetweetsPercentage + mentionsOutsideOfRetweetsPercentage));
+        if (goodRetweetPercentage + mentionsOutsideOfRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
+            logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandle, (goodRetweetPercentage + mentionsOutsideOfRetweetsPercentage));
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
-        final int largeAccountRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage();
-        if (largeAccountRetweetsPercentage > twitterInteractionValuesRetriever.getMaxLargeAccountRetweetsPercentage()) {
-            logger.info("Should not interact with user= {} \n- reason: the percentage of retweets of very large accounts is simply to high= {}%", userHandle, largeAccountRetweetsPercentage);
+        final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage();
+        if (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage > twitterInteractionValuesRetriever.getMaxLargeAccountRetweetsPercentage()) {
+            logger.info("Should not interact with user= {} \n- reason: the percentage of retweets of very large accounts is simply to high= {}%", userHandle, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage);
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
+        }
+
+        final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
+        if (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage < 3) {
+            logger.info("Should not interact with user= {} \n- reason: the percentage of good retweets on non-large accounts is to low= {}%", userHandle, goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage);
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
@@ -207,7 +213,7 @@ public class InteractionLiveService {
             .toString();
         logger.info(analysisResult, 
             userHandle, 
-            goodRetweetsPercentage, largeAccountRetweetsPercentage, userSnapshot.getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage(), 
+            goodRetweetPercentage, retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage, userSnapshot.getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage(), 
             userSnapshot.getRetweetsOfSelfMentionsPercentage(), 
             mentionsOutsideOfRetweetsPercentage 
         );
