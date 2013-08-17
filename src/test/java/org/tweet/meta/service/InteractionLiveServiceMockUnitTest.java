@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
+import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.test.TweetFixture;
 import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
@@ -26,6 +27,9 @@ public final class InteractionLiveServiceMockUnitTest {
     public final void before() {
         this.instance = mock(InteractionLiveService.class);
         this.instance.logger = mock(Logger.class);
+        this.instance.twitterInteractionValuesRetriever = mock(TwitterInteractionValuesRetriever.class);
+        when(this.instance.twitterInteractionValuesRetriever.getMaxRetweetsForTweet()).thenReturn(15);
+
         when(this.instance.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.None, 0));
     }
 
@@ -88,7 +92,7 @@ public final class InteractionLiveServiceMockUnitTest {
         when(this.instance.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0));
 
         final TwitterInteraction bestInteraction = instance.decideBestInteraction(TweetFixture.createTweet(20));
-        assertThat(bestInteraction, equalTo(TwitterInteraction.Retweet));
+        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     // - tweet itself has No mention value - Retweet
