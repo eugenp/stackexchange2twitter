@@ -54,7 +54,8 @@ public class TweetService {
             return false;
         }
         if (TwitterUtil.isTweetBanned(potentialTweetText)) {
-            logger.error("(temp-new-error)Rejecting tweet because it is banned: \ntweet= {}\nhashtag={}", potentialTweetText, hashtag);
+            // debug should be OK
+            logger.debug("Rejecting tweet because it is banned: \ntweet= {}\nhashtag={}", potentialTweetText, hashtag);
             return false;
         }
         if (linkService.containsLinkToBannedServices(potentialTweetText)) {

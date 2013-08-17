@@ -288,8 +288,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
 
     @Override
     protected final boolean hasThisAlreadyBeenTweetedById(final QuestionTweet question) {
-        // TODO: findByQuestionIdAndTwitterAccount
-        final QuestionTweet existingTweet = getApi().findByQuestionId(question.getQuestionId());
+        final QuestionTweet existingTweet = getApi().findByQuestionIdAndTwitterAccount(question.getQuestionId(), question.getTwitterAccount());
         return existingTweet != null;
     }
 
