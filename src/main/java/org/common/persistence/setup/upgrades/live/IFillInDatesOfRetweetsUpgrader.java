@@ -1,4 +1,4 @@
-package org.common.persistence.setup.upgrades;
+package org.common.persistence.setup.upgrades.live;
 
 public interface IFillInDatesOfRetweetsUpgrader {
 

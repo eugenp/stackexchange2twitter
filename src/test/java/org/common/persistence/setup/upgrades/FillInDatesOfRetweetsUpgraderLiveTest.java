@@ -2,6 +2,7 @@ package org.common.persistence.setup.upgrades;
 
 import static org.junit.Assert.assertTrue;
 
+import org.common.persistence.setup.upgrades.live.IFillInDatesOfRetweetsUpgrader;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.CommonServiceConfig;
 import org.common.spring.MyApplicationContextInitializerProv;

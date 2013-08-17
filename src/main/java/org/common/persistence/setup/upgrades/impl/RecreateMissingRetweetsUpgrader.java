@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
-import org.common.persistence.setup.upgrades.IRecreateMissingRetweetsUpgrader;
+import org.common.persistence.setup.upgrades.live.IRecreateMissingRetweetsUpgrader;
 import org.common.service.live.LinkLiveService;
 import org.common.util.LinkUtil;
 import org.slf4j.Logger;
