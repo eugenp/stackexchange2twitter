@@ -30,6 +30,8 @@ public enum TwitterAccountEnum {// @formatter:off
     BestScala(true), 
     BestXML(true), 
     BestWPF(false), 
+
+    CryptoFact(true),
     
     DjangoDaily(false), 
     
