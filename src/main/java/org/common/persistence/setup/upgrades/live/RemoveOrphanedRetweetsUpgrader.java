@@ -1,6 +1,5 @@
 package org.common.persistence.setup.upgrades.live;
 
-import java.util.Date;
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
@@ -15,7 +14,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Component;
-import org.stackexchange.util.IDUtil;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
@@ -84,51 +82,26 @@ public class RemoveOrphanedRetweetsUpgrader implements ApplicationListener<After
     @Override
     @Async
     public void removeOrphanedRetweetsOnAccount(final String twitterAccount) {
-        final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
-        processAllLiveTweets(allTweetsOnAccount, twitterAccount);
+        final List<Tweet> allLiveTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
+        final List<Retweet> allLocalRetweetsOnAccount = retweetDao.findAllByTwitterAccount(twitterAccount);
+        removeOrphanedRetweetsOnAccount(allLiveTweetsOnAccount, allLocalRetweetsOnAccount, twitterAccount);
     }
 
-    private final void processAllLiveTweets(final List<Tweet> allTweetsForAccount, final String twitterAccount) {
-        for (final Tweet tweet : allTweetsForAccount) {
-            processLiveTweet(tweet, twitterAccount);
+    private final void removeOrphanedRetweetsOnAccount(final List<Tweet> allLiveTweetsOnAccount, final List<Retweet> allLocalReweetsOnAccount, final String twitterAccount) {
+        for (final Tweet tweet : allLiveTweetsOnAccount) {
+            final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(TweetUtil.getText(tweet), LinkUtil.seDomains) > 0;
+            if (linkingToSe) {
+                continue;
+            }
+
+            final List<Retweet> localCorrespondingRetweets = tweetMetaLocalService.findLocalCandidatesRelaxed(TweetUtil.getText(tweet), twitterAccount);
+            allLocalReweetsOnAccount.removeAll(localCorrespondingRetweets);
         }
+
+        System.out.println("Left: " + allLocalReweetsOnAccount.size());
     }
 
-    private final void processLiveTweet(final Tweet tweet, final String twitterAccount) {
-        try {
-            processLiveTweetInternal(TweetUtil.getText(tweet), twitterAccount, tweet.getCreatedAt());
-        } catch (final RuntimeException ex) {
-            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-            logger.error("Unable to recreate retweet: " + TweetUtil.getText(tweet) + " from \nlive tweet url= " + tweetUrl, ex);
-        }
-    }
-
-    private final void processLiveTweetInternal(final String rawTweetText, final String twitterAccount, final Date when) {
-        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweetText, LinkUtil.seDomains) > 0;
-        if (linkingToSe) {
-            logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
-            return;
-        }
-
-        final String preProcessedText = tweetService.processPreValidity(rawTweetText);
-        final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
-
-        final Retweet foundRetweet = retweetDao.findOneByTextAndTwitterAccount(goodText, twitterAccount);
-        if (foundRetweet != null) {
-            logger.debug("Found local retweet: " + foundRetweet);
-            return;
-        }
-
-        final boolean foundRetweetsAdvancedSearch = !tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount).isEmpty();
-        if (foundRetweetsAdvancedSearch) {
-            logger.debug("Found local retweet (advanced)s: " + foundRetweetsAdvancedSearch);
-            return;
-        }
-
-        final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, goodText, when);
-        retweetDao.save(newRetweet);
-
-        logger.info("Created on twitterAccount= {}, new retweet= {}", twitterAccount, newRetweet);
-    }
+    // final String preProcessedText = tweetService.processPreValidity(rawTweetText);
+    // final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
 
 }
