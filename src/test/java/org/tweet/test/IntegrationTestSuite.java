@@ -6,7 +6,6 @@ import org.common.service.LinkServiceIntegrationTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.stackexchange.persistence.setup.StackexchangeSetupPersistenceIntegrationTest;
 import org.tweet.meta.service.TweetMetaLocalServiceIntegrationTest;
 import org.tweet.twitter.service.TweetServiceIntegrationTest;
 
@@ -26,7 +25,6 @@ import org.tweet.twitter.service.TweetServiceIntegrationTest;
     TweetServiceIntegrationTest.class,
     
     // stack
-    StackexchangeSetupPersistenceIntegrationTest.class, 
     
     // common
     LinkServiceIntegrationTest.class

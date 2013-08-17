@@ -1,7 +1,5 @@
 package org.stackexchange.persistence.setup;
 
-import java.util.List;
-
 import org.common.persistence.setup.AfterSetupEvent;
 import org.common.persistence.setup.BeforeSetupEvent;
 import org.slf4j.Logger;
@@ -13,13 +11,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
-import org.stackexchange.persistence.model.QuestionTweet;
-import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.util.SpringProfileUtil;
-
-import com.google.common.base.Preconditions;
 
 /**
  * <b>SETUP</b>: </p></p>
@@ -61,7 +54,7 @@ public class MainSetup implements ApplicationListener<ContextRefreshedEvent> {
 
             if (env.getProperty("setup.do", Boolean.class)) {
                 logger.info("Setup Active - Executing");
-                repersistAllQuestionsOnAllTwitterAccounts();
+                // do something
             }
 
             setupDone = true;
@@ -71,35 +64,5 @@ public class MainSetup implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     // util
-
-    final void repersistAllQuestionsOnAllTwitterAccounts() {
-        // TODO: dates have been introduced now - we can no longer rely on the old format - update before running again
-        // for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
-        // recreateAllQuestionsOnTwitterAccount(twitterAccount);
-        // }
-    }
-
-    private void recreateAllQuestionsOnTwitterAccount(final TwitterAccountEnum twitterAccount) {
-        logger.info("Before Setup for twitterAccount= {}", twitterAccount);
-
-        final String tweetedQuestions = Preconditions.checkNotNull(env.getProperty(twitterAccount.name()), "No Questions in setup.properties: for twitterAccount" + twitterAccount);
-        final String[] questionIds = tweetedQuestions.split(",");
-        recreateQuestions(questionIds, twitterAccount);
-    }
-
-    final void recreateQuestions(final String[] questionIds, final TwitterAccountEnum twitterAccount) {
-        final List<StackSite> stackSitesForTwitterAccount = TwitterAccountToStackAccount.twitterAccountToStackSites(twitterAccount);
-        final String stackSite;
-        if (stackSitesForTwitterAccount.size() == 1) {
-            stackSite = stackSitesForTwitterAccount.get(0).name();
-        } else {
-            stackSite = null;
-        }
-
-        for (final String questionId : questionIds) {
-            final QuestionTweet questionTweet = new QuestionTweet(questionId, twitterAccount.name(), stackSite, null);
-            questionTweetApi.save(questionTweet);
-        }
-    }
 
 }
