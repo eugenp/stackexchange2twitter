@@ -1,4 +1,4 @@
-package org.common.persistence.setup.upgrades.live;
+package org.common.persistence.setup.upgrades.live.nolonger;
 
 import java.util.List;
 
