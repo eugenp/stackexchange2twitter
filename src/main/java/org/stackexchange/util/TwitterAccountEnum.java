@@ -3,6 +3,7 @@ package org.stackexchange.util;
 public enum TwitterAccountEnum {// @formatter:off
     AskUbuntuBest(false), // SO specific
     AspnetDaily(false), 
+    AndroidFact(false),
     
     BestAlgorithms(true), 
     BestAWS(true), 

@@ -29,6 +29,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.AskUbuntu);
         case AspnetDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case AndroidFact:
+            return Lists.newArrayList(StackSite.StackOverflow);
 
         case BestAlgorithms:
             return Lists.newArrayList(StackSite.StackOverflow);
