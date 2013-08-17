@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.collect.Lists;
 
 public final class LinkUtil {
+    private static final Logger logger = LoggerFactory.getLogger(LinkUtil.class);
 
     public final static List<String> seDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
 
@@ -16,6 +20,9 @@ public final class LinkUtil {
         "http://www.blogging-inside.de", 
         "http://www.perun.net", 
         "http://www.heyyou-app.com"
+    );// @formatter:on
+    final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off
+        "https://www.facebook.com"
     );// @formatter:on
 
     private LinkUtil() {
@@ -30,6 +37,12 @@ public final class LinkUtil {
     public static boolean belongsToBannedDomain(final String urlString) {
         for (final String bannedDomain : bannedDomains) {
             if (urlString.startsWith(bannedDomain)) {
+                return true;
+            }
+        }
+        for (final String bannedDomainMaybe : bannedDomainsMaybe) {
+            if (urlString.startsWith(bannedDomainMaybe)) {
+                logger.error("(temp-error) For url: {} banned domain: {}", urlString, bannedDomainMaybe);
                 return true;
             }
         }

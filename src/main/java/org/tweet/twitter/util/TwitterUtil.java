@@ -30,11 +30,14 @@ public final class TwitterUtil {
         "dumb", 
         "gift", "highheels",
         "djmix", "housemusic",
-        "escort", "escorts", "xxx", "porn", "fuck", "boobs"
+        "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
         "buy", 
         // "need", // moving from the maybe pile for now - just to see
+        "wife",
+        "killed",
+        "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
         "dumb", 
         "dance",
         "snake", // python snake...yes, it happened
@@ -61,7 +64,8 @@ public final class TwitterUtil {
         "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
         "Follow us on (Linkedin|Twitter|G+) .*", // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
         ".*RT[ .!@\\-].*RT([ .!@\\-]|\\Z).*", // 2 RTs
-        ".*(?i)FREE[ .!@\\-].*RT([ .!@\\-]|\\Z).*" // Free ... RT
+        ".*(?i)FREE[ .!@\\-].*RT([ .!@\\-]|\\Z).*",  // Free ... RT
+        ".*(f|F)ollow (&|and|AND) RT.*" // Follow & RT
     ); // @formatter:on
 
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
