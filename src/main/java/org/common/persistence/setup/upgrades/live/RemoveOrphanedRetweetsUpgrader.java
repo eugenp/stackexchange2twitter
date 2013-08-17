@@ -1,5 +1,6 @@
 package org.common.persistence.setup.upgrades.live;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
@@ -53,7 +54,7 @@ public class RemoveOrphanedRetweetsUpgrader implements ApplicationListener<After
     //
 
     @Override
-    // @Async
+    @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
         if (env.getProperty("setup.upgrade.retweetmissing.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
@@ -80,7 +81,6 @@ public class RemoveOrphanedRetweetsUpgrader implements ApplicationListener<After
     }
 
     @Override
-    @Async
     public void removeOrphanedRetweetsOnAccount(final String twitterAccount) {
         final List<Tweet> allLiveTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         final List<Retweet> allLocalRetweetsOnAccount = retweetDao.findAllByTwitterAccount(twitterAccount);
@@ -89,13 +89,27 @@ public class RemoveOrphanedRetweetsUpgrader implements ApplicationListener<After
 
     private final void removeOrphanedRetweetsOnAccount(final List<Tweet> allLiveTweetsOnAccount, final List<Retweet> allLocalReweetsOnAccount, final String twitterAccount) {
         for (final Tweet tweet : allLiveTweetsOnAccount) {
-            final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(TweetUtil.getText(tweet), LinkUtil.seDomains) > 0;
+            final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(tweet, LinkUtil.seDomains) > 0;
             if (linkingToSe) {
                 continue;
             }
 
-            final List<Retweet> localCorrespondingRetweets = tweetMetaLocalService.findLocalCandidatesRelaxed(TweetUtil.getText(tweet), twitterAccount);
+            final String rawText = TweetUtil.getText(tweet);
+            final String preProcessedText = tweetService.processPreValidity(rawText);
+            final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
+
+            final List<Retweet> localCorrespondingRetweets = tweetMetaLocalService.findLocalCandidatesRelaxed(goodText, twitterAccount);
             allLocalReweetsOnAccount.removeAll(localCorrespondingRetweets);
+        }
+
+        final Iterator<Retweet> iteratorOfLocalRetweets = allLocalReweetsOnAccount.iterator();
+        Retweet retweetLeft;
+        for (; iteratorOfLocalRetweets.hasNext();) {
+            retweetLeft = iteratorOfLocalRetweets.next();
+            final boolean linkingToSe = linkLiveService.hasLinksToAnyDomain(retweetLeft.getText(), LinkUtil.seDomains);
+            if (linkingToSe) {
+                iteratorOfLocalRetweets.remove();
+            }
         }
 
         System.out.println("Left: " + allLocalReweetsOnAccount.size());

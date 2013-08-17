@@ -118,8 +118,15 @@ public class TweetMetaLocalServiceManualTest {
     }
 
     @Test
-    public final void whenRetrievingCorrespondingTweets_thenCorrect() {
+    public final void whenRetrievingCorrespondingTweets1_thenCorrect() {
         final String tweet = "Announcing causatum 0.1.0, a #clojure library for generating event streams based on stochastic state machines. http://t.co.";
+        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());
+        assertThat(correspondingLocalRetweets, hasSize(1));
+    }
+
+    @Test
+    public final void whenRetrievingCorrespondingTweets2_thenCorrect() {
+        final String tweet = "Domo makes the JMP Securities \"Hot 100\" list again http://t.co/Fk4682UML8 #cloud #Saas";
         final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());
         assertThat(correspondingLocalRetweets, hasSize(1));
     }

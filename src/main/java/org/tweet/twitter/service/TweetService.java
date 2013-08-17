@@ -179,6 +179,7 @@ public class TweetService {
      */
     public final String processPreValidity(final String text) {
         String resultAfterCleanup = TextUtil.cleanupInvalidCharacters(text);
+        resultAfterCleanup = TextUtil.cleanupInvalidCharacters(resultAfterCleanup);
         resultAfterCleanup = TextUtil.trimTweet(resultAfterCleanup);
 
         return resultAfterCleanup;
