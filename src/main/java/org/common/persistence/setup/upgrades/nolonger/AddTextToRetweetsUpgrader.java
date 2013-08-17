@@ -1,9 +1,8 @@
-package org.common.persistence.setup.upgrades.impl;
+package org.common.persistence.setup.upgrades.nolonger;
 
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
-import org.common.persistence.setup.upgrades.IAddTextToRetweetsUpgrader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

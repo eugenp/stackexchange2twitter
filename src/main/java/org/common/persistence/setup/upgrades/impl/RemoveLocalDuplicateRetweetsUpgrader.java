@@ -20,8 +20,6 @@ import org.tweet.meta.service.TweetMetaLocalService;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetService;
 
-/**
- */
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
 class RemoveLocalDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IRemoveLocalDuplicateRetweetsUpgrader {
