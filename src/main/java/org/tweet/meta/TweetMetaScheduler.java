@@ -46,7 +46,7 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 11
+        // 13
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
@@ -73,7 +73,9 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 12
+        // service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCocoa.name()); // no
+
+        // 13
         service.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.iOSdigest.name());
@@ -84,7 +86,6 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        // service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCocoa.name()); // no
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
 
         /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
@@ -102,7 +103,7 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 11
+        // 13
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfWordpress.name());
@@ -113,6 +114,8 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfLinux.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestXML.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCss.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.CryptoFact.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.AndroidFact.name());
         // disabled for now - no results // service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
 
         /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
