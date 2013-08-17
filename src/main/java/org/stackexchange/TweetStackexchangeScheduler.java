@@ -24,6 +24,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @Component
 @Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class TweetStackexchangeScheduler {
+    private static final String MODE_MAINTAINANCE_KEY = "mode.maintainance.se";
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -45,7 +47,7 @@ public class TweetStackexchangeScheduler {
     public void tweetStackExchangeTopQuestion1() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 1");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
@@ -73,7 +75,7 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion2() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 2");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
@@ -102,7 +104,7 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion3() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 3");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
@@ -126,7 +128,7 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion4() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 4");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
@@ -150,7 +152,7 @@ public class TweetStackexchangeScheduler {
     public void tweetDailyTopQuestion5() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 5");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }

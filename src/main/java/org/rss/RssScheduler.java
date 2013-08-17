@@ -35,7 +35,7 @@ public class RssScheduler {
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled retweet operations - 1");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty("mode.maintainance.rss", Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }

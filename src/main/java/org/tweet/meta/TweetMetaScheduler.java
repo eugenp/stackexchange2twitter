@@ -18,6 +18,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @Component
 @Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class TweetMetaScheduler {
+    private static final String MODE_MAINTAINANCE_KEY = "mode.maintainance.rt";
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -39,7 +41,7 @@ public class TweetMetaScheduler {
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 1");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
@@ -66,7 +68,7 @@ public class TweetMetaScheduler {
     public void tweetMeta2() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 2");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
@@ -95,7 +97,7 @@ public class TweetMetaScheduler {
     public void tweetMeta3() throws JsonProcessingException, IOException {
         logger.info("Starting retweet schedule - 3");
 
-        if (env.getProperty("mode.maintainance", Boolean.class)) {
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
