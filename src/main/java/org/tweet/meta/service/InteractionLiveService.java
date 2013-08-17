@@ -198,7 +198,7 @@ public class InteractionLiveService {
         }
 
         final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
-        if (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage < 3) {
+        if (goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage < 3) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of good retweets on non-large accounts is to low= {}%", userHandle, goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage);
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }

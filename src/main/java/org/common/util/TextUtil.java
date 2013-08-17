@@ -76,6 +76,8 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&rarr;", "-"); // →
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "&rsaquo;", ">"); // ›
+
         return cleanedText;
     }
 
