@@ -141,7 +141,9 @@ public class QuestionTweet implements IEntity {
 
     @Override
     public String toString() {
-        return "QuestionTweet [questionId=" + questionId + ", twitterAccount=" + twitterAccount + ", stackAccount=" + stackAccount + "]";
+        final StringBuilder builder = new StringBuilder();
+        builder.append("QuestionTweet [questionId=").append(questionId).append(", twitterAccount=").append(twitterAccount).append(", stackAccount=").append(stackAccount).append(", when=").append(when).append("]");
+        return builder.toString();
     }
 
 }
