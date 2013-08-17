@@ -96,15 +96,16 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
 
     private final void processLiveTweet(final Tweet tweet, final String twitterAccount) {
         try {
-            processLiveTweetInternal(TweetUtil.getText(tweet), twitterAccount, tweet.getCreatedAt());
+            processLiveTweetInternal(tweet, twitterAccount, tweet.getCreatedAt());
         } catch (final RuntimeException ex) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.error("Unable to recreate retweet: " + TweetUtil.getText(tweet) + " from \nlive tweet url= " + tweetUrl, ex);
         }
     }
 
-    private final void processLiveTweetInternal(final String rawTweetText, final String twitterAccount, final Date when) {
-        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweetText, LinkUtil.seDomains) > 0;
+    private final void processLiveTweetInternal(final Tweet rawTweet, final String twitterAccount, final Date when) {
+        final String rawTweetText = TweetUtil.getText(rawTweet);
+        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweet, LinkUtil.seDomains) > 0;
         if (linkingToSe) {
             logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
             return;
