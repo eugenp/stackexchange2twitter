@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.component.PredefinedAccountRetriever;
@@ -35,7 +34,6 @@ import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
-import org.tweet.twitter.util.TwitterUtil;
 
 import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -348,26 +346,22 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         boolean success = false;
-        if (tweetMentionService.isRetweetMention(fullTweetProcessed)) {
-            success = dealWithRtMention(twitterAccount, potentialTweet, fullTweetProcessed);
-        } else {
-            final TwitterInteraction bestInteraction = interactionLiveService.decideBestInteraction(potentialTweet);
-            switch (bestInteraction) {
-            case None:
-                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
-                break;
-            case Mention:
-                // TODO: add mention
-                final String fullTweetProcessedWithMention = tweetMentionService.addMention(potentialTweet.getFromUser(), fullTweetProcessed);
-                success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessedWithMention, potentialTweet);
-                break;
-            case Retweet:
-                success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
-                break;
-            default:
-                logger.error("Invalid State");
-                break;
-            }
+        final TwitterInteraction bestInteraction = interactionLiveService.decideBestInteraction(potentialTweet);
+        switch (bestInteraction) {
+        case None:
+            success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
+            break;
+        case Mention:
+            // TODO: add mention
+            final String fullTweetProcessedWithMention = tweetMentionService.addMention(potentialTweet.getFromUser(), fullTweetProcessed);
+            success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessedWithMention, potentialTweet);
+            break;
+        case Retweet:
+            success = twitterWriteLiveService.retweet(twitterAccount, tweetId);
+            break;
+        default:
+            logger.error("Invalid State");
+            break;
         }
 
         // mark
@@ -376,26 +370,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         // done
-        return success;
-    }
-
-    /**one*/
-    private final boolean dealWithRtMention(final String twitterAccount, final Tweet potentialTweet, final String fullTweetProcessed) {
-        boolean success;
-        final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
-        logger.error("(temporary error)Tweet is a retweet mention - url= {}\nTweeet= {}", tweetUrl, fullTweetProcessed); // TODO: temporarily error
-
-        // TODO: if this code path is actually executed, then look into extracting the original user from the tweet itself, not from the text
-        final String originalUserFromRt = Preconditions.checkNotNull(TwitterUtil.extractOriginalUserFromRt(fullTweetProcessed));
-        final TwitterProfile profileOfUser = twitterReadLiveService.getProfileOfUser(originalUserFromRt);
-
-        final boolean isUserWorthInteractingWith = interactionLiveService.isUserWorthInteractingWithLive(profileOfUser, originalUserFromRt);
-        if (isUserWorthInteractingWith) {
-            success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
-        } else {
-            logger.info("Tweet rejected on twitterAccount= {}, tweet text= {}\nReason: not worth interacting with user= {}", twitterAccount, fullTweetProcessed, originalUserFromRt);
-            success = false;
-        }
         return success;
     }
 

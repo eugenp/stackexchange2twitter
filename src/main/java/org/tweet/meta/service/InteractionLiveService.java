@@ -89,6 +89,12 @@ public class InteractionLiveService {
             if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
                 return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
             }
+            // if the tweet is to popular, that should still be taken into account, not ignored
+            else if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.None)) {
+                if (isTweetToPopular(tweet)) {
+                    return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
+                }
+            }
 
             return new TwitterInteractionWithValue(TwitterInteraction.Retweet, bestInteractionWithAuthor.getVal());
             // TODO: is there any way to extract the mentions from the tweet entity?
