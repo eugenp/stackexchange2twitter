@@ -56,7 +56,7 @@ public class RemoveOrphanedRetweetsUpgrader implements ApplicationListener<After
     @Override
     @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
-        if (env.getProperty("setup.upgrade.retweetmissing.do", Boolean.class)) {
+        if (env.getProperty("setup.upgrade.remove.orphanedretweets.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
             removeOrphanedRetweets();
             logger.info("Finished executing the AddTextToRetweetsUpgrader Upgrader");
@@ -112,10 +112,10 @@ public class RemoveOrphanedRetweetsUpgrader implements ApplicationListener<After
             }
         }
 
-        System.out.println("Left: " + allLocalReweetsOnAccount.size());
+        logger.warn("Deleting Orphan Retweets= {}", allLocalReweetsOnAccount.size());
+        for (final Retweet retweetOrphan : allLocalReweetsOnAccount) {
+            retweetDao.delete(retweetOrphan);
+        }
     }
-
-    // final String preProcessedText = tweetService.processPreValidity(rawTweetText);
-    // final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
 
 }

@@ -52,7 +52,7 @@ public class RemoveOrphanedRetweetsUpgraderLiveTest {
 
     @Test
     public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
-        removeOrphanedRetweetsUpgrader.removeOrphanedRetweetsOnAccount(TwitterAccountEnum.BestOfCloud.name());
+        removeOrphanedRetweetsUpgrader.removeOrphanedRetweetsOnAccount(TwitterAccountEnum.BestScala.name());
     }
 
 }
