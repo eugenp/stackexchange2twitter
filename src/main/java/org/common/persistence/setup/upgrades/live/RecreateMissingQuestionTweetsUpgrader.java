@@ -27,7 +27,7 @@ import org.tweet.twitter.util.TweetUtil;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
-public class RecreateMissingRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IRecreateMissingRetweetsUpgrader {
+public class RecreateMissingQuestionTweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IRecreateMissingQuestionTweetsUpgrader {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -48,7 +48,7 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
     @Autowired
     private LinkLiveService linkLiveService;
 
-    public RecreateMissingRetweetsUpgrader() {
+    public RecreateMissingQuestionTweetsUpgrader() {
         super();
     }
 
@@ -59,7 +59,7 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
     public void onApplicationEvent(final AfterSetupEvent event) {
         if (env.getProperty("setup.upgrade.retweetmissing.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
-            recreateLocalRetweetsFromLiveTweets();
+            recreateLocalQuestionTweetsFromLiveTweets();
             logger.info("Finished executing the AddTextToRetweetsUpgrader Upgrader");
         }
     }
@@ -67,13 +67,13 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
     // util
 
     @Override
-    public void recreateLocalRetweetsFromLiveTweets() {
+    public void recreateLocalQuestionTweetsFromLiveTweets() {
         logger.info("Executing the RecreateMissingRetweetsUpgrader Upgrader");
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
                     logger.info("Recreating all missing retweets of twitterAccount= " + twitterAccount.name());
-                    recreateLocalRetweetsFromLiveTweetsOnAccount(twitterAccount.name());
+                    recreateLocalQuestionTweetsOnAccount(twitterAccount.name());
                 } catch (final RuntimeException ex) {
                     logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), ex);
                 }
@@ -83,7 +83,7 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
 
     @Override
     @Async
-    public void recreateLocalRetweetsFromLiveTweetsOnAccount(final String twitterAccount) {
+    public void recreateLocalQuestionTweetsOnAccount(final String twitterAccount) {
         final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         processAllLiveTweets(allTweetsOnAccount, twitterAccount);
     }

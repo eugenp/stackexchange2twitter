@@ -52,7 +52,7 @@ public class RecreateMissingRetweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount_thenNoExceptions() {
-        recreateMissingRetweetsUpgrader.processAllLiveTweetsOnAccount(TwitterAccountEnum.PerlDaily.name());
+        recreateMissingRetweetsUpgrader.recreateLocalRetweetsFromLiveTweetsOnAccount(TwitterAccountEnum.PerlDaily.name());
     }
 
     @Test
