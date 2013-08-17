@@ -12,18 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Component;
-import org.stackexchange.util.IDUtil;
+import org.stackexchange.api.constants.StackSite;
+import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
+import org.stackexchange.persistence.model.QuestionTweet;
+import org.stackexchange.persistence.setup.TwitterAccountToStackAccount;
 import org.stackexchange.util.TwitterAccountEnum;
-import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
-import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.meta.service.TweetMetaLocalService;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
+
+import com.google.api.client.util.Preconditions;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
@@ -34,7 +36,7 @@ public class RecreateMissingQuestionTweetsUpgrader implements ApplicationListene
     private Environment env;
 
     @Autowired
-    private IRetweetJpaDAO retweetDao;
+    private IQuestionTweetJpaDAO questionTweetDao;
 
     @Autowired
     private TweetService tweetService;
@@ -82,7 +84,6 @@ public class RecreateMissingQuestionTweetsUpgrader implements ApplicationListene
     }
 
     @Override
-    @Async
     public void recreateLocalQuestionTweetsOnAccount(final String twitterAccount) {
         final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         processAllLiveTweets(allTweetsOnAccount, twitterAccount);
@@ -106,30 +107,35 @@ public class RecreateMissingQuestionTweetsUpgrader implements ApplicationListene
     private final void processLiveTweetInternal(final Tweet rawTweet, final String twitterAccount, final Date when) {
         final String rawTweetText = TweetUtil.getText(rawTweet);
         final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweet, LinkUtil.seDomains) > 0;
-        if (linkingToSe) {
-            logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
+        if (!linkingToSe) {
+            logger.debug("Tweet is not linking to Stack Exchange - not a retweet= {}", rawTweetText);
             return;
         }
 
-        final String preProcessedText = tweetService.processPreValidity(rawTweetText);
-        final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
-
-        final Retweet foundRetweet = retweetDao.findOneByTextAndTwitterAccount(goodText, twitterAccount);
-        if (foundRetweet != null) {
-            logger.debug("Found local retweet: " + foundRetweet);
+        final String extractQuestionIdFromLiveTweet = extractQuestionIdFromTweet(rawTweet);
+        final QuestionTweet questionTweet = questionTweetDao.findByQuestionIdAndTwitterAccount(extractQuestionIdFromLiveTweet, twitterAccount);
+        if (questionTweet != null) {
+            logger.debug("Found local question tweet: " + questionTweet);
             return;
         }
 
-        final boolean foundRetweetsAdvancedSearch = !tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount).isEmpty();
-        if (foundRetweetsAdvancedSearch) {
-            logger.debug("Found local retweet (advanced)s: " + foundRetweetsAdvancedSearch);
-            return;
-        }
+        final StackSite stackSite = TwitterAccountToStackAccount.twitterAccountToStackSite(TwitterAccountEnum.valueOf(twitterAccount));
+        final QuestionTweet qt = new QuestionTweet(extractQuestionIdFromLiveTweet, twitterAccount, stackSite.name(), rawTweet.getCreatedAt());
+        questionTweetDao.save(qt);
 
-        final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, goodText, when);
-        retweetDao.save(newRetweet);
+        logger.info("Created on twitterAccount= {}, new Question Tweet= {}", twitterAccount, qt);
+    }
 
-        logger.info("Created on twitterAccount= {}, new retweet= {}", twitterAccount, newRetweet);
+    @Override
+    public final String extractQuestionIdFromTweet(final Tweet tweet) {
+        final List<String> linksToSe = linkLiveService.getLinksToAnyDomain(tweet, LinkUtil.seDomains);
+        Preconditions.checkState(linksToSe.size() == 1);
+        String linkToSe = linksToSe.get(0);
+        final int start = linkToSe.indexOf("questions/") + 10;
+        linkToSe = linkToSe.substring(start);
+        final int end = linkToSe.indexOf("/");
+
+        return linkToSe.substring(0, end);
     }
 
 }

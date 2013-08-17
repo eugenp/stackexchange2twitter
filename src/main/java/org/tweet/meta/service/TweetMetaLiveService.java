@@ -187,6 +187,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         final List<Tweet> tweets = Lists.newArrayList(tweetSetFiltered);
         Collections.sort(tweets, Ordering.from(new TweetByRtComparator()));
+        if (tweets.size() > 10) {
+            logger.error("(info-temp-error)Just want to know how often it happens");
+        }
 
         final Map<TwitterInteractionWithValue, Tweet> valueToTweet = Maps.newTreeMap(new Comparator<TwitterInteractionWithValue>() {
             @Override

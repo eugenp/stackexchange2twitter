@@ -109,7 +109,7 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
     }
 
     private final void removeDuplicateRetweetsInternal(final String rawTweetText, final String twitterAccount) {
-        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweetText, LinkUtil.seDomains) > 0;
+        final boolean linkingToSe = linkLiveService.countLinksToAnyDomainRaw(rawTweetText, LinkUtil.seDomains) > 0;
         if (linkingToSe) {
             logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
             return;

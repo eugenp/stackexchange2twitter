@@ -38,7 +38,7 @@ public class LinkLiveServiceLiveTest {
 
     @Test
     public final void whenLinksToSeDomainsAreCounted_thenNoExceptions() {
-        linkLiveService.countLinksToAnyDomain("@alexbowe No problem - 300GB to something that can be held in RAM is worth tweeting about :)", LinkUtil.seDomains);
+        linkLiveService.countLinksToAnyDomainRaw("@alexbowe No problem - 300GB to something that can be held in RAM is worth tweeting about :)", LinkUtil.seDomains);
     }
 
     @Test

@@ -7,11 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.common.persistence.IEntity;
 
 // TODO: add site to the question tweet entity
 @Entity
+@Table(name = "question_tweet", uniqueConstraints = @UniqueConstraint(columnNames = { "questionId", "twitterAccount" }))
 public class QuestionTweet implements IEntity {
 
     @Id
@@ -19,7 +22,7 @@ public class QuestionTweet implements IEntity {
     @Column(name = "QT_ID")
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String questionId;
 
     @Column(nullable = false)

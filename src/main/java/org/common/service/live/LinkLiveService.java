@@ -11,6 +11,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.UrlEntity;
 import org.springframework.stereotype.Service;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.twitter.util.TweetUtil;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -121,10 +122,37 @@ public class LinkLiveService {
         return count;
     }
 
+    public final List<String> getLinksToAnyDomain(final Tweet tweet, final Iterable<String> domains) {
+        if (tweet.getEntities() == null || tweet.getEntities().getUrls() == null) {
+            return getLinksToAnyDomainRaw(TweetUtil.getText(tweet), domains);
+        }
+
+        final List<UrlEntity> urls = tweet.getEntities().getUrls();
+        final List<String> expandedUrls = Lists.transform(urls, new Function<UrlEntity, String>() {
+            @Override
+            public final String apply(final UrlEntity input) {
+                return input.getExpandedUrl();
+            }
+        });
+
+        final List<String> collector = Lists.newArrayList();
+
+        for (final String domain : domains) {
+            for (final String expandedUrl : expandedUrls) {
+                if (expandedUrl.contains(domain)) {
+                    collector.add(expandedUrl);
+                    continue;
+                }
+            }
+        }
+
+        return collector;
+    }
+
     /**
      * - <b>live</b><br/>
      */
-    public final int countLinksToAnyDomain(final String tweet, final Iterable<String> domains) {
+    public final int countLinksToAnyDomainRaw(final String tweet, final Iterable<String> domains) {
         int count = 0;
         final String mainUrl = linkService.extractUrl(tweet);
         final String mainUrlExpanded = httpLiveService.expand(mainUrl);
@@ -142,6 +170,31 @@ public class LinkLiveService {
         }
 
         return count;
+    }
+
+    /**
+     * - <b>live</b><br/>
+     */
+    final List<String> getLinksToAnyDomainRaw(final String tweet, final Iterable<String> domains) {
+        final List<String> collector = Lists.newArrayList();
+        final List<String> mainUrls = linkService.extractUrls(tweet);
+        for (final String mainUrl : mainUrls) {
+            final String mainUrlExpanded = httpLiveService.expand(mainUrl);
+            if (mainUrlExpanded == null) {
+                // temporary error - go to debug when I'm done
+                // it does happen and it may be worth investigating why - for example:
+                logger.error("Unable to expand link= {} \nfrom tweet: {}", mainUrl, tweet);
+                continue;
+            }
+            for (final String domain : domains) {
+                if (mainUrlExpanded.contains(domain)) {
+                    collector.add(mainUrlExpanded);
+                    continue;
+                }
+            }
+        }
+
+        return collector;
     }
 
     /**
