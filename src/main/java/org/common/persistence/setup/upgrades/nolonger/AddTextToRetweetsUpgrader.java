@@ -107,6 +107,10 @@ class AddTextToRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>,
         }
 
         final Tweet tweet = twitterApi.timelineOperations().getStatus(retweet.getTweetId());
+        if (tweet == null) { // skipping
+            logger.trace("No corresponding live tweet for local retweet= {}", retweet);
+            return;
+        }
         final String textRaw = tweet.getText();
         final String preProcessedText = tweetService.processPreValidity(textRaw);
         final String postProcessedText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, retweet.getTwitterAccount());
