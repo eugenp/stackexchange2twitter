@@ -1,10 +1,8 @@
-package org.common.persistence.setup.upgrades.impl;
+package org.common.persistence.setup.upgrades.local;
 
 import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
-import org.common.persistence.setup.upgrades.IRemoveLocalDuplicateRetweetsUpgrader;
-import org.common.service.live.LinkLiveService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +34,6 @@ class RemoveLocalDuplicateRetweetsUpgrader implements ApplicationListener<AfterS
 
     @Autowired
     private TweetMetaLocalService tweetMetaLocalService;
-
-    @Autowired
-    private LinkLiveService linkLiveService;
 
     public RemoveLocalDuplicateRetweetsUpgrader() {
         super();

@@ -1,4 +1,4 @@
-package org.common.persistence.setup.upgrades.nolonger;
+package org.common.persistence.setup.upgrades.live.nolonger;
 
 /**
  * Iterates though all the <b>local</b> Retweets <br/>
