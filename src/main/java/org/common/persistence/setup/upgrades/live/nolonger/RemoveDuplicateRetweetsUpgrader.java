@@ -1,4 +1,4 @@
-package org.common.persistence.setup.upgrades.live;
+package org.common.persistence.setup.upgrades.live.nolonger;
 
 import java.util.List;
 
@@ -23,10 +23,6 @@ import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
 
-/**
- * Goes over the live tweets and see if any of them have more than one corresponding Retweets locally - in which case it removes them
- * Because it starts from live tweets - if locally there are indeed duplicates, but they no longer correspond to any live Tweet - these don't get removed
- */
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
 class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupEvent>, IRemoveDuplicateRetweetsUpgrader {

@@ -1,6 +1,6 @@
 package org.common.persistence.setup.upgrades;
 
-import org.common.persistence.setup.upgrades.live.IRemoveDuplicateRetweetsUpgrader;
+import org.common.persistence.setup.upgrades.live.nolonger.IRemoveDuplicateRetweetsUpgrader;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.CommonServiceConfig;
 import org.common.spring.MyApplicationContextInitializerProv;
