@@ -138,8 +138,8 @@ public class TweetService {
 
         final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
         if (!shouldByNumberOfHashtags) {
-            logger.error("Rejected because the it contained to many hashtags - potentialTweet= {} on twitterTag= {} ", TweetUtil.getText(potentialTweet), twitterTag);
-            // error temporary - debug or trace
+            // was error - nothing really interesting, debug now, maybe trace later
+            logger.debug("Rejected because the it contained to many hashtags - potentialTweet= {} on twitterTag= {} ", TweetUtil.getText(potentialTweet), twitterTag);
             return false;
         }
 
