@@ -14,7 +14,7 @@ import org.tweet.spring.TwitterConfig;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class })
 // @ActiveProfiles(SpringProfileUtil.LIVE)
-public class TwitterMinRtScoreExistsIntegrationTest {
+public class MinRtScoreForTwitterTagsExistsIntegrationTest {
 
     @Autowired
     private MinRtRetriever minRtRetriever;

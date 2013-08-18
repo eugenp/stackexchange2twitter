@@ -46,25 +46,35 @@ public class TagRetrieverService {
         return env.getProperty(twitterAccount + ".twitter.tags");
     }
 
-    public final String twitterTags(final String twitterAccount) {
+    public final String twitterTagsAsString(final String twitterAccount) {
         return Preconditions.checkNotNull(twitterTagsRaw(twitterAccount), "No twitter tags for twitterAccount= " + twitterAccount);
     }
 
+    public final List<String> twitterTags(final String twitterAccount) {
+        final String twitterTagsAsString = twitterTagsAsString(twitterAccount);
+        return breakApart(twitterTagsAsString);
+    }
+
     public final String pickTwitterTag(final String twitterAccount) {
-        final String twitterTags = twitterTags(twitterAccount);
+        final String twitterTags = twitterTagsAsString(twitterAccount);
         return pickOnTag(twitterTags);
     }
 
     // util
 
     private final String pickOnTag(final String allTagsCommaSeparated) {
-        final Iterable<String> split = Splitter.on(',').split(allTagsCommaSeparated);
-        final List<String> tags = Lists.newArrayList(split);
+        final List<String> tags = breakApart(allTagsCommaSeparated);
         if (tags.isEmpty()) {
             return null;
         }
 
         return GenericUtil.pickOneGeneric(tags);
+    }
+
+    private final List<String> breakApart(final String allTagsCommaSeparated) {
+        final Iterable<String> split = Splitter.on(',').split(allTagsCommaSeparated);
+        final List<String> tags = Lists.newArrayList(split);
+        return tags;
     }
 
 }

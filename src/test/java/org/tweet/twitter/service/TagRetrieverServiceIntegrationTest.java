@@ -2,6 +2,8 @@ package org.tweet.twitter.service;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.util.TwitterAccountEnum;
+import org.stackexchange.util.TwitterTag;
 import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,4 +31,16 @@ public class TagRetrieverServiceIntegrationTest {
         }
     }
 
+    @Test
+    public final void givenAllTwitterTagsAreRetrieved_whenCheckingIfEachIsDefinedAsTag_thenYes() {
+        for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
+            final List<String> twitterTags = tagRetrieverService.twitterTags(twitterAccount.name());
+            for (final String twitterTag : twitterTags) {
+                if (!twitterTag.isEmpty() && !twitterTag.contains("_")) {
+                    // ruby_rails and similar are skipped
+                    assertNotNull(TwitterTag.valueOf(twitterTag));
+                }
+            }
+        }
+    }
 }

@@ -2,42 +2,59 @@ package org.stackexchange.util;
 
 public enum TwitterTag {// @formatter:off
 
-    aws, 
     algorithm, 
+    algorithms, 
+    android, 
     apple, 
+    asp,
+    aspnet,
     authentication,
     azure,
-    android, 
     akka, 
-    bash, 
-    clojure, 
-    cloud, 
-    css, 
-    css3, 
-    couchdb,
+    aws,
+    
+    bash,
+    
     cassandra,
     captcha,
+    clojure, 
+    cloud, 
+    cocoa,
+    couchdb,
     couchbase,
+    cryptography,
+    crypto,
+    css, 
+    css3, 
+    
     database,
+    datomic,
     ddos,
     dynamobd,
     django, 
     
     eclipse, 
-    ec2, 
+    ec2,
+    encryption,
+    
     facebook,
+    
     git, 
     google,
     gae,
     gmail,
-    gdrive, 
+    gdrive,
+    
     hadoop,
     hbase,
+    html,
+    html5,
     // hibernate,
 
     ios,
     iphone,
     ipad, 
+    
     java, 
     jquery, 
     jpa, 
@@ -47,6 +64,7 @@ public enum TwitterTag {// @formatter:off
     jsp,
     java8,
     java9, 
+    
     lisp, 
     linux, 
     
@@ -56,9 +74,13 @@ public enum TwitterTag {// @formatter:off
     math, 
     macbook,
     mongodb, 
+    
     nosql, 
     neo4j, 
+    
     objectivec, 
+    opengraph, 
+    
     passwords, 
     parsing, 
     php, 
