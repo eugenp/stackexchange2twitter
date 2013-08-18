@@ -22,7 +22,7 @@ public final class LinkUtil {
         "http://www.heyyou-app.com"
     );// @formatter:on
     final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off
-        "https://www.facebook.com"
+        "https://www.facebook.com" // +1
     );// @formatter:on
 
     private LinkUtil() {
