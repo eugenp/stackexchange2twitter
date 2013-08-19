@@ -70,7 +70,7 @@ public class RecreateMissingQuestionTweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount_thenNoExceptions() {
-        recreateMissingQuestionTweetsUpgrader.recreateLocalQuestionTweetsOnAccount(TwitterAccountEnum.BestClojure.name());
+        recreateMissingQuestionTweetsUpgrader.recreateLocalQuestionTweetsOnAccount(TwitterAccountEnum.SpringAtSO.name());
     }
 
     @Test

@@ -72,13 +72,11 @@ public class RecreateMissingQuestionTweetsUpgrader implements ApplicationListene
     public void recreateLocalQuestionTweetsFromLiveTweets() {
         logger.info("Executing the RecreateMissingRetweetsUpgrader Upgrader");
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
-            if (twitterAccount.isRt()) {
-                try {
-                    logger.info("Recreating all missing retweets of twitterAccount= " + twitterAccount.name());
-                    recreateLocalQuestionTweetsOnAccount(twitterAccount.name());
-                } catch (final RuntimeException ex) {
-                    logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), ex);
-                }
+            try {
+                logger.info("Recreating all missing retweets of twitterAccount= " + twitterAccount.name());
+                recreateLocalQuestionTweetsOnAccount(twitterAccount.name());
+            } catch (final RuntimeException ex) {
+                logger.error("Unable to recreate missing retweets of twitterAccount= " + twitterAccount.name(), ex);
             }
         }
     }
