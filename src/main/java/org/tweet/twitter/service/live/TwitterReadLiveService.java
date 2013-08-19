@@ -185,6 +185,10 @@ public class TwitterReadLiveService {
         metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
         collector.addAll(currentPage);
+        if (collector.size() < 200) {
+            // done - under 200 tweets (1 page)
+            return collector;
+        }
         long lastId = currentPage.get(currentPage.size() - 1).getId();
         while (pageIndex > 1) {
             currentPage = timelineOperations.getUserTimeline(twitterAccount, 200, 01, lastId);

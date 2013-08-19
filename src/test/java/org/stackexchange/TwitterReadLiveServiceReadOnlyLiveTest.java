@@ -114,4 +114,11 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
         assertThat(tweetsOfHashtag, hasSize(200 * howManyPages));
     }
 
+    @Test
+    public final void whenOver200TweetsAreListedFromAccount2_thenCorrect() {
+        final int howManyPages = 3;
+        final List<Tweet> tweetsOfHashtag = instance.listTweetsOfAccountMultiRequestRaw(TwitterAccountEnum.BestJSP.name(), howManyPages);
+        assertThat(tweetsOfHashtag, hasSize(200 * howManyPages));
+    }
+
 }
