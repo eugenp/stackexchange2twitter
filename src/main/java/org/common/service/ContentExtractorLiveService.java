@@ -61,14 +61,13 @@ public class ContentExtractorLiveService implements InitializingBean {
 
         HttpGet request = null;
         HttpEntity httpEntity = null;
-        InputStream entityContentStream = null;
         try {
             request = new HttpGet(sourceUrl);
             final HttpResponse httpResponse = client.execute(request);
             metrics.counter(MetricsUtil.Meta.HTTP_OK);
 
             httpEntity = httpResponse.getEntity();
-            entityContentStream = httpEntity.getContent();
+            final InputStream entityContentStream = httpEntity.getContent();
             final String outputAsEscapedHtml = IOUtils.toString(entityContentStream, Charset.forName("utf-8"));
             return outputAsEscapedHtml;
         } catch (final IOException ex) {
@@ -77,9 +76,6 @@ public class ContentExtractorLiveService implements InitializingBean {
         } finally {
             if (request != null) {
                 request.releaseConnection();
-            }
-            if (entityContentStream != null) {
-                entityContentStream.close();
             }
             if (httpEntity != null) {
                 EntityUtils.consume(httpEntity);

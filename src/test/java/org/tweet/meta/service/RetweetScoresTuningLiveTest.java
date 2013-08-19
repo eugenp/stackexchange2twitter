@@ -6,6 +6,7 @@ import org.classification.spring.ClassificationConfig;
 import org.common.service.live.LinkLiveService;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.CommonServiceConfig;
+import org.common.util.LinkUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -22,8 +23,6 @@ import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
-
-import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off
@@ -79,8 +78,7 @@ public class RetweetScoresTuningLiveTest {
         final List<String> latestTweetsOnAccount = twitterService.listTweetsOfInternalAccount(account, 14);
         numberOfTweetsRetrieved = latestTweetsOnAccount.size();
 
-        final List<String> relevantDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
-        final int totalRelevantLinks = linkService.countLinksToAnyDomain(latestTweetsOnAccount, relevantDomains);
+        final int totalRelevantLinks = linkService.countLinksToAnyDomain(latestTweetsOnAccount, LinkUtil.seDomains);
         final int totalLinksNotToSo = numberOfTweetsRetrieved - totalRelevantLinks;
 
         if (totalLinksNotToSo <= 3) {

@@ -1,7 +1,6 @@
 package org.common.service.live;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -114,7 +113,6 @@ public class HttpLiveService implements InitializingBean {
     final Pair<Integer, String> expandSingleLevel(final String url) throws IOException {
         HttpGet request = null;
         HttpEntity httpEntity = null;
-        InputStream entityContentStream = null;
 
         try {
             request = new HttpGet(url);
@@ -122,7 +120,6 @@ public class HttpLiveService implements InitializingBean {
             metrics.counter(MetricsUtil.Meta.HTTP_OK);
 
             httpEntity = httpResponse.getEntity();
-            entityContentStream = httpEntity.getContent();
 
             final int statusCode = httpResponse.getStatusLine().getStatusCode();
             if (statusCode != 301 && statusCode != 302) {
@@ -144,9 +141,6 @@ public class HttpLiveService implements InitializingBean {
         } finally {
             if (request != null) {
                 request.releaseConnection();
-            }
-            if (entityContentStream != null) {
-                entityContentStream.close();
             }
             if (httpEntity != null) {
                 EntityUtils.consume(httpEntity);
