@@ -40,6 +40,7 @@ public final class TwitterUtil {
         "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
         "dumb", 
         "dance",
+        "win", // new
         "snake", // python snake...yes, it happened
         "islamic", "islam", "muslim", "muslims", "pakistan",
         "$3.99", "$2.99", "$1.99", "$0.99" 
