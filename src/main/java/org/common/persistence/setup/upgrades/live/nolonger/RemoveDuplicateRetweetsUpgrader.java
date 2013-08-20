@@ -86,7 +86,6 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
     }
 
     @Override
-    @Async
     public boolean removeDuplicateRetweetsOnAccount(final String twitterAccount) {
         final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         final boolean doneRemovals = removeDuplicateRetweetsOnAccount(allTweetsOnAccount, twitterAccount);
@@ -96,8 +95,9 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
     private final boolean removeDuplicateRetweetsOnAccount(final List<Tweet> allTweetsForAccount, final String twitterAccount) {
         int countRemovals = 0;
         for (final Tweet tweet : allTweetsForAccount) {
-            removeDuplicateRetweets(tweet, twitterAccount);
-            countRemovals++;
+            if (removeDuplicateRetweets(tweet, twitterAccount)) {
+                countRemovals++;
+            }
         }
 
         return countRemovals > 0;
@@ -105,7 +105,7 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
     private final boolean removeDuplicateRetweets(final Tweet tweet, final String twitterAccount) {
         try {
-            return removeDuplicateRetweetsInternal(TweetUtil.getText(tweet), twitterAccount);
+            return removeDuplicateRetweetsInternal(tweet, twitterAccount);
         } catch (final RuntimeException ex) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.error("Unable to remove duplicates for retweet: " + TweetUtil.getText(tweet) + " from \nlive tweet url= " + tweetUrl, ex);
@@ -113,8 +113,9 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
         }
     }
 
-    private final boolean removeDuplicateRetweetsInternal(final String rawTweetText, final String twitterAccount) {
-        final boolean linkingToSe = linkLiveService.countLinksToAnyDomainRaw(rawTweetText, LinkUtil.seDomains) > 0;
+    private final boolean removeDuplicateRetweetsInternal(final Tweet rawTweet, final String twitterAccount) {
+        final String rawTweetText = TweetUtil.getText(rawTweet);
+        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweet, LinkUtil.seDomains) > 0;
         if (linkingToSe) {
             logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
             return false;
