@@ -59,7 +59,7 @@ public class RecreateMissingQuestionTweetsUpgrader implements ApplicationListene
     @Override
     // @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
-        if (env.getProperty("setup.upgrade.retweetmissing.do", Boolean.class)) {
+        if (env.getProperty("setup.upgrade.stackquestionsmissing.do", Boolean.class)) {
             logger.info("Starting to execute the AddTextToRetweetsUpgrader Upgrader");
             recreateLocalQuestionTweetsFromLiveTweets();
             logger.info("Finished executing the AddTextToRetweetsUpgrader Upgrader");

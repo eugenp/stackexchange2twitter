@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
@@ -24,6 +25,8 @@ import org.tweet.spring.util.SpringProfileUtil;
     CommonPersistenceJPAConfig.class, 
     
     KeyValPersistenceJPAConfig.class, 
+    
+    StackexchangePersistenceJPAConfig.class, 
     
     TwitterMetaPersistenceJPAConfig.class,
     TwitterMetaConfig.class,
@@ -52,7 +55,7 @@ public class RecreateMissingRetweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount_thenNoExceptions() {
-        recreateMissingRetweetsUpgrader.recreateLocalRetweetsFromLiveTweetsOnAccount(TwitterAccountEnum.BestBash.name());
+        recreateMissingRetweetsUpgrader.recreateLocalRetweetsFromLiveTweetsOnAccount(TwitterAccountEnum.BestClojure.name());
     }
 
     @Test
