@@ -67,14 +67,14 @@ public class TwitterAnalysisLiveService {
         System.out.println("Retweets: " + retweetsCollector);
     }
 
-    public final long calculateAbsDifferenceBetweenLocalAndLiveRetweetsOnAccount(final String twitterAccount) {
-        final List<String> tweetsOnAccount = twitterReadLiveService.listTweetsOfInternalAccount(twitterAccount, 200);
+    public final int calculateAbsDifferenceBetweenLocalAndLiveRetweetsOnAccount(final String twitterAccount) {
+        final List<String> tweetsOnAccount = twitterReadLiveService.listTweetsOfInternalAccount(twitterAccount, 400);
         final List<String> relevantDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
         final int linkingToSo = linkLiveService.countLinksToAnyDomain(tweetsOnAccount, relevantDomains);
         final int liveRetweetsOnAccount = tweetsOnAccount.size() - linkingToSo;
-        final long localRetweetsOnAccount = retweetLocalApi.countAllByTwitterAccount(twitterAccount);
+        final int localRetweetsOnAccount = (int) retweetLocalApi.countAllByTwitterAccount(twitterAccount);
 
-        final long absDifference = Math.abs(liveRetweetsOnAccount - localRetweetsOnAccount);
+        final int absDifference = Math.abs(liveRetweetsOnAccount - localRetweetsOnAccount);
         return absDifference;
     }
 

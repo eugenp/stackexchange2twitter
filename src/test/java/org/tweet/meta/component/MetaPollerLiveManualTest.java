@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.CommonServiceConfig;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
@@ -26,6 +26,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @ContextConfiguration(classes = {// @formatter:off
         KeyValPersistenceJPAConfig.class, 
         
+        StackexchangePersistenceJPAConfig.class, 
+        
         CommonPersistenceJPAConfig.class, 
         CommonServiceConfig.class, 
         
@@ -37,8 +39,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
         TwitterMetaPersistenceJPAConfig.class, 
         TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.DEPLOYED, SpringProfileUtil.WRITE_PRODUCTION, SpringProfileUtil.WRITE })
-public class MetaPollerLiveTest {
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.DEPLOYED, SpringProfileUtil.WRITE_PRODUCTION, SpringProfileUtil.WRITE, SpringProfileUtil.DEPLOYED_POLLER, SpringProfileUtil.Live.ANALYSIS })
+public class MetaPollerLiveManualTest {
 
     @Autowired
     private MetaPoller metaPoller;
@@ -47,11 +49,10 @@ public class MetaPollerLiveTest {
 
     @Test
     public final void givenSingleAccount_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() {
-        metaPoller.checkRetweetsMatchOnAccount(TwitterAccountEnum.PerlDaily.name());
+        metaPoller.checkRetweetsMatchOnAccount(TwitterAccountEnum.BestClojure.name());
     }
 
     @Test
-    @Ignore("long running - manual only")
     public final void givenOnAllAccounts_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() throws JsonProcessingException, IOException, InterruptedException {
         metaPoller.checkRetweetsMatch();
     }

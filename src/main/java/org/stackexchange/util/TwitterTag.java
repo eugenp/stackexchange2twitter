@@ -69,6 +69,8 @@ public enum TwitterTag {// @formatter:off
     linux, 
     
     multithreading,
+    multithread,
+    multithreaded,
     mysql, 
     maven, 
     math, 
