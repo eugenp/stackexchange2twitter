@@ -71,33 +71,38 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
     @Override
     public boolean cleanTextOfRetweetsOnAccount(final String twitterAccount) {
         final List<Retweet> allRetweetsForAccount = retweetDao.findAllByTwitterAccount(twitterAccount);
-        cleanTextOfRetweets(allRetweetsForAccount);
-        return !allRetweetsForAccount.isEmpty();
+        final boolean somethingDone = cleanTextOfRetweets(allRetweetsForAccount);
+        return somethingDone;
     }
 
     // util
 
-    private final void cleanTextOfRetweets(final List<Retweet> allRetweetsForAccount) {
+    private final boolean cleanTextOfRetweets(final List<Retweet> allRetweetsForAccount) {
         logger.info("Starting to clean text for {} retweets ", allRetweetsForAccount.size());
-
+        int doneCounter = 0;
         for (final Retweet retweet : allRetweetsForAccount) {
-            cleanTextOfRetweet(retweet);
+            if (cleanTextOfRetweet(retweet)) {
+                doneCounter++;
+            }
         }
+
+        return doneCounter > 0;
     }
 
-    private final void cleanTextOfRetweet(final Retweet retweet) {
+    private boolean cleanTextOfRetweet(final Retweet retweet) {
         try {
-            cleanTextOfRetweetInternal(retweet);
+            return cleanTextOfRetweetInternal(retweet);
         } catch (final RuntimeException ex) {
             logger.error("Unable clean text of retweet: " + retweet);
+            return true;
         }
     }
 
-    private final void cleanTextOfRetweetInternal(final Retweet retweet) {
+    private final boolean cleanTextOfRetweetInternal(final Retweet retweet) {
         final String textRaw = retweet.getText();
         if (textRaw == null) {
             logger.info("No Text - skipping retweet= {}", retweet);
-            return;
+            return false;
         }
         final String preProcessedText = tweetService.processPreValidity(textRaw);
         final String postProcessedText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, retweet.getTwitterAccount());
@@ -107,7 +112,10 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
             retweetDao.save(retweet);
 
             logger.info("Upgraded retweet from \ntext= {} to \ntext= {}", textRaw, postProcessedText);
+            return true;
         }
+
+        return false;
     }
 
 }

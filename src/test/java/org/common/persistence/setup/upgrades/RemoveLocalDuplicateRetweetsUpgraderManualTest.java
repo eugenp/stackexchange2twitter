@@ -32,7 +32,7 @@ import org.tweet.spring.util.SpringProfileUtil;
     TwitterLiveConfig.class
 })//@formatter:on
 @ActiveProfiles({ SpringProfileUtil.DEPLOYED, SpringProfileUtil.LIVE })
-public class RemoveLocalDuplicateRetweetsUpgraderLiveManualTest {
+public class RemoveLocalDuplicateRetweetsUpgraderManualTest {
 
     static {
         System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "prod");

@@ -62,6 +62,7 @@ public class FillInDatesOfRetweetsUpgraderLiveTest {
 
     @Test
     public final void whenFillingInMissingDatesOnRetweetsOfAllAccounts_thenNoExceptions() {
+        // results in: BestJSON, BestOfCloud, BestScala, GoogleDigest
         fillInDatesOnRetweetsUpgrader.fillInDatesOfRetweetsOfAllAccounts();
     }
 

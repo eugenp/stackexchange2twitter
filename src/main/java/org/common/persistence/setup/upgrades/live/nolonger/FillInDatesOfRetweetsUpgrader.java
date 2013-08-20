@@ -85,7 +85,7 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
     @Override
     public boolean fillInDatesOfRetweetsOfOneAccount(final String twitterAccount) {
         int processedCount = 0;
-        final List<Tweet> allTweetsOfAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
+        final List<Tweet> allTweetsOfAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 5);
         for (final Tweet tweetRaw : allTweetsOfAccount) {
             final Tweet tweet = TweetUtil.getTweet(tweetRaw);
             final String fullTweetRaw = tweet.getText();
@@ -97,7 +97,7 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
                     correspondingLocalRetweet.setWhen(tweet.getCreatedAt());
                     retweetDao.save(correspondingLocalRetweet);
                     processedCount++;
-                    logger.info("Upgraded retweet with date; retweet= {}", tweet.getText());
+                    logger.info("Upgraded retweet (which had no date)= {}", tweet.getText());
                 }
             }
         }
