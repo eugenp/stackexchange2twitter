@@ -63,7 +63,8 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
 
     // util
 
-    void fillInDatesOfRetweetsOfAllAccounts() {
+    @Override
+    public void fillInDatesOfRetweetsOfAllAccounts() {
         logger.info("Executing the FillInDatesOfRetweetsUpgrader Upgrader");
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             try {
