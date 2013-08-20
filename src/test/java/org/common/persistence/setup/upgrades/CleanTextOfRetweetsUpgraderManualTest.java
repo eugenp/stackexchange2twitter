@@ -66,3 +66,5 @@ public class CleanTextOfRetweetsUpgraderManualTest {
     }
 
 }
+
+// run - 20.08.2013 - nothing

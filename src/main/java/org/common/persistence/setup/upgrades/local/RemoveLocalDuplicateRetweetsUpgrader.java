@@ -77,31 +77,37 @@ class RemoveLocalDuplicateRetweetsUpgrader implements ApplicationListener<AfterS
     @Override
     public final boolean removeLocalDuplicateRetweetsOnAccount(final String twitterAccount) {
         final List<Retweet> allLocalRetweetsOfAccount = retweetDao.findAllByTwitterAccount(twitterAccount);
-        removeDuplicateLocalRetweetsOnAccount(allLocalRetweetsOfAccount, twitterAccount);
-        return true;
+        final boolean doneSomething = removeDuplicateLocalRetweetsOnAccount(allLocalRetweetsOfAccount, twitterAccount);
+        return doneSomething;
     }
 
-    private final void removeDuplicateLocalRetweetsOnAccount(final List<Retweet> allLocalRetweetsForAccount, final String twitterAccount) {
+    private final boolean removeDuplicateLocalRetweetsOnAccount(final List<Retweet> allLocalRetweetsForAccount, final String twitterAccount) {
+        int counterOp = 0;
         for (final Retweet retweet : allLocalRetweetsForAccount) {
-            removeDuplicateLocalRetweets(retweet, twitterAccount);
+            if (removeDuplicateLocalRetweets(retweet, twitterAccount)) {
+                counterOp++;
+            }
         }
+
+        return counterOp > 0;
     }
 
-    private final void removeDuplicateLocalRetweets(final Retweet retweet, final String twitterAccount) {
+    private final boolean removeDuplicateLocalRetweets(final Retweet retweet, final String twitterAccount) {
         try {
-            removeDuplicateLocalRetweetsInternal(retweet, twitterAccount);
+            return removeDuplicateLocalRetweetsInternal(retweet, twitterAccount);
         } catch (final RuntimeException ex) {
             logger.error("Unable to remove duplicates for retweet: " + retweet, ex);
+            return false;
         }
     }
 
-    private final void removeDuplicateLocalRetweetsInternal(final Retweet retweet, final String twitterAccount) {
+    private final boolean removeDuplicateLocalRetweetsInternal(final Retweet retweet, final String twitterAccount) {
         final String preProcessedText = tweetService.processPreValidity(retweet.getText());
         final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
 
         final List<Retweet> foundRetweets = retweetDao.findAllByTextAndTwitterAccount(goodText, twitterAccount);
         if (foundRetweets.size() <= 1) {
-            return;
+            return false;
         }
         final Retweet keepingOne = foundRetweets.remove(0);
         for (final Retweet duplicateRetweet : foundRetweets) {
@@ -109,6 +115,7 @@ class RemoveLocalDuplicateRetweetsUpgrader implements ApplicationListener<AfterS
         }
 
         logger.info("Removed on twitterAccount= {} - {} retweets= {}", twitterAccount, foundRetweets.size(), keepingOne.getText());
+        return true;
     }
 
 }
