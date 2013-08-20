@@ -71,8 +71,8 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
                 logger.info("Recreating dates for all missing retweets of twitterAccount= " + twitterAccount.name());
                 final boolean processedSomething = fillInDatesOfRetweetsOfOneAccount(twitterAccount.name());
                 if (processedSomething) {
-                    logger.info("Done recreating dates on retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 60 secs...");
-                    Thread.sleep(1000 * 60 * 1); // 60 sec
+                    logger.info("Done recreating dates on retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 10 secs...");
+                    Thread.sleep(1000 * 10 * 1); // 10 sec
                 }
             } catch (final RuntimeException ex) {
                 logger.error("Unable to recreate dates on retweets of twitterAccount= " + twitterAccount.name(), ex);
@@ -84,6 +84,7 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
 
     @Override
     public boolean fillInDatesOfRetweetsOfOneAccount(final String twitterAccount) {
+        int processedCount = 0;
         final List<Tweet> allTweetsOfAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
         for (final Tweet tweetRaw : allTweetsOfAccount) {
             final Tweet tweet = TweetUtil.getTweet(tweetRaw);
@@ -95,12 +96,13 @@ class FillInDatesOfRetweetsUpgrader implements ApplicationListener<AfterSetupEve
                 if (correspondingLocalRetweet != null && correspondingLocalRetweet.getWhen() == null && tweet.getCreatedAt() != null) {
                     correspondingLocalRetweet.setWhen(tweet.getCreatedAt());
                     retweetDao.save(correspondingLocalRetweet);
+                    processedCount++;
                     logger.info("Upgraded retweet with date; retweet= {}", tweet.getText());
                 }
             }
         }
 
-        return !allTweetsOfAccount.isEmpty();
+        return processedCount > 0;
     }
 
 }
