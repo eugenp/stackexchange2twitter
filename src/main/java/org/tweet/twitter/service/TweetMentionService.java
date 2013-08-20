@@ -78,12 +78,23 @@ public class TweetMentionService {
     public final String addMention(final String authorUserToMention, final String textWithoutMentionOfAuthor) {
         Preconditions.checkNotNull(authorUserToMention);
         Preconditions.checkNotNull(textWithoutMentionOfAuthor);
-        final String withMention = textWithoutMentionOfAuthor + " - via @" + authorUserToMention;
-        if (withMention.length() > 141) {
-            return textWithoutMentionOfAuthor;
+
+        String withMention = textWithoutMentionOfAuthor + " - via @" + authorUserToMention;
+        if (withMention.length() < 141) {
+            return withMention;
         }
 
-        return withMention;
+        withMention = textWithoutMentionOfAuthor + "- via @" + authorUserToMention;
+        if (withMention.length() < 141) {
+            return withMention;
+        }
+
+        withMention = textWithoutMentionOfAuthor + "(@" + authorUserToMention + ")";
+        if (withMention.length() < 141) {
+            return withMention;
+        }
+
+        return textWithoutMentionOfAuthor;
     }
 
     // util

@@ -27,9 +27,16 @@ public class TweetMentionServiceIntegrationTest {
     }
 
     @Test
-    public final void whenAddingMentionToTweet_thenCorrect() {
+    public final void whenAddingMentionToTweet1_thenCorrect() {
         final String expected = "some text here in the tweet - via @user1";
         final String actual = instance.addMention("user1", "some text here in the tweet");
+        assertThat(expected, equalTo(actual));
+    }
+
+    @Test
+    public final void whenAddingMentionToTweet2_thenCorrect() {
+        final String expected = "Very cool walkthrough on building a #LightSwitch #HTML5 scheduling/calendar app from @ADefWebserver - http://t.co/U5hKuLAfxN - via @BethMassi";
+        final String actual = instance.addMention("BethMassi", "Very cool walkthrough on building a #LightSwitch #HTML5 scheduling/calendar app from @ADefWebserver - http://t.co/U5hKuLAfxN");
         assertThat(expected, equalTo(actual));
     }
 
