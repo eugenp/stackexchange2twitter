@@ -125,9 +125,9 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
         final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
 
         final boolean cleanedSomethingByExactMatch = cleanRetweetExactMatches(goodText, twitterAccount);
-        final boolean cleanedSomethingByStringMatch = cleanRetweetStrictMatches(goodText, twitterAccount);
+        final boolean cleanedSomethingBeyondExactMatch = cleanRetweetRelaxedMatches(goodText, twitterAccount);
 
-        return cleanedSomethingByExactMatch || cleanedSomethingByStringMatch;
+        return cleanedSomethingByExactMatch || cleanedSomethingBeyondExactMatch;
     }
 
     private final boolean cleanRetweetExactMatches(final String goodText, final String twitterAccount) {
@@ -145,8 +145,8 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
     private final boolean cleanRetweetStrictMatches(final String goodText, final String twitterAccount) {
         // final List<Retweet> allLocalTweetsStrict = tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount);
-        final List<Retweet> allLocalTweetsRelaxed = tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount);
-        if (allLocalTweetsRelaxed.size() <= 1) {
+        final List<Retweet> allLocalTweets = tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount);
+        if (allLocalTweets.size() <= 1) {
             return false;
         } else {
             final Retweet exactMatch = retweetDao.findOneByTextAndTwitterAccount(goodText, twitterAccount);
@@ -154,11 +154,33 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
                 logger.error("Found relative matches, but no exact match to prefer (and delete the rest)");
                 return false;
             }
-            allLocalTweetsRelaxed.remove(exactMatch);
-            for (final Retweet remainingMatch : allLocalTweetsRelaxed) {
+            allLocalTweets.remove(exactMatch);
+            for (final Retweet remainingMatch : allLocalTweets) {
                 retweetDao.delete(remainingMatch);
             }
-            logger.warn("Removed {} partial match retweets", allLocalTweetsRelaxed.size());
+            logger.warn("Removed {} partial match retweets", allLocalTweets.size());
+            return true;
+        }
+
+        // logger.info("Removed on twitterAccount= {} - {} retweet= {}", twitterAccount, allLocalTweetsRelaxed.size(), keepingOne.getText());
+    }
+
+    private final boolean cleanRetweetRelaxedMatches(final String goodText, final String twitterAccount) {
+        // final List<Retweet> allLocalTweetsStrict = tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount);
+        final List<Retweet> allLocalTweets = tweetMetaLocalService.findLocalCandidatesRelaxed(goodText, twitterAccount);
+        if (allLocalTweets.size() <= 1) {
+            return false;
+        } else {
+            final Retweet exactMatch = retweetDao.findOneByTextAndTwitterAccount(goodText, twitterAccount);
+            if (exactMatch == null) {
+                logger.error("Found relative matches, but no exact match to prefer (and delete the rest)");
+                return false;
+            }
+            allLocalTweets.remove(exactMatch);
+            for (final Retweet remainingMatch : allLocalTweets) {
+                retweetDao.delete(remainingMatch);
+            }
+            logger.warn("Removed {} partial match retweets", allLocalTweets.size());
             return true;
         }
 

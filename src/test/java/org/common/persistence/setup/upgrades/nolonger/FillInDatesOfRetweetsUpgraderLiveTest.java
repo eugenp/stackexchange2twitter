@@ -57,12 +57,13 @@ public class FillInDatesOfRetweetsUpgraderLiveTest {
 
     @Test
     public final void whenFillingInMissingDatesOnRetweetsOfOneAccount_thenNoExceptions() {
-        assertTrue(fillInDatesOnRetweetsUpgrader.fillInDatesOfRetweetsOfOneAccount(TwitterAccountEnum.BestClojure.name()));
+        assertTrue(fillInDatesOnRetweetsUpgrader.fillInDatesOfRetweetsOfOneAccount(TwitterAccountEnum.BestPHP.name()));
     }
 
     @Test
     public final void whenFillingInMissingDatesOnRetweetsOfAllAccounts_thenNoExceptions() {
-        // results in: BestJSON, BestOfCloud, BestScala, GoogleDigest
+        // BestJSON - some additional output, nothing upgraded
+        // BestPHP - one upgraded - done
         fillInDatesOnRetweetsUpgrader.fillInDatesOfRetweetsOfAllAccounts();
     }
 

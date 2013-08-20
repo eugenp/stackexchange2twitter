@@ -98,8 +98,24 @@ public class TweetService {
             return false;
         }
 
-        // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
+        if (!isStructurallyValid(potentialTweetText)) {
+            logger.debug("Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
+            return false;
+        }
+
         return true;
+    }
+
+    public final boolean isStructurallyValid(final String potentialTweetText) {
+        final List<String> extractedUrls = linkService.extractUrls(potentialTweetText);
+        final String mainUrl = linkService.determineMainUrl(extractedUrls);
+        if (mainUrl == null) {
+            return false;
+        }
+        final int lengthOfMainUrl = mainUrl.length();
+        final int fullLength = potentialTweetText.length();
+
+        return (fullLength - lengthOfMainUrl) > 10;
     }
 
     /**

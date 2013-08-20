@@ -53,7 +53,7 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
                 try {
-                    logger.info("Upgrading (cleaning text) of retweets of twitterAccount= " + twitterAccount.name());
+                    logger.info("Starting to upgrade (clean text) of retweets of twitterAccount= " + twitterAccount.name());
                     final boolean success = cleanTextOfRetweetsOnAccount(twitterAccount.name());
                     if (success) {
                         logger.info("Done upgrading (cleaning text) of retweets of twitterAccount= " + twitterAccount.name() + "; sleeping for 2 secs...");
@@ -78,7 +78,7 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
     // util
 
     private final boolean cleanTextOfRetweets(final List<Retweet> allRetweetsForAccount) {
-        logger.info("Starting to clean text for {} retweets ", allRetweetsForAccount.size());
+        logger.debug("Trying to clean text for {} retweets ", allRetweetsForAccount.size());
         int doneCounter = 0;
         for (final Retweet retweet : allRetweetsForAccount) {
             if (cleanTextOfRetweet(retweet)) {

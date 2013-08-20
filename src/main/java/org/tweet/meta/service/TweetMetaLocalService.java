@@ -72,7 +72,11 @@ public class TweetMetaLocalService {
     }
 
     public final List<Retweet> findLocalCandidatesRelaxed(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
-        // note: described in: https://github.com/eugenp/stackexchange2twitter/issues/95
+        final boolean isWorth = tweetService.isStructurallyValid(fullTextWithUrlAfterProcessing);
+        if (!isWorth) {
+            return findLocalCandidatesStrict(fullTextWithUrlAfterProcessing, twitterAccount);
+        }
+
         final List<Retweet> partialResultsFromPrePostUrl = findPartialResultsFromPrePostUrl(fullTextWithUrlAfterProcessing, twitterAccount);
         if (partialResultsFromPrePostUrl != null) {
             return partialResultsFromPrePostUrl;

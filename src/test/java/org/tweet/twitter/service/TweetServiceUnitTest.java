@@ -91,6 +91,11 @@ public class TweetServiceUnitTest {
         assertFalse(instance.isTweetWorthRetweetingByText("Spelersbus #GAE pic.twitter.com/2USMMHDbyJ"));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario9_thenRejected() {
+        assertFalse(instance.isTweetWorthRetweetingByText("#Google http://t.co/VmandYLIu4"));
+    }
+
     // pre-process
 
     @Test
@@ -239,6 +244,18 @@ public class TweetServiceUnitTest {
         final String targetTweet = "Hot deploying changes with Netbeans, Maven, and Glassfish - http://stackoverflow.com/questions/2290935/hot-deploying-changes-with-netbeans-maven-and-glassfish";
         final String processedTweet = instance.hashtagWordsFullTweet(originalTweet, Lists.newArrayList("maven", "pom"));
         assertThat(targetTweet, equalTo(processedTweet));
+    }
+
+    // is structurally valid
+
+    @Test
+    public final void whenCheckedIfStructurallyValidTweet1_theNo() {
+        assertFalse(instance.isStructurallyValid("#Google http://t.co/VmandYLIu4"));
+    }
+
+    @Test
+    public final void whenCheckedIfStructurallyValidTweet1_theYes() {
+        assertTrue(instance.isStructurallyValid("Any easy #REST tutorials for Java? - http://stackoverflow.com/questions/333690/any-easy-rest-tutorials-for-java …"));
     }
 
 }
