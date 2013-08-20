@@ -125,9 +125,9 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
         final String goodText = tweetService.postValidityProcessTweetTextWithUrl(preProcessedText, twitterAccount);
 
         final boolean cleanedSomethingByExactMatch = cleanRetweetExactMatches(goodText, twitterAccount);
-        final boolean cleanedSomethingByRelaxedMatch = cleanRetweetRelaxedMatches(goodText, twitterAccount);
+        final boolean cleanedSomethingByStringMatch = cleanRetweetStrictMatches(goodText, twitterAccount);
 
-        return cleanedSomethingByExactMatch || cleanedSomethingByRelaxedMatch;
+        return cleanedSomethingByExactMatch || cleanedSomethingByStringMatch;
     }
 
     private final boolean cleanRetweetExactMatches(final String goodText, final String twitterAccount) {
@@ -143,9 +143,9 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
         return true;
     }
 
-    private final boolean cleanRetweetRelaxedMatches(final String goodText, final String twitterAccount) {
+    private final boolean cleanRetweetStrictMatches(final String goodText, final String twitterAccount) {
         // final List<Retweet> allLocalTweetsStrict = tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount);
-        final List<Retweet> allLocalTweetsRelaxed = tweetMetaLocalService.findLocalCandidatesRelaxed(goodText, twitterAccount);
+        final List<Retweet> allLocalTweetsRelaxed = tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount);
         if (allLocalTweetsRelaxed.size() <= 1) {
             return false;
         } else {

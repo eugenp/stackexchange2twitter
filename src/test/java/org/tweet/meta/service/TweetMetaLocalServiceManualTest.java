@@ -118,6 +118,13 @@ public class TweetMetaLocalServiceManualTest {
     }
 
     @Test
+    public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario9_thenCorrectAnswer() {
+        final String text = "Want to #Google the '#halal' way? Search engine blocks un-Islamic content http://t.co/ymBl4Ded0S via @AlArabiya_Eng";
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.GoogleDigest.name());
+        assertNotNull(existing);
+    }
+
+    @Test
     public final void whenRetrievingCorrespondingTweets1_thenCorrect() {
         final String tweet = "Announcing causatum 0.1.0, a #clojure library for generating event streams based on stochastic state machines. http://t.co.";
         final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());

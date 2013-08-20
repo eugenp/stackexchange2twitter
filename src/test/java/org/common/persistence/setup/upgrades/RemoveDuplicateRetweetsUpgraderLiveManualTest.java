@@ -53,14 +53,17 @@ public class RemoveDuplicateRetweetsUpgraderLiveManualTest {
         //
     }
 
+    // some unexpected additional logging messages:
+    // BestOfCloud, BestScala, GoogleDigest
+    // wrong results: GoogleDigest
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount1_thenNoExceptions() {
-        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.InTheAppleWorld.name());
+        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.BestOfCloud.name());
     }
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount2_thenNoExceptions() {
-        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.BestClojure.name());
+        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.GoogleDigest.name());
     }
 
     @Test
