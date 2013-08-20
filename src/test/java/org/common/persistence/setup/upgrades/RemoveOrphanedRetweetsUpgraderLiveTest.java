@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.spring.StackexchangePersistenceJPAConfig;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
@@ -23,7 +24,9 @@ import org.tweet.spring.util.SpringProfileUtil;
     CommonServiceConfig.class, 
     CommonPersistenceJPAConfig.class, 
     
-    KeyValPersistenceJPAConfig.class, 
+    KeyValPersistenceJPAConfig.class,
+    
+    StackexchangePersistenceJPAConfig.class,
     
     TwitterMetaConfig.class,
     TwitterMetaPersistenceJPAConfig.class,
@@ -51,8 +54,15 @@ public class RemoveOrphanedRetweetsUpgraderLiveTest {
     }
 
     @Test
-    public final void whenRecreatingTheTweetedQuestions_thenNoExceptions() {
-        removeOrphanedRetweetsUpgrader.removeOrphanedRetweetsOnAccount(TwitterAccountEnum.BestScala.name());
+    public final void whenRemovingOrhpanedRetweetsOnSingleAccount_thenNoExceptions() {
+        removeOrphanedRetweetsUpgrader.removeOrphanedRetweetsOnAccount(TwitterAccountEnum.iOSdigest.name());
+    }
+
+    @Test
+    public final void whenRemovingOrhpanedRetweetsOnAllAccounts_thenNoExceptions() {
+        // iOSdigest - issues
+        // jQueryDaily - issues
+        removeOrphanedRetweetsUpgrader.removeOrphanedRetweets();
     }
 
 }

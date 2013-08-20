@@ -200,14 +200,14 @@ public class LinkLiveService {
     /**
      * - <b>live</b><br/>
      */
-    public final boolean hasLinksToAnyDomain(final String tweet, final Iterable<String> domains) {
-        final List<String> mainUrls = linkService.extractUrls(tweet);
+    public final boolean hasLinksToAnyDomain(final String tweetText, final Iterable<String> domains) {
+        final List<String> mainUrls = linkService.extractUrls(tweetText);
         for (final String mainUrl : mainUrls) {
             final String mainUrlExpanded = httpLiveService.expand(mainUrl);
             if (mainUrlExpanded == null) {
                 // temporary error - go to debug when I'm done
                 // it does happen and it may be worth investigating why - for example:
-                logger.error("Unable to expand link= {} \nfrom tweet: {}", mainUrl, tweet);
+                logger.error("Unable to expand link= {} \nfrom tweet: {}", mainUrl, tweetText);
                 return false;
             }
 

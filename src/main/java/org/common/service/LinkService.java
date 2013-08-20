@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.google.api.client.util.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
@@ -45,11 +46,14 @@ public class LinkService {
      * - local
      */
     public final String removeUrlParameters(final String urlWithPotentialParameters) {
+        Preconditions.checkNotNull(urlWithPotentialParameters);
+
         URL url = null;
         try {
             url = new URL(urlWithPotentialParameters);
         } catch (final MalformedURLException ex) {
             logger.error("Unable to parse URL: " + urlWithPotentialParameters, ex);
+            return urlWithPotentialParameters;
         }
         if (url.getQuery() == null || url.getQuery().isEmpty()) {
             return urlWithPotentialParameters;

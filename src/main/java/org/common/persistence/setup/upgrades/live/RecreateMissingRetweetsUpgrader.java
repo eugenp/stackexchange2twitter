@@ -84,31 +84,38 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
     @Override
     @Async
     public void recreateLocalRetweetsFromLiveTweetsOnAccount(final String twitterAccount) {
-        final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 3);
+        final List<Tweet> allTweetsOnAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(twitterAccount, 5);
         processAllLiveTweets(allTweetsOnAccount, twitterAccount);
     }
 
-    private final void processAllLiveTweets(final List<Tweet> allTweetsForAccount, final String twitterAccount) {
+    private final boolean processAllLiveTweets(final List<Tweet> allTweetsForAccount, final String twitterAccount) {
+        int count = 0;
         for (final Tweet tweet : allTweetsForAccount) {
-            processLiveTweet(tweet, twitterAccount);
+            if (processLiveTweet(tweet, twitterAccount)) {
+                count++;
+            }
         }
+
+        logger.info("Recreated {} retweets on account= {}", count, twitterAccount);
+        return count > 0;
     }
 
-    private final void processLiveTweet(final Tweet tweet, final String twitterAccount) {
+    private final boolean processLiveTweet(final Tweet tweet, final String twitterAccount) {
         try {
-            processLiveTweetInternal(tweet, twitterAccount, tweet.getCreatedAt());
+            return processLiveTweetInternal(tweet, twitterAccount, tweet.getCreatedAt());
         } catch (final RuntimeException ex) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.error("Unable to recreate retweet: " + TweetUtil.getText(tweet) + " from \nlive tweet url= " + tweetUrl, ex);
+            return false;
         }
     }
 
-    private final void processLiveTweetInternal(final Tweet rawTweet, final String twitterAccount, final Date when) {
+    private final boolean processLiveTweetInternal(final Tweet rawTweet, final String twitterAccount, final Date when) {
         final String rawTweetText = TweetUtil.getText(rawTweet);
         final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweet, LinkUtil.seDomains) > 0;
         if (linkingToSe) {
             logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
-            return;
+            return false;
         }
 
         final String preProcessedText = tweetService.processPreValidity(rawTweetText);
@@ -117,19 +124,21 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
         final Retweet foundRetweet = retweetDao.findOneByTextAndTwitterAccount(goodText, twitterAccount);
         if (foundRetweet != null) {
             logger.debug("Found local retweet: " + foundRetweet);
-            return;
+            return false;
         }
 
-        final boolean foundRetweetsAdvancedSearch = !tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount).isEmpty();
+        final List<Retweet> localCandidatesByStrictAdvancedSearch = tweetMetaLocalService.findLocalCandidatesStrict(goodText, twitterAccount);
+        final boolean foundRetweetsAdvancedSearch = !localCandidatesByStrictAdvancedSearch.isEmpty();
         if (foundRetweetsAdvancedSearch) {
             logger.debug("Found local retweet (advanced)s: " + foundRetweetsAdvancedSearch);
-            return;
+            return false;
         }
 
         final Retweet newRetweet = new Retweet(IDUtil.randomPositiveLong(), twitterAccount, goodText, when);
         retweetDao.save(newRetweet);
 
         logger.info("Created on twitterAccount= {}, new retweet= {}", twitterAccount, newRetweet);
+        return true;
     }
 
 }
