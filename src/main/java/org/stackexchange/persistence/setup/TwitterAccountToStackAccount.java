@@ -3,9 +3,9 @@ package org.stackexchange.persistence.setup;
 import java.util.List;
 
 import org.stackexchange.api.constants.StackSite;
+import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.TwitterAccountEnum;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 public final class TwitterAccountToStackAccount {
@@ -18,9 +18,7 @@ public final class TwitterAccountToStackAccount {
 
     public static StackSite twitterAccountToStackSite(final TwitterAccountEnum twitterAccount) {
         final List<StackSite> allStackSites = twitterAccountToStackSites(twitterAccount);
-        Preconditions.checkState(allStackSites.size() == 1);
-
-        return allStackSites.get(0);
+        return GenericUtil.pickOneGeneric(allStackSites);
     }
 
     public static List<StackSite> twitterAccountToStackSites(final TwitterAccountEnum twitterAccount) {

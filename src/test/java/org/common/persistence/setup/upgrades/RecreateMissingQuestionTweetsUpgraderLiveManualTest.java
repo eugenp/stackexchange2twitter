@@ -1,6 +1,7 @@
 package org.common.persistence.setup.upgrades;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import org.common.persistence.setup.upgrades.live.IRecreateMissingQuestionTweetsUpgrader;
@@ -58,7 +59,8 @@ public class RecreateMissingQuestionTweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenContextIsBootstrapped_thenNoException() {
-        //
+        assertNotNull(twitterReadLiveService);
+        assertNotNull(recreateMissingQuestionTweetsUpgrader);
     }
 
     @Test
@@ -70,7 +72,7 @@ public class RecreateMissingQuestionTweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount_thenNoExceptions() {
-        recreateMissingQuestionTweetsUpgrader.recreateLocalQuestionTweetsOnAccount(TwitterAccountEnum.SpringAtSO.name());
+        recreateMissingQuestionTweetsUpgrader.recreateLocalQuestionTweetsOnAccount(TwitterAccountEnum.BestBash.name());
     }
 
     @Test
