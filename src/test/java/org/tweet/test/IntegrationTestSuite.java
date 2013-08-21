@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.tweet.meta.service.TweetMetaLocalServiceIntegrationTest;
+import org.tweet.twitter.service.TweetMentionServiceIntegrationTest;
 import org.tweet.twitter.service.TweetServiceIntegrationTest;
 
 @RunWith(Suite.class)
@@ -23,6 +24,7 @@ import org.tweet.twitter.service.TweetServiceIntegrationTest;
     
     // tweet
     TweetServiceIntegrationTest.class,
+    TweetMentionServiceIntegrationTest.class, 
     
     // stack
     
