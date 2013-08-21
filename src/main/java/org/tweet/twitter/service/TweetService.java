@@ -49,13 +49,13 @@ public class TweetService {
     /**
      * - temporarily added so that it can log information about the hashtag
      */
-    public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText, final String hashtag) {
+    public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText, final String hashtagForLogging) {
         if (!containsLink(potentialTweetText)) {
             return false;
         }
         if (TwitterUtil.isTweetBanned(potentialTweetText)) {
             // debug should be OK
-            logger.debug("Rejecting tweet because it is banned: \ntweet= {}\nhashtag={}", potentialTweetText, hashtag);
+            logger.debug("Rejecting tweet because it is banned: \ntweet= {}\nhashtag={}", potentialTweetText, hashtagForLogging);
             return false;
         }
 
@@ -136,7 +136,7 @@ public class TweetService {
      * 
      * - favorites are not yet considered <br/>
      */
-    /*meta*/public final boolean isTweetWorthRetweetingByFullTweet(final Tweet potentialTweet, final String twitterTag) {
+    /*meta*/public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String twitterTag) {
         final int requiredMinRts = minRtRetriever.minRt(twitterTag);
         if (potentialTweet.getRetweetCount() < requiredMinRts) {
             // TODO: this is a problem now that the tweets are no longer strictly sorted by RT count

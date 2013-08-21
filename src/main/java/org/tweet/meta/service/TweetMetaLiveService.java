@@ -311,7 +311,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         // is it worth it by full tweet?
-        if (!tweetService.isTweetWorthRetweetingByFullTweet(potentialTweet, hashtag)) {
+        if (!tweetService.isTweetWorthRetweetingByRawTweet(potentialTweet, hashtag)) {
             logger.debug("Tweet not worth retweeting (by full tweet) on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweet);
             return false;
         }

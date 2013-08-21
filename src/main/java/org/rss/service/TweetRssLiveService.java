@@ -36,7 +36,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
 
     public final boolean tweetFromRss(final String rssUri, final String twitterAccount, final String rssOwnerTwitterAccount) {
         try {
-            final boolean success = tweetFromRssInternal(rssUri, twitterAccount);
+            final boolean success = tweetFromRssInternal(rssUri, twitterAccount, rssOwnerTwitterAccount);
             if (!success) {
                 logger.warn("Unable to tweet on twitterAccount= {}, by rssUri= {}", twitterAccount, rssUri);
             }
@@ -52,7 +52,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
 
     // util
 
-    private final boolean tweetFromRssInternal(final String rssUri, final String twitterAccount) {
+    private final boolean tweetFromRssInternal(final String rssUri, final String twitterAccount, final String rssOwnerTwitterAccount) {
         logger.debug("Begin trying to tweet from rssUri= {}", rssUri);
 
         final List<RssEntry> rssEntries = rssService.extractTitlesAndLinks(rssUri);
@@ -60,7 +60,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
             logger.trace("Considering to tweet on twitterAccount= {}, from rssUri= {}, tweet text= {}", twitterAccount, rssUri, potentialRssEntry);
             if (!hasThisAlreadyBeenTweetedById(new RssEntry(twitterAccount, potentialRssEntry.getLink(), potentialRssEntry.getTitle(), potentialRssEntry.getOriginalPublishDate(), null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, from rssUri= {}, tweet text= {}", twitterAccount, rssUri, potentialRssEntry);
-                final boolean success = tryTweetOneDelegator(potentialRssEntry, twitterAccount);
+                final boolean success = tryTweetOneDelegator(potentialRssEntry, twitterAccount, rssOwnerTwitterAccount);
                 if (!success) {
                     logger.trace("Didn't tweet on twitterAccount= {}, tweet text= {}", twitterAccount, potentialRssEntry);
                     continue;
@@ -75,12 +75,13 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
         return false;
     }
 
-    private final boolean tryTweetOneDelegator(final RssEntry potentialRssEntry, final String twitterAccount) {
+    private final boolean tryTweetOneDelegator(final RssEntry potentialRssEntry, final String twitterAccount, final String rssOwnerTwitterAccount) {
         final String textOnly = potentialRssEntry.getTitle();
         final String link = potentialRssEntry.getLink();
 
         final Map<String, Object> customDetails = Maps.newHashMap();
         customDetails.put("rssEntry", potentialRssEntry);
+        customDetails.put("rssOwnerTwitterAccount", rssOwnerTwitterAccount);
         return tryTweetOne(textOnly, link, twitterAccount, customDetails);
     }
 
@@ -100,6 +101,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
     protected final boolean tryTweetOne(final String textRaw, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
         logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, textRaw, url);
         final RssEntry potentialRssEntry = (RssEntry) Preconditions.checkNotNull(customDetails.get("rssEntry"));
+        final String rssOwnerTwitterAccount = (String) Preconditions.checkNotNull(customDetails.get("rssOwnerTwitterAccount"));
         if (!shouldBeTweetedByAge(potentialRssEntry)) {
             logger.debug("Rss Entry to old to be tweeted; original publish date= {}", potentialRssEntry.getOriginalPublishDate());
             return false;
@@ -109,12 +111,16 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
         final String cleanTweetText = tweetService.processPreValidity(textRaw);
 
         // post-process
-        final String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
+        String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
 
         // is it valid?
         if (!tweetService.isTweetTextValid(fullyCleanedTweetText)) {
             logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, fullyCleanedTweetText);
             return false;
+        }
+
+        if (tweetService.isTweetTextValid("New on @" + rssOwnerTwitterAccount + ": " + fullyCleanedTweetText)) {
+            fullyCleanedTweetText = "New on @" + rssOwnerTwitterAccount + ": " + fullyCleanedTweetText;
         }
 
         // construct full tweet
