@@ -1,9 +1,9 @@
 package org.rss.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.common.service.BaseTweetFromSourceLiveService;
 import org.rss.persistence.dao.IRssEntryJpaDAO;
 import org.rss.persistence.model.RssEntry;
@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.tweet.spring.util.SpringProfileUtil;
+
+import com.google.api.client.util.Preconditions;
+import com.google.common.collect.Maps;
 
 @Service
 @Profile(SpringProfileUtil.WRITE)
@@ -52,10 +55,10 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
     private final boolean tweetFromRssInternal(final String rssUri, final String twitterAccount) {
         logger.debug("Begin trying to tweet from rssUri= {}", rssUri);
 
-        final List<Pair<String, String>> rssEntries = rssService.extractTitlesAndLinks(rssUri);
-        for (final Pair<String, String> potentialRssEntry : rssEntries) {
+        final List<RssEntry> rssEntries = rssService.extractTitlesAndLinks(rssUri);
+        for (final RssEntry potentialRssEntry : rssEntries) {
             logger.trace("Considering to tweet on twitterAccount= {}, from rssUri= {}, tweet text= {}", twitterAccount, rssUri, potentialRssEntry);
-            if (!hasThisAlreadyBeenTweetedById(new RssEntry(twitterAccount, potentialRssEntry.getRight(), potentialRssEntry.getLeft()))) {
+            if (!hasThisAlreadyBeenTweetedById(new RssEntry(twitterAccount, potentialRssEntry.getLink(), potentialRssEntry.getTitle(), potentialRssEntry.getOriginalPublishDate(), null))) {
                 logger.debug("Attempting to tweet on twitterAccount= {}, from rssUri= {}, tweet text= {}", twitterAccount, rssUri, potentialRssEntry);
                 final boolean success = tryTweetOneDelegator(potentialRssEntry, twitterAccount);
                 if (!success) {
@@ -72,11 +75,13 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
         return false;
     }
 
-    private final boolean tryTweetOneDelegator(final Pair<String, String> potentialRssEntry, final String twitterAccount) {
-        final String textOnly = potentialRssEntry.getLeft();
-        final String url = potentialRssEntry.getRight();
+    private final boolean tryTweetOneDelegator(final RssEntry potentialRssEntry, final String twitterAccount) {
+        final String textOnly = potentialRssEntry.getTitle();
+        final String link = potentialRssEntry.getLink();
 
-        return tryTweetOne(textOnly, url, twitterAccount, null);
+        final Map<String, Object> customDetails = Maps.newHashMap();
+        customDetails.put("rssEntry", potentialRssEntry);
+        return tryTweetOne(textOnly, link, twitterAccount, customDetails);
     }
 
     // template
@@ -84,20 +89,25 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
     @Override
     protected final boolean tryTweetOne(final String textRaw, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
         logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, textRaw, url);
+        final RssEntry potentialRssEntry = (RssEntry) Preconditions.checkNotNull(customDetails.get("rssEntry"));
 
-        // is it worth it by text only?
-        if (!tweetService.isTweetWorthRetweetingByText(textRaw)) {
+        // pre-process
+        final String cleanTweetText = tweetService.processPreValidity(textRaw);
+
+        // post-process
+        final String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
+
+        // is it valid?
+        if (!tweetService.isTweetTextValid(fullyCleanedTweetText)) {
+            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, fullyCleanedTweetText);
             return false;
         }
 
-        // is it worth it in the context of all the current list of tweets? - yes
+        // construct full tweet
+        final String fullTweet = tweetLiveService.constructTweetLive(fullyCleanedTweetText, url);
 
-        // pre-process
-        final String tweetText = tweetService.processPreValidity(textRaw);
-
-        // is it valid?
-        if (!tweetService.isTweetTextValid(tweetText)) {
-            logger.debug("Tweet invalid (size, link count) on twitterAccount= {}, tweet text= {}", twitterAccount, tweetText);
+        // is it worth it by text only?
+        if (!tweetService.isTweetWorthRetweetingByTextWithLink(fullTweet)) {
             return false;
         }
 
@@ -105,18 +115,12 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
 
         // is the tweet rejected by some classifier? - no
 
-        // post-process
-        final String processedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(tweetText, twitterAccount);
-
-        // construct full tweet
-        final String fullTweet = tweetLiveService.constructTweetLive(processedTweetText, url);
-
         // tweet
         final boolean success = twitterWriteLiveService.tweet(twitterAccount, fullTweet);
 
         // mark
         if (success) {
-            markDone(new RssEntry(twitterAccount, url, textRaw));
+            markDone(new RssEntry(twitterAccount, url, textRaw, potentialRssEntry.getOriginalPublishDate(), new Date()));
         }
 
         // done
@@ -125,7 +129,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
 
     @Override
     protected final boolean hasThisAlreadyBeenTweetedById(final RssEntry rssEntry) {
-        final RssEntry entry = getApi().findOneByRssUriAndTwitterAccount(rssEntry.getRssUri(), rssEntry.getTwitterAccount());
+        final RssEntry entry = getApi().findOneByLinkAndTwitterAccount(rssEntry.getLink(), rssEntry.getTwitterAccount());
         return entry != null;
     }
 

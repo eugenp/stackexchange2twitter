@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.rss.persistence.model.RssEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class RssService {
 
     // API
 
-    public final List<Pair<String, String>> extractTitlesAndLinks(final String rssUri) {
+    public final List<RssEntry> extractTitlesAndLinks(final String rssUri) {
         try {
             return extractTitlesAndLinksInternal(rssUri);
         } catch (IllegalArgumentException | IOException | FeedException ex) {
@@ -49,7 +50,7 @@ public class RssService {
     }
 
     @SuppressWarnings("unchecked")
-    final List<Pair<String, String>> extractTitlesAndLinksInternal(final String rssUri) throws IOException, IllegalArgumentException, FeedException {
+    final List<Pair<String, String>> extractTitlesAndLinksInternalOld(final String rssUri) throws IOException, IllegalArgumentException, FeedException {
         final URL url = new URL(rssUri);
         final HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
         // Reading the feed
@@ -65,4 +66,20 @@ public class RssService {
         return collector;
     }
 
+    @SuppressWarnings("unchecked")
+    final List<RssEntry> extractTitlesAndLinksInternal(final String rssUri) throws IOException, IllegalArgumentException, FeedException {
+        final URL url = new URL(rssUri);
+        final HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
+        // Reading the feed
+        final SyndFeedInput input = new SyndFeedInput();
+        final SyndFeed feed = input.build(new XmlReader(httpcon));
+        final List<SyndEntry> entries = feed.getEntries();
+
+        final List<RssEntry> collector = Lists.newArrayList();
+        for (final SyndEntry entry : entries) {
+            collector.add(new RssEntry(null, entry.getLink(), entry.getTitle(), entry.getPublishedDate(), null));
+        }
+
+        return collector;
+    }
 }

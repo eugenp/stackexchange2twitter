@@ -422,7 +422,7 @@ public class InteractionLiveService {
             return false;
         }
         final String text = tweet.getRetweetedStatus().getText();
-        if (!tweetService.isTweetWorthRetweetingByText(text)) {
+        if (!tweetService.isTweetWorthRetweetingByTextWithLink(text)) {
             return false;
         }
 

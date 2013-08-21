@@ -49,7 +49,7 @@ public class TweetService {
     /**
      * - temporarily added so that it can log information about the hashtag
      */
-    public final boolean isTweetWorthRetweetingByText(final String potentialTweetText, final String hashtag) {
+    public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText, final String hashtag) {
         if (!containsLink(potentialTweetText)) {
             return false;
         }
@@ -58,6 +58,7 @@ public class TweetService {
             logger.debug("Rejecting tweet because it is banned: \ntweet= {}\nhashtag={}", potentialTweetText, hashtag);
             return false;
         }
+
         if (linkService.containsLinkToBannedServices(potentialTweetText)) {
             return false;
         }
@@ -65,6 +66,11 @@ public class TweetService {
         if (linkService.extractUrls(potentialTweetText).size() > 1) {
             // keep below error - there are a lot of tweets that fall into this category and it's not really relevant
             logger.debug("Rejecting tweet because it has more than one link; tweet text= {}", potentialTweetText);
+            return false;
+        }
+
+        if (!isStructurallyValid(potentialTweetText)) {
+            logger.debug("Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
             return false;
         }
 
@@ -81,13 +87,16 @@ public class TweetService {
      * - does not contain link to banned services<br/>
      * - it does not contain more than one link
      */
-    public final boolean isTweetWorthRetweetingByText(final String potentialTweetText) {
+    public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {
             return false;
         }
         if (TwitterUtil.isTweetBanned(potentialTweetText)) {
+            // debug should be OK
+            logger.debug("Rejecting tweet because it is banned: \ntweet= {}", potentialTweetText);
             return false;
         }
+
         if (linkService.containsLinkToBannedServices(potentialTweetText)) {
             return false;
         }

@@ -176,7 +176,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 if (tweet.getRetweetCount() <= (minRt / 2)) {
                     return false;
                 }
-                if (!tweetService.isTweetWorthRetweetingByText(tweet.getText(), hashtag)) {
+                if (!tweetService.isTweetWorthRetweetingByTextWithLink(tweet.getText(), hashtag)) {
                     return false;
                 }
                 return true;
@@ -305,7 +305,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         logger.trace("Considering to retweet on twitterAccount= {}, tweetId= {}, tweetText= {}", twitterAccount, tweetId, fullTweet);
 
         // is it worth it by text only?
-        if (!tweetService.isTweetWorthRetweetingByText(fullTweet)) {
+        if (!tweetService.isTweetWorthRetweetingByTextWithLink(fullTweet)) {
             logger.debug("Tweet not worth retweeting (by text only) on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweet);
             return false;
         }

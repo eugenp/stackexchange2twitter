@@ -1,5 +1,7 @@
 package org.rss.service;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.io.IOException;
 
 import org.common.spring.CommonServiceConfig;
@@ -19,8 +21,19 @@ import org.tweet.spring.util.SpringProfileUtil;
 import com.sun.syndication.io.FeedException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, TwitterLiveConfig.class, RssContextConfig.class, RssPersistenceJPAConfig.class })
-@ActiveProfiles(SpringProfileUtil.LIVE)
+@ContextConfiguration(classes = {//@formatter:off
+    // org.common
+    CommonServiceConfig.class, 
+    
+    // org.tweet
+    TwitterConfig.class, 
+    TwitterLiveConfig.class, 
+    
+    // org.rss
+    RssContextConfig.class, 
+    RssPersistenceJPAConfig.class 
+}) //@formatter:on
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.DEV })
 public class TweetRssServiceLiveTest {
 
     @Autowired
@@ -29,9 +42,18 @@ public class TweetRssServiceLiveTest {
     // tests
 
     @Test
-    public final void whenTweetingFromRssFeed_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
+    public final void whenContextIsBootstrapped_thenNoException() {
+        assertNotNull(tweetRssService);
+    }
+
+    @Test
+    public final void whenTweetingFromRssFeed1_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
         tweetRssService.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.BestOfJava.name());
-        tweetRssService.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.BestOfJava.name());
+    }
+
+    @Test
+    public final void whenTweetingFromRssFeed2_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
+        tweetRssService.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name());
     }
 
 }

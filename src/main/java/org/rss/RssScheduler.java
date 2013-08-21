@@ -31,7 +31,7 @@ public class RssScheduler {
     }
 
     // API
-    @Scheduled(cron = "0 0 16,20 * * *")
+    @Scheduled(cron = "0 0 16 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled retweet operations - 1");
 
@@ -41,6 +41,7 @@ public class RssScheduler {
         }
 
         service.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.BestOfJava.name());
+        service.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name());
 
         logger.info("Finished executing scheduled retweet operations - 1");
     }

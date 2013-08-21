@@ -2,6 +2,7 @@ package org.rss.service;
 
 import org.common.persistence.AbstractRawServicePersistenceIntegrationTest;
 import org.common.persistence.IEntityOperations;
+import org.common.spring.MyApplicationContextInitializerProv;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rss.persistence.dao.IRssEntryJpaDAO;
@@ -15,6 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { RssPersistenceJPAConfig.class })
 public class RssEntryPersistenceIntegrationTest extends AbstractRawServicePersistenceIntegrationTest<RssEntry> {
+
+    static {
+        System.setProperty(MyApplicationContextInitializerProv.PERSISTENCE_TARGET_KEY, "test");
+    }
 
     @Autowired
     private IRssEntryJpaDAO api;

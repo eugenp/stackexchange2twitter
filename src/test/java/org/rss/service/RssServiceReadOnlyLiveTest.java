@@ -8,9 +8,9 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.rss.persistence.model.RssEntry;
 import org.rss.spring.RssContextConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -32,11 +32,11 @@ public class RssServiceReadOnlyLiveTest {
 
     @Test
     public final void whenConsumingAnRssFeed_theenFeedsAreExtracted() throws IOException, IllegalArgumentException, FeedException {
-        final List<Pair<String, String>> feeds = rssService.extractTitlesAndLinks("http://feeds.feedburner.com/baeldung");
+        final List<RssEntry> feeds = rssService.extractTitlesAndLinks("http://feeds.feedburner.com/baeldung");
         assertThat(feeds, notNullValue());
         assertThat(feeds, not(empty()));
 
-        for (final Pair<String, String> feed : feeds) {
+        for (final RssEntry feed : feeds) {
             System.out.println(feed);
         }
     }

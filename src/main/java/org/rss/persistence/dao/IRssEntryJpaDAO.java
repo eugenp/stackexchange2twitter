@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IRssEntryJpaDAO extends JpaRepository<RssEntry, Long>, IOperations<RssEntry> {
 
-    RssEntry findOneByRssUriAndTwitterAccount(final String rssUri, final String twitterAccount);
+    RssEntry findOneByLinkAndTwitterAccount(final String link, final String twitterAccount);
 
-    RssEntry findOneByRssUri(final String rssUri);
+    RssEntry findOneByLink(final String link);
 
 }

@@ -1,5 +1,7 @@
 package org.rss.persistence.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import javax.persistence.UniqueConstraint;
 import org.common.persistence.IEntity;
 
 @Entity
-@Table(name = "rssentry", uniqueConstraints = @UniqueConstraint(columnNames = { "rssUri", "title" }))
+@Table(name = "rssentry", uniqueConstraints = @UniqueConstraint(columnNames = { "link", "title", "twitterAccount" }))
 public class RssEntry implements IEntity {
 
     @Id
@@ -22,22 +24,32 @@ public class RssEntry implements IEntity {
     @Column(nullable = false)
     private String twitterAccount;
 
+    /** The actual link to the article */
     @Column(nullable = false)
-    private String rssUri;
+    private String link;
 
     @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
+    private Date originalPublishDate;
+
+    @Column(nullable = false)
+    private Date when;
 
     public RssEntry() {
         super();
     }
 
-    public RssEntry(final String twitterAccount, final String rssUri, final String title) {
+    public RssEntry(final String twitterAccount, final String link, final String title, final Date originalPublishDate, final Date when) {
         super();
 
         this.twitterAccount = twitterAccount;
-        this.rssUri = rssUri;
+        this.link = link;
         this.title = title;
+        this.originalPublishDate = originalPublishDate;
+
+        this.when = when;
     }
 
     // API
@@ -60,12 +72,12 @@ public class RssEntry implements IEntity {
         this.twitterAccount = twitterAccount;
     }
 
-    public String getRssUri() {
-        return rssUri;
+    public String getLink() {
+        return link;
     }
 
-    public void setRssUri(final String rssUri) {
-        this.rssUri = rssUri;
+    public void setLink(final String link) {
+        this.link = link;
     }
 
     public String getTitle() {
@@ -76,13 +88,29 @@ public class RssEntry implements IEntity {
         this.title = title;
     }
 
+    public Date getOriginalPublishDate() {
+        return originalPublishDate;
+    }
+
+    public void setOriginalPublishDate(final Date originalPublishDate) {
+        this.originalPublishDate = originalPublishDate;
+    }
+
+    public Date getWhen() {
+        return when;
+    }
+
+    public void setWhen(final Date when) {
+        this.when = when;
+    }
+
     //
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((rssUri == null) ? 0 : rssUri.hashCode());
+        result = prime * result + ((link == null) ? 0 : link.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((twitterAccount == null) ? 0 : twitterAccount.hashCode());
         return result;
@@ -90,35 +118,44 @@ public class RssEntry implements IEntity {
 
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final RssEntry other = (RssEntry) obj;
-        if (rssUri == null) {
-            if (other.rssUri != null)
+        if (link == null) {
+            if (other.link != null) {
                 return false;
-        } else if (!rssUri.equals(other.rssUri))
+            }
+        } else if (!link.equals(other.link)) {
             return false;
+        }
         if (title == null) {
-            if (other.title != null)
+            if (other.title != null) {
                 return false;
-        } else if (!title.equals(other.title))
+            }
+        } else if (!title.equals(other.title)) {
             return false;
+        }
         if (twitterAccount == null) {
-            if (other.twitterAccount != null)
+            if (other.twitterAccount != null) {
                 return false;
-        } else if (!twitterAccount.equals(other.twitterAccount))
+            }
+        } else if (!twitterAccount.equals(other.twitterAccount)) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("RssEntry [id=").append(id).append(", twitterAccount=").append(twitterAccount).append(", RSS Uri=").append(rssUri).append(", title=").append(title).append("]");
+        builder.append("RssEntry [twitterAccount=").append(twitterAccount).append(", rssUri=").append(link).append(", title=").append(title).append(", originalPublishDate=").append(originalPublishDate).append(", when=").append(when).append("]");
         return builder.toString();
     }
 

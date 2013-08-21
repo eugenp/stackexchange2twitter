@@ -2,6 +2,8 @@ package org.rss.persistence.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
+import java.util.Date;
+
 import org.common.persistence.IEntityOperations;
 import org.rss.persistence.model.RssEntry;
 import org.springframework.stereotype.Component;
@@ -19,7 +21,7 @@ public final class RssEntryEntityOps implements IEntityOperations<RssEntry> {
 
     @Override
     public final RssEntry createNewEntity() {
-        return new RssEntry(randomAlphabetic(6), randomAlphabetic(6), randomAlphabetic(6));
+        return new RssEntry(randomAlphabetic(6), randomAlphabetic(6), randomAlphabetic(6), new Date(), new Date());
     }
 
     @Override

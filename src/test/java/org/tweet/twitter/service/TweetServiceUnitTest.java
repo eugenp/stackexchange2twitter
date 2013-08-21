@@ -53,47 +53,47 @@ public class TweetServiceUnitTest {
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario1_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("PETZ NAOTO FAL ELLY #junkmania #ldh #exile #3jsb #yeezy #hba #beentrill #chanel #snapback #python\u2026 http://instagram.com/p/bWL_vVwziM/"));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("PETZ NAOTO FAL ELLY #junkmania #ldh #exile #3jsb #yeezy #hba #beentrill #chanel #snapback #python\u2026 http://instagram.com/p/bWL_vVwziM/"));
     }
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario2_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("Beach day..\uD83D\uDE0D #greece #ios #beautiful @runwaydreamz http://instagram.com/p/bEvmJsI1dn/"));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("Beach day..\uD83D\uDE0D #greece #ios #beautiful @runwaydreamz http://instagram.com/p/bEvmJsI1dn/"));
     }
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario3_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("#PHP \"@MarceloLopez84: The picture of Ronaldo which i took at Manchester Airport http://twitter.com/MarceloLopez84/status/357459318175588352/photo/1pic.twitter.com/Tx70a6MNqS \""));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#PHP \"@MarceloLopez84: The picture of Ronaldo which i took at Manchester Airport http://twitter.com/MarceloLopez84/status/357459318175588352/photo/1pic.twitter.com/Tx70a6MNqS \""));
     }
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario4_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("#PHP \"@MarceloLopez84: Heres proof!! pic.twitter.com/HDHf2t1W4A\""));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#PHP \"@MarceloLopez84: Heres proof!! pic.twitter.com/HDHf2t1W4A\""));
     }
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario5_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("#dark #cloud http://instagram.com/p/b6EFkGPgok/"));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#dark #cloud http://instagram.com/p/b6EFkGPgok/"));
     }
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario6_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("#PHP EXCLUSIVE: Gareth Bale wants to join Manchester United http://www.dailystar.co.uk/sport/football/327439/EXCLUSIVE-Gareth-Bale-wants-to-join-Manchester-United \u2026 (Daily Star)"));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#PHP EXCLUSIVE: Gareth Bale wants to join Manchester United http://www.dailystar.co.uk/sport/football/327439/EXCLUSIVE-Gareth-Bale-wants-to-join-Manchester-United \u2026 (Daily Star)"));
     }
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario7_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("RT if you want to use minion case like this #iPhone #iOS #DespicableMe2 pic.twitter.com/IviFckCgba"));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("RT if you want to use minion case like this #iPhone #iOS #DespicableMe2 pic.twitter.com/IviFckCgba"));
     }
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario8_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("Spelersbus #GAE pic.twitter.com/2USMMHDbyJ"));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("Spelersbus #GAE pic.twitter.com/2USMMHDbyJ"));
     }
 
     @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario9_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByText("#Google http://t.co/VmandYLIu4"));
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#Google http://t.co/VmandYLIu4"));
     }
 
     // pre-process
