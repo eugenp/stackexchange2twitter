@@ -84,7 +84,7 @@ public class TweetMentionService {
             return withMention;
         }
 
-        withMention = textWithoutMentionOfAuthor + "(@" + authorUserToMention + ")";
+        withMention = textWithoutMentionOfAuthor + " (@" + authorUserToMention + ")";
         if (withMention.length() < 141) {
             return withMention;
         }

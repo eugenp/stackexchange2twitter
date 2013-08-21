@@ -33,17 +33,17 @@ public class RssScheduler {
     // API
     @Scheduled(cron = "0 0 16 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
-        logger.info("Starting to execute scheduled retweet operations - 1");
+        logger.info("Starting to execute scheduled RSS operations - 1");
 
         if (env.getProperty("mode.maintainance.rss", Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
 
-        service.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.BestOfJava.name());
-        service.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name());
+        service.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
+        service.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
 
-        logger.info("Finished executing scheduled retweet operations - 1");
+        logger.info("Finished executing scheduled RSS operations - 1");
     }
 
 }

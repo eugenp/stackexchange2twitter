@@ -34,7 +34,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
 
     // API
 
-    public final boolean tweetFromRss(final String rssUri, final String twitterAccount) {
+    public final boolean tweetFromRss(final String rssUri, final String twitterAccount, final String rssOwnerTwitterAccount) {
         try {
             final boolean success = tweetFromRssInternal(rssUri, twitterAccount);
             if (!success) {
@@ -84,12 +84,26 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
         return tryTweetOne(textOnly, link, twitterAccount, customDetails);
     }
 
+    private final boolean shouldBeTweetedByAge(final RssEntry potentialRssEntry) {
+        final Date originalPublishDate = potentialRssEntry.getOriginalPublishDate();
+        final long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        final Date oneDayAgo = new Date(System.currentTimeMillis() - (1 * DAY_IN_MS));
+        if (originalPublishDate.after(oneDayAgo)) {
+            return true;
+        }
+        return false;
+    }
+
     // template
 
     @Override
     protected final boolean tryTweetOne(final String textRaw, final String url, final String twitterAccount, final Map<String, Object> customDetails) {
         logger.trace("Considering to retweet on twitterAccount= {}, RSS title= {}, RSS URL= {}", twitterAccount, textRaw, url);
         final RssEntry potentialRssEntry = (RssEntry) Preconditions.checkNotNull(customDetails.get("rssEntry"));
+        if (!shouldBeTweetedByAge(potentialRssEntry)) {
+            logger.debug("Rss Entry to old to be tweeted; original publish date= {}", potentialRssEntry.getOriginalPublishDate());
+            return false;
+        }
 
         // pre-process
         final String cleanTweetText = tweetService.processPreValidity(textRaw);

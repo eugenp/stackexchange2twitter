@@ -48,12 +48,19 @@ public class TweetRssServiceLiveTest {
 
     @Test
     public final void whenTweetingFromRssFeed1_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
-        tweetRssService.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.BestOfJava.name());
+        tweetRssService.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.BestOfJava.name(), null);
     }
 
     @Test
     public final void whenTweetingFromRssFeed2_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
-        tweetRssService.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name());
+        // Spring - main blog
+        tweetRssService.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
+    }
+
+    @Test
+    public final void whenTweetingFromRssFeed3_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
+        // Spring - News and Events
+        tweetRssService.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
     }
 
 }
