@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.common.service.live.LinkLiveService;
+import org.common.util.LinkUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.TimelineOperations;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.spring.util.SpringProfileUtil;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @Service
@@ -42,7 +42,7 @@ public class TwitterAnalysisLiveService {
      * - who favorited you (not yet) <br/>
      * - who mentioned you <br/>
      */
-    public final void calculateLiveStatisticsForAccount(final String twitterAccount) {
+    final void calculateLiveStatisticsForAccount(final String twitterAccount) {
         final Map<String, Integer> retweetsCollector = Maps.newHashMap();
 
         final Twitter twitterTemplate = twitterReadLiveService.readOnlyTwitterApi(twitterAccount);
@@ -59,7 +59,7 @@ public class TwitterAnalysisLiveService {
             analyzeMention(mention);
         }
 
-        final List<Tweet> tweetsOfAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
+        final List<Tweet> tweetsOfAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 600);
         for (final Tweet tweet : tweetsOfAccount) {
             analyzeGenericTweet(tweet);
         }
@@ -68,9 +68,9 @@ public class TwitterAnalysisLiveService {
     }
 
     public final int calculateAbsDifferenceBetweenLocalAndLiveRetweetsOnAccount(final String twitterAccount) {
-        final List<String> tweetsOnAccount = twitterReadLiveService.listTweetsOfInternalAccount(twitterAccount, 400);
-        final List<String> relevantDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
-        final int linkingToSo = linkLiveService.countLinksToAnyDomain(tweetsOnAccount, relevantDomains);
+        final List<Tweet> tweetsOnAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 3 * 200);
+        final int linkingToSo = linkLiveService.countLinksToAnyDomainRaw(tweetsOnAccount, LinkUtil.seDomains);
+
         final int liveRetweetsOnAccount = tweetsOnAccount.size() - linkingToSo;
         final int localRetweetsOnAccount = (int) retweetLocalApi.countAllByTwitterAccount(twitterAccount);
 

@@ -32,9 +32,10 @@ public class MetaPoller {
 
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             if (twitterAccount.isRt()) {
+                logger.info("Performing meta validity checks for twitterAccount= " + twitterAccount.name() + "; sleeping for 2 secs...");
                 checkRetweetsMatchOnAccount(twitterAccount.name());
-                logger.info("Done performing meta validity checks for twitterAccount= " + twitterAccount.name() + "; sleeping for 120 secs...");
-                Thread.sleep(1000 * 60 * 2); // 120 sec
+                logger.info("Done performing meta validity checks for twitterAccount= " + twitterAccount.name() + "; sleeping for 2 secs...");
+                Thread.sleep(1000 * 2 * 1); // 2 sec
             }
         }
 

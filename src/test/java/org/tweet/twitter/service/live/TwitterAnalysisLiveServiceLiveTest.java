@@ -1,4 +1,4 @@
-package org.tweet.twitter.service;
+package org.tweet.twitter.service.live;
 
 import org.common.spring.CommonServiceConfig;
 import org.junit.Ignore;
@@ -28,7 +28,6 @@ public class TwitterAnalysisLiveServiceLiveTest {
     @Test
     public final void whenAnalyzingAccount_thenNoExceptions() {
         twitterAnalysisLiveService.calculateLiveStatisticsForAccount(TwitterAccountEnum.jQueryDaily.name());
-        System.out.println();
     }
 
 }

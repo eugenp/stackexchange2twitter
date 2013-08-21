@@ -73,7 +73,7 @@ public class LinkLiveService {
     /**
      * - <b>live</b><br/>
      */
-    public final int countLinksToAnyDomain(final Iterable<String> tweets, final Iterable<String> domains) {
+    final int countLinksToAnyDomain(final Iterable<String> tweets, final Iterable<String> domains) {
         int count = 0;
         for (final String tweet : tweets) {
             final String mainUrl = linkService.extractUrl(tweet);
@@ -89,6 +89,23 @@ public class LinkLiveService {
                     count++;
                     continue;
                 }
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * - <b>live</b><br/>
+     */
+    public final int countLinksToAnyDomainRaw(final Iterable<Tweet> tweets, final Iterable<String> domains) {
+        int count = 0;
+        for (final Tweet tweet : tweets) {
+            final int linkCount = countLinksToAnyDomain(tweet, domains);
+            if (linkCount > 0) {
+                count++;
+            } else if (linkCount > 1) {
+                throw new IllegalStateException();
             }
         }
 

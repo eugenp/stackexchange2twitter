@@ -1,4 +1,4 @@
-package org.tweet.meta.service;
+package org.common.service.live;
 
 import java.util.List;
 
