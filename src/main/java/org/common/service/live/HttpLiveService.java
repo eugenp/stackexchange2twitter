@@ -76,7 +76,8 @@ public class HttpLiveService implements InitializingBean {
             }
             if (cause != null && cause instanceof SocketTimeoutException) {
                 // keep at warn or below - no need to know when this happens all the time
-                logger.warn("Target host socket data may be timing out - error when expanding the url: " + urlArg, ex);
+                logger.warn("Target host socket data may be timing out - error when expanding the url: " + urlArg);
+                logger.debug("Target host socket data may be timing out - error when expanding the url: " + urlArg, ex);
                 return null;
             }
             // connection refused
