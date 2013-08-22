@@ -232,7 +232,7 @@ public class InteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public final boolean isUserWorthInteractingWithLive(final TwitterProfile user, final String userHandle) {
+    /*test-only*/final boolean isUserWorthInteractingWithLive(final TwitterProfile user, final String userHandle) {
         final TwitterInteraction bestInteractionWithUser = decideBestInteractionWithAuthorLive(user, userHandle).getTwitterInteraction();
         if (bestInteractionWithUser.equals(TwitterInteraction.None)) {
             return false;
@@ -242,15 +242,10 @@ public class InteractionLiveService {
 
     // util
 
-    /*test only*/final boolean isUserWorthInteractingWith(final String userHandle) {
-        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
-        return isUserWorthInteractingWithLive(user, userHandle);
-    }
-
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
      */
-    final TwitterUserSnapshot analyzeUserInteractionsLive(final TwitterProfile user, final String userHandle) {
+    private final TwitterUserSnapshot analyzeUserInteractionsLive(final TwitterProfile user, final String userHandle) {
         final int pagesToAnalyze = twitterInteractionValuesRetriever.getPagesToAnalyze();
         final List<Tweet> tweetsOfAccount = twitterReadLiveService.listTweetsOfAccountMultiRequestRaw(userHandle, pagesToAnalyze);
 
