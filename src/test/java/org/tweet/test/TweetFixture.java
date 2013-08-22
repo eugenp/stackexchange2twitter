@@ -22,6 +22,7 @@ public final class TweetFixture {
         ReflectionTestUtils.setField(user, "language", "en");
         ReflectionTestUtils.setField(user, "screenName", randomAlphabetic(6));
         tweet.setUser(user);
+        tweet.setFromUser(user.getName());
         tweet.setRetweetCount(retweetCount);
         return tweet;
     }

@@ -453,7 +453,7 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    private final int countRetweetsOfTweetsThatMentionsSelf(final List<Tweet> tweetsOfAccount, final String userHandle) {
+    private int countRetweetsOfTweetsThatMentionsSelf(final List<Tweet> tweetsOfAccount, final String userHandle) {
         int count = 0;
         final String userHandleAsMentioned;
         if (userHandle.startsWith("@")) {

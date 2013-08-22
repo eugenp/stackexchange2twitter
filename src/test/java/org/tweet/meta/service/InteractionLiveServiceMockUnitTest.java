@@ -14,6 +14,8 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.test.TweetFixture;
+import org.tweet.twitter.service.TweetMentionService;
+import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
 
@@ -28,8 +30,11 @@ public final class InteractionLiveServiceMockUnitTest {
         this.instance = mock(InteractionLiveService.class);
         this.instance.logger = mock(Logger.class);
         this.instance.twitterInteractionValuesRetriever = mock(TwitterInteractionValuesRetriever.class);
-        when(this.instance.twitterInteractionValuesRetriever.getMaxRetweetsForTweet()).thenReturn(15);
+        this.instance.twitterReadLiveService = mock(TwitterReadLiveService.class);
+        this.instance.tweetMentionService = mock(TweetMentionService.class);
 
+        when(this.instance.twitterInteractionValuesRetriever.getPagesToAnalyze()).thenReturn(1);
+        when(this.instance.twitterInteractionValuesRetriever.getMaxRetweetsForTweet()).thenReturn(15);
         when(this.instance.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.None, 0));
     }
 
