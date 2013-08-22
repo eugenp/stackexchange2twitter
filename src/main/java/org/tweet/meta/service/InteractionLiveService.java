@@ -228,18 +228,6 @@ public class InteractionLiveService {
         return decideAndScoreBestInteractionWithUser(userSnapshot, user);
     }
 
-    /**
-     * - <b>live</b>: interacts with the twitter API <br/>
-     * - <b>local</b>: everything else
-     */
-    /*test-only*/final boolean isUserWorthInteractingWithLive(final TwitterProfile user, final String userHandle) {
-        final TwitterInteraction bestInteractionWithUser = decideBestInteractionWithAuthorLive(user, userHandle).getTwitterInteraction();
-        if (bestInteractionWithUser.equals(TwitterInteraction.None)) {
-            return false;
-        }
-        return true;
-    }
-
     // util
 
     /**
