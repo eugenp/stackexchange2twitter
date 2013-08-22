@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,10 +80,12 @@ public class InteractionLiveService {
         final TwitterUserSnapshot userSnapshot = analyzeUserInteractionsLive(user, userHandle);
 
         final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentionsLive(tweet.getText());
-        final int valueWithinMentions = valueOfMentions(valueOfMentions);
-        final boolean containsValuableMentions = containsValuableMentions(valueOfMentions);
 
         final boolean tweetAlreadyMentionsTheAuthor = text.contains("@" + tweet.getFromUser());
+
+        final int valueWithinMentions = valueOfMentions(valueOfMentions);
+        final int valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
+        final int valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
 
         // deal with None
 
@@ -91,72 +94,27 @@ public class InteractionLiveService {
             return new TwitterInteractionWithValue(TwitterInteraction.None, valueWithinMentions);
         }
 
-        // calculate the values
+        // determine any other hard requirements
+        final boolean shouldNotMention = tweetAlreadyMentionsTheAuthor;
+        final boolean shouldNotRetweet = isTweetToPopular(tweet);
 
-        final int valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
-        final int valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
-
-        TwitterInteractionWithValue bestInteractionWithAuthor = null;
-        final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
-        if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning
-            bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.Retweet, valueOfRetweet);
-        }
-        if (valueOfMention > 16) {
-            bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.Mention, valueOfMention);
-        }
-        bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.Retweet, valueOfRetweet);
-
-        final TwitterInteractionWithValue bestInteractionWithTweet;
-        if (containsValuableMentions) {
-            logger.debug("Tweet does contain valuable mention(s): {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
-            bestInteractionWithTweet = new TwitterInteractionWithValue(TwitterInteraction.Mention, valueWithinMentions);
-            // doesn't matter if it's popular or not - mention
-        } else if (isTweetToPopular(tweet)) {
-            // if a tweet already has a lot of retweets, the value of another retweet decreases
-            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", tweet.getText(), tweet.getRetweetCount(), tweetUrl);
-            bestInteractionWithTweet = new TwitterInteractionWithValue(TwitterInteraction.None, 0);
-        } else {
-            bestInteractionWithTweet = new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0);
-        }
-
-        switch (bestInteractionWithAuthor.getTwitterInteraction()) {
-        case None:
-            throw new IllegalStateException("This should have already been handled");
-        case Mention:
-            // we should mention the AUTHOR; if the TWEET itself has mention value as well - see which is more valuable; if not, mention
-            if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
-                if (tweetAlreadyMentionsTheAuthor) {
-                    return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
-                }
-                // determine which is more valuable - mentioning the author or tweeting the tweet with the mentions it has
-                if (bestInteractionWithAuthor.getVal() >= bestInteractionWithTweet.getVal()) {
-                    logger.debug("More value in interacting with the author then with the mentions - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
-                    return new TwitterInteractionWithValue(TwitterInteraction.Mention, bestInteractionWithAuthor.getVal());
-                } else {
-                    logger.debug("More value in interacting with the mentions then with the author - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
-                    return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
-                }
+        // determine the interaction
+        final int maxValueOfInteraction = NumberUtils.max(valueWithinMentions, valueOfMention, valueOfRetweet);
+        if (maxValueOfInteraction == valueWithinMentions) { // tweet as is - already contains valuable mentions
+            logger.debug("Best value in interacting with the MENTIONS inside the tweet via a TWEET; tweet= {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
+            return new TwitterInteractionWithValue(TwitterInteraction.None, valueWithinMentions);
+        } else if (maxValueOfInteraction == valueOfMention) { // mention is the best value
+            logger.debug("Best value in interacting with the USER via a MENTION; tweet= {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
+            if (shouldNotMention) {
+                return new TwitterInteractionWithValue(TwitterInteraction.None, valueWithinMentions);
             }
-
-            logger.info("Should add a mention of the original author= {} and tweet the new tweet= {} user= {}", tweet.getFromUser(), text);
-            return new TwitterInteractionWithValue(TwitterInteraction.Mention, bestInteractionWithAuthor.getVal());
-        case Retweet:
-            // we should retweet the AUTHOR; however, if the TWEET itself has mention value, that is more important => tweet as is (with mentions); if not, retweet it
-            if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
-                return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
+            return new TwitterInteractionWithValue(TwitterInteraction.Mention, valueOfMention);
+        } else { // retweet is the best value
+            logger.debug("Best value in interacting with the author USER via a RETWEET; tweet= {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
+            if (shouldNotRetweet) {
+                return new TwitterInteractionWithValue(TwitterInteraction.None, valueOfRetweet);
             }
-            // if the tweet is to popular, that should still be taken into account, not ignored
-            else if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.None)) {
-                if (isTweetToPopular(tweet)) {
-                    return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
-                }
-            }
-
-            return new TwitterInteractionWithValue(TwitterInteraction.Retweet, bestInteractionWithAuthor.getVal());
-            // TODO: is there any way to extract the mentions from the tweet entity?
-            // retweet is a catch-all default - TODO: now we need to decide if the tweet itself has more value tweeted than retweeted
-        default:
-            throw new IllegalStateException();
+            return new TwitterInteractionWithValue(TwitterInteraction.Retweet, valueOfRetweet);
         }
     }
 
@@ -183,9 +141,6 @@ public class InteractionLiveService {
         return new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0);
     }
 
-    /**
-     * - local
-     */
     private final boolean containsValuableMentions(final List<TwitterInteractionWithValue> analyzeValueOfMentions) {
         for (final TwitterInteractionWithValue bestInteractionWithTheAuthorMentioned : analyzeValueOfMentions) {
             if (bestInteractionWithTheAuthorMentioned.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
