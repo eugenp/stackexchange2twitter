@@ -78,25 +78,38 @@ public class InteractionLiveService {
 
         final TwitterUserSnapshot userSnapshot = analyzeUserInteractionsLive(user, userHandle);
 
-        final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentions(tweet.getText());
-        final boolean containsValuableMentions = containsValuableMentionsLive(valueOfMentions);
-        final int scoreOfMentions = valueOfMentions(valueOfMentions);
+        final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentionsLive(tweet.getText());
+        final int valueWithinMentions = valueOfMentions(valueOfMentions);
+        final boolean containsValuableMentions = containsValuableMentions(valueOfMentions);
 
-        // decide interaction and value
+        final boolean tweetAlreadyMentionsTheAuthor = text.contains("@" + tweet.getFromUser());
 
-        final TwitterInteractionWithValue bestInteractionWithAuthor;
-        if (!passEliminatoryChecksBasedOnUser(user)) {
-            bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.None, 0);
-        } else if (!passEliminatoryChecksBasedOnUserStats(userSnapshot, userHandle)) {
-            bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.None, 0);
-        } else {
-            bestInteractionWithAuthor = decideAndScoreBestInteractionWithUser(userSnapshot, user);
+        // deal with None
+
+        if (!passEliminatoryChecksBasedOnUser(user) || !passEliminatoryChecksBasedOnUserStats(userSnapshot, userHandle)) {
+            logger.info("No value in interacting with the user= {} - should not retweet tweet= {}", tweet.getFromUser(), text);
+            return new TwitterInteractionWithValue(TwitterInteraction.None, valueWithinMentions);
         }
+
+        // calculate the values
+
+        final int valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
+        final int valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
+
+        TwitterInteractionWithValue bestInteractionWithAuthor = null;
+        final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
+        if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning
+            bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.Retweet, valueOfRetweet);
+        }
+        if (valueOfMention > 16) {
+            bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.Mention, valueOfMention);
+        }
+        bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.Retweet, valueOfRetweet);
 
         final TwitterInteractionWithValue bestInteractionWithTweet;
         if (containsValuableMentions) {
             logger.debug("Tweet does contain valuable mention(s): {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
-            bestInteractionWithTweet = new TwitterInteractionWithValue(TwitterInteraction.Mention, scoreOfMentions);
+            bestInteractionWithTweet = new TwitterInteractionWithValue(TwitterInteraction.Mention, valueWithinMentions);
             // doesn't matter if it's popular or not - mention
         } else if (isTweetToPopular(tweet)) {
             // if a tweet already has a lot of retweets, the value of another retweet decreases
@@ -108,14 +121,11 @@ public class InteractionLiveService {
 
         switch (bestInteractionWithAuthor.getTwitterInteraction()) {
         case None:
-            // there is no value in an interaction with the AUTHOR - if the TWEET itself has mention value - the tweet as is; if not, still tweet as is
-            logger.info("Should not retweet tweet= {} because it's not worth interacting with the user= {}", text, tweet.getFromUser());
-            return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
+            throw new IllegalStateException("This should have already been handled");
         case Mention:
             // we should mention the AUTHOR; if the TWEET itself has mention value as well - see which is more valuable; if not, mention
             if (bestInteractionWithTweet.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
-                if (text.contains("@" + tweet.getFromUser())) {
-                    // tweet already contains a mention of the author - no point in adding a new one
+                if (tweetAlreadyMentionsTheAuthor) {
                     return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
                 }
                 // determine which is more valuable - mentioning the author or tweeting the tweet with the mentions it has
@@ -153,8 +163,8 @@ public class InteractionLiveService {
     TwitterInteractionWithValue decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
         Preconditions.checkState(tweet.getRetweetedStatus() == null);
 
-        final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentions(tweet.getText());
-        final boolean containsValuableMentions = containsValuableMentionsLive(valueOfMentions);
+        final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentionsLive(tweet.getText());
+        final boolean containsValuableMentions = containsValuableMentions(valueOfMentions);
         if (containsValuableMentions) {
             final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
             logger.debug("Tweet does contain valuable mention(s): {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
@@ -173,9 +183,12 @@ public class InteractionLiveService {
         return new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0);
     }
 
-    private final boolean containsValuableMentionsLive(final List<TwitterInteractionWithValue> analyzeValueOfMentions) {
-        for (final TwitterInteractionWithValue valueOfMention : analyzeValueOfMentions) {
-            if (valueOfMention.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
+    /**
+     * - local
+     */
+    private final boolean containsValuableMentions(final List<TwitterInteractionWithValue> analyzeValueOfMentions) {
+        for (final TwitterInteractionWithValue bestInteractionWithTheAuthorMentioned : analyzeValueOfMentions) {
+            if (bestInteractionWithTheAuthorMentioned.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
                 return true;
             }
         }
@@ -183,7 +196,10 @@ public class InteractionLiveService {
         return false;
     }
 
-    private final List<TwitterInteractionWithValue> analyzeValueOfMentions(final String text) {
+    /**
+     * - live
+     */
+    private final List<TwitterInteractionWithValue> analyzeValueOfMentionsLive(final String text) {
         final List<TwitterInteractionWithValue> mentionsAnalyzed = Lists.newArrayList();
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
@@ -300,6 +316,20 @@ public class InteractionLiveService {
     }
 
     final TwitterInteractionWithValue decideAndScoreBestInteractionWithUser(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
+        final int mentionScore = calculateUserMentionInteractionScore(userSnapshot, user);
+        final int retweetScore = calculateUserRetweetInteractionScore(userSnapshot, user);
+
+        final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
+        if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning
+            return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
+        }
+        if (mentionScore > 16) {
+            return new TwitterInteractionWithValue(TwitterInteraction.Mention, mentionScore);
+        }
+        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
+    }
+
+    final int calculateUserMentionInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
         final int goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage(); // it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
         // final int mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage(); // the account (somehow) finds content and mentions it - good, but no help
         final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage(); // this also doesn't decide anything about how to best interact with the account
@@ -312,21 +342,33 @@ public class InteractionLiveService {
             addFollowersCountToMentionScore = 0;
         }
         twitterInteractionValuesRetriever.getLargeAccountDefinition();
-        final int addPartOfFollowerCountToRetweetScore = addFollowersCountToMentionScore * twitterInteractionValuesRetriever.getRetweetScoreFollowersPercentage() / 100;
 
         final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
         // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
         final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
 
         final int mentionScore = goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage + (retweetsOfSelfMentionsPercentage * 3) + addFollowersCountToMentionScore;
+        return mentionScore;
+    }
+
+    final int calculateUserRetweetInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
+        final int goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage(); // it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
+        final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage(); // this also doesn't decide anything about how to best interact with the account
+
+        // the follower count of the user should increase the overall interaction score (not by much, but still)
+        final int addFollowersCountToScore;
+        if (user.getFollowersCount() > 0) {
+            addFollowersCountToScore = (int) Math.log(user.getFollowersCount());
+        } else {
+            addFollowersCountToScore = 0;
+        }
+        final int addPartOfFollowerCountToRetweetScore = addFollowersCountToScore * twitterInteractionValuesRetriever.getRetweetScoreFollowersPercentage() / 100;
+
+        // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
+        final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
+
         final int retweetScore = (goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage * 75 / 100) + addPartOfFollowerCountToRetweetScore;
-        if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning
-            return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
-        }
-        if (mentionScore > 16) {
-            return new TwitterInteractionWithValue(TwitterInteraction.Mention, mentionScore);
-        }
-        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
+        return retweetScore;
     }
 
     /**
