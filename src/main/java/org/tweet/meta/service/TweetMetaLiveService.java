@@ -200,7 +200,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         for (final Tweet tweet : tweets) {
-            final TwitterInteractionWithValue interactionValue = interactionLiveService.decideBestInteractionRaw(tweet);
+            final TwitterInteractionWithValue interactionValue = interactionLiveService.determineBestInteractionRaw(tweet);
             // tweak score based on the number of RTs
             final int newScore = interactionValue.getVal() + tweet.getRetweetCount() * 30 / 100;
             valueToTweet.put(new TwitterInteractionWithValue(interactionValue.getTwitterInteraction(), newScore), tweet);
@@ -349,7 +349,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         boolean success = false;
-        final TwitterInteraction bestInteraction = interactionLiveService.decideBestInteraction(potentialTweet);
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteractionRaw(potentialTweet).getTwitterInteraction();
         switch (bestInteraction) {
         case None:
             success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);
