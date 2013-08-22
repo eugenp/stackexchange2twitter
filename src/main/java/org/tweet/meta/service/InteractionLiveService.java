@@ -67,9 +67,44 @@ public class InteractionLiveService {
     */
 
     public final TwitterInteractionWithValue determineBestInteractionRaw(final Tweet tweet) {
-        final TwitterInteractionWithValue bestInteractionWithAuthor = decideBestInteractionWithAuthorLive(tweet.getUser(), tweet.getFromUser());
-        final TwitterInteractionWithValue bestInteractionWithTweet = decideBestInteractionWithTweetNotAuthorLive(tweet);
+        Preconditions.checkState(tweet.getRetweetedStatus() == null);
+
+        // data
+
+        final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
+        final TwitterProfile user = tweet.getUser();
+        final String userHandle = tweet.getFromUser();
         final String text = TweetUtil.getText(tweet);
+
+        final TwitterUserSnapshot userSnapshot = analyzeUserInteractionsLive(user, userHandle);
+
+        final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentions(tweet.getText());
+        final boolean containsValuableMentions = containsValuableMentionsLive(valueOfMentions);
+        final int scoreOfMentions = valueOfMentions(valueOfMentions);
+
+        // decide interaction and value
+
+        final TwitterInteractionWithValue bestInteractionWithAuthor;
+        if (!passEliminatoryChecksBasedOnUser(user)) {
+            bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.None, 0);
+        } else if (!passEliminatoryChecksBasedOnUserStats(userSnapshot, userHandle)) {
+            bestInteractionWithAuthor = new TwitterInteractionWithValue(TwitterInteraction.None, 0);
+        } else {
+            bestInteractionWithAuthor = decideAndScoreBestInteractionWithUser(userSnapshot, user);
+        }
+
+        final TwitterInteractionWithValue bestInteractionWithTweet;
+        if (containsValuableMentions) {
+            logger.debug("Tweet does contain valuable mention(s): {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
+            bestInteractionWithTweet = new TwitterInteractionWithValue(TwitterInteraction.Mention, scoreOfMentions);
+            // doesn't matter if it's popular or not - mention
+        } else if (isTweetToPopular(tweet)) {
+            // if a tweet already has a lot of retweets, the value of another retweet decreases
+            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", tweet.getText(), tweet.getRetweetCount(), tweetUrl);
+            bestInteractionWithTweet = new TwitterInteractionWithValue(TwitterInteraction.None, 0);
+        } else {
+            bestInteractionWithTweet = new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0);
+        }
 
         switch (bestInteractionWithAuthor.getTwitterInteraction()) {
         case None:
@@ -85,11 +120,9 @@ public class InteractionLiveService {
                 }
                 // determine which is more valuable - mentioning the author or tweeting the tweet with the mentions it has
                 if (bestInteractionWithAuthor.getVal() >= bestInteractionWithTweet.getVal()) {
-                    final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
                     logger.debug("More value in interacting with the author then with the mentions - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
                     return new TwitterInteractionWithValue(TwitterInteraction.Mention, bestInteractionWithAuthor.getVal());
                 } else {
-                    final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
                     logger.debug("More value in interacting with the mentions then with the author - the tweet has valuable mentions: {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
                     return new TwitterInteractionWithValue(TwitterInteraction.None, bestInteractionWithTweet.getVal());
                 }
@@ -161,6 +194,9 @@ public class InteractionLiveService {
         return mentionsAnalyzed;
     }
 
+    /**
+     * - local
+     */
     private final int valueOfMentions(final List<TwitterInteractionWithValue> valueOfMentions) {
         int score = 0;
         for (final TwitterInteractionWithValue twitterInteractionWithValue : valueOfMentions) {
