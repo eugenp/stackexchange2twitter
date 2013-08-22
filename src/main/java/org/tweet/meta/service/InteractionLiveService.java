@@ -83,9 +83,15 @@ public class InteractionLiveService {
 
         final boolean tweetAlreadyMentionsTheAuthor = text.contains("@" + tweet.getFromUser());
 
-        final int valueWithinMentions = valueOfMentions(valueOfMentions);
-        final int valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
-        final int valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
+        final int valueWithinMentionsRaw = valueOfMentions(valueOfMentions);
+        final int valueOfMentionRaw = calculateUserMentionInteractionScore(userSnapshot, user);
+        final int valueOfRetweetRaw = calculateUserRetweetInteractionScore(userSnapshot, user);
+
+        // new (and possibly temp) - augment all scores with some uumf based on how popular the tweet was to begin with
+
+        final int valueWithinMentions = valueWithinMentionsRaw + tweet.getRetweetCount() * 30 / 100;
+        final int valueOfMention = valueOfMentionRaw + tweet.getRetweetCount() * 30 / 100;
+        final int valueOfRetweet = valueOfRetweetRaw + tweet.getRetweetCount() * 30 / 100;
 
         // deal with None
 
@@ -95,10 +101,12 @@ public class InteractionLiveService {
         }
 
         // determine any other hard requirements
+
         final boolean shouldNotMention = tweetAlreadyMentionsTheAuthor;
         final boolean shouldNotRetweet = isTweetToPopular(tweet);
 
         // determine the interaction
+
         final int maxValueOfInteraction = NumberUtils.max(valueWithinMentions, valueOfMention, valueOfRetweet);
         if (maxValueOfInteraction == valueWithinMentions) { // tweet as is - already contains valuable mentions
             logger.debug("Best value in interacting with the MENTIONS inside the tweet via a TWEET; tweet= {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK

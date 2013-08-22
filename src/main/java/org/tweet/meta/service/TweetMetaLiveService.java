@@ -199,13 +199,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             }
         });
 
-        for (final Tweet tweet : tweets) {
-            final TwitterInteractionWithValue interactionValue = interactionLiveService.determineBestInteractionRaw(tweet);
-            // tweak score based on the number of RTs
-            final int newScore = interactionValue.getVal() + tweet.getRetweetCount() * 30 / 100;
-            valueToTweet.put(new TwitterInteractionWithValue(interactionValue.getTwitterInteraction(), newScore), tweet);
-        }
-
         // adjust the RT counts by adding some fraction of the overall value
         for (final Map.Entry<TwitterInteractionWithValue, Tweet> valueAndTweet : valueToTweet.entrySet()) {
             final Tweet theTweet = valueAndTweet.getValue();
