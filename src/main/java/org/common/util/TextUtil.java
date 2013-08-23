@@ -78,6 +78,8 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&rsaquo;", ">"); // ›
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "&middot;", "-"); // ·
+
         return cleanedText;
     }
 

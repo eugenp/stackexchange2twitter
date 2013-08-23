@@ -188,7 +188,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         if (tweets.size() > 10) {
             logger.error("(info-temp-error) To many - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
         }
-        if (tweets.size() < 2) {
+        if (tweets.size() < 1) {
             logger.error("(info-temp-error) To few - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
         }
 
@@ -198,6 +198,11 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 return Integer.compare(o2.getVal(), o1.getVal());
             }
         });
+
+        for (final Tweet tweet : tweets) {
+            final TwitterInteractionWithValue interactionValue = interactionLiveService.determineBestInteractionRaw(tweet);
+            valueToTweet.put(new TwitterInteractionWithValue(interactionValue.getTwitterInteraction(), interactionValue.getVal()), tweet);
+        }
 
         // adjust the RT counts by adding some fraction of the overall value
         for (final Map.Entry<TwitterInteractionWithValue, Tweet> valueAndTweet : valueToTweet.entrySet()) {
