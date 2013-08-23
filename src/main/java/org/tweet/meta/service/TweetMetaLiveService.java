@@ -201,18 +201,17 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         for (final Tweet tweet : tweets) {
             final TwitterInteractionWithValue interactionValue = interactionLiveService.determineBestInteractionRaw(tweet);
-            valueToTweet.put(new TwitterInteractionWithValue(interactionValue.getTwitterInteraction(), interactionValue.getVal()), tweet);
+            valueToTweet.put(interactionValue, tweet);
         }
 
-        // adjust the RT counts by adding some fraction of the overall value
-        for (final Map.Entry<TwitterInteractionWithValue, Tweet> valueAndTweet : valueToTweet.entrySet()) {
-            final Tweet theTweet = valueAndTweet.getValue();
-            final int newRtCount = theTweet.getRetweetCount() + valueAndTweet.getKey().getVal() / 15;
+        // slightly adjust the RT counts by adding some fraction of the overall value
+        for (final Map.Entry<TwitterInteractionWithValue, Tweet> interactionAndTweet : valueToTweet.entrySet()) {
+            final Tweet theTweet = interactionAndTweet.getValue();
+            final int newRtCount = theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 12;
             theTweet.setRetweetCount(newRtCount);
         }
 
         return Lists.newArrayList(valueToTweet.values());
-        // return tweets;
     }
 
     /**any*/

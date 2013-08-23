@@ -96,10 +96,10 @@ public class InteractionLiveService {
         final int valueOfRetweetRaw = calculateUserRetweetInteractionScore(userSnapshot, user);
 
         // + scores (augment scores with some uumf based on how popular the tweet was to begin with)
-
-        final int valueWithinMentions = valueWithinMentionsRaw + tweet.getRetweetCount() * 30 / 100;
-        final int valueOfMention = valueOfMentionRaw + tweet.getRetweetCount() * 30 / 100;
-        final int valueOfRetweet = valueOfRetweetRaw + tweet.getRetweetCount() * 30 / 100;
+        final int percentage = 25;
+        final int valueWithinMentions = valueWithinMentionsRaw + tweet.getRetweetCount() * percentage / 100;
+        final int valueOfMention = valueOfMentionRaw + tweet.getRetweetCount() * percentage / 100;
+        final int valueOfRetweet = valueOfRetweetRaw + tweet.getRetweetCount() * percentage / 100;
 
         // deal with None
 
