@@ -296,9 +296,16 @@ public class InteractionLiveService {
     }
 
     final int calculateUserMentionInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
+        // 1. the data - likelihood
+
         final int goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage(); // it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
-        // final int mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage(); // the account (somehow) finds content and mentions it - good, but no help
         final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage(); // this also doesn't decide anything about how to best interact with the account
+        final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
+        // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
+
+        final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
+
+        // 2. the data - value
 
         // the follower count of the user should increase the overall interaction score (not by much, but still)
         final int addFollowersCountToMentionScore;
@@ -307,19 +314,22 @@ public class InteractionLiveService {
         } else {
             addFollowersCountToMentionScore = 0;
         }
-        twitterInteractionValuesRetriever.getLargeAccountDefinition();
 
-        final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
-        // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
-        final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
+        // the calculation
 
         final int mentionScore = goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage + (retweetsOfSelfMentionsPercentage * 3) + addFollowersCountToMentionScore;
         return mentionScore;
     }
 
     final int calculateUserRetweetInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
+        // 1. the data - likelihood
+
         final int goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage(); // it doesn't tell anything about the best way to interact with the account, just that the account is worth interacting with
         final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage(); // this also doesn't decide anything about how to best interact with the account
+        final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
+        // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
+
+        // 2. the data - value
 
         // the follower count of the user should increase the overall interaction score (not by much, but still)
         final int addFollowersCountToScore;
@@ -330,8 +340,7 @@ public class InteractionLiveService {
         }
         final int addPartOfFollowerCountToRetweetScore = addFollowersCountToScore * twitterInteractionValuesRetriever.getRetweetScoreFollowersPercentage() / 100;
 
-        // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
-        final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
+        // the calculation
 
         final int retweetScore = (goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage * 75 / 100) + addPartOfFollowerCountToRetweetScore;
         return retweetScore;
