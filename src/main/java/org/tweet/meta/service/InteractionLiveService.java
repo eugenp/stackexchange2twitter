@@ -57,10 +57,11 @@ public class InteractionLiveService {
      * - at this stage, no decision about either the best type of interaction, or the score of that interaction is made
      * 2. The SCORES of each type of interaction
      * - 
+     * 
+     * 3. Decide the best Interaction
+     * - 
+     * 
      * TODO: sort 
-     * determine the best interaction (with EVERYTHING) along with a score
-     * - then, if that interaction is MENTION - add the mention and change the interaction to NONE
-     * Interaction Scoring: 
      * - value of RETWEETING the USER (without taking the TWEET into account) - UR
      * - value of MENTIONING the USER (without taking the TWEET into account) - UM
      * - value of TWEETING the TWEET (as is, without adding a MENTION) - T
@@ -83,11 +84,18 @@ public class InteractionLiveService {
 
         final boolean tweetAlreadyMentionsTheAuthor = text.contains("@" + tweet.getFromUser());
 
+        // determine any other hard requirements
+
+        final boolean shouldNotMention = tweetAlreadyMentionsTheAuthor;
+        final boolean shouldNotRetweet = isTweetToPopular(tweet);
+
+        // the scores
+
         final int valueWithinMentionsRaw = valueOfMentions(valueOfMentions);
         final int valueOfMentionRaw = calculateUserMentionInteractionScore(userSnapshot, user);
         final int valueOfRetweetRaw = calculateUserRetweetInteractionScore(userSnapshot, user);
 
-        // new (and possibly temp) - augment all scores with some uumf based on how popular the tweet was to begin with
+        // + scores (augment scores with some uumf based on how popular the tweet was to begin with)
 
         final int valueWithinMentions = valueWithinMentionsRaw + tweet.getRetweetCount() * 30 / 100;
         final int valueOfMention = valueOfMentionRaw + tweet.getRetweetCount() * 30 / 100;
@@ -99,11 +107,6 @@ public class InteractionLiveService {
             logger.info("No value in interacting with the user= {} - should not retweet tweet= {}", tweet.getFromUser(), text);
             return new TwitterInteractionWithValue(TwitterInteraction.None, valueWithinMentions);
         }
-
-        // determine any other hard requirements
-
-        final boolean shouldNotMention = tweetAlreadyMentionsTheAuthor;
-        final boolean shouldNotRetweet = isTweetToPopular(tweet);
 
         // determine the interaction
 
