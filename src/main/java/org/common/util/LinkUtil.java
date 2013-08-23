@@ -42,6 +42,7 @@ public final class LinkUtil {
         }
         for (final String bannedDomainMaybe : bannedDomainsMaybe) {
             if (urlString.startsWith(bannedDomainMaybe)) {
+                // still error - reasons to move down: +1,
                 logger.error("(temp-error) For url: {} banned domain: {}", urlString, bannedDomainMaybe);
                 return true;
             }

@@ -33,7 +33,7 @@ public final class TwitterUtil {
         "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-        "buy", 
+        // "buy", // was here, I'm sufficiently convinced that it's not good 
         // "need", // moving from the maybe pile for now - just to see
         "wife",
         "killed",
