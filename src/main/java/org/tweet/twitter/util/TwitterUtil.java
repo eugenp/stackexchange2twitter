@@ -72,7 +72,8 @@ public final class TwitterUtil {
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
         "blogginginside", // in German - https://twitter.com/blogginginside
         "ulohjobs",  // jobs
-        "heyyouapp" // crap
+        "heyyouapp", // crap
+        "BigDataExpo", "CloudExpo" //temporary
     ); // @formatter:on
 
     private TwitterUtil() {

@@ -61,11 +61,6 @@ public class InteractionLiveService {
      * 3. Decide the best Interaction
      * - 
      * 
-     * TODO: sort 
-     * - value of RETWEETING the USER (without taking the TWEET into account) - UR
-     * - value of MENTIONING the USER (without taking the TWEET into account) - UM
-     * - value of TWEETING the TWEET (as is, without adding a MENTION) - T
-     * - value of adding a MENTION to the TWEET and then TWEETING - TM
     */
 
     public final TwitterInteractionWithValue determineBestInteractionRaw(final Tweet tweet) {

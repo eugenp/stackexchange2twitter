@@ -106,7 +106,7 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutCloud_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.cloud.name());
         assertTrue(success);
     }
 
@@ -174,6 +174,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutRubyOnRails_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutMultithreading_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
         assertTrue(success);
     }
 

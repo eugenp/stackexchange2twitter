@@ -3,7 +3,6 @@ package org.common.service.live;
 import java.util.List;
 
 import org.classification.spring.ClassificationConfig;
-import org.common.service.live.LinkLiveService;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.CommonServiceConfig;
 import org.common.util.LinkUtil;
@@ -81,11 +80,11 @@ public class RetweetScoresTuningLiveTest {
         final int totalRelevantLinks = linkService.countLinksToAnyDomain(latestTweetsOnAccount, LinkUtil.seDomains);
         final int totalLinksNotToSo = numberOfTweetsRetrieved - totalRelevantLinks;
 
-        if (totalLinksNotToSo <= 3) {
+        if (totalLinksNotToSo <= 4) {
             logger.info("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
             logger.warn("Scores (minrt) are probably to HIGH for account= " + account);
             System.out.println("Scores (minrt) are probably to HIGH for account= " + account);
-        } else if (totalLinksNotToSo >= 6) {
+        } else if (totalLinksNotToSo >= 7) {
             logger.info("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
             logger.warn("Scores (minrt) are probably to LOW for account= " + account);
             System.out.println("Scores (minrt) are probably to LOW for account= " + account);

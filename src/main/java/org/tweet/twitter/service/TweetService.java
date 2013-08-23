@@ -49,44 +49,6 @@ public class TweetService {
     /**
      * - temporarily added so that it can log information about the hashtag
      */
-    public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText, final String hashtagForLogging) {
-        if (!containsLink(potentialTweetText)) {
-            return false;
-        }
-        if (TwitterUtil.isTweetBanned(potentialTweetText)) {
-            // debug should be OK
-            logger.debug("Rejecting tweet because it is banned: \ntweet= {}\nhashtag={}", potentialTweetText, hashtagForLogging);
-            return false;
-        }
-
-        if (linkService.containsLinkToBannedServices(potentialTweetText)) {
-            return false;
-        }
-
-        if (linkService.extractUrls(potentialTweetText).size() > 1) {
-            // keep below error - there are a lot of tweets that fall into this category and it's not really relevant
-            logger.debug("Rejecting tweet because it has more than one link; tweet text= {}", potentialTweetText);
-            return false;
-        }
-
-        if (!isStructurallyValid(potentialTweetText)) {
-            logger.debug("Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
-            return false;
-        }
-
-        // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
-        return true;
-    }
-
-    /**
-     * - <b>local</b> <br/>
-     * 
-     * Determines if a tweet is worth tweeting based on only its text; by the following <b>criteria</b>: <br/>
-     * - has link <br/>
-     * - is not banned (mostly by keywords, expressions and regexes) <br/>
-     * - does not contain link to banned services<br/>
-     * - it does not contain more than one link
-     */
     public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {
             return false;
@@ -112,19 +74,8 @@ public class TweetService {
             return false;
         }
 
+        // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
         return true;
-    }
-
-    public final boolean isStructurallyValid(final String potentialTweetText) {
-        final List<String> extractedUrls = linkService.extractUrls(potentialTweetText);
-        final String mainUrl = linkService.determineMainUrl(extractedUrls);
-        if (mainUrl == null) {
-            return false;
-        }
-        final int lengthOfMainUrl = mainUrl.length();
-        final int fullLength = potentialTweetText.length();
-
-        return (fullLength - lengthOfMainUrl) > 10;
     }
 
     /**
@@ -132,11 +83,11 @@ public class TweetService {
      * - <b>number of retweets</b> over a certain threshold (the threshold is per hashtag) <br/>
      * - is in <b>English</b> <br/>
      * - the <b>user</b> is not banned for retweeting <br/>
-     * - (this is changing) is not already a retweet <br/>
+     * - does not contain to many hashtags (7 is max) <br/>
      * 
      * - favorites are not yet considered <br/>
      */
-    /*meta*/public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String twitterTag) {
+    public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String twitterTag) {
         final int requiredMinRts = minRtRetriever.minRt(twitterTag);
         if (potentialTweet.getRetweetCount() < requiredMinRts) {
             // TODO: this is a problem now that the tweets are no longer strictly sorted by RT count
@@ -196,6 +147,18 @@ public class TweetService {
         }
 
         return true;
+    }
+
+    public final boolean isStructurallyValid(final String potentialTweetText) {
+        final List<String> extractedUrls = linkService.extractUrls(potentialTweetText);
+        final String mainUrl = linkService.determineMainUrl(extractedUrls);
+        if (mainUrl == null) {
+            return false;
+        }
+        final int lengthOfMainUrl = mainUrl.length();
+        final int fullLength = potentialTweetText.length();
+
+        return (fullLength - lengthOfMainUrl) > 10;
     }
 
     // processing
@@ -273,6 +236,9 @@ public class TweetService {
         return size;
     }
 
+    /**
+     * Tweet with more than 7 hashtags should not be retweeted
+     */
     final boolean isTweetWorthRetweetingByNumberOfHashtags(final Tweet tweet) {
         final int countHashtags = countHashtags(tweet);
         if (countHashtags > 7) {
