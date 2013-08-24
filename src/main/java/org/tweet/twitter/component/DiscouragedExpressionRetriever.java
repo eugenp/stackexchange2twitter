@@ -7,7 +7,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.stackexchange.util.GenericUtil;
 
-import com.google.api.client.util.Preconditions;
+import com.google.common.collect.Lists;
 
 /**
  * - note: this is under .twitter (and not under .meta) because is core twitter functionality
@@ -29,7 +29,9 @@ public class DiscouragedExpressionRetriever {
      */
     public final List<String> discouraged(final String twitterAccount) {
         final String discouragedRaw = discouragedRaw(twitterAccount);
-        Preconditions.checkNotNull(discouragedRaw, "Unable to find discouraged expressions for twitterAccount= " + twitterAccount);
+        if (discouragedRaw == null) {
+            return Lists.newArrayList();
+        }
         return GenericUtil.breakApart(discouragedRaw);
     }
 

@@ -31,7 +31,7 @@ public class RssScheduler {
     }
 
     // API
-    @Scheduled(cron = "0 0 16 * * *")
+    @Scheduled(cron = "0 5 */1 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
         logger.info("Starting to execute scheduled RSS operations - 1");
 
