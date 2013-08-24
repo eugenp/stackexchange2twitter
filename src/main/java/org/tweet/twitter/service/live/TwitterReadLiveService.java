@@ -140,15 +140,6 @@ public class TwitterReadLiveService {
         }
     }
 
-    public List<Tweet> listTweetsOfAccountMultiRequestRaw(final String twitterAccount, final int howManyPages) {
-        try {
-            return listTweetsOfAccountMultiRequestRawInternal(twitterAccount, howManyPages);
-        } catch (final RuntimeException ex) {
-            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
-            return Lists.newArrayList();
-        }
-    }
-
     private final List<String> listTweetsOfAccountInternal(final String twitterAccount, final int howmany) {
         final List<Tweet> rawTweets = listTweetsOfAccountRawInternal(twitterAccount, howmany);
         final Function<Tweet, String> tweetToStringFunction = new TweetToStringFunction();
@@ -163,6 +154,17 @@ public class TwitterReadLiveService {
         metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
         return userTimeline;
+    }
+
+    // multi-request
+
+    public List<Tweet> listTweetsOfAccountMultiRequestRaw(final String twitterAccount, final int howManyPages) {
+        try {
+            return listTweetsOfAccountMultiRequestRawInternal(twitterAccount, howManyPages);
+        } catch (final RuntimeException ex) {
+            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            return Lists.newArrayList();
+        }
     }
 
     private final List<Tweet> listTweetsOfAccountMultiRequestRawInternal(final String twitterAccount, final int howManyPages) {
