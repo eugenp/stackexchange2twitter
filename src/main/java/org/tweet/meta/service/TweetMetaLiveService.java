@@ -11,6 +11,8 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.classification.service.ClassificationService;
 import org.common.metrics.MetricsUtil;
 import org.common.service.BaseTweetFromSourceLiveService;
@@ -38,6 +40,7 @@ import org.tweet.twitter.util.TwitterInteractionWithValue;
 import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.api.client.util.Preconditions;
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
@@ -176,6 +179,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 if (tweet.getRetweetCount() <= (minRt / 2)) {
                     return false;
                 }
+                if (hasThisAlreadyBeenTweetedById(new Retweet(tweet.getId(), twitterAccount, null, null))) {
+                    return false;
+                }
                 if (!tweetService.isTweetWorthRetweetingByTextWithLink(tweet.getText())) {
                     return false;
                 }
@@ -195,26 +201,35 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             logger.error("(info-temp-error) To few - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
         }
 
-        final Map<TwitterInteractionWithValue, Tweet> valueToTweet = Maps.newTreeMap(new Comparator<TwitterInteractionWithValue>() {
+        //
+        final List<Pair<TwitterInteractionWithValue, Tweet>> valuesAndTweets = Lists.newArrayList();
+        for (final Tweet tweet : tweets) {
+            final TwitterInteractionWithValue interactionValue = interactionLiveService.determineBestInteraction(tweet, twitterAccount);
+            valuesAndTweets.add(new ImmutablePair<TwitterInteractionWithValue, Tweet>(interactionValue, tweet));
+        }
+        Collections.sort(valuesAndTweets, new Comparator<Pair<TwitterInteractionWithValue, Tweet>>() {
             @Override
-            public final int compare(final TwitterInteractionWithValue o1, final TwitterInteractionWithValue o2) {
-                return Integer.compare(o2.getVal(), o1.getVal());
+            public final int compare(final Pair<TwitterInteractionWithValue, Tweet> o1, final Pair<TwitterInteractionWithValue, Tweet> o2) {
+                return Integer.compare(o1.getLeft().getVal(), o2.getLeft().getVal());
             }
         });
 
-        for (final Tweet tweet : tweets) {
-            final TwitterInteractionWithValue interactionValue = interactionLiveService.determineBestInteraction(tweet, twitterAccount);
-            valueToTweet.put(interactionValue, tweet);
-        }
-
         // slightly adjust the RT counts by adding some fraction of the overall value
-        for (final Map.Entry<TwitterInteractionWithValue, Tweet> interactionAndTweet : valueToTweet.entrySet()) {
+        for (final Pair<TwitterInteractionWithValue, Tweet> interactionAndTweet : valuesAndTweets) {
             final Tweet theTweet = interactionAndTweet.getValue();
             final int newRtCount = theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 12;
             theTweet.setRetweetCount(newRtCount);
         }
 
-        return Lists.newArrayList(valueToTweet.values());
+        final List<Tweet> tweetsOrdered = Lists.transform(valuesAndTweets, new Function<Pair<TwitterInteractionWithValue, Tweet>, Tweet>() {
+            @Override
+            public final Tweet apply(final Pair<TwitterInteractionWithValue, Tweet> input) {
+                return input.getRight();
+            }
+        });
+
+        // return Lists.newArrayList(tweetsOrdered);
+        return tweetsOrdered;
     }
 
     /**any*/

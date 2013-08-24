@@ -35,7 +35,7 @@ public class TweetMetaScheduler {
     // API
 
     // git - not 100% sure that hashtag will only return relevant tweets - look into this further
-    // for accounts - not yet: BestBash,BestEclipse,BestGit,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
+    // for accounts - not yet: BestBash,BestEclipse,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
 
     @Scheduled(cron = "0 3 9,12,15,18,21 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
@@ -60,6 +60,8 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestGit.name()); // new and experimentally active
 
         logger.info("Finished retweet schedule - 1");
     }
