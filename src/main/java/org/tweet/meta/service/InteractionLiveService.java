@@ -287,10 +287,15 @@ public class InteractionLiveService {
         final int mentionScore = calculateUserMentionInteractionScore(userSnapshot, user);
         final int retweetScore = calculateUserRetweetInteractionScore(userSnapshot, user);
 
+        final int retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage = userSnapshot.getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage();
+        if (retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage < 1) { // if they don't retweet any accounts they don't follow - no dice
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
+        }
         final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
         if (retweetsOfSelfMentionsPercentage < 1) { // if they don't retweet self mentions at all, then no point in mentioning
             return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
         }
+
         if (mentionScore > 16) {
             return new TwitterInteractionWithValue(TwitterInteraction.Mention, mentionScore);
         }
