@@ -158,12 +158,12 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
 
-        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, hashtag);
+        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, hashtag, twitterAccount);
 
         return retweetAnyByHashtagInternal(twitterAccount, prunedTweets, hashtag);
     }
 
-    private final Collection<Tweet> pruneTweets(final List<Tweet> tweetsOfHashtag, final String hashtag) {
+    private final Collection<Tweet> pruneTweets(final List<Tweet> tweetsOfHashtag, final String hashtag, final String twitterAccount) {
         final Set<Tweet> tweetsSet = Sets.newHashSet();
         for (final Tweet tweet : tweetsOfHashtag) {
             tweetsSet.add(TweetUtil.getTweet(tweet));
@@ -203,7 +203,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         for (final Tweet tweet : tweets) {
-            final TwitterInteractionWithValue interactionValue = interactionLiveService.determineBestInteractionRaw(tweet);
+            final TwitterInteractionWithValue interactionValue = interactionLiveService.determineBestInteraction(tweet, twitterAccount);
             valueToTweet.put(interactionValue, tweet);
         }
 
@@ -235,7 +235,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         final List<Tweet> tweetsFromOnlyPredefinedAccounts = Lists.newArrayList(tweetsFromOnlyPredefinedAccountsRaw);
-        pruneTweets(tweetsFromOnlyPredefinedAccounts, hashtag);
+        pruneTweets(tweetsFromOnlyPredefinedAccounts, hashtag, twitterAccount);
 
         return retweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
     }
@@ -349,7 +349,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         boolean success = false;
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteractionRaw(potentialTweet).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(potentialTweet, twitterAccount).getTwitterInteraction();
         switch (bestInteraction) {
         case None:
             success = twitterWriteLiveService.tweet(twitterAccount, fullTweetProcessed, potentialTweet);

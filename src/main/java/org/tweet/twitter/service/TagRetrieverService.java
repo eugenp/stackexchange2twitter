@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.stackexchange.util.GenericUtil;
 
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 
 @Service
 public class TagRetrieverService {
@@ -52,7 +50,7 @@ public class TagRetrieverService {
 
     public final List<String> twitterTags(final String twitterAccount) {
         final String twitterTagsAsString = twitterTagsAsString(twitterAccount);
-        return breakApart(twitterTagsAsString);
+        return GenericUtil.breakApart(twitterTagsAsString);
     }
 
     public final String pickTwitterTag(final String twitterAccount) {
@@ -63,18 +61,12 @@ public class TagRetrieverService {
     // util
 
     private final String pickOnTag(final String allTagsCommaSeparated) {
-        final List<String> tags = breakApart(allTagsCommaSeparated);
+        final List<String> tags = GenericUtil.breakApart(allTagsCommaSeparated);
         if (tags.isEmpty()) {
             return null;
         }
 
         return GenericUtil.pickOneGeneric(tags);
-    }
-
-    private final List<String> breakApart(final String allTagsCommaSeparated) {
-        final Iterable<String> split = Splitter.on(',').split(allTagsCommaSeparated);
-        final List<String> tags = Lists.newArrayList(split);
-        return tags;
     }
 
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.tweet.meta.TwitterUserSnapshot;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.meta.util.TweetIsRetweetPredicate;
+import org.tweet.twitter.component.DiscouragedExpressionRetriever;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
@@ -42,28 +43,28 @@ public class InteractionLiveService {
     @Autowired
     TwitterInteractionValuesRetriever twitterInteractionValuesRetriever;
 
+    @Autowired
+    DiscouragedExpressionRetriever discouragedExpressionRetriever;
+
     public InteractionLiveService() {
         super();
     }
 
     // API
 
-    // - with tweet
-
-    /*
-     * Process: 
-     * 1. THE DATA
-     * - calculate all the data that goes into calculating the type of interaction and the score
-     * - at this stage, no decision about either the best type of interaction, or the score of that interaction is made
-     * 2. The SCORES of each type of interaction
-     * - 
+    /**
+     * - live <br/>
+     * <b>1. THE DATA</b> <br/>
+     * - calculate all the data that goes into calculating the type of interaction and the score <br/>
+     * - at this stage, no decision about either the best type of interaction, or the score of that interaction is made <br/>
      * 
-     * 3. Decide the best Interaction
-     * - 
+     * <b>2. The SCORES</b> <br/>
+     * - calculate the scores for each type of interaction <br/>
      * 
-    */
-
-    public final TwitterInteractionWithValue determineBestInteractionRaw(final Tweet tweet) {
+     * <b>3. The INTERACTION</b> <br/>
+     * - based on these scores, decide what the interaction should be  <br/>
+     */
+    public final TwitterInteractionWithValue determineBestInteraction(final Tweet tweet, final String twitterAccount) {
         Preconditions.checkState(tweet.getRetweetedStatus() == null);
 
         // data
@@ -86,15 +87,32 @@ public class InteractionLiveService {
 
         // the scores
 
-        final int valueWithinMentionsRaw = valueOfMentions(valueOfMentions);
-        final int valueOfMentionRaw = calculateUserMentionInteractionScore(userSnapshot, user);
-        final int valueOfRetweetRaw = calculateUserRetweetInteractionScore(userSnapshot, user);
+        int valueWithinMentions = valueOfMentions(valueOfMentions);
+        int valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
+        int valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
 
         // + scores (augment scores with some uumf based on how popular the tweet was to begin with)
-        final int percentage = 25;
-        final int valueWithinMentions = valueWithinMentionsRaw + tweet.getRetweetCount() * percentage / 100;
-        final int valueOfMention = valueOfMentionRaw + tweet.getRetweetCount() * percentage / 100;
-        final int valueOfRetweet = valueOfRetweetRaw + tweet.getRetweetCount() * percentage / 100;
+        final int addToScoreBasedOnHowPopularTheRetweetIs = (int) Math.log(tweet.getRetweetCount() * tweet.getRetweetCount());
+        valueWithinMentions = valueWithinMentions + addToScoreBasedOnHowPopularTheRetweetIs;
+        valueOfMention = valueOfMention + addToScoreBasedOnHowPopularTheRetweetIs;
+        valueOfRetweet = valueOfRetweet + addToScoreBasedOnHowPopularTheRetweetIs;
+
+        // new
+        boolean foundDiscouraged = false;
+        final List<String> hashtags = tweetService.getHashtags(tweet);
+        final List<String> discouraged = discouragedExpressionRetriever.discouraged(twitterAccount);
+        for (final String hashtag : hashtags) {
+            if (discouraged.contains(hashtag)) {
+                foundDiscouraged = true;
+                break;
+            }
+        }
+        if (foundDiscouraged) {
+            final int percentageToDecrease = 75;
+            valueWithinMentions = valueWithinMentions * percentageToDecrease / 100;
+            valueOfMention = valueOfMention * percentageToDecrease / 100;
+            valueOfRetweet = valueOfRetweet * percentageToDecrease / 100;
+        }
 
         // deal with None
 
@@ -131,7 +149,7 @@ public class InteractionLiveService {
         final List<TwitterInteractionWithValue> mentionsAnalyzed = Lists.newArrayList();
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
-            final TwitterInteractionWithValue interactionWithAuthor = decideBestInteractionWithAuthorLive(mentionedUser);
+            final TwitterInteractionWithValue interactionWithAuthor = determineBestInteractionWithAuthorLive(mentionedUser);
             mentionsAnalyzed.add(interactionWithAuthor);
         }
 
@@ -158,7 +176,7 @@ public class InteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public final TwitterInteractionWithValue decideBestInteractionWithAuthorLive(final String userHandle) {
+    public final TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final String userHandle) {
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         return decideBestInteractionWithAuthorLive(user, userHandle);
     }

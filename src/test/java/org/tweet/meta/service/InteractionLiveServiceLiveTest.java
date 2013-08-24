@@ -60,35 +60,35 @@ public final class InteractionLiveServiceLiveTest {
     @Test
     public final void whenDecidingBestInteractionWithTweet1_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(50510953187516416l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteractionRaw(tweet).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, "").getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet2_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(362887164880629762l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteractionRaw(tweet).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, "").getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet3_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(364420762922668032l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteractionRaw(tweet).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, "").getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet4_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(364424663704670208l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteractionRaw(tweet).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, "").getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet5_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(367675643120467968l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteractionRaw(tweet).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, "").getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
     }
 

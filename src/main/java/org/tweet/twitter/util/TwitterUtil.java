@@ -40,6 +40,8 @@ public final class TwitterUtil {
         "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
         "dumb", 
         "dance",
+        "lucky", 
+        "fpl", // fantasy player league
         "win", // new
         "snake", // python snake...yes, it happened
         "islamic", "islam", "muslim", "muslims", "pakistan",

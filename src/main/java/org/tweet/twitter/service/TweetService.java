@@ -17,6 +17,7 @@ import org.tweet.twitter.util.HashtagWordFunction;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterUtil;
 
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
@@ -196,7 +197,7 @@ public class TweetService {
     public final String postValidityProcessForTweetTextNoUrl(final String textOnly, final String twitterAccount) {
         String tweetTextProcessed = hashtagWordsTweetTextOnly(textOnly, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
-            // status - happend 2 times invalidly ... removing soon
+            // status - happened 2 times invalidly ... removing soon
             logger.error("It's happening - 2; original text= {}", tweetTextProcessed);
             tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
             logger.error("It has happened - 2; original text= {}", tweetTextProcessed);
@@ -218,7 +219,7 @@ public class TweetService {
      * - local
      */
     final int countHashtags(final Tweet tweet) {
-        return getHashtags(tweet).size();
+        return getHashtagsRaw(tweet).size();
     }
 
     // util
@@ -228,7 +229,7 @@ public class TweetService {
      */
     final int getCharacterLenghtOfHashTags(final Tweet tweet) {
         int size = 0;
-        for (final HashTagEntity hashTag : getHashtags(tweet)) {
+        for (final HashTagEntity hashTag : getHashtagsRaw(tweet)) {
             size += hashTag.getText().length();
             size += 2;
         }
@@ -282,9 +283,23 @@ public class TweetService {
     }
 
     /**
-     * - local
+     * - local <br>
+     * - return - not null <br> 
      */
-    public final List<HashTagEntity> getHashtags(final Tweet tweet) {
+    public final List<String> getHashtags(final Tweet tweet) {
+        final List<HashTagEntity> hashtagsRaw = getHashtagsRaw(tweet);
+        final List<String> hashtags = Lists.transform(hashtagsRaw, new Function<HashTagEntity, String>() {
+            @Override
+            public String apply(final HashTagEntity input) {
+                return input.getText();
+            }
+
+        });
+
+        return Preconditions.checkNotNull(hashtags);
+    }
+
+    final List<HashTagEntity> getHashtagsRaw(final Tweet tweet) {
         final Entities entities = tweet.getEntities();
         if (entities == null) {
             return Lists.newArrayList();
