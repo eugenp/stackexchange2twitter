@@ -21,8 +21,12 @@ public final class LinkUtil {
         "http://www.perun.net", 
         "http://www.heyyou-app.com"
     );// @formatter:on
+
     final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off
         "https://www.facebook.com" // +1
+    );// @formatter:on
+    final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
+        "http(s)?://(www.)?.*.de(/)?.*"
     );// @formatter:on
 
     private LinkUtil() {
@@ -32,6 +36,7 @@ public final class LinkUtil {
     // API
 
     /**
+     * - local <br/>
      * - note: simplistic implementation to be improved when needed
      */
     public static boolean belongsToBannedDomain(final String urlString) {
@@ -44,6 +49,13 @@ public final class LinkUtil {
             if (urlString.startsWith(bannedDomainMaybe)) {
                 // still error - reasons to move down: +1,
                 logger.error("(temp-error) For url: {} banned domain: {}", urlString, bannedDomainMaybe);
+                return true;
+            }
+        }
+        for (final String bannedDomainByRegexMaybe : bannedDomainsByRegexMaybe) {
+            if (urlString.matches(bannedDomainByRegexMaybe)) {
+                // still error - reasons to move down: +1,
+                logger.error("(temp-error) For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);
                 return true;
             }
         }

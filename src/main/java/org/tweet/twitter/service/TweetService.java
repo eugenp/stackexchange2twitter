@@ -284,7 +284,7 @@ public class TweetService {
     /**
      * - local
      */
-    private final List<HashTagEntity> getHashtags(final Tweet tweet) {
+    public final List<HashTagEntity> getHashtags(final Tweet tweet) {
         final Entities entities = tweet.getEntities();
         if (entities == null) {
             return Lists.newArrayList();

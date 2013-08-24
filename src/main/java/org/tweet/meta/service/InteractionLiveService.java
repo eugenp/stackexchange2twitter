@@ -124,39 +124,6 @@ public class InteractionLiveService {
         }
     }
 
-    TwitterInteractionWithValue decideBestInteractionWithTweetNotAuthorLive(final Tweet tweet) {
-        Preconditions.checkState(tweet.getRetweetedStatus() == null);
-
-        final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentionsLive(tweet.getText());
-        final boolean containsValuableMentions = containsValuableMentions(valueOfMentions);
-        if (containsValuableMentions) {
-            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-            logger.debug("Tweet does contain valuable mention(s): {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
-            final int scoreOfMentions = valueOfMentions(valueOfMentions);
-            return new TwitterInteractionWithValue(TwitterInteraction.Mention, scoreOfMentions);
-            // doesn't matter if it's popular or not - mention
-        }
-
-        // if a tweet already has a lot of retweets, the value of another retweet decreases
-        if (isTweetToPopular(tweet)) {
-            final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-            logger.info("Far to popular tweet= {} - no point in retweeting...rt= {}; link= {}", tweet.getText(), tweet.getRetweetCount(), tweetUrl);
-            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
-        }
-
-        return new TwitterInteractionWithValue(TwitterInteraction.Retweet, 0);
-    }
-
-    private final boolean containsValuableMentions(final List<TwitterInteractionWithValue> analyzeValueOfMentions) {
-        for (final TwitterInteractionWithValue bestInteractionWithTheAuthorMentioned : analyzeValueOfMentions) {
-            if (bestInteractionWithTheAuthorMentioned.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /**
      * - live
      */
@@ -423,19 +390,6 @@ public class InteractionLiveService {
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (isTweetGoodRetweet(tweet)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    /**
-     * - local
-     */
-    private final int countRetweets(final List<Tweet> tweetsOfAccount) {
-        int count = 0;
-        for (final Tweet tweet : tweetsOfAccount) {
-            if (tweet.isRetweet()) {
                 count++;
             }
         }

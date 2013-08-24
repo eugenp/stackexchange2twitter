@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThat;
 import java.util.List;
 
 import org.common.service.LinkService;
+import org.common.util.LinkUtil;
 import org.junit.Test;
 
 public class LinkUtilUnitTest {
@@ -43,6 +44,14 @@ public class LinkUtilUnitTest {
         final String content = "<b>Clojure Koans</b><br /><br />$ git clone git://<a href=\"http://github.com/functional-koans/clojure-koans.git\" class=\"ot-anchor\">github.com/functional-koans/clojure-koans.git</a> <br />$ cd clojure-koans<br />$ curl <a href=\"https://raw.github.com/technomancy/leiningen/stable/bin/lein\" class=\"ot-anchor\">https://raw.github.com/technomancy/leiningen/stable/bin/lein</a> &gt; script/lein<br />$ chmod +x script/lein<br />$ script/lein deps<br />$ script/run<br /><br />Enlightenment awaits.";
         final String mainUrl = new LinkService().extractUrl(content);
         assertThat(mainUrl, equalTo("https://raw.github.com/technomancy/leiningen/stable/bin/lein"));
+    }
+
+    // banned domain
+
+    @Test
+    public final void givenUrlShouldBeBanned_whenCheckingIfItIsScenario1_thenYes() {
+        final String url = "http://www.fantasyfootball.de/blogpost1";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(true));
     }
 
 }
