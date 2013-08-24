@@ -189,7 +189,8 @@ public final class TwitterUtil {
                 try {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
-                    logger.error("Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + text, ex);
+                    logger.error("Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + text);
+                    logger.debug("Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + text, ex);
                 }
                 return true;
             }

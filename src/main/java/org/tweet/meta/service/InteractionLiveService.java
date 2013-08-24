@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.keyval.persistence.dao.IKeyValJpaDAO;
+import org.keyval.persistence.model.KeyVal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,9 @@ public class InteractionLiveService {
     @Autowired
     DiscouragedExpressionRetriever discouragedExpressionRetriever;
 
+    @Autowired
+    private IKeyValJpaDAO keyValApi;
+
     public InteractionLiveService() {
         super();
     }
@@ -67,7 +72,7 @@ public class InteractionLiveService {
     public final TwitterInteractionWithValue determineBestInteraction(final Tweet tweet, final String twitterAccount) {
         Preconditions.checkState(tweet.getRetweetedStatus() == null);
 
-        // data
+        // 1. THE DATA
 
         final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
         final TwitterProfile user = tweet.getUser();
@@ -85,7 +90,7 @@ public class InteractionLiveService {
         final boolean shouldNotMention = tweetAlreadyMentionsTheAuthor;
         final boolean shouldNotRetweet = isTweetToPopular(tweet);
 
-        // the scores
+        // 2. THE SCORES
 
         int valueWithinMentions = valueOfMentions(valueOfMentions);
         int valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
@@ -96,6 +101,21 @@ public class InteractionLiveService {
         valueWithinMentions = valueWithinMentions + addToScoreBasedOnHowPopularTheRetweetIs;
         valueOfMention = valueOfMention + addToScoreBasedOnHowPopularTheRetweetIs;
         valueOfRetweet = valueOfRetweet + addToScoreBasedOnHowPopularTheRetweetIs;
+
+        // newest
+        final String author = tweet.getFromUser();
+        final String keyOfAuthorInteractionHistory = "interaction." + twitterAccount + "." + author;
+        final KeyVal authorInteractionHistory = keyValApi.findByKey(keyOfAuthorInteractionHistory);
+        if (authorInteractionHistory != null) {
+            final int valueOfAuthorInteraction = Integer.valueOf(authorInteractionHistory.getValue()) * 2;
+
+            valueWithinMentions += valueOfAuthorInteraction;
+            valueOfMention += valueOfAuthorInteraction;
+            valueOfRetweet += valueOfAuthorInteraction;
+        }
+        valueWithinMentions = Math.max(0, valueWithinMentions);
+        valueOfMention = Math.max(0, valueOfMention);
+        valueOfRetweet = Math.max(0, valueOfRetweet);
 
         // new
         boolean foundDiscouraged = false;
@@ -113,6 +133,8 @@ public class InteractionLiveService {
             valueOfMention = valueOfMention * percentageToDecrease / 100;
             valueOfRetweet = valueOfRetweet * percentageToDecrease / 100;
         }
+
+        // 3. THE INTERACTION
 
         // deal with None
 
