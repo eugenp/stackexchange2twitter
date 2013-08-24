@@ -108,6 +108,7 @@ public class InteractionLiveService {
         final KeyVal authorInteractionHistory = keyValApi.findByKey(keyOfAuthorInteractionHistory);
         if (authorInteractionHistory != null) {
             final int valueOfAuthorInteraction = Integer.valueOf(authorInteractionHistory.getValue()) * 2;
+            logger.info("Based on the interaction history with twitterAccount= {}, decreasing all values with= {}", tweet.getFromUser(), valueOfAuthorInteraction);
 
             valueWithinMentions += valueOfAuthorInteraction;
             valueOfMention += valueOfAuthorInteraction;
