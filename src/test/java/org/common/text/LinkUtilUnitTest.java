@@ -54,4 +54,10 @@ public class LinkUtilUnitTest {
         assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(true));
     }
 
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario1_thenNo() {
+        final String url = "http://www.slideshare.net/pcalcado/from-a-monolithic-ruby-on-rails-app-to-the-jvm";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
 }

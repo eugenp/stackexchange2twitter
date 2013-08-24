@@ -110,7 +110,8 @@ public class LinkService {
     }
 
     /**
-     * - note: may return null
+     * - local <br/>
+     * - <b>note</b>: may return null
      */
     public final String determineMainUrl(final List<String> extractedUrls) {
         for (final String urlCandidate : extractedUrls) {

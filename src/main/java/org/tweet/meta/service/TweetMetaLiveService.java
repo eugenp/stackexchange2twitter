@@ -185,7 +185,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 if (!tweetService.isTweetWorthRetweetingByTextWithLink(tweet.getText())) {
                     return false;
                 }
-                if (!tweetService.isTweetWorthRetweetingByRawTweet(tweet, hashtag)) {
+                if (!tweetService.passesMinimalChecks(tweet, hashtag)) {
                     return false;
                 }
                 return true;
@@ -217,7 +217,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         // slightly adjust the RT counts by adding some fraction of the overall value
         for (final Pair<TwitterInteractionWithValue, Tweet> interactionAndTweet : valuesAndTweets) {
             final Tweet theTweet = interactionAndTweet.getValue();
-            final int newRtCount = theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 12;
+            final int newRtCount = theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 8;
             theTweet.setRetweetCount(newRtCount);
         }
 

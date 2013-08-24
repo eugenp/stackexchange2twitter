@@ -88,35 +88,43 @@ public class TweetService {
      * 
      * - favorites are not yet considered <br/>
      */
-    public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String twitterTag) {
-        final int requiredMinRts = minRtRetriever.minRt(twitterTag);
-        if (potentialTweet.getRetweetCount() < requiredMinRts) {
-            // TODO: this is a problem now that the tweets are no longer strictly sorted by RT count
-            logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, twitterTag, potentialTweet.getRetweetCount(), requiredMinRts);
+    public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String hashtag) {
+        if (!passesMinimalChecks(potentialTweet, hashtag)) {
             return false;
         }
 
-        if (potentialTweet.getLanguageCode() == null) {
-            // temporary error
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the no language", potentialTweet, twitterTag);
+        final int requiredMinRts = minRtRetriever.minRt(hashtag);
+        if (potentialTweet.getRetweetCount() < requiredMinRts) {
+            // TODO: this is a problem now that the tweets are no longer strictly sorted by RT count
+            logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, hashtag, potentialTweet.getRetweetCount(), requiredMinRts);
             return false;
         }
-        if (!potentialTweet.getLanguageCode().equals("en")) {
-            logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", potentialTweet, twitterTag, potentialTweet.getLanguageCode());
+
+        return true;
+    }
+
+    public final boolean passesMinimalChecks(final Tweet tweet, final String hashtag) {
+        if (tweet.getLanguageCode() == null) {
+            // temporary error
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the no language", tweet, hashtag);
+            return false;
+        }
+        if (!tweet.getLanguageCode().equals("en")) {
+            logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashtag, tweet.getLanguageCode());
             // info temporary - should be debug
             return false;
         }
 
-        if (TwitterUtil.isUserBannedFromRetweeting(potentialTweet.getFromUser())) {
-            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", potentialTweet, twitterTag, potentialTweet.getFromUser());
+        if (TwitterUtil.isUserBannedFromRetweeting(tweet.getFromUser())) {
+            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", tweet, hashtag, tweet.getFromUser());
             // debug temporary - should be trace
             return false;
         }
 
-        final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(potentialTweet);
+        final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(tweet);
         if (!shouldByNumberOfHashtags) {
             // was error - nothing really interesting, debug now, maybe trace later
-            logger.debug("Rejected because the it contained to many hashtags - potentialTweet= {} on twitterTag= {} ", TweetUtil.getText(potentialTweet), twitterTag);
+            logger.debug("Rejected because the it contained to many hashtags - potentialTweet= {} on twitterTag= {} ", TweetUtil.getText(tweet), hashtag);
             return false;
         }
 
@@ -150,6 +158,10 @@ public class TweetService {
         return true;
     }
 
+    /**
+     * - local <br/>
+     * - verifies that a main url exists, and that the remaining text is longer then 10 chars
+     */
     public final boolean isStructurallyValid(final String potentialTweetText) {
         final List<String> extractedUrls = linkService.extractUrls(potentialTweetText);
         final String mainUrl = linkService.determineMainUrl(extractedUrls);
