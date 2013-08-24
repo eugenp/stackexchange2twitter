@@ -210,7 +210,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         Collections.sort(valuesAndTweets, new Comparator<Pair<TwitterInteractionWithValue, Tweet>>() {
             @Override
             public final int compare(final Pair<TwitterInteractionWithValue, Tweet> o1, final Pair<TwitterInteractionWithValue, Tweet> o2) {
-                return Integer.compare(o1.getLeft().getVal(), o2.getLeft().getVal());
+                return Integer.compare(o2.getLeft().getVal(), o1.getLeft().getVal());
             }
         });
 
