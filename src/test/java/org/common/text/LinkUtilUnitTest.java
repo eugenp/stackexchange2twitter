@@ -60,4 +60,22 @@ public class LinkUtilUnitTest {
         assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
     }
 
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario2_thenNo() {
+        final String url = "http://codepen.io/rdallaire/pen/zFjvG?utm_source=buffer&utm_campaign=Buffer&utm_content=buffer33478&utm_medium=twitter";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario3_thenNo() {
+        final String url = "http://appleinsider.com/articles/13/08/19/iphone-5c-expected-to-replace-iphone-5-while-apples-iphone-4s-will-live-on";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario4_thenNo() {
+        final String url = "http://hub.tutsplus.com/articles/a-web-designers-seo-checklist-including-portable-formats--webdesign-10740";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
 }

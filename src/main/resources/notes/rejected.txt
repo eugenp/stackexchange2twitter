@@ -1,4 +1,8 @@
 
+lucky
+Scala, Akka, Cassandra with a sprinkling of Scalaz for the #Activator. It’s very early code: look if feeling lucky. https://t.co/uAhNWVo53V
+
+
 
 1. buy: 
 

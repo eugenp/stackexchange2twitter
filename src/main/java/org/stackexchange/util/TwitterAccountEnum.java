@@ -10,7 +10,7 @@ public enum TwitterAccountEnum {// @formatter:off
     BestBash(false),  
     BestClojure(true), 
     BestEclipse(false), // predefined some accounts
-    BestGit(false), // predefined some accounts
+    BestGit(true), // temp true
     BestJavaScript(true),  
     BestJPA(false), // predefined some accounts
     BestJSP(false), // predefined some accounts
