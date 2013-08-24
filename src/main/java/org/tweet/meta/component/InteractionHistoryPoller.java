@@ -69,66 +69,76 @@ public class InteractionHistoryPoller {
      */
     final void checkAndUpdateHistoryOnAccount(final String twitterAccount) {
         final List<Tweet> tweetsToAnalyze = getTweetsToAnalyize(twitterAccount);
-        if (tweetsToAnalyze.isEmpty()) {
-            // nothing new to analyze yet
+        if (tweetsToAnalyze.isEmpty()) { // nothing new to analyze yet
             return;
         }
         final Iterable<Tweet> metaRetweets = Iterables.filter(tweetsToAnalyze, new TweetNotLinksToSePredicate(linkLiveService));
         for (final Tweet tweet : metaRetweets) {
-            final List<MentionEntity> mentions = tweet.getEntities().getMentions();
-            if (mentions.isEmpty()) {
-                continue;
-            }
-            final List<Tweet> retweetsOfThisTweet = twitterReadLiveService.readOnlyTwitterApi().timelineOperations().getRetweets(tweet.getId());
-            final List<String> usersWhoRetweeted = Lists.transform(retweetsOfThisTweet, new Function<Tweet, String>() {
-                @Override
-                public final String apply(final Tweet input) {
-                    return input.getFromUser();
-                }
-            });
-            for (final MentionEntity mention : mentions) {
-                final String key = "interaction." + twitterAccount + "." + mention.getScreenName();
-                KeyVal interactionStatus = keyValueApi.findByKey(key);
-                if (interactionStatus == null) {
-                    interactionStatus = keyValueApi.save(new KeyVal(key, "none"));
-                }
-
-                if (usersWhoRetweeted.contains(mention.getScreenName())) {
-                    interactionStatus.setValue("good");
-                    keyValueApi.save(interactionStatus);
-                } else {
-                    if (interactionStatus.getValue().equals("good")) {
-                        continue;
-                    }
-                    if (interactionStatus.getValue().equals("none")) {
-                        interactionStatus.setValue("-1");
-                        keyValueApi.save(interactionStatus);
-                        continue;
-                    }
-                    Integer interactionsWithoutResult = new Integer(interactionStatus.getValue());
-                    interactionsWithoutResult -= 1;
-                    if (interactionsWithoutResult < -3) {
-                        interactionStatus.setValue("bad");
-                        keyValueApi.save(interactionStatus);
-                    } else {
-                        interactionStatus.setValue(interactionsWithoutResult.toString());
-                        keyValueApi.save(interactionStatus);
-                    }
-                }
-            }
+            processTweet(tweet, twitterAccount);
         }
 
-        final String lastIdKey = "interaction." + twitterAccount + ".lastId";
-        final Long lastIdRetrieved = tweetsToAnalyze.get(0).getId();
-        final KeyVal lastIdKeyVal = keyValueApi.findByKey(lastIdKey);
-        if (lastIdKeyVal == null) {
-            keyValueApi.save(new KeyVal(lastIdKey, lastIdRetrieved.toString()));
+        createOrUpdateLastId(twitterAccount, tweetsToAnalyze);
+    }
+
+    private final void processTweet(final Tweet tweet, final String twitterAccount) {
+        final List<MentionEntity> mentions = tweet.getEntities().getMentions();
+        if (mentions.isEmpty()) {
+            return;
+        }
+        final List<Tweet> retweetsOfThisTweet = twitterReadLiveService.readOnlyTwitterApi().timelineOperations().getRetweets(tweet.getId());
+        final List<String> usersWhoRetweeted = Lists.transform(retweetsOfThisTweet, new Function<Tweet, String>() {
+            @Override
+            public final String apply(final Tweet input) {
+                return input.getFromUser();
+            }
+        });
+        for (final MentionEntity mention : mentions) {
+            processMention(twitterAccount, usersWhoRetweeted, mention);
+        }
+    }
+
+    private void processMention(final String twitterAccount, final List<String> usersWhoRetweeted, final MentionEntity mention) {
+        final String key = "interaction." + twitterAccount + "." + mention.getScreenName();
+
+        final KeyVal interactionStatus = getOrCreateCurrentInteractionStatus(key);
+
+        if (usersWhoRetweeted.contains(mention.getScreenName())) {
+            processPositiveInteraction(twitterAccount, mention, interactionStatus);
         } else {
-            lastIdKeyVal.setValue(lastIdRetrieved.toString());
-            keyValueApi.save(lastIdKeyVal);
+            processNegativeInteraction(twitterAccount, mention, interactionStatus);
         }
+    }
 
-        System.out.println(lastIdRetrieved);
+    private final KeyVal getOrCreateCurrentInteractionStatus(final String key) {
+        KeyVal interactionStatus = keyValueApi.findByKey(key);
+        if (interactionStatus == null) {
+            interactionStatus = keyValueApi.save(new KeyVal(key, "0"));
+        }
+        return interactionStatus;
+    }
+
+    private final void processPositiveInteraction(final String twitterAccount, final MentionEntity mention, final KeyVal interactionStatus) {
+        Integer currentInteractionValue = Integer.valueOf(interactionStatus.getValue());
+        if (currentInteractionValue <= 0) {
+            currentInteractionValue = 1;
+        } else {
+            currentInteractionValue += 1;
+        }
+        interactionStatus.setValue(currentInteractionValue.toString());
+
+        keyValueApi.save(interactionStatus);
+
+        logger.info("Good interaction found on twitterAccount= {}, with= {}", twitterAccount, mention.getScreenName());
+    }
+
+    private final void processNegativeInteraction(final String twitterAccount, final MentionEntity mention, final KeyVal interactionStatus) {
+        Integer currentInteractionValue = Integer.valueOf(interactionStatus.getValue());
+        currentInteractionValue -= 1;
+        interactionStatus.setValue(currentInteractionValue.toString());
+
+        keyValueApi.save(interactionStatus);
+
+        logger.debug("No interaction found on twitterAccount= {}, with= {}", twitterAccount, mention.getScreenName());
     }
 
     private List<Tweet> getTweetsToAnalyize(final String twitterAccount) {
@@ -141,6 +151,18 @@ public class InteractionHistoryPoller {
             final long lastTweetId = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 1).get(0).getId();
 
             return twitterReadLiveService.readOnlyTwitterApi(twitterAccount).timelineOperations().getUserTimeline(200, sinceId, lastTweetId);
+        }
+    }
+
+    private final void createOrUpdateLastId(final String twitterAccount, final List<Tweet> tweetsToAnalyze) {
+        final String lastIdKey = "interaction." + twitterAccount + ".lastId";
+        final Long lastIdRetrieved = tweetsToAnalyze.get(0).getId();
+        final KeyVal lastIdKeyVal = keyValueApi.findByKey(lastIdKey);
+        if (lastIdKeyVal == null) {
+            keyValueApi.save(new KeyVal(lastIdKey, lastIdRetrieved.toString()));
+        } else {
+            lastIdKeyVal.setValue(lastIdRetrieved.toString());
+            keyValueApi.save(lastIdKeyVal);
         }
     }
 

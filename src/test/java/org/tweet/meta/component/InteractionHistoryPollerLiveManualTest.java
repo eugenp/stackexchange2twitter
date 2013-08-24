@@ -45,7 +45,7 @@ public class InteractionHistoryPollerLiveManualTest {
 
     @Test
     public final void whenUpdatingInteractionHistoryOfOneAccount_thenNoExceptions() {
-        interactionHistoryPoller.checkAndUpdateHistoryOnAccount(TwitterAccountEnum.BestOfLinux.name());
+        interactionHistoryPoller.checkAndUpdateHistoryOnAccount(TwitterAccountEnum.LandOfWordpress.name());
     }
 
     @Test
