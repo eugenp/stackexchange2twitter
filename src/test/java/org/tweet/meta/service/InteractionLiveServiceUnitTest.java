@@ -55,26 +55,26 @@ public final class InteractionLiveServiceUnitTest {
 
     @Test
     public final void givenInteractionHistoryScenario1_whenCalculatingNewScore_thenCorrect() {
-        final double modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -1);
-        assertThat(modifiedValueBasedOnHistory, equalTo(45.0));
+        final float modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -1);
+        assertThat(modifiedValueBasedOnHistory, equalTo(45.0f));
     }
 
     @Test
     public final void givenInteractionHistoryScenario2_whenCalculatingNewScore_thenCorrect() {
-        final double modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -11);
-        assertThat(modifiedValueBasedOnHistory, equalTo(0.0));
+        final float modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -11);
+        assertThat(modifiedValueBasedOnHistory, equalTo(0.0f));
     }
 
     @Test
     public final void givenInteractionHistoryScenario3_whenCalculatingNewScore_thenCorrect() {
-        final double modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -7);
-        assertThat(modifiedValueBasedOnHistory, equalTo(15.0));
+        final float modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -7);
+        assertThat(modifiedValueBasedOnHistory, equalTo(15.0f));
     }
 
     @Test
     public final void givenInteractionHistoryScenario4_whenCalculatingNewScore_thenCorrect() {
-        final double modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, 5);
-        assertThat(modifiedValueBasedOnHistory, equalTo(75.0));
+        final float modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, 5);
+        assertThat(modifiedValueBasedOnHistory, equalTo(75.0f));
     }
 
     // best interaction - tweet

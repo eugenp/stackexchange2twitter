@@ -22,7 +22,7 @@ public final class TwitterUserSnapshot {
 
     // API
 
-    public final double getGoodRetweetPercentage() {
+    public final float getGoodRetweetPercentage() {
         return goodRetweetPercentage;
     }
 

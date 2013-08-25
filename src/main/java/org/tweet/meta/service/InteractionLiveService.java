@@ -146,7 +146,7 @@ public class InteractionLiveService {
 
         // determine the interaction
 
-        final double maxValueOfInteraction = NumberUtils.max(valueWithinMentions, valueOfMention, valueOfRetweet);
+        final float maxValueOfInteraction = NumberUtils.max(valueWithinMentions, valueOfMention, valueOfRetweet);
         if (maxValueOfInteraction == valueWithinMentions) { // tweet as is - already contains valuable mentions
             logger.debug("Best value in interacting with the MENTIONS inside the tweet via a TWEET; tweet= {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
             return new TwitterInteractionWithValue(TwitterInteraction.None, valueWithinMentions);
@@ -244,19 +244,19 @@ public class InteractionLiveService {
      * Minor Requirements for considering an interaction with this account valuable
      */
     private final boolean passEliminatoryChecksBasedOnUserStats(final TwitterUserSnapshot userSnapshot, final String userHandleForLog) {
-        final double goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage();
+        final float goodRetweetPercentage = userSnapshot.getGoodRetweetPercentage();
         if (goodRetweetPercentage < twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of retweets is to small= {}%", userHandleForLog, goodRetweetPercentage);
             return false;
         }
 
-        final double mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage();
+        final float mentionsOutsideOfRetweetsPercentage = userSnapshot.getMentionsOutsideOfRetweetsPercentage();
         if (goodRetweetPercentage + mentionsOutsideOfRetweetsPercentage < twitterInteractionValuesRetriever.getMinRetweetsPlusMentionsOfValuableUser()) {
             logger.info("Should not interact with user= {} \n- reason: the number of retweets+mentions percentage is to small= {}%", userHandleForLog, (goodRetweetPercentage + mentionsOutsideOfRetweetsPercentage));
             return false;
         }
 
-        final double retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage();
+        final float retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage();
         if (retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage < twitterInteractionValuesRetriever.getMinSmallAccountRetweetsPercentage()) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of good retweets of small accounts is simply to low= {}%", userHandleForLog, retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage);
             return false;
