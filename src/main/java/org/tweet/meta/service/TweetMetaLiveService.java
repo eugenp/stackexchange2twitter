@@ -212,14 +212,14 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         Collections.sort(valuesAndTweets, new Comparator<Pair<TwitterInteractionWithValue, Tweet>>() {
             @Override
             public final int compare(final Pair<TwitterInteractionWithValue, Tweet> o1, final Pair<TwitterInteractionWithValue, Tweet> o2) {
-                return Integer.compare(o2.getLeft().getVal(), o1.getLeft().getVal());
+                return Double.compare(o2.getLeft().getVal(), o1.getLeft().getVal());
             }
         });
 
         // slightly adjust the RT counts by adding some fraction of the overall value
         for (final Pair<TwitterInteractionWithValue, Tweet> interactionAndTweet : valuesAndTweets) {
             final Tweet theTweet = interactionAndTweet.getValue();
-            final int newRtCount = theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 7;
+            final int newRtCount = (int) (theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 7);
             theTweet.setRetweetCount(newRtCount);
         }
 

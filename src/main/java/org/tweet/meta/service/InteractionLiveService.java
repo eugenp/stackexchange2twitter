@@ -81,7 +81,7 @@ public class InteractionLiveService {
 
         final TwitterUserSnapshot userSnapshot = analyzeUserInteractionsLive(user, userHandle);
 
-        final List<Integer> valueOfMentions = analyzeValueOfMentionsLiveNew(tweet.getText());
+        final List<Double> valueOfMentions = analyzeValueOfMentionsLiveNew(tweet.getText());
 
         final boolean tweetAlreadyMentionsTheAuthor = text.contains("@" + tweet.getFromUser());
 
@@ -92,10 +92,10 @@ public class InteractionLiveService {
 
         // 2. THE SCORES
 
-        int valueWithinMentions = valueOfMentions(valueOfMentions);
-        int valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
-        int valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
-        logger.error("(report)With the new algorithm: value of mention= {}; value of retweet= {}", valueOfMention, valueOfRetweet);
+        double valueWithinMentions = valueOfMentions(valueOfMentions);
+        double valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
+        double valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
+        logger.error("(report) Value of: mention= {};  retweet= {} - account= {}", valueOfMention, valueOfRetweet, twitterAccount);
 
         // + scores (augment scores with some uumf based on how popular the tweet was to begin with)
         final int addToScoreBasedOnHowPopularTheRetweetIs = (int) Math.log(tweet.getRetweetCount() * tweet.getRetweetCount());
@@ -108,14 +108,13 @@ public class InteractionLiveService {
         final String keyOfAuthorInteractionHistory = "interaction." + twitterAccount + "." + author;
         final KeyVal authorInteractionHistory = keyValApi.findByKey(keyOfAuthorInteractionHistory);
         if (authorInteractionHistory != null) {
-            final int valueOfAuthorInteraction = Integer.valueOf(authorInteractionHistory.getValue()) * 2;
-            logger.info("Based on the interaction history with twitterAccount= {}, decreasing all values with= {}", tweet.getFromUser(), valueOfAuthorInteraction);
+            final int valueOfAuthorInteraction = Integer.valueOf(authorInteractionHistory.getValue());
+            logger.info("Based on the interaction history with twitterAccount= {}, all values are modified with= {}", tweet.getFromUser(), valueOfAuthorInteraction);
 
-            valueWithinMentions += valueOfAuthorInteraction;
-            valueOfMention += valueOfAuthorInteraction;
-            valueOfRetweet += valueOfAuthorInteraction;
+            // valueWithinMentions is not affected
+            valueOfMention = modifyValueBasedOnHistory(valueOfMention, valueOfAuthorInteraction);
+            valueOfRetweet = modifyValueBasedOnHistory(valueOfRetweet, valueOfAuthorInteraction);
         }
-        valueWithinMentions = Math.max(0, valueWithinMentions);
         valueOfMention = Math.max(0, valueOfMention);
         valueOfRetweet = Math.max(0, valueOfRetweet);
 
@@ -147,7 +146,7 @@ public class InteractionLiveService {
 
         // determine the interaction
 
-        final int maxValueOfInteraction = NumberUtils.max(valueWithinMentions, valueOfMention, valueOfRetweet);
+        final double maxValueOfInteraction = NumberUtils.max(valueWithinMentions, valueOfMention, valueOfRetweet);
         if (maxValueOfInteraction == valueWithinMentions) { // tweet as is - already contains valuable mentions
             logger.debug("Best value in interacting with the MENTIONS inside the tweet via a TWEET; tweet= {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
             return new TwitterInteractionWithValue(TwitterInteraction.None, valueWithinMentions);
@@ -169,8 +168,8 @@ public class InteractionLiveService {
     /**
      * - live
      */
-    private final List<Integer> analyzeValueOfMentionsLiveNew(final String text) {
-        final List<Integer> mentionsAnalyzed = Lists.newArrayList();
+    private final List<Double> analyzeValueOfMentionsLiveNew(final String text) {
+        final List<Double> mentionsAnalyzed = Lists.newArrayList();
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
             final TwitterInteractionWithValue interactionWithAuthor = determineBestInteractionWithAuthorLive(mentionedUser);
@@ -183,15 +182,23 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    private final int valueOfMentions(final List<Integer> valueOfMentions) {
-        int score = 0;
-        for (final Integer valueOfPotentialMention : valueOfMentions) {
+    private final double valueOfMentions(final List<Double> valueOfMentions) {
+        double score = 0;
+        for (final double valueOfPotentialMention : valueOfMentions) {
             score += valueOfPotentialMention;
         }
         return score;
     }
 
     // util
+
+    final double modifyValueBasedOnHistory(final double valueToModify, final int valueOfAuthorInteraction) {
+        if (valueOfAuthorInteraction < -9) {
+            return 0;
+        }
+
+        return valueToModify + (valueOfAuthorInteraction * 10.0 * valueToModify / 100.0);
+    }
 
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
@@ -250,7 +257,7 @@ public class InteractionLiveService {
         }
 
         final int retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage();
-        if (retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage > twitterInteractionValuesRetriever.getMinSmallAccountRetweetsPercentage()) {
+        if (retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage < twitterInteractionValuesRetriever.getMinSmallAccountRetweetsPercentage()) {
             logger.info("Should not interact with user= {} \n- reason: the percentage of good retweets of small accounts is simply to low= {}%", userHandleForLog, retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage);
             return false;
         }
@@ -275,8 +282,8 @@ public class InteractionLiveService {
     }
 
     final TwitterInteractionWithValue decideAndScoreBestInteractionWithUser(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
-        final int mentionScore = calculateUserMentionInteractionScore(userSnapshot, user);
-        final int retweetScore = calculateUserRetweetInteractionScore(userSnapshot, user);
+        final double mentionScore = calculateUserMentionInteractionScore(userSnapshot, user);
+        final double retweetScore = calculateUserRetweetInteractionScore(userSnapshot, user);
 
         final int retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage = userSnapshot.getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage();
         if (retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage < 1) { // if they don't retweet any accounts they don't follow - no dice
@@ -313,7 +320,7 @@ public class InteractionLiveService {
      *  - probability=4%  value= ln(10 000) = 9.21  => score= 400 <br/>
      *  - probability=1%  value= ln(75 000) = 11.22 => score= 750 <br/>
      */
-    final int calculateUserMentionInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
+    final double calculateUserMentionInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
         // 1. the data - likelihood
 
         final int retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage();
@@ -331,29 +338,34 @@ public class InteractionLiveService {
         }
 
         // the calculation
+        // - note: the final value of a back interaction is correct, but we decrease it here a bit (ln(300) = 5.x)
+        final double valueOfInteractionPartOfScore = Math.log(finalValueOfBackInteraction);
 
-        final int mentionScore = (int) (finalValueOfBackInteraction * finalProbabilityOfBackInteraction * 4);
+        final double mentionScore = valueOfInteractionPartOfScore * finalProbabilityOfBackInteraction * 4.0;
         return mentionScore;
     }
 
-    final int calculateUserRetweetInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
+    final double calculateUserRetweetInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
         // 1. the data - likelihood
 
         final int retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage();
-        final double finalProbabilityOfBackInteraction = retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage / 7.0;
+        final double finalProbabilityOfBackInteraction = Math.log(retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage);
 
         // 2. the data - value
 
         // the follower count of the user should increase the overall interaction score (not by much, but still)
-        final int finalValueOfBackInteraction;
+        final double finalValueOfBackInteraction;
         if (user.getFollowersCount() > 0) {
-            finalValueOfBackInteraction = (int) Math.log(user.getFollowersCount());
+            finalValueOfBackInteraction = Math.log(user.getFollowersCount());
         } else {
             finalValueOfBackInteraction = 0;
         }
 
         // the calculation
-        final int retweetScore = (int) (finalValueOfBackInteraction * finalProbabilityOfBackInteraction);
+        // - note: the final value of a back interaction is correct, but we decrease it here a bit (ln(300) = 5.x)
+        final double valueOfInteractionPartOfScore = Math.log(finalValueOfBackInteraction);
+
+        final double retweetScore = valueOfInteractionPartOfScore * finalProbabilityOfBackInteraction;
         return retweetScore;
     }
 

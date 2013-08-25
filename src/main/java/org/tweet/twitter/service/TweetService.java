@@ -118,7 +118,7 @@ public class TweetService {
         if (tweet.getUser() != null && !tweet.getUser().getLanguage().equals("en")) {
             // `de` may be OK
             // temporary error
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because the user has language= {}", tweet, hashtag, tweet.getUser().getLanguage());
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because the user has language= {}", TweetUtil.getText(tweet), hashtag, tweet.getUser().getLanguage());
             return false;
         }
 

@@ -51,6 +51,32 @@ public final class InteractionLiveServiceUnitTest {
         assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
     }
 
+    // interaction history
+
+    @Test
+    public final void givenInteractionHistoryScenario1_whenCalculatingNewScore_thenCorrect() {
+        final double modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -1);
+        assertThat(modifiedValueBasedOnHistory, equalTo(45.0));
+    }
+
+    @Test
+    public final void givenInteractionHistoryScenario2_whenCalculatingNewScore_thenCorrect() {
+        final double modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -11);
+        assertThat(modifiedValueBasedOnHistory, equalTo(0.0));
+    }
+
+    @Test
+    public final void givenInteractionHistoryScenario3_whenCalculatingNewScore_thenCorrect() {
+        final double modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, -7);
+        assertThat(modifiedValueBasedOnHistory, equalTo(15.0));
+    }
+
+    @Test
+    public final void givenInteractionHistoryScenario4_whenCalculatingNewScore_thenCorrect() {
+        final double modifiedValueBasedOnHistory = instance.modifyValueBasedOnHistory(50, 5);
+        assertThat(modifiedValueBasedOnHistory, equalTo(75.0));
+    }
+
     // best interaction - tweet
 
     // public final void givenTweetHasNoValuableMentions_whenDecidingInteractionWithTweet_thenRetweet() {

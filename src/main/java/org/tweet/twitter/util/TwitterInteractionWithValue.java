@@ -1,10 +1,10 @@
 package org.tweet.twitter.util;
 
 public final class TwitterInteractionWithValue {
-    private final int val;
+    private final double val;
     private final TwitterInteraction twitterInteraction;
 
-    public TwitterInteractionWithValue(final TwitterInteraction twitterInteraction, final int val) {
+    public TwitterInteractionWithValue(final TwitterInteraction twitterInteraction, final double val) {
         super();
 
         this.twitterInteraction = twitterInteraction;
@@ -13,7 +13,7 @@ public final class TwitterInteractionWithValue {
 
     // API
 
-    public final int getVal() {
+    public final double getVal() {
         return val;
     }
 
