@@ -95,6 +95,7 @@ public class InteractionLiveService {
         int valueWithinMentions = valueOfMentions(valueOfMentions);
         int valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
         int valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
+        logger.error("(report)With the new algorithm: value of mention= {}; value of retweet= {}", valueOfMention, valueOfRetweet);
 
         // + scores (augment scores with some uumf based on how popular the tweet was to begin with)
         final int addToScoreBasedOnHowPopularTheRetweetIs = (int) Math.log(tweet.getRetweetCount() * tweet.getRetweetCount());
@@ -305,10 +306,10 @@ public class InteractionLiveService {
 
     /**
      * <b>SCORING</b> <br/>
-     * - <b>probability of a retweet</b> <br/>
+     * - <b>probability of a retweet</b> = 80% <br/>
      *  -- how many good retweets of non-large accounts <br/>
      *  -- how many retweets of self mentions <br/>
-     * - <b>value of the retweet</b> <br/>
+     * - <b>value of the retweet</b> = 20% <br/>
      *  -- how many followers does the account have <br/>
      *  <br/>
      *  
@@ -318,7 +319,7 @@ public class InteractionLiveService {
      *  <br/>
      *  
      *  <b>FULL EXAMPLES</b> <br/>
-     *  - probability=10% value= ln(500)    = 6.21  => score=  50 <br/>
+     *  - probability=4% value= ln(500)    = 6.21  => score=  50 <br/>
      *  - probability=4%  value= ln(10 000) = 9.21  => score= 400 <br/>
      *  - probability=1%  value= ln(75 000) = 11.22 => score= 750 <br/>
      */
@@ -345,7 +346,7 @@ public class InteractionLiveService {
 
         // the calculation
 
-        final int mentionScore = (int) (finalValueOfBackInteraction * finalProbabilityOfBackInteraction * 3);
+        final int mentionScore = (int) (finalValueOfBackInteraction * finalProbabilityOfBackInteraction * 4);
         return mentionScore;
     }
 
