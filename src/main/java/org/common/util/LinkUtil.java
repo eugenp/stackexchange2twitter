@@ -19,7 +19,8 @@ public final class LinkUtil {
         "http://wp-plugin-archive.de",
         "http://www.blogging-inside.de", 
         "http://www.perun.net", 
-        "http://www.heyyou-app.com"
+        "http://www.heyyou-app.com", 
+        "http://www.freelancer.com", "https://www.freelancer.com"
     );// @formatter:on
 
     final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off

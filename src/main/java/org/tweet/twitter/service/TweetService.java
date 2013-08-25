@@ -109,9 +109,16 @@ public class TweetService {
             logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the no language", tweet, hashtag);
             return false;
         }
+
         if (!tweet.getLanguageCode().equals("en")) {
-            logger.info("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashtag, tweet.getLanguageCode());
+            logger.debug("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashtag, tweet.getLanguageCode());
             // info temporary - should be debug
+            return false;
+        }
+        if (tweet.getUser() != null && !tweet.getUser().getLanguage().equals("en")) {
+            // `de` may be OK
+            // temporary error
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because the user has language= {}", tweet, hashtag, tweet.getUser().getLanguage());
             return false;
         }
 

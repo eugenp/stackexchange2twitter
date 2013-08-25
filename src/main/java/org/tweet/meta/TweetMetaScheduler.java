@@ -43,8 +43,9 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 1
+        // 2
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
 
         logger.info("Finished retweet schedule - 01");
     }
@@ -61,7 +62,7 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 13
+        // 12
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
@@ -71,8 +72,6 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
 
@@ -92,7 +91,7 @@ public class TweetMetaScheduler {
 
         // service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCocoa.name()); // no
 
-        // 13
+        // 11
         service.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.iOSdigest.name());
@@ -101,12 +100,9 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.RegexDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.ObjectiveCDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
-
-        /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
-        /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
 
         logger.info("Finished retweet schedule - 2");
     }
@@ -120,7 +116,7 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 13
+        // 12
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfWordpress.name());
@@ -134,8 +130,6 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.CryptoFact.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.AndroidFact.name());
         // disabled for now - no results // service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
-
-        /*dup*/service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
 
         logger.info("Finished retweet schedule - 3");
     }
