@@ -184,6 +184,12 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingAboutSecurity_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.security.name());
+        assertTrue(success);
+    }
+
+    @Test
     public final void whenTweetingAboutSEO_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name(), TwitterTag.seo.name());
         assertTrue(success);
