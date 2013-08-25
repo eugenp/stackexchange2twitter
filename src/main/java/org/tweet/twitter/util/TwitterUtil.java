@@ -40,9 +40,10 @@ public final class TwitterUtil {
         "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
         "dumb", 
         "dance",
+        "chap", // trying it out
         "lucky", 
         "fpl", // fantasy player league
-        "win", // new
+        "win", "deals", "deal", "promo", // new
         "snake", // python snake...yes, it happened
         "islamic", "islam", "muslim", "muslims", "pakistan",
         "$3.99", "$2.99", "$1.99", "$0.99" 
@@ -66,9 +67,10 @@ public final class TwitterUtil {
         "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
         "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
         "Follow us on (Linkedin|Twitter|G+) .*", // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
-        ".*RT[ .!@\\-].*RT([ .!@\\-]|\\Z).*", // 2 RTs
-        ".*(?i)FREE[ .!@\\-].*RT([ .!@\\-]|\\Z).*",  // Free ... RT
-        ".*(f|F)ollow (&|and|AND) RT.*" // Follow & RT
+        ".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*", // 2 RTs
+        ".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*",  // Free ... RT
+        ".*(f|F)ollow (&|and|AND) R(T|t).*", // Follow & RT
+        ".*R(T|t) .* (f|F)ollow(ed)? .*" // RT this if you want me to follow you
     ); // @formatter:on
 
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off

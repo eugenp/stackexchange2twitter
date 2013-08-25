@@ -138,6 +138,21 @@ public final class TwitterUtilUnitTest {
         assertTrue(TwitterUtil.isTweetBanned("I have a big problem -need some help!"));
     }
 
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario17_thenRejected() {
+        assertTrue(TwitterUtil.isTweetBanned("RT this if you want me to follow you :) add me on #Facebook too https://t.co/j9YzugsgRo  x"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario18_thenRejected() {
+        assertTrue(TwitterUtil.isTweetBanned("RT if you want me to follow you :) add me on #Facebook too https://t.co/j9YzugsgRo  x"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario19_thenRejected() {
+        assertTrue(TwitterUtil.isTweetBanned("RT if you want to be followed :) add me on #Facebook too https://t.co/j9YzugsgRo  x"));
+    }
+
     // by regex - reject
 
     @Test

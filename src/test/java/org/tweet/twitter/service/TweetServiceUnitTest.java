@@ -96,6 +96,11 @@ public class TweetServiceUnitTest {
         assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#Google http://t.co/VmandYLIu4"));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario10_thenRejected() {
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("RT this if you want me to follow you :) add me on #Facebook too https://t.co/j9YzugsgRo  x"));
+    }
+
     // pre-process
 
     @Test
