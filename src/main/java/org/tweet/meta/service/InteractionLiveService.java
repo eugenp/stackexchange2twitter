@@ -303,6 +303,25 @@ public class InteractionLiveService {
         return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
     }
 
+    /**
+     * <b>SCORING</b> <br/>
+     * - <b>probability of a retweet</b> <br/>
+     *  -- how many good retweets of non-large accounts <br/>
+     *  -- how many retweets of self mentions <br/>
+     * - <b>value of the retweet</b> <br/>
+     *  -- how many followers does the account have <br/>
+     *  <br/>
+     *  
+     *  <b>PROBABILITY EXAMPLES</b> <br/>
+     *  - good retweets of non-large accounts = 66% | retweets of self mentions = 8%  => 5.28 <br/>
+     *  - good retweets of non-large accounts = 50% | retweets of self mentions = 28%  => 14  <br/>
+     *  <br/>
+     *  
+     *  <b>FULL EXAMPLES</b> <br/>
+     *  - probability=10% value= ln(500)    = 6.21  => score=  50 <br/>
+     *  - probability=4%  value= ln(10 000) = 9.21  => score= 400 <br/>
+     *  - probability=1%  value= ln(75 000) = 11.22 => score= 750 <br/>
+     */
     final int calculateUserMentionInteractionScore(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
         // 1. the data - likelihood
 
@@ -312,20 +331,21 @@ public class InteractionLiveService {
         // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
 
         final int retweetsOfSelfMentionsPercentage = userSnapshot.getRetweetsOfSelfMentionsPercentage();
+        final double finalProbabilityOfBackInteraction = retweetsOfSelfMentionsPercentage * goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage / 100.0;
 
         // 2. the data - value
 
-        // the follower count of the user should increase the overall interaction score (not by much, but still)
-        final int addFollowersCountToMentionScore;
+        // the follower count of the user should increase the overall interaction score
+        final double finalValueOfBackInteraction;
         if (user.getFollowersCount() > 0) {
-            addFollowersCountToMentionScore = (int) Math.log(user.getFollowersCount());
+            finalValueOfBackInteraction = Math.log(user.getFollowersCount());
         } else {
-            addFollowersCountToMentionScore = 0;
+            finalValueOfBackInteraction = 0;
         }
 
         // the calculation
 
-        final int mentionScore = goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage + (retweetsOfSelfMentionsPercentage * 3) + addFollowersCountToMentionScore;
+        final int mentionScore = (int) (finalValueOfBackInteraction * finalProbabilityOfBackInteraction * 3);
         return mentionScore;
     }
 
@@ -336,21 +356,20 @@ public class InteractionLiveService {
         final int retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage(); // this also doesn't decide anything about how to best interact with the account
         final int goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage = goodRetweetPercentage - (retweetsOfLargeAccountsOutOfAllGoodRetweetsPercentage * goodRetweetPercentage / 100);
         // ex: good = 12%; large = 60%; good and not large = 12 - (60*12/100)
+        final double finalProbabilityOfBackInteraction = goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage / 7.0;
 
         // 2. the data - value
 
         // the follower count of the user should increase the overall interaction score (not by much, but still)
-        final int addFollowersCountToScore;
+        final int finalValueOfBackInteraction;
         if (user.getFollowersCount() > 0) {
-            addFollowersCountToScore = (int) Math.log(user.getFollowersCount());
+            finalValueOfBackInteraction = (int) Math.log(user.getFollowersCount());
         } else {
-            addFollowersCountToScore = 0;
+            finalValueOfBackInteraction = 0;
         }
-        final int addPartOfFollowerCountToRetweetScore = addFollowersCountToScore * twitterInteractionValuesRetriever.getRetweetScoreFollowersPercentage() / 100;
 
         // the calculation
-
-        final int retweetScore = (goodRetweetsOfNonLargeAccountsOutOfAllGoodRetweetsPercentage * 75 / 100) + addPartOfFollowerCountToRetweetScore;
+        final int retweetScore = (int) (finalValueOfBackInteraction * finalProbabilityOfBackInteraction);
         return retweetScore;
     }
 
