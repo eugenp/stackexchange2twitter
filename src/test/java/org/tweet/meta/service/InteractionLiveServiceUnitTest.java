@@ -25,7 +25,7 @@ public final class InteractionLiveServiceUnitTest {
         instance.tweetMentionService = mock(TweetMentionService.class);
 
         instance.twitterInteractionValuesRetriever = mock(TwitterInteractionValuesRetriever.class);
-        when(instance.twitterInteractionValuesRetriever.getMaxLargeAccountRetweetsPercentage()).thenReturn(90);
+        when(instance.twitterInteractionValuesRetriever.getMinSmallAccountRetweetsPercentage()).thenReturn(90);
         when(instance.twitterInteractionValuesRetriever.getMaxRetweetsForTweet()).thenReturn(15);
         when(instance.twitterInteractionValuesRetriever.getMinFolowersOfValuableUser()).thenReturn(300);
         when(instance.twitterInteractionValuesRetriever.getMinRetweetsPercentageOfValuableUser()).thenReturn(4);

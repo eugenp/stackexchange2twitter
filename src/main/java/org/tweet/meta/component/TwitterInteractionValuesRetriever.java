@@ -35,11 +35,11 @@ public class TwitterInteractionValuesRetriever {
     }
 
     /**
-     * - twitter.value.user.largeaccountretweets.percentage.max <br/>
-     * - default = 90%
+     * - twitter.value.user.smallaccountretweets.percentage.min <br/>
+     * - default = 10%
      */
-    public int getMaxLargeAccountRetweetsPercentage() {
-        return env.getProperty("twitter.value.user.largeaccountretweets.percentage.max", Integer.class);
+    public int getMinSmallAccountRetweetsPercentage() {
+        return env.getProperty("twitter.value.user.smallaccountretweets.percentage.min", Integer.class);
     }
 
     /**
