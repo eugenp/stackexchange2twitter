@@ -15,6 +15,7 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.spring.TwitterMetaConfig;
 import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
 import org.tweet.spring.TwitterConfig;
@@ -90,6 +91,13 @@ public final class InteractionLiveServiceLiveTest {
         final Tweet tweet = twitterReadLiveService.findOne(367675643120467968l);
         final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, "").getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
+    }
+
+    @Test
+    public final void whenDecidingBestInteractionWithTweet6_thenNone() {
+        final Tweet tweet = twitterReadLiveService.findOne(371618484087566336l);
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.BestOfCloud.name()).getTwitterInteraction();
+        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
 }

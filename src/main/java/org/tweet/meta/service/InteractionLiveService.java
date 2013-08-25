@@ -81,7 +81,7 @@ public class InteractionLiveService {
 
         final TwitterUserSnapshot userSnapshot = analyzeUserInteractionsLive(user, userHandle);
 
-        final List<Float> valueOfMentions = analyzeValueOfMentionsLiveNew(tweet.getText());
+        final List<Float> valueOfMentions = analyzeValueOfMentionsLive(tweet.getText(), twitterAccount);
 
         final boolean tweetAlreadyMentionsTheAuthor = text.contains("@" + tweet.getFromUser());
 
@@ -105,18 +105,8 @@ public class InteractionLiveService {
 
         // newest
         final String author = tweet.getFromUser();
-        final String keyOfAuthorInteractionHistory = "interaction." + twitterAccount + "." + author;
-        final KeyVal authorInteractionHistory = keyValApi.findByKey(keyOfAuthorInteractionHistory);
-        if (authorInteractionHistory != null) {
-            final int valueOfAuthorInteraction = Integer.valueOf(authorInteractionHistory.getValue());
-            logger.info("Based on the interaction history with twitterAccount= {}, all values are modified with= {}", tweet.getFromUser(), valueOfAuthorInteraction);
-
-            // valueWithinMentions is not affected
-            valueOfMention = modifyValueBasedOnHistory(valueOfMention, valueOfAuthorInteraction);
-            valueOfRetweet = modifyValueBasedOnHistory(valueOfRetweet, valueOfAuthorInteraction);
-        }
-        valueOfMention = Math.max(0, valueOfMention);
-        valueOfRetweet = Math.max(0, valueOfRetweet);
+        valueOfMention = modifyValueBasedOnHistory(author, twitterAccount, valueOfMention);
+        valueOfRetweet = modifyValueBasedOnHistory(author, twitterAccount, valueOfRetweet);
 
         // new
         boolean foundDiscouraged = false;
@@ -168,11 +158,11 @@ public class InteractionLiveService {
     /**
      * - live
      */
-    private final List<Float> analyzeValueOfMentionsLiveNew(final String text) {
+    private final List<Float> analyzeValueOfMentionsLive(final String text, final String twitterAccount) {
         final List<Float> mentionsAnalyzed = Lists.newArrayList();
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
-            final TwitterInteractionWithValue interactionWithAuthor = determineBestInteractionWithAuthorLive(mentionedUser);
+            final TwitterInteractionWithValue interactionWithAuthor = determineBestInteractionWithAuthorLive(mentionedUser, twitterAccount);
             mentionsAnalyzed.add(interactionWithAuthor.getVal());
         }
 
@@ -204,16 +194,16 @@ public class InteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    final TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final String userHandle) {
+    final TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final String userHandle, final String twitterAccount) {
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
-        return decideBestInteractionWithAuthorLive(user, userHandle);
+        return decideBestInteractionWithAuthorLive(user, userHandle, twitterAccount);
     }
 
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    TwitterInteractionWithValue decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle) {
+    TwitterInteractionWithValue decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle, final String twitterAccount) {
         if (!passEliminatoryChecksBasedOnUser(user)) {
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
@@ -223,7 +213,7 @@ public class InteractionLiveService {
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
 
-        return decideAndScoreBestInteractionWithUser(userSnapshot, user);
+        return decideAndScoreBestInteractionWithUser(userSnapshot, user, twitterAccount);
     }
 
     private final boolean passEliminatoryChecksBasedOnUser(final TwitterProfile user) {
@@ -281,10 +271,16 @@ public class InteractionLiveService {
         return true;
     }
 
-    final TwitterInteractionWithValue decideAndScoreBestInteractionWithUser(final TwitterUserSnapshot userSnapshot, final TwitterProfile user) {
-        final float mentionScore = calculateUserMentionInteractionScore(userSnapshot, user);
-        final float retweetScore = calculateUserRetweetInteractionScore(userSnapshot, user);
+    final TwitterInteractionWithValue decideAndScoreBestInteractionWithUser(final TwitterUserSnapshot userSnapshot, final TwitterProfile user, final String twitterAccount) {
+        float mentionScore = calculateUserMentionInteractionScore(userSnapshot, user);
+        float retweetScore = calculateUserRetweetInteractionScore(userSnapshot, user);
 
+        // newest
+        final String author = user.getScreenName();
+        mentionScore = modifyValueBasedOnHistory(author, twitterAccount, mentionScore);
+        retweetScore = modifyValueBasedOnHistory(author, twitterAccount, retweetScore);
+
+        //
         final float retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage = userSnapshot.getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage();
         if (retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage < 1) { // if they don't retweet any accounts they don't follow - no dice
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
@@ -299,6 +295,21 @@ public class InteractionLiveService {
         } else {
             return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
         }
+    }
+
+    private final float modifyValueBasedOnHistory(final String author, final String twitterAccount, final float valueToModify) {
+        float result = valueToModify;
+        final String keyOfAuthorInteractionHistory = "interaction." + twitterAccount + "." + author;
+        final KeyVal authorInteractionHistory = keyValApi.findByKey(keyOfAuthorInteractionHistory);
+        if (authorInteractionHistory != null) {
+            final int valueOfAuthorInteraction = Integer.valueOf(authorInteractionHistory.getValue());
+            logger.info("Based on the interaction history with twitterAccount= {}, all values are modified with= {}", author, valueOfAuthorInteraction);
+
+            // valueWithinMentions is not affected
+            result = modifyValueBasedOnHistory(valueToModify, valueOfAuthorInteraction);
+        }
+        result = Math.max(0, result);
+        return result;
     }
 
     /**
@@ -346,7 +357,7 @@ public class InteractionLiveService {
             valueOfInteractionPartOfScore = (float) Math.log(finalValueOfBackInteraction);
         }
 
-        final float mentionScore = valueOfInteractionPartOfScore * finalProbabilityOfBackInteraction * 4.0f;
+        final float mentionScore = valueOfInteractionPartOfScore * finalProbabilityOfBackInteraction * 3.0f;
         return mentionScore;
     }
 

@@ -31,7 +31,7 @@ public final class InteractionLiveServiceMockUnitTest {
 
         when(this.instance.twitterInteractionValuesRetriever.getPagesToAnalyze()).thenReturn(1);
         when(this.instance.twitterInteractionValuesRetriever.getMaxRetweetsForTweet()).thenReturn(15);
-        when(this.instance.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.None, 0));
+        when(this.instance.decideBestInteractionWithAuthorLive(any(TwitterProfile.class), anyString(), anyString())).thenReturn(new TwitterInteractionWithValue(TwitterInteraction.None, 0));
     }
 
     // tests
