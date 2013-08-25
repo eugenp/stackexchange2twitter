@@ -28,7 +28,9 @@ public final class TweetFixture {
     }
 
     public static TwitterProfile createTwitterProfile() {
-        return new TwitterProfile(0l, randomAlphabetic(6), randomAlphabetic(6), null, null, null, null, new Date());
+        final TwitterProfile twitterProfile = new TwitterProfile(0l, randomAlphabetic(6), randomAlphabetic(6), null, null, null, null, new Date());
+        ReflectionTestUtils.setField(twitterProfile, "followersCount", 500);
+        return twitterProfile;
     }
 
 }

@@ -294,7 +294,7 @@ public class InteractionLiveService {
             return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
         }
 
-        if (mentionScore >= retweetScore) {
+        if (mentionScore > retweetScore) {
             return new TwitterInteractionWithValue(TwitterInteraction.Mention, mentionScore);
         } else {
             return new TwitterInteractionWithValue(TwitterInteraction.Retweet, retweetScore);
@@ -339,7 +339,12 @@ public class InteractionLiveService {
 
         // the calculation
         // - note: the final value of a back interaction is correct, but we decrease it here a bit (ln(300) = 5.x)
-        final float valueOfInteractionPartOfScore = (float) Math.log(finalValueOfBackInteraction);
+        final float valueOfInteractionPartOfScore;
+        if (finalValueOfBackInteraction == 0) {
+            valueOfInteractionPartOfScore = 0;
+        } else {
+            valueOfInteractionPartOfScore = (float) Math.log(finalValueOfBackInteraction);
+        }
 
         final float mentionScore = valueOfInteractionPartOfScore * finalProbabilityOfBackInteraction * 4.0f;
         return mentionScore;
@@ -363,7 +368,12 @@ public class InteractionLiveService {
 
         // the calculation
         // - note: the final value of a back interaction is correct, but we decrease it here a bit (ln(300) = 5.x)
-        final float valueOfInteractionPartOfScore = (float) Math.log(finalValueOfBackInteraction);
+        final float valueOfInteractionPartOfScore;
+        if (finalValueOfBackInteraction == 0) {
+            valueOfInteractionPartOfScore = 0;
+        } else {
+            valueOfInteractionPartOfScore = (float) Math.log(finalValueOfBackInteraction);
+        }
 
         final float retweetScore = valueOfInteractionPartOfScore * finalProbabilityOfBackInteraction;
         return retweetScore;
