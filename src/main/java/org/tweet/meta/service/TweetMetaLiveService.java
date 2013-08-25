@@ -217,9 +217,10 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         // slightly adjust the RT counts by adding some fraction of the overall value
+        // rule of thumb: 25 should cover minRt/2 =>
         for (final Pair<TwitterInteractionWithValue, Tweet> interactionAndTweet : valuesAndTweets) {
             final Tweet theTweet = interactionAndTweet.getValue();
-            final int newRtCount = (int) (theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 7);
+            final int newRtCount = (int) (theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / (25f * 2f / minRt));
             theTweet.setRetweetCount(newRtCount);
         }
 

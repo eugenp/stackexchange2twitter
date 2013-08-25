@@ -354,8 +354,12 @@ public class InteractionLiveService {
         // 1. the data - likelihood
 
         final float retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage = userSnapshot.getRetweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage();
-        final float finalProbabilityOfBackInteraction = (float) Math.log(retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage);
-
+        final float finalProbabilityOfBackInteraction;
+        if (retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage == 0) {
+            finalProbabilityOfBackInteraction = 0;
+        } else {
+            finalProbabilityOfBackInteraction = (float) Math.log(retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage);
+        }
         // 2. the data - value
 
         // the follower count of the user should increase the overall interaction score (not by much, but still)
