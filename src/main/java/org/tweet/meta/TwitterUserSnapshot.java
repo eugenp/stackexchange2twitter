@@ -2,14 +2,14 @@ package org.tweet.meta;
 
 public final class TwitterUserSnapshot {
 
-    private final int mentionsOutsideOfRetweetsPercentage;
-    private final int goodRetweetPercentage;
-    private final int retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage;
-    private final int retweetsOfSelfMentionsPercentage;
-    private final int retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage;
+    private final double mentionsOutsideOfRetweetsPercentage;
+    private final double goodRetweetPercentage;
+    private final double retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage;
+    private final double retweetsOfSelfMentionsPercentage;
+    private final double retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage;
 
-    public TwitterUserSnapshot(final int goodRetweetPercentage, final int retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage, final int retweetsOfSelfMentionsPercentage, final int mentionsOutsideOfRetweetsPercentage,
-            final int retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage) {
+    public TwitterUserSnapshot(final double goodRetweetPercentage, final double retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage, final double retweetsOfSelfMentionsPercentage, final double mentionsOutsideOfRetweetsPercentage,
+            final double retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage) {
         super();
 
         this.goodRetweetPercentage = goodRetweetPercentage;
@@ -22,26 +22,26 @@ public final class TwitterUserSnapshot {
 
     // API
 
-    public final int getGoodRetweetPercentage() {
+    public final double getGoodRetweetPercentage() {
         return goodRetweetPercentage;
     }
 
     /**
      * - note that this relative to the total number of good retweets
      */
-    public final int getRetweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage() {
+    public final double getRetweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage() {
         return retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage;
     }
 
-    public final int getRetweetsOfSelfMentionsPercentage() {
+    public final double getRetweetsOfSelfMentionsPercentage() {
         return retweetsOfSelfMentionsPercentage;
     }
 
-    public final int getMentionsOutsideOfRetweetsPercentage() {
+    public final double getMentionsOutsideOfRetweetsPercentage() {
         return mentionsOutsideOfRetweetsPercentage;
     }
 
-    public final int getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage() {
+    public final double getRetweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage() {
         return retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage;
     }
 
