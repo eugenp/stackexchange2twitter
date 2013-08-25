@@ -81,7 +81,7 @@ public class InteractionLiveService {
 
         final TwitterUserSnapshot userSnapshot = analyzeUserInteractionsLive(user, userHandle);
 
-        final List<TwitterInteractionWithValue> valueOfMentions = analyzeValueOfMentionsLive(tweet.getText());
+        final List<Integer> valueOfMentions = analyzeValueOfMentionsLiveNew(tweet.getText());
 
         final boolean tweetAlreadyMentionsTheAuthor = text.contains("@" + tweet.getFromUser());
 
@@ -169,12 +169,12 @@ public class InteractionLiveService {
     /**
      * - live
      */
-    private final List<TwitterInteractionWithValue> analyzeValueOfMentionsLive(final String text) {
-        final List<TwitterInteractionWithValue> mentionsAnalyzed = Lists.newArrayList();
+    private final List<Integer> analyzeValueOfMentionsLiveNew(final String text) {
+        final List<Integer> mentionsAnalyzed = Lists.newArrayList();
         final List<String> mentions = tweetMentionService.extractMentions(text);
         for (final String mentionedUser : mentions) {
             final TwitterInteractionWithValue interactionWithAuthor = determineBestInteractionWithAuthorLive(mentionedUser);
-            mentionsAnalyzed.add(interactionWithAuthor);
+            mentionsAnalyzed.add(interactionWithAuthor.getVal());
         }
 
         return mentionsAnalyzed;
@@ -183,29 +183,24 @@ public class InteractionLiveService {
     /**
      * - local
      */
-    private final int valueOfMentions(final List<TwitterInteractionWithValue> valueOfMentions) {
+    private final int valueOfMentions(final List<Integer> valueOfMentions) {
         int score = 0;
-        for (final TwitterInteractionWithValue twitterInteractionWithValue : valueOfMentions) {
-            if (twitterInteractionWithValue.getTwitterInteraction().equals(TwitterInteraction.Mention)) {
-                // only mentions matter - retweets do have score, but this is calculating the value, IF the tweet is mentioned, so retweet doesn't come into this
-                score += twitterInteractionWithValue.getVal();
-            }
+        for (final Integer valueOfPotentialMention : valueOfMentions) {
+            score += valueOfPotentialMention;
         }
         return score;
     }
 
-    // - with author
+    // util
 
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    public final TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final String userHandle) {
+    final TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final String userHandle) {
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         return decideBestInteractionWithAuthorLive(user, userHandle);
     }
-
-    // util
 
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
