@@ -219,7 +219,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         // slightly adjust the RT counts by adding some fraction of the overall value
         for (final Pair<TwitterInteractionWithValue, Tweet> interactionAndTweet : valuesAndTweets) {
             final Tweet theTweet = interactionAndTweet.getValue();
-            final int newRtCount = theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 8;
+            final int newRtCount = theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / 7;
             theTweet.setRetweetCount(newRtCount);
         }
 

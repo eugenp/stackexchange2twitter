@@ -34,6 +34,21 @@ public class TweetMetaScheduler {
 
     // API
 
+    @Scheduled(cron = "0 10 14,18,22 * * *")
+    public void tweetMeta01() throws JsonProcessingException, IOException {
+        logger.info("Starting retweet schedule - 01");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 1
+        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+
+        logger.info("Finished retweet schedule - 01");
+    }
+
     // git - not 100% sure that hashtag will only return relevant tweets - look into this further
     // for accounts - not yet: BestBash,BestEclipse,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
 
