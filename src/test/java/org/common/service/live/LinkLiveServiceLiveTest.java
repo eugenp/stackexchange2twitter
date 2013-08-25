@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 
 import org.common.spring.CommonServiceConfig;
 import org.common.util.LinkUtil;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ public class LinkLiveServiceLiveTest {
     }
 
     @Test
+    @Ignore("tweet no longer exists")
     public final void whenCountingLinksToDomainInTweet1_thenFound() {
         final Tweet tweet = twitterReadLiveService.findOne(368703813277847552l);
         final int found = linkLiveService.countLinksToAnyDomain(tweet, LinkUtil.seDomains);
