@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.keyval.persistence.dao.IKeyValJpaDAO;
 import org.tweet.meta.TwitterUserSnapshot;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.test.TweetFixture;
@@ -25,6 +26,8 @@ public final class InteractionLiveServiceUnitTest {
         instance.tweetMentionService = mock(TweetMentionService.class);
 
         instance.twitterInteractionValuesRetriever = mock(TwitterInteractionValuesRetriever.class);
+        instance.keyValApi = mock(IKeyValJpaDAO.class);
+
         when(instance.twitterInteractionValuesRetriever.getMinSmallAccountRetweetsPercentage()).thenReturn(90);
         when(instance.twitterInteractionValuesRetriever.getMaxRetweetsForTweet()).thenReturn(15);
         when(instance.twitterInteractionValuesRetriever.getMinFolowersOfValuableUser()).thenReturn(300);

@@ -49,7 +49,7 @@ public class InteractionLiveService {
     DiscouragedExpressionRetriever discouragedExpressionRetriever;
 
     @Autowired
-    private IKeyValJpaDAO keyValApi;
+    IKeyValJpaDAO keyValApi;
 
     public InteractionLiveService() {
         super();
