@@ -198,7 +198,9 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             logger.error("(info-temp-error) To many - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
         }
         if (tweets.size() < 1) {
-            logger.error("(info-temp-error) To few - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
+            if (minRt > 2) {
+                logger.error("(info-temp-error) To few - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
+            }
         }
 
         //
