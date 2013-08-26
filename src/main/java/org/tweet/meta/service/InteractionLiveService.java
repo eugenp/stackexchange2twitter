@@ -95,7 +95,6 @@ public class InteractionLiveService {
         float valueWithinMentions = valueOfMentions(valueOfMentions);
         float valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
         float valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
-        logger.error("(report) Value of: mention= {};  retweet= {} - account= {}", valueOfMention, valueOfRetweet, twitterAccount);
 
         // + scores (augment scores with some uumf based on how popular the tweet was to begin with)
         final int addToScoreBasedOnHowPopularTheRetweetIs = (int) Math.log(tweet.getRetweetCount() * tweet.getRetweetCount());
@@ -357,7 +356,7 @@ public class InteractionLiveService {
             valueOfInteractionPartOfScore = (float) Math.log(finalValueOfBackInteraction);
         }
 
-        final float mentionScore = valueOfInteractionPartOfScore * finalProbabilityOfBackInteraction * 3.0f;
+        final float mentionScore = valueOfInteractionPartOfScore * finalProbabilityOfBackInteraction * 3.5f;
         return mentionScore;
     }
 
@@ -369,7 +368,7 @@ public class InteractionLiveService {
         if (retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage == 0) {
             finalProbabilityOfBackInteraction = 0;
         } else {
-            finalProbabilityOfBackInteraction = (float) Math.log(retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage);
+            finalProbabilityOfBackInteraction = (float) Math.log(retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage); // of course an guess - but with retweeting - there's no better option yet
         }
         // 2. the data - value
 

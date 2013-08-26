@@ -100,4 +100,11 @@ public final class InteractionLiveServiceLiveTest {
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
+    @Test
+    public final void whenDecidingBestInteractionWithTweet7_thenNone() {
+        final Tweet tweet = twitterReadLiveService.findOne(372034273286443008l);
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.BestOfCloud.name()).getTwitterInteraction();
+        assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
+    }
+
 }

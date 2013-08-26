@@ -1,11 +1,17 @@
 package org.tweet.twitter.util;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.social.twitter.api.Tweet;
 
+import com.google.common.collect.Lists;
+
 public final class TweetUtil {
     final static Logger logger = LoggerFactory.getLogger(TweetUtil.class);
+
+    public final static List<String> acceptedUserLang = Lists.newArrayList("en", "de");
 
     private TweetUtil() {
         throw new AssertionError();
