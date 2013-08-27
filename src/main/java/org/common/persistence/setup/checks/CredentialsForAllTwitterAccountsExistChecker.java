@@ -33,13 +33,13 @@ class CredentialsForAllTwitterAccountsExistChecker implements ApplicationListene
     @Override
     @Async
     public void onApplicationEvent(final AfterSetupEvent event) {
-        logger.info("Starting to execute the CredentialsForAllTwitterAccountsExistChecker Upgrader");
+        logger.info("Starting to execute the CredentialsForAllTwitterAccountsExistChecker Checker");
 
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             twitterTemplateCreator.createTwitterTemplate(twitterAccount.name());
         }
 
-        logger.info("Finished executing the CredentialsForAllTwitterAccountsExistChecker Upgrader");
+        logger.info("Finished executing the CredentialsForAllTwitterAccountsExistChecker Checker");
     }
 
 }
