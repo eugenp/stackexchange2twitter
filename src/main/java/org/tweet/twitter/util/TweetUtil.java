@@ -13,6 +13,8 @@ public final class TweetUtil {
 
     public final static List<String> acceptedUserLang = Lists.newArrayList("en", "de");
 
+    public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " @via @");
+
     private TweetUtil() {
         throw new AssertionError();
     }

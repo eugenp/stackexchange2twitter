@@ -10,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.stackexchange.util.GenericUtil;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.component.TwitterHashtagsRetriever;
+import org.tweet.twitter.util.TweetUtil;
 
 import com.google.api.client.util.Preconditions;
 
@@ -79,7 +81,8 @@ public class TweetMentionService {
         Preconditions.checkNotNull(authorUserToMention);
         Preconditions.checkNotNull(textWithoutMentionOfAuthor);
 
-        String withMention = textWithoutMentionOfAuthor + " - via @" + authorUserToMention;
+        final String mentionOption = GenericUtil.pickOneGeneric(TweetUtil.goodSingleMentionVariants);
+        String withMention = textWithoutMentionOfAuthor + mentionOption + authorUserToMention;
         if (withMention.length() < 141) {
             return withMention;
         }
