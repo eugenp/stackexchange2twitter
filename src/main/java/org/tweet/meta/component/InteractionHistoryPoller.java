@@ -19,6 +19,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterAnalysisLiveService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 
+import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -148,7 +149,10 @@ public class InteractionHistoryPoller {
             return twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 200);
         } else {
             final Long sinceId = Long.valueOf(lastIdKeyVal.getValue());
-            final long lastTweetId = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 1).get(0).getId();
+            final List<Tweet> listTweetsOfInternalAccountRaw = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 1);
+            Preconditions.checkState(!listTweetsOfInternalAccountRaw.isEmpty(), "No tweets to analyze for account= " + twitterAccount);
+
+            final long lastTweetId = listTweetsOfInternalAccountRaw.get(0).getId();
 
             return twitterReadLiveService.readOnlyTwitterApi(twitterAccount).timelineOperations().getUserTimeline(200, sinceId, lastTweetId);
         }

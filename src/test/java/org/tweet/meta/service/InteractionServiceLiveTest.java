@@ -138,6 +138,14 @@ public final class InteractionServiceLiveTest {
         assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
     }
 
+    @Test
+    public final void whenTestingIfShouldInteractWithUser2_thenBarelyNo() {
+        final String userHandle = "BBCNews";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = userInteractionService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
     // yes
 
     @Test
