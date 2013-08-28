@@ -105,8 +105,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutCloud_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingAboutCloud1_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.cloud.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutCloud2_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.azure.name());
         assertTrue(success);
     }
 
@@ -138,6 +144,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutHtml5_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name(), TwitterTag.html5.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutIpad_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name(), TwitterTag.ipad.name());
         assertTrue(success);
     }
 
@@ -186,6 +198,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutSecurity_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.security.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutSecurity2_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.authentication.name());
         assertTrue(success);
     }
 

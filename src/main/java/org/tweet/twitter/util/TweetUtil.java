@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 public final class TweetUtil {
     final static Logger logger = LoggerFactory.getLogger(TweetUtil.class);
 
-    public final static List<String> acceptedUserLang = Lists.newArrayList("en", "de");
+    public final static List<String> acceptedUserLang = Lists.newArrayList("en", "de", "es"); // "fr", "it"
 
     public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @");
 
