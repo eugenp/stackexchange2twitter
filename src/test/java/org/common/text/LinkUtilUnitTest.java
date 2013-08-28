@@ -78,4 +78,22 @@ public class LinkUtilUnitTest {
         assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
     }
 
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario5_thenNo() {
+        final String url = "http://www.denbagus.net/10-best-j-query-plugins-that-support-e-commerce-website-development";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario6_thenNo() {
+        final String url = "http://www.developerdrive.com/2013/08/introducing-css3-multiple-backgrounds/";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario7_thenNo() {
+        final String url = "http://www.designdazzling.com/2013/08/perfect-wordpress-corporate-themes-for-website-project/";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
 }

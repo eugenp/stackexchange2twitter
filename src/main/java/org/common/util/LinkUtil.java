@@ -27,7 +27,7 @@ public final class LinkUtil {
         "https://www.facebook.com" // +1 +1
     );// @formatter:on
     final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
-        "http(s)?://(www.)?.*\\.de(/)?.*"
+        "http(s)?://(www.)?.*\\.de(\\z|/.*)"
     );// @formatter:on
 
     private LinkUtil() {
