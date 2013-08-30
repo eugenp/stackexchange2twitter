@@ -524,7 +524,12 @@ public class InteractionLiveService {
         if (!tweet.isRetweet()) {
             return false;
         }
-        final String text = tweet.getRetweetedStatus().getText();
+
+        if (!tweetService.passesBareMinimalChecks(tweet, null)) {
+            return false;
+        }
+
+        final String text = TweetUtil.getText(tweet);
         if (!tweetService.isTweetWorthRetweetingByTextWithLink(text)) {
             return false;
         }

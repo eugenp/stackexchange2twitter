@@ -20,7 +20,8 @@ public final class LinkUtil {
         "http://www.blogging-inside.de", 
         "http://www.perun.net", 
         "http://www.heyyou-app.com", 
-        "http://www.freelancer.com", "https://www.freelancer.com"
+        "http://www.freelancer.com", "https://www.freelancer.com", 
+        "http://www.almasryalyoum.com/" // non English
     );// @formatter:on
 
     final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off

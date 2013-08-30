@@ -103,26 +103,16 @@ public class TweetService {
         return true;
     }
 
-    public final boolean passesMinimalChecks(final Tweet tweet, final String hashtag) {
-        if (tweet.getLanguageCode() == null) {
-            // temporary error
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the no language", tweet, hashtag);
-            return false;
-        }
-
-        if (!tweet.getLanguageCode().equals("en")) {
-            logger.debug("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashtag, tweet.getLanguageCode());
-            // info temporary - should be debug
-            return false;
-        }
-        if (tweet.getUser() != null && !TweetUtil.acceptedUserLang.contains(tweet.getUser().getLanguage())) {
-            // temporary error
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because the user has language= {}", TweetUtil.getText(tweet), hashtag, tweet.getUser().getLanguage());
-            return false;
-        }
+    /**
+     * Passing bare minimal checks means: </br>
+     * -  the author is not banned from being interacted with </br>
+     * -  the tweet doesn't go over a max number of hashtags </br>
+     */
+    public final boolean passesBareMinimalChecks(final Tweet tweet, final String hashtag) {
+        final String hashTagInternal = (hashtag == null) ? "" : hashtag;
 
         if (TwitterUtil.isUserBannedFromRetweeting(tweet.getFromUser())) {
-            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", tweet, hashtag, tweet.getFromUser());
+            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", tweet, hashTagInternal, tweet.getFromUser());
             // debug temporary - should be trace
             return false;
         }
@@ -130,7 +120,42 @@ public class TweetService {
         final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(tweet);
         if (!shouldByNumberOfHashtags) {
             // was error - nothing really interesting, debug now, maybe trace later
-            logger.debug("Rejected because the it contained to many hashtags - potentialTweet= {} on twitterTag= {} ", TweetUtil.getText(tweet), hashtag);
+            logger.debug("Rejected because the it contained to many hashtags - potentialTweet= {} on twitterTag= {} ", TweetUtil.getText(tweet), hashTagInternal);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Passing minimal checks means: </br>
+     * - the tweet has a <b>language</b></br>
+     * - the tweet has an accepted <b>language</b> </br>
+     * -  the author of the tweet has an accepted <b>language</b> </br>
+     * -  the author is not <b>banned</b> from being interacted with </br>
+     * -  the tweet doesn't go over a <b>max number of hashtags</b> </br>
+     */
+    public final boolean passesMinimalChecks(final Tweet tweet, final String hashtag) {
+        final String hashTagInternal = (hashtag == null) ? "" : hashtag;
+        if (tweet.getLanguageCode() == null) {
+            // temporary error
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
+            return false;
+        }
+
+        if (!tweet.getLanguageCode().equals("en")) {
+            // if (!TweetUtil.acceptedUserLang.contains(tweet.getLanguageCode())) {
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashTagInternal, tweet.getLanguageCode());
+            // should be (and was) debug - now error because I need to see what kind of tweets are rejected because of this one - is it iffy, like the main language of the user, or is it more exact?
+            return false;
+        }
+        if (tweet.getUser() != null && !TweetUtil.acceptedUserLang.contains(tweet.getUser().getLanguage())) {
+            // temporary error
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because the user has language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage());
+            return false;
+        }
+
+        if (!passesBareMinimalChecks(tweet, hashTagInternal)) {
             return false;
         }
 

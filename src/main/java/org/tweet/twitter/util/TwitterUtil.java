@@ -30,7 +30,8 @@ public final class TwitterUtil {
         "dumb", 
         "gift", "highheels",
         "djmix", "housemusic",
-        "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding"
+        "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
+        "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
         // "buy", // was here, I'm sufficiently convinced that it's not good 
@@ -38,14 +39,13 @@ public final class TwitterUtil {
         "wife",
         "killed",
         "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
-        "dumb", 
+        "dumb", "dumber", 
         "dance",
         "chap", // trying it out
         "lucky", 
         "fpl", // fantasy player league
         "win", "deals", "deal", "promo", // new
         "snake", // python snake...yes, it happened
-        "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", 
         "$3.99", "$2.99", "$1.99", "$0.99" 
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
