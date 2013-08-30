@@ -143,13 +143,13 @@ public class TweetService {
             return false;
         }
 
-        if (!tweet.getLanguageCode().equals("en")) {
+        if (!tweet.getLanguageCode().trim().equals("en")) {
             // if (!TweetUtil.acceptedUserLang.contains(tweet.getLanguageCode())) {
             logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashTagInternal, tweet.getLanguageCode());
             // should be (and was) debug - now error because I need to see what kind of tweets are rejected because of this one - is it iffy, like the main language of the user, or is it more exact?
             return false;
         }
-        if (tweet.getUser() != null && !TweetUtil.acceptedUserLang.contains(tweet.getUser().getLanguage())) {
+        if (tweet.getUser() != null && !TweetUtil.acceptedUserLang.contains(tweet.getUser().getLanguage().trim())) {
             // temporary error
             logger.error("potentialTweet= {} on twitterTag= {} rejected because the user has language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage());
             return false;

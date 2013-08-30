@@ -184,8 +184,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutNoSql_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
+    public final void whenTweetingAboutNoSql1_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.nosql.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutNoSql2_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.dynamobd.name());
         assertTrue(success);
     }
 

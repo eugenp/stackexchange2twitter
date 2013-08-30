@@ -231,7 +231,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             }
         });
 
-        // return Lists.newArrayList(tweetsOrdered);
         return tweetsOrdered;
     }
 
