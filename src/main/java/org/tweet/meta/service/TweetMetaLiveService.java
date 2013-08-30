@@ -176,7 +176,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final Collection<Tweet> tweetSetFiltered = Collections2.filter(tweetsSet, new Predicate<Tweet>() {
             @Override
             public final boolean apply(final Tweet tweet) {
-                if (tweet.getRetweetCount() <= (minRt / 2)) {
+                if (tweet.getRetweetCount() <= (minRt / 1.75)) {
                     return false;
                 }
                 if (hasThisAlreadyBeenTweetedById(new Retweet(tweet.getId(), twitterAccount, null, null))) {
@@ -217,10 +217,10 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         // slightly adjust the RT counts by adding some fraction of the overall value
-        // rule of thumb: 20 should cover minRt/2 =>
+        // rule of thumb: 15 should cover minRt/2 =>
         for (final Pair<TwitterInteractionWithValue, Tweet> interactionAndTweet : valuesAndTweets) {
             final Tweet theTweet = interactionAndTweet.getValue();
-            final int newRtCount = (int) (theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / (20f * 2f / minRt));
+            final int newRtCount = (int) (theTweet.getRetweetCount() + interactionAndTweet.getKey().getVal() / (15f * 2f / minRt));
             theTweet.setRetweetCount(newRtCount);
         }
 
