@@ -123,6 +123,24 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingAboutGoogle1_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.google.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutGoogle2_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.gmail.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutGoogle3_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.android.name());
+        assertTrue(success);
+    }
+
+    @Test
     // this is for discovery only - Eclipse should only be tweeted from the predefined accounts
     public final void whenTweetingAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestEclipse.name());
