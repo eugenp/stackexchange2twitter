@@ -45,14 +45,16 @@ public class TweetMetaScheduler {
         }
 
         // 5
-        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.aws.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.aws.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.google.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html5.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
 
         logger.info("Finished new retweet schedule - 1");
     }
@@ -67,14 +69,16 @@ public class TweetMetaScheduler {
         }
 
         // 5
-        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.ec2.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.akka.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.opengraph.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.gmail.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
 
         logger.info("Finished new retweet schedule - 2");
     }
@@ -89,14 +93,16 @@ public class TweetMetaScheduler {
         }
 
         // 5
-        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.azure.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.azure.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.gdrive.name());
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
 
         logger.info("Finished new retweet schedule - 3");
     }
@@ -111,14 +117,8 @@ public class TweetMetaScheduler {
         }
 
         // 5
-        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.cloud.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.android.name());
 
         logger.info("Finished new retweet schedule - 4");
     }
@@ -133,13 +133,7 @@ public class TweetMetaScheduler {
         }
 
         // 5
-        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.gae.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
 
         logger.info("Finished new retweet schedule - 5");
@@ -159,7 +153,6 @@ public class TweetMetaScheduler {
         }
 
         // 10
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name());

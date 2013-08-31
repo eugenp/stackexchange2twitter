@@ -21,11 +21,12 @@ public final class LinkUtil {
         "http://www.perun.net", 
         "http://www.heyyou-app.com", 
         "http://www.freelancer.com", "https://www.freelancer.com", 
-        "http://www.almasryalyoum.com/" // non English
+        "http://www.almasryalyoum.com/", // non English
+        "https://www.facebook.com" // verified - no false positive after about 2 weeks - accepting
     );// @formatter:on
 
     final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off
-        "https://www.facebook.com" // +1 +1
+         // 
     );// @formatter:on
     final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
         "http(s)?://(www.)?.*\\.de(\\z|/.*)"

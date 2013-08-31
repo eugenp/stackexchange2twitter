@@ -12,15 +12,17 @@ public final class TweetUtil {
     final static Logger logger = LoggerFactory.getLogger(TweetUtil.class);
 
     /*
-     * "it" - +1 +1 +1 +1
+     * "it" - +1 +1 +1 +1 +1 - accepting
      * "el" - +1
      * "nl" - +1 +1 +1
      * "ja" - +1
-     * "ru" - +1 +1 +1 +1
+     * "ru" - +1 +1 +1 +1 +1 - accepting
      * "pt" - +1
      * "nl" - +1
+     * "pt" - +1 +1
+     * "ar" - -1
     */
-    public final static List<String> acceptedUserLang = Lists.newArrayList("en", "en-gb", "de", "es", "fr");
+    public final static List<String> acceptedUserLang = Lists.newArrayList("en", "en-gb", "de", "es", "fr", "ru", "it");
 
     public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @");
 
