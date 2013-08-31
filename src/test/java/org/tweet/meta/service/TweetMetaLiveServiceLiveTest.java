@@ -238,6 +238,30 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingAboutNoSql3_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.riak.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutNoSql4_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.neo4j.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutNoSql5_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.mongodb.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutNoSql6_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.hbase.name());
+        assertTrue(success);
+    }
+
+    @Test
     public final void whenTweetingAboutScala1_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
         assertTrue(success);
