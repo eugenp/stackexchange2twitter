@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.social.SocialException;
 import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.FriendOperations;
 import org.springframework.social.twitter.api.SearchResults;
@@ -52,6 +53,15 @@ public class TwitterReadLiveService {
      * - note: will NOT return null
      */
     public TwitterProfile getProfileOfUser(final String userHandle) {
+        try {
+            return getProfileOfUserInternal(userHandle);
+        } catch (final SocialException notFound) {
+            logger.error("Unable to retrieve profile of user: " + userHandle, notFound);
+            return null;
+        }
+    }
+
+    private final TwitterProfile getProfileOfUserInternal(final String userHandle) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
         final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
 

@@ -137,7 +137,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     // util - any
 
     /**any*/
-    /*test only*/final boolean retweetAnyByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    public final boolean retweetAnyByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         try {
             final boolean success = retweetAnyByHashtagInternal(twitterAccount, hashtag);
             if (!success) {

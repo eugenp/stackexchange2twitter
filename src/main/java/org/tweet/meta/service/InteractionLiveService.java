@@ -195,6 +195,9 @@ public class InteractionLiveService {
      */
     final TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final String userHandle, final String twitterAccount) {
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        if (user == null) {
+            return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
+        }
         return decideBestInteractionWithAuthorLive(user, userHandle, twitterAccount);
     }
 

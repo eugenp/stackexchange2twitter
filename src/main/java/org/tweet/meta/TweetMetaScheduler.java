@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.stackexchange.util.TwitterAccountEnum;
+import org.stackexchange.util.TwitterTag;
 import org.tweet.meta.service.TweetMetaLiveService;
 import org.tweet.spring.util.SpringProfileUtil;
 
@@ -34,9 +35,75 @@ public class TweetMetaScheduler {
 
     // API
 
-    @Scheduled(cron = "0 10 14,18,22 * * *")
-    public void tweetMeta01() throws JsonProcessingException, IOException {
-        logger.info("Starting retweet schedule - 01");
+    @Scheduled(cron = "0 10 14 * * *")
+    public void newSchedule1() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - 1");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 5
+        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.aws.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+
+        logger.info("Finished new retweet schedule - 1");
+    }
+
+    @Scheduled(cron = "0 10 16 * * *")
+    public void newSchedule2() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - 2");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 5
+        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+
+        logger.info("Finished new retweet schedule - 2");
+    }
+
+    @Scheduled(cron = "0 10 18 * * *")
+    public void newSchedule3() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - 3");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 5
+        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.azure.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+
+        logger.info("Finished new retweet schedule - 3");
+    }
+
+    @Scheduled(cron = "0 10 20 * * *")
+    public void newSchedule4() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - 4");
 
         if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
@@ -53,10 +120,33 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
 
-        logger.info("Finished retweet schedule - 01");
+        logger.info("Finished new retweet schedule - 4");
     }
 
-    // git - not 100% sure that hashtag will only return relevant tweets - look into this further
+    @Scheduled(cron = "0 10 22 * * *")
+    public void newSchedule5() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - 5");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 5
+        service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+
+        logger.info("Finished new retweet schedule - 5");
+    }
+
+    // OLD
+
     // for accounts - not yet: BestBash,BestEclipse,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
 
     @Scheduled(cron = "0 3 9,12,15,18,21 * * *")
