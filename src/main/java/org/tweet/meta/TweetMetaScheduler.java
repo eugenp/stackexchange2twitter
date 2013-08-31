@@ -35,6 +35,23 @@ public class TweetMetaScheduler {
 
     // API
 
+    @Scheduled(cron = "0 10 15,17,19,21,23 * * *")
+    public void newSchedule0() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - 0");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 3
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
+
+        logger.info("Finished new retweet schedule - 0");
+    }
+
     @Scheduled(cron = "0 10 14 * * *")
     public void newSchedule1() throws JsonProcessingException, IOException {
         logger.info("Starting new retweet schedule - 1");
@@ -44,15 +61,13 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 5
+        // 8
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.aws.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.aws.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.nosql.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.google.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
 
@@ -70,15 +85,13 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 5
+        // 8
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.ec2.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.akka.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.opengraph.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.gmail.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
 
@@ -96,9 +109,8 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 5
+        // 8
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.azure.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
@@ -106,7 +118,6 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.gdrive.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
 
@@ -122,10 +133,7 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 5
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.cloud.name());
-
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.android.name());
+        // 0
 
         logger.info("Finished new retweet schedule - 4");
     }
@@ -139,17 +147,14 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 5
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.gae.name());
-
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+        // 0
 
         logger.info("Finished new retweet schedule - 5");
     }
 
     // OLD
 
-    // for accounts - not yet: BestBash,BestEclipse,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily
+    // for accounts - not yet: BestBash,BestEclipse,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily,BestOfCocoa
 
     @Scheduled(cron = "0 3 9,12,15,18,21 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {
@@ -160,7 +165,7 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 10
+        // 8
         service.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name());
@@ -183,9 +188,7 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCocoa.name()); // no
-
-        // 11
+        // 9
         service.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.iOSdigest.name());
@@ -209,8 +212,7 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 12
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name());
+        // 8
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfWordpress.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LispDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.MysqlDaily.name());

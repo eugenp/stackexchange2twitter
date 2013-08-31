@@ -43,7 +43,7 @@ public class TweetStackexchangeScheduler {
 
     // API
 
-    @Scheduled(cron = "0 0 12,16 * * *")
+    @Scheduled(cron = "0 0 14 * * *")
     public void tweetStackExchangeTopQuestion1() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 1");
 
@@ -71,7 +71,7 @@ public class TweetStackexchangeScheduler {
     /**
      * - these accounts are not StackExchange specific
      */
-    @Scheduled(cron = "0 0 13,17 * * *")
+    @Scheduled(cron = "0 0 16 * * *")
     public void tweetDailyTopQuestion2() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 2");
 
@@ -101,7 +101,7 @@ public class TweetStackexchangeScheduler {
     /**
      * - these accounts are not StackExchange specific
      */
-    @Scheduled(cron = "0 0 14,18 * * *")
+    @Scheduled(cron = "0 0 18 * * *")
     public void tweetDailyTopQuestion3() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 3");
 
@@ -125,7 +125,7 @@ public class TweetStackexchangeScheduler {
         logger.info("Finished tweet schedule - 3");
     }
 
-    @Scheduled(cron = "0 0 15,19 * * *")
+    @Scheduled(cron = "0 0 20 * * *")
     public void tweetDailyTopQuestion4() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 4");
 
@@ -150,7 +150,7 @@ public class TweetStackexchangeScheduler {
         logger.info("Finished tweet schedule - 4");
     }
 
-    @Scheduled(cron = "0 0 16,20 * * *")
+    @Scheduled(cron = "0 0 22 * * *")
     public void tweetDailyTopQuestion5() throws JsonProcessingException, IOException {
         logger.info("Starting tweet schedule - 5");
 

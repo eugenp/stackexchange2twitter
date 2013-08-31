@@ -322,6 +322,24 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingAboutSecurity5_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.captcha.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutSecurity6_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.sqlinjection.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutSecurity7_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.ddos.name());
+        assertTrue(success);
+    }
+
+    @Test
     public final void whenTweetingAboutSEO_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name(), TwitterTag.seo.name());
         assertTrue(success);
