@@ -80,6 +80,8 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&middot;", "-"); // ·
 
+        cleanedText = StringUtils.replaceAll(cleanedText, "&deg;", "-"); // °
+
         return cleanedText;
     }
 

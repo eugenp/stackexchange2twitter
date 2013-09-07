@@ -240,10 +240,9 @@ public class TweetService {
     public final String postValidityProcessForTweetTextNoUrl(final String textOnly, final String twitterAccount) {
         String tweetTextProcessed = hashtagWordsTweetTextOnly(textOnly, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
-            // status - happened 2 times invalidly ... removing soon
-            logger.error("It's happening - 2; original text= {}", tweetTextProcessed);
+            // status - no need for more than trace
+            logger.trace("Cleaning up \"; final original text= {}", tweetTextProcessed);
             tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
-            logger.error("It has happened - 2; original text= {}", tweetTextProcessed);
         }
 
         return tweetTextProcessed;
