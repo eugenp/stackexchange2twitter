@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.social.InternalServerErrorException;
 import org.springframework.social.SocialException;
 import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.FriendOperations;
@@ -55,8 +56,21 @@ public class TwitterReadLiveService {
     public TwitterProfile getProfileOfUser(final String userHandle) {
         try {
             return getProfileOfUserInternal(userHandle);
-        } catch (final SocialException notFound) {
-            logger.error("Unable to retrieve profile of user: " + userHandle, notFound);
+        } catch (final SocialException socialEx) {
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
+
+            final Throwable cause = socialEx.getCause();
+            if (cause != null && cause instanceof InternalServerErrorException) {
+                // keep at warn or below - no need to know when this happens all the time
+                logger.warn("Known reason - Unable to retrieve profile of user: " + userHandle, socialEx);
+                return null;
+            }
+
+            logger.error("Unable to retrieve profile of user: " + userHandle, socialEx);
+            return null;
+        } catch (final RuntimeException ex) {
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
+            logger.error("Unable to retrieve profile of user: " + userHandle, ex);
             return null;
         }
     }
@@ -80,6 +94,7 @@ public class TwitterReadLiveService {
         try {
             return listTweetsOfInternalAccountInternal(twitterAccount);
         } catch (final RuntimeException ex) {
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
             logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
@@ -99,6 +114,7 @@ public class TwitterReadLiveService {
         try {
             return listTweetsOfInternalAccountInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
             logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
@@ -116,6 +132,7 @@ public class TwitterReadLiveService {
         try {
             return listTweetsOfInternalAccountRawInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
             logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
@@ -136,6 +153,7 @@ public class TwitterReadLiveService {
         try {
             return listTweetsOfAccountInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
             logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
@@ -145,6 +163,7 @@ public class TwitterReadLiveService {
         try {
             return listTweetsOfAccountRawInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
             logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
@@ -172,6 +191,7 @@ public class TwitterReadLiveService {
         try {
             return listTweetsOfAccountMultiRequestRawInternal(twitterAccount, howManyPages);
         } catch (final RuntimeException ex) {
+            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
             logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }

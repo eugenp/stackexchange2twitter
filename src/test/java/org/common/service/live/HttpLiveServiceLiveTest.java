@@ -72,6 +72,8 @@ public class HttpLiveServiceLiveTest {
         httpService.expandInternal("http://www.marketwatch.com/enf/rss.asp?guid={3B615536-E289-11E2-ACAD-002128040CF6}");
     }
 
+    // expand - correct
+
     @Test
     public final void whenShortenedUriIsUnshortednedScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expandInternal("http://t.co/wCD5WnAFGi");
@@ -155,6 +157,12 @@ public class HttpLiveServiceLiveTest {
     @Test
     public final void givenInvalidUrl2_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expand("http://web.blackberry.com/business/software/bes-10.html");
+        assertNull(unshortenedUrl);
+    }
+
+    @Test
+    public final void whenShortenedUriIsUnshortednedScenario10_thenException() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expand("http://t.co/Nbp45Prfou");
         assertNull(unshortenedUrl);
     }
 
