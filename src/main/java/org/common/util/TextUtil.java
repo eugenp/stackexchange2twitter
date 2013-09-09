@@ -47,6 +47,7 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "Ã£", "a");
         cleanedText = StringUtils.replaceAll(cleanedText, "ã", "a");
         cleanedText = StringUtils.replaceAll(cleanedText, "&Atilde;&pound;", "a");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&pound;", "£"); // new - ?
 
         cleanedText = StringUtils.replaceAll(cleanedText, "✔", "");
 

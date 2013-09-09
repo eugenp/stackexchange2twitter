@@ -90,7 +90,7 @@ public class TweetMetaLiveServiceLiveTest {
         //
     }
 
-    //
+    // A
 
     @Test
     public final void whenTweetingAboutAlgorithms_thenNoExceptions() throws JsonProcessingException, IOException {
@@ -98,7 +98,19 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    //
+    @Test
+    public final void whenTweetingAboutAuthentication_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.authentication.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutAkka_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.akka.name());
+        assertTrue(success);
+    }
+
+    // C
 
     @Test
     public final void whenTweetingAboutClojure_thenNoExceptions() throws JsonProcessingException, IOException {
@@ -207,11 +219,29 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutIos_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.iOSdigest.name(), TwitterTag.ios.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutIphone_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name(), TwitterTag.iphone.name());
+        assertTrue(success);
+    }
+
     // J
 
     @Test
     public final void whenTweetingAboutJava_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name(), TwitterTag.java.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutJavascript_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name(), TwitterTag.javascript.name());
         assertTrue(success);
     }
 
@@ -242,6 +272,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutMath_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutMacbook_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name(), TwitterTag.macbook.name());
         assertTrue(success);
     }
 
@@ -313,7 +349,25 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    //
+    // O
+
+    // P
+
+    @Test
+    public final void whenTweetingAboutPhp_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestPHP.name(), TwitterTag.php.name());
+        assertTrue(success);
+    }
+
+    // R
+
+    @Test
+    public final void whenTweetingAboutRubyOnRails_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
+        assertTrue(success);
+    }
+
+    // S
 
     @Test
     public final void whenTweetingAboutScala1_thenNoExceptions() throws JsonProcessingException, IOException {
@@ -387,11 +441,19 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    //
+    // T
+
+    // U
+
+    // V
+
+    // Z
+
+    // W
 
     @Test
-    public final void whenTweetingAboutRubyOnRails_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
+    public final void whenTweetingAboutWordpress_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.LandOfWordpress.name(), TwitterTag.wordpress.name());
         assertTrue(success);
     }
 

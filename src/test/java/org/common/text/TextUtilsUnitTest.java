@@ -184,6 +184,14 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    // new
+    public final void givenTextContainsInvalidCharactersScenario26_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "Yes, teachers. You can attend the #python conference for just £35. http://teachcomputing.wordpress.com/2013/09/05/teachers-welcome-at-pyconuk-2013/";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Yes, teachers. You can attend the #python conference for just £35. http://teachcomputing.wordpress.com/2013/09/05/teachers-welcome-at-pyconuk-2013/");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // ✔ - I cannot add this into some Strings - it simply get replaced by a square with something inside
     // others: ü
 

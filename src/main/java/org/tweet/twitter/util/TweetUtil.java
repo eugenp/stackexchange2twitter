@@ -13,15 +13,16 @@ public final class TweetUtil {
 
     /*
      * "ar" - -1 -1
-     * "el" - +1 +1
+     * "el" - +1 +1 +1
      * "it" - +1 +1 +1 +1 +1 - accepting
-     * "id" - +1 +1
+     * "id" - +1 +1 +1
      * "ja" - +1
+     * "ko" - +1
      * "nl" - +1 +1 +1 +1 +1 +1 - accepting
      * "ru" - +1 +1 +1 +1 +1 - accepting
-     * -"pt" - +1 +1 +1 +1 +1 -1
+     * -"pt" - +1 +1 +1 +1 +1 -1 +1
      * "pl" - +1
-     * "tr" - +1 +1 +1
+     * "tr" - +1 +1 +1 +1
     */
     public final static List<String> acceptedUserLang = Lists.newArrayList("en", "en-gb", "de", "es", "fr", "ru", "it", "nl");
 
