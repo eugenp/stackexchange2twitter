@@ -228,6 +228,7 @@ public class TweetService {
             logger.error("It's happening - 1; original text= {}", tweetTextProcessed);
             tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
             logger.error("It has happened - 1; original text= {}", tweetTextProcessed);
+            // note: nothing learned from these logs: +1
         }
 
         return tweetTextProcessed;

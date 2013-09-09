@@ -65,8 +65,8 @@ public final class LinkUtil {
         }
         for (final String bannedDomainByRegexMaybe : bannedDomainsByRegexMaybe) {
             if (urlString.matches(bannedDomainByRegexMaybe)) {
-                // still error - reasons to move down: +1,
-                logger.error("(temp-error) For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);
+                // was error - nothing really interesting found - moving down to debug
+                logger.debug("For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);
                 return true;
             }
         }
