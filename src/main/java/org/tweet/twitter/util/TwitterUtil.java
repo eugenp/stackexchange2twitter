@@ -46,6 +46,7 @@ public final class TwitterUtil {
         "fpl", // fantasy player league
         "win", "deals", "deal", "promo", // new
         "snake", // python snake...yes, it happened
+        "kurd", "kurds", // other political stuff
         "$3.99", "$2.99", "$1.99", "$0.99" 
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
