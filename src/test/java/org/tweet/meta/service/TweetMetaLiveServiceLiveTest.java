@@ -136,7 +136,36 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    //
+    // E
+
+    @Test
+    // this is for discovery only - Eclipse should only be tweeted from the predefined accounts
+    public final void whenTweetingAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestEclipse.name());
+        assertTrue(success);
+    }
+
+    // F
+
+    @Test
+    public final void whenTweetingAboutFacebook_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutHtml_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutHtml5_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name(), TwitterTag.html5.name());
+        assertTrue(success);
+    }
+
+    // G
 
     @Test
     public final void whenTweetingAboutGit_thenNoExceptions() throws JsonProcessingException, IOException {
@@ -168,36 +197,9 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    //
+    // H
 
-    @Test
-    // this is for discovery only - Eclipse should only be tweeted from the predefined accounts
-    public final void whenTweetingAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestEclipse.name());
-        assertTrue(success);
-    }
-
-    //
-
-    @Test
-    public final void whenTweetingAboutFacebook_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingAboutHtml_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingAboutHtml5_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name(), TwitterTag.html5.name());
-        assertTrue(success);
-    }
-
-    // i
+    // I
 
     @Test
     public final void whenTweetingAboutIpad_thenNoExceptions() throws JsonProcessingException, IOException {
@@ -205,7 +207,7 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    // j
+    // J
 
     @Test
     public final void whenTweetingAboutJava_thenNoExceptions() throws JsonProcessingException, IOException {
@@ -219,7 +221,9 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    // l
+    // K
+
+    // L
 
     @Test
     public final void whenTweetingAboutLisp_thenNoExceptions() throws JsonProcessingException, IOException {
@@ -233,7 +237,7 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    // m
+    // M
 
     @Test
     public final void whenTweetingAboutMath_thenNoExceptions() throws JsonProcessingException, IOException {
@@ -247,7 +251,7 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    //
+    // N
 
     @Test
     public final void whenTweetingAboutNoSql1_thenNoExceptions() throws JsonProcessingException, IOException {

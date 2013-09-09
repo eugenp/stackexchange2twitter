@@ -28,8 +28,11 @@ public final class LinkUtil {
     final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off
          // 
     );// @formatter:on
-    final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
+    final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off
         "http(s)?://(www.)?.*\\.de(\\z|/.*)"
+    );// @formatter:on
+    final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
+        // 
     );// @formatter:on
 
     private LinkUtil() {
@@ -44,6 +47,11 @@ public final class LinkUtil {
      */
     public static boolean belongsToBannedDomain(final String urlString) {
         for (final String bannedDomain : bannedDomains) {
+            if (urlString.startsWith(bannedDomain)) {
+                return true;
+            }
+        }
+        for (final String bannedDomain : bannedDomainsByRegex) {
             if (urlString.startsWith(bannedDomain)) {
                 return true;
             }

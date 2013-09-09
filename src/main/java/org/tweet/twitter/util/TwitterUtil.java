@@ -25,7 +25,7 @@ public final class TwitterUtil {
     final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
         "buy", 
         "freelance", "job", "consulting", "hire", "hiring", "careers", 
-        "need", // was in the maybe pile - temporarily moved up here, to see results 
+        // "need", // for now, still in the maybe pile  
         "football", "exclusive",
         "dumb", 
         "gift", "highheels",
@@ -35,7 +35,7 @@ public final class TwitterUtil {
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
         // "buy", // was here, I'm sufficiently convinced that it's not good 
-        // "need", // moving from the maybe pile for now - just to see
+        "need", // gathering some more data for need
         "wife",
         "killed",
         "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
@@ -58,6 +58,7 @@ public final class TwitterUtil {
         "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
         "on strike", 
         "for sale", 
+        "win a ", "to win", "win one", // win
         "i need", "we need", "need help", "need someone"
     ); // @formatter:on
     final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
