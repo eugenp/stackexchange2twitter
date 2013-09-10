@@ -35,26 +35,60 @@ public class TweetMetaScheduler {
 
     // API
 
-    @Scheduled(cron = "0 10 15,17,19,21,23 * * *")
-    public void newSchedule0() throws JsonProcessingException, IOException {
-        logger.info("Starting new retweet schedule - 0");
+    @Scheduled(cron = "0 10 14,18,22 * * *")
+    public void newScheduleThree() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - three");
 
         if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
 
-        // 3
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name());
+        // 5
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfLinux.name());
-
-        service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCss.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.CryptoFact.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.PythonDaily.name());
 
-        logger.info("Finished new retweet schedule - 0");
+        logger.info("Finished new retweet schedule - three");
+    }
+
+    @Scheduled(cron = "0 10 14,18,22 * * *")
+    public void newScheduleFour() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - four");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 0
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name());
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfWordpress.name());
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.MysqlDaily.name());
+
+        logger.info("Finished new retweet schedule - four");
+    }
+
+    @Scheduled(cron = "0 10 15,17,19,21,23 * * *")
+    public void newScheduleFive() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - five");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 4
+        service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
+
+        logger.info("Finished new retweet schedule - five");
     }
 
     @Scheduled(cron = "0 10 14 * * *")
@@ -74,7 +108,6 @@ public class TweetMetaScheduler {
 
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html5.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
 
@@ -98,7 +131,6 @@ public class TweetMetaScheduler {
 
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.opengraph.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
 
@@ -122,7 +154,6 @@ public class TweetMetaScheduler {
 
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
 
@@ -215,12 +246,8 @@ public class TweetMetaScheduler {
         }
 
         // 8
-        service.retweetAnyByHashtag(TwitterAccountEnum.LandOfWordpress.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LispDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.MysqlDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestXML.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCss.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.CryptoFact.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.AndroidFact.name());
         // disabled for now - no results // service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
 
