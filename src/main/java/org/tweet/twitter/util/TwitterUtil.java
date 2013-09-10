@@ -41,7 +41,7 @@ public final class TwitterUtil {
         "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
         "dumb", "dumber", 
         "dance",
-        "chap", // trying it out
+        "cheep", // trying it out
         "lucky", 
         "fpl", // fantasy player league
         "win", "deals", "deal", "promo", // new
