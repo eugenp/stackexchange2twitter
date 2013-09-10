@@ -148,6 +148,12 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutCss_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCss.name(), TwitterTag.css.name());
+        assertTrue(success);
+    }
+
     // E
 
     @Test
@@ -162,12 +168,6 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutFacebook_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingAboutHtml_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
         assertTrue(success);
     }
 
@@ -210,6 +210,12 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     // H
+
+    @Test
+    public final void whenTweetingAboutHtml_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
+        assertTrue(success);
+    }
 
     // I
 
