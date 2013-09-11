@@ -1,6 +1,7 @@
 package org.rss.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -54,13 +55,13 @@ public class TweetRssServiceLiveTest {
     @Test
     public final void whenTweetingFromRssFeed2_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
         // Spring - main blog
-        tweetRssService.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
+        assertTrue(tweetRssService.tweetFromRss("http://spring.io/blog/category/releases.atom", TwitterAccountEnum.SpringAtSO.name(), "SpringSource"));
     }
 
     @Test
     public final void whenTweetingFromRssFeed3_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
         // Spring - News and Events
-        tweetRssService.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
+        assertTrue(tweetRssService.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringAtSO.name(), "SpringSource"));
     }
 
 }

@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -40,7 +39,7 @@ public class RssScheduler {
             return;
         }
 
-        service.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
+        // service.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
         // service.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
 
         logger.info("Finished executing scheduled RSS operations - 1");

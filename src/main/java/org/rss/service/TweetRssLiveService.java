@@ -87,6 +87,10 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
 
     private final boolean shouldBeTweetedByAge(final RssEntry potentialRssEntry) {
         final Date originalPublishDate = potentialRssEntry.getOriginalPublishDate();
+        if (originalPublishDate == null) {
+            return false;
+        }
+
         final long DAY_IN_MS = 1000 * 60 * 60 * 24;
         final Date oneDayAgo = new Date(System.currentTimeMillis() - (1 * DAY_IN_MS));
         if (originalPublishDate.after(oneDayAgo)) {

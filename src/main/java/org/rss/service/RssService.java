@@ -34,7 +34,7 @@ public class RssService {
             return extractTitlesAndLinksInternal(rssUri);
         } catch (IllegalArgumentException | IOException | FeedException ex) {
             logger.error("Unable to parse feed", ex);
-            return null;
+            return Lists.newArrayList();
         }
     }
 
