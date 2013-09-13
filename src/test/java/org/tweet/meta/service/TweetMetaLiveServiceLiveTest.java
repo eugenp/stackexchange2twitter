@@ -307,6 +307,12 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutJson_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name(), TwitterTag.json.name());
+        assertTrue(success);
+    }
+
     // K
 
     // L
