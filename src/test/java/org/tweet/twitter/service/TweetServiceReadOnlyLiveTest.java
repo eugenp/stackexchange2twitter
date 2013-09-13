@@ -141,4 +141,15 @@ public class TweetServiceReadOnlyLiveTest {
         assertFalse(should1 && should2);
     }
 
+    // is valid?
+
+    @Test
+    public final void givenTweetShouldNotBeRetweetedScenario_whenCheckingValidity_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(378484796000706561l);
+        final String fullTweetProcessedPreValidity = instance.processPreValidity(TweetUtil.getText(tweet));
+
+        final boolean isValid = instance.isTweetFullValid(fullTweetProcessedPreValidity);
+        assertFalse(isValid);
+    }
+
 }

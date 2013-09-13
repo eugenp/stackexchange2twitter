@@ -83,6 +83,9 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&deg;", "-"); // °
 
+        // others - unclear if these should be turned back or not...
+        // &hearts; => ♥
+
         return cleanedText;
     }
 
