@@ -110,7 +110,25 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutAsp_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.AspnetDaily.name(), TwitterTag.asp.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutAspNet_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.AspnetDaily.name(), TwitterTag.aspnet.name());
+        assertTrue(success);
+    }
+
     // C
+
+    @Test
+    public final void whenTweetingAboutCassandra_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.cassandra.name());
+        assertTrue(success);
+    }
 
     @Test
     public final void whenTweetingAboutClojure_thenNoExceptions() throws JsonProcessingException, IOException {
