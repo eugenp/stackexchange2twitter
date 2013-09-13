@@ -85,6 +85,7 @@ public final class TextUtil {
 
         // others - unclear if these should be turned back or not...
         // &hearts; => ♥
+        // &darr; => ↓
 
         return cleanedText;
     }
