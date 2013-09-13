@@ -215,12 +215,6 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    @Test
-    public final void whenTweetingAboutHtml5_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name(), TwitterTag.html5.name());
-        assertTrue(success);
-    }
-
     // G
 
     @Test
@@ -258,6 +252,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutHtml_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutHtml5_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name(), TwitterTag.html5.name());
         assertTrue(success);
     }
 
