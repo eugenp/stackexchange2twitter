@@ -12,18 +12,19 @@ public final class TweetUtil {
     final static Logger logger = LoggerFactory.getLogger(TweetUtil.class);
 
     /*
-     * "ar" - -1 -1
-     * "ca" - +1 +1
-     * "el" - +1 +1 +1
-     * "it" - +1 +1 +1 +1 +1 - accepting
-     * "id" - +1 +1 +1
-     * "ja" - +1 +1 +1
-     * "ko" - +1
-     * "nl" - +1 +1 +1 +1 +1 +1 - accepting
-     * "ru" - +1 +1 +1 +1 +1 - accepting
-     * -"pt" - +1 +1 +1 +1 +1 -1 +1 +1
-     * "pl" - +1 +1 +1
-     * -"tr" - +1 +1 +1 +1 -1
+     * "ar"    - -1 -1
+     * "ca"    - +1 +1 +1
+     * "el"    - +1 +1 +1
+     * "it"    - +1 +1 +1 +1 +1 - accepting
+     * "id"    - +1 +1 +1 +1 +1
+     * "ja"    - +1 +1 +1 +1
+     * "ko"    - +1 +1
+     * "nl"    - +1 +1 +1 +1 +1 +1 - accepting
+     * "ru"    - +1 +1 +1 +1 +1 - accepting
+     * -"pt"   - +1 +1 +1 +1 +1 -1 +1 +1 +1 +1
+     * "pl"    - +1 +1 +1 +1
+     * -"tr"   - +1 +1 +1 +1 -1
+     * "xx-lc" - +1
     */
     public final static List<String> acceptedUserLang = Lists.newArrayList("en", "en-gb", "de", "es", "fr", "ru", "it", "nl");
 
