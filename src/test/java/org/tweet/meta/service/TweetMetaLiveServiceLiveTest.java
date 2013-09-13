@@ -212,6 +212,12 @@ public class TweetMetaLiveServiceLiveTest {
     // H
 
     @Test
+    public final void whenTweetingAboutHadoop_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name(), TwitterTag.hadoop.name());
+        assertTrue(success);
+    }
+
+    @Test
     public final void whenTweetingAboutHtml_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
         assertTrue(success);
@@ -368,6 +374,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutPasswords_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.passwords.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutPerl_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name(), TwitterTag.perl.name());
         assertTrue(success);
     }
 

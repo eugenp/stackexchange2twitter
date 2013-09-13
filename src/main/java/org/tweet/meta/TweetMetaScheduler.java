@@ -63,9 +63,10 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 0
+        // 7
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
@@ -77,19 +78,55 @@ public class TweetMetaScheduler {
     }
 
     @Scheduled(cron = "0 10 15,17,19,21,23 * * *")
-    public void newScheduleFive() throws JsonProcessingException, IOException {
-        logger.info("Starting new retweet schedule - five");
+    public void newScheduleFive1() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - five 1");
 
         if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
             logger.warn("Maintainance Mode Active - skipping schedule");
             return;
         }
 
-        // 4
+        // 9
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestGit.name()); // new and experimentally active
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestPHP.name());
+
         service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
 
-        logger.info("Finished new retweet schedule - five");
+        logger.info("Finished new retweet schedule - five 1");
     }
+
+    @Scheduled(cron = "0 10 16,18,20,22,24 * * *")
+    public void newScheduleFive2() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - five 2");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // 10
+        service.retweetAnyByHashtag(TwitterAccountEnum.AndroidFact.name()); // already 2
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestXML.name()); // already 2
+        service.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.iOSdigest.name()); // already 2
+        service.retweetAnyByHashtag(TwitterAccountEnum.jQueryDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.LispDaily.name()); // already 2
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.RegexDaily.name()); // already 2
+        service.retweetAnyByHashtag(TwitterAccountEnum.ObjectiveCDaily.name()); // already 2
+        service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
+
+        logger.info("Finished new retweet schedule - five 2");
+    }
+
+    //
 
     @Scheduled(cron = "0 10 14 * * *")
     public void newSchedule1() throws JsonProcessingException, IOException {
@@ -100,12 +137,10 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 8
+        // 6
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.aws.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.nosql.name());
-
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html5.name());
 
@@ -123,12 +158,10 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 8
+        // 6
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.ec2.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.akka.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
-
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.opengraph.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
 
@@ -148,7 +181,6 @@ public class TweetMetaScheduler {
 
         // 8
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfHTML5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
 
@@ -188,70 +220,6 @@ public class TweetMetaScheduler {
         logger.info("Finished new retweet schedule - 5");
     }
 
-    // OLD
-
     // for accounts - not yet: BestBash,BestEclipse,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily,BestOfCocoa
-
-    @Scheduled(cron = "0 3 9,12,15,18,21 * * *")
-    public void tweetMeta1() throws JsonProcessingException, IOException {
-        logger.info("Starting retweet schedule - 1");
-
-        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
-            logger.warn("Maintainance Mode Active - skipping schedule");
-            return;
-        }
-
-        // 8
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestPHP.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
-
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestGit.name()); // new and experimentally active
-
-        logger.info("Finished retweet schedule - 1");
-    }
-
-    @Scheduled(cron = "0 3 10,13,16,19,22 * * *")
-    public void tweetMeta2() throws JsonProcessingException, IOException {
-        logger.info("Starting retweet schedule - 2");
-
-        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
-            logger.warn("Maintainance Mode Active - skipping schedule");
-            return;
-        }
-
-        // 9
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.iOSdigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.jQueryDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.RegexDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.ObjectiveCDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
-
-        logger.info("Finished retweet schedule - 2");
-    }
-
-    @Scheduled(cron = "0 3 11,14,17,20,23 * * *")
-    public void tweetMeta3() throws JsonProcessingException, IOException {
-        logger.info("Starting retweet schedule - 3");
-
-        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
-            logger.warn("Maintainance Mode Active - skipping schedule");
-            return;
-        }
-
-        // 8
-        service.retweetAnyByHashtag(TwitterAccountEnum.LispDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestXML.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.AndroidFact.name());
-        // disabled for now - no results // service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
-
-        logger.info("Finished retweet schedule - 3");
-    }
 
 }
