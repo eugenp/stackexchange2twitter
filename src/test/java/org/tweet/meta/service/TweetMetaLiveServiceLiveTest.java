@@ -128,6 +128,12 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutAndroid_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.android.name());
+        assertTrue(success);
+    }
+
     // C
 
     @Test
@@ -230,19 +236,13 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutGoogle2_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingAboutGmail_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.gmail.name());
         assertTrue(success);
     }
 
     @Test
-    public final void whenTweetingAboutGoogle3_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.android.name());
-        assertTrue(success);
-    }
-
-    @Test
-    public final void whenTweetingAboutGoogle4_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingAboutGdrive_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.gdrive.name());
         assertTrue(success);
     }
@@ -258,6 +258,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutHtml_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutHbase_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.hbase.name());
         assertTrue(success);
     }
 
