@@ -93,6 +93,12 @@ public class TweetMetaLiveServiceLiveTest {
     // A
 
     @Test
+    public final void whenTweetingAboutApple_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name(), TwitterTag.apple.name());
+        assertTrue(success);
+    }
+
+    @Test
     public final void whenTweetingAboutAlgorithms_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name());
         assertTrue(success);
@@ -169,6 +175,20 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutCss_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCss.name(), TwitterTag.css.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutCss3_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCss.name(), TwitterTag.css3.name());
+        assertTrue(success);
+    }
+
+    // D
+
+    @Test
+    public final void whenTweetingAboutDatabase_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name(), TwitterTag.database.name());
         assertTrue(success);
     }
 

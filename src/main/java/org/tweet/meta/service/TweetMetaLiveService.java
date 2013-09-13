@@ -194,10 +194,10 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         final List<Tweet> tweets = Lists.newArrayList(tweetSetFiltered);
         Collections.sort(tweets, Ordering.from(new TweetByRtComparator()));
-        if (tweets.size() > 10) {
+        if (tweets.size() > 11) {
             logger.error("(info-temp-error) To many - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
         }
-        if (tweets.size() < 1) {
+        if (tweets.size() < 2) {
             if (minRt > 2) {
                 logger.error("(info-temp-error) To few - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
             }
