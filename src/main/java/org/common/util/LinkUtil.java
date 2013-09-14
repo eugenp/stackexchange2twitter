@@ -29,7 +29,7 @@ public final class LinkUtil {
          // 
     );// @formatter:on
     final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off
-        "http(s)?://(www.)?.*\\.de(\\z|/.*)"
+        "http(s)?://(www.)?.*\\.de(\\z|/.*)" 
     );// @formatter:on
     final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
         // 
@@ -52,7 +52,7 @@ public final class LinkUtil {
             }
         }
         for (final String bannedDomain : bannedDomainsByRegex) {
-            if (urlString.startsWith(bannedDomain)) {
+            if (urlString.matches(bannedDomain)) {
                 return true;
             }
         }
