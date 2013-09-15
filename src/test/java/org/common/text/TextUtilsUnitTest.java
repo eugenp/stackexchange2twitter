@@ -192,6 +192,14 @@ public class TextUtilsUnitTest {
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 
+    @Test
+    // new
+    public final void givenTextContainsInvalidCharactersScenario27_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "\"Google Waves Goodbye To #MySQL In Favor Of #MariaDB\" good read http://feedproxy.google.com/~r/readwriteweb/~3/_QqvIP_s1Hs/google-waves-goodbye-to-mysql-in-favor-of-mariadb";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("\"Google Waves Goodbye To #MySQL In Favor Of #MariaDB\" good read http://feedproxy.google.com/~r/readwriteweb/~3/_QqvIP_s1Hs/google-waves-goodbye-to-mysql-in-favor-of-mariadb");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
     // ✔ - I cannot add this into some Strings - it simply get replaced by a square with something inside
     // others: ü
 

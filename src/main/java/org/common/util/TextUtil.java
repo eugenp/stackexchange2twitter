@@ -20,6 +20,7 @@ public final class TextUtil {
         cleanedText = StringEscapeUtils.escapeHtml4(cleanedText);
         cleanedText = StringUtils.replaceAll(cleanedText, "&ldquo;", "\"");
         cleanedText = StringUtils.replaceAll(cleanedText, "&rdquo;", "\"");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&bdquo;", "\"");
         cleanedText = StringUtils.replaceAll(cleanedText, "&quot;", "\"");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&lt;", "<");
