@@ -114,4 +114,11 @@ public final class InteractionLiveServiceLiveTest {
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
     }
 
+    // determine best interaction with author
+
+    @Test
+    public final void whenDeterminngBestInteractionWithAuthor1_thenOK() {
+        interactionLiveService.determineBestInteractionWithAuthorLive("Passoker", TwitterAccountEnum.BestOfCloud.name());
+    }
+
 }

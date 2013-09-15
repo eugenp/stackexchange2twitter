@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.InternalServerErrorException;
+import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.SocialException;
 import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.FriendOperations;
@@ -63,6 +64,11 @@ public class TwitterReadLiveService {
             if (cause != null && cause instanceof InternalServerErrorException) {
                 // keep at warn or below - no need to know when this happens all the time
                 logger.warn("Known reason - Unable to retrieve profile of user: " + userHandle, socialEx);
+                return null;
+            }
+            if (socialEx instanceof ResourceNotFoundException) {
+                // keep at warn or below - no need to know when this happens all the time
+                logger.warn("Known reason - User no longer exists: " + userHandle, socialEx);
                 return null;
             }
 
