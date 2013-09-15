@@ -32,8 +32,8 @@ Do you use views_php module? Don’t! Just keep something like https://t.co/uK11
 #invalidly rejected:
 
 ## patterns
-# need for
-# don't need
+# need for - 3 occurrences
+# don't need - 2 occurrences
 
 @SafeMonk Betas 'Tapproof' #Encryption - Discusses Need for Strong Encryption and #Authentication http://t.co/3ezaakFdQK #data\u2026
 How to get your picture and #authorship to show up on #Google search results for #WordPress site.  Need #Google+. http://t\u2026

@@ -59,7 +59,8 @@ public final class TwitterUtil {
      * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
      */
     final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
-        "killed it" 
+        "killed it", 
+        "win-win"
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
         "photo: "

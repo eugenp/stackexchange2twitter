@@ -64,6 +64,14 @@ public final class TwitterUtilUnitTest {
         assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybe(tweetTokens, originalTweet));
     }
 
+    @Test
+    public final void givenValidTweet2_whenCheckingIfTweetIsRejectedByKeywordMaybe_thenNo() {
+        final String originalTweet = "Win-Win Mobility webcast today at 2PM EDT from IDG, IBM, Lenovo and Intel http://t.co/tk1g6Uz0cI … #IBMMobile";
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
+
+        assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybe(tweetTokens, originalTweet));
+    }
+
     // prepareTweet
 
     @Test
