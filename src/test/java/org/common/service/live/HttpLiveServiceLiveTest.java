@@ -161,8 +161,20 @@ public class HttpLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenShortenedUriIsUnshortednedScenario10_thenException() throws ClientProtocolException, IOException {
+    public final void givenInvalidUrl3_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expand("http://t.co/Nbp45Prfou");
+        assertNull(unshortenedUrl);
+    }
+
+    @Test
+    public final void givenInvalidUrl4_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expand("http://t.co/MEqK1jbfoG");
+        assertNull(unshortenedUrl);
+    }
+
+    @Test
+    public final void givenInvalidUrl5_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expand("http://t.co/nNijkvaccI");
         assertNull(unshortenedUrl);
     }
 

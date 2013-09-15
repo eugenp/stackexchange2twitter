@@ -134,6 +134,12 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutAws_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.aws.name());
+        assertTrue(success);
+    }
+
     // C
 
     @Test
@@ -204,6 +210,12 @@ public class TweetMetaLiveServiceLiveTest {
     // this is for discovery only - Eclipse should only be tweeted from the predefined accounts
     public final void whenTweetingAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestEclipse.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutEc2_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
         assertTrue(success);
     }
 
