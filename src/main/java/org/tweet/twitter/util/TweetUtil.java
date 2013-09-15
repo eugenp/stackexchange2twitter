@@ -13,7 +13,7 @@ public final class TweetUtil {
 
     /*
      * "ar"    - -1 -1
-     * "ca"    - +1 +1 +1 +1 +1 +1
+     * "ca"    - +1 +1 +1 +1 +1 +1 +1 - accepting
      * "el"    - +1 +1 +1
      * "it"    - +1 +1 +1 +1 +1 - accepting
      * "id"    - +1 +1 +1 +1 +1
@@ -26,7 +26,7 @@ public final class TweetUtil {
      * -"tr"   - +1 +1 +1 +1 -1
      * "xx-lc" - +1
     */
-    public final static List<String> acceptedUserLang = Lists.newArrayList("en", "en-gb", "de", "es", "fr", "ru", "it", "nl");
+    public final static List<String> acceptedUserLang = Lists.newArrayList("ca", "de", "en", "en-gb", "es", "fr", "it", "ru", "nl");
 
     public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @");
 

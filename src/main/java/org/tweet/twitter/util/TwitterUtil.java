@@ -23,7 +23,7 @@ public final class TwitterUtil {
     public final static Joiner joiner = Joiner.on(' ');
 
     final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
-        "buy", 
+        "buy", "discount", 
         "freelance", "job", "consulting", "hire", "hiring", "careers", 
         // "need", // for now, still in the maybe pile  
         "football", "exclusive",
@@ -31,10 +31,12 @@ public final class TwitterUtil {
         "gift", "highheels",
         "djmix", "housemusic",
         "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
-        "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew"
+        "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew",
+        "followback"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
         // "buy", // was here, I'm sufficiently convinced that it's not good 
+        "#deal", "#deals", // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
         "need", // gathering some more data for need
         "wife",
         "killed",
@@ -44,7 +46,8 @@ public final class TwitterUtil {
         "cheep", // trying it out
         "lucky", 
         "fpl", // fantasy player league
-        "win", "deals", "deal", "promo", // new
+        "deals", "deal", 
+        "win", "promo", // new
         "snake", // python snake...yes, it happened
         "kurd", "kurds", "afganistan", "palestinians", // other political stuff
         "$3.99", "$2.99", "$1.99", "$0.99" 
@@ -72,7 +75,8 @@ public final class TwitterUtil {
         ".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*", // 2 RTs
         ".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*",  // Free ... RT
         ".*(f|F)ollow (&|and|AND) R(T|t).*", // Follow & RT
-        ".*R(T|t) .* (f|F)ollow(ed)? .*" // RT this if you want me to follow you
+        ".*R(T|t) .* (f|F)ollow(ed)? .*", // RT this if you want me to follow you
+        ".*\\d(\\d)?% (o|O)ff.*" // 97% Off
     ); // @formatter:on
 
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
@@ -163,15 +167,12 @@ public final class TwitterUtil {
      * - <b>local</b> <br/>
     */
     public static boolean isTweetBanned(final String text) {
-        // final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(" ,?!:#.")).split(text)); // on 07.08 - see what happens
-        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(text));
-
         // by expression
         final String textLowerCase = text.toLowerCase();
 
         for (final String bannedExpressionMaybe : bannedExpressionsMaybe) {
             if (textLowerCase.contains(bannedExpressionMaybe)) {
-                logger.error("Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, text);
+                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, text);
                 return true;
             }
         }
@@ -183,6 +184,8 @@ public final class TwitterUtil {
             }
         }
 
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(text));
+
         // by contains keyword - maybe
         for (final String tweetToken : tweetTokens) {
             if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
@@ -193,7 +196,7 @@ public final class TwitterUtil {
                 try {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
-                    logger.error("Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + text);
+                    logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + text);
                     logger.debug("Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + text, ex);
                 }
                 return true;

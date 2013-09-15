@@ -153,6 +153,13 @@ public final class TwitterUtilUnitTest {
         assertTrue(TwitterUtil.isTweetBanned("RT if you want to be followed :) add me on #Facebook too https://t.co/j9YzugsgRo  x"));
     }
 
+    // hashcode (#deal, #deals)
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario20_thenRejected() {
+        assertTrue(TwitterUtil.isTweetBanned("100€ Discount #Dordogne cottage for 5 with pool avail 27 July-3 Aug Quote PSCR to get offer http://t.co/LmJfB83aSa #holiday #france #deals"));
+    }
+
     // by regex - reject
 
     @Test
@@ -193,6 +200,23 @@ public final class TwitterUtilUnitTest {
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario8_thenRejected() {
         assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Follow & RT if you want loot"));
+    }
+
+    // x% off
+
+    @Test
+    public final void givenTweetContainsBannedExpression_whenCheckingScenario9_thenRejected() {
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("You’ve Got 24 Hours - What Is Today's #Deal? - 97% Off - Web’s Best #Daily #Deals - #Free Shipping - http://t.co/jAKbaM8bfR - $AVE"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedExpression_whenCheckingScenario10_thenRejected() {
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Get Learning Perl at 60% off today: Learning PerlWas: $31.99Now: $12.80(Save 60%) O’Reilly’s Cyber Monday Deals ... http://t.co/GWFDlLbd"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedExpression_whenCheckingScenario11_thenRejected() {
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Get something at 5% off today: step right up"));
     }
 
     // by regex - accept
