@@ -6,8 +6,15 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+import org.classification.util.ClassificationSettings;
 import org.junit.Test;
 import org.tweet.twitter.service.TweetService;
+
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 
 public final class TwitterUtilUnitTest {
 
@@ -45,6 +52,16 @@ public final class TwitterUtilUnitTest {
     @Test
     public final void givenInvalidTweet_whenCheckingForValidity_thenIsNotValid() {
         assertFalse(TwitterUtil.isTweetTextWithLinkValid(randomAlphabetic(143)));
+    }
+
+    // isRejectedByContainsKeywordMaybe
+
+    @Test
+    public final void givenValidTweet1_whenCheckingIfTweetIsRejectedByKeywordMaybe_thenNo() {
+        final String originalTweet = "@snipeyhead killed it at Ignite Food Camp “Failing Well: Managing Risk in High-Performance Applications”  https://t.co/9UjRq6hw1X";
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
+
+        assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybe(tweetTokens, originalTweet));
     }
 
     // prepareTweet

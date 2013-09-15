@@ -50,7 +50,16 @@ public final class TwitterUtil {
         "win", "promo", // new
         "snake", // python snake...yes, it happened
         "kurd", "kurds", "afganistan", "palestinians", // other political stuff
-        "$3.99", "$2.99", "$1.99", "$0.99" 
+        "$3.99", "$2.99", "$1.99", "$0.99", 
+        "thugs" // new
+    );// @formatter:on
+
+    /**
+     * These are special cases that are OK <br/>
+     * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
+     */
+    final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
+        "killed it" 
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
         "photo: "
@@ -166,62 +175,84 @@ public final class TwitterUtil {
     /**
      * - <b>local</b> <br/>
     */
-    public static boolean isTweetBanned(final String text) {
+    public static boolean isTweetBanned(final String originalTweet) {
         // by expression
-        final String textLowerCase = text.toLowerCase();
+        final String textLowerCase = originalTweet.toLowerCase();
 
         for (final String bannedExpressionMaybe : bannedExpressionsMaybe) {
             if (textLowerCase.contains(bannedExpressionMaybe)) {
-                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, text);
+                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, originalTweet);
                 return true;
             }
         }
 
         for (final String bannedExpression : bannedExpressions) {
             if (textLowerCase.contains(bannedExpression)) {
-                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, text);
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
                 return true;
             }
         }
 
-        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(text));
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
 
         // by contains keyword - maybe
-        for (final String tweetToken : tweetTokens) {
-            if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
-                // TODO: temporarily error to get some examples
-                // also moved up so that it runs first and I see what kind of tweets would belong to this category
-
-                // try catch to at least get the stack
-                try {
-                    throw new IllegalStateException("I need the full stack - maybe keywords rejection");
-                } catch (final Exception ex) {
-                    logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + text);
-                    logger.debug("Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + text, ex);
-                }
-                return true;
-            }
+        if (isRejectedByContainsKeywordMaybe(tweetTokens, originalTweet)) {
+            return true;
         }
 
         // by contains keyword
         for (final String tweetToken : tweetTokens) {
             if (TwitterUtil.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
-                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, text);
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
                 return true;
             }
         }
 
         // by starts with keyword
         for (final String bannedStartsWith : bannedStartsWithExprs) {
-            if (text.startsWith(bannedStartsWith)) {
-                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, text);
+            if (originalTweet.startsWith(bannedStartsWith)) {
+                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
                 return true;
             }
         }
 
         // by regex
-        if (isRejectedByBannedRegexExpressions(text)) {
+        if (isRejectedByBannedRegexExpressions(originalTweet)) {
             return true;
+        }
+
+        return false;
+    }
+
+    static boolean isRejectedByContainsKeywordMaybe(final List<String> tweetTokens, final String originalTweet) {
+        for (final String tweetToken : tweetTokens) {
+            if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
+                // first - check if there are any overrides
+                if (overrideFoundForContainsKeywords(originalTweet)) {
+                    continue;
+                }
+
+                // try catch to at least get the stack
+                try {
+                    throw new IllegalStateException("I need the full stack - maybe keywords rejection");
+                } catch (final Exception ex) {
+                    logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
+                    logger.debug("Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                }
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean overrideFoundForContainsKeywords(final String originalTweet) {
+        for (final String override : acceptedContainsKeywordsOverrides) {
+            if (originalTweet.toLowerCase().contains(override)) {
+                // error only temporarily because I'm curious when this happens
+                logger.error("new - Found override= " + override + "; in tweet= \n" + originalTweet);
+                return true;
+            }
         }
 
         return false;
