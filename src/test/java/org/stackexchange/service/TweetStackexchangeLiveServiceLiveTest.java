@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stackexchange.api.client.QuestionsApi;
 import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.component.StackExchangePageStrategy;
 import org.stackexchange.spring.StackexchangeConfig;
@@ -28,6 +29,10 @@ import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.api.client.util.Preconditions;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, TwitterLiveConfig.class, StackexchangeContextConfig.class, StackexchangePersistenceJPAConfig.class, StackexchangeConfig.class })
@@ -42,6 +47,9 @@ public class TweetStackexchangeLiveServiceLiveTest {
 
     @Autowired
     private StackExchangePageStrategy pageStrategy;
+
+    @Autowired
+    private QuestionsApi questionsApi;
 
     // tests
 
@@ -197,6 +205,23 @@ public class TweetStackexchangeLiveServiceLiveTest {
     @Test
     public final void whenTweetingByDefaultTagOnBestBash_thenNoExceptions() throws JsonProcessingException, IOException {
         instance.tweetAnyTopQuestionBySiteAndTag(StackSite.AskUbuntu, StackTag.bash.name(), TwitterAccountEnum.AskUbuntuBest.name());
+    }
+
+    // tweet individual SO question
+
+    // failing - not sure why (will post on the Spring Security Forum soon)
+    @Test
+    public final void whenTweetingIndividualQuestion_thenNoExceptions() throws JsonProcessingException, IOException {
+        final String questionById = questionsApi.questionById(StackSite.StackOverflow, 16621738);
+        final ArrayNode singleQuestionAsArray = (ArrayNode) new ObjectMapper().readTree(questionById).get("items");
+        Preconditions.checkState(singleQuestionAsArray.size() <= 1);
+        final JsonNode singleQuestionAsJson = singleQuestionAsArray.get(0);
+        final String questionId = singleQuestionAsJson.get(QuestionsApi.QUESTION_ID).toString();
+        final String title = singleQuestionAsJson.get(QuestionsApi.TITLE).toString();
+        final String link = singleQuestionAsJson.get(QuestionsApi.LINK).toString();
+
+        final boolean success = instance.tryTweetOnePrepare(title, link, questionId, StackSite.StackOverflow, TwitterAccountEnum.RegexDaily.name());
+        assertTrue(success);
     }
 
 }

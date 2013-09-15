@@ -208,7 +208,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
     }
 
     /**one*/
-    private final boolean tryTweetOnePrepare(final String textRaw, final String url, final String questionId, final StackSite site, final String twitterAccount) {
+    final boolean tryTweetOnePrepare(final String textRaw, final String url, final String questionId, final StackSite site, final String twitterAccount) {
         final Map<String, Object> customDetails = Maps.newHashMap();
         customDetails.put("questionId", questionId);
         customDetails.put("site", site);
