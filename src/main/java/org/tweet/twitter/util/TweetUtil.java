@@ -16,7 +16,7 @@ public final class TweetUtil {
      * "ca"    - +1 +1 +1 +1 +1 +1 +1 - accepting
      * "el"    - +1 +1 +1
      * "it"    - +1 +1 +1 +1 +1 - accepting
-     * "id"    - +1 +1 +1 +1 +1
+     * "id"    - +1 +1 +1 +1 +1 +1
      * "ja"    - +1 +1 +1 +1 +1
      * "ko"    - +1 +1
      * "nl"    - +1 +1 +1 +1 +1 +1 - accepting
