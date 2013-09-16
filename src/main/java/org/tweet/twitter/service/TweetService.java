@@ -234,7 +234,9 @@ public class TweetService {
         }
         processedTweet = processedTweet.replace(mainUrl, "").trim();
 
-        return processedTweet.length() > 10;
+        processedTweet = TextUtil.cleanupInvalidCharacters(processedTweet);
+
+        return processedTweet.length() > 11;
     }
 
     // processing

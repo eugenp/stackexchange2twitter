@@ -3,6 +3,7 @@ package org.tweet.twitter.service;
 import static org.junit.Assert.assertFalse;
 
 import org.common.spring.CommonServiceConfig;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,6 +153,15 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario14_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(352789708444663810l);
+        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
+        final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
+        assertFalse(should1 && should2);
+    }
+
+    @Test
+    @Ignore("in progress")
+    public final void givenTweetShouldNotBeRetweetedScenario15_whenChecking_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(379102287018213376l);
         final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
