@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.SearchParameters;
 import org.springframework.social.twitter.api.SearchParameters.ResultType;
 import org.springframework.social.twitter.api.SearchResults;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,6 +34,7 @@ import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
+import org.tweet.twitter.util.TweetUtil;
 
 import com.codahale.metrics.MetricRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -602,8 +604,24 @@ public class TweetMetaLiveServiceLiveTest {
     // pointing to something good
 
     @Test
-    public final void givenTweetLinkIsPointingToSomethingBad_whenCheckingIfItIsPointingToSomethingGood_thenNo() {
+    public final void givenTweetNotPointingToAnythingGood1_whenCheckingIfItIsPointingToSomethingGood_thenNo() {
         final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGood("Going on #facebook for a bit :) http://www.facebook.com/realshamidrees");
+        assertThat(isIt, is(false));
+    }
+
+    @Test
+    public final void givenTweetNotPointingToAnythingGood2_whenCheckingIfItIsPointingToSomethingGood_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(357461150910251008l);
+        final String tweetText = TweetUtil.getText(tweet);
+        final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGood(tweetText);
+        assertThat(isIt, is(false));
+    }
+
+    @Test
+    public final void givenTweetNotPointingToAnythingGood3_whenCheckingIfItIsPointingToSomethingGood_thenNo() {
+        final Tweet tweet = twitterReadLiveService.findOne(350599636307812355l);
+        final String tweetText = TweetUtil.getText(tweet);
+        final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGood(tweetText);
         assertThat(isIt, is(false));
     }
 

@@ -52,11 +52,6 @@ public class TweetServiceUnitTest {
     // is it worth retweeting
 
     @Test
-    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario2_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("Beach day..\uD83D\uDE0D #greece #ios #beautiful @runwaydreamz http://instagram.com/p/bEvmJsI1dn/"));
-    }
-
-    @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario4_thenRejected() {
         assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#PHP \"@MarceloLopez84: Heres proof!! pic.twitter.com/HDHf2t1W4A\""));
     }

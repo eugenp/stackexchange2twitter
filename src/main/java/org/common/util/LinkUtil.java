@@ -26,14 +26,14 @@ public final class LinkUtil {
     );// @formatter:on
 
     final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off
-         // 
+        "http://instagram.com/", 
+        "pic.twitter.com"
     );// @formatter:on
     final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off
         "http(s)?://(www.)?.*\\.de(\\z|/.*)" 
     );// @formatter:on
     final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
-        "http://instagram.com/", 
-        "pic.twitter.com"
+        "https://twitter.com/.*/photo/\\d+"
     );// @formatter:on
 
     private LinkUtil() {
@@ -60,14 +60,14 @@ public final class LinkUtil {
         for (final String bannedDomainMaybe : bannedDomainsMaybe) {
             if (urlString.startsWith(bannedDomainMaybe)) {
                 // still error - reasons to move down: +1,
-                logger.error("(temp-error) For url: {} banned domain: {}", urlString, bannedDomainMaybe);
+                logger.error("1 - For url: {} banned domain: {}", urlString, bannedDomainMaybe);
                 return true;
             }
         }
         for (final String bannedDomainByRegexMaybe : bannedDomainsByRegexMaybe) {
             if (urlString.matches(bannedDomainByRegexMaybe)) {
-                // was error - nothing really interesting found - moving down to debug
-                logger.debug("For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);
+                // was error - nothing really interesting found - but still - this is maybe, so leaving as error
+                logger.error("2 - For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);
                 return true;
             }
         }
