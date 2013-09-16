@@ -60,7 +60,7 @@ public final class TwitterUtil {
      */
     final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
         "killed it", 
-        "win-win"
+        "win-win", "win/win"
     );// @formatter:on
     final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
         "photo: "

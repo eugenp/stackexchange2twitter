@@ -155,7 +155,7 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutCloud1_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingAboutCloud_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.cloud.name());
         assertTrue(success);
     }
@@ -236,7 +236,7 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutGoogle1_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingAboutGoogle_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.google.name());
         assertTrue(success);
     }
@@ -304,6 +304,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutJava_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name(), TwitterTag.java.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutJvm_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfJava.name(), TwitterTag.jvm.name());
         assertTrue(success);
     }
 
@@ -454,6 +460,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutPython_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.PythonDaily.name(), TwitterTag.python.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutPostgresql_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name(), TwitterTag.postgresql.name());
         assertTrue(success);
     }
 
