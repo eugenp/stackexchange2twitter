@@ -66,10 +66,6 @@ public class TweetService {
             return false;
         }
 
-        if (linkService.containsLinkToBannedServices(potentialTweetText)) {
-            return false;
-        }
-
         if (linkService.extractUrls(potentialTweetText).size() > 1) {
             // keep below error - there are a lot of tweets that fall into this category and it's not really relevant
             logger.debug("Rejecting tweet because it has more than one link; tweet text= {}", potentialTweetText);

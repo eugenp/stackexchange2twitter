@@ -215,7 +215,7 @@
 			<artifactId>metrics-core</artifactId>
 			<version>${metrics.version}</version>
 		</dependency>
-		
+
 		<!-- logging -->
 
 		<dependency>
@@ -363,14 +363,14 @@
 		<!-- other -->
 		<jackson.version>2.2.3</jackson.version>
 		<jackson.old.version>1.9.13</jackson.old.version>
-		
+
 		<mail.version>1.4.7</mail.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
 		<guava.version>14.0.1</guava.version>
 
 		<!-- spring -->
 		<spring.version>3.2.4.RELEASE</spring.version>
-		<spring-social-twitter.version>1.0.5.RELEASE</spring-social-twitter.version>
+		<spring-social-twitter.version>1.1.0.BUILD-SNAPSHOT</spring-social-twitter.version> <!-- 1.0.5.RELEASE -->
 
 		<!-- persistence -->
 		<mysql-connector-java.version>5.1.26</mysql-connector-java.version> <!-- latest version on: 07.08.2013 - http://dev.mysql.com/downloads/connector/j/ -->
@@ -384,7 +384,7 @@
 
 		<!-- ops -->
 		<metrics.version>3.0.1</metrics.version>
-		
+
 		<!-- logging -->
 		<org.slf4j.version>1.7.5</org.slf4j.version>
 		<logback.version>1.0.11</logback.version>
@@ -401,6 +401,16 @@
 	</properties>
 
 	<repositories>
+		<repository>
+			<id>repository.springsource.milestone</id>
+			<name>SpringSource Milestone Repository</name>
+			<url>http://repo.springsource.org/milestone</url>
+		</repository>
+		<repository>
+			<id>repository.springsource.snapshot</id>
+			<name>SpringSource Snapshot Repository</name>
+			<url>http://repo.springsource.org/snapshot</url>
+		</repository>
 		<repository>
 			<id>jboss-public-repository-group</id>
 			<name>JBoss Public Maven Repository Group</name>

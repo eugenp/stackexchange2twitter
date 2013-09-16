@@ -52,18 +52,8 @@ public class TweetServiceUnitTest {
     // is it worth retweeting
 
     @Test
-    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario1_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("PETZ NAOTO FAL ELLY #junkmania #ldh #exile #3jsb #yeezy #hba #beentrill #chanel #snapback #python\u2026 http://instagram.com/p/bWL_vVwziM/"));
-    }
-
-    @Test
     public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario2_thenRejected() {
         assertFalse(instance.isTweetWorthRetweetingByTextWithLink("Beach day..\uD83D\uDE0D #greece #ios #beautiful @runwaydreamz http://instagram.com/p/bEvmJsI1dn/"));
-    }
-
-    @Test
-    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario3_thenRejected() {
-        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#PHP \"@MarceloLopez84: The picture of Ronaldo which i took at Manchester Airport http://twitter.com/MarceloLopez84/status/357459318175588352/photo/1pic.twitter.com/Tx70a6MNqS \""));
     }
 
     @Test

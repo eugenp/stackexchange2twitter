@@ -32,7 +32,8 @@ public final class LinkUtil {
         "http(s)?://(www.)?.*\\.de(\\z|/.*)" 
     );// @formatter:on
     final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
-        // 
+        "http://instagram.com/", 
+        "pic.twitter.com"
     );// @formatter:on
 
     private LinkUtil() {

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.util.Preconditions;
-import com.google.common.collect.Lists;
 
 /**
  * - local
@@ -18,8 +17,6 @@ import com.google.common.collect.Lists;
 @Service
 public class LinkService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    private final List<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
 
     public LinkService() {
         super();
@@ -132,22 +129,6 @@ public class LinkService {
      */
     public final List<String> extractUrls(final String input) {
         return LinkUtil.extractUrls(input);
-    }
-
-    /**
-     * - <b>local</b> <br/>
-     * - current banned services: instagram, pic.twitter
-     */
-    public final boolean containsLinkToBannedServices(final String tweetText) {
-        for (final String bannedService : bannedServices) {
-            final boolean linkToBannedService = tweetText.contains(bannedService);
-            if (linkToBannedService) {
-                logger.trace("Tweet = {} contains link to banned service= {} - skipping", tweetText, bannedService);
-                return true;
-            }
-        }
-
-        return false;
     }
 
     // util
