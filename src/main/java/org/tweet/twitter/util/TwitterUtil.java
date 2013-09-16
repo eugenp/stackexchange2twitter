@@ -175,6 +175,11 @@ public final class TwitterUtil {
 
     /**
      * - <b>local</b> <br/>
+     * Tweet can be banned by: <br/>
+     * - expression (multiple words) <br/>
+     * - single word - contains <br/>
+     * - single word - starts with <br/>
+     * - regular expression - matches <br/>
     */
     public static boolean isTweetBanned(final String originalTweet) {
         // by expression

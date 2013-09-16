@@ -48,7 +48,13 @@ public class TweetService {
     // checks
 
     /**
-     * - temporarily added so that it can log information about the hashtag
+     * - <b>local</b> <br/>
+     * Tweet is <b>not worth retweeting if</b>: <br/>
+     * - doesn't contain any link <b>or</b> contains more than one single link<br/>
+     * - is banned (single word, expression, regex)<br/>
+     * - contains a link to a banned service (ex: instagram) <br/>
+     * - is structurally valid<br/>
+     * - <br/>
      */
     public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {
@@ -190,10 +196,10 @@ public class TweetService {
     }
 
     /**
-     * - local <br/>
+     * - <b>local</b> <br/>
      * - verifies that a main url exists, and that the remaining text is longer then 10 chars
      */
-    public final boolean isStructurallyValid(final String potentialTweetText) {
+    private final boolean isStructurallyValidOld(final String potentialTweetText) {
         final List<String> extractedUrls = linkService.extractUrls(potentialTweetText);
         final String mainUrl = linkService.determineMainUrl(extractedUrls);
         if (mainUrl == null) {
@@ -203,6 +209,35 @@ public class TweetService {
         final int fullLength = potentialTweetText.length();
 
         return (fullLength - lengthOfMainUrl) > 10;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * - verifies that a main url exists, and that the remaining text is longer then 10 chars
+     */
+    public final boolean isStructurallyValid(final String potentialTweetText) {
+        String processedTweet = potentialTweetText;
+
+        // remove mention
+        processedTweet = processedTweet.replaceAll("(- )?via @\\w+", "");
+        processedTweet = processedTweet.replaceAll("@\\w+", "");
+
+        // remove hashtags
+        processedTweet = processedTweet.replaceAll("#\\w+", "");
+
+        // remove empty space
+        processedTweet = processedTweet.replaceAll("  ", " ").trim();
+
+        // then see what's left
+
+        final List<String> extractedUrls = linkService.extractUrls(processedTweet);
+        final String mainUrl = linkService.determineMainUrl(extractedUrls);
+        if (mainUrl == null) {
+            return false;
+        }
+        processedTweet = processedTweet.replace(mainUrl, "").trim();
+
+        return processedTweet.length() > 10;
     }
 
     // processing
@@ -287,6 +322,9 @@ public class TweetService {
         final int countHashtags = countHashtags(tweet);
         if (countHashtags > 7) {
             // I have seen a lot of valid tweets with 7
+            if (countHashtags == 7) {
+                logger.error("Are there really valid tweets with 7 hashtags? Leave this running for a bit: " + TweetUtil.getText(tweet));
+            }
             return false;
         }
 
@@ -362,6 +400,7 @@ public class TweetService {
     }
 
     /**
+     * - <b>local</b> <br/>
      * Determines if the tweet text contains a link
      */
     private final boolean containsLink(final String text) {

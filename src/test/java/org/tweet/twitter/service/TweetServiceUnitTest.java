@@ -101,6 +101,11 @@ public class TweetServiceUnitTest {
         assertFalse(instance.isTweetWorthRetweetingByTextWithLink("RT this if you want me to follow you :) add me on #Facebook too https://t.co/j9YzugsgRo  x"));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario11_thenRejected() {
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#BITCOIN #ALGORITHM TRADING #PROFITS #TRADES #EASYTRADING #BOTS #FOREX http://goo.gl/fb/Ou5FT  - via @censorednewsnow"));
+    }
+
     // pre-process
 
     @Test
@@ -256,6 +261,11 @@ public class TweetServiceUnitTest {
     @Test
     public final void whenCheckedIfStructurallyValidTweet1_theNo() {
         assertFalse(instance.isStructurallyValid("#Google http://t.co/VmandYLIu4"));
+    }
+
+    @Test
+    public final void whenCheckedIfStructurallyValidTweet2_theNo() {
+        assertFalse(instance.isStructurallyValid("#BITCOIN #ALGORITHM #TRADING #PROFITS #TRADES #EASYTRADING #BOTS #FOREX http://goo.gl/fb/Ou5FT - @censorednewsnow 2"));
     }
 
     @Test

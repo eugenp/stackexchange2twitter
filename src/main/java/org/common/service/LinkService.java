@@ -2,7 +2,6 @@ package org.common.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.common.util.LinkUtil;
@@ -19,6 +18,8 @@ import com.google.common.collect.Lists;
 @Service
 public class LinkService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private final List<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
 
     public LinkService() {
         super();
@@ -138,8 +139,6 @@ public class LinkService {
      * - current banned services: instagram, pic.twitter
      */
     public final boolean containsLinkToBannedServices(final String tweetText) {
-        final ArrayList<String> bannedServices = Lists.newArrayList("http://instagram.com/", "pic.twitter.com");
-
         for (final String bannedService : bannedServices) {
             final boolean linkToBannedService = tweetText.contains(bannedService);
             if (linkToBannedService) {
