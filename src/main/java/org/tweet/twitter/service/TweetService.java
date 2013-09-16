@@ -77,7 +77,8 @@ public class TweetService {
         }
 
         if (!isStructurallyValid(potentialTweetText)) {
-            logger.debug("Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
+            // newly changed - error for a while, then debug again
+            logger.error("NEW - Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
             return false;
         }
 
