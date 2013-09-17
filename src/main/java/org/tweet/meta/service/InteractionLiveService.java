@@ -480,7 +480,7 @@ public class InteractionLiveService {
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
         final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweets, new TweetPassesLevel1Predicate(tweetService));
         final Collection<Tweet> retweetsPassingLevel2 = Collections2.filter(retweetsPassingLevel1, new TweetPassesLevel2Predicate(tweetService));
-        System.out.println(retweetsPassingLevel2.size());
+
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
             if (isTweetGoodRetweet(tweet)) {

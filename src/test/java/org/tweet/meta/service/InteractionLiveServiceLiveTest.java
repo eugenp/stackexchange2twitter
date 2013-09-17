@@ -74,13 +74,6 @@ public final class InteractionLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenDecidingBestInteractionWithTweet3_thenNone() {
-        final Tweet tweet = twitterReadLiveService.findOne(364420762922668032l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, "").getTwitterInteraction();
-        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
-    }
-
-    @Test
     public final void whenDecidingBestInteractionWithTweet4_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(364424663704670208l);
         final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, "").getTwitterInteraction();
@@ -153,7 +146,7 @@ public final class InteractionLiveServiceLiveTest {
         final String userHandle = "mitsuhiko";
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
-        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
     }
 
     @Test
@@ -177,7 +170,7 @@ public final class InteractionLiveServiceLiveTest {
         final String userHandle = "chalkers";
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
-        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
     }
 
     @Test
@@ -229,7 +222,7 @@ public final class InteractionLiveServiceLiveTest {
         final String userHandle = "springcentral";
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
-        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
     }
 
     @Test
@@ -245,7 +238,7 @@ public final class InteractionLiveServiceLiveTest {
         final String userHandle = "jameschesters";
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
-        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
     }
 
 }
