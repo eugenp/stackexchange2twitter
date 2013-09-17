@@ -245,12 +245,12 @@ public class TweetServiceUnitTest {
 
     @Test
     public final void whenCheckedIfStructurallyValidTweet1_theNo() {
-        assertFalse(instance.isStructurallyValidMinimal("#Google http://t.co/VmandYLIu4"));
+        assertFalse(instance.isStructurallyValidForTweeting("#Google http://t.co/VmandYLIu4"));
     }
 
     @Test
     public final void whenCheckedIfStructurallyValidTweet2_theNo() {
-        assertFalse(instance.isStructurallyValidMinimal("#BITCOIN #ALGORITHM #TRADING #PROFITS #TRADES #EASYTRADING #BOTS #FOREX http://goo.gl/fb/Ou5FT - @censorednewsnow 2"));
+        assertFalse(instance.isStructurallyValidForTweeting("#BITCOIN #ALGORITHM #TRADING #PROFITS #TRADES #EASYTRADING #BOTS #FOREX http://goo.gl/fb/Ou5FT - @censorednewsnow 2"));
     }
 
     @Test
