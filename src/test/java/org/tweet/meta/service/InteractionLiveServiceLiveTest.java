@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -119,6 +120,132 @@ public final class InteractionLiveServiceLiveTest {
     @Test
     public final void whenDeterminngBestInteractionWithAuthor1_thenOK() {
         interactionLiveService.determineBestInteractionWithAuthorLive("Passoker", TwitterAccountEnum.BestOfCloud.name());
+    }
+
+    // no
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser1_thenNo() {
+        final String userHandle = "johnhike";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser2_thenNo() {
+        final String userHandle = "Moz";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser3_thenNo() {
+        final String userHandle = "HuffPostTech";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser4_thenNo() {
+        final String userHandle = "mitsuhiko";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser5_thenNo() {
+        final String userHandle = "gopivotal";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser6_thenNo() {
+        final String userHandle = "WIRED";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser7_thenNo() {
+        final String userHandle = "chalkers";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser8_thenNo() {
+        final String userHandle = "javacodegeeks";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser9_thenNo() {
+        final String userHandle = "SoftwareHollis";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    // barely - sometimes yes and sometimes no
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser1_thenBarelyNo() {
+        final String userHandle = "petrikainulaine";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser2_thenBarelyNo() {
+        final String userHandle = "BBCNews";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+    }
+
+    // yes
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser1_thenYes() {
+        final String userHandle = "russmiles"; // for lisp
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser2_thenYes() {
+        final String userHandle = "springcentral";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser3_thenYes() {
+        final String userHandle = "skillsmatter";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser4_thenYes() {
+        final String userHandle = "jameschesters";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
     }
 
 }

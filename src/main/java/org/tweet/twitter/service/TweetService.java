@@ -57,6 +57,30 @@ public class TweetService {
      * - <br/>
      */
     public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText) {
+        if (!passesLevel2Checks(potentialTweetText)) {
+            return false;
+        }
+
+        if (!isStructurallyValidForTweeting(potentialTweetText)) {
+            // newly changed - error for a while, then debug again
+            logger.error("NEW - Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
+            return false;
+        }
+
+        // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
+        return true;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * Tweet is <b>not worth retweeting if</b>: <br/>
+     * - doesn't contain any link <b>or</b> contains more than one single link <br/>
+     * - is banned (single word, expression, regex)<br/>
+     * - contains a link to a banned service (ex: instagram) <br/>
+     * - is structurally valid (minimally) <br/>
+     * - <b>note: does not check</b> if it passes level 0 and 1 checks <br/>
+     */
+    public final boolean passesLevel2Checks(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {
             return false;
         }
@@ -72,7 +96,7 @@ public class TweetService {
             return false;
         }
 
-        if (!isStructurallyValid(potentialTweetText)) {
+        if (!isStructurallyValidMinimal(potentialTweetText)) {
             // newly changed - error for a while, then debug again
             logger.error("NEW - Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
             return false;
@@ -92,7 +116,7 @@ public class TweetService {
      * - favorites are not yet considered <br/>
      */
     public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String hashtag) {
-        if (!passesMinimalChecks(potentialTweet, hashtag)) {
+        if (!passesLevel1Checks(potentialTweet, hashtag)) {
             return false;
         }
 
@@ -111,7 +135,7 @@ public class TweetService {
      * -  the author is not banned from being interacted with </br>
      * -  the tweet doesn't go over a max number of hashtags </br>
      */
-    public final boolean passesBareMinimalChecks(final Tweet tweet, final String hashtag) {
+    public final boolean passesLevel0MinimalChecks(final Tweet tweet, final String hashtag) {
         final String hashTagInternal = (hashtag == null) ? "" : hashtag;
 
         if (TwitterUtil.isUserBannedFromRetweeting(tweet.getFromUser())) {
@@ -132,33 +156,32 @@ public class TweetService {
 
     /**
      * Passing minimal checks means: </br>
+     * - level 0 checks pass - {@link TweetService#passesLevel0MinimalChecks(Tweet, String)} 
      * - the tweet has a <b>language</b></br>
      * - the tweet has an accepted <b>language</b> </br>
-     * -  the author of the tweet has an accepted <b>language</b> </br>
-     * -  the author is not <b>banned</b> from being interacted with </br>
-     * -  the tweet doesn't go over a <b>max number of hashtags</b> </br>
+     * - the author of the tweet has an accepted <b>language</b> </br>
      */
-    public final boolean passesMinimalChecks(final Tweet tweet, final String hashtag) {
+    public final boolean passesLevel1Checks(final Tweet tweet, final String hashtag) {
         final String hashTagInternal = (hashtag == null) ? "" : hashtag;
+
+        if (!passesLevel0MinimalChecks(tweet, hashTagInternal)) {
+            return false;
+        }
+
         if (tweet.getLanguageCode() == null) {
             // temporary error
             logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
             return false;
         }
 
-        if (!tweet.getLanguageCode().trim().equals("en")) {
-            // if (!TweetUtil.acceptedUserLang.contains(tweet.getLanguageCode())) {
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashTagInternal, tweet.getLanguageCode());
-            // should be (and was) debug - now error because I need to see what kind of tweets are rejected because of this one - is it iffy, like the main language of the user, or is it more exact?
+        // if (!tweet.getLanguageCode().trim().equals("en")) {
+        if (!TweetUtil.acceptedUserLang.contains(tweet.getLanguageCode())) {
+            logger.error("en only? keep in mind - potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashTagInternal, tweet.getLanguageCode());
             return false;
         }
         if (tweet.getUser() == null || !TweetUtil.acceptedUserLang.contains(tweet.getUser().getLanguage().trim())) {
             // temporary error
             logger.error("potentialTweet= {} on twitterTag= {} rejected because the user has language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage());
-            return false;
-        }
-
-        if (!passesBareMinimalChecks(tweet, hashTagInternal)) {
             return false;
         }
 
@@ -194,25 +217,13 @@ public class TweetService {
 
     /**
      * - <b>local</b> <br/>
-     * - verifies that a main url exists, and that the remaining text is longer then 10 chars
+     * - verifies that a main url exists, and that the remaining text is longer then 11 chars
      */
-    private final boolean isStructurallyValidOld(final String potentialTweetText) {
-        final List<String> extractedUrls = linkService.extractUrls(potentialTweetText);
-        final String mainUrl = linkService.determineMainUrl(extractedUrls);
-        if (mainUrl == null) {
+    public final boolean isStructurallyValidForTweeting(final String potentialTweetText) {
+        if (!isStructurallyValidMinimal(potentialTweetText)) {
             return false;
         }
-        final int lengthOfMainUrl = mainUrl.length();
-        final int fullLength = potentialTweetText.length();
 
-        return (fullLength - lengthOfMainUrl) > 10;
-    }
-
-    /**
-     * - <b>local</b> <br/>
-     * - verifies that a main url exists, and that the remaining text is longer then 10 chars
-     */
-    public final boolean isStructurallyValid(final String potentialTweetText) {
         String processedTweet = potentialTweetText;
 
         // remove mention
@@ -229,14 +240,25 @@ public class TweetService {
 
         final List<String> extractedUrls = linkService.extractUrls(processedTweet);
         final String mainUrl = linkService.determineMainUrl(extractedUrls);
-        if (mainUrl == null) {
-            return false;
-        }
         processedTweet = processedTweet.replace(mainUrl, "").trim();
 
         processedTweet = TextUtil.cleanupInvalidCharacters(processedTweet);
 
         return processedTweet.length() > 11;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * - verifies that a main url exists
+     */
+    public final boolean isStructurallyValidMinimal(final String potentialTweetText) {
+        final List<String> extractedUrls = linkService.extractUrls(potentialTweetText);
+        final String mainUrl = linkService.determineMainUrl(extractedUrls);
+        if (mainUrl == null) {
+            return false;
+        }
+
+        return true;
     }
 
     // processing

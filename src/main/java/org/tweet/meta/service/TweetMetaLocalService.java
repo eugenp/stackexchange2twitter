@@ -72,7 +72,7 @@ public class TweetMetaLocalService {
     }
 
     public final List<Retweet> findLocalCandidatesRelaxed(final String fullTextWithUrlAfterProcessing, final String twitterAccount) {
-        final boolean isWorth = tweetService.isStructurallyValid(fullTextWithUrlAfterProcessing);
+        final boolean isWorth = tweetService.isStructurallyValidMinimal(fullTextWithUrlAfterProcessing);
         if (!isWorth) {
             return findLocalCandidatesStrict(fullTextWithUrlAfterProcessing, twitterAccount);
         }

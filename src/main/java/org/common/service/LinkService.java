@@ -108,7 +108,7 @@ public class LinkService {
     }
 
     /**
-     * - local <br/>
+     * - <b>local</b> <br/>
      * - <b>note</b>: may return null
      */
     public final String determineMainUrl(final List<String> extractedUrls) {

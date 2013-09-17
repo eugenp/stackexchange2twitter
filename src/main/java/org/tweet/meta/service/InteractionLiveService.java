@@ -528,12 +528,12 @@ public class InteractionLiveService {
             return false;
         }
 
-        if (!tweetService.passesBareMinimalChecks(tweet, null)) {
+        if (!tweetService.passesLevel1Checks(tweet, null)) {
             return false;
         }
 
         final String text = TweetUtil.getText(tweet);
-        if (!tweetService.isTweetWorthRetweetingByTextWithLink(text)) {
+        if (!tweetService.passesLevel2Checks(text)) {
             return false;
         }
 

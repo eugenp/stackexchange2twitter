@@ -245,17 +245,17 @@ public class TweetServiceUnitTest {
 
     @Test
     public final void whenCheckedIfStructurallyValidTweet1_theNo() {
-        assertFalse(instance.isStructurallyValid("#Google http://t.co/VmandYLIu4"));
+        assertFalse(instance.isStructurallyValidMinimal("#Google http://t.co/VmandYLIu4"));
     }
 
     @Test
     public final void whenCheckedIfStructurallyValidTweet2_theNo() {
-        assertFalse(instance.isStructurallyValid("#BITCOIN #ALGORITHM #TRADING #PROFITS #TRADES #EASYTRADING #BOTS #FOREX http://goo.gl/fb/Ou5FT - @censorednewsnow 2"));
+        assertFalse(instance.isStructurallyValidMinimal("#BITCOIN #ALGORITHM #TRADING #PROFITS #TRADES #EASYTRADING #BOTS #FOREX http://goo.gl/fb/Ou5FT - @censorednewsnow 2"));
     }
 
     @Test
     public final void whenCheckedIfStructurallyValidTweet1_theYes() {
-        assertTrue(instance.isStructurallyValid("Any easy #REST tutorials for Java? - http://stackoverflow.com/questions/333690/any-easy-rest-tutorials-for-java …"));
+        assertTrue(instance.isStructurallyValidMinimal("Any easy #REST tutorials for Java? - http://stackoverflow.com/questions/333690/any-easy-rest-tutorials-for-java …"));
     }
 
 }
