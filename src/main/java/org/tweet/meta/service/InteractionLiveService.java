@@ -443,7 +443,7 @@ public class InteractionLiveService {
 
     private final boolean isWorthInteractingWithBasedOnLanguage(final TwitterProfile user) {
         final String languageOfUser = user.getLanguage();
-        if (languageOfUser.equals("en")) {
+        if (TweetUtil.acceptedUserLang.contains(languageOfUser)) {
             return true;
         }
 

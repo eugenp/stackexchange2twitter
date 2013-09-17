@@ -105,7 +105,7 @@ public final class InteractionLiveServiceLiveTest {
     public final void whenDecidingBestInteractionWithTweet8_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(373031256323522560l);
         final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.BestOfCloud.name()).getTwitterInteraction();
-        assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
+        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
     // determine best interaction with author
@@ -239,6 +239,14 @@ public final class InteractionLiveServiceLiveTest {
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
         assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser5_thenYes() {
+        final String userHandle = "CloudExpo";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
     }
 
 }

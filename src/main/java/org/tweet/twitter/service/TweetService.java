@@ -178,7 +178,7 @@ public class TweetService {
 
         // if (!tweet.getLanguageCode().trim().equals("en")) {
         if (!TweetUtil.acceptedUserLang.contains(tweet.getLanguageCode())) {
-            logger.error("en only? keep in mind - potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", tweet, hashTagInternal, tweet.getLanguageCode());
+            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode());
             return false;
         }
         if (tweet.getUser() == null || !TweetUtil.acceptedUserLang.contains(tweet.getUser().getLanguage().trim())) {
