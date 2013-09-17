@@ -68,7 +68,7 @@ public class TwitterInteractionValuesRetriever {
 
     /**
      * - twitter.value.pagestoanalyze <br/>
-     * - default = 1
+     * - default = 2
      */
     public int getPagesToAnalyze() {
         final Integer value = env.getProperty("twitter.value.pagestoanalyze", Integer.class);

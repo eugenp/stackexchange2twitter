@@ -125,6 +125,9 @@ public final class TwitterUtil {
         return fullTweet.length() <= 142;
     }
 
+    /**
+     * - <b>local</b> <br/>
+     */
     public static boolean isUserBannedFromRetweeting(final String username) {
         return bannedTwitterUsers.contains(username);
     }

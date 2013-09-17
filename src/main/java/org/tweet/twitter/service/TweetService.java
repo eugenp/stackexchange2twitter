@@ -131,6 +131,7 @@ public class TweetService {
     }
 
     /**
+     * - <b>local</b> <br/>
      * Passing bare minimal checks means: </br>
      * -  the author is not banned from being interacted with </br>
      * -  the tweet doesn't go over a max number of hashtags </br>
@@ -155,6 +156,7 @@ public class TweetService {
     }
 
     /**
+     * - <b>local</b> <br/>
      * Passing minimal checks means: </br>
      * - level 0 checks pass - {@link TweetService#passesLevel0MinimalChecks(Tweet, String)} 
      * - the tweet has a <b>language</b></br>
@@ -315,7 +317,7 @@ public class TweetService {
     }
 
     /**
-     * - local
+     * - <b>local</b> <br/>
      */
     final int countHashtags(final Tweet tweet) {
         return getHashtagsRaw(tweet).size();
@@ -337,6 +339,7 @@ public class TweetService {
     }
 
     /**
+     * - <b>local</b> <br/>
      * Tweet with more than 7 hashtags should not be retweeted
      */
     final boolean isTweetWorthRetweetingByNumberOfHashtags(final Tweet tweet) {
