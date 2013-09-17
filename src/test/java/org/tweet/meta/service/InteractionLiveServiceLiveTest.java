@@ -154,7 +154,7 @@ public final class InteractionLiveServiceLiveTest {
         final String userHandle = "gopivotal";
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
-        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.None));
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Retweet));
     }
 
     @Test
