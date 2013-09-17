@@ -151,7 +151,7 @@ public class TweetServiceReadOnlyLiveTest {
     }
 
     @Test
-    @Ignore("in progress")
+    // @Ignore("in progress")
     public final void givenTweetShouldNotBeRetweetedScenario14_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(379689668885110784l);
         final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
