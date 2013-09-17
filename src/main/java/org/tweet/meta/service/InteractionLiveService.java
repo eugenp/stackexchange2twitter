@@ -98,8 +98,13 @@ public class InteractionLiveService {
         float valueOfMention = calculateUserMentionInteractionScore(userSnapshot, user);
         float valueOfRetweet = calculateUserRetweetInteractionScore(userSnapshot, user);
 
-        // + scores (augment scores with some uumf based on how popular the tweet was to begin with)
-        final int addToScoreBasedOnHowPopularTheRetweetIs = (int) Math.log(tweet.getRetweetCount() * tweet.getRetweetCount());
+        // + scores (augment scores with some uumf based on how popular the tweet was to begin with) - it does so simply to (later on) hike the retweet count if necessary - not to differentiate between the 3 scores
+        final int addToScoreBasedOnHowPopularTheRetweetIs;
+        if (tweet.getRetweetCount() == 0) {
+            addToScoreBasedOnHowPopularTheRetweetIs = 0;
+        } else {
+            addToScoreBasedOnHowPopularTheRetweetIs = (int) Math.log(tweet.getRetweetCount() * tweet.getRetweetCount());
+        }
         valueWithinMentions = valueWithinMentions + addToScoreBasedOnHowPopularTheRetweetIs;
         valueOfMention = valueOfMention + addToScoreBasedOnHowPopularTheRetweetIs;
         valueOfRetweet = valueOfRetweet + addToScoreBasedOnHowPopularTheRetweetIs;
@@ -150,7 +155,12 @@ public class InteractionLiveService {
         } else { // retweet is the best value
             logger.debug("Best value in interacting with the author USER via a RETWEET; tweet= {}\n- url= {}", tweet.getText(), tweetUrl); // debug - OK
             if (shouldNotRetweet) {
-                return new TwitterInteractionWithValue(TwitterInteraction.None, valueOfRetweet);
+                // I cannot retweet - but then - what is the next best thing
+                if (valueWithinMentions > valueOfMention) {
+                    return new TwitterInteractionWithValue(TwitterInteraction.None, valueOfRetweet);
+                } else {
+                    return new TwitterInteractionWithValue(TwitterInteraction.Mention, valueOfRetweet);
+                }
             }
             return new TwitterInteractionWithValue(TwitterInteraction.Retweet, valueOfRetweet);
         }

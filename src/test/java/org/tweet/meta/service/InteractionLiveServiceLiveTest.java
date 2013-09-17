@@ -91,7 +91,7 @@ public final class InteractionLiveServiceLiveTest {
     public final void whenDecidingBestInteractionWithTweet6_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(371618484087566336l);
         final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.BestOfCloud.name()).getTwitterInteraction();
-        assertThat(bestInteraction, equalTo(TwitterInteraction.None));
+        assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
     }
 
     @Test
