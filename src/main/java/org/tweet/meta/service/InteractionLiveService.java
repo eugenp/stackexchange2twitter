@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.tweet.meta.TwitterUserSnapshot;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.meta.util.TweetIsRetweetPredicate;
-import org.tweet.meta.util.TweetPassesLevel0Predicate;
 import org.tweet.meta.util.TweetPassesLevel1Predicate;
 import org.tweet.meta.util.TweetPassesLevel2Predicate;
 import org.tweet.twitter.component.DiscouragedExpressionRetriever;
@@ -575,9 +574,10 @@ public class InteractionLiveService {
             return -1;
         }
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
-        final Collection<Tweet> retweetsPassingLevel0 = Collections2.filter(retweets, new TweetPassesLevel0Predicate(tweetService));
-        final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweetsPassingLevel0, new TweetPassesLevel1Predicate(tweetService));
-        final Collection<Long> originalUserIds = Collections2.transform(retweetsPassingLevel1, new Function<Tweet, Long>() {
+        final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweets, new TweetPassesLevel1Predicate(tweetService));
+        final Collection<Tweet> retweetsPassingLevel2 = Collections2.filter(retweetsPassingLevel1, new TweetPassesLevel2Predicate(tweetService));
+
+        final Collection<Long> originalUserIds = Collections2.transform(retweetsPassingLevel2, new Function<Tweet, Long>() {
             @Override
             public final Long apply(final Tweet input) {
                 return input.getRetweetedStatus().getFromUserId();
