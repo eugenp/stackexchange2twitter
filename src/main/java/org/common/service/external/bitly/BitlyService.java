@@ -4,10 +4,13 @@ import net.swisstech.bitly.BitlyClient;
 import net.swisstech.bitly.model.Response;
 import net.swisstech.bitly.model.v3.ShortenResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BitlyService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public BitlyService() {
         super();
@@ -15,15 +18,18 @@ public class BitlyService {
 
     // API
 
-    @SuppressWarnings("unused")
     public final String shortenUrl(final String urlLarge) {
-        final String user = "21561954926d6a8f9b86165be007c4568d1affcd";
-        final String apiKey = "3139531e5285fe0fdb930deb2b1c52eb2ba8973d";
+        try {
+            return shortenUrlInternal(urlLarge);
+        } catch (final RuntimeException runEx) {
+            logger.error("Unable to shorten url= " + urlLarge + " via bitly!", runEx);
+            return urlLarge;
+        }
+    }
+
+    private final String shortenUrlInternal(final String urlLarge) {
         final String accessToken = "caf0026313bcf9709abfcc08a2270b55953bc95c";
-
-        final BitlyClient client = new BitlyClient(accessToken);
-        final Response<ShortenResponse> shortenResponse = client.shorten().setLongUrl(urlLarge).call();
-
+        final Response<ShortenResponse> shortenResponse = new BitlyClient(accessToken).shorten().setLongUrl(urlLarge).call();
         return shortenResponse.data.url;
     }
 

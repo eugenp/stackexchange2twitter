@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.common.service.BaseTweetFromSourceLiveService;
+import org.common.service.external.bitly.BitlyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,8 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
     private MinStackScoreRetriever minStackScoreRetriever;
     @Autowired
     private TwitterHashtagsRetriever twitterHashtagsRetriever;
+    @Autowired
+    private BitlyService bitlyService;
 
     public TweetStackexchangeLiveService() {
         super();
@@ -245,7 +248,8 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         final String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
 
         // construct full tweet
-        final String fullTweet = tweetService.constructTweetSimple(fullyCleanedTweetText, url);
+        final String shortUrl = bitlyService.shortenUrl(url);
+        final String fullTweet = tweetService.constructTweetSimple(fullyCleanedTweetText, shortUrl);
 
         // is it valid?
         if (!tweetService.isTweetFullValid(fullTweet)) {
