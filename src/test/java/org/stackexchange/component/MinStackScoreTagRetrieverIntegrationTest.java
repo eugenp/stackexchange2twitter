@@ -15,7 +15,12 @@ import org.stackexchange.util.StackTag;
 import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, StackexchangeConfig.class, StackexchangeContextConfig.class })
+@ContextConfiguration(classes = {// @formatter:off
+    CommonServiceConfig.class, 
+    TwitterConfig.class, 
+    StackexchangeConfig.class, 
+    StackexchangeContextConfig.class 
+})// @formatter:off
 // @ActiveProfiles(SpringProfileUtil.LIVE)
 public class MinStackScoreTagRetrieverIntegrationTest {
 

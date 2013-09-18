@@ -35,8 +35,17 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.api.client.util.Preconditions;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class, TwitterLiveConfig.class, StackexchangeContextConfig.class, StackexchangePersistenceJPAConfig.class, StackexchangeConfig.class })
-@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.WRITE_PRODUCTION })
+@ContextConfiguration(classes = {// @formatter:off 
+    CommonServiceConfig.class,
+    
+    TwitterConfig.class, 
+    TwitterLiveConfig.class,
+    
+    StackexchangeContextConfig.class, 
+    StackexchangePersistenceJPAConfig.class, 
+    StackexchangeConfig.class 
+}) // @formatter:on
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.WRITE_PRODUCTION, SpringProfileUtil.PERSISTENCE })
 public class TweetStackexchangeLiveServiceLiveTest {
 
     @Autowired

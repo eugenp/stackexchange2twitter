@@ -2,10 +2,13 @@ package org.stackexchange.component;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.stackexchange.persistence.dao.IQuestionTweetJpaDAO;
+import org.tweet.spring.util.SpringProfileUtil;
 
 @Component
+@Profile(SpringProfileUtil.PERSISTENCE)
 public final class StackExchangePageStrategy {
 
     @Autowired
