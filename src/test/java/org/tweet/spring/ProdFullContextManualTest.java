@@ -3,6 +3,7 @@ package org.tweet.spring;
 import static org.junit.Assert.assertNotNull;
 import static org.tweet.spring.util.SpringProfileUtil.DEPLOYED;
 import static org.tweet.spring.util.SpringProfileUtil.LIVE;
+import static org.tweet.spring.util.SpringProfileUtil.PERSISTENCE;
 import static org.tweet.spring.util.SpringProfileUtil.WRITE;
 import static org.tweet.spring.util.SpringProfileUtil.WRITE_PRODUCTION;
 
@@ -64,7 +65,7 @@ import org.tweet.meta.spring.TwitterMetaPersistenceJPAConfig;
     // org.gplus.spring
     GplusContextConfig.class
 }) // @formatter:on
-@ActiveProfiles({ DEPLOYED, LIVE, WRITE_PRODUCTION, WRITE })
+@ActiveProfiles({ DEPLOYED, LIVE, WRITE_PRODUCTION, WRITE, PERSISTENCE })
 public class ProdFullContextManualTest {
 
     static {

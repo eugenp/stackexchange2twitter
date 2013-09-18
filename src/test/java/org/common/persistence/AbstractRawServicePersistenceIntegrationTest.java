@@ -13,8 +13,11 @@ import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.dao.DataAccessException;
+import org.springframework.test.context.ActiveProfiles;
 import org.stackexchange.util.IDUtil;
+import org.tweet.spring.util.SpringProfileUtil;
 
+@ActiveProfiles(SpringProfileUtil.PERSISTENCE)
 public abstract class AbstractRawServicePersistenceIntegrationTest<T extends IEntity> {
 
     // tests

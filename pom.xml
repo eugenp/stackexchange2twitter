@@ -25,6 +25,14 @@
 			</exclusions>
 		</dependency>
 
+		<!-- various external apis -->
+
+		<dependency>
+			<groupId>net.swisstech.bitly</groupId>
+			<artifactId>bitly-api-client</artifactId>
+			<version>0.7.1</version>
+		</dependency>
+
 		<!-- spring -->
 
 		<dependency>
@@ -401,6 +409,12 @@
 	</properties>
 
 	<repositories>
+		<!-- for the bitly java client -->
+		<repository>
+			<id>stackmagic.github.maven-repo</id>
+			<url>http://stackmagic.github.com/maven-repo/maven2/</url>
+		</repository>
+
 		<repository>
 			<id>repository.springsource.milestone</id>
 			<name>SpringSource Milestone Repository</name>

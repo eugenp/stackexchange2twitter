@@ -22,6 +22,7 @@ public final class SpringProfileUtil {
     // common
     public static final String TEST = "test";
     public static final String CLIENT = "client";
+    public static final String PERSISTENCE = "persistence";
 
     private SpringProfileUtil() {
         throw new AssertionError();
