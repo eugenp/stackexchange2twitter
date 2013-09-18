@@ -42,7 +42,7 @@ public final class TwitterUtil {
         "killed",
         "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
         "dumb", "dumber", 
-        "dance",
+        "dance", 
         "cheep", // trying it out
         "lucky", 
         "fpl", // fantasy player league
@@ -76,8 +76,10 @@ public final class TwitterUtil {
         "i need", "we need", "need help", "need someone"
     ); // @formatter:on
     final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
-        "RT if"
+        "rt if", 
+        "music video"
     ); // @formatter:on
+
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
         "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
         "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
@@ -87,6 +89,10 @@ public final class TwitterUtil {
         ".*(f|F)ollow (&|and|AND) R(T|t).*", // Follow & RT
         ".*R(T|t) .* (f|F)ollow(ed)? .*", // RT this if you want me to follow you
         ".*\\d(\\d)?% (o|O)ff.*" // 97% Off
+    ); // @formatter:on
+
+    final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+        "(?i).*follow @.*"
     ); // @formatter:on
 
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
@@ -272,6 +278,12 @@ public final class TwitterUtil {
      * - <b>local</b> <br/>
      */
     static boolean isRejectedByBannedRegexExpressions(final String text) {
+        for (final String bannedRegExMaybe : bannedRegExesMaybe) {
+            if (text.matches(bannedRegExMaybe)) {
+                logger.error("new - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
+                return true;
+            }
+        }
         for (final String bannedRegEx : bannedRegExes) {
             if (text.matches(bannedRegEx)) {
                 return true;
