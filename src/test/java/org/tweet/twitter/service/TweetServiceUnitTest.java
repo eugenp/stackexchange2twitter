@@ -258,4 +258,9 @@ public class TweetServiceUnitTest {
         assertTrue(instance.isStructurallyValidMinimal("Any easy #REST tutorials for Java? - http://stackoverflow.com/questions/333690/any-easy-rest-tutorials-for-java …"));
     }
 
+    @Test
+    public final void whenCheckedIfStructurallyValidTweet2_theYes() {
+        assertTrue(instance.isStructurallyValidMinimal("Android ported to the iPhone: http://www.youtube.com/watch?v=5yO2KQHkt4A"));
+    }
+
 }

@@ -25,9 +25,12 @@ public final class LinkUtil {
         "https://www.facebook.com" // verified - no false positive after about 2 weeks - accepting
     );// @formatter:on
 
-    final static List<String> bannedDomainsMaybe = Lists.newArrayList(// @formatter:off
-        "http://instagram.com/", 
-        "pic.twitter.com"
+    final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
+        "instagram.com", 
+        "pic.twitter.com",
+        "plus.google.com", 
+        "youtube.com", 
+        ".git"
     );// @formatter:on
     final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off
         "http(s)?://(www.)?.*\\.de(\\z|/.*)" 
@@ -57,10 +60,10 @@ public final class LinkUtil {
                 return true;
             }
         }
-        for (final String bannedDomainMaybe : bannedDomainsMaybe) {
-            if (urlString.startsWith(bannedDomainMaybe)) {
+        for (final String bannedDomainByContainsMaybe : bannedDomainsByContainsMaybe) {
+            if (urlString.contains(bannedDomainByContainsMaybe)) {
                 // still error - reasons to move down: +1,
-                logger.error("1 - For url: {} banned domain: {}", urlString, bannedDomainMaybe);
+                logger.error("1 - For url: {} banned domain: {}", urlString, bannedDomainByContainsMaybe);
                 return true;
             }
         }

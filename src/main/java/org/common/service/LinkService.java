@@ -113,10 +113,6 @@ public class LinkService {
      */
     public final String determineMainUrl(final List<String> extractedUrls) {
         for (final String urlCandidate : extractedUrls) {
-            if (urlCandidate.contains("plus.google.com") || urlCandidate.endsWith(".git") || urlCandidate.contains("youtube.com")) {
-                continue;
-            }
-
             return urlCandidate;
         }
 
