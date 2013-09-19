@@ -1,6 +1,7 @@
 package org.tweet.twitter.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.common.service.LinkService;
 import org.common.util.TextUtil;
@@ -245,7 +246,7 @@ public class TweetService {
 
         // then see what's left
 
-        final List<String> extractedUrls = linkService.extractUrls(processedTweet);
+        final Set<String> extractedUrls = linkService.extractUrls(processedTweet);
         final String mainUrl = linkService.determineMainUrl(extractedUrls);
         processedTweet = processedTweet.replace(mainUrl, "").trim();
 
@@ -259,7 +260,7 @@ public class TweetService {
      * - verifies that a main url exists
      */
     public final boolean isStructurallyValidMinimal(final String potentialTweetText) {
-        final List<String> extractedUrls = linkService.extractUrls(potentialTweetText);
+        final Set<String> extractedUrls = linkService.extractUrls(potentialTweetText);
         final String mainUrl = linkService.determineMainUrl(extractedUrls);
         if (mainUrl == null) {
             return false;

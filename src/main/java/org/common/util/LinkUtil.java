@@ -1,7 +1,7 @@
 package org.common.util;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public final class LinkUtil {
     private static final Logger logger = LoggerFactory.getLogger(LinkUtil.class);
@@ -25,7 +26,7 @@ public final class LinkUtil {
         "https://www.facebook.com" // verified - no false positive after about 2 weeks - accepting
     );// @formatter:on
 
-    final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
+    public final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
         "instagram.com", 
         "pic.twitter.com",
         "plus.google.com", 
@@ -82,8 +83,8 @@ public final class LinkUtil {
      * - <b>local</b> <br/>
      * - note: will NOT return null
      */
-    public static List<String> extractUrls(final String input) {
-        final List<String> result = new ArrayList<String>();
+    public static Set<String> extractUrls(final String input) {
+        final Set<String> result = Sets.newHashSet();
 
         final Pattern pattern = Pattern.compile("\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" + "(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" + "|mil|biz|info|mobi|name|aero|jobs|museum" + "|travel|[a-z]{2}))(:[\\d]{1,5})?"
                 + "(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" + "((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" + "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" + "(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" + "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*"

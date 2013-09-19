@@ -409,7 +409,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
      * - it points to a <b>banned domain</b><br/>
      */
     final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
-        final List<String> extractedUrls = linkService.extractUrls(potentialTweet);
+        final Set<String> extractedUrls = linkService.extractUrls(potentialTweet);
         if (extractedUrls.isEmpty()) {
             logger.trace("Tweet rejected because the it contains no urls\n- potentialTweet= {} ", potentialTweet);
             return false;

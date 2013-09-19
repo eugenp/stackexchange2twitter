@@ -1,6 +1,7 @@
 package org.common.service.live;
 
 import java.util.List;
+import java.util.Set;
 
 import org.common.service.LinkService;
 import org.slf4j.Logger;
@@ -194,7 +195,7 @@ public class LinkLiveService {
      */
     final List<String> getLinksToAnyDomainRaw(final String tweet, final Iterable<String> domains) {
         final List<String> collector = Lists.newArrayList();
-        final List<String> mainUrls = linkService.extractUrls(tweet);
+        final Set<String> mainUrls = linkService.extractUrls(tweet);
         for (final String mainUrl : mainUrls) {
             final String mainUrlExpanded = httpLiveService.expand(mainUrl);
             if (mainUrlExpanded == null) {
@@ -218,7 +219,7 @@ public class LinkLiveService {
      * - <b>live</b><br/>
      */
     public final boolean hasLinksToAnyDomain(final String tweetText, final Iterable<String> domains) {
-        final List<String> mainUrls = linkService.extractUrls(tweetText);
+        final Set<String> mainUrls = linkService.extractUrls(tweetText);
         for (final String mainUrl : mainUrls) {
             final String mainUrlExpanded = httpLiveService.expand(mainUrl);
             if (mainUrlExpanded == null) {

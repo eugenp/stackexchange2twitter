@@ -40,7 +40,7 @@ import org.tweet.twitter.util.TwitterInteraction;
         
     TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles(SpringProfileUtil.LIVE)
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.PERSISTENCE })
 public final class InteractionLiveServiceLiveTest {
 
     @Autowired
@@ -244,6 +244,14 @@ public final class InteractionLiveServiceLiveTest {
     @Test
     public final void whenTestingIfShouldInteractWithUser5_thenYes() {
         final String userHandle = "CloudExpo";
+        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+        final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
+        assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));
+    }
+
+    @Test
+    public final void whenTestingIfShouldInteractWithUser6_thenYes() {
+        final String userHandle = "hortonworks";
         final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
         final TwitterInteraction bestInteractionWithUser = interactionLiveService.decideBestInteractionWithAuthorLive(user, userHandle, "").getTwitterInteraction();
         assertThat(bestInteractionWithUser, equalTo(TwitterInteraction.Mention));

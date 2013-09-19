@@ -2,7 +2,8 @@ package org.common.service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 import org.common.util.LinkUtil;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.util.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 /**
  * - local
@@ -111,19 +114,39 @@ public class LinkService {
      * - <b>local</b> <br/>
      * - <b>note</b>: may return null
      */
-    public final String determineMainUrl(final List<String> extractedUrls) {
-        for (final String urlCandidate : extractedUrls) {
-            return urlCandidate;
+    public final String determineMainUrl(final Set<String> extractedUrls) {
+        final int size = extractedUrls.size();
+        if (size == 0) {
+            return null;
+        }
+        if (size == 1) {
+            return extractedUrls.iterator().next();
         }
 
-        return null;
+        final Collection<String> extractedUrlsWithoutBannedDomains = Collections2.filter(extractedUrls, new Predicate<String>() {
+            @Override
+            public final boolean apply(final String input) {
+                for (final String banned : LinkUtil.bannedDomainsByContainsMaybe) {
+                    if (input.contains(banned)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+
+        if (!extractedUrlsWithoutBannedDomains.isEmpty()) {
+            return extractedUrlsWithoutBannedDomains.iterator().next();
+        }
+
+        return extractedUrls.iterator().next();
     }
 
     /**
      * - <b>local</b> <br/>
      * - note: will NOT return null
      */
-    public final List<String> extractUrls(final String input) {
+    public final Set<String> extractUrls(final String input) {
         return LinkUtil.extractUrls(input);
     }
 

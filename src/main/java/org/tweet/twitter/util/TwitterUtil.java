@@ -1,6 +1,7 @@
 package org.tweet.twitter.util;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -299,11 +300,11 @@ public final class TwitterUtil {
      * - returns null if there the text doesn't contain a single link
      */
     public static Pair<String, String> breakByUrl(final String originalTweet) {
-        final List<String> extractedUrls = new LinkService().extractUrls(originalTweet);
+        final Set<String> extractedUrls = new LinkService().extractUrls(originalTweet);
         if (extractedUrls.size() != 1) {
             return null;
         }
-        final String mainUrl = extractedUrls.get(0);
+        final String mainUrl = extractedUrls.iterator().next();
         final int indexOfMainUrl = originalTweet.indexOf(mainUrl);
         final String before = originalTweet.substring(0, indexOfMainUrl);
         final String after = originalTweet.substring(indexOfMainUrl + mainUrl.length());

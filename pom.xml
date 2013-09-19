@@ -374,7 +374,7 @@
 
 		<mail.version>1.4.7</mail.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
-		<guava.version>14.0.1</guava.version>
+		<guava.version>15.0</guava.version>
 
 		<!-- spring -->
 		<spring.version>3.2.4.RELEASE</spring.version>

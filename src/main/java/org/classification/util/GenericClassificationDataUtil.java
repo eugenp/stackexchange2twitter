@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -70,7 +71,7 @@ public final class GenericClassificationDataUtil {
 
     public static Iterable<String> tokenizeTweet(final String tweet) {
         String tweetInternal = tweet;
-        final List<String> urlsInTweet = LinkUtil.extractUrls(tweetInternal);
+        final Set<String> urlsInTweet = LinkUtil.extractUrls(tweetInternal);
         for (final String urlInTweet : urlsInTweet) {
             tweetInternal = tweetInternal.replaceAll(urlInTweet, "");
         }
