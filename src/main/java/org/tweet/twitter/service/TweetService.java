@@ -172,20 +172,23 @@ public class TweetService {
 
         if (tweet.getLanguageCode() == null) {
             // temporary error
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
+            logger.error("potentialTweet= {}\n on twitterTag= {} rejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
             return false;
         }
 
-        // if (!tweet.getLanguageCode().trim().equals("en")) {
-        if (!TweetUtil.acceptedUserLang.contains(tweet.getLanguageCode())) {
-            if (!TweetUtil.rejectedUserLang.contains(tweet.getLanguageCode())) {
-                logger.error("potentialTweet= {} on twitterTag= {} rejected because it has the language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode());
-            }
-            return false;
-        }
+        // first check the language of the user
         if (tweet.getUser() == null || !TweetUtil.acceptedUserLang.contains(tweet.getUser().getLanguage().trim())) {
-            // temporary error
-            logger.error("potentialTweet= {} on twitterTag= {} rejected because the user has language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage());
+            if (!TweetUtil.rejectedUserLang.contains(tweet.getUser().getLanguage().trim())) {
+                logger.error("potentialTweet= {}\n on twitterTag= {} rejected because the user has USER language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage());
+                return false;
+            }
+        }
+
+        // then check the language of the tweet
+        if (!TweetUtil.acceptedTweetLang.contains(tweet.getLanguageCode())) {
+            if (!TweetUtil.rejectedTweetLang.contains(tweet.getLanguageCode())) {
+                logger.error("potentialTweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode());
+            }
             return false;
         }
 

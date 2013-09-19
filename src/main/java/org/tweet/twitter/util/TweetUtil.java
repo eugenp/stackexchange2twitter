@@ -12,24 +12,57 @@ public final class TweetUtil {
     final static Logger logger = LoggerFactory.getLogger(TweetUtil.class);
 
     /*
-     * "ar"    - -1 -1
-     * "ca"    - +1 +1 +1 +1 +1 +1 +1 - accepting
-     * "el"    - +1 +1 +1
-     * "it"    - +1 +1 +1 +1 +1 - accepting
-     * "id"    - +1 +1 +1 +1 +1 +1
-     * "ja"    - +1 +1 +1 +1 +1
-     * "ko"    - +1 +1
-     * "nl"    - +1 +1 +1 +1 +1 +1 - accepting
-     * -"pt"   - +1 +1 +1 +1 +1 -1 +1 +1 +1 +1 +1 +1
-     * "pl"    - +1 +1 +1 +1
-     * "ru"    - +1 +1 +1 +1 +1 - accepting
-     * "sl"    - +1 +1
-     * -"tr"   - +1 +1 +1 +1 -1
-     * "und"   - +1 +1 +1 +1 +1 +1 - accepting
-     * "xx-lc" - +1
+     * "ar"    - 
+     * "ca"    - 
+     * "el"    - 
+     * "hu"    -
+     * "it"    - 
+     * "id"    - 
+     * "ja"    -
+     * "ko"    - 
+     * "nl"    - 
+     * "pt"    - 
+     * "pl"    - 
+     * "ru"    - 
+     * "sl"    - 
+     * "sk"    - 
+     * "tr"    - 
+     * "und"   - 
+     * "xx-lc" - 
     */
-    public final static List<String> acceptedUserLang = Lists.newArrayList("ca", "de", "en", "en-gb", "es", "fr", "it", "nl", "ru", "und");
-    public final static List<String> rejectedUserLang = Lists.newArrayList("bg", "sv", "he");
+    public final static List<String> acceptedUserLang = Lists.newArrayList("ca", "de", "en", "en-gb"); // "es", "fr", "it", "nl", "ru", "und", "id"
+    public final static List<String> rejectedUserLang = Lists.newArrayList(); // "bg", "sv", "he", "ar", "sk"
+    // still very much in progress
+
+    /*
+     * "ar"    - 
+     * "ca"    - 
+     * "da"    - +1 +1
+     * "el"    - 
+     * "et"    - +1 +1
+     * "el"    - -1  
+     * -"fi"    - +1 -1  
+     * "hu"    - -1
+     * "ht"    - -1 
+     * "it"    - 
+     * "id"    - 
+     * "ja"    -
+     * "ko"    - +1
+     * "nl"    - 
+     * "uk"    - -1
+     * -"pt"    - -1 -1 -1 -1 = rejecting
+     * "pl"    - +1 +1
+     * "ru"    - 
+     * -"sl"    - +1 +1 +1 -1
+     * "sk"    - 
+     * "tr"    - 
+     * "tl"    - +1 +1 +1
+     * "und"   - 
+     * "xx-lc" -
+     * "vi"    - +1 +1 +1 +1 +1 +1 +1  = accepting
+    */
+    public final static List<String> acceptedTweetLang = Lists.newArrayList("ca", "de", "en", "en-gb", "es", "fr", "it", "nl", "ru", "und", "id", "vi");
+    public final static List<String> rejectedTweetLang = Lists.newArrayList("ar", "bg", "he", "pt", "sv", "sk");
 
     public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @");
 

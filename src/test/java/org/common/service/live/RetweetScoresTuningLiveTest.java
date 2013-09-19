@@ -38,7 +38,7 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
         
     TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles(SpringProfileUtil.LIVE)
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.PERSISTENCE })
 public class RetweetScoresTuningLiveTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -74,18 +74,18 @@ public class RetweetScoresTuningLiveTest {
 
     private void analyzeScoresForAccount(final String account) {
         int numberOfTweetsRetrieved;
-        final List<String> latestTweetsOnAccount = twitterService.listTweetsOfInternalAccount(account, 14);
+        final List<String> latestTweetsOnAccount = twitterService.listTweetsOfInternalAccount(account, 20);
         numberOfTweetsRetrieved = latestTweetsOnAccount.size();
 
         final int totalRelevantLinks = linkService.countLinksToAnyDomain(latestTweetsOnAccount, LinkUtil.seDomains);
         final int totalLinksNotToSo = numberOfTweetsRetrieved - totalRelevantLinks;
 
-        if (totalLinksNotToSo <= 4) {
-            logger.info("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
+        if (totalLinksNotToSo <= 10) {
+            logger.info("Small number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
             logger.warn("Scores (minrt) are probably to HIGH for account= " + account);
             System.out.println("Scores (minrt) are probably to HIGH for account= " + account);
-        } else if (totalLinksNotToSo >= 7) {
-            logger.info("Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
+        } else if (totalLinksNotToSo >= 15) {
+            logger.info("Large Number of links not to SO for account= " + account + " is= " + totalLinksNotToSo);
             logger.warn("Scores (minrt) are probably to LOW for account= " + account);
             System.out.println("Scores (minrt) are probably to LOW for account= " + account);
         } else {

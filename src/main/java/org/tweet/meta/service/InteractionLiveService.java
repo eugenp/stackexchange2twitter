@@ -457,7 +457,8 @@ public class InteractionLiveService {
             return true;
         }
 
-        logger.info("Should not interact with user= {} because user language is= {}", user.getScreenName(), languageOfUser);
+        // new - moving to error temporarily
+        logger.error("Should not interact with user= {} because user language is= {}", user.getScreenName(), languageOfUser);
         return false;
     }
 
