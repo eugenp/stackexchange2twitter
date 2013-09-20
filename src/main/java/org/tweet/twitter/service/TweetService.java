@@ -289,10 +289,7 @@ public class TweetService {
     public final String postValidityProcessTweetTextWithUrl(final String fullTweet, final String twitterAccount) {
         String tweetTextProcessed = hashtagWordsFullTweet(fullTweet, twitterTagsToHash(twitterAccount));
         if (tweetTextProcessed.startsWith("\"") && tweetTextProcessed.endsWith("\"")) {
-            logger.error("It's happening - 1; original text= {}", tweetTextProcessed);
             tweetTextProcessed = tweetTextProcessed.substring(1, tweetTextProcessed.length() - 1);
-            logger.error("It has happened - 1; original text= {}", tweetTextProcessed);
-            // note: nothing learned from these logs: +1
         }
 
         return tweetTextProcessed;

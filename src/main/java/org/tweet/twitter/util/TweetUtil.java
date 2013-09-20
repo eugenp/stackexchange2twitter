@@ -42,7 +42,8 @@ public final class TweetUtil {
      * "el"    - -1 -1 -1 | +1 - rejecting
      * -"fi"    - ~10 +1 | ~10 -1 - rejecting
      * "fa"    - -1
-     * "hu"    - -1
+     * "hi"    - -1
+     * "hu"    - -1 -1
      * "ht"    - -1 -1 -1 -1 | +1 - rejecting // some English but plain weird tweets
      * "it"    - 
      * "id"    - 
