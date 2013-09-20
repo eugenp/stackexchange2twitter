@@ -42,6 +42,7 @@ public final class TweetUtil {
      * "et"    - ~20 +1 - accepting
      * "el"    - -1 -1 -1 +1 - rejecting
      * -"fi"    - ~10 +1, ~10 -1 - rejecting
+     * "fa"    - -1
      * "hu"    - -1
      * "ht"    - -1 -1 -1 // some English but plain weird tweets
      * "it"    - 
@@ -54,7 +55,7 @@ public final class TweetUtil {
      * "no"    - +1 +1 +1 +1 
      * "uk"    - -1 -1 -1 -1
      * -"pt"    - -1 -1 -1 -1 = rejecting
-     * "pl"    - 10-15 +1, 1-2 -1
+     * "pl"    - 10-15 +1 +1, 1-2 -1
      * "ru"    - 
      * -"sl"    - +1 +1 +1 -1 +1 +1 +1 +1 +1 +1 +1 +1 +1 - accepting
      * "sk"    - 
