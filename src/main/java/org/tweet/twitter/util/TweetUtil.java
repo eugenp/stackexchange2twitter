@@ -37,17 +37,17 @@ public final class TweetUtil {
     /*
      * "ar"    - 
      * "ca"    - 
-     * "da"    - 10-15 +1, 1-2 -1
+     * "da"    - 10-15 +1, -1 -1 -1
      * "el"    - 
      * "et"    - ~20 +1 - accepting
-     * "el"    - -1  
+     * "el"    - -1 -1 -1 +1 - rejecting
      * -"fi"    - ~10 +1, ~10 -1 - rejecting
      * "hu"    - -1
-     * "ht"    - -1 -1 -1 // some english but plain weird tweets
+     * "ht"    - -1 -1 -1 // some English but plain weird tweets
      * "it"    - 
      * "id"    - 
      * "ja"    - ~12 -1 - rejecting
-     * "ko"    - +1 -1 -1 -1
+     * "ko"    - +1 -1 -1 -1 -1 - rejecting
      * "lt"    - ~10 +1, ~10 -1 - rejecting
      * "lv"    - +1 +1 +1 
      * "nl"    - 
@@ -66,7 +66,7 @@ public final class TweetUtil {
      * "vi"    - +1 +1 +1 +1 +1 +1 +1  = accepting
     */
     public final static List<String> acceptedTweetLang = Lists.newArrayList("ca", "de", "en", "en-gb", "es", "et", "fr", "it", "nl", "ru", "sl", "und", "id", "vi");
-    public final static List<String> rejectedTweetLang = Lists.newArrayList("ar", "bg", "fi", "he", "ja", "lt", "pt", "sv", "sk", "tr");
+    public final static List<String> rejectedTweetLang = Lists.newArrayList("ar", "bg", "el", "fi", "he", "ja", "ko", "lt", "pt", "sv", "sk", "tr");
 
     public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @");
 

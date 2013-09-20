@@ -89,11 +89,12 @@ public final class TwitterUtil {
         ".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*",  // Free ... RT
         ".*(f|F)ollow (&|and|AND) R(T|t).*", // Follow & RT
         ".*R(T|t) .* (f|F)ollow(ed)? .*", // RT this if you want me to follow you
-        ".*\\d(\\d)?% (o|O)ff.*" // 97% Off
+        ".*\\d(\\d)?% (o|O)ff.*", // 97% Off
+        "(?i).*follow @.*"
     ); // @formatter:on
 
     final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-        "(?i).*follow @.*"
+        // 
     ); // @formatter:on
 
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
