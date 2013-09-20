@@ -59,7 +59,7 @@ public final class TweetUtil {
      * -"sl"    - +1 +1 +1 -1 +1 +1 +1 +1 +1 +1 +1 +1 +1 - accepting
      * "sk"    - 
      * "ta"    - -1 -1 -1 - almost rejected
-     * "tr"    - 
+     * "tr"    - -1 -1 +1 +1
      * "tl"    - 10-15 +1, 1-2 -1
      * "und"   - 
      * "xx-lc" -
