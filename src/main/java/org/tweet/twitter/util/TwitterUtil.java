@@ -74,11 +74,11 @@ public final class TwitterUtil {
         "on strike", 
         "for sale", 
         "win a ", "to win", "win one", // win
-        "i need", "we need", "need help", "need someone"
+        "i need", "we need", "need help", "need someone", 
+        "music video"
     ); // @formatter:on
     final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
-        "rt if", 
-        "music video"
+        "rt if" 
     ); // @formatter:on
 
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off

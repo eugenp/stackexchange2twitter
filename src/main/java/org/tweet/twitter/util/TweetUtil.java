@@ -15,15 +15,17 @@ public final class TweetUtil {
      * "ar"    - 
      * "ca"    - 
      * "el"    - 
+     * "es"    - +1 +1 +1 +1 +1 | -1
+     * "fr"    - +1 +1 +1 +1 +1
      * "hu"    -
-     * "it"    - 
+     * "it"    - +1 +1
      * "id"    - 
-     * "ja"    -
+     * "ja"    - +1
      * "ko"    - 
      * "nl"    - 
-     * "pt"    - 
+     * "pt"    - +1 +1 +1
      * "pl"    - 
-     * "ru"    - 
+     * "ru"    - +1
      * "sl"    - 
      * "sk"    - 
      * "tr"    - 
@@ -37,7 +39,7 @@ public final class TweetUtil {
     /*
      * "ar"    - 
      * "ca"    - 
-     * "da"    - ~12 +1 | -1 -1 -1
+     * "da"    - ~12 +1 +1 | -1 -1 -1 -1
      * "et"    - ~20 +1 - accepting
      * "el"    - -1 -1 -1 | +1 - rejecting
      * -"fi"    - ~10 +1 | ~10 -1 - rejecting
@@ -55,7 +57,7 @@ public final class TweetUtil {
      * "no"    - +1 +1 +1 +1 
      * "uk"    - -1 -1 -1 -1 -1 -1 -1 - rejecting
      * -"pt"    - -1 -1 -1 -1 = rejecting
-     * "pl"    - ~12 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1
+     * "pl"    - ~12 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1
      * "ru"    - 
      * -"sl"    - +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 - accepting
      * "sk"    - 
