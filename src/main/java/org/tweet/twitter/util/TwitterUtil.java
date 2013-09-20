@@ -266,8 +266,8 @@ public final class TwitterUtil {
     private static boolean overrideFoundForContainsKeywords(final String originalTweet) {
         for (final String override : acceptedContainsKeywordsOverrides) {
             if (originalTweet.toLowerCase().contains(override)) {
-                // error only temporarily because I'm curious when this happens
-                logger.error("new - Found override= " + override + "; in tweet= \n" + originalTweet);
+                // was error - confirmed OK - moving down
+                logger.debug("Found override= " + override + "; in tweet= \n" + originalTweet);
                 return true;
             }
         }

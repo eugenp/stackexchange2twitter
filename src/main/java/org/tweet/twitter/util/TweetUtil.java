@@ -37,32 +37,36 @@ public final class TweetUtil {
     /*
      * "ar"    - 
      * "ca"    - 
-     * "da"    - +1 +1
+     * "da"    - 10-15 +1, 1-2 -1
      * "el"    - 
-     * "et"    - +1 +1
+     * "et"    - ~20 +1 - accepting
      * "el"    - -1  
-     * -"fi"    - +1 -1  
+     * -"fi"    - ~10 +1, ~10 -1 - rejecting
      * "hu"    - -1
-     * "ht"    - -1 
+     * "ht"    - -1 -1 -1 // some english but plain weird tweets
      * "it"    - 
      * "id"    - 
-     * "ja"    -
-     * "ko"    - +1
+     * "ja"    - ~12 -1 - rejecting
+     * "ko"    - +1 -1 -1 -1
+     * "lt"    - ~10 +1, ~10 -1 - rejecting
+     * "lv"    - +1 +1 +1 
      * "nl"    - 
-     * "uk"    - -1
+     * "no"    - +1 +1 +1 +1 
+     * "uk"    - -1 -1 -1 -1
      * -"pt"    - -1 -1 -1 -1 = rejecting
-     * "pl"    - +1 +1
+     * "pl"    - 10-15 +1, 1-2 -1
      * "ru"    - 
-     * -"sl"    - +1 +1 +1 -1
+     * -"sl"    - +1 +1 +1 -1 +1 +1 +1 +1 +1 +1 +1 +1 +1 - accepting
      * "sk"    - 
+     * "ta"    - -1 -1 -1 - almost rejected
      * "tr"    - 
-     * "tl"    - +1 +1 +1
+     * "tl"    - 10-15 +1, 1-2 -1
      * "und"   - 
      * "xx-lc" -
      * "vi"    - +1 +1 +1 +1 +1 +1 +1  = accepting
     */
-    public final static List<String> acceptedTweetLang = Lists.newArrayList("ca", "de", "en", "en-gb", "es", "fr", "it", "nl", "ru", "und", "id", "vi");
-    public final static List<String> rejectedTweetLang = Lists.newArrayList("ar", "bg", "he", "pt", "sv", "sk");
+    public final static List<String> acceptedTweetLang = Lists.newArrayList("ca", "de", "en", "en-gb", "es", "et", "fr", "it", "nl", "ru", "sl", "und", "id", "vi");
+    public final static List<String> rejectedTweetLang = Lists.newArrayList("ar", "bg", "fi", "he", "ja", "lt", "pt", "sv", "sk");
 
     public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @");
 

@@ -263,4 +263,9 @@ public class TweetServiceUnitTest {
         assertTrue(instance.isStructurallyValidMinimal("Android ported to the iPhone: http://www.youtube.com/watch?v=5yO2KQHkt4A"));
     }
 
+    @Test
+    public final void whenCheckedIfStructurallyValidTweet3_theYes() {
+        assertTrue(instance.isStructurallyValidMinimal("Things that I like in #OrientDB, easiness and simplicity: curl -v -u admin:admin http://localhost:2480/query/demo/sql/select from Person"));
+    }
+
 }

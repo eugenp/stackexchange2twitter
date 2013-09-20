@@ -1,6 +1,7 @@
 package org.common.text;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
@@ -28,6 +29,70 @@ public class LinkUtilUnitTest {
         final String content = "<b>Clojure Koans</b><br /><br />$ git clone git://<a href=\"http://github.com/functional-koans/clojure-koans.git\" class=\"ot-anchor\">github.com/functional-koans/clojure-koans.git</a> <br />$ cd clojure-koans<br />$ curl <a href=\"https://raw.github.com/technomancy/leiningen/stable/bin/lein\" class=\"ot-anchor\">https://raw.github.com/technomancy/leiningen/stable/bin/lein</a> &gt; script/lein<br />$ chmod +x script/lein<br />$ script/lein deps<br />$ script/run<br /><br />Enlightenment awaits.";
         final Set<String> extractedUrls = new LinkService().extractUrls(content);
         assertThat(extractedUrls, hasSize(2));
+    }
+
+    @Test
+    public final void whenExtractingUrlFromContentScenario4_thenNoExceptions() {
+        final String content = "'More http://example.com nonsense!.";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(1));
+        assertThat(extractedUrls, hasItem("http://example.com"));
+    }
+
+    @Test
+    public final void whenExtractingUrlFromContentScenario5_thenNoExceptions() {
+        final String content = "Hack routers injecting some like that somewhere: &lt;iframe src=http://admin:admin@192.168.0.1/changeDNS?newDNS=yourDNS";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(1));
+        assertThat(extractedUrls, hasItem("http://admin:admin@192.168.0.1/changeDNS?newDNS=yourDNS"));
+    }
+
+    @Test
+    public final void whenExtractingUrlFromContentScenario6_thenNoExceptions() {
+        final String content = "PHP CGI Argument Injection: add -s like in http://domain/file.php";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(1));
+        assertThat(extractedUrls, hasItem("http://domain/file.php"));
+    }
+
+    @Test
+    public final void whenExtractingUrlFromContentScenario7_thenNoExceptions() {
+        final String content = "CentOS 5: Upgrading PHP to Version 5.2: http://portalbuilders.pro/PBblog/?p=312 - solving segmentation fault causing Apache httpd to crash";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(1));
+        assertThat(extractedUrls, hasItem("http://portalbuilders.pro/PBblog/?p=312"));
+    }
+
+    @Test
+    public final void whenExtractingUrlFromContentScenario8_thenNoExceptions() {
+        final String content = "Setting Up Data Compression (Using mod_deflate): http://portalbuilders.pro/PBblog/?p=200";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(1));
+        assertThat(extractedUrls, hasItem("http://portalbuilders.pro/PBblog/?p=200"));
+    }
+
+    @Test
+    public final void whenExtractingUrlFromContentScenario9_thenNoExceptions() {
+        final String content = "Promoting Your WordPress Posts on Twitter: http://portalbuilders.pro/PBblog/?p=164 (integrating Twitter into your WordPress software)";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(1));
+        assertThat(extractedUrls, hasItem("http://portalbuilders.pro/PBblog/?p=164"));
+    }
+
+    @Test
+    public final void whenExtractingUrlFromContentScenario10_thenNoExceptions() {
+        final String content = "HTML encoding, URL encoding, and internationalization in PHP: http://portalbuilders.pro/PBblog/?p=179 (on correct string handling in PHP)";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(1));
+        assertThat(extractedUrls, hasItem("http://portalbuilders.pro/PBblog/?p=179"));
+    }
+
+    @Test
+    public final void whenExtractingUrlFromContentScenario11_thenNoExceptions() {
+        final String content = "New Book: Code in the Cloud: Programming Google AppEngine: http://PortalBuilder/PBblog/?p=462 - cloud development on Google's AppEngine";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(1));
+        assertThat(extractedUrls, hasItem("http://PortalBuilder/PBblog/?p=462"));
     }
 
     // determine main url

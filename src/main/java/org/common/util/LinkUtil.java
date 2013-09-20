@@ -16,7 +16,7 @@ public final class LinkUtil {
 
     public final static List<String> seDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
 
-    final static List<String> bannedDomains = Lists.newArrayList(// @formatter:off
+    final static List<String> bannedDomainsStartsWith = Lists.newArrayList(// @formatter:off
         "http://wp-plugin-archive.de",
         "http://www.blogging-inside.de", 
         "http://www.perun.net", 
@@ -51,7 +51,7 @@ public final class LinkUtil {
      * - note: simplistic implementation to be improved when needed
      */
     public static boolean belongsToBannedDomain(final String urlString) {
-        for (final String bannedDomain : bannedDomains) {
+        for (final String bannedDomain : bannedDomainsStartsWith) {
             if (urlString.startsWith(bannedDomain)) {
                 return true;
             }
@@ -70,8 +70,8 @@ public final class LinkUtil {
         }
         for (final String bannedDomainByRegexMaybe : bannedDomainsByRegexMaybe) {
             if (urlString.matches(bannedDomainByRegexMaybe)) {
-                // was error - nothing really interesting found - but still - this is maybe, so leaving as error
-                logger.error("2 - For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);
+                // was error - interesting, but confirmed - moving down now
+                logger.debug("2 - For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);
                 return true;
             }
         }
@@ -86,9 +86,13 @@ public final class LinkUtil {
     public static Set<String> extractUrls(final String input) {
         final Set<String> result = Sets.newHashSet();
 
-        final Pattern pattern = Pattern.compile("\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" + "(\\w+:\\w+@)?(([-\\w]+\\.)+(com|org|net|gov" + "|mil|biz|info|mobi|name|aero|jobs|museum" + "|travel|[a-z]{2}))(:[\\d]{1,5})?"
+        // @formatter:off
+        final Pattern pattern = Pattern.compile("\\b(((ht|f)tp(s?)\\:\\/\\/|~\\/|\\/)|www.)" + "(\\w+:\\w+@)?"
+                + "((([-\\w]+\\.)+(com|org|net|gov" + "|mil|biz|info|mobi|name|aero|jobs|museum" + "|travel|[a-z]{2}))|localhost)" // host
+                + "(:[\\d]{1,5})?" // port
                 + "(((\\/([-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?" + "((\\?([-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" + "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)" + "(&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?" + "([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*"
                 + "(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
+        // @formatter:on
 
         final Matcher matcher = pattern.matcher(input);
         while (matcher.find()) {
