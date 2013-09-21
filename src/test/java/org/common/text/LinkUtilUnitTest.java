@@ -25,13 +25,6 @@ public class LinkUtilUnitTest {
     }
 
     @Test
-    public final void whenExtractingUrlFromContentScenario2_thenNoExceptions() {
-        final String content = "<b>Clojure Koans</b><br /><br />$ git clone git://<a href=\"http://github.com/functional-koans/clojure-koans.git\" class=\"ot-anchor\">github.com/functional-koans/clojure-koans.git</a> <br />$ cd clojure-koans<br />$ curl <a href=\"https://raw.github.com/technomancy/leiningen/stable/bin/lein\" class=\"ot-anchor\">https://raw.github.com/technomancy/leiningen/stable/bin/lein</a> &gt; script/lein<br />$ chmod +x script/lein<br />$ script/lein deps<br />$ script/run<br /><br />Enlightenment awaits.";
-        final Set<String> extractedUrls = new LinkService().extractUrls(content);
-        assertThat(extractedUrls, hasSize(2));
-    }
-
-    @Test
     public final void whenExtractingUrlFromContentScenario4_thenNoExceptions() {
         final String content = "'More http://example.com nonsense!.";
         final Set<String> extractedUrls = new LinkService().extractUrls(content);
@@ -106,9 +99,9 @@ public class LinkUtilUnitTest {
 
     @Test
     public final void givenUrls_whenDeterminingMainUrlScenario2_thenCorrectlyDetermined() {
-        final String content = "<b>Clojure Koans</b><br /><br />$ git clone git://<a href=\"http://github.com/functional-koans/clojure-koans.git\" class=\"ot-anchor\">github.com/functional-koans/clojure-koans.git</a> <br />$ cd clojure-koans<br />$ curl <a href=\"https://raw.github.com/technomancy/leiningen/stable/bin/lein\" class=\"ot-anchor\">https://raw.github.com/technomancy/leiningen/stable/bin/lein</a> &gt; script/lein<br />$ chmod +x script/lein<br />$ script/lein deps<br />$ script/run<br /><br />Enlightenment awaits.";
+        final String content = "git clone https://github.com/eugenp/stackexchange2twitter.git - cloning the main https://github.com/eugenp/stackexchange2twitter";
         final String mainUrl = new LinkService().extractUrl(content);
-        assertThat(mainUrl, equalTo("https://raw.github.com/technomancy/leiningen/stable/bin/lein"));
+        assertThat(mainUrl, equalTo("https://github.com/eugenp/stackexchange2twitter"));
     }
 
     // banned domain

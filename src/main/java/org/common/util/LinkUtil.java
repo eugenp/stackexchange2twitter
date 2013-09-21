@@ -83,7 +83,7 @@ public final class LinkUtil {
      * - <b>local</b> <br/>
      * - note: will NOT return null
      */
-    public static Set<String> extractUrls(final String input) {
+    public static Set<String> extractUrlsOld(final String input) {
         final Set<String> result = Sets.newHashSet();
 
         // @formatter:off
@@ -94,6 +94,26 @@ public final class LinkUtil {
                 + "(#([-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?\\b");
         // @formatter:on
 
+        final Matcher matcher = pattern.matcher(input);
+        while (matcher.find()) {
+            result.add(matcher.group());
+        }
+
+        return result;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * - note: will NOT return null
+     */
+    public static Set<String> extractUrls(final String input) {
+        final Set<String> result = Sets.newHashSet();
+
+        // @formatter:off
+        final String urlPattern = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+        // @formatter:on
+
+        final Pattern pattern = Pattern.compile(urlPattern);
         final Matcher matcher = pattern.matcher(input);
         while (matcher.find()) {
             result.add(matcher.group());
