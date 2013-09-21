@@ -38,10 +38,48 @@ public final class TweetUtil {
     public final static List<String> rejectedUserLang = Lists.newArrayList(); // "bg", "sv", "he", "ar", "sk"
     // still very much in progress
 
+    // @formatter:off
+    public final static List<String> acceptedTweetLangForTweeting = Lists.newArrayList(
+        "ca", 
+        "de", 
+        "en", 
+        "en-gb", 
+        "es", 
+        "et", 
+        "fr", 
+        "id", 
+        "it", 
+        "nl", 
+        "pl", 
+        "ru", 
+        "sl", 
+        "und", 
+        "vi"
+    );
+    public final static List<String> rejectedTweetLangForTweeting = Lists.newArrayList(
+        "ar", 
+        "bg", 
+        "da", 
+        "el", 
+        "fi", 
+        "he", 
+        "ht", 
+        "ja", 
+        "ko", 
+        "lt", 
+        "pt", 
+        "sv", 
+        "sk", 
+        "ta", 
+        "tl", 
+        "tr", 
+        "uk"
+    );
+
     /*
      * "ar"    - 
      * "ca"    - 
-     * "da"    - ~12 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 - almost rejecting
+     * "da"    - ~12 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 - reject for tweeting, accept for analysis
      * "et"    - ~20 +1 - accepting
      * "el"    - -1 -1 -1 | +1 - rejecting
      * -"fi"    - ~10 +1 | ~10 -1 - rejecting
@@ -72,8 +110,44 @@ public final class TweetUtil {
      * "vi"    - +1 +1 +1 +1 +1 +1 +1  = accepting
      * "zh"    - -1
     */
-    public final static List<String> acceptedTweetLang = Lists.newArrayList("ca", "de", "en", "en-gb", "es", "et", "fr", "id", "it", "nl", "pl", "ru", "sl", "und", "vi");
-    public final static List<String> rejectedTweetLang = Lists.newArrayList("ar", "bg", "el", "fi", "he", "ht", "ja", "ko", "lt", "pt", "sv", "sk", "ta", "tl", "tr", "uk");
+
+    public final static List<String> acceptedTweetLangForAnalysis = Lists.newArrayList(
+        "ca", 
+        "da", 
+        "de", 
+        "en", 
+        "en-gb", 
+        "es", 
+        "et", 
+        "fr", 
+        "id", 
+        "it", 
+        "nl", 
+        "pl", 
+        "ru", 
+        "sl", 
+        "und", 
+        "vi"
+    );
+    public final static List<String> rejectedTweetLangForAnalysis = Lists.newArrayList(
+        "ar", 
+        "bg", 
+        "el", 
+        "fi", 
+        "he", 
+        "ht", 
+        "ja", 
+        "ko", 
+        "lt", 
+        "pt", 
+        "sv", 
+        "sk", 
+        "ta", 
+        "tl", 
+        "tr", 
+        "uk"
+    );
+    // @formatter:on
 
     public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @");
 
