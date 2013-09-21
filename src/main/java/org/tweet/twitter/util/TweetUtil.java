@@ -11,22 +11,24 @@ import com.google.common.collect.Lists;
 public final class TweetUtil {
     final static Logger logger = LoggerFactory.getLogger(TweetUtil.class);
 
+    // ! PAY ATTENTION - not English
     /*
      * "ar"    - 
      * "ca"    - 
      * "el"    - 
-     * "es"    - +1 +1 +1 +1 +1 | -1
-     * "fr"    - +1 +1 +1 +1 +1
+     * "es"    - +1 +1 +1 +1 +1 +1 | -1 -1 | at the full user level (not English): +1 +1
+     * "fr"    - +1 +1 +1 +1 +1 | at the full user level (not English): ~0 -1
      * "hu"    -
      * "it"    - +1 +1
      * "id"    - 
      * "ja"    - +1
-     * "ko"    - 
+     * "ko"    - | at the full user level (not English): +1 
      * "nl"    - 
      * "pt"    - +1 +1 +1
-     * "pl"    - 
+     * "pl"    - | at the full user level (not English): +1 
      * "ru"    - +1
      * "sl"    - 
+     * "sv"    - | at the full user level (not English): -1
      * "sk"    - 
      * "tr"    - 
      * "und"   - 
@@ -39,7 +41,7 @@ public final class TweetUtil {
     /*
      * "ar"    - 
      * "ca"    - 
-     * "da"    - ~12 +1 +1 | -1 -1 -1 -1
+     * "da"    - ~12 +1 +1 +1 | -1 -1 -1 -1
      * "et"    - ~20 +1 - accepting
      * "el"    - -1 -1 -1 | +1 - rejecting
      * -"fi"    - ~10 +1 | ~10 -1 - rejecting
