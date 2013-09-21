@@ -14,7 +14,8 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.TwitterUserSnapshot;
-import org.tweet.meta.analysis.TweetPassesSet1And2ChecksPredicate;
+import org.tweet.meta.analysis.TweetPassesSet1ChecksPredicate;
+import org.tweet.meta.analysis.TweetPassesSet2ChecksPredicate;
 import org.tweet.meta.analysis.TweetPassesSet3ChecksPredicate;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.meta.util.TweetIsRetweetPredicate;
@@ -28,6 +29,8 @@ import org.tweet.twitter.util.TwitterInteractionWithValue;
 
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
@@ -487,11 +490,13 @@ public class InteractionLiveService {
     /**
      * - local
      */
+    @SuppressWarnings("unchecked")
     private final int countGoodRetweets(final List<Tweet> tweetsOfAccount) {
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
-        final Collection<Tweet> retweetsPassingChecks1And2 = Collections2.filter(retweets, new TweetPassesSet1And2ChecksPredicate(tweetService));
-        final Collection<Tweet> retweetsPassingLevel3 = Collections2.filter(retweetsPassingChecks1And2, new TweetPassesSet3ChecksPredicate(tweetService));
-        return retweetsPassingLevel3.size();
+
+        final Predicate<Tweet> predicate = Predicates.and(new TweetPassesSet1ChecksPredicate(tweetService), new TweetPassesSet2ChecksPredicate(tweetService), new TweetPassesSet3ChecksPredicate(tweetService));
+        final Collection<Tweet> retweetsPassingChecks123 = Collections2.filter(retweets, predicate);
+        return retweetsPassingChecks123.size();
     }
 
     /**
@@ -567,16 +572,17 @@ public class InteractionLiveService {
     /**
      * - live
      */
+    @SuppressWarnings("unchecked")
     private final int countRetweetsOfAccountsTheyDoNotFollow(final List<Tweet> tweetsOfAccount, final TwitterProfile account) {
         final int pages = 2;
         if (account.getFriendsCount() > (pages * 5000)) {
             return -1;
         }
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
-        final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweets, new TweetPassesSet1And2ChecksPredicate(tweetService));
-        final Collection<Tweet> retweetsPassingLevel2 = Collections2.filter(retweetsPassingLevel1, new TweetPassesSet3ChecksPredicate(tweetService));
+        final Predicate<Tweet> predicate = Predicates.and(new TweetPassesSet1ChecksPredicate(tweetService), new TweetPassesSet2ChecksPredicate(tweetService), new TweetPassesSet3ChecksPredicate(tweetService));
+        final Collection<Tweet> retweetsPassingChecks123 = Collections2.filter(retweets, predicate);
 
-        final Collection<Long> originalUserIds = Collections2.transform(retweetsPassingLevel2, new Function<Tweet, Long>() {
+        final Collection<Long> originalUserIds = Collections2.transform(retweetsPassingChecks123, new Function<Tweet, Long>() {
             @Override
             public final Long apply(final Tweet input) {
                 return input.getRetweetedStatus().getFromUserId();

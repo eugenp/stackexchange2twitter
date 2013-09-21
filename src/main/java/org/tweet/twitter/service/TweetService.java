@@ -117,7 +117,11 @@ public class TweetService {
      * - favorites are not yet considered <br/>
      */
     public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String hashtag) {
-        if (!passesSet1AndSet2OfChecks(potentialTweet, hashtag)) {
+        if (!passesSet1OfChecks(potentialTweet, hashtag)) {
+            return false;
+        }
+
+        if (!passesSet2OfChecks(potentialTweet, hashtag)) {
             return false;
         }
 
