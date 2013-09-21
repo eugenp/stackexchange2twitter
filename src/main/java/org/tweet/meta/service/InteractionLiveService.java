@@ -547,7 +547,7 @@ public class InteractionLiveService {
             return false;
         }
 
-        if (!tweetService.passesSet2OfChecks(tweet, null)) {
+        if (!tweetService.passesLanguageForAnalysisChecks(tweet, null)) {
             return false;
         }
 

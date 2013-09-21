@@ -15,7 +15,7 @@ public final class TweetPassesSet2ChecksPredicate implements Predicate<Tweet> {
 
     @Override
     public final boolean apply(final Tweet tweet) {
-        return tweetService.passesSet2OfChecks(tweet, null);
+        return tweetService.passesLanguageForAnalysisChecks(tweet, null);
     }
 
 }

@@ -121,7 +121,7 @@ public class TweetService {
             return false;
         }
 
-        if (!passesSet2OfChecks(potentialTweet, hashtag)) {
+        if (!passesLanguageForTweetingChecks(potentialTweet, hashtag)) {
             return false;
         }
 
@@ -167,7 +167,42 @@ public class TweetService {
      * - the tweet has an accepted <b>language</b> </br>
      * - the author of the tweet has an accepted <b>language</b> </br>
      */
-    public final boolean passesSet2OfChecks(final Tweet tweet, final String hashtag) {
+    public final boolean passesLanguageForTweetingChecks(final Tweet tweet, final String hashtag) {
+        final String hashTagInternal = (hashtag == null) ? "" : hashtag;
+
+        if (tweet.getLanguageCode() == null) {
+            // temporary error
+            logger.error("potentialTweet= {}\n on twitterTag= {} rejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
+            return false;
+        }
+
+        // first check the language of the user
+        if (tweet.getUser() == null || !TweetUtil.acceptedUserLang.contains(tweet.getUser().getLanguage().trim())) {
+            if (!TweetUtil.rejectedUserLang.contains(tweet.getUser().getLanguage().trim())) {
+                logger.error("potentialTweet= {}\n on twitterTag= {} rejected because the user has USER language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage());
+                return false;
+            }
+        }
+
+        // then check the language of the tweet
+        if (!TweetUtil.acceptedTweetLang.contains(tweet.getLanguageCode().trim())) {
+            if (!TweetUtil.rejectedTweetLang.contains(tweet.getLanguageCode().trim())) {
+                logger.error("potentialTweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with user language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode(), tweet.getUser().getLanguage().trim());
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * Passing minimal checks means: </br>
+     * - the tweet has a <b>language</b></br>
+     * - the tweet has an accepted <b>language</b> </br>
+     * - the author of the tweet has an accepted <b>language</b> </br>
+     */
+    public final boolean passesLanguageForAnalysisChecks(final Tweet tweet, final String hashtag) {
         final String hashTagInternal = (hashtag == null) ? "" : hashtag;
 
         if (tweet.getLanguageCode() == null) {
