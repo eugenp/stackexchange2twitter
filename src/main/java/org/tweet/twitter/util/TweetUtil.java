@@ -18,13 +18,15 @@ public final class TweetUtil {
      * "el"    - 
      * "es"    - +1 +1 +1 +1 +1 +1 | -1 -1 | at the full user level (not English): +1 +1
      * "fr"    - +1 +1 +1 +1 +1 | at the full user level (not English): ~0 -1
-     * "hu"    -
-     * "it"    - +1 +1
+     * "hu"    - +1 | 
+     * "it"    - +1 +1 |
      * "id"    - 
-     * "ja"    - +1
+     * "ja"    - +1 +1 +1 | 
+     * "lv"    - +1 |
      * "ko"    - | at the full user level (not English): +1 
+     * "no"    - +1
      * "nl"    - 
-     * "pt"    - +1 +1 +1
+     * "pt"    - +1 +1 +1 +1 +1
      * "pl"    - | at the full user level (not English): +1 
      * "ru"    - +1
      * "sl"    - 
@@ -34,9 +36,16 @@ public final class TweetUtil {
      * "und"   - 
      * "xx-lc" - 
     */
-    public final static List<String> acceptedUserLang = Lists.newArrayList("ca", "de", "en", "en-gb"); // "es", "fr", "it", "nl", "ru", "und", "id"
-    public final static List<String> rejectedUserLang = Lists.newArrayList(); // "bg", "sv", "he", "ar", "sk"
-    // still very much in progress
+
+    // @formatter:off
+    public final static List<String> acceptedUserLang = Lists.newArrayList(
+        "ca", 
+        "de", 
+        "en", 
+        "en-gb"
+    ); 
+    public final static List<String> rejectedUserLang = Lists.newArrayList(); 
+    // @formatter:on
 
     // @formatter:off
     public final static List<String> acceptedTweetLangForTweeting = Lists.newArrayList(

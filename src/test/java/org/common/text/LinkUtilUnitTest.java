@@ -148,6 +148,12 @@ public class LinkUtilUnitTest {
         assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
     }
 
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario8_thenNo() {
+        final String url = "http://damonmiller.github.io/esapi4cf/";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
     // banned domain - yes
 
     @Test
