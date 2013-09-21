@@ -91,6 +91,8 @@ public final class TwitterAccountToStackAccount {
 
         case DjangoDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case DotNetFact:
+            return Lists.newArrayList(StackSite.StackOverflow);
 
         case FacebookDigest:
             return Lists.newArrayList(StackSite.StackOverflow);

@@ -34,7 +34,9 @@ public enum TwitterAccountEnum {// @formatter:off
 
     CryptoFact(true),
     
-    DjangoDaily(false), 
+    DjangoDaily(false),
+    
+    DotNetFact(true), 
     
     FacebookDigest(true), 
     

@@ -32,6 +32,7 @@ public enum TwitterTag {// @formatter:off
     ddos,
     dynamobd,
     django, 
+    dotnet,
     
     eclipse, 
     ec2,
@@ -76,6 +77,7 @@ public enum TwitterTag {// @formatter:off
     math, 
     macbook,
     mongodb, 
+    msbuild,
     
     nosql, 
     neo4j, 
@@ -121,6 +123,8 @@ public enum TwitterTag {// @formatter:off
     
     xml,
     xcode,
+    
+    visualstudio,
     
     wpf
 }// @formatter:on
