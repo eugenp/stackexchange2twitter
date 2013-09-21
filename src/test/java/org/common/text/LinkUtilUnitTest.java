@@ -159,9 +159,9 @@ public class LinkUtilUnitTest {
     // domain containing `job`
 
     @Test
-    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario8_thenNo() {
+    public final void givenUrlShouldBeBanned_whenCheckingIfItIsScenario2_thenYes() {
         final String url = "http://www.jobsforgood.com/Sr__Software_Engineer";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(true));
     }
 
 }
