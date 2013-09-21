@@ -16,7 +16,7 @@ public final class TweetPassesLevel2Predicate implements Predicate<Tweet> {
 
     @Override
     public final boolean apply(final Tweet tweet) {
-        return tweetService.passesLevel2Checks(TweetUtil.getText(tweet));
+        return tweetService.passesSet3OfChecks(TweetUtil.getText(tweet));
     }
 
 }

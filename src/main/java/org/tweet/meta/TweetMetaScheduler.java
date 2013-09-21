@@ -95,6 +95,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestPHP.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.DotNetFact.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());

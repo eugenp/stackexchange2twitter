@@ -104,13 +104,7 @@ public class LinkUtilUnitTest {
         assertThat(mainUrl, equalTo("https://github.com/eugenp/stackexchange2twitter"));
     }
 
-    // banned domain
-
-    @Test
-    public final void givenUrlShouldBeBanned_whenCheckingIfItIsScenario1_thenYes() {
-        final String url = "http://www.fantasyfootball.de/blogpost1";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(true));
-    }
+    // banned domain - no
 
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario1_thenNo() {
@@ -151,6 +145,22 @@ public class LinkUtilUnitTest {
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario7_thenNo() {
         final String url = "http://www.designdazzling.com/2013/08/perfect-wordpress-corporate-themes-for-website-project/";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+    }
+
+    // banned domain - yes
+
+    @Test
+    public final void givenUrlShouldBeBanned_whenCheckingIfItIsScenario1_thenYes() {
+        final String url = "http://www.fantasyfootball.de/blogpost1";
+        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(true));
+    }
+
+    // domain containing `job`
+
+    @Test
+    public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario8_thenNo() {
+        final String url = "http://www.jobsforgood.com/Sr__Software_Engineer";
         assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
     }
 

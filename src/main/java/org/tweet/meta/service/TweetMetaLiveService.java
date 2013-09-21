@@ -185,7 +185,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 if (!tweetService.isTweetWorthRetweetingByTextWithLink(tweet.getText())) {
                     return false;
                 }
-                if (!tweetService.passesLevel1Checks(tweet, hashtag)) {
+                if (!tweetService.passesSet1AndSet2OfChecks(tweet, hashtag)) {
                     return false;
                 }
                 return true;

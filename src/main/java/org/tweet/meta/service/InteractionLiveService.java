@@ -550,12 +550,12 @@ public class InteractionLiveService {
             return false;
         }
 
-        if (!tweetService.passesLevel1Checks(tweet, null)) {
+        if (!tweetService.passesSet1AndSet2OfChecks(tweet, null)) {
             return false;
         }
 
         final String text = TweetUtil.getText(tweet);
-        if (!tweetService.passesLevel2Checks(text)) {
+        if (!tweetService.passesSet3OfChecks(text)) {
             return false;
         }
 

@@ -58,7 +58,7 @@ public class TweetService {
      * - <br/>
      */
     public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText) {
-        if (!passesLevel2Checks(potentialTweetText)) {
+        if (!passesSet3OfChecks(potentialTweetText)) {
             return false;
         }
 
@@ -81,7 +81,7 @@ public class TweetService {
      * - is structurally valid (minimally) <br/>
      * - <b>note: does not check</b> if it passes level 0 and 1 checks <br/>
      */
-    public final boolean passesLevel2Checks(final String potentialTweetText) {
+    public final boolean passesSet3OfChecks(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {
             return false;
         }
@@ -117,7 +117,7 @@ public class TweetService {
      * - favorites are not yet considered <br/>
      */
     public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String hashtag) {
-        if (!passesLevel1Checks(potentialTweet, hashtag)) {
+        if (!passesSet1AndSet2OfChecks(potentialTweet, hashtag)) {
             return false;
         }
 
@@ -137,7 +137,7 @@ public class TweetService {
      * -  the author is not banned from being interacted with </br>
      * -  the tweet doesn't go over a max number of hashtags </br>
      */
-    public final boolean passesLevel0MinimalChecks(final Tweet tweet, final String hashtag) {
+    public final boolean passesSet1OfChecks(final Tweet tweet, final String hashtag) {
         final String hashTagInternal = (hashtag == null) ? "" : hashtag;
 
         if (TwitterUtil.isUserBannedFromRetweeting(tweet.getFromUser())) {
@@ -159,17 +159,32 @@ public class TweetService {
     /**
      * - <b>local</b> <br/>
      * Passing minimal checks means: </br>
-     * - level 0 checks pass - {@link TweetService#passesLevel0MinimalChecks(Tweet, String)} 
+     * - set 1 of checks pass - {@link TweetService#passesSet1OfChecks(Tweet, String)} 
+     * - set 2 of checks pass - {@link TweetService#passesSet2OfChecks(Tweet, String)} 
+     */
+    public final boolean passesSet1AndSet2OfChecks(final Tweet tweet, final String hashtag) {
+        final String hashTagInternal = (hashtag == null) ? "" : hashtag;
+
+        if (!passesSet1OfChecks(tweet, hashTagInternal)) {
+            return false;
+        }
+
+        if (!passesSet2OfChecks(tweet, hashTagInternal)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * Passing minimal checks means: </br>
      * - the tweet has a <b>language</b></br>
      * - the tweet has an accepted <b>language</b> </br>
      * - the author of the tweet has an accepted <b>language</b> </br>
      */
-    public final boolean passesLevel1Checks(final Tweet tweet, final String hashtag) {
+    public final boolean passesSet2OfChecks(final Tweet tweet, final String hashtag) {
         final String hashTagInternal = (hashtag == null) ? "" : hashtag;
-
-        if (!passesLevel0MinimalChecks(tweet, hashTagInternal)) {
-            return false;
-        }
 
         if (tweet.getLanguageCode() == null) {
             // temporary error
