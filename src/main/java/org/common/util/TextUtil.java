@@ -88,6 +88,12 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "ߒ", ""); // just removing
         cleanedText = StringUtils.replaceAll(cleanedText, "ߘ", ""); // just removing
 
+        // &equiv; => ≡
+        cleanedText = StringUtils.replaceAll(cleanedText, "&equiv;", "="); // not exact replacement
+
+        // &forall; => ∀
+        cleanedText = StringUtils.replaceAll(cleanedText, "&forall;", ""); // just removing
+
         // others - unclear if these should be turned back or not...
         // &hearts; => ♥
         // &darr; => ↓
