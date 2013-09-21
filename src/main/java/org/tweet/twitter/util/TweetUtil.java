@@ -50,7 +50,6 @@ public final class TweetUtil {
         "id", 
         "it", 
         "nl", 
-        "pl", 
         "ru", 
         "sl", 
         "und", 
@@ -63,10 +62,13 @@ public final class TweetUtil {
         "el", 
         "fi", 
         "he", 
+        "hi",
         "ht", 
         "ja", 
         "ko", 
         "lt", 
+        "nl", 
+        "pl", 
         "pt", 
         "sv", 
         "sk", 
@@ -75,42 +77,42 @@ public final class TweetUtil {
         "tr", 
         "uk"
     );
-
     /*
      * "ar"    - 
      * "ca"    - 
-     * "da"    - ~12 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 - reject for tweeting, accept for analysis
+     * "da"    - ~21 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 - reject for tweeting, accept for analysis
      * "et"    - ~20 +1 - accepting
-     * "el"    - -1 -1 -1 | +1 - rejecting
-     * -"fi"    - ~10 +1 | ~10 -1 - rejecting
-     * "fa"    - -1 -1
-     * "hi"    - -1
-     * "hu"    - -1 -1
-     * "ht"    - -1 -1 -1 -1 | +1 - rejecting // some English but plain weird tweets
+     * "el"    - | -1 -1 -1 | +1 - rejecting
+     * -"fi"   - ~10 +1 | ~10 -1 - rejecting
+     * "fa"    - | -1 -1
+     * "hi"    - | -1 -1 -1 -1 -1 -1  - rejecting
+     * "hu"    - +1 +1 +1 | -1 -1 -1
+     * "ht"    - +1 | -1 -1 -1 -1 - rejecting // some English but plain weird tweets
      * "it"    - 
+     * "is"    - +1 +1 | -1
      * "id"    - 
-     * "ja"    - ~12 -1 - rejecting
+     * "ja"    - | ~12 -1 - rejecting
      * "ko"    - +1 | -1 -1 -1 -1 - rejecting
      * "lt"    - ~10 +1 | ~10 -1 - rejecting
-     * "lv"    - +1 +1 +1 | -1
-     * "nl"    - 
-     * "no"    - +1 +1 +1 +1 
-     * "uk"    - -1 -1 -1 -1 -1 -1 -1 - rejecting
-     * "ur"    - -1
-     * -"pt"    - -1 -1 -1 -1 = rejecting
-     * "pl"    - ~12 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 - accepting (and keeping an eye out)
+     * "lv"    - +1 +1 +1 +1 +1 +1 | -1 -1 
+     * "ml"    - 
+     * "nl"    - | -1 -1 -1 - rejecting
+     * "no"    - +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1
+     * "uk"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
+     * "ur"    - | -1
+     * -"pt"   - | -1 -1 -1 -1 = rejecting
+     * "pl"    - ~25 | -1 -1 -1 -1  - reject for tweeting, accept for analysis
      * "ru"    - 
-     * -"sl"    - +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 - accepting
+     * -"sl"   - +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 - accepting
      * "sk"    - 
-     * "ta"    - -1 -1 -1 -1 -1 - rejected
-     * "tr"    - -1 -1 -1 -1 -1 -1 -1 | +1 +1 +1 - rejected
+     * "ta"    - | -1 -1 -1 -1 -1 - rejected
+     * "tr"    - +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 - rejected
      * "tl"    - ~12 +1 | -1 -1 -1 -1 -1 - rejecting
      * "und"   - 
      * "xx-lc" -
      * "vi"    - +1 +1 +1 +1 +1 +1 +1  = accepting
-     * "zh"    - -1
+     * "zh"    - -1 -1 
     */
-
     public final static List<String> acceptedTweetLangForAnalysis = Lists.newArrayList(
         "ca", 
         "da", 
@@ -135,10 +137,12 @@ public final class TweetUtil {
         "el", 
         "fi", 
         "he", 
+        "hi",
         "ht", 
         "ja", 
         "ko", 
         "lt", 
+        "nl", 
         "pt", 
         "sv", 
         "sk", 
