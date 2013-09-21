@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 import org.tweet.meta.TwitterUserSnapshot;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.meta.util.TweetIsRetweetPredicate;
-import org.tweet.meta.util.TweetPassesLevel1Predicate;
-import org.tweet.meta.util.TweetPassesLevel2Predicate;
+import org.tweet.meta.util.TweetPassesSet1And2ChecksPredicate;
+import org.tweet.meta.util.TweetPassesSet3ChecksPredicate;
 import org.tweet.twitter.component.DiscouragedExpressionRetriever;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.service.TweetService;
@@ -489,8 +489,8 @@ public class InteractionLiveService {
      */
     private final int countGoodRetweets(final List<Tweet> tweetsOfAccount) {
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
-        final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweets, new TweetPassesLevel1Predicate(tweetService));
-        final Collection<Tweet> retweetsPassingLevel2 = Collections2.filter(retweetsPassingLevel1, new TweetPassesLevel2Predicate(tweetService));
+        final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweets, new TweetPassesSet1And2ChecksPredicate(tweetService));
+        final Collection<Tweet> retweetsPassingLevel2 = Collections2.filter(retweetsPassingLevel1, new TweetPassesSet3ChecksPredicate(tweetService));
 
         int count = 0;
         for (final Tweet tweet : tweetsOfAccount) {
@@ -585,8 +585,8 @@ public class InteractionLiveService {
             return -1;
         }
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
-        final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweets, new TweetPassesLevel1Predicate(tweetService));
-        final Collection<Tweet> retweetsPassingLevel2 = Collections2.filter(retweetsPassingLevel1, new TweetPassesLevel2Predicate(tweetService));
+        final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweets, new TweetPassesSet1And2ChecksPredicate(tweetService));
+        final Collection<Tweet> retweetsPassingLevel2 = Collections2.filter(retweetsPassingLevel1, new TweetPassesSet3ChecksPredicate(tweetService));
 
         final Collection<Long> originalUserIds = Collections2.transform(retweetsPassingLevel2, new Function<Tweet, Long>() {
             @Override

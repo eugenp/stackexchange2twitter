@@ -5,11 +5,11 @@ import org.tweet.twitter.service.TweetService;
 
 import com.google.common.base.Predicate;
 
-public final class TweetPassesLevel0Predicate implements Predicate<Tweet> {
+public final class TweetPassesSet1ChecksPredicate implements Predicate<Tweet> {
 
     private TweetService tweetService;
 
-    public TweetPassesLevel0Predicate(final TweetService tweetService) {
+    public TweetPassesSet1ChecksPredicate(final TweetService tweetService) {
         this.tweetService = tweetService;
     }
 
