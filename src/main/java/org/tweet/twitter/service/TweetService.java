@@ -185,8 +185,8 @@ public class TweetService {
         }
 
         // then check the language of the tweet
-        if (!TweetUtil.acceptedTweetLangForAnalysis.contains(tweet.getLanguageCode().trim())) {
-            if (!TweetUtil.rejectedTweetLangForAnalysis.contains(tweet.getLanguageCode().trim())) {
+        if (!TweetUtil.acceptedTweetLangForTweeting.contains(tweet.getLanguageCode().trim())) {
+            if (!TweetUtil.rejectedTweetLangForTweeting.contains(tweet.getLanguageCode().trim())) {
                 logger.error("potentialTweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with user language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode(), tweet.getUser().getLanguage().trim());
             }
             return false;
@@ -220,8 +220,8 @@ public class TweetService {
         }
 
         // then check the language of the tweet
-        if (!TweetUtil.acceptedTweetLangForTweeting.contains(tweet.getLanguageCode().trim())) {
-            if (!TweetUtil.rejectedTweetLangForTweeting.contains(tweet.getLanguageCode().trim())) {
+        if (!TweetUtil.acceptedTweetLangForAnalysis.contains(tweet.getLanguageCode().trim())) {
+            if (!TweetUtil.rejectedTweetLangForAnalysis.contains(tweet.getLanguageCode().trim())) {
                 logger.error("potentialTweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with user language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode(), tweet.getUser().getLanguage().trim());
             }
             return false;
