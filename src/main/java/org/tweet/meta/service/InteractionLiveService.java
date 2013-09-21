@@ -14,10 +14,10 @@ import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.tweet.meta.TwitterUserSnapshot;
+import org.tweet.meta.analysis.TweetPassesSet1And2ChecksPredicate;
+import org.tweet.meta.analysis.TweetPassesSet3ChecksPredicate;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.meta.util.TweetIsRetweetPredicate;
-import org.tweet.meta.util.TweetPassesSet1And2ChecksPredicate;
-import org.tweet.meta.util.TweetPassesSet3ChecksPredicate;
 import org.tweet.twitter.component.DiscouragedExpressionRetriever;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.service.TweetService;
@@ -489,21 +489,9 @@ public class InteractionLiveService {
      */
     private final int countGoodRetweets(final List<Tweet> tweetsOfAccount) {
         final Collection<Tweet> retweets = Collections2.filter(tweetsOfAccount, new TweetIsRetweetPredicate());
-        final Collection<Tweet> retweetsPassingLevel1 = Collections2.filter(retweets, new TweetPassesSet1And2ChecksPredicate(tweetService));
-        final Collection<Tweet> retweetsPassingLevel2 = Collections2.filter(retweetsPassingLevel1, new TweetPassesSet3ChecksPredicate(tweetService));
-
-        int count = 0;
-        for (final Tweet tweet : tweetsOfAccount) {
-            if (isTweetGoodRetweet(tweet)) {
-                count++;
-            }
-        }
-
-        if (count != retweetsPassingLevel2.size()) {
-            // TODO: temp - remove soon
-            logger.error("If this happens - something's wrong");
-        }
-        return count;
+        final Collection<Tweet> retweetsPassingChecks1And2 = Collections2.filter(retweets, new TweetPassesSet1And2ChecksPredicate(tweetService));
+        final Collection<Tweet> retweetsPassingLevel3 = Collections2.filter(retweetsPassingChecks1And2, new TweetPassesSet3ChecksPredicate(tweetService));
+        return retweetsPassingLevel3.size();
     }
 
     /**

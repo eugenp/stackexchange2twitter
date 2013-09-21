@@ -1,4 +1,4 @@
-package org.tweet.meta.util;
+package org.tweet.meta.analysis;
 
 import org.springframework.social.twitter.api.Tweet;
 import org.tweet.twitter.service.TweetService;
