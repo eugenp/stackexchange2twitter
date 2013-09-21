@@ -1,6 +1,8 @@
 
  
 --- to sort: 
+I just tried a colleague’s new Agloves on my iPhone - works great - I might need a pair this winter: http://t.co/JXrxkK9G
+IBM’s mobile first plan is really about cloud first. That’s all you need to know - http://t.co/6V7APp9NSi
 Don’t forget Father's Day is around the corner! Need gift ideas? Check out our Pinterest board devoted to dad! http://t.co/b7S4tUrLtN
 Looking for a #DataScientist? Here’s who you need: http://t.co/pT11oe8DOh #BigData #DataScience "Algorithms will only get you so far"
 “You Need to be Thinking Mobile 1st, 2nd, and 69th” by @garyvee https://t.co/A5w9j5piEc
@@ -53,7 +55,7 @@ Workers need protection, but are unions the best way to get it? See @MorganSpurl
 Need a Robust API? Try Scala: This post is written by Martin Odersky. Martin is Chairman and Chief Architect of ... http://t.co/k3GukRNp
 dip: DTrace-like scripts for Perl - when you need it, you really really need it… https://t.co/ix2Ssk7NA9 #perl
 Article: Have a Need to Reference Ancillary Content – Guide to Using “aside” Tag in your HTML5 Pages http://t.co/QdrcHkmYJl
-
+“type inference works in scala right up until you actually need it to” http://t.co/h0c4Aixaiz #haskell
 
 
 

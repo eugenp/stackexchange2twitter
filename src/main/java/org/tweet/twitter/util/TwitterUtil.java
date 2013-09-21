@@ -73,12 +73,13 @@ public final class TwitterUtil {
         "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
         "on strike", 
         "for sale", 
+        "rt if", 
         "win a ", "to win", "win one", // win
         "i need", "we need", "need help", "need someone", 
         "music video"
     ); // @formatter:on
     final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
-        "rt if" 
+        // 
     ); // @formatter:on
 
     final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
