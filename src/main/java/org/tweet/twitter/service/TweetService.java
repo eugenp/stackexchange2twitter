@@ -163,26 +163,6 @@ public class TweetService {
     /**
      * - <b>local</b> <br/>
      * Passing minimal checks means: </br>
-     * - set 1 of checks pass - {@link TweetService#passesSet1OfChecks(Tweet, String)} 
-     * - set 2 of checks pass - {@link TweetService#passesSet2OfChecks(Tweet, String)} 
-     */
-    public final boolean passesSet1AndSet2OfChecks(final Tweet tweet, final String hashtag) {
-        final String hashTagInternal = (hashtag == null) ? "" : hashtag;
-
-        if (!passesSet1OfChecks(tweet, hashTagInternal)) {
-            return false;
-        }
-
-        if (!passesSet2OfChecks(tweet, hashTagInternal)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * - <b>local</b> <br/>
-     * Passing minimal checks means: </br>
      * - the tweet has a <b>language</b></br>
      * - the tweet has an accepted <b>language</b> </br>
      * - the author of the tweet has an accepted <b>language</b> </br>

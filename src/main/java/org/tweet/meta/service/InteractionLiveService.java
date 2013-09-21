@@ -543,7 +543,11 @@ public class InteractionLiveService {
             return false;
         }
 
-        if (!tweetService.passesSet1AndSet2OfChecks(tweet, null)) {
+        if (!tweetService.passesSet1OfChecks(tweet, null)) {
+            return false;
+        }
+
+        if (!tweetService.passesSet2OfChecks(tweet, null)) {
             return false;
         }
 
