@@ -31,10 +31,10 @@ public final class LinkUtil {
     );// @formatter:on
 
     public final static List<String> bannedDomainsByContains = Lists.newArrayList(// @formatter:off
+        "instagram.com", 
         "youtube.com" 
     );// @formatter:on
     public final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
-        "instagram.com", 
         "pic.twitter.com",
         "plus.google.com"
     );// @formatter:on

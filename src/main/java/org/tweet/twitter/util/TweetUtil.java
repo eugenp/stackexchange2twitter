@@ -18,7 +18,7 @@ public final class TweetUtil {
      * "cs"    - +1 +1 | 
      * "el"    - |
      * "es"    - +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejected
-     * "fr"    - +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 | at the full user level (not English): ~0 -1
+     * "fr"    - 16 +1 | at the full user level (not English): ~0 -1
      * "hu"    - +1 | 
      * "it"    - +1 +1 +1 +1 +1 +1 | -1
      * "id"    - | -1 -1 
@@ -26,10 +26,10 @@ public final class TweetUtil {
      * "lv"    - +1 |
      * "ko"    - | -1 
      * "no"    - +1
-     * "nl"    - +1 +1 | -1
+     * "nl"    - +1 +1 +1 +1 | -1 -1
      * "pl"    - | -1 
      * "pt"    - +1 +1 +1 +1 +1 +1 +1 | 
-     * "ru"    - +1 +1 | 
+     * "ru"    - +1 +1 +1 | 
      * "sl"    - |
      * "sv"    - | -1
      * "sk"    - |
@@ -97,7 +97,7 @@ public final class TweetUtil {
      * "et"    - ~20 +1 - accepting
      * "el"    - | -1 -1 -1 | +1 - rejecting
      * -"fi"   - ~10 +1 | ~10 -1 - rejecting
-     * "fa"    - | -1 -1 -1 -1
+     * "fa"    - | -1 -1 -1 -1 -1 -1
      * "hi"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
      * "hu"    - +1 +1 +1 | -1 -1 -1 -1
      * "ht"    - +1 | -1 -1 -1 -1 - rejecting // some English but plain weird tweets
