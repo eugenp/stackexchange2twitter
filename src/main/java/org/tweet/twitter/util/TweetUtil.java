@@ -97,7 +97,7 @@ public final class TweetUtil {
      * "et"    - ~20 +1 - accepting
      * "el"    - | -1 -1 -1 | +1 - rejecting
      * -"fi"   - ~10 +1 | ~10 -1 - rejecting
-     * "fa"    - | -1 -1 -1
+     * "fa"    - | -1 -1 -1 -1
      * "hi"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
      * "hu"    - +1 +1 +1 | -1 -1 -1 -1
      * "ht"    - +1 | -1 -1 -1 -1 - rejecting // some English but plain weird tweets
@@ -112,7 +112,7 @@ public final class TweetUtil {
      * "nl"    - | -1 -1 -1 - rejecting
      * "no"    - 13 +1 | -1
      * "uk"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
-     * "ur"    - | -1
+     * "ur"    - | -1 -1
      * -"pt"   - | -1 -1 -1 -1 = rejecting
      * "pl"    - ~25 | -1 -1 -1 -1  - reject for tweeting, accept for analysis
      * "ru"    - | 
@@ -125,7 +125,7 @@ public final class TweetUtil {
      * "und"   - | 
      * "xx-lc" - | 
      * "vi"    - +1 +1 +1 +1 +1 +1 +1  = accepting
-     * "zh"    - | -1 -1 -1 
+     * "zh"    - | -1 -1 -1 -1 
     */
     public final static List<String> acceptedTweetLangForAnalysis = Lists.newArrayList(
         "ca", 
