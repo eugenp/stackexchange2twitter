@@ -1,6 +1,8 @@
 
  
 --- to sort:
+Emblogginated: All you need is call/cc. http://t.co/pMFgXNdP3H (I remember a time when reddit comments regularly had similar contents…)
+"We cannot keep on adding ‘best practice’ after ‘best practice’ to what developers need to know when writing code." http://t.co/erkahhs45m
 Need to get up to speed on all aspects of http://t.co/pSVT7nhTio MVC? Here’s some recommended reading: http://t.co/JoquLjM7Kd
 Do password managers mean we don’t need Federated Identity? http://t.co/IHkj4fUc7W
 Random User Generator http://t.co/55TqC0EkXu You know… for when you need a random user.
