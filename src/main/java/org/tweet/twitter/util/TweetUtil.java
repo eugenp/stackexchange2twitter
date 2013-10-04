@@ -84,48 +84,59 @@ public final class TweetUtil {
         "ko", 
         "lt", 
         "nl", 
+        "ne",
+        "no", 
         "pl", 
         "pt", 
         "sv", 
         "sk", 
         "ta", 
         "tl", 
+        "th", 
         "tr", 
         "uk", 
+        "ur",
         "zh"
     );
     /*
      * "ar"    - 
-     * "bo"    - -1
+     * "bo"    - | -1 -1
      * "ca"    - 
+     * "chr"   - | -1 -1
      * "da"    - ~21 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 - reject for tweeting, accept for analysis
-     * "et"    - ~20 +1 - accepting
+     * "et"    - ~20 +1 | - accepting
      * "el"    - | -1 -1 -1 | +1 - rejecting
      * -"fi"   - ~10 +1 | ~10 -1 - rejecting
      * "fa"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
+     * "gu"    - | -1 -1 -1 -1
      * "hi"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
      * "hu"    - +1 +1 +1 | ~12 -1 -1 - rejecting
      * "ht"    - +1 | -1 -1 -1 -1 - rejecting // some English but plain weird tweets
      * "it"    - 
      * "iu"    - -1 -1 -1 -1 -1 - rejecting
-     * "is"    - +1 +1 +1 | -1
+     * "is"    - +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 // weirdly short tweets - all of them - not sure...
      * "id"    - 
      * "ja"    - | ~12 -1 - rejecting
+     * "ka"    - | -1
+     * "kn"    - | -1 -1 
      * "ko"    - +1 | -1 -1 -1 -1 - rejecting
      * "lt"    - ~10 +1 | ~10 -1 - rejecting
      * "lv"    - +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejecting
-     * "ml"    - 
+     * "ml"    - -1 -1
+     * "ne"    - | 5 -1 - rejecting
      * "nl"    - | -1 -1 -1 - rejecting
-     * "no"    - 17 +1 | -1 -1 -1 -1 -1 -1
+     * "no"    - 20 +1 | 10 -1 - rejecting
+     * "or"    - | -1
      * "uk"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
-     * "ur"    - | -1 -1
+     * "ur"    - | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejecting
      * -"pt"   - | -1 -1 -1 -1 = rejecting
      * "pl"    - ~25 | -1 -1 -1 -1  - reject for tweeting, accept for analysis
      * "ru"    - | 
      * -"sl"   - +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 | -1 - accepting
      * "sk"    - | 
      * "ta"    - | -1 -1 -1 -1 -1 - rejected
-     * "th"    - | -1 -1
+     * "te"    - | -1 -1 -1
+     * "th"    - | 7 -1 - rejecting
      * "tr"    - +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 - rejected
      * "tl"    - ~12 +1 | -1 -1 -1 -1 -1 - rejecting
      * "und"   - | 
@@ -166,14 +177,18 @@ public final class TweetUtil {
         "ko", 
         "lt", 
         "lv", 
+        "ne", 
         "nl", 
+        "no", 
         "pt", 
         "sv", 
         "sk", 
         "ta", 
         "tl", 
+        "th", 
         "tr", 
         "uk", 
+        "ur",
         "zh"
     );
     // @formatter:on
