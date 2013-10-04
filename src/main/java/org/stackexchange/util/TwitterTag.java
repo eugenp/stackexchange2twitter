@@ -51,6 +51,8 @@ public enum TwitterTag {// @formatter:off
     html,
     html5,
     // hibernate,
+    httpclient,
+    httpclient4,
 
     ios,
     iphone,

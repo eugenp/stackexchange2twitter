@@ -106,6 +106,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case HTMLdaily:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case HttpClient4:
+            return Lists.newArrayList(StackSite.StackOverflow);
 
         case LandOfWordpress:
             return Lists.newArrayList(StackSite.StackOverflow);

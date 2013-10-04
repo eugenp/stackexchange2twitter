@@ -45,6 +45,7 @@ public enum TwitterAccountEnum {// @formatter:off
     HadoopDaily(true), 
     HibernateDaily(false), 
     HTMLdaily(true), 
+    HttpClient4(true),
     BestOfHTML5(true), 
     
     iOSdigest(true), 
