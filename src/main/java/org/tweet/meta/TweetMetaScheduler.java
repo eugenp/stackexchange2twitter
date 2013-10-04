@@ -52,6 +52,12 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.PythonDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.AspnetDaily.name(), TwitterTag.aspnet.name());
 
+        // move to 5 soon
+        service.retweetAnyByHashtag(TwitterAccountEnum.HttpClient4.name());
+
+        // new and very much experimental
+        service.retweetAnyByHashtag(TwitterAccountEnum.SpringAtSO.name());
+
         logger.info("Finished new retweet schedule - three");
     }
 
