@@ -35,6 +35,7 @@ public enum TwitterTag {// @formatter:off
     dotnet,
     
     eclipse, 
+    eclipselink, 
     ec2,
     encryption,
     
@@ -54,6 +55,7 @@ public enum TwitterTag {// @formatter:off
     httpclient,
     httpclient4,
 
+    ibatis,
     ios,
     iphone,
     ipad, 
@@ -61,6 +63,7 @@ public enum TwitterTag {// @formatter:off
     java, 
     jquery, 
     jpa, 
+    jpa2, 
     json, 
     javascript, 
     jvm,
@@ -86,6 +89,7 @@ public enum TwitterTag {// @formatter:off
     
     objectivec, 
     opengraph, 
+    openjpa, 
     
     passwords, 
     parsing, 
