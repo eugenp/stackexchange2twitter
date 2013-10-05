@@ -146,7 +146,7 @@ public final class TwitterAccountToStackAccount {
 
         case ServerFaultBest:
             return Lists.newArrayList(StackSite.ServerFault);
-        case SpringAtSO:
+        case SpringTip:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case ObjectiveCDaily:

@@ -56,7 +56,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.HttpClient4.name());
 
         // new and very much experimental
-        service.retweetAnyByHashtag(TwitterAccountEnum.SpringAtSO.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.SpringTip.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJPA.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
 
@@ -198,6 +198,6 @@ public class TweetMetaScheduler {
         logger.info("Finished new retweet schedule - 3");
     }
 
-    // for accounts - not yet: BestBash,EclipseFacts,BestJPA,BestMaven,BestOfRuby,SpringAtSO,ServerFaultBest,JavaTopSO,RESTDaily,BestOfCocoa
+    // for accounts - not yet: BestBash,EclipseFacts,BestJPA,BestMaven,BestOfRuby,SpringTip,ServerFaultBest,JavaTopSO,RESTDaily,BestOfCocoa
 
 }

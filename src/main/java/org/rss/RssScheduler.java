@@ -39,8 +39,8 @@ public class RssScheduler {
             return;
         }
 
-        // service.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
-        // service.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringAtSO.name(), "SpringSource");
+        // service.tweetFromRss("http://feeds.feedburner.com/SpringSourceTeamBlog", TwitterAccountEnum.SpringTip.name(), "SpringSource");
+        // service.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringTip.name(), "SpringSource");
 
         logger.info("Finished executing scheduled RSS operations - 1");
     }

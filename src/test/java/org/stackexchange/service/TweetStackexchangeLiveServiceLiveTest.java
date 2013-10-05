@@ -69,19 +69,19 @@ public class TweetStackexchangeLiveServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = instance.tweetAnyTopQuestionBySite(twitterAccountToStackSite(TwitterAccountEnum.SpringAtSO), TwitterAccountEnum.SpringAtSO.name(), 1);
+        final boolean success = instance.tweetAnyTopQuestionBySite(twitterAccountToStackSite(TwitterAccountEnum.SpringTip), TwitterAccountEnum.SpringTip.name(), 1);
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingByTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.SpringAtSO), StackTag.spring.name(), TwitterAccountEnum.SpringAtSO.name());
+        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.SpringTip), StackTag.spring.name(), TwitterAccountEnum.SpringTip.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingByDefaultTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.SpringAtSO), TwitterAccountEnum.SpringAtSO.name());
+        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.SpringTip), TwitterAccountEnum.SpringTip.name());
         assertTrue(success);
     }
 

@@ -55,13 +55,13 @@ public class TweetRssServiceLiveTest {
     @Test
     public final void whenTweetingFromRssFeed2_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
         // Spring - main blog
-        assertTrue(tweetRssService.tweetFromRss("http://spring.io/blog/category/releases.atom", TwitterAccountEnum.SpringAtSO.name(), "SpringSource"));
+        assertTrue(tweetRssService.tweetFromRss("http://spring.io/blog/category/releases.atom", TwitterAccountEnum.SpringTip.name(), "SpringSource"));
     }
 
     @Test
     public final void whenTweetingFromRssFeed3_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
         // Spring - News and Events
-        assertTrue(tweetRssService.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringAtSO.name(), "SpringSource"));
+        assertTrue(tweetRssService.tweetFromRss("http://feeds.feedburner.com/springsource/OEVE", TwitterAccountEnum.SpringTip.name(), "SpringSource"));
     }
 
 }

@@ -71,7 +71,7 @@ public enum TwitterAccountEnum {// @formatter:off
     RegexDaily(true), 
     
     ServerFaultBest(false),  // SO specific
-    SpringAtSO(false); // SO specific
+    SpringTip(true); 
     
     private final boolean rt; 
     
