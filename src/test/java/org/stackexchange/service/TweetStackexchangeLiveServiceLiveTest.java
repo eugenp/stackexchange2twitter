@@ -119,7 +119,7 @@ public class TweetStackexchangeLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingByTagEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestEclipse), StackTag.eclipse.name(), TwitterAccountEnum.BestEclipse.name());
+        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.EclipseFacts), StackTag.eclipse.name(), TwitterAccountEnum.EclipseFacts.name());
         assertTrue(success);
     }
 

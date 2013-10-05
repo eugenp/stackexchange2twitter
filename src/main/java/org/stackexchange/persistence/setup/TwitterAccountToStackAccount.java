@@ -40,7 +40,7 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestClojure:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestEclipse:
+        case EclipseFacts:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestGit:
             return Lists.newArrayList(StackSite.StackOverflow);
