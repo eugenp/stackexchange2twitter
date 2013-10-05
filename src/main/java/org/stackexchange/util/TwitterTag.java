@@ -121,7 +121,6 @@ public enum TwitterTag {// @formatter:off
     springdata,
     springsocial,
     springframework,
-    SpringBatch,
     
     ubuntu,
 
