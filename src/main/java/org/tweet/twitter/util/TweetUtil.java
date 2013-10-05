@@ -193,7 +193,7 @@ public final class TweetUtil {
     );
     // @formatter:on
 
-    public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @");
+    public final static List<String> goodSingleMentionVariants = Lists.newArrayList(" - via @", " via @"); // another: "Very cool."
 
     private TweetUtil() {
         throw new AssertionError();

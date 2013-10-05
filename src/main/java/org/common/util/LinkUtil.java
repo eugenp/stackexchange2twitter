@@ -32,7 +32,8 @@ public final class LinkUtil {
 
     public final static List<String> bannedDomainsByContains = Lists.newArrayList(// @formatter:off
         "instagram.com", 
-        "youtube.com" 
+        "youtube.com", 
+        "webdevers.com" // jobs
     );// @formatter:on
     public final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
         "pic.twitter.com",

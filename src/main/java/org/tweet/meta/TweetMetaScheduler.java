@@ -57,6 +57,8 @@ public class TweetMetaScheduler {
 
         // new and very much experimental
         service.retweetAnyByHashtag(TwitterAccountEnum.SpringAtSO.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestJPA.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
 
         logger.info("Finished new retweet schedule - three");
     }
