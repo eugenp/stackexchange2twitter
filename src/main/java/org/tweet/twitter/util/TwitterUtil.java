@@ -2,8 +2,6 @@ package org.tweet.twitter.util;
 
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -264,7 +262,7 @@ public final class TwitterUtil {
      * - regular expression - matches <br/>
     */
     public static boolean isTweetBannedForTweeting(final String originalTweet) {
-        if (isTweetBannedForAnalysis(originalTweet)) {
+        if (isTweetBannedForTweeting(originalTweet)) {
             return true;
         }
 
@@ -288,7 +286,7 @@ public final class TwitterUtil {
         // by contains keyword - maybe
 
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
-        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
+        if (isRejectedByContainsKeywordMaybeForTweeting(tweetTokens, originalTweet)) {
             return true;
         }
 
@@ -309,7 +307,7 @@ public final class TwitterUtil {
         }
 
         // by regex
-        if (isRejectedByBannedRegexExpressionsForAnalysis(originalTweet)) {
+        if (isRejectedByBannedRegexExpressionsForTweeting(originalTweet)) {
             return true;
         }
 
@@ -331,20 +329,6 @@ public final class TwitterUtil {
         }
 
         return resultWhenRtIsStart;
-    }
-
-    /**
-     * - note: only for a very special case of tweet - the retweet mention (which I am not sure really happens without the added `RT @`)
-     */
-    public static String extractOriginalUserFromRt(final String textOfRetweet) {
-        final Pattern pattern = Pattern.compile("@[a-zA-Z0-9_]*");
-        final Matcher matcher = pattern.matcher(textOfRetweet);
-        if (matcher.find()) {
-            final String user = matcher.group(0);
-            return user.substring(1);
-        }
-
-        return null;
     }
 
     // utils - for analysis
@@ -449,18 +433,6 @@ public final class TwitterUtil {
         final String before = originalTweet.substring(0, indexOfMainUrl);
         final String after = originalTweet.substring(indexOfMainUrl + mainUrl.length());
         return new ImmutablePair<String, String>(before, after);
-    }
-
-    public static String extractLargerPart(final String originalTweet) {
-        final Pair<String, String> beforeAndAfter = breakByUrl(originalTweet);
-        if (beforeAndAfter == null) {
-            return originalTweet;
-        }
-        if (beforeAndAfter.getLeft().length() > beforeAndAfter.getRight().length()) {
-            return beforeAndAfter.getLeft();
-        } else {
-            return beforeAndAfter.getRight();
-        }
     }
 
 }
