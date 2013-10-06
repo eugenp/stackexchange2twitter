@@ -28,7 +28,7 @@ public final class TwitterUtil {
         "freelance", "job", "consulting", "hire", "hiring", "careers", 
         // "need", // for now, still in the maybe pile  
         "football", "exclusive",
-        "dumb", 
+        // "dumb", "dumber", // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
         "gift", "highheels",
         "djmix", "housemusic",
         "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
@@ -42,8 +42,7 @@ public final class TwitterUtil {
         "wife",
         "killed",
         "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
-        "dumb", "dumber", 
-        "dance", 
+        "dance", "remix",  
         "cheep", // trying it out
         "lucky", 
         "fpl", // fantasy player league
