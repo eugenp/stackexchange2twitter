@@ -20,13 +20,13 @@ public final class TweetUtil {
      * "es"    - +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejected
      * "fr"    - 16 +1 | at the full user level (not English): ~0 -1
      * "hu"    - +1 | 
-     * "it"    - +1 +1 +1 +1 +1 +1 | -1
+     * "it"    - 20 +1 | 4 -1
      * "id"    - | -1 -1 
      * "ja"    - +1 +1 +1 | 
      * "lv"    - +1 |
      * "ko"    - | -1 
      * "no"    - +1
-     * "nl"    - +1 +1 +1 +1 | -1 -1
+     * "nl"    - 15 +1 | -1 -1 -1 -1
      * "pl"    - | -1 
      * "pt"    - +1 +1 +1 +1 +1 +1 +1 | 
      * "ru"    - +1 +1 +1 | 
@@ -40,15 +40,26 @@ public final class TweetUtil {
     */
 
     // @formatter:off
-    public final static List<String> acceptedUserLang = Lists.newArrayList(
+    public final static List<String> acceptedUserLangForAnalysis = Lists.newArrayList(
         "ca", 
         "de", 
         "en", 
         "en-gb"
     ); 
-    public final static List<String> rejectedUserLang = Lists.newArrayList(
+    public final static List<String> rejectedUserLangForAnalysis = Lists.newArrayList(
         "es"
     ); 
+    
+    public final static List<String> acceptedUserLangForTweeting = Lists.newArrayList(
+        "ca", 
+        "de", 
+        "en", 
+        "en-gb"
+    ); 
+    public final static List<String> rejectedUserLangForTweeting = Lists.newArrayList(
+        "es"
+    ); 
+        
     // @formatter:on
 
     // @formatter:off
@@ -112,9 +123,10 @@ public final class TweetUtil {
      * "hi"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
      * "hu"    - +1 +1 +1 | ~12 -1 -1 - rejecting
      * "ht"    - +1 | -1 -1 -1 -1 - rejecting // some English but plain weird tweets
+     * "hy"    - | -1
      * "it"    - 
      * "iu"    - -1 -1 -1 -1 -1 - rejecting
-     * "is"    - +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 // weirdly short tweets - all of them - not sure...
+     * "is"    - 8 +1 | -1 -1 -1 // weirdly short tweets - all of them - not sure...
      * "id"    - 
      * "ja"    - | ~12 -1 - rejecting
      * "ka"    - | -1

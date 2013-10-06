@@ -45,7 +45,8 @@ public final class LinkUtil {
     );// @formatter:on
     final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
         "https://twitter.com/.*/photo/\\d+", 
-        "http(s)?://(www.)?.*job.*\\.com(\\z|/.*)"
+        "http(s)?://(www.)?.*job.*\\.com(\\z|/.*)", 
+        "http(s)?://(www.)?.*\\.it(\\z|/.*)"
     );// @formatter:on
 
     private LinkUtil() {

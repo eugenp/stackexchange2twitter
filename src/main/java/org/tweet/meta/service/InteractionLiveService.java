@@ -456,12 +456,12 @@ public class InteractionLiveService {
 
     private final boolean isWorthInteractingWithBasedOnLanguage(final TwitterProfile user) {
         final String languageOfUser = user.getLanguage().trim();
-        if (TweetUtil.acceptedUserLang.contains(languageOfUser)) {
+        if (TweetUtil.acceptedUserLangForAnalysis.contains(languageOfUser)) {
             return true;
         }
 
         // new - moving to error temporarily
-        if (!TweetUtil.rejectedUserLang.contains(languageOfUser)) {
+        if (!TweetUtil.rejectedUserLangForAnalysis.contains(languageOfUser)) {
             logger.error("Should not interact with user= {} because user language is= {}", user.getScreenName(), languageOfUser);
         }
         return false;
