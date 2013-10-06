@@ -28,8 +28,9 @@ public final class TwitterUtil {
         final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
             // 
         );// @formatter:on
-        final static List<String> bannedContainsKeywordsMaybeForAnalysis = Lists.newArrayList(// @formatter:off
-            // 
+        final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
+            "dance", // it's OK for analysis, but not for tweeting - leaving it in the maybe pile for a bit, then move up (06.10)
+            "trial" // it's OKish for analysis (06.10)
         );// @formatter:on
 
         final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
@@ -78,16 +79,16 @@ public final class TwitterUtil {
             "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
             "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew",
             "snake", // python snake...yes, it happened
-            "followback"
+            "followback", 
+            "free trial" // identified from the trial keyword - all selling something
         );// @formatter:on
-        final static List<String> bannedContainsKeywordsMaybeForAnalysis = Lists.newArrayList(// @formatter:off
+        final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
             // "buy", // was here, I'm sufficiently convinced that it's not good 
             "#deal", "#deals", // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
             "need", // gathering some more data for need
             "wife",
             "killed",
-            "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
-            "dance", "remix",  
+            "remix",  
             "cheep", // trying it out
             "lucky", 
             "fpl", // fantasy player league
@@ -335,7 +336,7 @@ public final class TwitterUtil {
 
     static boolean isRejectedByContainsKeywordMaybeForAnalysis(final List<String> tweetTokens, final String originalTweet) {
         for (final String tweetToken : tweetTokens) {
-            if (ForAnalysis.bannedContainsKeywordsMaybeForAnalysis.contains(tweetToken.toLowerCase())) {
+            if (ForAnalysis.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
                 // first - check if there are any overrides
                 if (overrideFoundForContainsKeywords(originalTweet)) {
                     continue;
