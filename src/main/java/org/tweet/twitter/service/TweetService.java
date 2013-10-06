@@ -58,7 +58,7 @@ public class TweetService {
      * - <br/>
      */
     public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText) {
-        if (!passesSet3OfChecks(potentialTweetText)) {
+        if (!passesSetOfAdditionalChecksForTweeting(potentialTweetText)) {
             return false;
         }
 
@@ -85,7 +85,7 @@ public class TweetService {
         if (!containsLink(potentialTweetText)) {
             return false;
         }
-        if (TwitterUtil.isTweetBanned(potentialTweetText)) {
+        if (TwitterUtil.isTweetBannedForAnalysis(potentialTweetText)) {
             // debug should be OK
             logger.debug("Rejecting tweet because it is banned: \ntweet= {}", potentialTweetText);
             return false;
@@ -104,6 +104,19 @@ public class TweetService {
         }
 
         // is retweet check moved from here to isTweetWorthRetweetingByFullTweet
+        return true;
+    }
+
+    public final boolean passesSetOfAdditionalChecksForTweeting(final String potentialTweetText) {
+        if (!passesSet3OfChecks(potentialTweetText)) {
+            return false;
+        }
+        if (TwitterUtil.isTweetBannedForTweeting(potentialTweetText)) {
+            // debug should be OK
+            logger.debug("Rejecting tweet because it is banned: \ntweet= {}", potentialTweetText);
+            return false;
+        }
+
         return true;
     }
 

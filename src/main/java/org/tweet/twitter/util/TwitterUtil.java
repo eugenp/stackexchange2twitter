@@ -33,6 +33,7 @@ public final class TwitterUtil {
         "djmix", "housemusic",
         "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
         "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew",
+        "snake", // python snake...yes, it happened
         "followback"
     );// @formatter:on
     final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
@@ -47,8 +48,8 @@ public final class TwitterUtil {
         "lucky", 
         "fpl", // fantasy player league
         "deals", "deal", 
-        "win", "promo", // new
-        "snake", // python snake...yes, it happened
+        "priced", // new
+        "win", "promo", 
         "kurd", "kurds", "afganistan", "palestinians", // other political stuff
         "$3.99", "$2.99", "$1.99", "$0.99", 
         "thugs" // new
@@ -193,7 +194,7 @@ public final class TwitterUtil {
      * - single word - starts with <br/>
      * - regular expression - matches <br/>
     */
-    public static boolean isTweetBanned(final String originalTweet) {
+    public static boolean isTweetBannedForTweeting(final String originalTweet) {
         // by expression
         final String textLowerCase = originalTweet.toLowerCase();
 
@@ -240,6 +241,18 @@ public final class TwitterUtil {
         }
 
         return false;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * Tweet can be banned by: <br/>
+     * - expression (multiple words) <br/>
+     * - single word - contains <br/>
+     * - single word - starts with <br/>
+     * - regular expression - matches <br/>
+    */
+    public static boolean isTweetBannedForAnalysis(final String originalTweet) {
+        return isTweetBannedForTweeting(originalTweet);
     }
 
     static boolean isRejectedByContainsKeywordMaybe(final List<String> tweetTokens, final String originalTweet) {
