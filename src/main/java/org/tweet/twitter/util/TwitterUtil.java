@@ -263,7 +263,7 @@ public final class TwitterUtil {
      * - regular expression - matches <br/>
     */
     public static boolean isTweetBannedForTweeting(final String originalTweet) {
-        if (isTweetBannedForTweeting(originalTweet)) {
+        if (isTweetBannedForAnalysis(originalTweet)) {
             return true;
         }
 
