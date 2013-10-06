@@ -21,7 +21,7 @@ public final class LinkUtil {
         "http://www.blogging-inside.de", 
         "http://www.perun.net", 
         "http://www.heyyou-app.com", 
-        "http://www.freelancer.com", "https://www.freelancer.com", 
+        "http://www.freelancer.com", "https://www.freelancer.com", "http://www.peopleperhour.com", 
         "http://www.almasryalyoum.com/", // non English
         "https://www.facebook.com" // verified - no false positive after about 2 weeks - accepting
     );// @formatter:on
