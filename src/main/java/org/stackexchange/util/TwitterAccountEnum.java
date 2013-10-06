@@ -12,7 +12,7 @@ public enum TwitterAccountEnum {// @formatter:off
     EclipseFacts(false), // predefined some accounts
     BestGit(true), // temp true
     BestJavaScript(true),  
-    BestJPA(false), // predefined some accounts
+    BestJPA(true), 
     BestJSP(false), // predefined some accounts
     BestJSON(true), 
     BestMaven(false),  
@@ -63,7 +63,7 @@ public enum TwitterAccountEnum {// @formatter:off
     
     ObjectiveCDaily(true), 
     
-    ParsingDaily(false), // the hashtag (parsing) doesn't return any results
+    ParsingDaily(true), // the hashtag (parsing) doesn't return any results - but it can't hurt either
     PerlDaily(true),
     PythonDaily(true), 
     
