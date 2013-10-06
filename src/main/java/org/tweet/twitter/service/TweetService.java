@@ -81,7 +81,7 @@ public class TweetService {
      * - is structurally valid (minimally) <br/>
      * - <b>note: does not check</b> if it passes level 0 and 1 checks <br/>
      */
-    public final boolean passesSet3OfChecks(final String potentialTweetText) {
+    public final boolean passesSet3OfChecksForAnalysis(final String potentialTweetText) {
         if (!containsLink(potentialTweetText)) {
             return false;
         }
@@ -108,7 +108,7 @@ public class TweetService {
     }
 
     public final boolean passesSetOfAdditionalChecksForTweeting(final String potentialTweetText) {
-        if (!passesSet3OfChecks(potentialTweetText)) {
+        if (!passesSet3OfChecksForAnalysis(potentialTweetText)) {
             return false;
         }
         if (TwitterUtil.isTweetBannedForTweeting(potentialTweetText)) {

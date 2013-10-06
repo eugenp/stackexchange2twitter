@@ -554,7 +554,7 @@ public class InteractionLiveService {
         }
 
         final String text = TweetUtil.getText(tweet);
-        if (!tweetService.passesSet3OfChecks(text)) {
+        if (!tweetService.passesSet3OfChecksForAnalysis(text)) {
             return false;
         }
 

@@ -16,7 +16,7 @@ public final class TweetPassesSet3ChecksPredicate implements Predicate<Tweet> {
 
     @Override
     public final boolean apply(final Tweet tweet) {
-        return tweetService.passesSet3OfChecks(TweetUtil.getText(tweet));
+        return tweetService.passesSet3OfChecksForAnalysis(TweetUtil.getText(tweet));
     }
 
 }

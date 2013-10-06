@@ -23,80 +23,94 @@ public final class TwitterUtil {
     public final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults(); // if this would include more chars, then recreating the tweet would not be exact
     public final static Joiner joiner = Joiner.on(' ');
 
-    final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
-        "buy", "discount", 
-        "freelance", "job", "consulting", "hire", "hiring", "careers", 
-        // "need", // for now, still in the maybe pile  
-        "football", "exclusive",
-        // "dumb", "dumber", // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
-        "gift", "highheels",
-        "djmix", "housemusic",
-        "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
-        "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew",
-        "snake", // python snake...yes, it happened
-        "followback"
-    );// @formatter:on
-    final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-        // "buy", // was here, I'm sufficiently convinced that it's not good 
-        "#deal", "#deals", // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
-        "need", // gathering some more data for need
-        "wife",
-        "killed",
-        "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
-        "dance", "remix",  
-        "cheep", // trying it out
-        "lucky", 
-        "fpl", // fantasy player league
-        "deals", "deal", 
-        "priced", // new
-        "win", "promo", 
-        "kurd", "kurds", "afganistan", "palestinians", // other political stuff
-        "$3.99", "$2.99", "$1.99", "$0.99", 
-        "thugs" // new
-    );// @formatter:on
+    public static final class ForAnalysis {
 
-    /**
-     * These are special cases that are OK <br/>
-     * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
-     */
-    final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
-        "killed it", 
-        "win-win", "win/win"
-    );// @formatter:on
-    final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
-        "photo: "
-    );// @formatter:on
-    final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
-        "web developer", "web developers", 
-        "application engineer", "application engineers", 
-        "python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer", 
-        "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
-        "on strike", 
-        "for sale", 
-        "rt if", 
-        "win a ", "to win", "win one", // win
-        "i need", "we need", "need help", "need someone", 
-        "music video"
-    ); // @formatter:on
-    final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
-        // 
-    ); // @formatter:on
+        // by contains
 
-    final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
-        "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
-        "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
-        "Follow us on (Linkedin|Twitter|G+) .*", // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
-        ".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*", // 2 RTs
-        ".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*",  // Free ... RT
-        ".*(f|F)ollow (&|and|AND) R(T|t).*", // Follow & RT
-        ".*R(T|t) .* (f|F)ollow(ed)? .*", // RT this if you want me to follow you
-        ".*\\d(\\d)?% (o|O)ff.*", // 97% Off
-        "(?i).*follow @.*"
-    ); // @formatter:on
+        final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
+            "buy", "discount", 
+            "freelance", "job", "consulting", "hire", "hiring", "careers", 
+            // "need", // for now, still in the maybe pile  
+            "football", "exclusive",
+            // "dumb", "dumber", // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
+            "gift", "highheels",
+            "djmix", "housemusic",
+            "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
+            "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew",
+            "snake", // python snake...yes, it happened
+            "followback"
+        );// @formatter:on
+        final static List<String> bannedContainsKeywordsMaybeForAnalysis = Lists.newArrayList(// @formatter:off
+            // "buy", // was here, I'm sufficiently convinced that it's not good 
+            "#deal", "#deals", // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
+            "need", // gathering some more data for need
+            "wife",
+            "killed",
+            "trial", // Amazing #SEO tool will help you achieve top #google positions with no effort. 7days trial available!http://bit.ly/1cAnMcc
+            "dance", "remix",  
+            "cheep", // trying it out
+            "lucky", 
+            "fpl", // fantasy player league
+            "deals", "deal", 
+            "priced", // new
+            "win", "promo", 
+            "kurd", "kurds", "afganistan", "palestinians", // other political stuff
+            "$3.99", "$2.99", "$1.99", "$0.99", 
+            "thugs" // new
+        );// @formatter:on
 
-    final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-        // 
-    ); // @formatter:on
+        /**
+         * These are special cases that are OK <br/>
+         * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
+         */
+        final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
+            "killed it", 
+            "win-win", "win/win"
+        );// @formatter:on
+
+        // by starts with
+
+        final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
+            "photo: "
+        );// @formatter:on
+
+        // by expression
+
+        final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
+            "web developer", "web developers", 
+            "application engineer", "application engineers", 
+            "python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer", 
+            "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
+            "on strike", 
+            "for sale", 
+            "rt if", 
+            "win a ", "to win", "win one", // win
+            "i need", "we need", "need help", "need someone", 
+            "music video"
+        ); // @formatter:on
+
+        final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
+            // 
+        ); // @formatter:on
+
+        // by regex
+
+        final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+            // 
+        ); // @formatter:on
+        final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+            "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
+            "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
+            "Follow us on (Linkedin|Twitter|G+) .*", // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
+            ".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*", // 2 RTs
+            ".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*",  // Free ... RT
+            ".*(f|F)ollow (&|and|AND) R(T|t).*", // Follow & RT
+            ".*R(T|t) .* (f|F)ollow(ed)? .*", // RT this if you want me to follow you
+            ".*\\d(\\d)?% (o|O)ff.*", // 97% Off
+            "(?i).*follow @.*"
+        ); // @formatter:on
+
+    }
 
     final static List<String> bannedTwitterUsers = Lists.newArrayList(// @formatter:off
         "blogginginside", // in German - https://twitter.com/blogginginside
@@ -195,17 +209,29 @@ public final class TwitterUtil {
      * - regular expression - matches <br/>
     */
     public static boolean isTweetBannedForTweeting(final String originalTweet) {
+        return isTweetBannedForAnalysis(originalTweet);
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * Tweet can be banned by: <br/>
+     * - expression (multiple words) <br/>
+     * - single word - contains <br/>
+     * - single word - starts with <br/>
+     * - regular expression - matches <br/>
+    */
+    public static boolean isTweetBannedForAnalysis(final String originalTweet) {
         // by expression
         final String textLowerCase = originalTweet.toLowerCase();
 
-        for (final String bannedExpressionMaybe : bannedExpressionsMaybe) {
+        for (final String bannedExpressionMaybe : ForAnalysis.bannedExpressionsMaybe) {
             if (textLowerCase.contains(bannedExpressionMaybe)) {
                 logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, originalTweet);
                 return true;
             }
         }
 
-        for (final String bannedExpression : bannedExpressions) {
+        for (final String bannedExpression : ForAnalysis.bannedExpressions) {
             if (textLowerCase.contains(bannedExpression)) {
                 logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
                 return true;
@@ -221,14 +247,14 @@ public final class TwitterUtil {
 
         // by contains keyword
         for (final String tweetToken : tweetTokens) {
-            if (TwitterUtil.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
+            if (ForAnalysis.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
                 logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
                 return true;
             }
         }
 
         // by starts with keyword
-        for (final String bannedStartsWith : bannedStartsWithExprs) {
+        for (final String bannedStartsWith : ForAnalysis.bannedStartsWithExprs) {
             if (originalTweet.startsWith(bannedStartsWith)) {
                 logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
                 return true;
@@ -243,21 +269,9 @@ public final class TwitterUtil {
         return false;
     }
 
-    /**
-     * - <b>local</b> <br/>
-     * Tweet can be banned by: <br/>
-     * - expression (multiple words) <br/>
-     * - single word - contains <br/>
-     * - single word - starts with <br/>
-     * - regular expression - matches <br/>
-    */
-    public static boolean isTweetBannedForAnalysis(final String originalTweet) {
-        return isTweetBannedForTweeting(originalTweet);
-    }
-
     static boolean isRejectedByContainsKeywordMaybe(final List<String> tweetTokens, final String originalTweet) {
         for (final String tweetToken : tweetTokens) {
-            if (TwitterUtil.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
+            if (ForAnalysis.bannedContainsKeywordsMaybeForAnalysis.contains(tweetToken.toLowerCase())) {
                 // first - check if there are any overrides
                 if (overrideFoundForContainsKeywords(originalTweet)) {
                     continue;
@@ -278,7 +292,7 @@ public final class TwitterUtil {
     }
 
     private static boolean overrideFoundForContainsKeywords(final String originalTweet) {
-        for (final String override : acceptedContainsKeywordsOverrides) {
+        for (final String override : ForAnalysis.acceptedContainsKeywordsOverrides) {
             if (originalTweet.toLowerCase().contains(override)) {
                 // was error - confirmed OK - moving down
                 logger.debug("Found override= " + override + "; in tweet= \n" + originalTweet);
@@ -293,13 +307,13 @@ public final class TwitterUtil {
      * - <b>local</b> <br/>
      */
     static boolean isRejectedByBannedRegexExpressions(final String text) {
-        for (final String bannedRegExMaybe : bannedRegExesMaybe) {
+        for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
             if (text.matches(bannedRegExMaybe)) {
                 logger.error("new - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
                 return true;
             }
         }
-        for (final String bannedRegEx : bannedRegExes) {
+        for (final String bannedRegEx : ForAnalysis.bannedRegExes) {
             if (text.matches(bannedRegEx)) {
                 return true;
             }
