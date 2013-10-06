@@ -37,7 +37,7 @@ public final class LinkUtil {
     );// @formatter:on
     public final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
         "pic.twitter.com",
-        "plus.google.com"
+        "plus.google.com" // valid ban: | semi-valid ban: +1 +1 | invalid ban: +1
     );// @formatter:on
 
     final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off

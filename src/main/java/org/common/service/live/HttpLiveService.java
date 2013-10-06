@@ -10,6 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
@@ -84,6 +85,11 @@ public class HttpLiveService implements InitializingBean {
             if (cause != null && cause instanceof HttpHostConnectException) {
                 // keep at warn or below - no need to know when this happens all the time
                 logger.warn("Connection to target host was refused - error when expanding the url: " + urlArg, ex);
+                return null;
+            }
+            if (cause != null && cause instanceof NoHttpResponseException) {
+                // keep at warn or below - no need to know when this happens all the time
+                logger.warn("No response from connection to target host was refused - error when expanding the url: " + urlArg, ex);
                 return null;
             }
 
