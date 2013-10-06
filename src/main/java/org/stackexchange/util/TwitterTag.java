@@ -117,6 +117,7 @@ public enum TwitterTag {// @formatter:off
     sql, 
     sqlinjection, 
     spring, 
+    spring4, 
     springsecurity,
     springdata,
     springsocial,
