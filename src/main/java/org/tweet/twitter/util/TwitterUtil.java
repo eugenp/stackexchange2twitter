@@ -23,6 +23,48 @@ public final class TwitterUtil {
     public final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults(); // if this would include more chars, then recreating the tweet would not be exact
     public final static Joiner joiner = Joiner.on(' ');
 
+    public static final class ForTweeting {
+
+        // by contains
+
+        final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
+            // 
+        );// @formatter:on
+        final static List<String> bannedContainsKeywordsMaybeForAnalysis = Lists.newArrayList(// @formatter:off
+            // 
+        );// @formatter:on
+
+        final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
+            //
+        );// @formatter:on
+
+        // by starts with
+
+        final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
+            // 
+        );// @formatter:on
+
+        // by expression
+
+        final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
+            // 
+        ); // @formatter:on
+
+        final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
+            // 
+        ); // @formatter:on
+
+        // by regex
+
+        final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+            // 
+        ); // @formatter:on
+        final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+            //
+        ); // @formatter:on
+
+    }
+
     public static final class ForAnalysis {
 
         // by contains
@@ -124,7 +166,7 @@ public final class TwitterUtil {
         throw new AssertionError();
     }
 
-    // API
+    // API - checks
 
     /**
      * Verifies that: <br/>
@@ -156,7 +198,125 @@ public final class TwitterUtil {
         return bannedTwitterUsers.contains(username);
     }
 
-    // retweet logic
+    /**
+     * - <b>local</b> <br/>
+     * Tweet can be banned FOR ANALYSIS ONLY by: <br/>
+     * - expression (multiple words) <br/>
+     * - single word - contains <br/>
+     * - single word - starts with <br/>
+     * - regular expression - matches <br/>
+    */
+    public static boolean isTweetBannedForAnalysis(final String originalTweet) {
+        // by expression
+        final String textLowerCase = originalTweet.toLowerCase();
+
+        for (final String bannedExpressionMaybe : ForAnalysis.bannedExpressionsMaybe) {
+            if (textLowerCase.contains(bannedExpressionMaybe)) {
+                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, originalTweet);
+                return true;
+            }
+        }
+
+        for (final String bannedExpression : ForAnalysis.bannedExpressions) {
+            if (textLowerCase.contains(bannedExpression)) {
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
+                return true;
+            }
+        }
+
+        // by contains keyword - maybe
+
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
+        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
+            return true;
+        }
+
+        // by contains keyword
+        for (final String tweetToken : tweetTokens) {
+            if (ForAnalysis.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
+                return true;
+            }
+        }
+
+        // by starts with keyword
+        for (final String bannedStartsWith : ForAnalysis.bannedStartsWithExprs) {
+            if (originalTweet.startsWith(bannedStartsWith)) {
+                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
+                return true;
+            }
+        }
+
+        // by regex
+        if (isRejectedByBannedRegexExpressionsForAnalysis(originalTweet)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     * Tweet can be banned FOR ANALYSIS AND TWEETING by: <br/>
+     * - expression (multiple words) <br/>
+     * - single word - contains <br/>
+     * - single word - starts with <br/>
+     * - regular expression - matches <br/>
+    */
+    public static boolean isTweetBannedForTweeting(final String originalTweet) {
+        if (isTweetBannedForAnalysis(originalTweet)) {
+            return true;
+        }
+
+        // by expression
+        final String textLowerCase = originalTweet.toLowerCase();
+
+        for (final String bannedExpressionMaybe : ForTweeting.bannedExpressionsMaybe) {
+            if (textLowerCase.contains(bannedExpressionMaybe)) {
+                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, originalTweet);
+                return true;
+            }
+        }
+
+        for (final String bannedExpression : ForTweeting.bannedExpressions) {
+            if (textLowerCase.contains(bannedExpression)) {
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
+                return true;
+            }
+        }
+
+        // by contains keyword - maybe
+
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
+        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
+            return true;
+        }
+
+        // by contains keyword
+        for (final String tweetToken : tweetTokens) {
+            if (ForTweeting.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
+                return true;
+            }
+        }
+
+        // by starts with keyword
+        for (final String bannedStartsWith : ForTweeting.bannedStartsWithExprs) {
+            if (originalTweet.startsWith(bannedStartsWith)) {
+                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
+                return true;
+            }
+        }
+
+        // by regex
+        if (isRejectedByBannedRegexExpressionsForAnalysis(originalTweet)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // API - extract
 
     public static String extractTweetFromRt(final String fullTweet) {
         // \A - anchor - matches before start of text block
@@ -187,89 +347,9 @@ public final class TwitterUtil {
         return null;
     }
 
-    // utils
+    // utils - for analysis
 
-    static int countWordsToHash(final Iterable<String> tokens, final List<String> lowerCaseWordsToHash) {
-        int countWordsToHash = 0;
-        for (final String token : tokens) {
-            if (lowerCaseWordsToHash.contains(token.toLowerCase())) {
-                countWordsToHash++;
-            }
-        }
-
-        return countWordsToHash;
-    }
-
-    /**
-     * - <b>local</b> <br/>
-     * Tweet can be banned by: <br/>
-     * - expression (multiple words) <br/>
-     * - single word - contains <br/>
-     * - single word - starts with <br/>
-     * - regular expression - matches <br/>
-    */
-    public static boolean isTweetBannedForTweeting(final String originalTweet) {
-        return isTweetBannedForAnalysis(originalTweet);
-    }
-
-    /**
-     * - <b>local</b> <br/>
-     * Tweet can be banned by: <br/>
-     * - expression (multiple words) <br/>
-     * - single word - contains <br/>
-     * - single word - starts with <br/>
-     * - regular expression - matches <br/>
-    */
-    public static boolean isTweetBannedForAnalysis(final String originalTweet) {
-        // by expression
-        final String textLowerCase = originalTweet.toLowerCase();
-
-        for (final String bannedExpressionMaybe : ForAnalysis.bannedExpressionsMaybe) {
-            if (textLowerCase.contains(bannedExpressionMaybe)) {
-                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, originalTweet);
-                return true;
-            }
-        }
-
-        for (final String bannedExpression : ForAnalysis.bannedExpressions) {
-            if (textLowerCase.contains(bannedExpression)) {
-                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
-                return true;
-            }
-        }
-
-        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
-
-        // by contains keyword - maybe
-        if (isRejectedByContainsKeywordMaybe(tweetTokens, originalTweet)) {
-            return true;
-        }
-
-        // by contains keyword
-        for (final String tweetToken : tweetTokens) {
-            if (ForAnalysis.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
-                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
-                return true;
-            }
-        }
-
-        // by starts with keyword
-        for (final String bannedStartsWith : ForAnalysis.bannedStartsWithExprs) {
-            if (originalTweet.startsWith(bannedStartsWith)) {
-                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
-                return true;
-            }
-        }
-
-        // by regex
-        if (isRejectedByBannedRegexExpressions(originalTweet)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    static boolean isRejectedByContainsKeywordMaybe(final List<String> tweetTokens, final String originalTweet) {
+    static boolean isRejectedByContainsKeywordMaybeForAnalysis(final List<String> tweetTokens, final String originalTweet) {
         for (final String tweetToken : tweetTokens) {
             if (ForAnalysis.bannedContainsKeywordsMaybeForAnalysis.contains(tweetToken.toLowerCase())) {
                 // first - check if there are any overrides
@@ -291,22 +371,10 @@ public final class TwitterUtil {
         return false;
     }
 
-    private static boolean overrideFoundForContainsKeywords(final String originalTweet) {
-        for (final String override : ForAnalysis.acceptedContainsKeywordsOverrides) {
-            if (originalTweet.toLowerCase().contains(override)) {
-                // was error - confirmed OK - moving down
-                logger.debug("Found override= " + override + "; in tweet= \n" + originalTweet);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     /**
      * - <b>local</b> <br/>
      */
-    static boolean isRejectedByBannedRegexExpressions(final String text) {
+    static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String text) {
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
             if (text.matches(bannedRegExMaybe)) {
                 logger.error("new - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
@@ -315,6 +383,50 @@ public final class TwitterUtil {
         }
         for (final String bannedRegEx : ForAnalysis.bannedRegExes) {
             if (text.matches(bannedRegEx)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // utils - for tweeting
+
+    static boolean isRejectedByContainsKeywordMaybeForTweeting(final List<String> tweetTokens, final String originalTweet) {
+        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     */
+    static boolean isRejectedByBannedRegexExpressionsForTweeting(final String text) {
+        if (isRejectedByBannedRegexExpressionsForAnalysis(text)) {
+            return true;
+        }
+        return false;
+    }
+
+    // utils - other
+
+    static int countWordsToHash(final Iterable<String> tokens, final List<String> lowerCaseWordsToHash) {
+        int countWordsToHash = 0;
+        for (final String token : tokens) {
+            if (lowerCaseWordsToHash.contains(token.toLowerCase())) {
+                countWordsToHash++;
+            }
+        }
+
+        return countWordsToHash;
+    }
+
+    private static boolean overrideFoundForContainsKeywords(final String originalTweet) {
+        for (final String override : ForAnalysis.acceptedContainsKeywordsOverrides) {
+            if (originalTweet.toLowerCase().contains(override)) {
+                // was error - confirmed OK - moving down
+                logger.debug("Found override= " + override + "; in tweet= \n" + originalTweet);
                 return true;
             }
         }

@@ -61,7 +61,7 @@ public final class TwitterUtilUnitTest {
         final String originalTweet = "@snipeyhead killed it at Ignite Food Camp “Failing Well: Managing Risk in High-Performance Applications”  https://t.co/9UjRq6hw1X";
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
 
-        assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybe(tweetTokens, originalTweet));
+        assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet));
     }
 
     @Test
@@ -69,7 +69,7 @@ public final class TwitterUtilUnitTest {
         final String originalTweet = "Win-Win Mobility webcast today at 2PM EDT from IDG, IBM, Lenovo and Intel http://t.co/tk1g6Uz0cI … #IBMMobile";
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
 
-        assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybe(tweetTokens, originalTweet));
+        assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet));
     }
 
     // prepareTweet
@@ -189,81 +189,81 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario1_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("RT @BETAwards: 3 Words: FREE. #IPAD. MINI ----> http://bet.us/14agHXR  <--- RT if you want one!"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("RT @BETAwards: 3 Words: FREE. #IPAD. MINI ----> http://bet.us/14agHXR  <--- RT if you want one!"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario2_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("RT @BETAwards: some text - if you want one -RT"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("RT @BETAwards: some text - if you want one -RT"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario3_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("3 Words: FREE. #IPAD. MINI ----> http://bet.us/14agHXR  <--- RT if you want one!"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("3 Words: FREE. #IPAD. MINI ----> http://bet.us/14agHXR  <--- RT if you want one!"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario4_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("3 Words: Free. #IPAD. MINI ----> http://bet.us/14agHXR  <--- RT if you want one!"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("3 Words: Free. #IPAD. MINI ----> http://bet.us/14agHXR  <--- RT if you want one!"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario5_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Your chance to win whateva... just Follow & RT"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("Your chance to win whateva... just Follow & RT"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario6_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Your chance to win whateva... just follow & RT"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("Your chance to win whateva... just follow & RT"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario7_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Your chance to win whateva... just follow AND RT"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("Your chance to win whateva... just follow AND RT"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario8_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Follow & RT if you want loot"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("Follow & RT if you want loot"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario9_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("FOLLOW @Harmini731 #HARMINI, #ANDYMINEO, #JSON & #YBSOD TURNT UP!!! Peep his Music Video \"Against The Ropes\" http://www.youtube.com/watch?v=arDCisqgdvM …"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("FOLLOW @Harmini731 #HARMINI, #ANDYMINEO, #JSON & #YBSOD TURNT UP!!! Peep his Music Video \"Against The Ropes\" http://www.youtube.com/watch?v=arDCisqgdvM …"));
     }
 
     // x% off
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario20_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("You’ve Got 24 Hours - What Is Today's #Deal? - 97% Off - Web’s Best #Daily #Deals - #Free Shipping - http://t.co/jAKbaM8bfR - $AVE"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("You’ve Got 24 Hours - What Is Today's #Deal? - 97% Off - Web’s Best #Daily #Deals - #Free Shipping - http://t.co/jAKbaM8bfR - $AVE"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario21_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Get Learning Perl at 60% off today: Learning PerlWas: $31.99Now: $12.80(Save 60%) O’Reilly’s Cyber Monday Deals ... http://t.co/GWFDlLbd"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("Get Learning Perl at 60% off today: Learning PerlWas: $31.99Now: $12.80(Save 60%) O’Reilly’s Cyber Monday Deals ... http://t.co/GWFDlLbd"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario22_thenRejected() {
-        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressions("Get something at 5% off today: step right up"));
+        assertTrue(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("Get something at 5% off today: step right up"));
     }
 
     // by regex - accept
 
     @Test
     public final void givenTweetDoesNotContainBannedExpression_whenCheckingScenario1_thenAccepted() { // the second is not a RT
-        assertFalse(TwitterUtil.isRejectedByBannedRegexExpressions("RT @BETAwards: some text - if you want one -RTell"));
+        assertFalse(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("RT @BETAwards: some text - if you want one -RTell"));
     }
 
     @Test
     public final void givenTweetDoesNotContainBannedExpression_whenCheckingScenario2_thenAccepted() { // the first is not a RT
-        assertFalse(TwitterUtil.isRejectedByBannedRegexExpressions("RTdfd @BETAwards: some text - if you want one -RT"));
+        assertFalse(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("RTdfd @BETAwards: some text - if you want one -RT"));
     }
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario4_thenAccepted() { // free without the RT
-        assertFalse(TwitterUtil.isRejectedByBannedRegexExpressions("3 Words: FREE. #IPAD. MINI ----> http://bet.us/14agHXR"));
+        assertFalse(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("3 Words: FREE. #IPAD. MINI ----> http://bet.us/14agHXR"));
     }
 
     //
