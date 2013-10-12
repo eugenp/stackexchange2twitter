@@ -65,6 +65,7 @@ public enum TwitterAccountEnum {// @formatter:off
     
     ParsingDaily(true), // the hashtag (parsing) doesn't return any results - but it can't hurt either
     PerlDaily(true),
+    PerformanceTip(true),
     PythonDaily(true), 
     
     RESTDaily(false), // 

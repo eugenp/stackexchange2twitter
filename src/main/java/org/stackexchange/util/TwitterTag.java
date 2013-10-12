@@ -6,10 +6,10 @@ public enum TwitterTag {// @formatter:off
     algorithms, 
     android, 
     apple, 
-    asp,
-    aspnet,
-    authentication,
-    azure,
+    asp, 
+    aspnet, 
+    authentication, 
+    azure, 
     akka, 
     aws,
     
@@ -33,6 +33,8 @@ public enum TwitterTag {// @formatter:off
     dynamobd,
     django, 
     dotnet,
+    dynatrace,
+    dtrace,
     
     eclipse, 
     eclipselink, 

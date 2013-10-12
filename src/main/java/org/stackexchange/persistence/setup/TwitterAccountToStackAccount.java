@@ -136,6 +136,8 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case PerlDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
+        case PerformanceTip:
+            return Lists.newArrayList(StackSite.StackOverflow);
         case PythonDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
