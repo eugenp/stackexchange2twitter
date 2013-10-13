@@ -74,7 +74,6 @@ public final class TwitterUtil {
         final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
             "buy", "discount", 
             "freelance", "job", "consulting", "hire", "hiring", "careers", 
-            // "need", // for now, still in the maybe pile  
             "football", "exclusive",
             // "dumb", "dumber", // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
             "gift", "highheels",
@@ -88,7 +87,6 @@ public final class TwitterUtil {
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
             // "buy", // was here, I'm sufficiently convinced that it's not good 
             "#deal", "#deals" // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
-            ,"need" // gathering some more data for need
             ,"wife"
             ,"killed"
             ,"remix"  

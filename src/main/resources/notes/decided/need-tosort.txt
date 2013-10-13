@@ -1,11 +1,17 @@
 
-# expressions to look into: need to know, don't need
+- DECISION: it looks I only added need because of all the jobs; now - need doesn't get that many jobs - so I'm removing it and dealing with the jobs via the classifier (and if need be - via keywords)
+- this is a much better option than ignoring so much `need` :)
+
+- bad: 
+
+#php print function by TheBestFlawless: Php script upgrade just need threads… http://t.co/ktZgIYGBLP #freelance #job
+Updates to a #PHP MYSQL Dashboard by socialviewz: Need some updates done to… http://t.co/UH46qEw40F #freelance #job
+#javascript imacros by Angelinf: Need a script that fill the button form… http://t.co/8RNbSWG7G3 #freelance #job
+Need a DBS check? Go to http://t.co/lZ6PmI4B #247professionalhealth #work #working #job… http://t.co/i5IMTFSv
 
 --- to sort:
 
-
 Daura, suitable for coeliacs ★ Estrella Damm beer · http://t.co/bI36Eij7De // You might feel you need to buy me a pack. Just sayin'
-Updates to a #PHP MYSQL Dashboard by socialviewz: Need some updates done to… http://t.co/UH46qEw40F #freelance #job
 Compuware Converges on IT Performance Management: Applications and IT infrastructure need to… http://t.co/wTJnPP2tIO
 there are at least 96 senators who need to hear from you. It's as simple as pressing a button &gt; http://t.co/tRxwaSGKqr … #obamacare
 Blocking #cookies to avoid being tracked by #advertisers? #Google has a new tracking method that doesn’t need them &gt; http://t.co/PDggK0iuN4
@@ -104,7 +110,6 @@ Asia insights via “@jonharules: What #Marketers Need to Know About Teenagers B
 Purchase your #SummerBLISSJuly7 tix online @Yardticket.com. No line, no need to leave home --» http://t.co/F36yWFeY
 Need more levity in #BigDataGov community! @ocdqblog: "Over the #DataGovernance Rainbow" @MarkHorseman: http://t.co/FwO2JCPjxX #DataQuality”
 RT - Anyone need a job?! “@CANDDi: #CANDDi is hiring: senior developers - http://t.co/A8eSwOnttS  #Newcastle #Analytics”
-#php print function by TheBestFlawless: Php script upgrade just need threads… http://t.co/ktZgIYGBLP #freelance #job
 So wonderful: Need a House, Call Ms. Mouse – progressive, inspiring vintage children's book starring female architect http://t.co/6AsjWjDiIN
 Twitter list is here for #Phailin: http://t.co/Hsdt1umVQU If you need names added ask @Vidyut to DM me or ping me &amp; I’ll add them in 1hr.
 FireSSH – A Web Browser SSH Client Plugin for Firefox --&gt; http://t.co/1CanUYySBV "You don’t need to install third party tools [...]"
@@ -195,7 +200,6 @@ Need another reason to head to Paris for JS.Everywhere()?  How about €50 off t
 Yes! » How many JavaScript frameworks do you need to make a landing page? http://t.co/aF2KoqlbKm
 CRUD functionality using JQuery Datatables - repost by houssem25: Need a Javascript plugin which… http://t.co/bZwJp4mdhY #JQuery #freelance
 Vignelli on the AA redesign: "The logo doesn’t need change. The whole world knows it, and there’s a tremendous equity." http://t.co/K6PlZAVt
-#javascript imacros by Angelinf: Need a script that fill the button form… http://t.co/8RNbSWG7G3 #freelance #job
 "I was targeted by terrorists and I don’t need the #GCSB" http://t.co/YrdntLWM4O cc @kimdotcom
 What You Need to Know About the New Facebook Ads — Ecommerce Blog by Shopify http://t.co/8QTyZuTgBY
 The NSA Hasn’t “Cracked” Encryption—It’s Just Reminded Us of the Ways Around It. You need software security people. http://t.co/5KHCRnink2 
@@ -218,7 +222,6 @@ image sharing script modification site by teamITbd112: i have a low budget aroun
 "It’s the doctors who need to be able to analyze data to improve patient care, not the data scientists." - See more: http://t.co/tPs0jHLnux
 If yo are not signed up for this newsletter, you need to be!! @VSMdev ▸ http://t.co/pAYSFURfBq #dotNetDave
 "To reach customers in today’s real-time world you need a mindset of speed and agility." - @dmscott http://t.co/qpR9nOzqnW
-Need a DBS check? Go to http://t.co/lZ6PmI4B #247professionalhealth #work #working #job… http://t.co/i5IMTFSv
 #recruiting now 247professionalhealth #southport #office need #careassistants #supportworkers and… http://t.co/m2CkhcB1j0
 “@NSWRL: We think you look good in this @Tim_Cahill! #origin #uptheblues http://t.co/dmVg7f7aBm” haha do u need a kicker. #blues
 Are you using Drupal? Are you going to Drupal 8? You need to be here: http://t.co/qmHMfXNlxi - grab the last tkts…http://t.co/5PiZ2BiFj6
