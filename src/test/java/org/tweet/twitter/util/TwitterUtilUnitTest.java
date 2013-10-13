@@ -178,11 +178,15 @@ public final class TwitterUtilUnitTest {
         assertTrue(TwitterUtil.isTweetBannedForTweeting("RT if you want to be followed :) add me on #Facebook too https://t.co/j9YzugsgRo  x"));
     }
 
-    // hashcode (#deal, #deals)
-
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario20_thenRejected() {
         assertTrue(TwitterUtil.isTweetBannedForTweeting("100€ Discount #Dordogne cottage for 5 with pool avail 27 July-3 Aug Quote PSCR to get offer http://t.co/LmJfB83aSa #holiday #france #deals"));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedKeywords_whenCheckingScenario21_thenRejected() {
+        assertTrue(TwitterUtil
+                .isTweetBannedForTweeting("#Israel continues with ethnic cleansing and erasing any history that has to do with #Palestine https://www.oximity.com/article/Israel_Land_Administration_to_lease_Khan_al-Umdan__an_18th_c_1#.UlgThNI3CGN … #Akka #Zionism"));
     }
 
     // by regex - reject

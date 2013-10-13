@@ -31,7 +31,8 @@ public final class TwitterUtil {
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
             "dance"// it's OK for analysis, but not for tweeting - leaving it in the maybe pile for a bit, then move up (06.10)
             ,"trial" // it's OKish for analysis (06.10)
-            , "win" // definitely rejecting for tweeting just in case (13.10) 
+            , "win" // definitely rejecting for tweeting just in case (13.10)
+            , "israel", "israeli", "palestine"
         );// @formatter:on
 
         final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
@@ -355,7 +356,7 @@ public final class TwitterUtil {
         for (final String tweetToken : tweetTokens) {
             if (ForAnalysis.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
                 // first - check if there are any overrides
-                if (overrideFoundForContainsKeywords(originalTweet)) {
+                if (overrideFoundForContainsKeywordsForAnalysis(originalTweet)) {
                     continue;
                 }
 
@@ -398,6 +399,25 @@ public final class TwitterUtil {
         if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
             return true;
         }
+
+        for (final String tweetToken : tweetTokens) {
+            if (ForTweeting.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
+                // first - check if there are any overrides
+                if (overrideFoundForContainsKeywordsForTweeting(originalTweet)) {
+                    continue;
+                }
+
+                // try catch to at least get the stack
+                try {
+                    throw new IllegalStateException("I need the full stack - maybe keywords rejection");
+                } catch (final Exception ex) {
+                    logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
+                    logger.debug("Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                }
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -408,6 +428,19 @@ public final class TwitterUtil {
         if (isRejectedByBannedRegexExpressionsForAnalysis(text)) {
             return true;
         }
+
+        for (final String bannedRegExMaybe : ForTweeting.bannedRegExesMaybe) {
+            if (text.matches(bannedRegExMaybe)) {
+                logger.error("new - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
+                return true;
+            }
+        }
+        for (final String bannedRegEx : ForTweeting.bannedRegExes) {
+            if (text.matches(bannedRegEx)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -424,8 +457,16 @@ public final class TwitterUtil {
         return countWordsToHash;
     }
 
-    private static boolean overrideFoundForContainsKeywords(final String originalTweet) {
-        for (final String override : ForAnalysis.acceptedContainsKeywordsOverrides) {
+    private static boolean overrideFoundForContainsKeywordsForAnalysis(final String originalTweet) {
+        return overrideFoundForContainsKeywords(originalTweet, ForAnalysis.acceptedContainsKeywordsOverrides);
+    }
+
+    private static boolean overrideFoundForContainsKeywordsForTweeting(final String originalTweet) {
+        return overrideFoundForContainsKeywords(originalTweet, ForTweeting.acceptedContainsKeywordsOverrides);
+    }
+
+    private static boolean overrideFoundForContainsKeywords(final String originalTweet, final Iterable<String> overrides) {
+        for (final String override : overrides) {
             if (originalTweet.toLowerCase().contains(override)) {
                 // was error - confirmed OK - moving down
                 logger.debug("Found override= " + override + "; in tweet= \n" + originalTweet);
