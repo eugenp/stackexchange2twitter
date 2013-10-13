@@ -1,7 +1,6 @@
 package org.stackexchange;
 
 import static org.stackexchange.persistence.setup.TwitterAccountToStackAccount.twitterAccountToStackSite;
-import static org.stackexchange.persistence.setup.TwitterAccountToStackAccount.twitterAccountToStackSites;
 
 import java.io.IOException;
 
@@ -14,7 +13,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.stackexchange.api.constants.StackSite;
 import org.stackexchange.service.TweetStackexchangeLiveService;
-import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.TagRetrieverService;
@@ -95,8 +93,7 @@ public class TweetStackexchangeScheduler {
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.DotNetFact), TwitterAccountEnum.DotNetFact.name());
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.PerformanceTip), TwitterAccountEnum.PerformanceTip.name());
 
-        final StackSite randomSite = GenericUtil.pickOneGeneric(twitterAccountToStackSites(TwitterAccountEnum.BestBash));
-        service.tweetAnyTopQuestionBySiteAndTag(randomSite, TwitterAccountEnum.BestBash.name());
+        service.tweetAnyTopQuestionBySiteAndTag(StackSite.StackOverflow, TwitterAccountEnum.BestBash.name());
 
         logger.info("Finished tweet schedule - 2");
     }
