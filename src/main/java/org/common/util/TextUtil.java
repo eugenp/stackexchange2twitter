@@ -80,9 +80,11 @@ public final class TextUtil {
 
         // others - unclear if these should be turned back or not...
         // &hearts; => ♥
-        // &darr; => ↓
+
+        cleanedText = StringUtils.replaceAll(cleanedText, "&minus;", "-");
 
         // simply remove
+        cleanedText = StringUtils.replaceAll(cleanedText, "&darr;", ""); // ↓
         cleanedText = StringUtils.replaceAll(cleanedText, "&copy;", ""); // ©
         cleanedText = StringUtils.replaceAll(cleanedText, "&reg;", ""); // ®
         cleanedText = StringUtils.replaceAll(cleanedText, "❤", "");

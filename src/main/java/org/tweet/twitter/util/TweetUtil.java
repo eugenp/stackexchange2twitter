@@ -86,10 +86,12 @@ public final class TweetUtil {
         "el", 
         "fa", 
         "fi", 
+        "gu", 
         "he", 
         "hi",
         "hu", 
         "ht", 
+        "is", 
         "iu", 
         "ja", 
         "ko", 
@@ -111,30 +113,30 @@ public final class TweetUtil {
     );
     /*
      * "ar"    - 
-     * "bo"    - | -1 -1
+     * "bo"    - | -1 -1 -1
      * "ca"    - 
-     * "chr"   - | -1 -1
+     * "chr"   - | -1 -1 -1
      * "da"    - ~21 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 - reject for tweeting, accept for analysis
      * "et"    - ~20 +1 | - accepting
      * "el"    - | -1 -1 -1 | +1 - rejecting
      * -"fi"   - ~10 +1 | ~10 -1 - rejecting
      * "fa"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
-     * "gu"    - | -1 -1 -1 -1
+     * "gu"    - | -1 -1 -1 -1 -1 -1 - rejecting
      * "hi"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
      * "hu"    - +1 +1 +1 | ~12 -1 -1 - rejecting
      * "ht"    - +1 | -1 -1 -1 -1 - rejecting // some English but plain weird tweets
-     * "hy"    - | -1
+     * "hy"    - | -1 -1 -1 -1 -1
      * "it"    - 
      * "iu"    - -1 -1 -1 -1 -1 - rejecting
-     * "is"    - 8 +1 | -1 -1 -1 // weirdly short tweets - all of them - not sure...
+     * "is"    - 12 +1 | 4 -1 // weirdly short tweets - all of them - not sure... rejecting for tweeting only for now
      * "id"    - 
      * "ja"    - | ~12 -1 - rejecting
-     * "ka"    - | -1
+     * "ka"    - | -1 -1 -1 -1
      * "kn"    - | -1 -1 
      * "ko"    - +1 | -1 -1 -1 -1 - rejecting
      * "lt"    - ~10 +1 | ~10 -1 - rejecting
      * "lv"    - +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejecting
-     * "ml"    - -1 -1
+     * "ml"    - | -1 -1 -1 
      * "ne"    - | 5 -1 - rejecting
      * "nl"    - | -1 -1 -1 - rejecting
      * "no"    - 20 +1 | 10 -1 - rejecting
@@ -180,6 +182,7 @@ public final class TweetUtil {
         "el", 
         "fa", 
         "fi", 
+        "gu",
         "he", 
         "hi",
         "hu", 

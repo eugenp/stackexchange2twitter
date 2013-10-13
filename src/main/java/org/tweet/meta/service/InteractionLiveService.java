@@ -234,7 +234,7 @@ public class InteractionLiveService {
     }
 
     private final boolean passEliminatoryChecksBasedOnUser(final TwitterProfile user) {
-        if (!isWorthInteractingWithBasedOnLanguage(user)) {
+        if (!passesUserLanguageChecksForAnalysis(user)) {
             return false;
         }
         if (!isWorthInteractingWithBasedOnFollowerCount(user)) {
@@ -454,7 +454,7 @@ public class InteractionLiveService {
         return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage, retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage);
     }
 
-    private final boolean isWorthInteractingWithBasedOnLanguage(final TwitterProfile user) {
+    private final boolean passesUserLanguageChecksForAnalysis(final TwitterProfile user) {
         final String languageOfUser = user.getLanguage().trim();
         if (TweetUtil.acceptedUserLangForAnalysis.contains(languageOfUser)) {
             return true;
