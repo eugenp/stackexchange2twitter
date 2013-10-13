@@ -32,7 +32,8 @@ public final class TwitterUtil {
             "dance"// it's OK for analysis, but not for tweeting - leaving it in the maybe pile for a bit, then move up (06.10)
             ,"trial" // it's OKish for analysis (06.10)
             , "win" // definitely rejecting for tweeting just in case (13.10)
-            , "israel", "israeli", "palestine"
+            , "israel", "israeli", "palestine", "zionism"
+            , "racial"
         );// @formatter:on
 
         final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
@@ -86,21 +87,22 @@ public final class TwitterUtil {
         );// @formatter:on
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
             // "buy", // was here, I'm sufficiently convinced that it's not good 
-            "#deal", "#deals", // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
-            "need", // gathering some more data for need
-            "wife",
-            "killed",
-            "remix",  
-            "cheep", // trying it out
-            "lucky", 
-            "fpl", // fantasy player league
-            "deals", "deal", 
-            "priced", // new
-            "promo", 
-            "kurd", "kurds", "afganistan", "palestinians", // other political stuff
-            "hindus", // new (13.10)
-            "$3.99", "$2.99", "$1.99", "$0.99", 
-            "thugs" // new
+            "#deal", "#deals" // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
+            ,"need" // gathering some more data for need
+            ,"wife"
+            ,"killed"
+            ,"remix"  
+            ,"cheep" // trying it out
+            ,"lucky" 
+            ,"fpl" // fantasy player league
+            ,"deals", "deal" 
+            ,"priced" // new
+            ,"promo" 
+            ,"kurd", "kurds", "afganistan", "palestinians" // other political stuff
+            ,"hindus" // new (13.10)
+            ,"$3.99", "$2.99", "$1.99", "$0.99" 
+            ,"thugs" // new
+            ,"racial"
         );// @formatter:on
 
         /**
