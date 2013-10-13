@@ -1,6 +1,6 @@
 package org.tweet.twitter.util.specific;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,18 +20,18 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 @RunWith(Parameterized.class)
-public final class RejectTweetsByWordWinManualTest {
+public final class AcceptTweetsByWordWinManualTest {
 
     private String tweet;
 
-    public RejectTweetsByWordWinManualTest(final String tweet) {
+    public AcceptTweetsByWordWinManualTest(final String tweet) {
         super();
         this.tweet = tweet;
     }
 
     @Parameters
     public static List<String[]> invalidWords() throws IOException {
-        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/win-toaccept.txt");
+        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/win-toreject.txt");
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         final List<String[]> tweetsAsSingeElementArrays = Lists.transform(tweets, new Function<String, String[]>() {
             @Override
@@ -48,7 +48,7 @@ public final class RejectTweetsByWordWinManualTest {
 
     @Test
     public void whenTweetIsAnalyzed_thenRejected() {
-        assertFalse(TwitterUtil.isTweetBannedForAnalysis(tweet.toLowerCase()));
+        assertTrue(TwitterUtil.isTweetBannedForAnalysis(tweet.toLowerCase()));
     }
 
 }

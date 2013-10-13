@@ -159,6 +159,7 @@ public final class TwitterUtil {
             , ".*win.*sale.*", ".*contest.*sale.*"
             , ".*win.*swag.*", ".*contest.*swag.*" 
             , ".*win.*giveaway.*", ".*giveaway.*win.*"
+            , ".*win.*giving away.*", ".*giving away.*win.*"
             , ".*win.*ticket.*", ".*contest.*ticket.*"
             , ".*win.*some.*"
         ); // @formatter:on
