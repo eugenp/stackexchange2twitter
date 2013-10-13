@@ -94,7 +94,8 @@ public final class TwitterUtil {
             "fpl", // fantasy player league
             "deals", "deal", 
             "priced", // new
-            "win", "promo", 
+            // "win", // TEMPORARILY REMOVED TO SEE IF I CAN GET THE RIGHT TWEETS REJECTED ONLY (13.10) 
+            "promo", 
             "kurd", "kurds", "afganistan", "palestinians", // other political stuff
             "hindus", // new (13.10)
             "$3.99", "$2.99", "$1.99", "$0.99", 
@@ -137,9 +138,6 @@ public final class TwitterUtil {
 
         // by regex
 
-        final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-            // 
-        ); // @formatter:on
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
             "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
             "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
@@ -150,6 +148,19 @@ public final class TwitterUtil {
             ".*R(T|t) .* (f|F)ollow(ed)? .*", // RT this if you want me to follow you
             ".*\\d(\\d)?% (o|O)ff.*", // 97% Off
             "(?i).*follow @.*"
+        ); // @formatter:on
+
+        final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+            ".*win.*£.*", ".*£.*win.*"
+            , ".*win.*\\$.*", ".*\\$.*win.*"
+            , ".*win.*chance.*", ".*chance.*win.*"  
+            , ".*win.*contest.*", ".*contest.*win.*"
+            , ".*win.*prize.*", ".*contest.*prize.*" 
+            , ".*win.*sale.*", ".*contest.*sale.*"
+            , ".*win.*swag.*", ".*contest.*swag.*" 
+            , ".*win.*giveaway.*", ".*giveaway.*win.*"
+            , ".*win.*ticket.*", ".*contest.*ticket.*"
+            , ".*win.*some.*"
         ); // @formatter:on
 
     }
