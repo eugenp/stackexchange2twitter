@@ -4,7 +4,6 @@ encoding//src/main/resources/classification/commercial/commercial.classif=UTF-8
 encoding//src/main/resources/notes/rejected-deal.txt=UTF-8
 encoding//src/main/resources/notes/rejected-done.txt=UTF-8
 encoding//src/main/resources/notes/rejected-killed.txt=UTF-8
-encoding//src/main/resources/notes/rejected-need.txt=UTF-8
 encoding//src/main/resources/notes/rejected.txt=UTF-8
 encoding//src/main/resources/notes/test/win-toreject.txt=UTF-8
 encoding//src/test/java/org/common/text/LinkUtilUnitTest.java=UTF-8
