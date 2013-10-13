@@ -234,7 +234,7 @@ public class InteractionLiveService {
     }
 
     private final boolean passEliminatoryChecksBasedOnUser(final TwitterProfile user) {
-        if (!passesUserLanguageChecksForAnalysis(user)) {
+        if (!tweetService.passesUserLanguageChecksForAnalysis(user, null, null)) {
             return false;
         }
         if (!isWorthInteractingWithBasedOnFollowerCount(user)) {
@@ -454,19 +454,6 @@ public class InteractionLiveService {
         return new TwitterUserSnapshot(goodRetweetsPercentage, retweetsOfSmallAccountsOutOfAllGoodRetweetsPercentage, retweetsOfSelfMentionsPercentage, mentionsPercentage, retweetsOfNonFollowedUsersOutOfGoodRetweetsPercentage);
     }
 
-    private final boolean passesUserLanguageChecksForAnalysis(final TwitterProfile user) {
-        final String languageOfUser = user.getLanguage().trim();
-        if (TweetUtil.acceptedUserLangForAnalysis.contains(languageOfUser)) {
-            return true;
-        }
-
-        // new - moving to error temporarily
-        if (!TweetUtil.rejectedUserLangForAnalysis.contains(languageOfUser)) {
-            logger.error("Should not interact with user= {} because user language is= {}", user.getScreenName(), languageOfUser);
-        }
-        return false;
-    }
-
     private final boolean isWorthInteractingWithBasedOnFollowerCount(final TwitterProfile user) {
         final int followersCount = user.getFollowersCount();
         if (followersCount > twitterInteractionValuesRetriever.getMinFolowersOfValuableUser()) {
@@ -549,7 +536,7 @@ public class InteractionLiveService {
             return false;
         }
 
-        if (!tweetService.passesLanguageForAnalysisChecks(tweet, null)) {
+        if (!tweetService.passesLanguageChecksForAnalysis(tweet, null)) {
             return false;
         }
 

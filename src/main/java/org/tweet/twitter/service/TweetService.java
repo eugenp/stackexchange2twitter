@@ -58,14 +58,14 @@ public class TweetService {
      * - is structurally valid<br/>
      * - <br/>
      */
-    public final boolean isTweetWorthRetweetingByTextWithLink(final String potentialTweetText) {
-        if (!passesSetOfAdditionalChecksForTweeting(potentialTweetText)) {
+    public final boolean isTweetWorthRetweetingByTextWithLink(final String tweetText) {
+        if (!passesSetOfAdditionalChecksForTweeting(tweetText)) {
             return false;
         }
 
-        if (!isStructurallyValidForTweeting(potentialTweetText)) {
+        if (!isStructurallyValidForTweeting(tweetText)) {
             // was error for a while - validated - moving down to debug
-            logger.debug("1 - Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
+            logger.debug("1 - Rejecting tweet because it is not structurally valid; tweet text= {}", tweetText);
             return false;
         }
 
@@ -82,25 +82,25 @@ public class TweetService {
      * - is structurally valid (minimally) <br/>
      * - <b>note: does not check</b> if it passes level 0 and 1 checks <br/>
      */
-    public final boolean passesSet3OfChecksForAnalysis(final String potentialTweetText) {
-        if (!containsLink(potentialTweetText)) {
+    public final boolean passesSet3OfChecksForAnalysis(final String tweetText) {
+        if (!containsLink(tweetText)) {
             return false;
         }
-        if (TwitterUtil.isTweetBannedForAnalysis(potentialTweetText)) {
+        if (TwitterUtil.isTweetBannedForAnalysis(tweetText)) {
             // debug should be OK
-            logger.debug("Rejecting tweet because it is banned: \ntweet= {}", potentialTweetText);
+            logger.debug("Rejecting tweet because it is banned: \ntweet= {}", tweetText);
             return false;
         }
 
-        if (linkService.extractUrls(potentialTweetText).size() > 1) {
+        if (linkService.extractUrls(tweetText).size() > 1) {
             // keep below error - there are a lot of tweets that fall into this category and it's not really relevant
-            logger.debug("Rejecting tweet because it has more than one link; tweet text= {}", potentialTweetText);
+            logger.debug("Rejecting tweet because it has more than one link; tweet text= {}", tweetText);
             return false;
         }
 
-        if (!isStructurallyValidMinimal(potentialTweetText)) {
+        if (!isStructurallyValidMinimal(tweetText)) {
             // newly changed - error for a while, then debug again
-            logger.error("NEW - 2 - Rejecting tweet because it is not structurally valid; tweet text= {}", potentialTweetText);
+            logger.error("NEW - 2 - Rejecting tweet because it is not structurally valid; tweet text= {}", tweetText);
             return false;
         }
 
@@ -108,13 +108,13 @@ public class TweetService {
         return true;
     }
 
-    public final boolean passesSetOfAdditionalChecksForTweeting(final String potentialTweetText) {
-        if (!passesSet3OfChecksForAnalysis(potentialTweetText)) {
+    public final boolean passesSetOfAdditionalChecksForTweeting(final String tweetText) {
+        if (!passesSet3OfChecksForAnalysis(tweetText)) {
             return false;
         }
-        if (TwitterUtil.isTweetBannedForTweeting(potentialTweetText)) {
+        if (TwitterUtil.isTweetBannedForTweeting(tweetText)) {
             // debug should be OK
-            logger.debug("Rejecting tweet because it is banned: \ntweet= {}", potentialTweetText);
+            logger.debug("Rejecting tweet because it is banned: \ntweet= {}", tweetText);
             return false;
         }
 
@@ -130,19 +130,19 @@ public class TweetService {
      * 
      * - favorites are not yet considered <br/>
      */
-    public final boolean isTweetWorthRetweetingByRawTweet(final Tweet potentialTweet, final String hashtag) {
-        if (!passesSet1OfChecks(potentialTweet, hashtag)) {
+    public final boolean isTweetWorthRetweetingByRawTweet(final Tweet tweet, final String hashtag) {
+        if (!passesSet1OfChecks(tweet, hashtag)) {
             return false;
         }
 
-        if (!passesLanguageForTweetingChecks(potentialTweet, hashtag)) {
+        if (!passesLanguageForTweetingChecks(tweet, hashtag)) {
             return false;
         }
 
         final int requiredMinRts = minRtRetriever.minRt(hashtag);
-        if (potentialTweet.getRetweetCount() < requiredMinRts) {
+        if (tweet.getRetweetCount() < requiredMinRts) {
             // TODO: this is a problem now that the tweets are no longer strictly sorted by RT count
-            logger.trace("potentialTweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", potentialTweet, hashtag, potentialTweet.getRetweetCount(), requiredMinRts);
+            logger.trace("tweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", tweet, hashtag, tweet.getRetweetCount(), requiredMinRts);
             return false;
         }
 
@@ -159,7 +159,7 @@ public class TweetService {
         final String hashTagInternal = (hashtag == null) ? "" : hashtag;
 
         if (TwitterUtil.isUserBannedFromRetweeting(tweet.getFromUser())) {
-            logger.debug("potentialTweet= {} on twitterTag= {} rejected because the original user is banned= {}", tweet, hashTagInternal, tweet.getFromUser());
+            logger.debug("tweet= {} on twitterTag= {} rejected because the original user is banned= {}", tweet, hashTagInternal, tweet.getFromUser());
             // debug temporary - should be trace
             return false;
         }
@@ -167,7 +167,7 @@ public class TweetService {
         final boolean shouldByNumberOfHashtags = isTweetWorthRetweetingByNumberOfHashtags(tweet);
         if (!shouldByNumberOfHashtags) {
             // was error - nothing really interesting, debug now, maybe trace later
-            logger.debug("Rejected because the it contained to many hashtags - potentialTweet= {} on twitterTag= {} ", TweetUtil.getText(tweet), hashTagInternal);
+            logger.debug("Rejected because the it contained to many hashtags - tweet= {} on twitterTag= {} ", TweetUtil.getText(tweet), hashTagInternal);
             return false;
         }
 
@@ -186,7 +186,7 @@ public class TweetService {
 
         if (tweet.getLanguageCode() == null) {
             // temporary error
-            logger.error("t - potentialTweet= {}\n on twitterTag= {} rejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
+            logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} rejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
             return false;
         }
 
@@ -194,7 +194,7 @@ public class TweetService {
         if (tweet.getUser() == null || !TweetUtil.acceptedUserLangForTweeting.contains(tweet.getUser().getLanguage().trim())) {
             if (!TweetUtil.rejectedUserLangForTweeting.contains(tweet.getUser().getLanguage().trim())) {
                 final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-                logger.error("t - potentialTweet= {}\n on twitterTag= {} rejected because the user has USER language= {} \nfull tweet= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage(), tweetUrl);
+                logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} rejected because the user has USER language= {} \nfull tweet= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage(), tweetUrl);
                 return false;
             }
         }
@@ -202,7 +202,7 @@ public class TweetService {
         // then check the language of the tweet
         if (!TweetUtil.acceptedTweetLangForTweeting.contains(tweet.getLanguageCode().trim())) {
             if (!TweetUtil.rejectedTweetLangForTweeting.contains(tweet.getLanguageCode().trim())) {
-                logger.error("t - potentialTweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with user language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode(), tweet.getUser().getLanguage().trim());
+                logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with user language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode(), tweet.getUser().getLanguage().trim());
             }
             return false;
         }
@@ -217,7 +217,7 @@ public class TweetService {
      * - the tweet has an accepted <b>language</b> </br>
      * - the author of the tweet has an accepted <b>language</b> </br>
      */
-    public final boolean passesLanguageForAnalysisChecks(final Tweet tweet, final String hashtagForLoggingRaw) {
+    public final boolean passesLanguageChecksForAnalysis(final Tweet tweet, final String hashtagForLoggingRaw) {
         final String hashtagForLogging = (hashtagForLoggingRaw == null) ? "" : hashtagForLoggingRaw;
 
         // first - check the language of the user
@@ -239,7 +239,7 @@ public class TweetService {
         // then check the language of the tweet
         if (tweet.getLanguageCode() == null) {
             // temporary error
-            logger.error("a - potentialTweet= {}\n on twitterTag= {} rejected because it has the no language", tweetText, hashtagForLogging);
+            logger.error("(for analysis) - tweet= {}\n on twitterTag= {} rejected because it has the no language", tweetText, hashtagForLogging);
             return false;
         }
 
@@ -250,38 +250,62 @@ public class TweetService {
         return true;
     }
 
-    private final boolean passesUserLanguageChecksForAnalysis(final TwitterProfile user, final Tweet tweetForLogging, final String hashtagForLogging) {
+    public final boolean passesUserLanguageChecksForAnalysis(final TwitterProfile user, final Tweet tweetForLogging, final String hashtagForLogging) {
         Preconditions.checkNotNull(user.getLanguage());
+        Preconditions.checkState((tweetForLogging != null && hashtagForLogging != null) || (tweetForLogging == null && hashtagForLogging == null)); // these are both either null or not
+        final boolean extensiveLogging = tweetForLogging != null;
 
-        final String tweetText = TweetUtil.getText(tweetForLogging);
         final String userLang = user.getLanguage().trim();
-        if (!TweetUtil.acceptedUserLangForAnalysis.contains(userLang)) {
-            if (!TweetUtil.rejectedUserLangForAnalysis.contains(userLang)) {
-                final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
-                logger.error("a - potentialTweet= {}\n on twitterTag= {} rejected because the user has USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetForLogging.getUser().getLanguage(), tweetUrl);
-            }
-            return false;
+        if (TweetUtil.acceptedUserLangForAnalysis.contains(userLang)) {
+            return true;
         }
 
-        return true;
+        // not actively accepted
+        // start - just logging stuff
+        if (extensiveLogging) {
+            if (!TweetUtil.rejectedUserLangForAnalysis.contains(userLang)) {
+                final String tweetText = TweetUtil.getText(tweetForLogging);
+                final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
+                logger.error("(for analysis) - tweet= {}\n on twitterTag= {} rejected because the user has USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetForLogging.getUser().getLanguage(), tweetUrl);
+                return false;
+            }
+
+            final String tweetText = TweetUtil.getText(tweetForLogging);
+            final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
+            logger.debug("(for analysis) - tweet= {}\n on twitterTag= {} rejected because the user has USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetForLogging.getUser().getLanguage(), tweetUrl);
+        } else {
+            // new - moving to error temporarily
+            logger.error("(for analysis) - Should not interact with user= {} because user language is= {}", user.getScreenName(), userLang);
+        }
+        // done - just logging stuff
+
+        return false;
     }
 
-    private final boolean passesTweetLanguageChecksForAnalysis(final Tweet tweetForLogging, final String hashtagForLogging) {
+    public final boolean passesTweetLanguageChecksForAnalysis(final Tweet tweetForLogging, final String hashtagForLogging) {
         Preconditions.checkNotNull(tweetForLogging.getLanguageCode());
 
         final String tweetText = TweetUtil.getText(tweetForLogging);
         final String tweetLang = tweetForLogging.getLanguageCode().trim();
         final TwitterProfile user = tweetForLogging.getUser();
 
-        if (!TweetUtil.acceptedTweetLangForAnalysis.contains(tweetLang)) {
-            if (!TweetUtil.rejectedTweetLangForAnalysis.contains(tweetLang)) {
-                final String tweetUrl = "https://twitter.com/" + user + "/status/" + tweetForLogging.getId();
-                logger.error("a - potentialTweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
-            }
+        if (TweetUtil.acceptedTweetLangForAnalysis.contains(tweetLang)) {
+            return true;
+        }
+
+        // not actively accepted
+        // start - just logging stuff
+        if (!TweetUtil.rejectedTweetLangForAnalysis.contains(tweetLang)) {
+            final String tweetUrl = "https://twitter.com/" + user + "/status/" + tweetForLogging.getId();
+            logger.error("(for analysis) - tweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
             return false;
         }
 
-        return true;
+        final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
+        logger.debug("(for analysis) - tweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
+        // done - just logging stuff
+
+        return false;
     }
 
     /**
@@ -315,12 +339,12 @@ public class TweetService {
      * - <b>local</b> <br/>
      * - verifies that a main url exists, and that the remaining text is longer then 11 chars
      */
-    public final boolean isStructurallyValidForTweeting(final String potentialTweetText) {
-        if (!isStructurallyValidMinimal(potentialTweetText)) {
+    public final boolean isStructurallyValidForTweeting(final String tweetText) {
+        if (!isStructurallyValidMinimal(tweetText)) {
             return false;
         }
 
-        String processedTweet = potentialTweetText;
+        String processedTweet = tweetText;
 
         // remove mention
         processedTweet = processedTweet.replaceAll("(- )?via @\\w+", "");
@@ -347,8 +371,8 @@ public class TweetService {
      * - <b>local</b> <br/>
      * - verifies that a main url exists
      */
-    public final boolean isStructurallyValidMinimal(final String potentialTweetText) {
-        final Set<String> extractedUrls = linkService.extractUrls(potentialTweetText);
+    public final boolean isStructurallyValidMinimal(final String tweetText) {
+        final Set<String> extractedUrls = linkService.extractUrls(tweetText);
         final String mainUrl = linkService.determineMainUrl(extractedUrls);
         if (mainUrl == null) {
             return false;
