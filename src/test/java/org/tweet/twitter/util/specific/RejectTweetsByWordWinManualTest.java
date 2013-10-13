@@ -20,11 +20,11 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 @RunWith(Parameterized.class)
-public final class RejectTweetsByWordWinUnitTest {
+public final class RejectTweetsByWordWinManualTest {
 
     private String tweet;
 
-    public RejectTweetsByWordWinUnitTest(final String tweet) {
+    public RejectTweetsByWordWinManualTest(final String tweet) {
         super();
         this.tweet = tweet;
     }
