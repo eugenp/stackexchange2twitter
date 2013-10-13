@@ -233,6 +233,10 @@ public class TwitterReadLiveService {
             metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
             collector.addAll(currentPage);
+            if (currentPage.isEmpty()) {
+                logger.error("This should not happen but weirdly does when retrieving {} pages for twitterAccount= {}", howManyPages, twitterAccount);
+                return collector;
+            }
             lastId = currentPage.get(currentPage.size() - 1).getId();
             pageIndex--;
         }
