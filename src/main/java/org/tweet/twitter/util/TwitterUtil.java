@@ -96,6 +96,7 @@ public final class TwitterUtil {
             "priced", // new
             "win", "promo", 
             "kurd", "kurds", "afganistan", "palestinians", // other political stuff
+            "hindus", // new (13.10)
             "$3.99", "$2.99", "$1.99", "$0.99", 
             "thugs" // new
         );// @formatter:on
