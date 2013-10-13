@@ -265,7 +265,7 @@ public class TweetService {
 
         if (tweetTextWithUrl.matches(".*&\\S*;.*")) {
             // after cleanup, still contains unclean characters - fail validation
-            logger.error("Probably unclean characters in: {}", tweetTextWithUrl);
+            logger.error("Probably unclean characters in: {}\n tweet url= ", tweetTextWithUrl);
             return false;
         }
 

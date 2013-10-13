@@ -29,23 +29,23 @@ public final class TweetUtil {
      * "cs"    - +1 +1 | 
      * "el"    - |
      * "es"    - +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejected
-     * "fr"    - 30 +1 | 4 -1 | at the full user level (not English): ~0 -1 - gathering some more data (not much) (06.10)
+     * "fr"    - 36 +1 | 4 -1 | at the full user level (not English): ~0 -1 - gathering some more data (not much) (06.10)
      * "hu"    - +1 | 
      * "id"    - +1 +1 | 
-     * "it"    - 20 +1 | 4 -1 - rejecting for tweeting, accepting for analysis
-     * "id"    - | -1 -1 
+     * "it"    - 22 +1 | 4 -1 - rejecting for tweeting, accepting for analysis
+     * "id"    - +1 | -1 -1 
      * "ja"    - 9 +1 | - looking for just a few more datapoints 
      * "lv"    - +1 |
      * "ko"    - +1 | -1 
      * "no"    - +1 +1
-     * "nl"    - 15 +1 | -1 -1 -1 -1
+     * "nl"    - 16 +1 | -1 -1 -1 -1
      * "pl"    - +1 +1 +1 +1 | -1 
-     * "pt"    - 13 +1 |  - almost there 
-     * "ru"    - +1 +1 +1 +1 +1 +1 | 
+     * "pt"    - 14 +1 |  - almost there 
+     * "ru"    - 7 +1 |  
      * "sl"    - |
      * "sv"    - +1 | -1
      * "sk"    - |
-     * "tr"    - +1 +1 +1 +1 +1 +1 +1 |
+     * "tr"    - 9 +1 |
      * "und"   - |
      * "uk"    - +1 |
      * "xx-lc" - |

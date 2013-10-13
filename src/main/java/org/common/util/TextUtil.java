@@ -50,8 +50,6 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "&Atilde;&pound;", "a");
         cleanedText = StringUtils.replaceAll(cleanedText, "&pound;", "£"); // new - ?
 
-        cleanedText = StringUtils.replaceAll(cleanedText, "✔", "");
-
         cleanedText = StringUtils.replaceAll(cleanedText, "&prime;", "'");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&brvbar;", "|");
@@ -63,18 +61,11 @@ public final class TextUtil {
         // backtick - not on the keyboard
         cleanedText = StringUtils.replaceAll(cleanedText, "&acute;", "´"); // ? does it work on twitter (though the API)? - not sure
 
-        cleanedText = StringUtils.replaceAll(cleanedText, "&aacute;", "a"); // a with an accent
-
         cleanedText = StringUtils.replaceAll(cleanedText, "&euro;", "E");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&bull;", " ");
 
         cleanedText = StringUtils.replaceAll(cleanedText, "�", "-");
-
-        cleanedText = StringUtils.replaceAll(cleanedText, "&eacute;", "e");
-
-        cleanedText = StringUtils.replaceAll(cleanedText, "&reg;", ""); // ®
-        cleanedText = StringUtils.replaceAll(cleanedText, "&ouml;", "o"); // ö
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&rarr;", "-"); // →
 
@@ -84,19 +75,32 @@ public final class TextUtil {
 
         cleanedText = StringUtils.replaceAll(cleanedText, "&deg;", "-"); // °
 
-        cleanedText = StringUtils.replaceAll(cleanedText, "❤", ""); // just removing
-        cleanedText = StringUtils.replaceAll(cleanedText, "ߒ", ""); // just removing
-        cleanedText = StringUtils.replaceAll(cleanedText, "ߘ", ""); // just removing
-
         // &equiv; => ≡
         cleanedText = StringUtils.replaceAll(cleanedText, "&equiv;", "="); // not exact replacement
-
-        // &forall; => ∀
-        cleanedText = StringUtils.replaceAll(cleanedText, "&forall;", ""); // just removing
 
         // others - unclear if these should be turned back or not...
         // &hearts; => ♥
         // &darr; => ↓
+
+        // simply remove
+        cleanedText = StringUtils.replaceAll(cleanedText, "&copy;", ""); // ©
+        cleanedText = StringUtils.replaceAll(cleanedText, "&reg;", ""); // ®
+        cleanedText = StringUtils.replaceAll(cleanedText, "❤", "");
+        cleanedText = StringUtils.replaceAll(cleanedText, "ߒ", "");
+        cleanedText = StringUtils.replaceAll(cleanedText, "ߘ", "");
+        cleanedText = StringUtils.replaceAll(cleanedText, "✔", "");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&forall;", ""); // ∀
+
+        // potentially (to consider) - back the way they were
+        cleanedText = StringUtils.replaceAll(cleanedText, "&ouml;", "o"); // ö
+        cleanedText = StringUtils.replaceAll(cleanedText, "&iacute;", "i"); // í -> i
+        cleanedText = StringUtils.replaceAll(cleanedText, "&aacute;", "a"); // a with an accent
+        cleanedText = StringUtils.replaceAll(cleanedText, "&eacute;", "e");
+
+        // back the way they were
+        cleanedText = StringUtils.replaceAll(cleanedText, "&ntilde;", "ñ");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&egrave;", "è");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&uuml;", "ü");
 
         return cleanedText;
     }
