@@ -29,8 +29,9 @@ public final class TwitterUtil {
             // 
         );// @formatter:on
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-            "dance", // it's OK for analysis, but not for tweeting - leaving it in the maybe pile for a bit, then move up (06.10)
-            "trial" // it's OKish for analysis (06.10)
+            "dance"// it's OK for analysis, but not for tweeting - leaving it in the maybe pile for a bit, then move up (06.10)
+            ,"trial" // it's OKish for analysis (06.10)
+            , "win" // definitely rejecting for tweeting just in case (13.10) 
         );// @formatter:on
 
         final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
@@ -94,7 +95,6 @@ public final class TwitterUtil {
             "fpl", // fantasy player league
             "deals", "deal", 
             "priced", // new
-            // "win", // TEMPORARILY REMOVED TO SEE IF I CAN GET THE RIGHT TWEETS REJECTED ONLY (13.10) 
             "promo", 
             "kurd", "kurds", "afganistan", "palestinians", // other political stuff
             "hindus", // new (13.10)
@@ -120,16 +120,16 @@ public final class TwitterUtil {
         // by expression
 
         final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
-            "web developer", "web developers", 
-            "application engineer", "application engineers", 
-            "python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer", 
-            "backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer", 
-            "on strike", 
-            "for sale", 
-            "rt if", 
-            "win a ", "to win", "win one", // win
-            "i need", "we need", "need help", "need someone", 
-            "music video"
+            "web developer", "web developers"
+            ,"application engineer", "application engineers" 
+            ,"python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer" 
+            ,"backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer" 
+            ,"on strike" 
+            ,"for sale" 
+            ,"rt if" 
+            ,"win a ", "to win", "win one" // win
+            ,"i need", "we need", "need help", "need someone" 
+            ,"music video"
         ); // @formatter:on
 
         final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
@@ -153,15 +153,19 @@ public final class TwitterUtil {
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
             ".*win.*£.*", ".*£.*win.*"
             , ".*win.*\\$.*", ".*\\$.*win.*"
+            , ".*win.*€.*", ".*€.*win.*"
             , ".*win.*chance.*", ".*chance.*win.*"  
             , ".*win.*contest.*", ".*contest.*win.*"
             , ".*win.*prize.*", ".*contest.*prize.*" 
             , ".*win.*sale.*", ".*contest.*sale.*"
             , ".*win.*swag.*", ".*contest.*swag.*" 
             , ".*win.*giveaway.*", ".*giveaway.*win.*"
+            , ".*win.*give-away.*", ".*give-away.*win.*"
             , ".*win.*giving away.*", ".*giving away.*win.*"
+            , ".*win.*promo.*", ".*promo.*win.*"
             , ".*win.*ticket.*", ".*contest.*ticket.*"
-            , ".*win.*some.*"
+            , ".*win.*some.*" 
+            , ".*you could.*win.*"
         ); // @formatter:on
 
     }
