@@ -160,7 +160,7 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario16_thenRejected() {
-        assertTrue(TwitterUtil.isTweetBannedForTweeting("I have a big problem -need some help!"));
+        assertTrue(TwitterUtil.isTweetBannedForTweeting("Black is the new White #Oklahoma #Racial #Math @Talkmaster pic.twitter.com/v1UeNKjf3X"));
     }
 
     @Test
@@ -187,11 +187,6 @@ public final class TwitterUtilUnitTest {
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario21_thenRejected() {
         assertTrue(TwitterUtil
                 .isTweetBannedForTweeting("#Israel continues with ethnic cleansing and erasing any history that has to do with #Palestine https://www.oximity.com/article/Israel_Land_Administration_to_lease_Khan_al-Umdan__an_18th_c_1#.UlgThNI3CGN … #Akka #Zionism"));
-    }
-
-    @Test
-    public final void givenTweetContainsBannedKeywords_whenCheckingScenario22_thenRejected() {
-        assertTrue(TwitterUtil.isTweetBannedForTweeting("Black is the new White #Oklahoma #Racial #Math @Talkmaster pic.twitter.com/v1UeNKjf3X"));
     }
 
     // by regex - reject
