@@ -140,23 +140,24 @@ public final class TwitterUtil {
         // by regex
 
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
-            "Get (.)* on Amazon.*", // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
-            "I'm broadcasting .* on .*",  // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
-            "Follow us on (Linkedin|Twitter|G+) .*", // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
-            ".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*", // 2 RTs
-            ".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*",  // Free ... RT
-            ".*(f|F)ollow (&|and|AND) R(T|t).*", // Follow & RT
-            ".*R(T|t) .* (f|F)ollow(ed)? .*", // RT this if you want me to follow you
-            ".*\\d(\\d)?% (o|O)ff.*", // 97% Off
-            "(?i).*follow @.*"
+            "Get (.)* on Amazon.*" // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
+            ,"I'm broadcasting .* on .*" // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
+            ,"Follow us on (Linkedin|Twitter|G+) .*" // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
+            ,".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // 2 RTs
+            ,".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // Free ... RT
+            ,".*(f|F)ollow (&|and|AND) R(T|t).*" // Follow & RT
+            ,".*R(T|t) .* (f|F)ollow(ed)? .*" // RT this if you want me to follow you
+            ,".*\\d(\\d)?% (o|O)ff.*" // 97% Off
+            ,"(?i).*follow @.*"
+            // win - commercial stuff
+            ,".*win.*£.*", ".*£.*win.*"
+            , ".*win.*contest.*", ".*contest.*win.*"
         ); // @formatter:on
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-            ".*win.*£.*", ".*£.*win.*"
-            , ".*win.*\\$.*", ".*\\$.*win.*"
+            ".*win.*\\$.*", ".*\\$.*win.*"
             , ".*win.*€.*", ".*€.*win.*"
             , ".*win.*chance.*", ".*chance.*win.*"  
-            , ".*win.*contest.*", ".*contest.*win.*"
             , ".*win.*prize.*", ".*contest.*prize.*" 
             , ".*win.*sale.*", ".*contest.*sale.*"
             , ".*win.*swag.*", ".*contest.*swag.*" 
@@ -380,7 +381,7 @@ public final class TwitterUtil {
     static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String text) {
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
             if (text.matches(bannedRegExMaybe)) {
-                logger.error("new - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
+                logger.error("(for analysis) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
                 return true;
             }
         }
@@ -431,7 +432,7 @@ public final class TwitterUtil {
 
         for (final String bannedRegExMaybe : ForTweeting.bannedRegExesMaybe) {
             if (text.matches(bannedRegExMaybe)) {
-                logger.error("new - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
+                logger.error("(for tweeting) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
                 return true;
             }
         }
