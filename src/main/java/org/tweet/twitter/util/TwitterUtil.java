@@ -93,7 +93,8 @@ public final class TwitterUtil {
             ,"cheep" // trying it out
             ,"lucky" 
             ,"fpl" // fantasy player league
-            ,"deals", "deal" 
+            // ,"deals" // working on it
+            // ,"deal" // working on it
             ,"priced" // new
             ,"promo" 
             ,"kurd", "kurds", "afganistan", "palestinians" // other political stuff
@@ -155,6 +156,7 @@ public final class TwitterUtil {
         ); // @formatter:on
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+            // win
             ".*win.*\\$.*", ".*\\$.*win.*"
             , ".*win.*€.*", ".*€.*win.*"
             , ".*win.*chance.*", ".*chance.*win.*"  
@@ -168,6 +170,18 @@ public final class TwitterUtil {
             , ".*win.*ticket.*", ".*contest.*ticket.*"
             , ".*win.*some.*" 
             , ".*you could.*win.*"
+            
+            //deal
+            , ".*deal.*of the day.*"  
+            , ".*deal.*\\% off.*", ".*\\% off.*deal.*"
+            , ".*deal.*free.*", ".*free.*deal.*"
+            , ".*deal.*sale.*", ".*sale.*deal.*"
+            , ".*deal.*special.*", ".*special.*deal.*"
+            , ".*deal.*discount.*", ".*discount.*deal.*"
+            , ".*deal.*today.*", ".*today.*deal.*"
+            , ".*deal.*best.*", ".*best.*deal.*"
+            , ".*deal.*daily.*", ".*daily.*deal.*"
+            , ".*deal.*only.*", ".*only.*deal.*"
         ); // @formatter:on
 
     }
