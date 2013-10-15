@@ -140,6 +140,11 @@ public final class TwitterUtil {
 
         // by regex
 
+        /** if this matches, the banned expressions are no longer evaluated */
+        final static List<String> acceptBeforeProcessingBannedRegExes = Lists.newArrayList(// @formatter:off
+            ".*deal with.*"
+        ); // @formatter:on
+
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
             "Get (.)* on Amazon.*" // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
             ,"I'm broadcasting .* on .*" // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
@@ -393,6 +398,12 @@ public final class TwitterUtil {
      * - <b>local</b> <br/>
      */
     static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String text) {
+        for (final String hardAcceptedRegEx : ForAnalysis.acceptBeforeProcessingBannedRegExes) {
+            if (text.matches(hardAcceptedRegEx)) {
+                logger.error("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + text);
+                return false;
+            }
+        }
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
             if (text.matches(bannedRegExMaybe)) {
                 logger.error("(for analysis) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
