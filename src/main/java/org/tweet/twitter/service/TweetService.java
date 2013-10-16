@@ -142,7 +142,7 @@ public class TweetService {
         final int requiredMinRts = minRtRetriever.minRt(hashtag);
         if (tweet.getRetweetCount() < requiredMinRts) {
             // TODO: this is a problem now that the tweets are no longer strictly sorted by RT count
-            logger.trace("tweet= {} on twitterTag= {} rejected because it only has= {} retweets and it needs= {}", tweet, hashtag, tweet.getRetweetCount(), requiredMinRts);
+            logger.trace("tweet= {} on twitterTag= {} \nrejected because it only has= {} retweets and it needs= {}", tweet, hashtag, tweet.getRetweetCount(), requiredMinRts);
             return false;
         }
 
@@ -159,7 +159,7 @@ public class TweetService {
         final String hashTagInternal = (hashtag == null) ? "" : hashtag;
 
         if (TwitterUtil.isUserBannedFromRetweeting(tweet.getFromUser())) {
-            logger.debug("tweet= {} on twitterTag= {} rejected because the original user is banned= {}", tweet, hashTagInternal, tweet.getFromUser());
+            logger.debug("tweet= {} on twitterTag= {} \nrejected because the original user is banned= {}", tweet, hashTagInternal, tweet.getFromUser());
             // debug temporary - should be trace
             return false;
         }
@@ -186,7 +186,7 @@ public class TweetService {
 
         if (tweet.getLanguageCode() == null) {
             // temporary error
-            logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} rejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
+            logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} \nrejected because it has the no language", TweetUtil.getText(tweet), hashTagInternal);
             return false;
         }
 
@@ -194,7 +194,7 @@ public class TweetService {
         if (tweet.getUser() == null || !TweetUtil.acceptedUserLangForTweeting.contains(tweet.getUser().getLanguage().trim())) {
             if (!TweetUtil.rejectedUserLangForTweeting.contains(tweet.getUser().getLanguage().trim())) {
                 final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-                logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} rejected because the user has USER language= {} \nfull tweet= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage(), tweetUrl);
+                logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} \nrejected because the user has USER language= {} \nfull tweet= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage(), tweetUrl);
                 return false;
             }
         }
@@ -202,7 +202,7 @@ public class TweetService {
         // then check the language of the tweet
         if (!TweetUtil.acceptedTweetLangForTweeting.contains(tweet.getLanguageCode().trim())) {
             if (!TweetUtil.rejectedTweetLangForTweeting.contains(tweet.getLanguageCode().trim())) {
-                logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with user language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode(), tweet.getUser().getLanguage().trim());
+                logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} \nrejected because it has the TWEET language= {}\n with user language= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getLanguageCode(), tweet.getUser().getLanguage().trim());
             }
             return false;
         }
@@ -239,7 +239,7 @@ public class TweetService {
         // then check the language of the tweet
         if (tweet.getLanguageCode() == null) {
             // temporary error
-            logger.error("(for analysis) - tweet= {}\n on twitterTag= {} rejected because it has the no language", tweetText, hashtagForLogging);
+            logger.error("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because it has the no language", tweetText, hashtagForLogging);
             return false;
         }
 
@@ -266,16 +266,16 @@ public class TweetService {
             if (!TweetUtil.rejectedUserLangForAnalysis.contains(userLang)) {
                 final String tweetText = TweetUtil.getText(tweetForLogging);
                 final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
-                logger.error("(for analysis) - tweet= {}\n on twitterTag= {} rejected because the user has USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetForLogging.getUser().getLanguage(), tweetUrl);
+                logger.error("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because the user has USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetForLogging.getUser().getLanguage(), tweetUrl);
                 return false;
             }
 
             final String tweetText = TweetUtil.getText(tweetForLogging);
             final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
-            logger.debug("(for analysis) - tweet= {}\n on twitterTag= {} rejected because the user has USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetForLogging.getUser().getLanguage(), tweetUrl);
+            logger.debug("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because the user has USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetForLogging.getUser().getLanguage(), tweetUrl);
         } else {
-            // new - moving to error temporarily
-            logger.error("(for analysis) - Should not interact with user= {} because user language is= {}", user.getScreenName(), userLang);
+            // these are validly rejected (I checked) - going down to debug
+            logger.debug("(for analysis) - Should not interact with user= {} because user language is= {}", user.getScreenName(), userLang);
         }
         // done - just logging stuff
 
@@ -297,12 +297,12 @@ public class TweetService {
         // start - just logging stuff
         if (!TweetUtil.rejectedTweetLangForAnalysis.contains(tweetLang)) {
             final String tweetUrl = "https://twitter.com/" + user + "/status/" + tweetForLogging.getId();
-            logger.error("(for analysis) - tweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
+            logger.error("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
             return false;
         }
 
         final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
-        logger.debug("(for analysis) - tweet= {}\n on twitterTag= {} rejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
+        logger.debug("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
         // done - just logging stuff
 
         return false;

@@ -156,21 +156,23 @@ public final class TwitterUtil {
             ,".*\\d(\\d)?% (o|O)ff.*" // 97% Off
             ,"(?i).*follow @.*"
             // win - commercial stuff
-            ,".*win.*£.*", ".*£.*win.*"
+            ,".*win.*Â£.*", ".*Â£.*win.*"
             , ".*win.*contest.*", ".*contest.*win.*"
+            ,".*win.*giving away.*", ".*giving away.*win.*"
         ); // @formatter:on
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
             // win
-            ".*win.*\\$.*", ".*\\$.*win.*"
-            ,".*win.*€.*", ".*€.*win.*"
+            ".*win.*\\$.*", ".*\\$.*win.*" 
+            // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
+            // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
+            ,".*win.*â‚¬.*", ".*â‚¬.*win.*"
             ,".*win.*chance.*", ".*chance.*win.*"  
             ,".*win.*prize.*", ".*contest.*prize.*" 
             ,".*win.*sale.*", ".*contest.*sale.*"
             ,".*win.*swag.*", ".*contest.*swag.*" 
             ,".*win.*giveaway.*", ".*giveaway.*win.*"
             ,".*win.*give-away.*", ".*give-away.*win.*"
-            ,".*win.*giving away.*", ".*giving away.*win.*"
             ,".*win.*promo.*", ".*promo.*win.*"
             ,".*win.*ticket.*", ".*contest.*ticket.*"
             ,".*win.*some.*" 
@@ -188,8 +190,8 @@ public final class TwitterUtil {
             ,".*deal.*daily.*", ".*daily.*deal.*"
             ,".*deal.*only.*", ".*only.*deal.*"
             ,".*deal.*shopping.*", ".*shopping.*deal.*"
-            ,".*deal.*£.*", ".*£.*deal.*"
-            ,".*deal.*€.*", ".*€.*deal.*"
+            ,".*deal.*Â£.*", ".*Â£.*deal.*"
+            ,".*deal.*â‚¬.*", ".*â‚¬.*deal.*"
             ,".*deal.*\\$.*", ".*\\$.*deal.*"
         ); // @formatter:on
 
