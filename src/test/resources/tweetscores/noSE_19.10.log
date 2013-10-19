@@ -1,0 +1,26 @@
+11:23:33.981 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= HadoopDaily is= 17
+11:08:15.162 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= AndroidFact is= 17
+11:11:35.352 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= BestJavaScript is= 16
+11:25:35.778 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= iOSdigest is= 16
+11:18:33.027 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= BestSQL is= 16
+11:13:38.953 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= BestNoSQL is= 15
+11:16:44.961 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= BestOfLinux is= 15
+11:19:06.002 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= BestScala is= 15
+11:21:04.164 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= DotNetFact is= 15
+11:24:58.498 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= BestOfHTML5 is= 15
+11:28:20.792 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= LandOfSeo is= 15
+
+11:12:35.056 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= BestJSON is= 10
+11:27:23.974 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= LispDaily is= 9
+11:07:26.135 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= AspnetDaily is= 8
+11:19:36.330 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= BestXML is= 8
+11:31:08.580 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= ObjectiveCDaily is= 7
+11:34:05.846 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= SpringTip is= 7
+11:32:09.299 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= PerlDaily is= 6
+
+11:33:30.058 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= RegexDaily is= 3
+11:12:02.355 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= BestJPA is= 1
+11:32:25.600 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= PerformanceTip is= 1
+11:13:04.444 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= BestMultithread is= 0
+11:24:17.333 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= HttpClient4 is= 0
+11:31:37.448 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Small number of links not to SO for account= ParsingDaily is= 0

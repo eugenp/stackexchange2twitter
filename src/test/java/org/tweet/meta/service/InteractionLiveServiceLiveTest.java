@@ -36,8 +36,8 @@ import org.tweet.twitter.util.TwitterInteraction;
     
     TwitterConfig.class, 
     TwitterLiveConfig.class,
+    
     TwitterMetaPersistenceJPAConfig.class, 
-        
     TwitterMetaConfig.class 
 }) // @formatter:on
 @ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.PERSISTENCE })

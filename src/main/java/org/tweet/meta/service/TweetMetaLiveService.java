@@ -156,6 +156,36 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     /**any*/
+    public final boolean retweetAnyByWord(final String twitterAccount, final String word) throws JsonProcessingException, IOException {
+        try {
+            final boolean success = retweetAnyByWordInternal(twitterAccount, word);
+            if (!success) {
+                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by word= {}", twitterAccount, word);
+            }
+            return success;
+        } catch (final RuntimeException runtimeEx) {
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by word= " + word, runtimeEx);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
+            return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by word= " + word, ex);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
+            return false;
+        }
+    }
+
+    /**any*/
+    private final boolean retweetAnyByWordInternal(final String twitterAccount, final String word) throws JsonProcessingException, IOException {
+        logger.info("Begin trying to retweet on twitterAccount= {}, by word= {}", twitterAccount, word);
+
+        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfWord(twitterAccount, word);
+
+        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, word, twitterAccount);
+
+        return retweetAnyByWordInternal(twitterAccount, prunedTweets, word);
+    }
+
+    /**any*/
     private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
@@ -278,6 +308,32 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 } else {
                     final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
                     logger.info("Successfully retweeted on twitterAccount= {}, from hashtag= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, hashtag, TweetUtil.getText(potentialTweet), tweetUrl);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**any*/
+    private final boolean retweetAnyByWordInternal(final String twitterAccount, final Collection<Tweet> potentialTweetsSorted, final String word) throws IOException, JsonProcessingException {
+        if (!TwitterAccountEnum.valueOf(twitterAccount).isRt()) {
+            logger.error("Should not retweet on twitterAccount= {}", twitterAccount);
+        }
+        for (final Tweet potentialTweetUnprocessed : potentialTweetsSorted) {
+            final Tweet potentialTweet = TweetUtil.getTweet(potentialTweetUnprocessed);
+            final long tweetId = potentialTweet.getId();
+            logger.trace("Considering to retweet on twitterAccount= {}, from word= {}, tweetId= {}", twitterAccount, word, tweetId);
+            if (!hasThisAlreadyBeenTweetedById(new Retweet(tweetId, twitterAccount, null, null))) {
+                logger.debug("Attempting to tweet on twitterAccount= {}, from word= {}, tweetId= {}", twitterAccount, word, tweetId);
+                final boolean success = tryTweetOneWrap(potentialTweet, word, twitterAccount);
+                if (!success) {
+                    logger.trace("Didn't retweet on twitterAccount= {}, from word= {}, tweet text= {}", twitterAccount, word, TweetUtil.getText(potentialTweet));
+                    continue;
+                } else {
+                    final String tweetUrl = "https://twitter.com/" + potentialTweet.getFromUser() + "/status/" + potentialTweet.getId();
+                    logger.info("Successfully retweeted on twitterAccount= {}, from word= {}, tweet text= {}\n --- Additional meta info: tweet url= {}", twitterAccount, word, TweetUtil.getText(potentialTweet), tweetUrl);
                     return true;
                 }
             }

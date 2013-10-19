@@ -272,6 +272,27 @@ public class TwitterReadLiveService {
         return search.getTweets();
     }
 
+    public List<Tweet> listTweetsOfWord(final String readOnlyAccountName, final String word) {
+        final Twitter twitterTemplate = twitterCreator.createTwitterTemplate(readOnlyAccountName);
+
+        // ruby_rails
+        final StringBuilder param = new StringBuilder();
+        if (word.contains("_")) {
+            final String[] words = word.split("_");
+            for (final String wordIndividual : words) {
+                param.append(wordIndividual).append(" ");
+            }
+        } else {
+            param.append(word);
+        }
+
+        final SearchParameters searchParameters = new SearchParameters(param.toString().trim()).lang("en").count(100).includeEntities(true).resultType(ResultType.MIXED);
+        final SearchResults search = twitterTemplate.searchOperations().search(searchParameters);
+        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
+
+        return search.getTweets();
+    }
+
     // single one
 
     public Tweet findOne(final long id) {

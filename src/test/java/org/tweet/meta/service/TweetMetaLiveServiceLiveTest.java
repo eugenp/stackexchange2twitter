@@ -41,20 +41,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off
-        KeyValPersistenceJPAConfig.class, 
-        
-        CommonPersistenceJPAConfig.class, 
-        CommonServiceConfig.class, 
-        
-        ClassificationConfig.class,
-        
-        TwitterConfig.class, 
-        TwitterLiveConfig.class,
-        
-        TwitterMetaPersistenceJPAConfig.class, 
-        TwitterMetaConfig.class 
+    KeyValPersistenceJPAConfig.class, 
+    
+    CommonPersistenceJPAConfig.class, 
+    CommonServiceConfig.class, 
+    
+    ClassificationConfig.class,
+    
+    TwitterConfig.class, 
+    TwitterLiveConfig.class,
+    
+    TwitterMetaPersistenceJPAConfig.class, 
+    TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.DEV })
+@ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.DEV, SpringProfileUtil.PERSISTENCE })
 public class TweetMetaLiveServiceLiveTest {
 
     static {
@@ -281,6 +281,12 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutHttpclient_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.HttpClient4.name(), TwitterTag.httpclient4.name());
+        assertTrue(success);
+    }
+
     // I
 
     @Test
@@ -364,8 +370,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutMultithreading_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
+    public final void whenTweetingByWordAboutMultithreading_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.BestMultithread.name(), TwitterTag.multithreading.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByHashtagAboutMultithreading_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name(), TwitterTag.multithreading.name());
         assertTrue(success);
     }
 
