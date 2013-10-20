@@ -13,11 +13,12 @@ public final class TweetUtil {
 
     // @formatter:off
     public final static List<String> acceptedUserLangForAnalysis = Lists.newArrayList(
-        "ca", 
-        "de", 
-        "en", 
-        "en-gb", 
-        "it"
+        "ca"
+        ,"de" 
+        ,"en"
+        ,"en-gb" 
+        ,"it"
+        ,"fr"
     ); 
     public final static List<String> rejectedUserLangForAnalysis = Lists.newArrayList(
         "es"
@@ -28,8 +29,8 @@ public final class TweetUtil {
      * "ca"    - |
      * "cs"    - +1 +1 | 
      * "el"    - |
-     * "es"    - +1 +1 +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejected
-     * "fr"    - 36 +1 | 4 -1 | at the full user level (not English): ~0 -1 - gathering some more data (not much) (06.10)
+     * "es"    - 8 +1 | 9 -1 - rejected
+     * "fr"    - 37 +1 | 4 -1 - rejecting for tweet, accepting for analysis
      * "hu"    - +1 | 
      * "id"    - +1 +1 | 
      * "it"    - 22 +1 | 4 -1 - rejecting for tweeting, accepting for analysis
@@ -38,8 +39,8 @@ public final class TweetUtil {
      * "lv"    - +1 |
      * "ko"    - +1 | -1 
      * "no"    - +1 +1
-     * "nl"    - 16 +1 | -1 -1 -1 -1
-     * "pl"    - +1 +1 +1 +1 | -1 
+     * "nl"    - 16 +1 | 4 -1
+     * "pl"    - 4 +1 | -1 
      * "pt"    - 14 +1 |  - almost there 
      * "ru"    - 7 +1 |  
      * "sl"    - |
@@ -57,8 +58,9 @@ public final class TweetUtil {
         "en-gb"
     ); 
     public final static List<String> rejectedUserLangForTweeting = Lists.newArrayList(
-        "es", 
-        "it"
+        "es"
+        ,"it"
+        ,"fr"
     ); 
     // @formatter:on
 
@@ -113,9 +115,9 @@ public final class TweetUtil {
     );
     /*
      * "ar"    - 
-     * "bo"    - | -1 -1 -1
+     * "bo"    - | -1 -1 -1 -1
      * "ca"    - 
-     * "chr"   - | -1 -1 -1
+     * "chr"   - | -1 -1 -1 -1
      * "da"    - ~21 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 - reject for tweeting, accept for analysis
      * "et"    - ~20 +1 | - accepting
      * "el"    - | -1 -1 -1 | +1 - rejecting
@@ -128,7 +130,7 @@ public final class TweetUtil {
      * "hy"    - | -1 -1 -1 -1 -1
      * "it"    - 
      * "iu"    - -1 -1 -1 -1 -1 - rejecting
-     * "is"    - 12 +1 | 4 -1 // weirdly short tweets - all of them - not sure... rejecting for tweeting only for now
+     * "is"    - 14 +1 | 4 -1 // weirdly short tweets - all of them - not sure... rejecting for tweeting only for now
      * "id"    - 
      * "ja"    - | ~12 -1 - rejecting
      * "ka"    - | -1 -1 -1 -1
@@ -136,7 +138,7 @@ public final class TweetUtil {
      * "ko"    - +1 | -1 -1 -1 -1 - rejecting
      * "lt"    - ~10 +1 | ~10 -1 - rejecting
      * "lv"    - +1 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejecting
-     * "ml"    - | -1 -1 -1 
+     * "ml"    - | -1 -1 -1 -1
      * "ne"    - | 5 -1 - rejecting
      * "nl"    - | -1 -1 -1 - rejecting
      * "no"    - 20 +1 | 10 -1 - rejecting

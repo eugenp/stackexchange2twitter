@@ -31,9 +31,10 @@ public final class TwitterUtil {
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
             "dance"// it's OK for analysis, but not for tweeting - leaving it in the maybe pile for a bit, then move up (06.10)
             ,"trial" // it's OKish for analysis (06.10)
-            , "win" // definitely rejecting for tweeting just in case (13.10)
-            , "israel", "israeli", "palestine", "zionism"
-            , "racial"
+            ,"win" // definitely rejecting for tweeting just in case (13.10)
+            ,"israel", "israeli", "palestine", "zionism"
+            ,"racial"
+            ,"voucher"
         );// @formatter:on
 
         final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
@@ -163,19 +164,24 @@ public final class TwitterUtil {
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
             // win
-            ".*win.*\\$.*", ".*\\$.*win.*" 
+            ".*win.*\\$.*", ".*\\$.*win.*" // +1  
             // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
             // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
             ,".*win.*â‚¬.*", ".*â‚¬.*win.*"
-            ,".*win.*chance.*", ".*chance.*win.*"  
-            ,".*win.*prize.*", ".*contest.*prize.*" 
+            ,".*win.*chance.*", ".*chance.*win.*" // +1
+            ,".*win.*prize.*", ".*contest.*prize.*" // +1
+            // BRENT: Teacher at Wembley school wins £20k prize to help Brent children tackle mathematics http://t.co/xeQCuUT2VT #London
             ,".*win.*sale.*", ".*contest.*sale.*"
             ,".*win.*swag.*", ".*contest.*swag.*" 
-            ,".*win.*giveaway.*", ".*giveaway.*win.*"
+            ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1
             ,".*win.*give-away.*", ".*give-away.*win.*"
             ,".*win.*promo.*", ".*promo.*win.*"
             ,".*win.*ticket.*", ".*contest.*ticket.*"
             ,".*win.*some.*" 
+            // incorrectly rejected: 
+            // At a London children’s hospital, window cleaners dress like this. They are awesome. pic.twitter.com/NPRReurS
+            // A paper visualization showing some of what we did at globeandmail over the past 12 months @ The Globe… http://t.co/PZzztsBH6h
+            // Blencathra comes out swinging: “some people were very economical with the actuality” http://t.co/03ph2Pxkzn
             ,".*you could.*win.*"
             
             //deal
@@ -186,6 +192,7 @@ public final class TwitterUtil {
             ,".*deal.*special.*", ".*special.*deal.*"
             ,".*deal.*discount.*", ".*discount.*deal.*"
             ,".*deal.*today.*", ".*today.*deal.*"
+            // #Tweet Edition is out! http://t.co/mf4lvRBr2t ▸ Top stories today via @owmdeals @motivation_real @BrianLett
             ,".*deal.*best.*", ".*best.*deal.*"
             ,".*deal.*daily.*", ".*daily.*deal.*"
             ,".*deal.*only.*", ".*only.*deal.*"

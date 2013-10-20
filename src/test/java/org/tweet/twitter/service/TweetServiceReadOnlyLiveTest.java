@@ -36,29 +36,12 @@ public class TweetServiceReadOnlyLiveTest {
         //
     }
 
-    @Test
-    public final void whenTweetIsCheckedForHashtags_thenCorrectlyIdentified() {
-        final Tweet tweet = twitterReadLiveService.findOne(361041593211428864l);
-        final int hashtagCount = instance.countHashtags(tweet);
-        final int characterLenghtOfHashTags = instance.getCharacterLenghtOfHashTags(tweet);
-        System.out.println("Number of Hashtags= " + hashtagCount);
-        System.out.println("Character Lenght of Hashtags= " + characterLenghtOfHashTags);
-        System.out.println("Lenght of full Tweet= " + TweetUtil.getText(tweet).length());
-    }
-
     // checks
 
     @Test
     public final void givenTweetShouldNotBeRetweetedByHashtagsScenario1_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(361420950450872320l);
         final boolean should = instance.isTweetWorthRetweetingByNumberOfHashtags(tweet);
-        assertFalse(should);
-    }
-
-    @Test
-    public final void givenTweetShouldNotBeRetweetedScenario2_whenChecking_thenNo() {
-        final Tweet tweet = twitterReadLiveService.findOne(361244545452740608l);
-        final boolean should = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ios.name());
         assertFalse(should);
     }
 
@@ -74,14 +57,6 @@ public class TweetServiceReadOnlyLiveTest {
     public final void givenTweetShouldNotBeRetweetedScenario4_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(361259715596021760l);
         final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ipad.name());
-        final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
-        assertFalse(should1 && should2);
-    }
-
-    @Test
-    public final void givenTweetShouldNotBeRetweetedScenario5_whenChecking_thenNo() {
-        final Tweet tweet = twitterReadLiveService.findOne(361566503348367360l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ios.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }

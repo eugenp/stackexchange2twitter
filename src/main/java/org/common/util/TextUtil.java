@@ -92,6 +92,7 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "ߘ", "");
         cleanedText = StringUtils.replaceAll(cleanedText, "✔", "");
         cleanedText = StringUtils.replaceAll(cleanedText, "&forall;", ""); // ∀
+        cleanedText = StringUtils.replaceAll(cleanedText, "&iquest;", ""); // ¿
 
         // potentially (to consider) - back the way they were
         cleanedText = StringUtils.replaceAll(cleanedText, "&ouml;", "o"); // ö
