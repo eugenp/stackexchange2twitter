@@ -1,3 +1,4 @@
+19.10
 11:23:33.981 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= HadoopDaily is= 17
 11:08:15.162 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= AndroidFact is= 17
 11:11:35.352 [main] INFO  o.c.s.l.RetweetScoresTuningLiveTest - Large Number of links not to SO for account= BestJavaScript is= 16
