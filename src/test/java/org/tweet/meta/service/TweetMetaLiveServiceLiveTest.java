@@ -607,6 +607,12 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingAboutSpringSocial_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.SpringTip.name(), TwitterTag.springsocial.name());
+        assertTrue(success);
+    }
+
     // T
 
     // U
