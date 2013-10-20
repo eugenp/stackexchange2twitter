@@ -157,6 +157,12 @@ public class TweetMetaLiveServiceLiveTest {
     // C
 
     @Test
+    public final void whenTweetingAboutCaptcha_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.captcha.name());
+        assertTrue(success);
+    }
+
+    @Test
     public final void whenTweetingAboutCassandra_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name(), TwitterTag.cassandra.name());
         assertTrue(success);
@@ -193,12 +199,6 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutCaptcha_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.captcha.name());
-        assertTrue(success);
-    }
-
-    @Test
     public final void whenTweetingAboutCryptography_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.cryptography.name());
         assertTrue(success);
@@ -221,6 +221,12 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutDatabase_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name(), TwitterTag.database.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutDatomic_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name(), TwitterTag.datomic.name());
         assertTrue(success);
     }
 
