@@ -34,7 +34,7 @@ public final class TwitterUtilBannedForTweetingUnitTest {
 
     @Parameters
     public static List<String[]> invalidWords() throws IOException {
-        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/tweeting-banned.txt");
+        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/tweeting/tweeting-banned.txt");
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         final List<String> tweetsFiltered = Lists.newArrayList(Iterables.filter(tweets, new Predicate<String>() {
             @Override
