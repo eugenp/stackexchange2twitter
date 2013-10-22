@@ -400,8 +400,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutJQuery_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByHashtagAboutJQuery_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.jQueryDaily.name(), TwitterTag.jquery.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutJQuery_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.jQueryDaily.name(), TwitterTag.jquery.name());
         assertTrue(success);
     }
 
@@ -436,8 +442,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutMacbook_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByHashtagAboutMacbook_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name(), TwitterTag.macbook.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutMacbook_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.InTheAppleWorld.name(), TwitterTag.macbook.name());
         assertTrue(success);
     }
 
@@ -652,6 +664,18 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     public final void whenTweetingAboutXml_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestXML.name(), TwitterTag.xml.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByHashtagAboutXcode_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.ObjectiveCDaily.name(), TwitterTag.xcode.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutXcode_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.ObjectiveCDaily.name(), TwitterTag.xcode.name());
         assertTrue(success);
     }
 
