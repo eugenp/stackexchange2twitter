@@ -122,7 +122,6 @@ public class TweetMetaScheduler {
         }
 
         // 11
-        service.retweetAnyByHashtag(TwitterAccountEnum.AndroidFact.name()); // already 2
         service.retweetAnyByHashtag(TwitterAccountEnum.BestSQL.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestXML.name()); // already 2
         service.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name());
@@ -133,6 +132,9 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.RegexDaily.name()); // already 2
         service.retweetAnyByHashtag(TwitterAccountEnum.ObjectiveCDaily.name()); // already 2
         service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
+
+        // experimental
+        service.retweetAnyByWord(TwitterAccountEnum.AndroidFact.name(), TwitterTag.android.name()); // already 2
 
         logger.info("Finished new retweet schedule - five 2");
     }

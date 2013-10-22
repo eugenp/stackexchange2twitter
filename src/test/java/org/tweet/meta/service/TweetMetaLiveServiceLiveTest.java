@@ -137,8 +137,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutAndroid_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByHashtagAboutAndroid_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.android.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutAndroid_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.android.name());
         assertTrue(success);
     }
 
@@ -526,8 +532,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutPhp_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByHashtagAboutPhp_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestPHP.name(), TwitterTag.php.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutPhp_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.BestPHP.name(), TwitterTag.php.name());
         assertTrue(success);
     }
 
