@@ -52,15 +52,6 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.PythonDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.AspnetDaily.name(), TwitterTag.aspnet.name());
 
-        // move to 5 soon
-        service.retweetAnyByHashtag(TwitterAccountEnum.HttpClient4.name());
-
-        // new and very much experimental
-        service.retweetAnyByHashtag(TwitterAccountEnum.SpringTip.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestJPA.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.PerformanceTip.name()); // new
-
         logger.info("Finished new retweet schedule - three");
     }
 
@@ -80,8 +71,12 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfSeo.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LandOfWordpress.name());
-
         service.retweetAnyByHashtag(TwitterAccountEnum.MysqlDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.SpringTip.name());
+
+        // new and very much experimental
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestJPA.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.PerformanceTip.name()); // new
 
         logger.info("Finished new retweet schedule - four");
     }
@@ -105,9 +100,12 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJSON.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestPHP.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.DotNetFact.name());
-
         service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
+
+        // new and very much experimental
+        service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.HttpClient4.name());
 
         logger.info("Finished new retweet schedule - five 1");
     }

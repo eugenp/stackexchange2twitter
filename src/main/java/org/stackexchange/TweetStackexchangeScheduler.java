@@ -146,6 +146,8 @@ public class TweetStackexchangeScheduler {
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.FacebookDigest), TwitterAccountEnum.FacebookDigest.name());
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestMultithread), TwitterAccountEnum.BestMultithread.name());
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.AndroidFact), TwitterAccountEnum.AndroidFact.name());
+        /* temporarily in 2 places - so that it starts producing more in the beginning */
+        service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.PerformanceTip), TwitterAccountEnum.PerformanceTip.name());
 
         logger.info("Finished tweet schedule - 4");
     }
