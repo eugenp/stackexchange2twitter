@@ -154,6 +154,7 @@ public final class TwitterUtil {
             ,".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // Free ... RT
             ,".*(f|F)ollow (&|and|AND) R(T|t).*" // Follow & RT
             ,".*R(T|t) .* (f|F)ollow(ed)? .*" // RT this if you want me to follow you
+            ,".*(?i)(please|pls).*R(?i)(t).*" // Pls RT
             ,".*\\d(\\d)?% (o|O)ff.*" // 97% Off
             ,"(?i).*follow @.*"
             // win - commercial stuff
