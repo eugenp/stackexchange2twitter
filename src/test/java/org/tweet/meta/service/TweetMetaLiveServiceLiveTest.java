@@ -193,8 +193,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutCrypto_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByHashtagAboutCrypto_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.crypto.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutCrypto_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.crypto.name());
         assertTrue(success);
     }
 
@@ -442,7 +448,7 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingByHashtagAboutMultithreading_thenNoExceptions() throws JsonProcessingException, IOException {
+    /*no results*/public final void whenTweetingByHashtagAboutMultithreading_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name(), TwitterTag.multithreading.name());
         assertTrue(success);
     }
@@ -494,6 +500,18 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     // P
+
+    @Test
+    public final void whenTweetingByHashtagAboutParsing_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name(), TwitterTag.parsing.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutParsing_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.ParsingDaily.name(), TwitterTag.parsing.name());
+        assertTrue(success);
+    }
 
     @Test
     public final void whenTweetingAboutPhp_thenNoExceptions() throws JsonProcessingException, IOException {

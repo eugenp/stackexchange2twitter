@@ -114,6 +114,27 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     /**any*/
+    public final boolean retweetAnyByWord(final String twitterAccount) throws JsonProcessingException, IOException {
+        String word = null;
+        try {
+            word = tagRetrieverService.pickTwitterTag(twitterAccount);
+            final boolean success = retweetAnyByWordInternal(twitterAccount, word);
+            if (!success) {
+                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, word);
+            }
+            return success;
+        } catch (final RuntimeException runtimeEx) {
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by word= " + word, runtimeEx);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
+            return false;
+        } catch (final Exception ex) {
+            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by word= " + word, ex);
+            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
+            return false;
+        }
+    }
+
+    /**any*/
     public final boolean retweetAnyByHashtagOnlyFromPredefinedAccounts(final String twitterAccount) throws JsonProcessingException, IOException {
         String twitterTag = null;
         try {

@@ -93,7 +93,6 @@ public class TweetMetaScheduler {
         // 10
         service.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestMultithread.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestGit.name()); // new and experimentally active
         service.retweetAnyByHashtag(TwitterAccountEnum.BestClojure.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestJavaScript.name());
@@ -103,9 +102,12 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.HadoopDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
 
-        // new and very much experimental
-        service.retweetAnyByHashtag(TwitterAccountEnum.ParsingDaily.name());
+        // experimental
         service.retweetAnyByHashtag(TwitterAccountEnum.HttpClient4.name());
+
+        // even newer and more experimental
+        service.retweetAnyByWord(TwitterAccountEnum.BestMultithread.name());
+        service.retweetAnyByWord(TwitterAccountEnum.ParsingDaily.name());
 
         logger.info("Finished new retweet schedule - five 1");
     }
