@@ -18,11 +18,10 @@ import org.tweet.twitter.util.specific.RejectTweetsByWordWinManualTest;
     // twitter
     RejectTweetsByWordWinManualTest.class,
     AcceptTweetsByWordWinManualTest.class, 
-    RejectTweetsByWordWinManualTest.class, 
     
     AcceptTweetsByWordDealManualTest.class, 
-    AcceptTweetsByWordDealsManualTest.class, 
     RejectTweetsByWordDealManualTest.class, 
+    AcceptTweetsByWordDealsManualTest.class, 
     RejectTweetsByWordDealsManualTest.class
 }) //@formatter:off
 public final class ManualUnitTestSuite {
