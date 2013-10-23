@@ -194,7 +194,8 @@ public class TweetService {
         if (tweet.getUser() == null || !TweetUtil.acceptedUserLangForTweeting.contains(tweet.getUser().getLanguage().trim())) {
             if (!TweetUtil.rejectedUserLangForTweeting.contains(tweet.getUser().getLanguage().trim())) {
                 final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
-                logger.error("(for tweeting) - tweet= {}\n on twitterTag= {} \nrejected because the user has USER language= {} \nfull tweet= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage(), tweetUrl);
+                logger.info("(for tweeting) - tweet= {}\n on twitterTag= {} \nrejected because the user has USER language= {} \nfull tweet= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage(), tweetUrl);
+                // was error - verified - moving down
                 return false;
             }
         }
@@ -294,16 +295,18 @@ public class TweetService {
         }
 
         // not actively accepted
-        // start - just logging stuff
+        // is actively rejected?
         if (!TweetUtil.rejectedTweetLangForAnalysis.contains(tweetLang)) {
+            // was error - looks OK right now - moving down
             final String tweetUrl = "https://twitter.com/" + user + "/status/" + tweetForLogging.getId();
-            logger.error("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
+            logger.info("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
             return false;
         }
 
+        // if not actively accepted or rejected - log and reject by default
+
         final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
         logger.debug("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because it has the TWEET language= {}\n with USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetLang, user.getLanguage().trim(), tweetUrl);
-        // done - just logging stuff
 
         return false;
     }
