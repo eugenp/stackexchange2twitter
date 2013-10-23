@@ -165,13 +165,12 @@ public final class TwitterUtil {
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
             // win
-            ".*win.*\\$.*", ".*\\$.*win.*" // +1  
+            ".*win.*\\$.*", ".*\\$.*win.*" // +1 
             // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
             // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
             ,".*win.*â‚¬.*", ".*â‚¬.*win.*"
             ,".*win.*chance.*", ".*chance.*win.*" // +1
-            ,".*win.*prize.*", ".*contest.*prize.*" // +1
-            // BRENT: Teacher at Wembley school wins £20k prize to help Brent children tackle mathematics http://t.co/xeQCuUT2VT #London
+            ,".*win.*prize.*", ".*contest.*prize.*" // +1 -1
             ,".*win.*sale.*", ".*contest.*sale.*"
             ,".*win.*swag.*", ".*contest.*swag.*" 
             ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1

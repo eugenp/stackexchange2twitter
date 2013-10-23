@@ -23,11 +23,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @RunWith(Parameterized.class)
-public final class TwitterUtilBannedForAnalysisByRegexUnitTest {
+public final class TwitterUtilBannedForAnalysisByRegexManualTest {
 
     private String tweet;
 
-    public TwitterUtilBannedForAnalysisByRegexUnitTest(final String tweet) {
+    public TwitterUtilBannedForAnalysisByRegexManualTest(final String tweet) {
         super();
         this.tweet = tweet;
     }

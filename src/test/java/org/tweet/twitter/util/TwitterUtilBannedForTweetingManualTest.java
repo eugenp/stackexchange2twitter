@@ -23,11 +23,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @RunWith(Parameterized.class)
-public final class TwitterUtilBannedForTweetingUnitTest {
+public final class TwitterUtilBannedForTweetingManualTest {
 
     private String tweet;
 
-    public TwitterUtilBannedForTweetingUnitTest(final String tweet) {
+    public TwitterUtilBannedForTweetingManualTest(final String tweet) {
         super();
         this.tweet = tweet;
     }
