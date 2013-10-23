@@ -141,6 +141,7 @@ public final class TwitterUtil {
 
         // by regex
 
+        // note: move the logging of this back up to error if something new is added
         /** if this matches, the banned expressions are no longer evaluated */
         final static List<String> acceptBeforeProcessingBannedRegExes = Lists.newArrayList(// @formatter:off
             ".*deal with.*"
@@ -154,7 +155,6 @@ public final class TwitterUtil {
             ,".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // Free ... RT
             ,".*(f|F)ollow (&|and|AND) R(T|t).*" // Follow & RT
             ,".*R(T|t) .* (f|F)ollow(ed)? .*" // RT this if you want me to follow you
-            ,".*(?i)(please|pls).*R(?i)(t).*" // Pls RT
             ,".*\\d(\\d)?% (o|O)ff.*" // 97% Off
             ,"(?i).*follow @.*"
             // win - commercial stuff
@@ -174,7 +174,7 @@ public final class TwitterUtil {
             // BRENT: Teacher at Wembley school wins £20k prize to help Brent children tackle mathematics http://t.co/xeQCuUT2VT #London
             ,".*win.*sale.*", ".*contest.*sale.*"
             ,".*win.*swag.*", ".*contest.*swag.*" 
-            ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1
+            ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1
             ,".*win.*give-away.*", ".*give-away.*win.*"
             ,".*win.*promo.*", ".*promo.*win.*"
             ,".*win.*ticket.*", ".*contest.*ticket.*"
@@ -189,11 +189,13 @@ public final class TwitterUtil {
             ,".*deal.*of the day.*"  
             ,".*deal.*\\% off.*", ".*\\% off.*deal.*"
             ,".*deal.*free.*", ".*free.*deal.*"
+            // John Bolton knocks Iran nuclear deal as ‘pure propaganda’ http://t.co/QGJDOyC1jA #iran #freethe7
+            
             ,".*deal.*sale.*", ".*sale.*deal.*"
-            ,".*deal.*special.*", ".*special.*deal.*"
+            ,".*deal.*special.*", ".*special.*deal.*" // +1
             ,".*deal.*discount.*", ".*discount.*deal.*"
-            ,".*deal.*today.*", ".*today.*deal.*"
-            // #Tweet Edition is out! http://t.co/mf4lvRBr2t ▸ Top stories today via @owmdeals @motivation_real @BrianLett
+            ,".*deal.*today.*", ".*today.*deal.*" // -1
+            
             ,".*deal.*best.*", ".*best.*deal.*"
             ,".*deal.*daily.*", ".*daily.*deal.*"
             ,".*deal.*only.*", ".*only.*deal.*"
@@ -414,7 +416,8 @@ public final class TwitterUtil {
     static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String text) {
         for (final String hardAcceptedRegEx : ForAnalysis.acceptBeforeProcessingBannedRegExes) {
             if (text.matches(hardAcceptedRegEx)) {
-                logger.error("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + text);
+                // was error - is OK now - moving down - move back up when something is added into the accept list
+                logger.info("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + text);
                 return false;
             }
         }
