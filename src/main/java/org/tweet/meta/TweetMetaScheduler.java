@@ -126,7 +126,6 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestXML.name()); // already 2
         service.retweetAnyByHashtag(TwitterAccountEnum.InTheAppleWorld.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.iOSdigest.name()); // already 2
-        service.retweetAnyByHashtag(TwitterAccountEnum.jQueryDaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.LispDaily.name()); // already 2
 
         service.retweetAnyByHashtag(TwitterAccountEnum.RegexDaily.name()); // already 2
@@ -135,6 +134,7 @@ public class TweetMetaScheduler {
         // experimental
         service.retweetAnyByWord(TwitterAccountEnum.AndroidFact.name(), TwitterTag.android.name()); // already 2
         service.retweetAnyByWord(TwitterAccountEnum.PerlDaily.name()); // (26.10) before moving to byWord, I was getting emails about to few = 5
+        service.retweetAnyByWord(TwitterAccountEnum.jQueryDaily.name()); // (26.10)
 
         logger.info("Finished new retweet schedule - five 2");
     }
