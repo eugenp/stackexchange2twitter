@@ -440,7 +440,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         // is the tweet rejected by some classifier?
         if (isTweetRejectedByClassifier(fullTweetProcessed)) {
-            logger.error("Tweet rejected by a classifier on twitterAccount= {}\n--tweet text= {}", twitterAccount, fullTweetProcessed);
+            logger.error("Tweet rejected by a classifier on twitterAccount= {}\n--tweet text= \n{}", twitterAccount, fullTweetProcessed);
             return false;
         }
 

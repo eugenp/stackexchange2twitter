@@ -25,7 +25,7 @@ public final class TweetUtil {
     ); 
     // ! PAY ATTENTION - not English
     /*
-     * "ar"    - +1 | -1
+     * "ar"    - +1 | -1 -1
      * "ca"    - |
      * "cs"    - +1 +1 | 
      * "el"    - |
@@ -37,7 +37,7 @@ public final class TweetUtil {
      * "id"    - +1 | -1 -1 
      * "ja"    - 9 +1 | - looking for just a few more datapoints 
      * "lv"    - +1 |
-     * "ko"    - +1 | -1 
+     * "ko"    - +1 | -1 -1
      * "no"    - +1 +1
      * "nl"    - 16 +1 | 4 -1
      * "pl"    - 4 +1 | -1 
@@ -46,10 +46,10 @@ public final class TweetUtil {
      * "sl"    - |
      * "sv"    - +1 | -1
      * "sk"    - |
-     * "tr"    - 9 +1 |
+     * "tr"    - 10 +1 |
      * "und"   - |
      * "uk"    - +1 |
-     * "xx-lc" - |
+     * "xx-lc" - +1 |  - not sure what this is?
     */
     public final static List<String> acceptedUserLangForTweeting = Lists.newArrayList(
         "ca", 
@@ -115,9 +115,9 @@ public final class TweetUtil {
     );
     /*
      * "ar"    - 
-     * "bo"    - | -1 -1 -1 -1
+     * "bo"    - | -1 -1 -1 -1 -1
      * "ca"    - 
-     * "chr"   - | -1 -1 -1 -1
+     * "chr"   - | -1 -1 -1 -1 -1
      * "da"    - ~21 +1 +1 +1 +1 +1 | -1 -1 -1 -1 -1 -1 -1 -1 - reject for tweeting, accept for analysis
      * "et"    - ~20 +1 | - accepting
      * "el"    - | -1 -1 -1 | +1 - rejecting
@@ -145,6 +145,7 @@ public final class TweetUtil {
      * "or"    - | -1
      * "uk"    - | -1 -1 -1 -1 -1 -1 -1 - rejecting
      * "ur"    - | -1 -1 -1 -1 -1 -1 -1 -1 -1 - rejecting
+     * "pa"    - | -1
      * -"pt"   - | -1 -1 -1 -1 = rejecting
      * "pl"    - ~25 | -1 -1 -1 -1  - reject for tweeting, accept for analysis
      * "ru"    - | 

@@ -65,10 +65,10 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
             }
             return success;
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, runtimeEx);
+            logger.error("1 - Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, runtimeEx);
             return false;
         } catch (final Exception ex) {
-            logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, ex);
+            logger.error("2 - Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, ex);
             return false;
         }
     }
@@ -85,10 +85,10 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
             }
             return success;
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
+            logger.error("3 - Unexpected exception when trying to tweet from stackSite= " + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
             return false;
         } catch (final Exception ex) {
-            logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, ex);
+            logger.error("4 - Unexpected exception when trying to tweet from stackSite= " + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, ex);
             return false;
         }
     }
@@ -103,7 +103,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         try {
             return tweetAnyTopQuestionBySiteInternal(stackSite, twitterAccount, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, runtimeEx);
+            logger.error("5 - Unexpected exception when trying to tweet from stackSite= " + stackSite + " on twitterAccount= " + twitterAccount, runtimeEx);
             return false;
         }
     }
@@ -116,7 +116,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         try {
             return tweetAnyTopQuestionBySiteAndTagInternal(stackSite, twitterAccount, stackTag);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from site=" + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
+            logger.error("6 - Unexpected exception when trying to tweet from site=" + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
             return false;
         }
     }
@@ -129,7 +129,7 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         try {
             return tweetAnyTopQuestionBySiteAndTagInternal(stackSite, twitterAccount, stackTag, pageToStartWith);
         } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to tweet from stackSite=" + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
+            logger.error("7 - Unexpected exception when trying to tweet from stackSite=" + stackSite + " and stackTag= " + stackTag + " on twitterAccount= " + twitterAccount, runtimeEx);
             return false;
         }
     }

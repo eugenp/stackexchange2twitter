@@ -1,5 +1,6 @@
 package org.stackexchange;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
@@ -126,6 +127,14 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
         final int howManyPages = 3;
         final List<Tweet> tweetsOfHashtag = instance.listTweetsOfAccountMultiRequestRaw("africatechie", howManyPages);
         assertThat(tweetsOfHashtag, hasSize(greaterThan(200 * (howManyPages - 1))));
+    }
+
+    // list operations - not allowed
+
+    @Test
+    public final void givenAccountProtected_whenAreListedFromAccount1_thenNotAllowed() {
+        final List<Tweet> list = instance.listTweetsOfAccountMultiRequestRaw("bannahhaker", 1);
+        assertThat(list, empty());
     }
 
 }

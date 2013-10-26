@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.InternalServerErrorException;
+import org.springframework.social.NotAuthorizedException;
 import org.springframework.social.ResourceNotFoundException;
 import org.springframework.social.SocialException;
 import org.springframework.social.twitter.api.CursoredList;
@@ -63,7 +64,7 @@ public class TwitterReadLiveService {
             final Throwable cause = socialEx.getCause();
             if (cause != null && cause instanceof InternalServerErrorException) {
                 // keep at warn or below - no need to know when this happens all the time
-                logger.warn("Known reason - Unable to retrieve profile of user: " + userHandle, socialEx);
+                logger.warn("1 - Known reason - Unable to retrieve profile of user: " + userHandle, socialEx);
                 return null;
             }
             if (socialEx instanceof ResourceNotFoundException) {
@@ -101,7 +102,7 @@ public class TwitterReadLiveService {
             return listTweetsOfInternalAccountInternal(twitterAccount);
         } catch (final RuntimeException ex) {
             metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
-            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            logger.error("1 - Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
     }
@@ -121,7 +122,7 @@ public class TwitterReadLiveService {
             return listTweetsOfInternalAccountInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
             metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
-            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            logger.error("2 - Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
     }
@@ -139,7 +140,7 @@ public class TwitterReadLiveService {
             return listTweetsOfInternalAccountRawInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
             metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
-            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            logger.error("3 - Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
     }
@@ -160,7 +161,7 @@ public class TwitterReadLiveService {
             return listTweetsOfAccountInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
             metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
-            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            logger.error("4 - Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
     }
@@ -170,7 +171,7 @@ public class TwitterReadLiveService {
             return listTweetsOfAccountRawInternal(twitterAccount, howmany);
         } catch (final RuntimeException ex) {
             metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
-            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            logger.error("5 - Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
     }
@@ -198,7 +199,12 @@ public class TwitterReadLiveService {
             return listTweetsOfAccountMultiRequestRawInternal(twitterAccount, howManyPages);
         } catch (final RuntimeException ex) {
             metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
-            logger.error("Unable to list tweets on twitterAccount= " + twitterAccount, ex);
+            if (ex instanceof NotAuthorizedException) {
+                // keep at warn or below - no need to know when this happens all the time
+                logger.warn("2 - Known reason - Unable to retrieve profile of user: " + twitterAccount, ex);
+                return Lists.newArrayList();
+            }
+            logger.error("6 - Unable to list tweets on twitterAccount= " + twitterAccount, ex);
             return Lists.newArrayList();
         }
     }

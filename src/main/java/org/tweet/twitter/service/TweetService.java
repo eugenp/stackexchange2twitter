@@ -268,6 +268,7 @@ public class TweetService {
                 final String tweetText = TweetUtil.getText(tweetForLogging);
                 final String tweetUrl = "https://twitter.com/" + tweetForLogging.getUser() + "/status/" + tweetForLogging.getId();
                 logger.error("(for analysis) - tweet= {}\n on twitterTag= {} \nrejected because the user has USER language= {} \nfull tweet= {}", tweetText, hashtagForLogging, tweetForLogging.getUser().getLanguage(), tweetUrl);
+                // (26.10) - leaving it as it is for a bit longer, then moving it to warn - it did its job
                 return false;
             }
 

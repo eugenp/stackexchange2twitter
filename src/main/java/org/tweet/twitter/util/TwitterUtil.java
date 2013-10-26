@@ -149,7 +149,7 @@ public final class TwitterUtil {
         // note: move the logging of this back up to error if something new is added
         /** if this matches, the banned expressions are no longer evaluated */
         final static List<String> acceptBeforeProcessingBannedRegExes = Lists.newArrayList(// @formatter:off
-            ".*deal with.*"
+            ".*\\bdeal with.*"
         ); // @formatter:on
 
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
