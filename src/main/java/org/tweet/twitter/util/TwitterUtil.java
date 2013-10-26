@@ -76,7 +76,8 @@ public final class TwitterUtil {
         final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
             "buy", "discount", 
             "freelance", "job", "consulting", "hire", "hiring", "careers", 
-            "football", "exclusive",
+            "football", 
+            // "exclusive", // no hits yet, but it does create some false positives in my manual tests - commenting out for now
             // "dumb", "dumber", // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
             "gift", "highheels",
             "djmix", "housemusic",
@@ -131,7 +132,9 @@ public final class TwitterUtil {
             ,"on strike" 
             ,"for sale" 
             ,"rt if" 
-            ,"win a ", "to win", "win one" // win
+            ,"win a " 
+            // ,"to win" // now that there are regexes covering this - this should go 
+            ,"win one" 
             ,"i need", "we need", "need help", "need someone" 
             ,"music video"
         ); // @formatter:on
@@ -159,10 +162,10 @@ public final class TwitterUtil {
             ,".*\\d(\\d)?% (o|O)ff.*" // 97% Off
             ,"(?i).*follow @.*"
             // win - commercial stuff
-            ,".*win.*Â£.*", ".*Â£.*win.*"
+            ,".*win.*£.*", ".*£.*win.*"
             , ".*win.*contest.*", ".*contest.*win.*"
             ,".*win.*giving away.*", ".*giving away.*win.*"
-            ,".*deal.*today.*", ".*today.*deal.*" // -1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
+            ,".*deal(s)?\b.*today.*", ".*today.*deal(s)?\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
         ); // @formatter:on
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
@@ -170,22 +173,25 @@ public final class TwitterUtil {
             ".*win.*\\$.*", ".*\\$.*win.*" // +1 +1 
             // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
             // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
-            ,".*win.*â‚¬.*", ".*â‚¬.*win.*"
+            ,".*win.*€.*", ".*€.*win.*"
             ,".*win.*chance.*", ".*chance.*win.*" // +1 +1
-            ,".*win.*prize.*", ".*contest.*prize.*" // +1 -1
-            ,".*win.*sale.*", ".*contest.*sale.*"
-            ,".*win.*swag.*", ".*contest.*swag.*" 
+            ,".*win.*prize.*", ".*prize.*win.*" 
+            ,".*win.*sale.*", ".*sale.*win.*"
+            ,".*win.*swag.*", ".*swag.*win.*" 
             ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1
             ,".*win.*give-away.*", ".*give-away.*win.*"
             ,".*win.*promo.*", ".*promo.*win.*"
-            ,".*win.*ticket.*", ".*contest.*ticket.*"
-            ,".*win.*some.*" // -1 -1 
+            ,".*win.*ticket.*", ".*ticket.*win.*"
+            ,".*win.*check.*", ".*check.*win.*"
+            ,".*win.*vote.*", ".*vote.*win.*"
+            ,".*win.*submit.*", ".*submit.*win.*"
+            ,".*win\b.*some.*" // 
             ,".*you could.*win.*"
             
             //deal
             ,".*deal.*of the day.*" // +1  
             ,".*deal.*\\% off.*", ".*\\% off.*deal.*"
-            ,".*deal.*free.*", ".*free.*deal.*"
+            ,".*deal.*free\b.*", ".*free.*deal.*"
             // John Bolton knocks Iran nuclear deal as ‘pure propaganda’ http://t.co/QGJDOyC1jA #iran #freethe7
             
             ,".*deal.*sale.*", ".*sale.*deal.*"
@@ -196,8 +202,8 @@ public final class TwitterUtil {
             ,".*deal.*daily.*", ".*daily.*deal.*"
             ,".*deal.*only.*", ".*only.*deal.*"
             ,".*deal.*shopping.*", ".*shopping.*deal.*"
-            ,".*deal.*Â£.*", ".*Â£.*deal.*"
-            ,".*deal.*â‚¬.*", ".*â‚¬.*deal.*"
+            ,".*deal.*£.*", ".*£.*deal.*"
+            ,".*deal.*€.*", ".*€.*deal.*"
             ,".*deal.*\\$.*", ".*\\$.*deal.*"
         ); // @formatter:on
 
