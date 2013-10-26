@@ -36,6 +36,7 @@ public final class TwitterUtil {
             ,"racial"
             ,"voucher"
             ,"meetup"
+            ,"sponsored"
         );// @formatter:on
 
         final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off

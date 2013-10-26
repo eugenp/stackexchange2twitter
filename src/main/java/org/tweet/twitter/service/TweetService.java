@@ -367,7 +367,17 @@ public class TweetService {
 
         processedTweet = TextUtil.cleanupInvalidCharacters(processedTweet);
 
-        return processedTweet.length() > 11;
+        if (processedTweet.length() <= 11) {
+            return false;
+        }
+
+        final boolean isUpperCase = processedTweet.matches("[A-Z ->.]+");
+        if (processedTweet.length() < 25 && isUpperCase) {
+            logger.error("temp (26.10) - new heuristic for structurally invalid tweets: " + tweetText);
+            return false;
+        }
+
+        return true;
     }
 
     /**
