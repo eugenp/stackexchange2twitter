@@ -2,6 +2,7 @@ package org.tweet.twitter.service;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -11,7 +12,9 @@ import org.common.service.LinkService;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.social.twitter.api.Tweet;
 import org.stackexchange.util.TwitterTag;
+import org.tweet.test.TweetFixture;
 
 import com.google.common.collect.Lists;
 
@@ -47,6 +50,52 @@ public class TweetServiceUnitTest {
     @Test
     public final void givenTweetScenario4_whenCheckingValidity_thenValid() {
         assertTrue(instance.isTweetFullValid("RT @sofisticlara: Awesome! Regular Expressions Guide for SEO & Analytics (http://t.co/9ZURwNKDiZ) via @SEOTakeaways @seohimanshu #Regex #SE..."));
+    }
+
+    // language checks - for tweeting
+
+    @Test
+    public final void givenUserLanguageIsRejectedForTweeting_whenCheckingTweet1_thenRejected() {
+        final Tweet testTweet = TweetFixture.createTweet(3, "it", "en");
+        final boolean pass = instance.passesLanguageChecksForTweeting(testTweet, randomAlphabetic(5));
+        assertThat(pass, is(false));
+    }
+
+    @Test
+    public final void givenUserLanguageIsUndecidedForTweeting_whenCheckingTweet1_thenRejected() {
+        final Tweet testTweet = TweetFixture.createTweet(3, "zmv", "en");
+        final boolean pass = instance.passesLanguageChecksForTweeting(testTweet, randomAlphabetic(5));
+        assertThat(pass, is(false));
+    }
+
+    @Test
+    public final void givenUserLanguageIsAcceptedForTweeting_whenCheckingTweet1_thenAccepted() {
+        final Tweet testTweet = TweetFixture.createTweet(3, "en", "en");
+        final boolean pass = instance.passesLanguageChecksForTweeting(testTweet, randomAlphabetic(5));
+        assertThat(pass, is(true));
+    }
+
+    // language checks - for analysis
+
+    @Test
+    public final void givenUserLanguageIsRejectedForAnalysis_whenCheckingTweet1_thenRejected() {
+        final Tweet testTweet = TweetFixture.createTweet(3, "es", "en");
+        final boolean pass = instance.passesLanguageChecksForAnalysis(testTweet, randomAlphabetic(5));
+        assertThat(pass, is(false));
+    }
+
+    @Test
+    public final void givenUserLanguageIsUndecidedForAnalysis_whenCheckingTweet1_thenRejected() {
+        final Tweet testTweet = TweetFixture.createTweet(3, "zmv", "en");
+        final boolean pass = instance.passesLanguageChecksForAnalysis(testTweet, randomAlphabetic(5));
+        assertThat(pass, is(false));
+    }
+
+    @Test
+    public final void givenUserLanguageIsAcceptedForAnalysis_whenCheckingTweet1_thenAccepted() {
+        final Tweet testTweet = TweetFixture.createTweet(3, "en", "en");
+        final boolean pass = instance.passesLanguageChecksForAnalysis(testTweet, randomAlphabetic(5));
+        assertThat(pass, is(true));
     }
 
     // is it worth retweeting

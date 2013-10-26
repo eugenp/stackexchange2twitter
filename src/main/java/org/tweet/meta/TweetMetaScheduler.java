@@ -131,10 +131,10 @@ public class TweetMetaScheduler {
 
         service.retweetAnyByHashtag(TwitterAccountEnum.RegexDaily.name()); // already 2
         service.retweetAnyByHashtag(TwitterAccountEnum.ObjectiveCDaily.name()); // already 2
-        service.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name());
 
         // experimental
         service.retweetAnyByWord(TwitterAccountEnum.AndroidFact.name(), TwitterTag.android.name()); // already 2
+        service.retweetAnyByWord(TwitterAccountEnum.PerlDaily.name()); // (26.10) before moving to byWord, I was getting emails about to few = 5
 
         logger.info("Finished new retweet schedule - five 2");
     }

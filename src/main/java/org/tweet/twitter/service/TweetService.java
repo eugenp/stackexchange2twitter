@@ -135,7 +135,7 @@ public class TweetService {
             return false;
         }
 
-        if (!passesLanguageForTweetingChecks(tweet, hashtag)) {
+        if (!passesLanguageChecksForTweeting(tweet, hashtag)) {
             return false;
         }
 
@@ -181,7 +181,7 @@ public class TweetService {
      * - the tweet has an accepted <b>language</b> </br>
      * - the author of the tweet has an accepted <b>language</b> </br>
      */
-    public final boolean passesLanguageForTweetingChecks(final Tweet tweet, final String hashtag) {
+    public final boolean passesLanguageChecksForTweeting(final Tweet tweet, final String hashtag) {
         final String hashTagInternal = (hashtag == null) ? "" : hashtag;
 
         if (tweet.getLanguageCode() == null) {
@@ -196,8 +196,8 @@ public class TweetService {
                 final String tweetUrl = "https://twitter.com/" + tweet.getFromUser() + "/status/" + tweet.getId();
                 logger.info("(for tweeting) - tweet= {}\n on twitterTag= {} \nrejected because the user has USER language= {} \nfull tweet= {}", TweetUtil.getText(tweet), hashTagInternal, tweet.getUser().getLanguage(), tweetUrl);
                 // was error - verified - moving down
-                return false;
             }
+            return false;
         }
 
         // then check the language of the tweet

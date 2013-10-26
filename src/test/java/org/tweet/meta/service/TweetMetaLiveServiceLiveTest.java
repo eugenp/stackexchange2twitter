@@ -550,8 +550,14 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingAboutPerl_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByHashtagAboutPerl_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.PerlDaily.name(), TwitterTag.perl.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutPerl_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.PerlDaily.name(), TwitterTag.perl.name());
         assertTrue(success);
     }
 

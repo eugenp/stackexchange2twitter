@@ -239,7 +239,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 if (!tweetService.passesSet1OfChecks(tweet, hashtag)) {
                     return false;
                 }
-                if (!tweetService.passesLanguageForTweetingChecks(tweet, hashtag)) {
+                if (!tweetService.passesLanguageChecksForTweeting(tweet, hashtag)) {
                     return false;
                 }
                 return true;

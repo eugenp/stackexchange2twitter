@@ -17,9 +17,13 @@ public final class TweetFixture {
     // API
 
     public static Tweet createTweet(final int retweetCount) {
-        final Tweet tweet = new Tweet(0l, randomAlphabetic(6), new Date(), null, null, null, 0l, "en", null);
+        return createTweet(retweetCount, "en", "en");
+    }
+
+    public static Tweet createTweet(final int retweetCount, final String userLanguage, final String tweetLanguage) {
+        final Tweet tweet = new Tweet(0l, randomAlphabetic(6), new Date(), null, null, null, 0l, tweetLanguage, null);
         final TwitterProfile user = createTwitterProfile();
-        ReflectionTestUtils.setField(user, "language", "en");
+        ReflectionTestUtils.setField(user, "language", userLanguage);
         ReflectionTestUtils.setField(user, "screenName", randomAlphabetic(6));
         tweet.setUser(user);
         tweet.setFromUser(user.getName());
