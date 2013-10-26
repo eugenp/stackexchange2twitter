@@ -39,7 +39,7 @@ public final class TwitterUtilBannedForTweetingManualTest {
         final List<String> tweetsFiltered = Lists.newArrayList(Iterables.filter(tweets, new Predicate<String>() {
             @Override
             public final boolean apply(@Nullable final String input) {
-                if (input == null || input.isEmpty()) {
+                if (input == null || input.isEmpty() || input.startsWith("//")) {
                     return false;
                 }
                 return true;

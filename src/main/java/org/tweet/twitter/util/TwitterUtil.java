@@ -194,17 +194,21 @@ public final class TwitterUtil {
             ,".*deal.*free\b.*", ".*free.*deal.*"
             // John Bolton knocks Iran nuclear deal as ‘pure propaganda’ http://t.co/QGJDOyC1jA #iran #freethe7
             
-            ,".*deal.*sale.*", ".*sale.*deal.*"
+            ,".*deal.*sale\b.*", ".*sale\b.*deal.*"
             ,".*deal.*special.*", ".*special.*deal.*" // +1
             ,".*deal.*discount.*", ".*discount.*deal.*"
+            ,".*deal.*check.*", ".*check.*deal.*"
+            ,".*deal.*bundle.*", ".*bundle.*deal.*"
+            ,".*deal.*price.*", ".*price.*deal.*"
+            ,".*deal.*code.*", ".*code.*deal.*"
             
             ,".*deal.*best.*", ".*best.*deal.*"
             ,".*deal.*daily.*", ".*daily.*deal.*"
             ,".*deal.*only.*", ".*only.*deal.*"
             ,".*deal.*shopping.*", ".*shopping.*deal.*"
-            ,".*deal.*£.*", ".*£.*deal.*"
             ,".*deal.*€.*", ".*€.*deal.*"
-            ,".*deal.*\\$.*", ".*\\$.*deal.*"
+            // ,".*deal.*£.*", ".*£.*deal.*" // to many false positives - ignoring for now
+            // ,".*deal.*\\$.*", ".*\\$.*deal.*" // to many false positives - ignoring for now
         ); // @formatter:on
 
     }
