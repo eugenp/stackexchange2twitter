@@ -140,6 +140,29 @@ public class TweetServiceUnitTest {
         assertFalse(instance.isTweetWorthRetweetingByTextWithLink("#BITCOIN #ALGORITHM TRADING #PROFITS #TRADES #EASYTRADING #BOTS #FOREX http://goo.gl/fb/Ou5FT  - via @censorednewsnow"));
     }
 
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario12_thenRejected() {
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink("Black is the new White #Oklahoma #Racial #Math @Talkmaster pic.twitter.com/v1UeNKjf3X"));
+    }
+
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario13_thenRejected() {
+        final String text = "#ANDROID USERS GO HERE ->https://play.google.com/store/music/album?id=Bh24gh6kjkmpirwjb3r3axtpvg4&tid=song-T5nduydhjkaastuk6vcaymtutde … @nwdragonwing @YungSicco @step_big #SUPPORT #INDIE #MUSIC #PRO2COLRECORDS";
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink(text));
+    }
+
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario14_thenRejected() {
+        final String text = "What do all of those #facebook likes mean? Dig deeper into social with analytics: http://bit.ly/UtM2ao  Free whitepaper (sponsored)";
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink(text));
+    }
+
+    @Test
+    public final void givenTextShouldNotBeTweeted_whenCheckingOnScenario15_thenRejected() {
+        final String text = "PHP and #MySQL for Beginners #udemy #PHP #MySQL #beginner #database Only $21 http://ow.ly/pj4Ki";
+        assertFalse(instance.isTweetWorthRetweetingByTextWithLink(text));
+    }
+
     // pre-process
 
     @Test

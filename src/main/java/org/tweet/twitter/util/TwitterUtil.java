@@ -165,7 +165,7 @@ public final class TwitterUtil {
             ,".*win.*£.*", ".*£.*win.*"
             , ".*win.*contest.*", ".*contest.*win.*"
             ,".*win.*giving away.*", ".*giving away.*win.*"
-            ,".*deal(s)?\b.*today.*", ".*today.*deal(s)?\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
+            ,".*deal(s)?\\b.*today.*", ".*today.*deal(s)?\\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
         ); // @formatter:on
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
@@ -185,16 +185,16 @@ public final class TwitterUtil {
             ,".*win.*check.*", ".*check.*win.*"
             ,".*win.*vote.*", ".*vote.*win.*"
             ,".*win.*submit.*", ".*submit.*win.*"
-            ,".*win\b.*some.*" // 
+            ,".*win\\b.*some.*" // 
             ,".*you could.*win.*"
             
             //deal
             ,".*deal.*of the day.*" // +1  
             ,".*deal.*\\% off.*", ".*\\% off.*deal.*"
-            ,".*deal.*free\b.*", ".*free.*deal.*"
+            ,".*deal.*free\\b.*", ".*free.*deal.*"
             // John Bolton knocks Iran nuclear deal as ‘pure propaganda’ http://t.co/QGJDOyC1jA #iran #freethe7
             
-            ,".*deal.*sale\b.*", ".*sale\b.*deal.*"
+            ,".*deal.*sale\\b.*", ".*sale\\b.*deal.*"
             ,".*deal.*special.*", ".*special.*deal.*" // +1
             ,".*deal.*discount.*", ".*discount.*deal.*"
             ,".*deal.*check.*", ".*check.*deal.*"
@@ -209,6 +209,9 @@ public final class TwitterUtil {
             ,".*deal.*€.*", ".*€.*deal.*"
             // ,".*deal.*£.*", ".*£.*deal.*" // to many false positives - ignoring for now
             // ,".*deal.*\\$.*", ".*\\$.*deal.*" // to many false positives - ignoring for now
+            
+            // other commercial
+            ,".*only\\b.*$.*"
         ); // @formatter:on
 
     }
@@ -271,43 +274,43 @@ public final class TwitterUtil {
 
         for (final String bannedExpressionMaybe : ForAnalysis.bannedExpressionsMaybe) {
             if (textLowerCase.contains(bannedExpressionMaybe)) {
-                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, originalTweet);
+                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, textLowerCase);
                 return true;
             }
         }
 
         for (final String bannedExpression : ForAnalysis.bannedExpressions) {
             if (textLowerCase.contains(bannedExpression)) {
-                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, textLowerCase);
                 return true;
             }
         }
 
         // by contains keyword - maybe
 
-        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
-        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(textLowerCase));
+        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, textLowerCase)) {
             return true;
         }
 
         // by contains keyword
         for (final String tweetToken : tweetTokens) {
             if (ForAnalysis.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
-                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, textLowerCase);
                 return true;
             }
         }
 
         // by starts with keyword
         for (final String bannedStartsWith : ForAnalysis.bannedStartsWithExprs) {
-            if (originalTweet.startsWith(bannedStartsWith)) {
-                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
+            if (textLowerCase.startsWith(bannedStartsWith)) {
+                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, textLowerCase);
                 return true;
             }
         }
 
         // by regex
-        if (isRejectedByBannedRegexExpressionsForAnalysis(originalTweet)) {
+        if (isRejectedByBannedRegexExpressionsForAnalysis(textLowerCase)) {
             return true;
         }
 
