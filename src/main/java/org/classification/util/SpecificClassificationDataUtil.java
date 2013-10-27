@@ -57,6 +57,9 @@ public final class SpecificClassificationDataUtil {
 
         public static final String NONPROGRAMMING = "/classification/test/programming/nonprogramming.classif";
         public static final String PROGRAMMING = "/classification/test/programming/programming.classif";
+
+        public static final String NONCOMMERCIAL = "/classification/test/commercial/noncommercial.classif";
+        public static final String COMMERCIAL = "/classification/test/commercial/commercial.classif";
     }
 
     private SpecificClassificationDataUtil() {
@@ -183,6 +186,16 @@ public final class SpecificClassificationDataUtil {
 
         static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
             return trainingData(Training.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+        }
+
+        // test data - commercial
+
+        static final List<ImmutablePair<String, String>> commercialTestData() throws IOException {
+            return testData(SpecificClassificationDataUtil.Test.COMMERCIAL, COMMERCIAL);
+        }
+
+        static final List<ImmutablePair<String, String>> nonCommercialTestData() throws IOException {
+            return testData(SpecificClassificationDataUtil.Test.NONCOMMERCIAL, NONCOMMERCIAL);
         }
 
     }

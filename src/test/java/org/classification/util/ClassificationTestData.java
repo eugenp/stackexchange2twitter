@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.classification.util.SpecificClassificationDataUtil.CommercialDataApi;
 import org.classification.util.SpecificClassificationDataUtil.JobsDataApi;
 import org.classification.util.SpecificClassificationDataUtil.ProgrammingDataApi;
 
@@ -45,6 +46,21 @@ public final class ClassificationTestData {
         final List<ImmutablePair<String, String>> allTestData = Lists.newArrayList();
         allTestData.addAll(nonprogrammingTweets);
         allTestData.addAll(programmingTweets);
+        return allTestData;
+    }
+
+    public static List<ImmutablePair<String, String>> commercialAndNonCommercialTestDataShuffled() throws IOException {
+        final List<ImmutablePair<String, String>> allTestData = commercialAndNonCommercialTestData();
+        Collections.shuffle(allTestData);
+        return allTestData;
+    }
+
+    public static List<ImmutablePair<String, String>> commercialAndNonCommercialTestData() throws IOException {
+        final List<ImmutablePair<String, String>> nonCommercialTweets = CommercialDataApi.nonCommercialTestData();
+        final List<ImmutablePair<String, String>> commercialTweets = CommercialDataApi.commercialTestData();
+        final List<ImmutablePair<String, String>> allTestData = Lists.newArrayList();
+        allTestData.addAll(nonCommercialTweets);
+        allTestData.addAll(commercialTweets);
         return allTestData;
     }
 
