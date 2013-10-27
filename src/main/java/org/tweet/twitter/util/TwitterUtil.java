@@ -189,7 +189,7 @@ public final class TwitterUtil {
             ,".*win.*check.*", ".*check.*win.*"
             ,".*win.*free\\b.*", ".*free\\b.*win.*"
             ,".*win.*gift.*", ".*gift.*win.*"
-            ,".*win.*\\bvote.*", ".*\\bvote.*win.*"
+            ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*"
             ,".*win.*submit.*", ".*submit.*win.*"
             ,".*win\\b.*some.*" // 
             ,".*you could.*win.*"
