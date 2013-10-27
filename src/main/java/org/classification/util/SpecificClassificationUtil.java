@@ -20,6 +20,9 @@ public final class SpecificClassificationUtil {
     public static final String JOB = "job";
     public static final String NONJOB = "nonjob";
 
+    public static final String COMMERCIAL = "commercial";
+    public static final String NONCOMMERCIAL = "noncommercial";
+
     private SpecificClassificationUtil() {
         throw new AssertionError();
     }

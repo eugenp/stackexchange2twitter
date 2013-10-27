@@ -5,7 +5,9 @@ import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_
 import static org.classification.util.GenericClassificationDataUtil.oneVsAnotherTrainingDataShuffled;
 import static org.classification.util.GenericClassificationDataUtil.testData;
 import static org.classification.util.GenericClassificationDataUtil.trainingData;
+import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
 import static org.classification.util.SpecificClassificationUtil.JOB;
+import static org.classification.util.SpecificClassificationUtil.NONCOMMERCIAL;
 import static org.classification.util.SpecificClassificationUtil.NONJOB;
 import static org.classification.util.SpecificClassificationUtil.NONPROGRAMMING;
 import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
@@ -164,23 +166,23 @@ public final class SpecificClassificationDataUtil {
         // training data - commercial
 
         public static final List<NamedVector> commercialVsNonCommercialTrainingDataDefault() throws IOException {
-            return SpecificClassificationDataUtil.JobsDataApi.jobsVsNonJobsTrainingDataShuffled(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+            return SpecificClassificationDataUtil.CommercialDataApi.commercialVsNonCommercialTrainingDataShuffled(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
         }
 
         static final List<NamedVector> commercialVsNonCommercialTrainingDataShuffled(final int probes, final int features) throws IOException {
-            final List<NamedVector> nonJobsVectors = SpecificClassificationDataUtil.JobsDataApi.nonJobsTrainingData(probes, features);
-            final List<NamedVector> jobsNamedVectors = SpecificClassificationDataUtil.JobsDataApi.jobsTrainingData(probes, features);
-            return oneVsAnotherTrainingDataShuffled(probes, features, nonJobsVectors, jobsNamedVectors);
+            final List<NamedVector> nonCommercialVectors = SpecificClassificationDataUtil.CommercialDataApi.nonCommercialTrainingData(probes, features);
+            final List<NamedVector> commercialNamedVectors = SpecificClassificationDataUtil.CommercialDataApi.commercialTrainingData(probes, features);
+            return oneVsAnotherTrainingDataShuffled(probes, features, nonCommercialVectors, commercialNamedVectors);
         }
 
         // training data - commercial
 
         static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Training.JOBS, JOB, probes, features);
+            return trainingData(Training.COMMERCIAL, COMMERCIAL, probes, features);
         }
 
         static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Training.NONJOBS, NONJOB, probes, features);
+            return trainingData(Training.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
         }
 
     }
