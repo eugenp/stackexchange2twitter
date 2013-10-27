@@ -199,7 +199,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private final boolean retweetAnyByWordInternal(final String twitterAccount, final String word) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by word= {}", twitterAccount, word);
 
-        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfWord(twitterAccount, word);
+        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByWord(twitterAccount, word);
 
         final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, word, twitterAccount);
 
@@ -210,7 +210,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
-        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
+        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByHashtag(twitterAccount, hashtag);
 
         final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, hashtag, twitterAccount);
 
@@ -293,7 +293,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
         logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
-        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsOfHashtag(twitterAccount, hashtag);
+        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByHashtag(twitterAccount, hashtag);
 
         // filter out tweets not on predefined accounts
         final List<String> predefinedAccounts = predefinedAccountRetriever.predefinedAccount(twitterAccount);

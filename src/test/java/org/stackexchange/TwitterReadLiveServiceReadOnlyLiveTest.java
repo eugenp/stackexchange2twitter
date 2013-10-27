@@ -59,7 +59,7 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
 
     @Test
     public final void whenListingTweetsForHash_thenNoExceptions() throws JsonProcessingException, IOException {
-        final List<Tweet> tweets = instance.listTweetsOfHashtag(TwitterAccountEnum.JavaTopSO.name(), "java");
+        final List<Tweet> tweets = instance.listTweetsByHashtag(TwitterAccountEnum.JavaTopSO.name(), "java");
         System.out.println(tweets);
     }
 
@@ -78,7 +78,7 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
 
     @Test
     public final void whenTweetsIsRetrievedByTag_thenAllTweetsContainsFullLinks() {
-        final List<Tweet> tweetsOfHashtag = instance.listTweetsOfHashtag(TwitterTag.mysql.name());
+        final List<Tweet> tweetsOfHashtag = instance.listTweetsByHashtag(TwitterTag.mysql.name());
         Collections.sort(tweetsOfHashtag, new TweetByRtComparator());
         System.out.println(tweetsOfHashtag);
     }
