@@ -80,7 +80,8 @@ public final class TwitterUtil {
             "football", 
             // "exclusive", // no hits yet, but it does create some false positives in my manual tests - commenting out for now
             // "dumb", "dumber", // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
-            "gift", "highheels",
+            // "gift", // more fine grained stuff in use now
+            "highheels",
             "djmix", "housemusic",
             "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
             "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew",
@@ -133,7 +134,7 @@ public final class TwitterUtil {
             ,"on strike" 
             ,"for sale" 
             ,"rt if" 
-            ,"win a " 
+            // ,"win a " // now that there are regexes covering this - this should go
             // ,"to win" // now that there are regexes covering this - this should go 
             ,"win one" 
             ,"i need", "we need", "need help", "need someone" 
@@ -151,10 +152,11 @@ public final class TwitterUtil {
         final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
              ".*\\bdeal with.*"
             ,".*deal.*merger.*", ".*merger.*deal.*"
+            ,".*win.*merger.*", ".*merger.*win.*"
         ); // @formatter:on
 
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
-            "Get (.)* on Amazon.*" // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
+            "Get .* on Amazon.*" // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
             ,"I'm broadcasting .* on .*" // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
             ,"Follow us on (Linkedin|Twitter|G+) .*" // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
             ,".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // 2 RTs
@@ -177,15 +179,17 @@ public final class TwitterUtil {
             // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
             ,".*win.*€.*", ".*€.*win.*"
             ,".*win.*chance.*", ".*chance.*win.*" // +1 +1
-            ,".*win.*prize.*", ".*prize.*win.*" 
+            ,".*win.*\\bprize.*", ".*\\bprize.*win.*" 
             ,".*win.*sale.*", ".*sale.*win.*"
-            ,".*win.*swag.*", ".*swag.*win.*" 
+            ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
             ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1
             ,".*win.*give-away.*", ".*give-away.*win.*"
             ,".*win.*promo.*", ".*promo.*win.*"
             ,".*win.*ticket.*", ".*ticket.*win.*"
             ,".*win.*check.*", ".*check.*win.*"
-            ,".*win.*vote.*", ".*vote.*win.*"
+            ,".*win.*free\\b.*", ".*free\\b.*win.*"
+            ,".*win.*gift.*", ".*gift.*win.*"
+            ,".*win.*\\bvote.*", ".*\\bvote.*win.*"
             ,".*win.*submit.*", ".*submit.*win.*"
             ,".*win\\b.*some.*" // 
             ,".*you could.*win.*"
@@ -199,6 +203,7 @@ public final class TwitterUtil {
             ,".*deal.*sale\\b.*", ".*sale\\b.*deal.*"
             ,".*deal.*special.*", ".*special.*deal.*" // +1
             ,".*deal.*discount.*", ".*discount.*deal.*"
+            ,".*deal.*gift.*", ".*gift.*deal.*"
             ,".*deal.*check.*", ".*check.*deal.*"
             ,".*deal.*bundle.*", ".*bundle.*deal.*"
             ,".*deal.*price\\b.*", ".*price.*deal.*"
@@ -213,7 +218,7 @@ public final class TwitterUtil {
             // ,".*deal.*\\$.*", ".*\\$.*deal.*" // to many false positives - ignoring for now
             
             // other commercial
-            ,".*only\\b.*$.*"
+            ,".*only\\b.*\\$.*"
         ); // @formatter:on
 
     }
