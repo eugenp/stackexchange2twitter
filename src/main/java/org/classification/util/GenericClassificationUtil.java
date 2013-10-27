@@ -93,7 +93,7 @@ public final class GenericClassificationUtil {
         Preconditions.checkState(learners > 25);
         metaLearner.setPoolSize(learners);
         for (final NamedVector vect : vectors) {
-            metaLearner.train(nameOfType.equals(vect.getName()) ? 1 : 0, vect); // example: nameOfType = COMMERCIAL
+            metaLearner.train(nameOfType.equals(vect.getName()) ? 1 : 0, vect); // example: nameOfType = JOBS
         }
         metaLearner.close();
         return metaLearner;

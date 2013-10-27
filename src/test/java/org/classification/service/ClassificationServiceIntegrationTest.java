@@ -34,7 +34,7 @@ public class ClassificationServiceIntegrationTest {
 
     @Test
     public final void whenReadingClassificationTrainingFile_thenNoException() throws IOException {
-        final List<String> lines = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources" + SpecificClassificationDataUtil.Training.COMMERCIAL)));
+        final List<String> lines = IOUtils.readLines(new BufferedReader(new FileReader("src/main/resources" + SpecificClassificationDataUtil.Training.JOBS)));
         System.out.println(lines);
     }
 

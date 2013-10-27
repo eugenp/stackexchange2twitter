@@ -45,7 +45,7 @@ public class TweetServiceIntegrationTest {
 
     @Test
     public final void whenAllNonJobsTweetsFromClassifierAreProcessed_thenNoExceptions() throws IOException {
-        final InputStream is = SpecificClassificationDataUtil.class.getResourceAsStream(SpecificClassificationDataUtil.Training.NONCOMMERCIAL);
+        final InputStream is = SpecificClassificationDataUtil.class.getResourceAsStream(SpecificClassificationDataUtil.Training.NONJOBS);
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         for (final String tweet : tweets) {
             instance.processPreValidity(tweet);
@@ -54,7 +54,7 @@ public class TweetServiceIntegrationTest {
 
     @Test
     public final void whenAllJobsTweetsFromClassifierAreProcessed_thenNoExceptions() throws IOException {
-        final InputStream is = SpecificClassificationDataUtil.class.getResourceAsStream(SpecificClassificationDataUtil.Training.COMMERCIAL);
+        final InputStream is = SpecificClassificationDataUtil.class.getResourceAsStream(SpecificClassificationDataUtil.Training.JOBS);
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         for (final String tweet : tweets) {
             instance.processPreValidity(tweet);

@@ -9,6 +9,8 @@ import java.util.List;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.NamedVector;
+import org.classification.util.SpecificClassificationDataUtil.JobsDataApi;
+import org.classification.util.SpecificClassificationDataUtil.ProgrammingDataApi;
 
 public final class SpecificClassificationUtil {
 
@@ -25,19 +27,19 @@ public final class SpecificClassificationUtil {
     // classifier
 
     public static CrossFoldLearner trainNewLearnerJobWithCoreTrainingData(final int probes, final int features) throws IOException {
-        final List<NamedVector> coreTrainingData = SpecificClassificationDataUtil.jobsVsNonJobsCoreTrainingDataShuffled(probes, features);
+        final List<NamedVector> coreTrainingData = JobsDataApi.jobsVsNonJobsCoreTrainingDataShuffled(probes, features);
         return trainNewLearnerJobs(coreTrainingData, probes, features);
     }
 
     public static CrossFoldLearner trainNewLearnerJobsWithFullTrainingData(final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = SpecificClassificationDataUtil.jobsVsNonJobsTrainingDataShuffled(probes, features);
+        final List<NamedVector> trainingData = JobsDataApi.jobsVsNonJobsTrainingDataShuffled(probes, features);
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainJobsClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
         return bestLearner;
     }
 
     public static CrossFoldLearner trainNewLearnerProgramming(final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = SpecificClassificationDataUtil.programmingVsNonProgrammingTrainingDataShuffled(probes, features);
+        final List<NamedVector> trainingData = ProgrammingDataApi.programmingVsNonProgrammingTrainingDataShuffled(probes, features);
         return trainNewLearnerJobs(trainingData, probes, features);
     }
 

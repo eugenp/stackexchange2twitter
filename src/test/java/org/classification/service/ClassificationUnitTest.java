@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.ModelSerializer;
 import org.apache.mahout.math.NamedVector;
-import org.classification.util.SpecificClassificationDataUtil;
+import org.classification.util.SpecificClassificationDataUtil.JobsDataApi;
 import org.classification.util.SpecificClassificationUtil;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -64,7 +64,7 @@ public class ClassificationUnitTest {
     //
     // @Test
     // public final void whenVectorIsCreatedWrittenAndReadBack_theVectorRemainsTheSame() throws IOException {
-    // final Vector originalVector = encodeWithTypeInfoDefault(NONCOMMERCIAL, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
+    // final Vector originalVector = encodeWithTypeInfoDefault(NONJOBS, Splitter.on(CharMatcher.anyOf(" ")).split("How to travel around the world for a year http://blog.alexmaccaw.com/how-to-travel-around-the-world-for-a-year/"));
     //
     // // write
     // final VectorWriter vectorWriter = writeData(VECTOR_FILE_ON_DISK);
@@ -110,7 +110,7 @@ public class ClassificationUnitTest {
     // }
 
     private final List<NamedVector> trainingData() throws IOException {
-        return SpecificClassificationDataUtil.jobsVsNonJobsTrainingDataDefault();
+        return JobsDataApi.jobsVsNonJobsTrainingDataDefault();
     }
 
 }

@@ -16,7 +16,7 @@ import org.apache.mahout.math.NamedVector;
 import org.classification.service.ClassificationService;
 import org.classification.util.ClassificationSettings;
 import org.classification.util.ClassificationTestData;
-import org.classification.util.SpecificClassificationDataUtil;
+import org.classification.util.SpecificClassificationDataUtil.JobsDataApi;
 import org.classification.util.SpecificClassificationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,14 +44,14 @@ public class ClassificationJobsAccuracyTestService {
     }
 
     final double calculateJobsClassifierAccuracyWithCoreTrainingData(final int runs, final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = SpecificClassificationDataUtil.jobsVsNonJobsCoreTrainingDataShuffled(probes, features);
+        final List<NamedVector> trainingData = JobsDataApi.jobsVsNonJobsCoreTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.jobsAndNonJobsTestData();
 
         return calculateJobsClassifierAccuracy(trainingData, testData, runs, probes, features);
     }
 
     final double calculateJobsClassifierAccuracyWithFullTrainingData(final int runs, final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = SpecificClassificationDataUtil.jobsVsNonJobsFullTrainingDataShuffled(probes, features);
+        final List<NamedVector> trainingData = JobsDataApi.jobsVsNonJobsFullTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.jobsAndNonJobsTestData();
 
         return calculateJobsClassifierAccuracy(trainingData, testData, runs, probes, features);
