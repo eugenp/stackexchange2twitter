@@ -1,7 +1,9 @@
 eclipse.preferences.version=1
 encoding//src/main/java/org/common/util/TextUtil.java=UTF-8
 encoding//src/main/java/org/tweet/twitter/util/TwitterUtil.java=UTF-8
-encoding//src/main/resources/classification/commercial/commercial.classif=UTF-8
+encoding//src/main/resources/classification=UTF-8
+encoding//src/main/resources/classification/jobs/commercial.classif=UTF-8
+encoding//src/main/resources/classification/test/jobs=UTF-8
 encoding//src/main/resources/notes/rejected-done.txt=UTF-8
 encoding//src/main/resources/notes/rejected-killed.txt=UTF-8
 encoding//src/main/resources/notes/rejected.txt=UTF-8

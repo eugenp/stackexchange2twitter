@@ -23,32 +23,32 @@ public final class SpecificClassificationDataUtil {
     }
 
     public static final class TrainingFull {
-        public static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-full.classif";
-        public static final String COMMERCIAL = "/classification/commercial/commercial-full.classif";
+        public static final String NONCOMMERCIAL = "/classification/jobs/noncommercial-full.classif";
+        public static final String COMMERCIAL = "/classification/jobs/commercial-full.classif";
 
         public static final String NONPROGRAMMING = "/classification/programming/nonprogramming-full.classif";
         public static final String PROGRAMMING = "/classification/programming/programming-full.classif";
     }
 
     public static final class TrainingCore {
-        public static final String NONCOMMERCIAL = "/classification/commercial/noncommercial-core.classif";
-        public static final String COMMERCIAL = "/classification/commercial/commercial-core.classif";
+        public static final String NONCOMMERCIAL = "/classification/jobs/noncommercial-core.classif";
+        public static final String COMMERCIAL = "/classification/jobs/commercial-core.classif";
 
         public static final String NONPROGRAMMING = "/classification/programming/nonprogramming-core.classif";
         public static final String PROGRAMMING = "/classification/programming/programming-core.classif";
     }
 
     public static final class Training {
-        public static final String NONCOMMERCIAL = "/classification/commercial/noncommercial.classif";
-        public static final String COMMERCIAL = "/classification/commercial/commercial.classif";
+        public static final String NONCOMMERCIAL = "/classification/jobs/noncommercial.classif";
+        public static final String COMMERCIAL = "/classification/jobs/commercial.classif";
 
         public static final String NONPROGRAMMING = "/classification/programming/nonprogramming.classif";
         public static final String PROGRAMMING = "/classification/programming/programming.classif";
     }
 
     public static final class Test {
-        public static final String NONCOMMERCIAL = "/classification/test/commercial/noncommercial.classif";
-        public static final String COMMERCIAL = "/classification/test/commercial/commercial.classif";
+        public static final String NONCOMMERCIAL = "/classification/test/jobs/noncommercial.classif";
+        public static final String COMMERCIAL = "/classification/test/jobs/commercial.classif";
 
         public static final String NONPROGRAMMING = "/classification/test/programming/nonprogramming.classif";
         public static final String PROGRAMMING = "/classification/test/programming/programming.classif";
