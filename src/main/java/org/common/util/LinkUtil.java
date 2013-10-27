@@ -131,7 +131,8 @@ public final class LinkUtil {
         final Set<String> result = Sets.newHashSet();
 
         // @formatter:off
-        final String urlPattern = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+        // final String urlPattern = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+           final String urlPattern = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$~_?\\+-=\\\\\\.&]*)";
         // @formatter:on
 
         final Pattern pattern = Pattern.compile(urlPattern);

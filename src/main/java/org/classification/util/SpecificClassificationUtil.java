@@ -24,7 +24,7 @@ public final class SpecificClassificationUtil {
 
     // classifier
 
-    public static CrossFoldLearner trainNewLearnerCommercialWithCoreTrainingData(final int probes, final int features) throws IOException {
+    public static CrossFoldLearner trainNewLearnerJobWithCoreTrainingData(final int probes, final int features) throws IOException {
         final List<NamedVector> coreTrainingData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingDataShuffled(probes, features);
         return trainNewLearnerCommercial(coreTrainingData, probes, features);
     }

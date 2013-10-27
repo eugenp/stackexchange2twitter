@@ -40,7 +40,7 @@ public class ClassificationServiceIntegrationTest {
 
     @Test
     public final void whenTweetIsClassified_thenNoException() {
-        final boolean isCommercial = classificationService.isCommercialDefault("URGENT: Scala Developer | 3 Month Contract | Westminster | Immediate Requirement! #Scala #Freelance #Jobs #IT");
+        final boolean isCommercial = classificationService.isJobDefault("URGENT: Scala Developer | 3 Month Contract | Westminster | Immediate Requirement! #Scala #Freelance #Jobs #IT");
         assertTrue(isCommercial);
     }
 

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class ClassificationService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private CrossFoldLearner commercialVsNonCommercialLerner;
+    private CrossFoldLearner jobVsNonJobLerner;
 
     private CrossFoldLearner programmingVsNonProgrammingLerner;
 
@@ -30,9 +30,9 @@ public class ClassificationService implements InitializingBean {
 
     // API
 
-    public boolean isCommercialDefault(final String text) {
+    public boolean isJobDefault(final String text) {
         try {
-            return isCommercialInternalDefault(text);
+            return isJobInternalDefault(text);
         } catch (final Exception ex) {
             logger.error("", ex);
             return false;
@@ -41,7 +41,7 @@ public class ClassificationService implements InitializingBean {
 
     public boolean isJob(final String text, final int probes, final int features) {
         try {
-            return isCommercialInternal(text, probes, features);
+            return isJobInternal(text, probes, features);
         } catch (final Exception ex) {
             logger.error("", ex);
             return false;
@@ -68,31 +68,31 @@ public class ClassificationService implements InitializingBean {
         return cat == 1;
     }
 
-    boolean isCommercialInternal(final String text, final int probes, final int features) {
+    boolean isJobInternal(final String text, final int probes, final int features) {
         final Iterable<String> textWords = GenericClassificationDataUtil.tokenizeTweet(text);
         final Vector encodedAsVector = encode(textWords, probes, features);
 
         final Vector collector = new DenseVector(2);
-        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
+        jobVsNonJobLerner.classifyFull(collector, encodedAsVector);
         final int cat = collector.maxValueIndex();
 
         return cat == 1;
     }
 
-    boolean isCommercialInternalDefault(final String text) {
-        return isCommercialInternal(text, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    boolean isJobInternalDefault(final String text) {
+        return isJobInternal(text, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     // Spring
 
     @Override
     public final void afterPropertiesSet() throws IOException {
-        commercialVsNonCommercialLerner = SpecificClassificationUtil.trainNewLearnerCommercialWithCoreTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        jobVsNonJobLerner = SpecificClassificationUtil.trainNewLearnerJobWithCoreTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
         programmingVsNonProgrammingLerner = SpecificClassificationUtil.trainNewLearnerProgramming(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     public final void setCommercialVsNonCommercialLerner(final CrossFoldLearner commercialVsNonCommercialLerner) {
-        this.commercialVsNonCommercialLerner = commercialVsNonCommercialLerner;
+        this.jobVsNonJobLerner = commercialVsNonCommercialLerner;
     }
 
     public final void setProgrammingVsNonProgrammingLerner(final CrossFoldLearner programmingVsNonProgrammingLerner) {

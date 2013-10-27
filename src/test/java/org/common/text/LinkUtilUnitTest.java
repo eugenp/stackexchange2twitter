@@ -88,6 +88,14 @@ public class LinkUtilUnitTest {
         assertThat(extractedUrls, hasItem("http://PortalBuilder/PBblog/?p=462"));
     }
 
+    @Test
+    public final void whenExtractingUrlFromContentScenario12_thenNoExceptions() {
+        final String content = "Internet-Marketing 1000 Gmail PVA needed - repost by yokozuna: Need gmail (http://t.co/x44ZFO3GHp) accounts ver... http://t.co/G3OPIzAJhX";
+        final Set<String> extractedUrls = new LinkService().extractUrls(content);
+        assertThat(extractedUrls, hasSize(2));
+        assertThat(extractedUrls, hasItem("http://t.co/x44ZFO3GHp"));
+    }
+
     // determine main url
 
     @Test
