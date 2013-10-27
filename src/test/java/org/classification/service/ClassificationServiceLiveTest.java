@@ -39,7 +39,7 @@ public class ClassificationServiceLiveTest {
     public final void givenClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         // final int runs = 750;
         final int runs = 300;
-        // final double mean = classificationAccuracyService.calculateCommercialClassifierAccuracyWithCoreTrainingDataDefault(runs);
+        // final double mean = classificationAccuracyService.calculateJobsClassifierAccuracyWithCoreTrainingDataDefault(runs);
         final double mean = classificationAccuracyService.calculateJobsClassifierAccuracyWithFullTrainingDataDefault(runs);
         System.out.println("Average Success Rate: " + mean);
     }

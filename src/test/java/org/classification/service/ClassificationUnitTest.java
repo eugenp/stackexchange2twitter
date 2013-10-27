@@ -89,14 +89,14 @@ public class ClassificationUnitTest {
     public final void whenClassifierIsTrained_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = trainingData();
 
-        SpecificClassificationUtil.trainCommercialClassifierDefault(vectors);
+        SpecificClassificationUtil.trainJobsClassifierDefault(vectors);
     }
 
     @Test
     @Ignore("long running")
     public final void givenClassifierWasTrained_whenPersistedToDisk_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = trainingData();
-        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifierDefault(vectors);
+        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainJobsClassifierDefault(vectors);
 
         ModelSerializer.writeBinary(CLASSIFIER_FILE_ON_DISK, classifier.getBest().getPayload().getLearner());
     }

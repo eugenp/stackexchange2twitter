@@ -70,8 +70,8 @@ public class ClassificationProgrammingAccuracyTestService {
         for (final Pair<String, String> tweetData : testData) {
             total++;
             final boolean expected = PROGRAMMING.equals(tweetData.getLeft());
-            final boolean isTweetCommercial = classificationService.isProgramming(tweetData.getRight(), probes, features);
-            if (isTweetCommercial == expected) {
+            final boolean isTweetMatch = classificationService.isProgramming(tweetData.getRight(), probes, features);
+            if (isTweetMatch == expected) {
                 correct++;
             }
         }

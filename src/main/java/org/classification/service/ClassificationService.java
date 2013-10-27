@@ -91,8 +91,8 @@ public class ClassificationService implements InitializingBean {
         programmingVsNonProgrammingLerner = SpecificClassificationUtil.trainNewLearnerProgramming(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    public final void setCommercialVsNonCommercialLerner(final CrossFoldLearner commercialVsNonCommercialLerner) {
-        this.jobVsNonJobLerner = commercialVsNonCommercialLerner;
+    public final void setJobsVsNonJObsLerner(final CrossFoldLearner jobsVsNonJObsLerner) {
+        this.jobVsNonJobLerner = jobsVsNonJObsLerner;
     }
 
     public final void setProgrammingVsNonProgrammingLerner(final CrossFoldLearner programmingVsNonProgrammingLerner) {

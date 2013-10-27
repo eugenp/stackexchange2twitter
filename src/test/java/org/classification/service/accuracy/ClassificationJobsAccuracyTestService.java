@@ -45,14 +45,14 @@ public class ClassificationJobsAccuracyTestService {
 
     final double calculateJobsClassifierAccuracyWithCoreTrainingData(final int runs, final int probes, final int features) throws IOException {
         final List<NamedVector> trainingData = SpecificClassificationDataUtil.jobsVsNonJobsCoreTrainingDataShuffled(probes, features);
-        final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
+        final List<ImmutablePair<String, String>> testData = ClassificationTestData.jobsAndNonJobsTestData();
 
         return calculateJobsClassifierAccuracy(trainingData, testData, runs, probes, features);
     }
 
     final double calculateJobsClassifierAccuracyWithFullTrainingData(final int runs, final int probes, final int features) throws IOException {
         final List<NamedVector> trainingData = SpecificClassificationDataUtil.jobsVsNonJobsFullTrainingDataShuffled(probes, features);
-        final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
+        final List<ImmutablePair<String, String>> testData = ClassificationTestData.jobsAndNonJobsTestData();
 
         return calculateJobsClassifierAccuracy(trainingData, testData, runs, probes, features);
     }
@@ -64,7 +64,7 @@ public class ClassificationJobsAccuracyTestService {
         for (int i = 0; i < runs; i++) {
             Collections.shuffle(testData);
             Collections.shuffle(trainingData);
-            final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerCommercial(trainingData, probes, features);
+            final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerJobs(trainingData, probes, features);
             final double percentageCorrect = analyzeJobsData(bestLearnerWithCoreTraining, testData, probes, features);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
@@ -85,15 +85,15 @@ public class ClassificationJobsAccuracyTestService {
     // util
 
     private final double analyzeJobsData(final CrossFoldLearner bestLearner, final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        classificationService.setCommercialVsNonCommercialLerner(bestLearner);
+        classificationService.setJobsVsNonJObsLerner(bestLearner);
 
         int correct = 0;
         int total = 0;
         for (final Pair<String, String> tweetData : testData) {
             total++;
             final boolean expected = JOB.equals(tweetData.getLeft());
-            final boolean isTweetCommercial = classificationService.isJob(tweetData.getRight(), probes, features);
-            if (isTweetCommercial == expected) {
+            final boolean isTweetMatch = classificationService.isJob(tweetData.getRight(), probes, features);
+            if (isTweetMatch == expected) {
                 correct++;
             }
         }

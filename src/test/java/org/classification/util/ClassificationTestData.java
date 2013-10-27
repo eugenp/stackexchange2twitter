@@ -16,18 +16,18 @@ public final class ClassificationTestData {
 
     // API
 
-    public static List<ImmutablePair<String, String>> commercialAndNonCommercialTestDataShuffled() throws IOException {
-        final List<ImmutablePair<String, String>> allTestData = commercialAndNonCommercialTestData();
+    public static List<ImmutablePair<String, String>> jobsAndNonJobsTestDataShuffled() throws IOException {
+        final List<ImmutablePair<String, String>> allTestData = jobsAndNonJobsTestData();
         Collections.shuffle(allTestData);
         return allTestData;
     }
 
-    public static List<ImmutablePair<String, String>> commercialAndNonCommercialTestData() throws IOException {
-        final List<ImmutablePair<String, String>> noncommercialTweets = SpecificClassificationDataUtil.nonJobsTestData();
-        final List<ImmutablePair<String, String>> commercialTweets = SpecificClassificationDataUtil.jobsTestData();
+    public static List<ImmutablePair<String, String>> jobsAndNonJobsTestData() throws IOException {
+        final List<ImmutablePair<String, String>> nonJobsTweets = SpecificClassificationDataUtil.nonJobsTestData();
+        final List<ImmutablePair<String, String>> jobsTweets = SpecificClassificationDataUtil.jobsTestData();
         final List<ImmutablePair<String, String>> allTestData = Lists.newArrayList();
-        allTestData.addAll(noncommercialTweets);
-        allTestData.addAll(commercialTweets);
+        allTestData.addAll(nonJobsTweets);
+        allTestData.addAll(jobsTweets);
         return allTestData;
     }
 
