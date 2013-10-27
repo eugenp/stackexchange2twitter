@@ -33,6 +33,9 @@ public class ClassificationAccuracyServiceLiveTest {
     private ClassificationJobsAccuracyTestService classificationJobsAccuracyTestService;
 
     @Autowired
+    private ClassificationCommercialAccuracyTestService classificationCommercialAccuracyTestService;
+
+    @Autowired
     private ClassificationProgrammingAccuracyTestService classificationProgrammingAccuracyTestService;
 
     // tests
@@ -61,16 +64,16 @@ public class ClassificationAccuracyServiceLiveTest {
 
     @Test
     // @Ignore("long running - ignored by default")
-    public final void givenCClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
+    public final void givenCommercialClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         // final List<Integer> probeCounts = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         // final List<Integer> featuresCount = Lists.newArrayList(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000);
         final List<Integer> probeCounts = Lists.newArrayList(6, 7, 8, 9);
         final List<Integer> featuresCount = Lists.newArrayList(7000, 8000);
 
-        final int runs = 1000;
+        final int runs = 100;
         for (final Integer features : featuresCount) {
             for (final Integer probes : probeCounts) {
-                final double mean = classificationJobsAccuracyTestService.calculateJobsClassifierAccuracyWithFullTrainingData(runs, probes, features);
+                final double mean = classificationCommercialAccuracyTestService.calculateCommercialClassifierAccuracyWithFullTrainingData(runs, probes, features);
                 logger.warn("For features= " + features + " and probes= " + probes + " result is= " + mean);
                 System.out.println("For features= " + features + " and probes= " + probes + " result is= " + mean);
             }

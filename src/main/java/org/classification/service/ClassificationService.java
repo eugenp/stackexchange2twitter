@@ -22,13 +22,15 @@ public class ClassificationService implements InitializingBean {
 
     private CrossFoldLearner jobVsNonJobLerner;
 
+    private CrossFoldLearner commercialVsNonCommercialLerner;
+
     private CrossFoldLearner programmingVsNonProgrammingLerner;
 
     public ClassificationService() {
         super();
     }
 
-    // API
+    // job
 
     public boolean isJobDefault(final String text) {
         try {
@@ -47,6 +49,23 @@ public class ClassificationService implements InitializingBean {
             return false;
         }
     }
+
+    boolean isJobInternalDefault(final String text) {
+        return isJobInternal(text, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    }
+
+    boolean isJobInternal(final String text, final int probes, final int features) {
+        final Iterable<String> textWords = GenericClassificationDataUtil.tokenizeTweet(text);
+        final Vector encodedAsVector = encode(textWords, probes, features);
+
+        final Vector collector = new DenseVector(2);
+        jobVsNonJobLerner.classifyFull(collector, encodedAsVector);
+        final int cat = collector.maxValueIndex();
+
+        return cat == 1;
+    }
+
+    // programming
 
     public boolean isProgramming(final String text, final int probes, final int features) {
         try {
@@ -68,19 +87,26 @@ public class ClassificationService implements InitializingBean {
         return cat == 1;
     }
 
-    boolean isJobInternal(final String text, final int probes, final int features) {
+    // commercial
+
+    public boolean isCommercial(final String text, final int probes, final int features) {
+        try {
+            return isCommercialInternal(text, probes, features);
+        } catch (final Exception ex) {
+            logger.error("", ex);
+            return false;
+        }
+    }
+
+    boolean isCommercialInternal(final String text, final int probes, final int features) {
         final Iterable<String> textWords = GenericClassificationDataUtil.tokenizeTweet(text);
         final Vector encodedAsVector = encode(textWords, probes, features);
 
         final Vector collector = new DenseVector(2);
-        jobVsNonJobLerner.classifyFull(collector, encodedAsVector);
+        commercialVsNonCommercialLerner.classifyFull(collector, encodedAsVector);
         final int cat = collector.maxValueIndex();
 
         return cat == 1;
-    }
-
-    boolean isJobInternalDefault(final String text) {
-        return isJobInternal(text, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     // Spring
@@ -91,12 +117,16 @@ public class ClassificationService implements InitializingBean {
         programmingVsNonProgrammingLerner = SpecificClassificationUtil.trainNewLearnerProgramming(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    public final void setJobsVsNonJObsLerner(final CrossFoldLearner jobsVsNonJObsLerner) {
-        this.jobVsNonJobLerner = jobsVsNonJObsLerner;
+    public final void setJobsVsNonJobsLerner(final CrossFoldLearner learner) {
+        this.jobVsNonJobLerner = learner;
     }
 
-    public final void setProgrammingVsNonProgrammingLerner(final CrossFoldLearner programmingVsNonProgrammingLerner) {
-        this.programmingVsNonProgrammingLerner = programmingVsNonProgrammingLerner;
+    public final void setCommercialVsNonCommercialLerner(final CrossFoldLearner learner) {
+        this.commercialVsNonCommercialLerner = learner;
+    }
+
+    public final void setProgrammingVsNonProgrammingLerner(final CrossFoldLearner learner) {
+        this.programmingVsNonProgrammingLerner = learner;
     }
 
 }
