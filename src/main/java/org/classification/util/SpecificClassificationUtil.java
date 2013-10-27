@@ -25,12 +25,12 @@ public final class SpecificClassificationUtil {
     // classifier
 
     public static CrossFoldLearner trainNewLearnerJobWithCoreTrainingData(final int probes, final int features) throws IOException {
-        final List<NamedVector> coreTrainingData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingDataShuffled(probes, features);
+        final List<NamedVector> coreTrainingData = SpecificClassificationDataUtil.jobsVsNonJobsCoreTrainingDataShuffled(probes, features);
         return trainNewLearnerCommercial(coreTrainingData, probes, features);
     }
 
     public static CrossFoldLearner trainNewLearnerCommercialWithFullTrainingData(final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialTrainingDataShuffled(probes, features);
+        final List<NamedVector> trainingData = SpecificClassificationDataUtil.jobsVsNonJobsTrainingDataShuffled(probes, features);
         final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
         final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
         return bestLearner;

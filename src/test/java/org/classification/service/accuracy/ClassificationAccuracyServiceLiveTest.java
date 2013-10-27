@@ -42,8 +42,26 @@ public class ClassificationAccuracyServiceLiveTest {
      * - so the results are production-like, but not excellent
      */
     @Test
-    // @Ignore("long running - ignored by default")
+    @Ignore("long running - ignored by default")
     public final void givenJobsClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
+        // final List<Integer> probeCounts = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        // final List<Integer> featuresCount = Lists.newArrayList(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000);
+        final List<Integer> probeCounts = Lists.newArrayList(6, 7, 8, 9);
+        final List<Integer> featuresCount = Lists.newArrayList(7000, 8000);
+
+        final int runs = 1000;
+        for (final Integer features : featuresCount) {
+            for (final Integer probes : probeCounts) {
+                final double mean = classificationJobsAccuracyTestService.calculateJobsClassifierAccuracyWithFullTrainingData(runs, probes, features);
+                logger.warn("For features= " + features + " and probes= " + probes + " result is= " + mean);
+                System.out.println("For features= " + features + " and probes= " + probes + " result is= " + mean);
+            }
+        }
+    }
+
+    @Test
+    // @Ignore("long running - ignored by default")
+    public final void givenCClassifierWasTrained_whenClassifyingTestDataWithoutTypeInfo_thenResultsAreGood() throws IOException {
         // final List<Integer> probeCounts = Lists.newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         // final List<Integer> featuresCount = Lists.newArrayList(1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 15000);
         final List<Integer> probeCounts = Lists.newArrayList(6, 7, 8, 9);

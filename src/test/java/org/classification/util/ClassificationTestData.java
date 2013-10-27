@@ -23,8 +23,8 @@ public final class ClassificationTestData {
     }
 
     public static List<ImmutablePair<String, String>> commercialAndNonCommercialTestData() throws IOException {
-        final List<ImmutablePair<String, String>> noncommercialTweets = SpecificClassificationDataUtil.noncommercialTestData();
-        final List<ImmutablePair<String, String>> commercialTweets = SpecificClassificationDataUtil.commercialTestData();
+        final List<ImmutablePair<String, String>> noncommercialTweets = SpecificClassificationDataUtil.nonJobsTestData();
+        final List<ImmutablePair<String, String>> commercialTweets = SpecificClassificationDataUtil.jobsTestData();
         final List<ImmutablePair<String, String>> allTestData = Lists.newArrayList();
         allTestData.addAll(noncommercialTweets);
         allTestData.addAll(commercialTweets);
@@ -38,7 +38,7 @@ public final class ClassificationTestData {
     }
 
     public static List<ImmutablePair<String, String>> programmingAndNonProgrammingTestData() throws IOException {
-        final List<ImmutablePair<String, String>> nonprogrammingTweets = SpecificClassificationDataUtil.nonprogrammingTestData();
+        final List<ImmutablePair<String, String>> nonprogrammingTweets = SpecificClassificationDataUtil.nonProgrammingTestData();
         final List<ImmutablePair<String, String>> programmingTweets = SpecificClassificationDataUtil.programmingTestData();
         final List<ImmutablePair<String, String>> allTestData = Lists.newArrayList();
         allTestData.addAll(nonprogrammingTweets);

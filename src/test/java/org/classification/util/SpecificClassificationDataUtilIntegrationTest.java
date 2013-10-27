@@ -8,7 +8,7 @@ public final class SpecificClassificationDataUtilIntegrationTest {
 
     @Test
     public final void whenTrainingDataIsCreated_thenNoExceptions() throws IOException {
-        SpecificClassificationDataUtil.commercialCoreTrainingData(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR, ClassificationSettings.FEATURES);
+        SpecificClassificationDataUtil.jobsCoreTrainingData(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR, ClassificationSettings.FEATURES);
     }
 
 }

@@ -110,7 +110,7 @@ public class ClassificationUnitTest {
     // }
 
     private final List<NamedVector> trainingData() throws IOException {
-        return SpecificClassificationDataUtil.commercialVsNonCommercialTrainingDataDefault();
+        return SpecificClassificationDataUtil.jobsVsNonJobsTrainingDataDefault();
     }
 
 }

@@ -44,14 +44,14 @@ public class ClassificationJobsAccuracyTestService {
     }
 
     final double calculateJobsClassifierAccuracyWithCoreTrainingData(final int runs, final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingDataShuffled(probes, features);
+        final List<NamedVector> trainingData = SpecificClassificationDataUtil.jobsVsNonJobsCoreTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
 
         return calculateJobsClassifierAccuracy(trainingData, testData, runs, probes, features);
     }
 
     final double calculateJobsClassifierAccuracyWithFullTrainingData(final int runs, final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialFullTrainingDataShuffled(probes, features);
+        final List<NamedVector> trainingData = SpecificClassificationDataUtil.jobsVsNonJobsFullTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
 
         return calculateJobsClassifierAccuracy(trainingData, testData, runs, probes, features);
