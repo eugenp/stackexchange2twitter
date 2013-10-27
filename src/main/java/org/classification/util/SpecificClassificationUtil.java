@@ -53,6 +53,13 @@ public final class SpecificClassificationUtil {
         return bestLearner;
     }
 
+    public static CrossFoldLearner trainNewLearnerCommercial(final List<NamedVector> trainingData, final int probes, final int features) throws IOException {
+        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainCommercialClassifier(trainingData, features, LEARNERS_IN_THE_CLASSIFIER_POOL);
+        final CrossFoldLearner bestLearner = classifier.getBest().getPayload().getLearner();
+
+        return bestLearner;
+    }
+
     public static AdaptiveLogisticRegression trainJobsClassifierDefault(final Iterable<NamedVector> vectors) throws IOException {
         return trainJobsClassifier(vectors, FEATURES, LEARNERS_IN_THE_CLASSIFIER_POOL);
     }
@@ -63,6 +70,10 @@ public final class SpecificClassificationUtil {
 
     private static AdaptiveLogisticRegression trainJobsClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
         return GenericClassificationUtil.trainGenericClassifier(JOB, vectors, features, learners);
+    }
+
+    private static AdaptiveLogisticRegression trainCommercialClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
+        return GenericClassificationUtil.trainGenericClassifier(COMMERCIAL, vectors, features, learners);
     }
 
     private static AdaptiveLogisticRegression trainProgrammingClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {

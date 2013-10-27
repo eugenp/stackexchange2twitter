@@ -2,7 +2,7 @@ package org.classification.service.accuracy;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.SpecificClassificationUtil.JOB;
+import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -65,7 +65,7 @@ public class ClassificationCommercialAccuracyTestService {
         for (int i = 0; i < runs; i++) {
             Collections.shuffle(testData);
             Collections.shuffle(trainingData);
-            final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerJobs(trainingData, probes, features);
+            final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerCommercial(trainingData, probes, features);
             final double percentageCorrect = analyzeCommercialData(bestLearnerWithCoreTraining, testData, probes, features);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
@@ -86,14 +86,14 @@ public class ClassificationCommercialAccuracyTestService {
     // util
 
     private final double analyzeCommercialData(final CrossFoldLearner bestLearner, final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        classificationService.setJobsVsNonJobsLerner(bestLearner);
+        classificationService.setCommercialVsNonCommercialLerner(bestLearner);
 
         int correct = 0;
         int total = 0;
         for (final Pair<String, String> tweetData : testData) {
             total++;
-            final boolean expected = JOB.equals(tweetData.getLeft());
-            final boolean isTweetMatch = classificationService.isJob(tweetData.getRight(), probes, features);
+            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
+            final boolean isTweetMatch = classificationService.isCommercial(tweetData.getRight(), probes, features);
             if (isTweetMatch == expected) {
                 correct++;
             }
