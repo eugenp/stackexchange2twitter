@@ -148,8 +148,9 @@ public final class TwitterUtil {
 
         // note: move the logging of this back up to error if something new is added
         /** if this matches, the banned expressions are no longer evaluated */
-        final static List<String> acceptBeforeProcessingBannedRegExes = Lists.newArrayList(// @formatter:off
-            ".*\\bdeal with.*"
+        final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
+             ".*\\bdeal with.*"
+            ,".*deal.*merger.*", ".*merger.*deal.*"
         ); // @formatter:on
 
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
@@ -166,7 +167,7 @@ public final class TwitterUtil {
             ,".*win.*£.*", ".*£.*win.*"
             , ".*win.*contest.*", ".*contest.*win.*"
             ,".*win.*giving away.*", ".*giving away.*win.*"
-            ,".*deal(s)?\\b.*today.*", ".*today.*deal(s)?\\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
+            ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*deal(s)?\\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
         ); // @formatter:on
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
@@ -192,7 +193,7 @@ public final class TwitterUtil {
             //deal
             ,".*deal.*of the day.*" // +1  
             ,".*deal.*\\% off.*", ".*\\% off.*deal.*"
-            ,".*deal.*free\\b.*", ".*free.*deal.*"
+            ,".*deal.*free\\b.*", ".*free\\b.*deal.*"
             // John Bolton knocks Iran nuclear deal as ‘pure propaganda’ http://t.co/QGJDOyC1jA #iran #freethe7
             
             ,".*deal.*sale\\b.*", ".*sale\\b.*deal.*"
@@ -200,7 +201,7 @@ public final class TwitterUtil {
             ,".*deal.*discount.*", ".*discount.*deal.*"
             ,".*deal.*check.*", ".*check.*deal.*"
             ,".*deal.*bundle.*", ".*bundle.*deal.*"
-            ,".*deal.*price.*", ".*price.*deal.*"
+            ,".*deal.*price\\b.*", ".*price.*deal.*"
             ,".*deal.*code.*", ".*code.*deal.*"
             
             ,".*deal.*best.*", ".*best.*deal.*"
@@ -424,7 +425,7 @@ public final class TwitterUtil {
      * - <b>local</b> <br/>
      */
     static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String text) {
-        for (final String hardAcceptedRegEx : ForAnalysis.acceptBeforeProcessingBannedRegExes) {
+        for (final String hardAcceptedRegEx : ForAnalysis.acceptedRegExes) {
             if (text.matches(hardAcceptedRegEx)) {
                 // was error - is OK now - moving down - move back up when something is added into the accept list
                 logger.info("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + text);
