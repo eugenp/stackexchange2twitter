@@ -2,7 +2,7 @@ package org.classification.service;
 
 import java.io.IOException;
 
-import org.classification.service.accuracy.ClassificationCommercialAccuracyTestService;
+import org.classification.service.accuracy.ClassificationJobsAccuracyTestService;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
@@ -24,7 +24,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 public class ClassificationServiceLiveTest {
 
     @Autowired
-    private ClassificationCommercialAccuracyTestService classificationAccuracyService;
+    private ClassificationJobsAccuracyTestService classificationAccuracyService;
 
     // tests
 
@@ -40,7 +40,7 @@ public class ClassificationServiceLiveTest {
         // final int runs = 750;
         final int runs = 300;
         // final double mean = classificationAccuracyService.calculateCommercialClassifierAccuracyWithCoreTrainingDataDefault(runs);
-        final double mean = classificationAccuracyService.calculateCommercialClassifierAccuracyWithFullTrainingDataDefault(runs);
+        final double mean = classificationAccuracyService.calculateJobsClassifierAccuracyWithFullTrainingDataDefault(runs);
         System.out.println("Average Success Rate: " + mean);
     }
 

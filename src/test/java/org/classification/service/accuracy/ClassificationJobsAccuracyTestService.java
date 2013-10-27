@@ -2,7 +2,7 @@ package org.classification.service.accuracy;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
+import static org.classification.util.SpecificClassificationUtil.JOB;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -24,40 +24,40 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 
 @Service
-public class ClassificationCommercialAccuracyTestService {
+public class ClassificationJobsAccuracyTestService {
 
     @Autowired
     private ClassificationService classificationService;
 
-    public ClassificationCommercialAccuracyTestService() {
+    public ClassificationJobsAccuracyTestService() {
         super();
     }
 
     // API
 
-    public final double calculateCommercialClassifierAccuracyWithFullTrainingDataDefault(final int runs) throws IOException {
-        return calculateCommercialClassifierAccuracyWithFullTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    public final double calculateJobsClassifierAccuracyWithFullTrainingDataDefault(final int runs) throws IOException {
+        return calculateJobsClassifierAccuracyWithFullTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    public final double calculateCommercialClassifierAccuracyWithCoreTrainingDataDefault(final int runs) throws IOException {
-        return calculateCommercialClassifierAccuracyWithCoreTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+    public final double calculateJobsClassifierAccuracyWithCoreTrainingDataDefault(final int runs) throws IOException {
+        return calculateJobsClassifierAccuracyWithCoreTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
-    final double calculateCommercialClassifierAccuracyWithCoreTrainingData(final int runs, final int probes, final int features) throws IOException {
+    final double calculateJobsClassifierAccuracyWithCoreTrainingData(final int runs, final int probes, final int features) throws IOException {
         final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialCoreTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
 
-        return calculateCommercialClassifierAccuracy(trainingData, testData, runs, probes, features);
+        return calculateJobsClassifierAccuracy(trainingData, testData, runs, probes, features);
     }
 
-    final double calculateCommercialClassifierAccuracyWithFullTrainingData(final int runs, final int probes, final int features) throws IOException {
+    final double calculateJobsClassifierAccuracyWithFullTrainingData(final int runs, final int probes, final int features) throws IOException {
         final List<NamedVector> trainingData = SpecificClassificationDataUtil.commercialVsNonCommercialFullTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
 
-        return calculateCommercialClassifierAccuracy(trainingData, testData, runs, probes, features);
+        return calculateJobsClassifierAccuracy(trainingData, testData, runs, probes, features);
     }
 
-    final double calculateCommercialClassifierAccuracy(final List<NamedVector> trainingData, final List<ImmutablePair<String, String>> testData, final int runs, final int probes, final int features) throws IOException {
+    final double calculateJobsClassifierAccuracy(final List<NamedVector> trainingData, final List<ImmutablePair<String, String>> testData, final int runs, final int probes, final int features) throws IOException {
         System.out.println("Current tokenizer: " + ClassificationSettings.TWEET_TOKENIZER);
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
@@ -65,7 +65,7 @@ public class ClassificationCommercialAccuracyTestService {
             Collections.shuffle(testData);
             Collections.shuffle(trainingData);
             final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerCommercial(trainingData, probes, features);
-            final double percentageCorrect = analyzeCommercialData(bestLearnerWithCoreTraining, testData, probes, features);
+            final double percentageCorrect = analyzeJobsData(bestLearnerWithCoreTraining, testData, probes, features);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
                 System.out.println("Processing 100 ... - " + ((i / 100) + 1));
@@ -84,15 +84,15 @@ public class ClassificationCommercialAccuracyTestService {
 
     // util
 
-    private final double analyzeCommercialData(final CrossFoldLearner bestLearner, final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
+    private final double analyzeJobsData(final CrossFoldLearner bestLearner, final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
         classificationService.setCommercialVsNonCommercialLerner(bestLearner);
 
         int correct = 0;
         int total = 0;
         for (final Pair<String, String> tweetData : testData) {
             total++;
-            final boolean expected = COMMERCIAL.equals(tweetData.getLeft());
-            final boolean isTweetCommercial = classificationService.isCommercial(tweetData.getRight(), probes, features);
+            final boolean expected = JOB.equals(tweetData.getLeft());
+            final boolean isTweetCommercial = classificationService.isJob(tweetData.getRight(), probes, features);
             if (isTweetCommercial == expected) {
                 correct++;
             }

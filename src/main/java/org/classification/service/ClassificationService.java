@@ -39,7 +39,7 @@ public class ClassificationService implements InitializingBean {
         }
     }
 
-    public boolean isCommercial(final String text, final int probes, final int features) {
+    public boolean isJob(final String text, final int probes, final int features) {
         try {
             return isCommercialInternal(text, probes, features);
         } catch (final Exception ex) {

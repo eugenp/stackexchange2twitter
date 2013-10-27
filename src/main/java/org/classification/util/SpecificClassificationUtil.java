@@ -15,8 +15,8 @@ public final class SpecificClassificationUtil {
     public static final String PROGRAMMING = "programming";
     public static final String NONPROGRAMMING = "nonprogramming";
 
-    public static final String COMMERCIAL = "commercial";
-    public static final String NONCOMMERCIAL = "noncommercial";
+    public static final String JOB = "job";
+    public static final String NONJOB = "nonjob";
 
     private SpecificClassificationUtil() {
         throw new AssertionError();
@@ -57,7 +57,7 @@ public final class SpecificClassificationUtil {
     }
 
     private static AdaptiveLogisticRegression trainCommercialClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {
-        return GenericClassificationUtil.trainGenericClassifier(COMMERCIAL, vectors, features, learners);
+        return GenericClassificationUtil.trainGenericClassifier(JOB, vectors, features, learners);
     }
 
     private static AdaptiveLogisticRegression trainProgrammingClassifier(final Iterable<NamedVector> vectors, final int features, final int learners) throws IOException {

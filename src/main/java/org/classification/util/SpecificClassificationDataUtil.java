@@ -5,8 +5,8 @@ import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_
 import static org.classification.util.GenericClassificationDataUtil.oneVsAnotherTrainingDataShuffled;
 import static org.classification.util.GenericClassificationDataUtil.testData;
 import static org.classification.util.GenericClassificationDataUtil.trainingData;
-import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
-import static org.classification.util.SpecificClassificationUtil.NONCOMMERCIAL;
+import static org.classification.util.SpecificClassificationUtil.JOB;
+import static org.classification.util.SpecificClassificationUtil.NONJOB;
 import static org.classification.util.SpecificClassificationUtil.NONPROGRAMMING;
 import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
 
@@ -105,21 +105,21 @@ public final class SpecificClassificationDataUtil {
     }
 
     static final List<ImmutablePair<String, String>> commercialTestData() throws IOException {
-        return testData(Test.COMMERCIAL, COMMERCIAL);
+        return testData(Test.COMMERCIAL, JOB);
     }
 
     static final List<ImmutablePair<String, String>> noncommercialTestData() throws IOException {
-        return testData(Test.NONCOMMERCIAL, NONCOMMERCIAL);
+        return testData(Test.NONCOMMERCIAL, NONJOB);
     }
 
     // training data
 
     static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(Training.COMMERCIAL, COMMERCIAL, probes, features);
+        return trainingData(Training.COMMERCIAL, JOB, probes, features);
     }
 
     static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(Training.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+        return trainingData(Training.NONCOMMERCIAL, NONJOB, probes, features);
     }
 
     static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
@@ -133,21 +133,21 @@ public final class SpecificClassificationDataUtil {
     // core training data
 
     static final List<NamedVector> commercialCoreTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(TrainingCore.COMMERCIAL, COMMERCIAL, probes, features);
+        return trainingData(TrainingCore.COMMERCIAL, JOB, probes, features);
     }
 
     static final List<NamedVector> nonCommercialCoreTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(TrainingCore.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+        return trainingData(TrainingCore.NONCOMMERCIAL, NONJOB, probes, features);
     }
 
     // full training data
 
     static final List<NamedVector> commercialFullTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(TrainingFull.COMMERCIAL, COMMERCIAL, probes, features);
+        return trainingData(TrainingFull.COMMERCIAL, JOB, probes, features);
     }
 
     static final List<NamedVector> nonCommercialFullTrainingData(final int probes, final int features) throws IOException {
-        return trainingData(TrainingFull.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+        return trainingData(TrainingFull.NONCOMMERCIAL, NONJOB, probes, features);
     }
 
 }
