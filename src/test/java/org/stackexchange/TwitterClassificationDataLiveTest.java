@@ -1,11 +1,9 @@
 package org.stackexchange;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +21,12 @@ import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import com.google.common.io.Files;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {//@formatter:off
@@ -61,7 +62,10 @@ public class TwitterClassificationDataLiveTest {
 
         for (final Tweet tweet : tweetsOfHashtagWithoutRTs) {
             final String tweetText = TweetUtil.getText(tweet);
-            if (TwitterUtil.isTweetBannedForAnalysis(tweetText)) {
+            if (tweetText.contains("\n")) { // skip multi-line tweets
+                continue;
+            }
+            if (TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis(tweetText)) {
                 commercialCollector.add(tweetText);
             } else {
                 nonCommercialCollector.add(tweetText);
@@ -70,12 +74,10 @@ public class TwitterClassificationDataLiveTest {
 
         // write results to disk
         final File commercialFile = new File("/opt/sandbox/commercial_raw.txt");
-        final FileWriter cfw = new FileWriter(commercialFile); // it creates the file writer and the actual file
-        IOUtils.writeLines(commercialCollector, "\n", cfw);
+        Files.write(Joiner.on("\r\n").join(commercialCollector), commercialFile, Charsets.UTF_8);
 
         final File nonCommercialFile = new File("/opt/sandbox/nonCommercial_raw.txt");
-        final FileWriter ncfw = new FileWriter(nonCommercialFile); // it creates the file writer and the actual file
-        IOUtils.writeLines(nonCommercialCollector, "\n", ncfw);
+        Files.write(Joiner.on("\r\n").join(nonCommercialCollector), nonCommercialFile, Charsets.UTF_8);
     }
 
 }

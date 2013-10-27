@@ -75,7 +75,8 @@ public final class TwitterUtil {
         // by contains
 
         final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
-            "buy", "discount", 
+            "buy", 
+            // "discount", // temp 
             "freelance", "job", "consulting", "hire", "hiring", "careers", 
             "football", 
             // "exclusive", // no hits yet, but it does create some false positives in my manual tests - commenting out for now
@@ -187,6 +188,8 @@ public final class TwitterUtil {
             ,".*win.*promo.*", ".*promo.*win.*"
             ,".*win.*ticket.*", ".*ticket.*win.*"
             ,".*win.*check.*", ".*check.*win.*"
+            ,".*win.*discount.*", ".*discount.*win.*"
+            ,".*win.*voucher.*", ".*voucher.*win.*"
             ,".*win.*free\\b.*", ".*free\\b.*win.*"
             ,".*win.*gift.*", ".*gift.*win.*"
             ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*"
@@ -205,6 +208,9 @@ public final class TwitterUtil {
             ,".*deal.*discount.*", ".*discount.*deal.*"
             ,".*deal.*gift.*", ".*gift.*deal.*"
             ,".*deal.*check.*", ".*check.*deal.*"
+            ,".*deal.*ebay.*", ".*ebay.*deal.*"
+            ,".*deal.*buy.*", ".*buy.*deal.*"
+            ,".*deal.*voucher.*", ".*voucher.*deal.*"
             ,".*deal.*bundle.*", ".*bundle.*deal.*"
             ,".*deal.*price\\b.*", ".*price.*deal.*"
             ,".*deal.*code.*", ".*code.*deal.*"
@@ -429,22 +435,23 @@ public final class TwitterUtil {
     /**
      * - <b>local</b> <br/>
      */
-    static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String text) {
+    public static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String text) {
+        final String textInternal = text.toLowerCase();
         for (final String hardAcceptedRegEx : ForAnalysis.acceptedRegExes) {
-            if (text.matches(hardAcceptedRegEx)) {
+            if (textInternal.matches(hardAcceptedRegEx)) {
                 // was error - is OK now - moving down - move back up when something is added into the accept list
-                logger.info("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + text);
+                logger.info("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + textInternal);
                 return false;
             }
         }
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
-            if (text.matches(bannedRegExMaybe)) {
-                logger.error("(for analysis) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
+            if (textInternal.matches(bannedRegExMaybe)) {
+                logger.error("(for analysis) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + textInternal);
                 return true;
             }
         }
         for (final String bannedRegEx : ForAnalysis.bannedRegExes) {
-            if (text.matches(bannedRegEx)) {
+            if (textInternal.matches(bannedRegEx)) {
                 return true;
             }
         }
