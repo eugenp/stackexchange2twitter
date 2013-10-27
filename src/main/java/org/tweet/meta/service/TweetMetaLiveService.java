@@ -476,7 +476,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     private final boolean isTweetRejectedByClassifier(final String text) {
         if (classificationService.isCommercialDefault(text)) {
             return true; // temporarily - to see how it works
-            // return false; // temporarily, until there is more classification training data for commercial-noncommercial
+            // return false; // temporarily, until there is more classification training data for jobs-nonjobs
         }
         return false;
     }
