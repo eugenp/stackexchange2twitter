@@ -163,7 +163,7 @@ public final class TwitterUtil {
             ,".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // 2 RTs
             ,".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // Free ... RT
             ,".*(f|F)ollow (&|and|AND) R(T|t).*" // Follow & RT
-            ,".*R(T|t) .* (f|F)ollow(ed)? .*" // RT this if you want me to follow you
+            ,".*(R|r)(T|t) .* (f|F)ollow(ed)? .*" // RT this if you want me to follow you
             ,".*\\d(\\d)?% (o|O)ff.*" // 97% Off
             ,"(?i).*follow @.*"
             // win - commercial stuff
