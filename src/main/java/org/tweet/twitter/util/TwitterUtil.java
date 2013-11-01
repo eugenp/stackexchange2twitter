@@ -175,15 +175,15 @@ public final class TwitterUtil {
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
             // win
-            ".*win.*\\$.*", ".*\\$.*win.*" // +1 +1 
+            ".*win.*\\$.*", ".*\\$.*win.*" // +1 +1 +1 
             // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
             // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
-            ,".*win.*€.*", ".*€.*win.*"
-            ,".*win.*chance.*", ".*chance.*win.*" // +1 +1
-            ,".*win.*\\bprize.*", ".*\\bprize.*win.*" 
-            ,".*win.*sale.*", ".*sale.*win.*"
+            ,".*win.*€.*", ".*€.*win.*" // +1 +1
+            ,".*win.*chance\\b.*", ".*chance\\b.*win.*" 
+            ,".*win.*\\bprize.*", ".*\\bprize.*win.*" // -1 +1 -1  
+            ,".*win.*sale.*", ".*sale.*win.*" // 
             ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
-            ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1
+            ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1 +1 +1 +1
             ,".*win.*give-away.*", ".*give-away.*win.*"
             ,".*win.*promo.*", ".*promo.*win.*"
             ,".*win.*ticket.*", ".*ticket.*win.*"
@@ -198,7 +198,7 @@ public final class TwitterUtil {
             ,".*you could.*win.*"
             
             //deal
-            ,".*deal.*of the day.*" // +1  
+            ,".*deal.*of the day.*" // +1 +1
             ,".*deal.*\\% off.*", ".*\\% off.*deal.*"
             ,".*deal.*free\\b.*", ".*free\\b.*deal.*"
             // John Bolton knocks Iran nuclear deal as ‘pure propaganda’ http://t.co/QGJDOyC1jA #iran #freethe7
@@ -212,7 +212,7 @@ public final class TwitterUtil {
             ,".*deal.*buy.*", ".*buy.*deal.*"
             ,".*deal.*voucher.*", ".*voucher.*deal.*"
             ,".*deal.*bundle.*", ".*bundle.*deal.*"
-            ,".*deal.*price\\b.*", ".*price.*deal.*"
+            ,".*deal.*price\\b.*", ".*price.*deal.*" // +1
             ,".*deal.*code.*", ".*code.*deal.*"
             
             ,".*deal.*best.*", ".*best.*deal.*"
@@ -294,7 +294,7 @@ public final class TwitterUtil {
 
         for (final String bannedExpression : ForAnalysis.bannedExpressions) {
             if (textLowerCase.contains(bannedExpression)) {
-                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, textLowerCase);
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
                 return true;
             }
         }
@@ -302,14 +302,14 @@ public final class TwitterUtil {
         // by contains keyword - maybe
 
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(textLowerCase));
-        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, textLowerCase)) {
+        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
             return true;
         }
 
         // by contains keyword
         for (final String tweetToken : tweetTokens) {
             if (ForAnalysis.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
-                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, textLowerCase);
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
                 return true;
             }
         }
@@ -317,13 +317,13 @@ public final class TwitterUtil {
         // by starts with keyword
         for (final String bannedStartsWith : ForAnalysis.bannedStartsWithExprs) {
             if (textLowerCase.startsWith(bannedStartsWith)) {
-                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, textLowerCase);
+                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
                 return true;
             }
         }
 
         // by regex
-        if (isRejectedByBannedRegexExpressionsForAnalysis(textLowerCase)) {
+        if (isRejectedByBannedRegexExpressionsForAnalysis(originalTweet)) {
             return true;
         }
 
@@ -411,10 +411,12 @@ public final class TwitterUtil {
     // utils - for analysis
 
     static boolean isRejectedByContainsKeywordMaybeForAnalysis(final List<String> tweetTokens, final String originalTweet) {
+        final String textLowerCase = originalTweet.toLowerCase();
+
         for (final String tweetToken : tweetTokens) {
             if (ForAnalysis.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
                 // first - check if there are any overrides
-                if (overrideFoundForContainsKeywordsForAnalysis(originalTweet)) {
+                if (overrideFoundForContainsKeywordsForAnalysis(textLowerCase)) {
                     continue;
                 }
 
@@ -423,7 +425,7 @@ public final class TwitterUtil {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
                     logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
-                    logger.debug("Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                    logger.debug("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
                 }
                 return true;
             }
@@ -435,23 +437,24 @@ public final class TwitterUtil {
     /**
      * - <b>local</b> <br/>
      */
-    public static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String text) {
-        final String textInternal = text.toLowerCase();
+    public static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String originalTweet) {
+        final String textLowerCase = originalTweet.toLowerCase();
+
         for (final String hardAcceptedRegEx : ForAnalysis.acceptedRegExes) {
-            if (textInternal.matches(hardAcceptedRegEx)) {
+            if (textLowerCase.matches(hardAcceptedRegEx)) {
                 // was error - is OK now - moving down - move back up when something is added into the accept list
-                logger.info("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + textInternal);
+                logger.info("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + originalTweet);
                 return false;
             }
         }
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
-            if (textInternal.matches(bannedRegExMaybe)) {
-                logger.error("(for analysis) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + textInternal);
+            if (textLowerCase.matches(bannedRegExMaybe)) {
+                logger.error("(for analysis) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
                 return true;
             }
         }
         for (final String bannedRegEx : ForAnalysis.bannedRegExes) {
-            if (textInternal.matches(bannedRegEx)) {
+            if (textLowerCase.matches(bannedRegEx)) {
                 return true;
             }
         }
@@ -477,8 +480,8 @@ public final class TwitterUtil {
                 try {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
-                    logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
-                    logger.debug("Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                    logger.error("3 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
+                    logger.debug("3 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
                 }
                 return true;
             }

@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Service;
 import org.stackexchange.util.TwitterAccountEnum;
+import org.stackexchange.util.TwitterTag;
 import org.tweet.meta.component.PredefinedAccountRetriever;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
@@ -249,11 +250,17 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final List<Tweet> tweets = Lists.newArrayList(tweetSetFiltered);
         Collections.sort(tweets, Ordering.from(new TweetByRtComparator()));
         if (tweets.size() > 14) {
-            logger.error("To many - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
+            final TwitterTag theTag = TwitterTag.valueOf(hashtag);
+            if (theTag == null || theTag.isGenerateLogs()) {
+                logger.error("To many - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
+            }
         }
         if (tweets.size() < 6) {
-            if (minRt > 1) { // using 1 experimentally - was 2 (16.10)
-                logger.error("To few - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
+            if (minRt > 1) {
+                final TwitterTag theTag = TwitterTag.valueOf(hashtag);
+                if (theTag == null || theTag.isGenerateLogs()) {
+                    logger.error("To few - after pruning, still {} results for hashtag= {}", tweets.size(), hashtag);
+                }
             }
         }
 

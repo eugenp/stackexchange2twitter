@@ -64,7 +64,7 @@ public enum TwitterTag {// @formatter:off
     ipad, 
     
     java, 
-    jquery, 
+    jquery(false), // maybe temporarily - come back to it when the other stuff generates far less logging output
     jpa, 
     jpa2, 
     json, 
@@ -98,8 +98,8 @@ public enum TwitterTag {// @formatter:off
     parsing, 
     php, 
     php5, 
-    python, 
-    perl,
+    python(false), // moving this to 1 is risky before more classifiers are on 
+    perl(false), // again - non-programming classifier
     perl5, 
     perl6, 
     postgresql, 
@@ -135,5 +135,20 @@ public enum TwitterTag {// @formatter:off
     
     visualstudio,
     
-    wpf
+    wpf;
+
+    private final boolean generateLogs; 
+
+    TwitterTag() {
+        this.generateLogs = true;
+    }
+
+    TwitterTag(final boolean generateLogs) {
+        this.generateLogs = generateLogs;
+    }
+
+    public boolean isGenerateLogs() {
+        return generateLogs;
+    }
+    
 }// @formatter:on
