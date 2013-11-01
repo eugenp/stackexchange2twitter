@@ -7,9 +7,11 @@ import org.tweet.twitter.util.TwitterUtilBannedForAnalysisByRegexManualTest;
 import org.tweet.twitter.util.TwitterUtilBannedForTweetingManualTest;
 import org.tweet.twitter.util.specific.AcceptTweetsByWordDealManualTest;
 import org.tweet.twitter.util.specific.AcceptTweetsByWordDealsManualTest;
+import org.tweet.twitter.util.specific.AcceptTweetsByWordGenericManualTest;
 import org.tweet.twitter.util.specific.AcceptTweetsByWordWinManualTest;
 import org.tweet.twitter.util.specific.RejectTweetsByWordDealManualTest;
 import org.tweet.twitter.util.specific.RejectTweetsByWordDealsManualTest;
+import org.tweet.twitter.util.specific.RejectTweetsByWordGenericManualTest;
 import org.tweet.twitter.util.specific.RejectTweetsByWordWinManualTest;
 
 @RunWith(Suite.class)
@@ -20,6 +22,9 @@ import org.tweet.twitter.util.specific.RejectTweetsByWordWinManualTest;
     // twitter
     RejectTweetsByWordWinManualTest.class,
     AcceptTweetsByWordWinManualTest.class, 
+    
+    RejectTweetsByWordGenericManualTest.class,
+    AcceptTweetsByWordGenericManualTest.class, 
     
     AcceptTweetsByWordDealManualTest.class, 
     RejectTweetsByWordDealManualTest.class, 

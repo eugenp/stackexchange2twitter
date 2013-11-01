@@ -190,6 +190,7 @@ public final class TwitterUtil {
             ,".*win.*check.*", ".*check.*win.*"
             ,".*win.*discount.*", ".*discount.*win.*"
             ,".*win.*voucher.*", ".*voucher.*win.*"
+            ,".*win.*coupon.*", ".*coupon.*win.*"
             ,".*win.*free\\b.*", ".*free\\b.*win.*"
             ,".*win.*gift.*", ".*gift.*win.*"
             ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*"
@@ -211,6 +212,7 @@ public final class TwitterUtil {
             ,".*deal.*ebay.*", ".*ebay.*deal.*"
             ,".*deal.*buy.*", ".*buy.*deal.*"
             ,".*deal.*voucher.*", ".*voucher.*deal.*"
+            ,".*deal.*coupon.*", ".*coupon.*deal.*"
             ,".*deal.*bundle.*", ".*bundle.*deal.*"
             ,".*deal.*price\\b.*", ".*price.*deal.*" // +1
             ,".*deal.*code.*", ".*code.*deal.*"
@@ -220,8 +222,8 @@ public final class TwitterUtil {
             ,".*deal.*only.*", ".*only.*deal.*"
             ,".*deal.*shopping.*", ".*shopping.*deal.*"
             ,".*deal.*€.*", ".*€.*deal.*"
-            // ,".*deal.*£.*", ".*£.*deal.*" // to many false positives - ignoring for now
-            // ,".*deal.*\\$.*", ".*\\$.*deal.*" // to many false positives - ignoring for now
+            ,".*deal.*£.*", ".*£.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
+            ,".*deal.*\\$.*", ".*\\$.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
             
             // other commercial
             ,".*only\\b.*\\$.*"
