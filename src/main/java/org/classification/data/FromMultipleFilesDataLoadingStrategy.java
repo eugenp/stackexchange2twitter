@@ -62,7 +62,7 @@ public class FromMultipleFilesDataLoadingStrategy {
             final List<String> rejectTweets = loadRejectTweets(acceptAndRejectPaths);
 
             final int minSize = Math.min(acceptTweets.size(), rejectTweets.size());
-            final List<NamedVector> trainData = loadTrainData(acceptTweets, minSize, probes, features);
+            final List<NamedVector> trainData = loadTrainData((loadAccept ? acceptTweets : rejectTweets), minSize, probes, features);
             allTestData.addAll(trainData);
         }
 
