@@ -2,7 +2,6 @@ package org.classification.data;
 
 import static org.classification.data.GenericClassificationDataUtil.oneVsAnotherTrainingDataShuffled;
 import static org.classification.data.GenericClassificationDataUtil.testData;
-import static org.classification.data.GenericClassificationDataUtil.trainingData;
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
@@ -101,27 +100,27 @@ public final class ClassificationData {
         }
 
         static final List<NamedVector> jobsTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Jobs.Training.JOBS, JOB, probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS, JOB).loadData(probes, features);
         }
 
         static final List<NamedVector> nonJobsTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Jobs.Training.NONJOBS, NONJOB, probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS, NONJOB).loadData(probes, features);
         }
 
         static final List<NamedVector> jobsCoreTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Jobs.Training.JOBS_CORE, JOB, probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS_CORE, JOB).loadData(probes, features);
         }
 
         static final List<NamedVector> nonJobsCoreTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Jobs.Training.NONJOBS_CORE, NONJOB, probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS_CORE, NONJOB).loadData(probes, features);
         }
 
         static final List<NamedVector> jobsFullTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Jobs.Training.JOBS_FULL, JOB, probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS_FULL, JOB).loadData(probes, features);
         }
 
         static final List<NamedVector> nonJobsFullTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Jobs.Training.NONJOBS_FULL, NONJOB, probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS_FULL, NONJOB).loadData(probes, features);
         }
 
         // test data - jobs
@@ -151,11 +150,11 @@ public final class ClassificationData {
         }
 
         static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Programming.Training.PROGRAMMING, PROGRAMMING, probes, features);
+            return new SimpleDataLoadingStrategy(Programming.Training.PROGRAMMING, PROGRAMMING).loadData(probes, features);
         }
 
         static final List<NamedVector> nonProgrammingTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Programming.Training.NONPROGRAMMING, NONPROGRAMMING, probes, features);
+            return new SimpleDataLoadingStrategy(Programming.Training.NONPROGRAMMING, NONPROGRAMMING).loadData(probes, features);
         }
 
         // test data - programming
@@ -190,14 +189,14 @@ public final class ClassificationData {
          * - covers: (936)deal-toreject.txt, (38)deals-toreject.txt, (109)win-toreject.txt
          */
         static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Commercial.Training.COMMERCIAL, COMMERCIAL, probes, features);
+            return new SimpleDataLoadingStrategy(Commercial.Training.COMMERCIAL, COMMERCIAL).loadData(probes, features);
         }
 
         /**
          * - covers: (291)deal-toaccept.txt, (148)deals-toaccept.txt, (303)win-toaccept.txt
          */
         static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
-            return trainingData(Commercial.Training.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
+            return new SimpleDataLoadingStrategy(Commercial.Training.NONCOMMERCIAL, NONCOMMERCIAL).loadData(probes, features);
         }
 
         // test data - commercial
