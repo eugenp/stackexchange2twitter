@@ -2,7 +2,7 @@ package org.classification.service.accuracy;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
+import static org.classification.util.Classifiers.COMMERCIAL;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -13,12 +13,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.NamedVector;
-import org.classification.data.ClassificationTestData;
 import org.classification.data.ClassificationData.CommercialDataApi;
 import org.classification.data.ClassificationData.JobsDataApi;
+import org.classification.data.ClassificationTestData;
 import org.classification.service.ClassificationService;
 import org.classification.util.ClassificationSettings;
-import org.classification.util.SpecificClassificationUtil;
+import org.classification.util.Classifiers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,8 +65,8 @@ public class ClassificationCommercialAccuracyTestService {
         for (int i = 0; i < runs; i++) {
             Collections.shuffle(testData);
             Collections.shuffle(trainingData);
-            final CrossFoldLearner bestLearnerWithCoreTraining = SpecificClassificationUtil.trainNewLearnerCommercial(trainingData, probes, features);
-            final double percentageCorrect = analyzeCommercialData(bestLearnerWithCoreTraining, testData, probes, features);
+            final CrossFoldLearner bestLearner = Classifiers.Commercial.trainNewLearnerCommercial(trainingData, probes, features);
+            final double percentageCorrect = analyzeCommercialData(bestLearner, testData, probes, features);
             results.add(percentageCorrect);
             if (i % 100 == 0) {
                 System.out.println("Processing 100 ... - " + ((i / 100) + 1));

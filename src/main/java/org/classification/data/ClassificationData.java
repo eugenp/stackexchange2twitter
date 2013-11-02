@@ -4,12 +4,12 @@ import static org.classification.data.GenericClassificationDataUtil.oneVsAnother
 import static org.classification.data.GenericClassificationDataUtil.testData;
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
-import static org.classification.util.SpecificClassificationUtil.JOB;
-import static org.classification.util.SpecificClassificationUtil.NONCOMMERCIAL;
-import static org.classification.util.SpecificClassificationUtil.NONJOB;
-import static org.classification.util.SpecificClassificationUtil.NONPROGRAMMING;
-import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
+import static org.classification.util.Classifiers.COMMERCIAL;
+import static org.classification.util.Classifiers.JOB;
+import static org.classification.util.Classifiers.NONCOMMERCIAL;
+import static org.classification.util.Classifiers.NONJOB;
+import static org.classification.util.Classifiers.NONPROGRAMMING;
+import static org.classification.util.Classifiers.PROGRAMMING;
 
 import java.io.IOException;
 import java.util.List;

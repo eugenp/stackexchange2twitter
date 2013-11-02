@@ -2,7 +2,7 @@ package org.classification.service.accuracy;
 
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
+import static org.classification.util.Classifiers.PROGRAMMING;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -14,7 +14,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.classification.data.ClassificationTestData;
 import org.classification.service.ClassificationService;
-import org.classification.util.SpecificClassificationUtil;
+import org.classification.util.Classifiers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +62,7 @@ public class ClassificationProgrammingAccuracyTestService {
     // util
 
     private final double analyzeProgrammingData(final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
-        final CrossFoldLearner bestLearner = SpecificClassificationUtil.trainNewLearnerProgramming(probes, features);
+        final CrossFoldLearner bestLearner = Classifiers.Programming.trainNewLearnerProgramming(probes, features);
         classificationService.setProgrammingVsNonProgrammingLerner(bestLearner);
 
         int correct = 0;

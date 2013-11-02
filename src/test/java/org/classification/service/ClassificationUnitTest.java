@@ -10,7 +10,7 @@ import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.ModelSerializer;
 import org.apache.mahout.math.NamedVector;
 import org.classification.data.ClassificationData.JobsDataApi;
-import org.classification.util.SpecificClassificationUtil;
+import org.classification.util.Classifiers;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -89,14 +89,14 @@ public class ClassificationUnitTest {
     public final void whenClassifierIsTrained_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = trainingData();
 
-        SpecificClassificationUtil.trainJobsClassifierDefault(vectors);
+        Classifiers.Jobs.trainJobsClassifierDefault(vectors);
     }
 
     @Test
     @Ignore("long running")
     public final void givenClassifierWasTrained_whenPersistedToDisk_thenNoExceptions() throws IOException {
         final List<NamedVector> vectors = trainingData();
-        final AdaptiveLogisticRegression classifier = SpecificClassificationUtil.trainJobsClassifierDefault(vectors);
+        final AdaptiveLogisticRegression classifier = Classifiers.Jobs.trainJobsClassifierDefault(vectors);
 
         ModelSerializer.writeBinary(CLASSIFIER_FILE_ON_DISK, classifier.getBest().getPayload().getLearner());
     }

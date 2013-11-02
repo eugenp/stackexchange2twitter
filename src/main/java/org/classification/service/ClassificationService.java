@@ -10,7 +10,7 @@ import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.Vector;
 import org.classification.data.GenericClassificationDataUtil;
-import org.classification.util.SpecificClassificationUtil;
+import org.classification.util.Classifiers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -113,8 +113,9 @@ public class ClassificationService implements InitializingBean {
 
     @Override
     public final void afterPropertiesSet() throws IOException {
-        jobVsNonJobLerner = SpecificClassificationUtil.trainNewLearnerJobWithCoreTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
-        programmingVsNonProgrammingLerner = SpecificClassificationUtil.trainNewLearnerProgramming(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        jobVsNonJobLerner = Classifiers.Jobs.trainNewLearnerJobWithCoreTrainingData(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        programmingVsNonProgrammingLerner = Classifiers.Programming.trainNewLearnerProgramming(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+        commercialVsNonCommercialLerner = Classifiers.Commercial.trainNewLearnerCommercial(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
     }
 
     public final void setJobsVsNonJobsLerner(final CrossFoldLearner learner) {

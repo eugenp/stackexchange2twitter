@@ -82,18 +82,18 @@ public class FromMultipleFilesDataLoadingStrategy {
         return allTestData;
     }
 
-    private final List<String> loadRejectTweets(final Map.Entry<String, String> acceptAndRejectPaths) throws IOException {
-        final String rejectPath = acceptAndRejectPaths.getValue();
-        final InputStream rejectIs = GenericClassificationDataUtil.class.getResourceAsStream(rejectPath);
-        final List<String> rejectTweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(rejectIs)));
-        return rejectTweets;
-    }
-
     private final List<String> loadAcceptTweets(final Map.Entry<String, String> acceptAndRejectPaths) throws IOException {
         final String acceptPath = acceptAndRejectPaths.getKey();
         final InputStream acceptIs = GenericClassificationDataUtil.class.getResourceAsStream(acceptPath);
         final List<String> acceptTweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(acceptIs)));
         return acceptTweets;
+    }
+
+    private final List<String> loadRejectTweets(final Map.Entry<String, String> acceptAndRejectPaths) throws IOException {
+        final String rejectPath = acceptAndRejectPaths.getValue();
+        final InputStream rejectIs = GenericClassificationDataUtil.class.getResourceAsStream(rejectPath);
+        final List<String> rejectTweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(rejectIs)));
+        return rejectTweets;
     }
 
     private final List<NamedVector> loadTrainData(final List<String> tweets, final int minSize, final int probes, final int features) {
