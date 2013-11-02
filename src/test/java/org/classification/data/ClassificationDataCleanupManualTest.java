@@ -1,4 +1,4 @@
-package org.stackexchange.gather;
+package org.classification.data;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,14 +9,26 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.classification.data.ClassificationData;
+import org.classification.data.ClassificationData.CommercialDataApi;
+import org.classification.util.ClassificationSettings;
 import org.junit.Test;
+import org.stackexchange.gather.CleanupStringFunction;
 
 import com.google.common.collect.Lists;
 
 public class ClassificationDataCleanupManualTest {
 
     // tests
+
+    @Test
+    public final void whenLoadingTrainClassificationData_thenNoExceptions() throws IOException {
+        CommercialDataApi.nonCommercialTrainingData(ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR, ClassificationSettings.FEATURES);
+    }
+
+    @Test
+    public final void whenLoadingTestClassificationData_thenNoExceptions() throws IOException {
+        CommercialDataApi.nonCommercialTestData();
+    }
 
     @Test
     public final void whenCleaningClassificationData_thenNoExceptions() throws IOException {

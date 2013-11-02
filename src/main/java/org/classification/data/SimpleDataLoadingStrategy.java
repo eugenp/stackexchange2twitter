@@ -5,6 +5,7 @@ import static org.classification.data.GenericClassificationDataUtil.trainingData
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.mahout.math.NamedVector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,24 @@ public class SimpleDataLoadingStrategy {
 
     // API
 
-    public final List<NamedVector> loadData(final int probes, final int features) {
+    public final List<NamedVector> loadTrainData(final int probes, final int features) {
+        return loadTrainDataInternal(probes, features);
+    }
+
+    public final List<ImmutablePair<String, String>> loadTestData() {
+        return loadTestDataInternal();
+    }
+
+    private final List<ImmutablePair<String, String>> loadTestDataInternal() {
+        try {
+            return GenericClassificationDataUtil.testData(singlePath, type);
+        } catch (final IOException ioEx) {
+            logger.error("Data could not be loaded", ioEx);
+            return Lists.newArrayList();
+        }
+    }
+
+    private final List<NamedVector> loadTrainDataInternal(final int probes, final int features) {
         try {
             return trainingData(singlePath, type, probes, features);
         } catch (final IOException ioEx) {

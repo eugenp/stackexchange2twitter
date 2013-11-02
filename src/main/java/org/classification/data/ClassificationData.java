@@ -13,9 +13,14 @@ import static org.classification.util.SpecificClassificationUtil.PROGRAMMING;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.mahout.math.NamedVector;
+import org.classification.data.ClassificationData.Commercial.Accept;
+import org.classification.data.ClassificationData.Commercial.Reject;
+
+import com.google.common.collect.Maps;
 
 public final class ClassificationData {
 
@@ -29,6 +34,18 @@ public final class ClassificationData {
         public static final class Test {
             public static final String NONCOMMERCIAL = "/classification/test/commercial/noncommercial.classif";
             public static final String COMMERCIAL = "/classification/test/commercial/commercial.classif";
+        }
+
+        public static final class Accept {
+            public static final String WIN = "/notes/test/win-toaccept.txt";
+            public static final String DEAL = "/notes/test/deal-toaccept.txt";
+            public static final String DEALS = "/notes/test/deals-toaccept.txt";
+        }
+
+        public static final class Reject {
+            public static final String WIN = "/notes/test/win-toreject.txt";
+            public static final String DEAL = "/notes/test/deal-toreject.txt";
+            public static final String DEALS = "/notes/test/deals-toreject.txt";
         }
 
     }
@@ -100,37 +117,37 @@ public final class ClassificationData {
         }
 
         static final List<NamedVector> jobsTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS, JOB).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS, JOB).loadTrainData(probes, features);
         }
 
         static final List<NamedVector> nonJobsTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS, NONJOB).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS, NONJOB).loadTrainData(probes, features);
         }
 
         static final List<NamedVector> jobsCoreTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS_CORE, JOB).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS_CORE, JOB).loadTrainData(probes, features);
         }
 
         static final List<NamedVector> nonJobsCoreTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS_CORE, NONJOB).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS_CORE, NONJOB).loadTrainData(probes, features);
         }
 
         static final List<NamedVector> jobsFullTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS_FULL, JOB).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.JOBS_FULL, JOB).loadTrainData(probes, features);
         }
 
         static final List<NamedVector> nonJobsFullTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS_FULL, NONJOB).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Jobs.Training.NONJOBS_FULL, NONJOB).loadTrainData(probes, features);
         }
 
         // test data - jobs
 
         static final List<ImmutablePair<String, String>> jobsTestData() throws IOException {
-            return testData(Jobs.Test.JOBS, JOB);
+            return new SimpleDataLoadingStrategy(Jobs.Test.JOBS, JOB).loadTestData();
         }
 
         static final List<ImmutablePair<String, String>> nonJobsTestData() throws IOException {
-            return testData(Jobs.Test.NONJOBS, NONJOB);
+            return new SimpleDataLoadingStrategy(Jobs.Test.NONJOBS, NONJOB).loadTestData();
         }
 
     }
@@ -150,21 +167,21 @@ public final class ClassificationData {
         }
 
         static final List<NamedVector> programmingTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Programming.Training.PROGRAMMING, PROGRAMMING).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Programming.Training.PROGRAMMING, PROGRAMMING).loadTrainData(probes, features);
         }
 
         static final List<NamedVector> nonProgrammingTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Programming.Training.NONPROGRAMMING, NONPROGRAMMING).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Programming.Training.NONPROGRAMMING, NONPROGRAMMING).loadTrainData(probes, features);
         }
 
         // test data - programming
 
         static final List<ImmutablePair<String, String>> programmingTestData() throws IOException {
-            return testData(Programming.Test.PROGRAMMING, PROGRAMMING);
+            return new SimpleDataLoadingStrategy(Programming.Test.PROGRAMMING, PROGRAMMING).loadTestData();
         }
 
         static final List<ImmutablePair<String, String>> nonProgrammingTestData() throws IOException {
-            return testData(Programming.Test.NONPROGRAMMING, NONPROGRAMMING);
+            return new SimpleDataLoadingStrategy(Programming.Test.NONPROGRAMMING, NONPROGRAMMING).loadTestData();
         }
 
     }
@@ -189,14 +206,19 @@ public final class ClassificationData {
          * - covers: (936)deal-toreject.txt, (38)deals-toreject.txt, (109)win-toreject.txt
          */
         static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Commercial.Training.COMMERCIAL, COMMERCIAL).loadData(probes, features);
+            return new SimpleDataLoadingStrategy(Commercial.Training.COMMERCIAL, COMMERCIAL).loadTrainData(probes, features);
         }
 
         /**
          * - covers: (291)deal-toaccept.txt, (148)deals-toaccept.txt, (303)win-toaccept.txt
          */
         static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Commercial.Training.NONCOMMERCIAL, NONCOMMERCIAL).loadData(probes, features);
+            final Map<String, String> pathsToData = Maps.newHashMap();
+            pathsToData.put(Accept.WIN, Reject.WIN);
+            pathsToData.put(Accept.DEAL, Reject.DEAL);
+            pathsToData.put(Accept.DEALS, Reject.DEALS);
+            return new FromMultipleFilesDataLoadingStrategy(pathsToData, NONCOMMERCIAL).loadTrainData(probes, features);
+            // return new SimpleDataLoadingStrategy(Commercial.Training.NONCOMMERCIAL, NONCOMMERCIAL).loadTrainData(probes, features);
         }
 
         // test data - commercial
@@ -206,7 +228,11 @@ public final class ClassificationData {
         }
 
         static final List<ImmutablePair<String, String>> nonCommercialTestData() throws IOException {
-            return testData(Commercial.Test.NONCOMMERCIAL, NONCOMMERCIAL);
+            final Map<String, String> pathsToData = Maps.newHashMap();
+            pathsToData.put(Accept.WIN, Reject.WIN);
+            pathsToData.put(Accept.DEAL, Reject.DEAL);
+            pathsToData.put(Accept.DEALS, Reject.DEALS);
+            return new FromMultipleFilesDataLoadingStrategy(pathsToData, NONCOMMERCIAL).loadTestData();
         }
     }
 
