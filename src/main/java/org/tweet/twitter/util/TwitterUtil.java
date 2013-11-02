@@ -33,6 +33,7 @@ public final class TwitterUtil {
             ,"trial" // it's OKish for analysis (06.10)
             ,"win" // definitely rejecting for tweeting just in case (13.10)
             ,"israel", "israeli", "palestine", "zionism"
+            ,"sudan"
             ,"racial"
             ,"voucher"
             ,"meetup"
@@ -75,26 +76,27 @@ public final class TwitterUtil {
         // by contains
 
         final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
-            "buy", 
-            // "discount", // temp 
-            "freelance", "job", "consulting", "hire", "hiring", "careers", 
-            "football", 
-            // "exclusive", // no hits yet, but it does create some false positives in my manual tests - commenting out for now
-            // "dumb", "dumber", // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
-            // "gift", // more fine grained stuff in use now
-            "highheels",
-            "djmix", "housemusic",
-            "escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", 
-            "islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew",
-            "snake", // python snake...yes, it happened
-            "followback", 
-            "free trial" // identified from the trial keyword - all selling something
+            "buy" 
+            // ,"discount" // temp 
+            ,"freelance", "job", "consulting", "hire", "hiring", "careers" 
+            ,"football" 
+            // ,"exclusive" // no hits yet, but it does create some false positives in my manual tests - commenting out for now
+            // ,"dumb", "dumber" // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
+            // ,"gift" // more fine grained stuff in use now
+            ,"highheels"
+            ,"djmix", "housemusic"
+            ,"escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding" 
+            ,"killed"
+            ,"islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew"
+            ,"snake" // python snake...yes, it happened
+            ,"followback"
+            ,"promo" // newly moved (02.11)
+            ,"free trial" // identified from the trial keyword - all selling something
         );// @formatter:on
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
             // "buy", // was here, I'm sufficiently convinced that it's not good 
             "#deal", "#deals" // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
             ,"wife"
-            ,"killed"
             ,"remix"  
             ,"cheep" // trying it out
             ,"lucky" 
@@ -102,7 +104,6 @@ public final class TwitterUtil {
             // ,"deals" // working on it
             // ,"deal" // working on it
             ,"priced" // new
-            ,"promo" 
             ,"kurd", "kurds", "afganistan", "palestinians" // other political stuff
             ,"hindus" // new (13.10)
             ,"$3.99", "$2.99", "$1.99", "$0.99" 
