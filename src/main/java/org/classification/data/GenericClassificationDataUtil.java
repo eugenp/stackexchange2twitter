@@ -1,4 +1,4 @@
-package org.classification.util;
+package org.classification.data;
 
 import static org.classification.util.ClassificationSettings.TWEET_TOKENIZER;
 import static org.classification.util.GenericClassificationUtil.encodeWithTypeInfo;

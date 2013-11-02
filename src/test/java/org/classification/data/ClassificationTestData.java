@@ -1,13 +1,13 @@
-package org.classification.util;
+package org.classification.data;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.classification.util.ClassificationData.CommercialDataApi;
-import org.classification.util.ClassificationData.JobsDataApi;
-import org.classification.util.ClassificationData.ProgrammingDataApi;
+import org.classification.data.ClassificationData.CommercialDataApi;
+import org.classification.data.ClassificationData.JobsDataApi;
+import org.classification.data.ClassificationData.ProgrammingDataApi;
 
 import com.google.common.collect.Lists;
 

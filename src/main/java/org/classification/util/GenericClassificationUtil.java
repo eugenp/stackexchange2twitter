@@ -34,7 +34,7 @@ public final class GenericClassificationUtil {
      * The following are encoded: the type of content and the actual bag of words
      * The label argument to the NamedVector is either commercial or non-commercial
      */
-    static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probesForContent, final int features) {
+    public static NamedVector encodeWithTypeInfo(final String type, final Iterable<String> words, final int probesForContent, final int features) {
         final FeatureVectorEncoder content_encoder = new AdaptiveWordValueEncoder("content");
         content_encoder.setProbes(probesForContent);
 

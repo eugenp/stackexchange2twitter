@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.classification.util.ClassificationData;
-import org.classification.util.ClassificationData.Jobs;
+import org.classification.data.ClassificationData;
+import org.classification.data.ClassificationData.Jobs;
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;

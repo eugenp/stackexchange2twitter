@@ -1,8 +1,9 @@
-package org.classification.util;
+package org.classification.data;
 
 import java.io.IOException;
 
-import org.classification.util.ClassificationData.JobsDataApi;
+import org.classification.data.ClassificationData.JobsDataApi;
+import org.classification.util.ClassificationSettings;
 import org.junit.Test;
 
 public final class SpecificClassificationDataUtilIntegrationTest {

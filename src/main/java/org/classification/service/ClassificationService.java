@@ -9,7 +9,7 @@ import java.io.IOException;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.DenseVector;
 import org.apache.mahout.math.Vector;
-import org.classification.util.GenericClassificationDataUtil;
+import org.classification.data.GenericClassificationDataUtil;
 import org.classification.util.SpecificClassificationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

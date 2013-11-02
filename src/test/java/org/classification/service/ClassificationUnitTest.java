@@ -9,7 +9,7 @@ import java.util.List;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.ModelSerializer;
 import org.apache.mahout.math.NamedVector;
-import org.classification.util.ClassificationData.JobsDataApi;
+import org.classification.data.ClassificationData.JobsDataApi;
 import org.classification.util.SpecificClassificationUtil;
 import org.junit.Ignore;
 import org.junit.Test;

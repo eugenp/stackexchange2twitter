@@ -1,10 +1,10 @@
-package org.classification.util;
+package org.classification.data;
 
+import static org.classification.data.GenericClassificationDataUtil.oneVsAnotherTrainingDataShuffled;
+import static org.classification.data.GenericClassificationDataUtil.testData;
+import static org.classification.data.GenericClassificationDataUtil.trainingData;
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
-import static org.classification.util.GenericClassificationDataUtil.oneVsAnotherTrainingDataShuffled;
-import static org.classification.util.GenericClassificationDataUtil.testData;
-import static org.classification.util.GenericClassificationDataUtil.trainingData;
 import static org.classification.util.SpecificClassificationUtil.COMMERCIAL;
 import static org.classification.util.SpecificClassificationUtil.JOB;
 import static org.classification.util.SpecificClassificationUtil.NONCOMMERCIAL;
@@ -186,10 +186,16 @@ public final class ClassificationData {
 
         // training data - commercial
 
+        /**
+         * - covers: (936)deal-toreject.txt, (38)deals-toreject.txt, (109)win-toreject.txt
+         */
         static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
             return trainingData(Commercial.Training.COMMERCIAL, COMMERCIAL, probes, features);
         }
 
+        /**
+         * - covers: (291)deal-toaccept.txt, (148)deals-toaccept.txt, (303)win-toaccept.txt
+         */
         static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
             return trainingData(Commercial.Training.NONCOMMERCIAL, NONCOMMERCIAL, probes, features);
         }

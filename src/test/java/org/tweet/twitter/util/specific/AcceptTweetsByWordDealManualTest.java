@@ -11,7 +11,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import org.apache.commons.io.IOUtils;
-import org.classification.util.GenericClassificationDataUtil;
+import org.classification.data.GenericClassificationDataUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

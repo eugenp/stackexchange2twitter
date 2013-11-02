@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.classification.data.ClassificationData.Jobs;
 import org.classification.spring.ClassificationConfig;
-import org.classification.util.ClassificationData.Jobs;
 import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
 import org.junit.Test;

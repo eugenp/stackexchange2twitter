@@ -1,7 +1,7 @@
 package org.tweet.test;
 
+import org.classification.data.SpecificClassificationDataUtilIntegrationTest;
 import org.classification.service.ClassificationServiceIntegrationTest;
-import org.classification.util.SpecificClassificationDataUtilIntegrationTest;
 import org.common.service.LinkServiceIntegrationTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

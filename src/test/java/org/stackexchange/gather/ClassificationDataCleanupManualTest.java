@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.classification.util.ClassificationData;
+import org.classification.data.ClassificationData;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
