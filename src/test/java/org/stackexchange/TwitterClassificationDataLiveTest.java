@@ -51,7 +51,7 @@ public class TwitterClassificationDataLiveTest {
     public final void whenListingTweets_thenNoExceptions() throws JsonProcessingException, IOException {
         final Set<String> commercialCollector = Sets.newHashSet();
         final Set<String> nonCommercialCollector = Sets.newHashSet();
-        final Set<Tweet> tweetsOfHashtag = Sets.newHashSet(instance.listTweetsByHashtagMultiRequestRaw("#deal", 19));
+        final Set<Tweet> tweetsOfHashtag = Sets.newHashSet(instance.listTweetsByHashtagMultiRequestRaw("#win", 19));
         final Iterable<Tweet> tweetsOfHashtagWithoutRTsIterable = Iterables.transform(tweetsOfHashtag, new Function<Tweet, Tweet>() {
             @Override
             public final Tweet apply(final Tweet input) {

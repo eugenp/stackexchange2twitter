@@ -76,13 +76,10 @@ public final class TwitterUtil {
         // by contains
 
         final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
-            "buy" 
-            // ,"discount" // temp 
-            ,"freelance", "job", "consulting", "hire", "hiring", "careers" 
+             "freelance", "job", "consulting", "hire", "hiring", "careers" 
             ,"football" 
             // ,"exclusive" // no hits yet, but it does create some false positives in my manual tests - commenting out for now
             // ,"dumb", "dumber" // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
-            // ,"gift" // more fine grained stuff in use now
             ,"highheels"
             ,"djmix", "housemusic"
             ,"escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding" 
@@ -90,23 +87,13 @@ public final class TwitterUtil {
             ,"islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew"
             ,"snake" // python snake...yes, it happened
             ,"followback"
-            ,"promo" // newly moved (02.11)
-            ,"free trial" // identified from the trial keyword - all selling something
         );// @formatter:on
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-            // "buy", // was here, I'm sufficiently convinced that it's not good 
-            "#deal", "#deals" // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
-            ,"wife"
+             "wife"
             ,"remix"  
-            ,"cheep" // trying it out
-            ,"lucky" 
             ,"fpl" // fantasy player league
-            // ,"deals" // working on it
-            // ,"deal" // working on it
-            ,"priced" // new
             ,"kurd", "kurds", "afganistan", "palestinians" // other political stuff
             ,"hindus" // new (13.10)
-            ,"$3.99", "$2.99", "$1.99", "$0.99" 
             ,"thugs" // new
             ,"racial"
         );// @formatter:on
@@ -116,8 +103,7 @@ public final class TwitterUtil {
          * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
          */
         final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
-            "killed it", 
-            "win-win", "win/win"
+            "killed it"
         );// @formatter:on
 
         // by starts with
@@ -134,11 +120,7 @@ public final class TwitterUtil {
             ,"python developer", "java developer", "php developer", "clojure developer", "c# developer", "c++ developer" 
             ,"backend developer", "back end developer", "frontend developer", "front end developer", "fullstack developer", "full stack developer" 
             ,"on strike" 
-            ,"for sale" 
             ,"rt if" 
-            // ,"win a " // now that there are regexes covering this - this should go
-            // ,"to win" // now that there are regexes covering this - this should go 
-            ,"win one" 
             ,"i need", "we need", "need help", "need someone" 
             ,"music video"
         ); // @formatter:on
@@ -152,9 +134,7 @@ public final class TwitterUtil {
         // note: move the logging of this back up to error if something new is added
         /** if this matches, the banned expressions are no longer evaluated */
         final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
-             ".*\\bdeal with.*"
-            ,".*deal.*merger.*", ".*merger.*deal.*"
-            ,".*win.*merger.*", ".*merger.*win.*"
+             // 
         ); // @formatter:on
 
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
@@ -168,68 +148,132 @@ public final class TwitterUtil {
             ,"(?i)(pls|please) rt.*" // pls rt
             ,".*\\d(\\d)?% (o|O)ff.*" // 97% Off
             ,"(?i).*follow @.*"
-            // win - commercial stuff
-            ,".*win.*£.*", ".*£.*win.*"
-            , ".*win.*contest.*", ".*contest.*win.*"
-            ,".*win.*giving away.*", ".*giving away.*win.*"
-            ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
         ); // @formatter:on
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-            // win
-            ".*win.*\\$.*", ".*\\$.*win.*" // +1 +1 +1 
-            // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
-            // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
-            ,".*win.*€.*", ".*€.*win.*" // +1 +1
-            ,".*win\\b.*chance\\b.*", ".*chance\\b.*win.*" 
-            ,".*win.*\\bprize.*", ".*\\bprize.*win\\.*" // -1 +1 -1  
-            ,".*win.*sale.*", ".*sale.*win.*" // 
-            ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
-            ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1 +1 +1 +1
-            ,".*win.*give-away.*", ".*give-away.*win.*"
-            ,".*win.*promo.*", ".*promo.*win.*"
-            ,".*win.*ticket.*", ".*ticket.*win.*"
-            ,".*win.*check.*", ".*check.*win\\b.*" // +1 +1
-            ,".*win.*discount.*", ".*discount.*win.*"
-            ,".*win.*voucher.*", ".*voucher.*win.*"
-            ,".*win.*coupon.*", ".*coupon.*win.*"
-            ,".*\\bwin\\b.*free\\b.*", ".*free\\b.*win\\b.*" // -1 +1
-            ,".*win.*gift.*", ".*gift.*win.*"
-            ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*" // -1
-            ,".*win.*submit.*", ".*submit.*win.*"
-            ,".*win\\b.*some.*" // 
-            ,".*you could.*win.*"
-            
-            //deal
-            ,".*deal.*of the day.*" // +1 +1
-            ,".*deal.*\\% off.*", ".*\\% off.*deal.*" // +1 +1 
-            ,".*deal.*free\\b.*", ".*free\\b.*deal.*" // +1 +1
-            // John Bolton knocks Iran nuclear deal as ‘pure propaganda’ http://t.co/QGJDOyC1jA #iran #freethe7
-            
-            ,".*deal.*sale\\b.*", ".*sale\\b.*deal.*"
-            ,".*deal.*special.*", ".*special.*deal.*" // +1 +1
-            ,".*deal.*discount.*", ".*discount.*deal.*"
-            ,".*deal.*gift.*", ".*gift.*deal.*" // +1
-            ,".*deal.*check.*", ".*check.*deal.*"
-            ,".*deal.*ebay.*", ".*ebay.*deal.*"
-            ,".*deal.*buy.*", ".*buy.*deal.*" // 
-            ,".*deal.*voucher.*", ".*voucher.*deal.*"
-            ,".*deal.*coupon.*", ".*coupon.*deal.*"
-            ,".*deal.*bundle.*", ".*bundle.*deal.*" // +1
-            ,".*deal.*price\\b.*", ".*price.*deal.*" // +1
-            ,".*deal.*code.*", ".*code.*deal.*"
-            
-            ,".*deal.*best.*", ".*best.*deal.*"
-            ,".*deal.*daily.*", ".*daily.*deal.*"
-            ,".*deal.*only.*", ".*only.*deal.*" // +1 +1 +1
-            ,".*deal.*shopping.*", ".*shopping.*deal.*"
-            ,".*deal.*€.*", ".*€.*deal.*"
-            ,".*deal.*£.*", ".*£.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
-            ,".*deal.*\\$.*", ".*\\$.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
-            
             // other commercial
-            ,".*only\\b.*\\$.*" // +1 +1 +1 +1 -1 -1
+            ".*only\\b.*\\$.*" // +1 +1 +1 +1 -1 -1
         ); // @formatter:on
+
+        public static final class Commercial {
+
+            // by contains
+
+            final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
+                "buy" 
+                // ,"discount" // temp 
+                // ,"gift" // more fine grained stuff in use now
+                ,"promo" // newly moved (02.11)
+                ,"free trial" // identified from the trial keyword - all selling something
+            );// @formatter:on
+            final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
+                // "buy", // was here, I'm sufficiently convinced that it's not good 
+                "#deal", "#deals" // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
+                ,"cheep" // trying it out
+                ,"lucky" 
+                // ,"deals" // working on it
+                // ,"deal" // working on it
+                ,"priced" // new
+                ,"$3.99", "$2.99", "$1.99", "$0.99" 
+            );// @formatter:on
+
+            /**
+             * These are special cases that are OK <br/>
+             * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
+             */
+            final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
+                "win-win", "win/win"
+            );// @formatter:on
+
+            // by starts with
+
+            final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
+                // 
+            );// @formatter:on
+
+            // by expression
+
+            final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
+                 "for sale" 
+                // ,"win a " // now that there are regexes covering this - this should go
+                // ,"to win" // now that there are regexes covering this - this should go 
+                ,"win one" 
+            ); // @formatter:on
+
+            final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
+                // 
+            ); // @formatter:on
+
+            // by regex
+
+            // note: move the logging of this back up to error if something new is added
+            /** if this matches, the banned expressions are no longer evaluated */
+            final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
+                 ".*\\bdeal with.*"
+                ,".*deal.*merger.*", ".*merger.*deal.*"
+                ,".*win.*merger.*", ".*merger.*win.*"
+            ); // @formatter:on
+
+            final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+                // win - commercial stuff
+                 ".*win.*£.*", ".*£.*win.*"
+                , ".*win.*contest.*", ".*contest.*win.*"
+                ,".*win.*giving away.*", ".*giving away.*win.*"
+                ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
+            ); // @formatter:on
+
+            final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+                // win
+                ".*win.*\\$.*", ".*\\$.*win.*" // +1 +1 +1 
+                // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
+                // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
+                ,".*win.*€.*", ".*€.*win.*" // +1 +1
+                ,".*win\\b.*chance\\b.*", ".*chance\\b.*win.*" 
+                ,".*win.*\\bprize.*", ".*\\bprize.*win\\.*" // -1 +1 -1  
+                ,".*win.*sale.*", ".*sale.*win.*" // 
+                ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
+                ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1 +1 +1 +1
+                ,".*win.*give-away.*", ".*give-away.*win.*"
+                ,".*win.*promo.*", ".*promo.*win.*"
+                ,".*win.*ticket.*", ".*ticket.*win.*"
+                ,".*win.*check.*", ".*check.*win\\b.*" // +1 +1
+                ,".*win.*discount.*", ".*discount.*win.*"
+                ,".*win.*voucher.*", ".*voucher.*win.*"
+                ,".*win.*coupon.*", ".*coupon.*win.*"
+                ,".*\\bwin\\b.*free\\b.*", ".*free\\b.*win\\b.*" // -1 +1
+                ,".*win.*gift.*", ".*gift.*win.*"
+                ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*" // -1
+                ,".*win.*submit.*", ".*submit.*win.*"
+                ,".*win\\b.*some.*" // 
+                ,".*you could.*win.*"
+                
+                //deal
+                ,".*deal.*of the day.*" // +1 +1
+                ,".*deal.*\\% off.*", ".*\\% off.*deal.*" // +1 +1 
+                ,".*deal.*free\\b.*", ".*free\\b.*deal.*" // +1 +1
+                ,".*deal.*sale\\b.*", ".*sale\\b.*deal.*"
+                ,".*deal.*special.*", ".*special.*deal.*" // +1 +1
+                ,".*deal.*discount.*", ".*discount.*deal.*"
+                ,".*deal.*gift.*", ".*gift.*deal.*" // +1
+                ,".*deal.*check.*", ".*check.*deal.*"
+                ,".*deal.*ebay.*", ".*ebay.*deal.*"
+                ,".*deal.*buy.*", ".*buy.*deal.*" // 
+                ,".*deal.*voucher.*", ".*voucher.*deal.*"
+                ,".*deal.*coupon.*", ".*coupon.*deal.*"
+                ,".*deal.*bundle.*", ".*bundle.*deal.*" // +1
+                ,".*deal.*price\\b.*", ".*price.*deal.*" // +1
+                ,".*deal.*code.*", ".*code.*deal.*"
+                
+                ,".*deal.*best.*", ".*best.*deal.*"
+                ,".*deal.*daily.*", ".*daily.*deal.*"
+                ,".*deal.*only.*", ".*only.*deal.*" // +1 +1 +1
+                ,".*deal.*shopping.*", ".*shopping.*deal.*"
+                ,".*deal.*€.*", ".*€.*deal.*"
+                ,".*deal.*£.*", ".*£.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
+                ,".*deal.*\\$.*", ".*\\$.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
+            ); // @formatter:on
+
+        }
 
     }
 
@@ -302,6 +346,12 @@ public final class TwitterUtil {
                 return true;
             }
         }
+        for (final String bannedExpression : ForAnalysis.Commercial.bannedExpressions) {
+            if (textLowerCase.contains(bannedExpression)) {
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
+                return true;
+            }
+        }
 
         // by contains keyword - maybe
 
@@ -316,10 +366,20 @@ public final class TwitterUtil {
                 logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
                 return true;
             }
+            if (ForAnalysis.Commercial.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
+                return true;
+            }
         }
 
         // by starts with keyword
         for (final String bannedStartsWith : ForAnalysis.bannedStartsWithExprs) {
+            if (textLowerCase.startsWith(bannedStartsWith)) {
+                logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
+                return true;
+            }
+        }
+        for (final String bannedStartsWith : ForAnalysis.Commercial.bannedStartsWithExprs) {
             if (textLowerCase.startsWith(bannedStartsWith)) {
                 logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
                 return true;
@@ -418,7 +478,7 @@ public final class TwitterUtil {
         final String textLowerCase = originalTweet.toLowerCase();
 
         for (final String tweetToken : tweetTokens) {
-            if (ForAnalysis.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
+            if (ForAnalysis.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase()) || ForAnalysis.Commercial.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
                 // first - check if there are any overrides
                 if (overrideFoundForContainsKeywordsForAnalysis(textLowerCase)) {
                     continue;
@@ -447,17 +507,37 @@ public final class TwitterUtil {
         for (final String hardAcceptedRegEx : ForAnalysis.acceptedRegExes) {
             if (textLowerCase.matches(hardAcceptedRegEx)) {
                 // was error - is OK now - moving down - move back up when something is added into the accept list
-                logger.info("(for analysis) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + originalTweet);
+                logger.info("(analysis-generic) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + originalTweet);
                 return false;
             }
         }
+        for (final String hardAcceptedRegEx : ForAnalysis.Commercial.acceptedRegExes) {
+            if (textLowerCase.matches(hardAcceptedRegEx)) {
+                // was error - is OK now - moving down - move back up when something is added into the accept list
+                logger.info("(analysis-commercial) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + originalTweet);
+                return false;
+            }
+        }
+
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
             if (textLowerCase.matches(bannedRegExMaybe)) {
-                logger.error("(for analysis) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
+                logger.error("(analysis-generic) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
                 return true;
             }
         }
+        for (final String bannedRegExMaybe : ForAnalysis.Commercial.bannedRegExesMaybe) {
+            if (textLowerCase.matches(bannedRegExMaybe)) {
+                logger.error("(analysis-commercial) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
+                return true;
+            }
+        }
+
         for (final String bannedRegEx : ForAnalysis.bannedRegExes) {
+            if (textLowerCase.matches(bannedRegEx)) {
+                return true;
+            }
+        }
+        for (final String bannedRegEx : ForAnalysis.Commercial.bannedRegExes) {
             if (textLowerCase.matches(bannedRegEx)) {
                 return true;
             }
@@ -531,7 +611,10 @@ public final class TwitterUtil {
     }
 
     private static boolean overrideFoundForContainsKeywordsForAnalysis(final String originalTweet) {
-        return overrideFoundForContainsKeywords(originalTweet, ForAnalysis.acceptedContainsKeywordsOverrides);
+        final boolean overrideFoundForContainsKeywords = overrideFoundForContainsKeywords(originalTweet, ForAnalysis.acceptedContainsKeywordsOverrides);
+        final boolean overrideFoundForContainsCommercialKeywords = overrideFoundForContainsKeywords(originalTweet, ForAnalysis.Commercial.acceptedContainsKeywordsOverrides);
+
+        return overrideFoundForContainsKeywords || overrideFoundForContainsCommercialKeywords;
     }
 
     private static boolean overrideFoundForContainsKeywordsForTweeting(final String originalTweet) {
