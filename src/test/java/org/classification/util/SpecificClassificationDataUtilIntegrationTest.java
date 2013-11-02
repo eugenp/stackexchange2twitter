@@ -2,7 +2,7 @@ package org.classification.util;
 
 import java.io.IOException;
 
-import org.classification.util.SpecificClassificationDataUtil.JobsDataApi;
+import org.classification.util.ClassificationData.JobsDataApi;
 import org.junit.Test;
 
 public final class SpecificClassificationDataUtilIntegrationTest {

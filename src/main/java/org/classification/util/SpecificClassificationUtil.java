@@ -9,8 +9,8 @@ import java.util.List;
 import org.apache.mahout.classifier.sgd.AdaptiveLogisticRegression;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.NamedVector;
-import org.classification.util.SpecificClassificationDataUtil.JobsDataApi;
-import org.classification.util.SpecificClassificationDataUtil.ProgrammingDataApi;
+import org.classification.util.ClassificationData.JobsDataApi;
+import org.classification.util.ClassificationData.ProgrammingDataApi;
 
 public final class SpecificClassificationUtil {
 

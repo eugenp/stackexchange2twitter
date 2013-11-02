@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.classification.util.SpecificClassificationDataUtil;
+import org.classification.util.ClassificationData;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
@@ -20,8 +20,8 @@ public class ClassificationDataCleanupManualTest {
 
     @Test
     public final void whenCleaningClassificationData_thenNoExceptions() throws IOException {
-        final String path = SpecificClassificationDataUtil.Other.SAMPLE;
-        final InputStream is = SpecificClassificationDataUtil.class.getResourceAsStream(path);
+        final String path = ClassificationData.Other.SAMPLE;
+        final InputStream is = ClassificationData.class.getResourceAsStream(path);
         final List<String> tweetsForClassification = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
 
         final List<String> tweetsClean = Lists.transform(tweetsForClassification, new CleanupStringFunction());

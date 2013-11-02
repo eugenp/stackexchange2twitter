@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.classification.util.SpecificClassificationDataUtil.CommercialDataApi;
-import org.classification.util.SpecificClassificationDataUtil.JobsDataApi;
-import org.classification.util.SpecificClassificationDataUtil.ProgrammingDataApi;
+import org.classification.util.ClassificationData.CommercialDataApi;
+import org.classification.util.ClassificationData.JobsDataApi;
+import org.classification.util.ClassificationData.ProgrammingDataApi;
 
 import com.google.common.collect.Lists;
 
