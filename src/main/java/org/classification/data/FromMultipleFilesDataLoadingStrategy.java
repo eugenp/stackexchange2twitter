@@ -22,12 +22,14 @@ public class FromMultipleFilesDataLoadingStrategy {
 
     private final Map<String, String> paths;
     private final String type;
+    private final boolean loadAccept;
 
-    public FromMultipleFilesDataLoadingStrategy(final Map<String, String> paths, final String type) {
+    public FromMultipleFilesDataLoadingStrategy(final Map<String, String> paths, final String type, final boolean loadAccept) {
         super();
 
         this.paths = paths;
         this.type = type;
+        this.loadAccept = loadAccept;
     }
 
     // API
@@ -75,7 +77,7 @@ public class FromMultipleFilesDataLoadingStrategy {
             final List<String> rejectTweets = loadRejectTweets(acceptAndRejectPaths);
 
             final int minSize = Math.min(acceptTweets.size(), rejectTweets.size());
-            final List<ImmutablePair<String, String>> testData = loadTestData(acceptTweets, minSize);
+            final List<ImmutablePair<String, String>> testData = convertTestData((loadAccept ? acceptTweets : rejectTweets), minSize);
             allTestData.addAll(testData);
         }
 
@@ -109,7 +111,7 @@ public class FromMultipleFilesDataLoadingStrategy {
         return vectors;
     }
 
-    private final List<ImmutablePair<String, String>> loadTestData(final List<String> tweets, final int minSize) {
+    private final List<ImmutablePair<String, String>> convertTestData(final List<String> tweets, final int minSize) {
         final List<String> tweetsToLoad = Lists.newArrayList();
         tweetsToLoad.addAll(tweets.subList(minSize, tweets.size()));
 

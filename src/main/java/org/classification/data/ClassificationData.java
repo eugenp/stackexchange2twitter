@@ -1,7 +1,6 @@
 package org.classification.data;
 
 import static org.classification.data.GenericClassificationDataUtil.oneVsAnotherTrainingDataShuffled;
-import static org.classification.data.GenericClassificationDataUtil.testData;
 import static org.classification.util.ClassificationSettings.FEATURES;
 import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 import static org.classification.util.Classifiers.COMMERCIAL;
@@ -191,12 +190,12 @@ public final class ClassificationData {
         // training data - commercial
 
         public static final List<NamedVector> commercialVsNonCommercialTrainingDataDefault() throws IOException {
-            return ClassificationData.CommercialDataApi.commercialVsNonCommercialTrainingDataShuffled(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
+            return commercialVsNonCommercialTrainingDataShuffled(PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
         }
 
         public static final List<NamedVector> commercialVsNonCommercialTrainingDataShuffled(final int probes, final int features) throws IOException {
-            final List<NamedVector> nonCommercialVectors = ClassificationData.CommercialDataApi.nonCommercialTrainingData(probes, features);
-            final List<NamedVector> commercialNamedVectors = ClassificationData.CommercialDataApi.commercialTrainingData(probes, features);
+            final List<NamedVector> nonCommercialVectors = nonCommercialTrainingData(probes, features);
+            final List<NamedVector> commercialNamedVectors = commercialTrainingData(probes, features);
             return oneVsAnotherTrainingDataShuffled(probes, features, nonCommercialVectors, commercialNamedVectors);
         }
 
@@ -206,33 +205,36 @@ public final class ClassificationData {
          * - covers: (936)deal-toreject.txt, (38)deals-toreject.txt, (109)win-toreject.txt
          */
         static final List<NamedVector> commercialTrainingData(final int probes, final int features) throws IOException {
-            return new SimpleDataLoadingStrategy(Commercial.Training.COMMERCIAL, COMMERCIAL).loadTrainData(probes, features);
+            final Map<String, String> pathsToData = commercialAndNonCommercialPaths();
+            return new FromMultipleFilesDataLoadingStrategy(pathsToData, COMMERCIAL, false).loadTrainData(probes, features);
         }
 
         /**
          * - covers: (291)deal-toaccept.txt, (148)deals-toaccept.txt, (303)win-toaccept.txt
          */
         static final List<NamedVector> nonCommercialTrainingData(final int probes, final int features) throws IOException {
-            final Map<String, String> pathsToData = Maps.newHashMap();
-            pathsToData.put(Accept.WIN, Reject.WIN);
-            pathsToData.put(Accept.DEAL, Reject.DEAL);
-            pathsToData.put(Accept.DEALS, Reject.DEALS);
-            return new FromMultipleFilesDataLoadingStrategy(pathsToData, NONCOMMERCIAL).loadTrainData(probes, features);
-            // return new SimpleDataLoadingStrategy(Commercial.Training.NONCOMMERCIAL, NONCOMMERCIAL).loadTrainData(probes, features);
+            final Map<String, String> pathsToData = commercialAndNonCommercialPaths();
+            return new FromMultipleFilesDataLoadingStrategy(pathsToData, NONCOMMERCIAL, true).loadTrainData(probes, features);
         }
 
         // test data - commercial
 
         static final List<ImmutablePair<String, String>> commercialTestData() throws IOException {
-            return testData(Commercial.Test.COMMERCIAL, COMMERCIAL);
+            final Map<String, String> pathsToData = commercialAndNonCommercialPaths();
+            return new FromMultipleFilesDataLoadingStrategy(pathsToData, COMMERCIAL, false).loadTestData();
         }
 
         static final List<ImmutablePair<String, String>> nonCommercialTestData() throws IOException {
+            final Map<String, String> pathsToData = commercialAndNonCommercialPaths();
+            return new FromMultipleFilesDataLoadingStrategy(pathsToData, NONCOMMERCIAL, true).loadTestData();
+        }
+
+        private static Map<String, String> commercialAndNonCommercialPaths() {
             final Map<String, String> pathsToData = Maps.newHashMap();
             pathsToData.put(Accept.WIN, Reject.WIN);
             pathsToData.put(Accept.DEAL, Reject.DEAL);
             pathsToData.put(Accept.DEALS, Reject.DEALS);
-            return new FromMultipleFilesDataLoadingStrategy(pathsToData, NONCOMMERCIAL).loadTestData();
+            return pathsToData;
         }
     }
 

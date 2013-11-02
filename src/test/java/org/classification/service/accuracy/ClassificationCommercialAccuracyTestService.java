@@ -1,7 +1,5 @@
 package org.classification.service.accuracy;
 
-import static org.classification.util.ClassificationSettings.FEATURES;
-import static org.classification.util.ClassificationSettings.PROBES_FOR_CONTENT_ENCODER_VECTOR;
 import static org.classification.util.Classifiers.COMMERCIAL;
 
 import java.io.IOException;
@@ -14,7 +12,6 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.mahout.classifier.sgd.CrossFoldLearner;
 import org.apache.mahout.math.NamedVector;
 import org.classification.data.ClassificationData.CommercialDataApi;
-import org.classification.data.ClassificationData.JobsDataApi;
 import org.classification.data.ClassificationTestData;
 import org.classification.service.ClassificationService;
 import org.classification.util.ClassificationSettings;
@@ -36,29 +33,16 @@ public class ClassificationCommercialAccuracyTestService {
 
     // API
 
-    public final double calculateCommercialClassifierAccuracyWithFullTrainingDataDefault(final int runs) throws IOException {
-        return calculateCommercialClassifierAccuracyWithFullTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
-    }
-
-    public final double calculateCommercialClassifierAccuracyWithCoreTrainingDataDefault(final int runs) throws IOException {
-        return calculateCommercialClassifierAccuracyWithCoreTrainingData(runs, PROBES_FOR_CONTENT_ENCODER_VECTOR, FEATURES);
-    }
-
-    final double calculateCommercialClassifierAccuracyWithCoreTrainingData(final int runs, final int probes, final int features) throws IOException {
-        final List<NamedVector> trainingData = JobsDataApi.jobsVsNonJobsCoreTrainingDataShuffled(probes, features);
-        final List<ImmutablePair<String, String>> testData = ClassificationTestData.jobsAndNonJobsTestData();
-
-        return calculateCommercialClassifierAccuracy(trainingData, testData, runs, probes, features);
-    }
-
-    final double calculateCommercialClassifierAccuracyWithFullTrainingData(final int runs, final int probes, final int features) throws IOException {
+    final double calculateCommercialClassifierAccuracy(final int runs, final int probes, final int features) throws IOException {
         final List<NamedVector> trainingData = CommercialDataApi.commercialVsNonCommercialTrainingDataShuffled(probes, features);
         final List<ImmutablePair<String, String>> testData = ClassificationTestData.commercialAndNonCommercialTestData();
 
         return calculateCommercialClassifierAccuracy(trainingData, testData, runs, probes, features);
     }
 
-    final double calculateCommercialClassifierAccuracy(final List<NamedVector> trainingData, final List<ImmutablePair<String, String>> testData, final int runs, final int probes, final int features) throws IOException {
+    // util
+
+    private final double calculateCommercialClassifierAccuracy(final List<NamedVector> trainingData, final List<ImmutablePair<String, String>> testData, final int runs, final int probes, final int features) throws IOException {
         System.out.println("Current tokenizer: " + ClassificationSettings.TWEET_TOKENIZER);
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
@@ -82,8 +66,6 @@ public class ClassificationCommercialAccuracyTestService {
         System.out.println("Processing time: " + (end - start) + " sec");
         return mean;
     }
-
-    // util
 
     private final double analyzeCommercialData(final CrossFoldLearner bestLearner, final List<ImmutablePair<String, String>> testData, final int probes, final int features) throws IOException {
         classificationService.setCommercialVsNonCommercialLerner(bestLearner);
