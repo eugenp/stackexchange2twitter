@@ -188,11 +188,11 @@ public final class TwitterUtil {
             ,".*win.*give-away.*", ".*give-away.*win.*"
             ,".*win.*promo.*", ".*promo.*win.*"
             ,".*win.*ticket.*", ".*ticket.*win.*"
-            ,".*win.*check.*", ".*check.*win.*"
+            ,".*win.*check.*", ".*check.*win\\b.*" // +1 +1
             ,".*win.*discount.*", ".*discount.*win.*"
             ,".*win.*voucher.*", ".*voucher.*win.*"
             ,".*win.*coupon.*", ".*coupon.*win.*"
-            ,".*win.*free\\b.*", ".*free\\b.*win.*"
+            ,".*\\bwin\\b.*free\\b.*", ".*free\\b.*win\\b.*" // -1 +1
             ,".*win.*gift.*", ".*gift.*win.*"
             ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*"
             ,".*win.*submit.*", ".*submit.*win.*"
@@ -201,33 +201,33 @@ public final class TwitterUtil {
             
             //deal
             ,".*deal.*of the day.*" // +1 +1
-            ,".*deal.*\\% off.*", ".*\\% off.*deal.*"
-            ,".*deal.*free\\b.*", ".*free\\b.*deal.*"
+            ,".*deal.*\\% off.*", ".*\\% off.*deal.*" // +1 +1 
+            ,".*deal.*free\\b.*", ".*free\\b.*deal.*" // +1 +1
             // John Bolton knocks Iran nuclear deal as ‘pure propaganda’ http://t.co/QGJDOyC1jA #iran #freethe7
             
             ,".*deal.*sale\\b.*", ".*sale\\b.*deal.*"
-            ,".*deal.*special.*", ".*special.*deal.*" // +1
+            ,".*deal.*special.*", ".*special.*deal.*" // +1 +1
             ,".*deal.*discount.*", ".*discount.*deal.*"
-            ,".*deal.*gift.*", ".*gift.*deal.*"
+            ,".*deal.*gift.*", ".*gift.*deal.*" // +1
             ,".*deal.*check.*", ".*check.*deal.*"
             ,".*deal.*ebay.*", ".*ebay.*deal.*"
-            ,".*deal.*buy.*", ".*buy.*deal.*"
+            ,".*deal.*buy.*", ".*buy.*deal.*" // 
             ,".*deal.*voucher.*", ".*voucher.*deal.*"
             ,".*deal.*coupon.*", ".*coupon.*deal.*"
-            ,".*deal.*bundle.*", ".*bundle.*deal.*"
+            ,".*deal.*bundle.*", ".*bundle.*deal.*" // +1
             ,".*deal.*price\\b.*", ".*price.*deal.*" // +1
             ,".*deal.*code.*", ".*code.*deal.*"
             
             ,".*deal.*best.*", ".*best.*deal.*"
             ,".*deal.*daily.*", ".*daily.*deal.*"
-            ,".*deal.*only.*", ".*only.*deal.*"
+            ,".*deal.*only.*", ".*only.*deal.*" // +1 +1 +1
             ,".*deal.*shopping.*", ".*shopping.*deal.*"
             ,".*deal.*€.*", ".*€.*deal.*"
             ,".*deal.*£.*", ".*£.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
             ,".*deal.*\\$.*", ".*\\$.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
             
             // other commercial
-            ,".*only\\b.*\\$.*"
+            ,".*only\\b.*\\$.*" // +1 +1 +1 +1 -1 -1
         ); // @formatter:on
 
     }
