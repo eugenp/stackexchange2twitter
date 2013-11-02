@@ -165,13 +165,14 @@ public final class TwitterUtil {
             ,".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // Free ... RT
             ,".*(f|F)ollow (&|and|AND) R(T|t).*" // Follow & RT
             ,".*(R|r)(T|t) .* (f|F)ollow(ed)? .*" // RT this if you want me to follow you
+            ,"(?i)(pls|please) rt.*" // pls rt
             ,".*\\d(\\d)?% (o|O)ff.*" // 97% Off
             ,"(?i).*follow @.*"
             // win - commercial stuff
             ,".*win.*£.*", ".*£.*win.*"
             , ".*win.*contest.*", ".*contest.*win.*"
             ,".*win.*giving away.*", ".*giving away.*win.*"
-            ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*deal(s)?\\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
+            ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
         ); // @formatter:on
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
@@ -180,8 +181,8 @@ public final class TwitterUtil {
             // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
             // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
             ,".*win.*€.*", ".*€.*win.*" // +1 +1
-            ,".*win.*chance\\b.*", ".*chance\\b.*win.*" 
-            ,".*win.*\\bprize.*", ".*\\bprize.*win.*" // -1 +1 -1  
+            ,".*win\\b.*chance\\b.*", ".*chance\\b.*win.*" 
+            ,".*win.*\\bprize.*", ".*\\bprize.*win\\.*" // -1 +1 -1  
             ,".*win.*sale.*", ".*sale.*win.*" // 
             ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
             ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1 +1 +1 +1
@@ -194,7 +195,7 @@ public final class TwitterUtil {
             ,".*win.*coupon.*", ".*coupon.*win.*"
             ,".*\\bwin\\b.*free\\b.*", ".*free\\b.*win\\b.*" // -1 +1
             ,".*win.*gift.*", ".*gift.*win.*"
-            ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*"
+            ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*" // -1
             ,".*win.*submit.*", ".*submit.*win.*"
             ,".*win\\b.*some.*" // 
             ,".*you could.*win.*"

@@ -61,7 +61,7 @@ public final class AcceptTweetsByWordDealManualTest {
     // tests
 
     @Test
-    public void whenTweetIsAnalyzed_thenRejected() {
+    public final void whenTweetIsAnalyzed_thenRejected() {
         assertFalse(tweet.toLowerCase(), TwitterUtil.isTweetBannedForAnalysis(tweet.toLowerCase()));
     }
 

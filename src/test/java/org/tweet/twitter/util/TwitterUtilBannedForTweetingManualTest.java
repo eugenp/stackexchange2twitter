@@ -61,7 +61,7 @@ public final class TwitterUtilBannedForTweetingManualTest {
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario_thenRejected() {
-        assertTrue(TwitterUtil.isTweetBannedForTweeting(tweet));
+        assertTrue(tweet, TwitterUtil.isTweetBannedForTweeting(tweet));
     }
 
 }

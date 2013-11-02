@@ -64,4 +64,5 @@ public final class RejectTweetsByWordGenericManualTest {
     public void whenTweetIsAnalyzed_thenRejected() {
         assertTrue(tweet.toLowerCase(), TwitterUtil.isTweetBannedForAnalysis(tweet.toLowerCase()));
     }
+
 }
