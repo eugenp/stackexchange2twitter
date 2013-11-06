@@ -107,7 +107,7 @@ public class TweetMetaScheduler {
 
         // even newer and more experimental
         service.retweetAnyByWord(TwitterAccountEnum.BestMultithread.name());
-        service.retweetAnyByWord(TwitterAccountEnum.ParsingDaily.name());
+        // service.retweetAnyByWord(TwitterAccountEnum.ParsingDaily.name()); // no - not good results - activate it only after the programming recommender is up and running
 
         logger.info("Finished new retweet schedule - five 1");
     }
