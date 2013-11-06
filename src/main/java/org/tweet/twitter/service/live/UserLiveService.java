@@ -46,7 +46,8 @@ public class UserLiveService {
 
         readOnlyTwitterTemplate.friendOperations().follow(screenName);
 
-        logger.info("My account: {} just followed account: {}", myAccount, screenName);
+        // temporarily raised - should be info (and will be soon)
+        logger.error("My account: {} just followed account: {}", myAccount, screenName);
     }
 
     // user profiles - single
