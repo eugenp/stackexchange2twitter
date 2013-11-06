@@ -41,8 +41,7 @@ public class UserLiveService {
     // follow
 
     public final void followUser(final String myAccount, final String screenName) {
-        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
-        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(myAccount);
 
         readOnlyTwitterTemplate.friendOperations().follow(screenName);
 
