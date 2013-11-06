@@ -217,9 +217,19 @@ public final class TwitterUtil {
             final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
                 // win - commercial stuff
                  ".*win.*£.*", ".*£.*win.*"
-                , ".*win.*contest.*", ".*contest.*win.*"
+                ,".*win.*contest.*", ".*contest.*win.*"
                 ,".*win.*giving away.*", ".*giving away.*win.*"
-                ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*" // +1 +1 +1 +1 +1 +1 +1 +1 +1 +1 +1
+                ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
+                
+                ,".*free\\b.*deal.*"
+                ,".*deal.*sale\\b.*" 
+                ,".*sale\\b.*deal.*"
+                ,".*price.*deal.*"
+                ,".*best.*deal.*"
+                ,".*shopping.*deal.*"
+                ,".*£.*deal.*"
+                ,".*deal.*\\$.*"
+                ,".*\\$.*deal.*"
             ); // @formatter:on
 
             final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
@@ -240,18 +250,22 @@ public final class TwitterUtil {
                 ,".*win.*discount.*", ".*discount.*win.*"
                 ,".*win.*voucher.*", ".*voucher.*win.*"
                 ,".*win.*coupon.*", ".*coupon.*win.*"
-                ,".*\\bwin\\b.*free\\b.*", ".*free\\b.*win\\b.*" // -1 +1
+                
+                ,".*\\bwin\\b.*free\\b.*" 
+                , ".*free\\b.*win\\b.*"
+                
                 ,".*win.*gift.*", ".*gift.*win.*"
                 ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*" // -1
                 ,".*win.*submit.*", ".*submit.*win.*"
-                ,".*win\\b.*some.*" // 
+                ,".*win\\b.*some.*" 
                 ,".*you could.*win.*"
                 
                 //deal
                 ,".*deal.*of the day.*" // +1 +1
                 ,".*deal.*\\% off.*", ".*\\% off.*deal.*" // +1 +1 
-                ,".*deal.*free\\b.*", ".*free\\b.*deal.*" // +1 +1
-                ,".*deal.*sale\\b.*", ".*sale\\b.*deal.*"
+                
+                ,".*deal.*free\\b.*" 
+                
                 ,".*deal.*special.*", ".*special.*deal.*" // +1 +1
                 ,".*deal.*discount.*", ".*discount.*deal.*"
                 ,".*deal.*gift.*", ".*gift.*deal.*" // +1
@@ -261,16 +275,18 @@ public final class TwitterUtil {
                 ,".*deal.*voucher.*", ".*voucher.*deal.*"
                 ,".*deal.*coupon.*", ".*coupon.*deal.*"
                 ,".*deal.*bundle.*", ".*bundle.*deal.*" // +1
-                ,".*deal.*price\\b.*", ".*price.*deal.*" // +1
+                ,".*deal.*price\\b.*"
                 ,".*deal.*code.*", ".*code.*deal.*"
                 
-                ,".*deal.*best.*", ".*best.*deal.*"
-                ,".*deal.*daily.*", ".*daily.*deal.*"
+                ,".*deal.*best.*"
+                
+                ,".*deal.*daily.*"
+                , ".*daily.*deal.*"
                 ,".*deal.*only.*", ".*only.*deal.*" // +1 +1 +1
-                ,".*deal.*shopping.*", ".*shopping.*deal.*"
+                ,".*deal.*shopping.*"
+                
                 ,".*deal.*€.*", ".*€.*deal.*"
-                ,".*deal.*£.*", ".*£.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
-                ,".*deal.*\\$.*", ".*\\$.*deal.*" // previously - to many false positives - was ignoring for a while, but activating for now
+                ,".*deal.*£.*"
             ); // @formatter:on
 
         }
