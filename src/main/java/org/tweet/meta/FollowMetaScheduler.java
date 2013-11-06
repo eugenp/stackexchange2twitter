@@ -92,7 +92,7 @@ public class FollowMetaScheduler {
         // 10
         service.followBestUser(TwitterAccountEnum.BestRubyOnRails.name(), TwitterTag.rubyonrails.name());
         service.followBestUser(TwitterAccountEnum.BestAlgorithms.name(), TwitterTag.algorithms.name());
-        service.followBestUser(TwitterAccountEnum.BestGit.name(), TwitterTag.git.name());
+        // service.followBestUser(TwitterAccountEnum.BestGit.name(), TwitterTag.git.name()); // weird results
         service.followBestUser(TwitterAccountEnum.BestClojure.name(), TwitterTag.clojure.name());
         service.followBestUser(TwitterAccountEnum.BestJavaScript.name(), TwitterTag.javascript.name());
         service.followBestUser(TwitterAccountEnum.BestJSON.name(), TwitterTag.json.name());
