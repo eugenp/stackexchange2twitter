@@ -40,11 +40,13 @@ public class UserLiveService {
 
     // follow
 
-    public final void followUser(final String screenName) {
+    public final void followUser(final String myAccount, final String screenName) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
         final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
 
         readOnlyTwitterTemplate.friendOperations().follow(screenName);
+
+        logger.info("My account: {} just followed account: {}", myAccount, screenName);
     }
 
     // user profiles - single

@@ -31,7 +31,7 @@ public class FollowLiveService {
 
     // API
 
-    public final void followBestUser(final String account, final String keyword) {
+    public final void followBestUser(final String myAccount, final String keyword) {
         final List<TwitterProfile> usersByKeyword = userLiveService.searchForUsers(keyword);
 
         final List<Pair<String, TwitterInteractionWithValue>> interactionValues = Lists.newArrayList();
@@ -47,12 +47,11 @@ public class FollowLiveService {
                 return Floats.compare(v1.getRight().getVal(), v2.getRight().getVal());
             }
         }
-        final Ordering<Pair<String, TwitterInteractionWithValue>> byValue = new OrderingByValue();
+        final Ordering<Pair<String, TwitterInteractionWithValue>> byValue = new OrderingByValue().reverse();
         Collections.sort(interactionValues, byValue);
 
         final String screenNameOfBestValueUser = interactionValues.get(0).getLeft();
-        System.out.println(screenNameOfBestValueUser);
-        // userLiveService.followUser(screenName);
+        userLiveService.followUser(myAccount, screenNameOfBestValueUser);
     }
 
 }
