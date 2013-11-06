@@ -1,19 +1,13 @@
 package org.tweet.twitter.service.live;
 
 import java.util.List;
-import java.util.Set;
 
 import org.common.metrics.MetricsUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.social.InternalServerErrorException;
 import org.springframework.social.NotAuthorizedException;
-import org.springframework.social.ResourceNotFoundException;
-import org.springframework.social.SocialException;
-import org.springframework.social.twitter.api.CursoredList;
-import org.springframework.social.twitter.api.FriendOperations;
 import org.springframework.social.twitter.api.SearchOperations;
 import org.springframework.social.twitter.api.SearchParameters;
 import org.springframework.social.twitter.api.SearchParameters.ResultType;
@@ -21,7 +15,6 @@ import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.TimelineOperations;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
-import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.TwitterAccountEnum;
@@ -32,7 +25,6 @@ import com.codahale.metrics.MetricRegistry;
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 @Service
 @Profile(SpringProfileUtil.LIVE)
@@ -51,49 +43,7 @@ public class TwitterReadLiveService {
 
     // API
 
-    // user profiles
-
-    /**
-     * - note: will NOT return null
-     */
-    public TwitterProfile getProfileOfUser(final String userHandle) {
-        try {
-            return getProfileOfUserInternal(userHandle);
-        } catch (final SocialException socialEx) {
-            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
-
-            final Throwable cause = socialEx.getCause();
-            if (cause != null && cause instanceof InternalServerErrorException) {
-                // keep at warn or below - no need to know when this happens all the time
-                logger.warn("1 - Known reason - Unable to retrieve profile of user: " + userHandle, socialEx);
-                return null;
-            }
-            if (socialEx instanceof ResourceNotFoundException) {
-                // keep at warn or below - no need to know when this happens all the time
-                logger.warn("Known reason - User no longer exists: " + userHandle, socialEx);
-                return null;
-            }
-
-            logger.error("Unable to retrieve profile of user: " + userHandle, socialEx);
-            return null;
-        } catch (final RuntimeException ex) {
-            metrics.counter(MetricsUtil.Meta.TWITTER_READ_ERR).inc();
-            logger.error("Unable to retrieve profile of user: " + userHandle, ex);
-            return null;
-        }
-    }
-
-    private final TwitterProfile getProfileOfUserInternal(final String userHandle) {
-        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
-        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
-
-        final TwitterProfile userProfile = readOnlyTwitterTemplate.userOperations().getUserProfile(userHandle);
-        metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
-
-        return Preconditions.checkNotNull(userProfile);
-    }
-
-    // by internal accounts
+    // tweets - from internal accounts
 
     /**
      * - note: will NOT return null
@@ -155,7 +105,7 @@ public class TwitterReadLiveService {
         return userTimeline;
     }
 
-    // by external accounts
+    // tweets - from external accounts
 
     public List<String> listTweetsOfAccount(final String twitterAccount, final int howmany) {
         try {
@@ -193,7 +143,7 @@ public class TwitterReadLiveService {
         return userTimeline;
     }
 
-    // multi-request
+    // tweets - multi-request
 
     public List<Tweet> listTweetsOfAccountMultiRequestRaw(final String twitterAccount, final int howManyPages) {
         try {
@@ -306,7 +256,7 @@ public class TwitterReadLiveService {
         return collector;
     }
 
-    // by hashtag
+    // tweets - by hashtag
 
     public List<Tweet> listTweetsByHashtag(final String hashtag) {
         final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
@@ -355,31 +305,10 @@ public class TwitterReadLiveService {
         return search.getTweets();
     }
 
-    // single one
+    // tweets - single one
 
     public Tweet findOne(final long id) {
         return readOnlyTwitterApi().timelineOperations().getStatus(id);
-    }
-
-    // friends
-
-    public Set<Long> getFriendIds(final TwitterProfile account, final int maxPages) {
-        final Set<Long> fullListOfFriends = Sets.newHashSet();
-        final FriendOperations friendOperations = readOnlyTwitterApi().friendOperations();
-        final String screenName = account.getScreenName();
-
-        CursoredList<Long> currentPage = friendOperations.getFriendIds(screenName);
-        fullListOfFriends.addAll(currentPage);
-
-        final int maxNecessaryPages = (account.getFriendsCount() / 5000) + 1;
-        final int maxActualPages = Math.min(maxNecessaryPages, maxPages) - 1;
-        for (int i = 0; i < maxActualPages; i++) {
-            final long nextCursor = currentPage.getNextCursor();
-            currentPage = friendOperations.getFriendIdsInCursor(screenName, nextCursor);
-            fullListOfFriends.addAll(currentPage);
-        }
-
-        return fullListOfFriends;
     }
 
     // internal API

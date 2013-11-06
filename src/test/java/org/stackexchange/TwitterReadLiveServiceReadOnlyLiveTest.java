@@ -1,13 +1,11 @@
 package org.stackexchange;
 
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -64,13 +61,6 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
     }
 
     @Test
-    public final void whenRetrievingTwitterProfile_thenNoxceptions() throws JsonProcessingException, IOException {
-        final TwitterProfile profileOfUser = instance.getProfileOfUser("selsaber");
-        System.out.println(profileOfUser);
-        System.out.println(profileOfUser.getLanguage());
-    }
-
-    @Test
     public final void whenTweetIsRetrieved_thenTextContainsFullLink() {
         final Tweet tweet = instance.findOne(363444216342786048l);
         System.out.println(TweetUtil.getText(tweet));
@@ -81,29 +71,6 @@ public class TwitterReadLiveServiceReadOnlyLiveTest {
         final List<Tweet> tweetsOfHashtag = instance.listTweetsByHashtag(TwitterTag.mysql.name());
         Collections.sort(tweetsOfHashtag, new TweetByRtComparator());
         System.out.println(tweetsOfHashtag);
-    }
-
-    // friends
-
-    @Test
-    public final void whenFriendIdsAreRetrievedFromAccount1_thenCorrect() {
-        final TwitterProfile account = instance.getProfileOfUser("GreatestQuotes");
-        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
-        assertThat(friendsOfHashtag.size(), equalTo(10000));
-    }
-
-    @Test
-    public final void whenFriendIdsAreRetrievedFromAccount2_thenCorrect() {
-        final TwitterProfile account = instance.getProfileOfUser("skillsmatter");
-        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
-        assertThat(friendsOfHashtag.size(), greaterThan(3300));
-    }
-
-    @Test
-    public final void whenFriendIdsAreRetrievedFromAccount3_thenCorrect() {
-        final TwitterProfile account = instance.getProfileOfUser("davesbargains");
-        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
-        assertThat(friendsOfHashtag.size(), greaterThan(8000));
     }
 
     // list operations

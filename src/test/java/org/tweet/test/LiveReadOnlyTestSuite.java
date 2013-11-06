@@ -11,6 +11,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.rss.service.RssServiceReadOnlyLiveTest;
 import org.stackexchange.TwitterReadLiveServiceReadOnlyLiveTest;
+import org.stackexchange.UserLiveServiceReadOnlyLiveTest;
 import org.tweet.meta.service.InteractionLiveServiceLiveTest;
 import org.tweet.twitter.service.TweetServiceReadOnlyLiveTest;
 import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
@@ -41,7 +42,8 @@ import org.tweet.twitter.service.TwitterTemplateCreatorLiveTest;
     RssServiceReadOnlyLiveTest.class, 
     
     // stack
-    TwitterReadLiveServiceReadOnlyLiveTest.class
+    TwitterReadLiveServiceReadOnlyLiveTest.class, 
+    UserLiveServiceReadOnlyLiveTest.class
 }) // @formatter:on
 // QuestionsApiLiveTest.class - not in the jar
 public final class LiveReadOnlyTestSuite {

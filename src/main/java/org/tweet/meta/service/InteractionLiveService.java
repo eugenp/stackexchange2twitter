@@ -23,6 +23,7 @@ import org.tweet.twitter.component.DiscouragedExpressionRetriever;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.service.TweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
+import org.tweet.twitter.service.live.UserLiveService;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
@@ -40,6 +41,9 @@ public class InteractionLiveService {
 
     @Autowired
     TwitterReadLiveService twitterReadLiveService;
+
+    @Autowired
+    UserLiveService userLiveService;
 
     @Autowired
     TweetService tweetService;
@@ -208,19 +212,19 @@ public class InteractionLiveService {
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    final TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final String userHandle, final String twitterAccount) {
-        final TwitterProfile user = twitterReadLiveService.getProfileOfUser(userHandle);
+    public final TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final String userHandle, final String twitterAccount) {
+        final TwitterProfile user = userLiveService.getProfileOfUser(userHandle);
         if (user == null) {
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
-        return decideBestInteractionWithAuthorLive(user, userHandle, twitterAccount);
+        return determineBestInteractionWithAuthorLive(user, userHandle, twitterAccount);
     }
 
     /**
      * - <b>live</b>: interacts with the twitter API <br/>
      * - <b>local</b>: everything else
      */
-    TwitterInteractionWithValue decideBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle, final String twitterAccount) {
+    public TwitterInteractionWithValue determineBestInteractionWithAuthorLive(final TwitterProfile user, final String userHandle, final String twitterAccount) {
         if (!passEliminatoryChecksBasedOnUser(user)) {
             return new TwitterInteractionWithValue(TwitterInteraction.None, 0);
         }
@@ -582,7 +586,7 @@ public class InteractionLiveService {
             }
         });
 
-        final Set<Long> friendIds = twitterReadLiveService.getFriendIds(account, pages);
+        final Set<Long> friendIds = userLiveService.getFriendIds(account, pages);
 
         int count = 0;
         for (final long userIdOfRetweet : originalUserIds) {

@@ -251,7 +251,7 @@ public class TweetService {
         return true;
     }
 
-    public final boolean passesUserLanguageChecksForAnalysis(final TwitterProfile user, final Tweet tweetForLogging, final String hashtagForLogging) {
+    public boolean passesUserLanguageChecksForAnalysis(final TwitterProfile user, final Tweet tweetForLogging, final String hashtagForLogging) {
         Preconditions.checkNotNull(user.getLanguage());
         Preconditions.checkState((tweetForLogging != null && hashtagForLogging != null) || (tweetForLogging == null && hashtagForLogging == null)); // these are both either null or not
         final boolean extensiveLogging = tweetForLogging != null;
