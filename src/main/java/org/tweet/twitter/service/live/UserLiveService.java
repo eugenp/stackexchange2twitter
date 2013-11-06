@@ -38,6 +38,15 @@ public class UserLiveService {
 
     // API
 
+    // follow
+
+    public final void followUser(final String screenName) {
+        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
+
+        readOnlyTwitterTemplate.friendOperations().follow(screenName);
+    }
+
     // user profiles - single
 
     /**
