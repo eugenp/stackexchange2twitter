@@ -15,6 +15,8 @@ import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.service.live.UserLiveService;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
 
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Floats;
@@ -34,11 +36,12 @@ public class FollowLiveService {
 
     public final void followBestUser(final String myAccount, final String keyword) {
         final List<TwitterProfile> usersByKeyword = userLiveService.searchForUsers(keyword);
-        final Set<Long> alreadyFollowedAccounts = userLiveService.getFollowerIdsOfMyAccount(myAccount);
+        final Set<Long> alreadyFollowedAccounts = userLiveService.getIdsOfAccountsFollowedByMyAccount(myAccount);
+        final Iterable<TwitterProfile> newAccountsToFollow = Iterables.filter(usersByKeyword, Predicates.not(new AlreadyFollowedByPredicate(alreadyFollowedAccounts)));
 
         final List<Pair<String, TwitterInteractionWithValue>> interactionValues = Lists.newArrayList();
 
-        for (final TwitterProfile twitterProfile : usersByKeyword) {
+        for (final TwitterProfile twitterProfile : newAccountsToFollow) {
             final TwitterInteractionWithValue interactionWithAuthor = interactionLiveService.determineBestInteractionWithAuthorLive(twitterProfile, twitterProfile.getScreenName(), TwitterAccountEnum.BestScala.name());
             interactionValues.add(new ImmutablePair<String, TwitterInteractionWithValue>(twitterProfile.getScreenName(), interactionWithAuthor));
         }
@@ -55,5 +58,4 @@ public class FollowLiveService {
         final String screenNameOfBestValueUser = interactionValues.get(0).getLeft();
         userLiveService.followUser(myAccount, screenNameOfBestValueUser);
     }
-
 }
