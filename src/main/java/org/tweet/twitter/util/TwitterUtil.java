@@ -222,6 +222,7 @@ public final class TwitterUtil {
                 , ".*chance\\b.*win\\b.*"
                 ,".*\\bwin.*ticket.*"
                 ,".*\\bwin\\b.*check.*"
+                ,".*\\bwin\\b.*free\\b.*"
                 
                 // deal - commercial stuff
                 ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
@@ -235,6 +236,8 @@ public final class TwitterUtil {
                 ,".*deal.*\\$.*"
                 ,".*\\$.*deal.*"
                 ,".*deal.*of the day.*"
+                ,".*deal.*discount.*"
+                , ".*ebay.*deal.*"
                 
                 // other: 
                 
@@ -268,7 +271,6 @@ public final class TwitterUtil {
                 
                 ,".*win.*coupon.*", ".*coupon.*win.*"
                 
-                ,".*\\bwin\\b.*free\\b.*" 
                 , ".*free\\b.*win\\b.*"
                 
                 ,".*win.*gift.*", ".*gift.*win.*"
@@ -284,10 +286,14 @@ public final class TwitterUtil {
                 ,".*deal.*free\\b.*" 
                 
                 ,".*deal.*special.*", ".*special.*deal.*" // +1 +1
-                ,".*deal.*discount.*", ".*discount.*deal.*"
+                
+                , ".*discount.*deal.*"
+                
                 ,".*deal.*gift.*", ".*gift.*deal.*" // +1
                 ,".*deal.*check.*", ".*check.*deal.*"
-                ,".*deal.*ebay.*", ".*ebay.*deal.*"
+                
+                ,".*deal.*ebay.*"
+                
                 ,".*deal.*buy.*", ".*buy.*deal.*" // 
                 ,".*deal.*voucher.*", ".*voucher.*deal.*"
                 ,".*deal.*coupon.*", ".*coupon.*deal.*"
