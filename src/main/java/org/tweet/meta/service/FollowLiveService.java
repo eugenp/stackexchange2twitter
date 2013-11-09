@@ -2,6 +2,7 @@ package org.tweet.meta.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -33,6 +34,7 @@ public class FollowLiveService {
 
     public final void followBestUser(final String myAccount, final String keyword) {
         final List<TwitterProfile> usersByKeyword = userLiveService.searchForUsers(keyword);
+        final Set<Long> alreadyFollowedAccounts = userLiveService.getFollowerIdsOfMyAccount(myAccount);
 
         final List<Pair<String, TwitterInteractionWithValue>> interactionValues = Lists.newArrayList();
 

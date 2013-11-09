@@ -139,7 +139,15 @@ public class UserLiveService {
 
     // friends
 
-    public Set<Long> getFriendIds(final TwitterProfile account, final int maxPages) {
+    public Set<Long> getIdsOfAccountsFollowedByMyAccount(final String myAccount) {
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(myAccount);
+        final FriendOperations friendOperations = readOnlyTwitterTemplate.friendOperations();
+
+        final CursoredList<Long> followedBy = friendOperations.getFriendIds(myAccount);
+        return Sets.newHashSet(followedBy);
+    }
+
+    public Set<Long> getIdsOfAccountsFollowedByThisAccount(final TwitterProfile account, final int maxPages) {
         final Set<Long> fullListOfFriends = Sets.newHashSet();
         final FriendOperations friendOperations = readOnlyTwitterApi().friendOperations();
         final String screenName = account.getScreenName();

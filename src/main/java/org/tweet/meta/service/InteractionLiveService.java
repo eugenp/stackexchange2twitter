@@ -586,7 +586,7 @@ public class InteractionLiveService {
             }
         });
 
-        final Set<Long> friendIds = userLiveService.getFriendIds(account, pages);
+        final Set<Long> friendIds = userLiveService.getIdsOfAccountsFollowedByThisAccount(account, pages);
 
         int count = 0;
         for (final long userIdOfRetweet : originalUserIds) {

@@ -70,33 +70,46 @@ public class UserLiveServiceReadOnlyLiveTest {
         assertThat(usersByTag, hasSize(60));
     }
 
-    // friends
+    // friends - random accounts
 
     @Test
     public final void whenFriendIdsAreRetrievedFromAccount1_thenCorrect() {
         final TwitterProfile account = instance.getProfileOfUser("GreatestQuotes");
-        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
+        final Collection<Long> friendsOfHashtag = instance.getIdsOfAccountsFollowedByThisAccount(account, 2);
         assertThat(friendsOfHashtag.size(), equalTo(10000));
     }
 
     @Test
     public final void whenFriendIdsAreRetrievedFromAccount2_thenCorrect() {
         final TwitterProfile account = instance.getProfileOfUser("skillsmatter");
-        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
+        final Collection<Long> friendsOfHashtag = instance.getIdsOfAccountsFollowedByThisAccount(account, 2);
         assertThat(friendsOfHashtag.size(), greaterThan(3300));
     }
 
     @Test
     public final void whenFriendIdsAreRetrievedFromAccount3_thenCorrect() {
         final TwitterProfile account = instance.getProfileOfUser("davesbargains");
-        final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
+        final Collection<Long> friendsOfHashtag = instance.getIdsOfAccountsFollowedByThisAccount(account, 2);
         assertThat(friendsOfHashtag.size(), greaterThan(8000));
     }
 
-    // follower ids
+    // friends - my accounts
 
     @Test
-    public final void whenFollowerIdsAreRetrievedForAccount_thenNoExceptions() {
+    public final void whenFriendIdsAreRetrievedForMyAccount_thenNoExceptions() {
+        instance.getIdsOfAccountsFollowedByMyAccount(TwitterAccountEnum.BestScala.name());
+    }
+
+    @Test
+    public final void whenFriendIdsAreRetrievedForMyAccount_thenCorrectNumberOfIds() {
+        final Set<Long> followedByMyAccount = instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.BestScala.name());
+        assertThat(followedByMyAccount, hasSize(greaterThan(200)));
+    }
+
+    // follower ids - my accounts
+
+    @Test
+    public final void whenFollowerIdsAreRetrievedForMyAccount_thenNoExceptions() {
         instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.BestScala.name());
     }
 
