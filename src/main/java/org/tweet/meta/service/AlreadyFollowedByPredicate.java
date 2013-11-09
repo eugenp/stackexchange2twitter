@@ -23,7 +23,12 @@ public class AlreadyFollowedByPredicate implements Predicate<TwitterProfile> {
 
     @Override
     public final boolean apply(@Nullable final TwitterProfile input) {
-        return alreadyFollowedAccounts.contains(input.getId());
+        final boolean alreadyFollows = alreadyFollowedAccounts.contains(input.getId());
+        if (alreadyFollows) {
+            return true;
+        }
+
+        return false;
     }
 
 }
