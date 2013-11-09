@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.common.spring.CommonServiceConfig;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.stackexchange.spring.StackexchangeContextConfig;
+import org.stackexchange.util.TwitterAccountEnum;
 import org.stackexchange.util.TwitterTag;
 import org.tweet.spring.TwitterConfig;
 import org.tweet.spring.TwitterLiveConfig;
@@ -89,6 +91,19 @@ public class UserLiveServiceReadOnlyLiveTest {
         final TwitterProfile account = instance.getProfileOfUser("davesbargains");
         final Collection<Long> friendsOfHashtag = instance.getFriendIds(account, 2);
         assertThat(friendsOfHashtag.size(), greaterThan(8000));
+    }
+
+    // follower ids
+
+    @Test
+    public final void whenFollowerIdsAreRetrievedForAccount_thenNoExceptions() {
+        instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.BestScala.name());
+    }
+
+    @Test
+    public final void whenFollowerIdsAreRetrievedForAccount_thenCorrectNumberOfIds() {
+        final Set<Long> followerIdsOfMyAccount = instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.BestScala.name());
+        assertThat(followerIdsOfMyAccount, hasSize(greaterThan(50)));
     }
 
 }

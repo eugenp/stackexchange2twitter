@@ -158,6 +158,16 @@ public class UserLiveService {
         return fullListOfFriends;
     }
 
+    // followers
+
+    public final Set<Long> getFollowerIdsOfMyAccount(final String myAccount) {
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(myAccount);
+        final FriendOperations friendOperations = readOnlyTwitterTemplate.friendOperations();
+
+        final CursoredList<Long> followerIds = friendOperations.getFollowerIds();
+        return Sets.newHashSet(followerIds);
+    }
+
     // internal API
 
     private final Twitter readOnlyTwitterApi() {
