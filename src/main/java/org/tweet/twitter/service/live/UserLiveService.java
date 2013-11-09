@@ -15,6 +15,7 @@ import org.springframework.social.twitter.api.CursoredList;
 import org.springframework.social.twitter.api.FriendOperations;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
+import org.springframework.social.twitter.api.UserOperations;
 import org.springframework.stereotype.Service;
 import org.stackexchange.util.GenericUtil;
 import org.stackexchange.util.TwitterAccountEnum;
@@ -23,6 +24,7 @@ import org.tweet.twitter.service.TwitterTemplateCreator;
 
 import com.codahale.metrics.MetricRegistry;
 import com.google.api.client.util.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 @Service
@@ -45,8 +47,7 @@ public class UserLiveService {
 
         readOnlyTwitterTemplate.friendOperations().follow(screenName);
 
-        // temporarily raised - should be info (and will be soon)
-        logger.error("My account: {} just followed account: {}", myAccount, screenName);
+        logger.info("My account: {} just followed account: {}", myAccount, screenName);
     }
 
     // user profiles - single
@@ -89,6 +90,41 @@ public class UserLiveService {
         metrics.counter(MetricsUtil.Meta.TWITTER_READ_OK).inc();
 
         return Preconditions.checkNotNull(userProfile);
+    }
+
+    // user profiles - multi-request - search
+
+    public final List<TwitterProfile> searchForUsers(final String keyword, final int howManyPages) {
+        if (howManyPages <= 1) {
+            return searchForUsers(keyword);
+        }
+        if (howManyPages > 20) {
+            throw new IllegalStateException();
+        }
+
+        final String randomAccount = GenericUtil.pickOneGeneric(TwitterAccountEnum.values()).name();
+        final Twitter readOnlyTwitterTemplate = twitterCreator.createTwitterTemplate(randomAccount);
+        final UserOperations userOperations = readOnlyTwitterTemplate.userOperations();
+
+        final List<TwitterProfile> collector = Lists.newArrayList();
+        int currentPageIndex = 0;
+        List<TwitterProfile> currentPage = null;
+        boolean keepGoing = true;
+
+        while (keepGoing) {
+            currentPage = userOperations.searchForUsers(keyword, currentPageIndex, 20);
+            collector.addAll(currentPage);
+            currentPageIndex++;
+            if (collector.size() < 20) {
+                // done - under 20 user profiles (1 page)
+                keepGoing = false;
+            }
+            if (currentPageIndex == howManyPages) {
+                keepGoing = false;
+            }
+        }
+
+        return collector;
     }
 
     // user profiles - multiple - search

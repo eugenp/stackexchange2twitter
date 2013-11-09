@@ -3,6 +3,7 @@ package org.stackexchange;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
@@ -57,6 +58,14 @@ public class UserLiveServiceReadOnlyLiveTest {
     public final void whenUsersAreSearchedByKeyword1_thenSomeUsersAreFound() {
         final List<TwitterProfile> usersByTag = instance.searchForUsers(TwitterTag.scala.name());
         assertThat(usersByTag, not(empty()));
+    }
+
+    // users - many requests - multiple
+
+    @Test
+    public final void whenMoreThanOnePageUsersAreSearchedByKeyword_thenCorrectNumberOfUsersIsFound() {
+        final List<TwitterProfile> usersByTag = instance.searchForUsers(TwitterTag.scala.name(), 3);
+        assertThat(usersByTag, hasSize(60));
     }
 
     // friends
