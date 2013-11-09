@@ -21,6 +21,6 @@ import org.tweet.twitter.util.specific.RejectTweetsByWordWinManualTest;
     RejectTweetsByWordDealManualTest.class, 
     RejectTweetsByWordDealsManualTest.class, 
 }) //@formatter:off
-public final class ManualRejectUnitTestSuite { // 21 / 1351
+public final class ManualRejectUnitTestSuite { // 11 / 1351
     //
 }
