@@ -21,6 +21,6 @@ import org.tweet.twitter.util.specific.AcceptTweetsByWordWinManualTest;
     AcceptTweetsByWordDealManualTest.class, 
     AcceptTweetsByWordDealsManualTest.class, 
 }) //@formatter:off
-public final class ManualAcceptUnitTestSuite { // 67/135 
+public final class ManualAcceptUnitTestSuite { // 68 failing
     //
 }

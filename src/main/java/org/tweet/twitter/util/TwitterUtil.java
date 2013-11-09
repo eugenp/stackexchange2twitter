@@ -216,11 +216,13 @@ public final class TwitterUtil {
 
             final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
                 // win - commercial stuff
-                 ".*win.*£.*", ".*£.*win.*"
+                ".*win.*£.*", ".*£.*win.*"
                 ,".*win.*contest.*", ".*contest.*win.*"
                 ,".*win.*giving away.*", ".*giving away.*win.*"
-                ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
+                , ".*chance\\b.*win.*"
                 
+                // deal - commercial stuff
+                ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
                 ,".*free\\b.*deal.*"
                 ,".*deal.*sale\\b.*" 
                 ,".*sale\\b.*deal.*"
@@ -230,15 +232,20 @@ public final class TwitterUtil {
                 ,".*£.*deal.*"
                 ,".*deal.*\\$.*"
                 ,".*\\$.*deal.*"
+                ,".*deal.*of the day.*"
+                
+                // other: 
+                
             ); // @formatter:on
 
             final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-                // win
                 ".*win.*\\$.*", ".*\\$.*win.*" // +1 +1 +1 
                 // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
                 // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
                 ,".*win.*€.*", ".*€.*win.*" // +1 +1
-                ,".*win\\b.*chance\\b.*", ".*chance\\b.*win.*" 
+                
+                ,".*win\\b.*chance\\b.*"
+                
                 ,".*win.*\\bprize.*", ".*\\bprize.*win\\.*" // -1 +1 -1  
                 ,".*win.*sale.*", ".*sale.*win.*" // 
                 ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
@@ -261,7 +268,6 @@ public final class TwitterUtil {
                 ,".*you could.*win.*"
                 
                 //deal
-                ,".*deal.*of the day.*" // +1 +1
                 ,".*deal.*\\% off.*", ".*\\% off.*deal.*" // +1 +1 
                 
                 ,".*deal.*free\\b.*" 
