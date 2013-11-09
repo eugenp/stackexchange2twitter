@@ -221,6 +221,7 @@ public final class TwitterUtil {
                 ,".*win.*giving away.*", ".*giving away.*win.*"
                 , ".*chance\\b.*win.*"
                 ,".*\\bwin.*ticket.*"
+                ,".*\\bwin.*check.*"
                 
                 // deal - commercial stuff
                 ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
@@ -256,7 +257,8 @@ public final class TwitterUtil {
                 
                 , ".*ticket.*win.*"
                 
-                ,".*win.*check.*", ".*check.*win\\b.*" // +1 +1
+                , ".*check.*win\\b.*" // +1 +1
+                
                 ,".*win.*discount.*", ".*discount.*win.*"
                 
                 ,".*win.*voucher.*"
