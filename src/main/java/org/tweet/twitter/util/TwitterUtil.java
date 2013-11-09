@@ -219,9 +219,9 @@ public final class TwitterUtil {
                 ".*win.*£.*", ".*£.*win.*"
                 ,".*win.*contest.*", ".*contest.*win.*"
                 ,".*win.*giving away.*", ".*giving away.*win.*"
-                , ".*chance\\b.*win.*"
+                , ".*chance\\b.*win\\b.*"
                 ,".*\\bwin.*ticket.*"
-                ,".*\\bwin.*check.*"
+                ,".*\\bwin\\b.*check.*"
                 
                 // deal - commercial stuff
                 ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
@@ -248,7 +248,9 @@ public final class TwitterUtil {
                 
                 ,".*win\\b.*chance\\b.*"
                 
-                ,".*win.*\\bprize.*", ".*\\bprize.*win\\.*" // -1 +1 -1  
+                ,".*\\bwin.*\\bprize.*"
+                , ".*\\bprize.*win\\.*" // -1 +1 -1
+                
                 ,".*win.*sale.*", ".*sale.*win.*" // 
                 ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
                 ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1 +1 +1 +1
