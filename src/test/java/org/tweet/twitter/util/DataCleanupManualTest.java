@@ -12,21 +12,77 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.classification.data.GenericClassificationDataUtil;
 import org.junit.Test;
+import org.stackexchange.gather.CleanupStringFunction;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class DataCleanupManualTest {
 
-    @Test
-    public final void whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/deal-toreject.txt");
-        final List<String> lines = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
+    private static final String INTERNAL_PATH = "/notes/test/";
+    private static final String EXTERNAL_PATH = "/opt/sandbox/";
 
-        final Set<String> uniqueLines = Sets.newHashSet(lines);
-        final File file = new File("/opt/sandbox/deal-toreject_2.txt");
+    private static final String FILE1 = "win-toreject.txt";
+    private static final String FILE2 = "win-toaccept.txt";
+
+    private final class BannedByCommercialAnalysis implements Predicate<String> {
+        @Override
+        public final boolean apply(final String input) {
+            return TwitterUtil.isTweetBannedForCommercialAnalysis(input.toLowerCase());
+        }
+    }
+
+    private final class IsNotEmpty implements Predicate<String> {
+        @Override
+        public final boolean apply(final String input) {
+            return !input.trim().isEmpty();
+        }
+    }
+
+    // tests
+
+    @Test
+    public final void givenCommercialData_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
+        final String fileToClean = FILE2;
+        final Set<String> uniqueLines = lines(fileToRead(fileToClean));
+
+        final List<String> uniqueLinesCleanWithEmpty = Lists.newArrayList(Iterables.transform(uniqueLines, new CleanupStringFunction()));
+        final List<String> uniqueLinesClean = Lists.newArrayList(Iterables.filter(uniqueLinesCleanWithEmpty, new IsNotEmpty()));
+        final List<String> banned = Lists.newArrayList(Iterables.filter(uniqueLinesClean, new BannedByCommercialAnalysis()));
+        uniqueLinesClean.removeAll(banned);
+        uniqueLinesClean.addAll(banned);
+
+        // write to file
+        write(uniqueLinesClean, fileToWrite(fileToClean));
+    }
+
+    // util
+
+    private final void write(final List<String> lines, final String path) throws IOException {
+        final File file = new File(path);
         file.createNewFile();
         final FileWriter fileWriter = new FileWriter(file);
-        IOUtils.writeLines(uniqueLines, "\n", fileWriter);
+        IOUtils.writeLines(lines, "\n", fileWriter);
         fileWriter.close();
     }
+
+    private final Set<String> lines(final String path) throws IOException {
+        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream(path);
+        final List<String> lines = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
+        final Set<String> uniqueLines = Sets.newHashSet(lines);
+        return uniqueLines;
+    }
+
+    // util
+
+    private static String fileToRead(final String fileName) {
+        return INTERNAL_PATH + fileName;
+    }
+
+    private static String fileToWrite(final String fileName) {
+        return EXTERNAL_PATH + "new_" + fileName;
+    }
+
 }
