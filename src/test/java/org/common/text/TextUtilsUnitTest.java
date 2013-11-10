@@ -177,7 +177,6 @@ public class TextUtilsUnitTest {
     }
 
     @Test
-    // new
     public final void givenTextContainsInvalidCharactersScenario25_whenProcessingTweetText_thenCorrectlyProcessed() {
         final String expectedText = "#KDE Software Compilation 4.11 released. Help us find bugs, translate it - http://www.kde.org/announcements/announce-4.11-beta1.php";
         final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("#KDE Software Compilation 4.11 released. Help us find bugs, translate it → http://www.kde.org/announcements/announce-4.11-beta1.php");
@@ -185,7 +184,6 @@ public class TextUtilsUnitTest {
     }
 
     @Test
-    // new
     public final void givenTextContainsInvalidCharactersScenario26_whenProcessingTweetText_thenCorrectlyProcessed() {
         final String expectedText = "Yes, teachers. You can attend the #python conference for just £35. http://teachcomputing.wordpress.com/2013/09/05/teachers-welcome-at-pyconuk-2013/";
         final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("Yes, teachers. You can attend the #python conference for just £35. http://teachcomputing.wordpress.com/2013/09/05/teachers-welcome-at-pyconuk-2013/");
@@ -193,10 +191,16 @@ public class TextUtilsUnitTest {
     }
 
     @Test
-    // new
     public final void givenTextContainsInvalidCharactersScenario27_whenProcessingTweetText_thenCorrectlyProcessed() {
         final String expectedText = "\"Google Waves Goodbye To #MySQL In Favor Of #MariaDB\" good read http://feedproxy.google.com/~r/readwriteweb/~3/_QqvIP_s1Hs/google-waves-goodbye-to-mysql-in-favor-of-mariadb";
         final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("\"Google Waves Goodbye To #MySQL In Favor Of #MariaDB\" good read http://feedproxy.google.com/~r/readwriteweb/~3/_QqvIP_s1Hs/google-waves-goodbye-to-mysql-in-favor-of-mariadb");
+        assertThat(preProcessedTweet, equalTo(expectedText));
+    }
+
+    @Test
+    public final void givenTextContainsInvalidCharactersScenario28_whenProcessingTweetText_thenCorrectlyProcessed() {
+        final String expectedText = "∀x ∃y: Awesome click-&-paste set of mathematical symbols for Twitter, G+, etc! http://copypastecharacter.com/mathematical  #math #mathchat #edtech";
+        final String preProcessedTweet = TextUtil.cleanupInvalidCharacters("∀x ∃y: Awesome click-&-paste set of mathematical symbols for Twitter, G+, etc! http://copypastecharacter.com/mathematical  #math #mathchat #edtech");
         assertThat(preProcessedTweet, equalTo(expectedText));
     }
 

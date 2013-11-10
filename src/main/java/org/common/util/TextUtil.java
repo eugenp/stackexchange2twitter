@@ -88,10 +88,10 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "&copy;", ""); // ©
         cleanedText = StringUtils.replaceAll(cleanedText, "&reg;", ""); // ®
         cleanedText = StringUtils.replaceAll(cleanedText, "❤", "");
+        cleanedText = StringUtils.replaceAll(cleanedText, "♥", "");
         cleanedText = StringUtils.replaceAll(cleanedText, "ߒ", "");
         cleanedText = StringUtils.replaceAll(cleanedText, "ߘ", "");
         cleanedText = StringUtils.replaceAll(cleanedText, "✔", "");
-        cleanedText = StringUtils.replaceAll(cleanedText, "&forall;", ""); // ∀
         cleanedText = StringUtils.replaceAll(cleanedText, "&iquest;", ""); // ¿
         cleanedText = StringUtils.replaceAll(cleanedText, "&trade;", ""); // ™
 
@@ -105,6 +105,8 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "&ntilde;", "ñ");
         cleanedText = StringUtils.replaceAll(cleanedText, "&egrave;", "è");
         cleanedText = StringUtils.replaceAll(cleanedText, "&uuml;", "ü");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&exist;", "∃");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&forall;", "∀");
 
         return cleanedText;
     }
