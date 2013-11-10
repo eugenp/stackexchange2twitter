@@ -189,7 +189,7 @@ public final class TwitterUtil {
             // by starts with
 
             final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
-                // 
+                "#win"
             );// @formatter:on
 
             // by expression
@@ -214,84 +214,65 @@ public final class TwitterUtil {
 
             final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
                 // win - commercial stuff
-                ".*win.*£.*", ".*£.*win.*"
-                ,".*win.*contest.*", ".*contest.*win.*"
-                ,".*win.*giving away.*", ".*giving away.*win.*"
-                , ".*chance\\b.*win(ner|ning)?\\b.*"
-                ,".*\\bwin.*ticket.*"
-                ,".*\\bwin(ner|ning)?\\b.*check.*"
-                ,".*\\bwin(ner|ning)?\\b.*free\\b.*"
-                ,".*\\bwin(ner|ning)?\\b.*\\bprize.*"
                 
                 // deal - commercial stuff
-                ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
-                ,".*free\\b.*deal.*"
-                ,".*deal.*sale\\b.*" 
-                ,".*sale\\b.*deal.*"
-                ,".*price.*deal.*"
-                ,".*best.*deal(s)?\\b.*"
-                ,".*shopping.*deal.*"
-                ,".*£.*deal.*"
-                ,".*deal.*\\$.*"
-                ,".*\\$.*deal.*"
-                ,".*deal.*of the day.*"
-                ,".*deal.*discount.*"
-                , ".*ebay.*deal.*"
-                , ".*\\% \\boff\\b.*\\bdeal.*"
+                 ".*\\% \\boff\\b.*\\bdeal.*"
                 
                 // other: 
                 
             ); // @formatter:on
+            static {
+                // win
+                bannedRegExes.add(RejectExpressionUtil.rejectWinStart("chance"));
 
+                bannedRegExes.add(RejectExpressionUtil.rejectWinEnd("ticket"));
+                bannedRegExes.add(RejectExpressionUtil.rejectWinEnd("check"));
+                bannedRegExes.add(RejectExpressionUtil.rejectWinEnd("free"));
+                bannedRegExes.add(RejectExpressionUtil.rejectWinEnd("prize"));
+
+                bannedRegExes.addAll(RejectExpressionUtil.rejectWin("£"));
+                bannedRegExes.addAll(RejectExpressionUtil.rejectWin("contest"));
+                bannedRegExes.addAll(RejectExpressionUtil.rejectWin("giving away"));
+
+                bannedRegExes.addAll(RejectExpressionUtil.rejectWin("follow")); // new
+
+                // deal
+                bannedRegExes.add(RejectExpressionUtil.rejectDealStart("free"));
+                bannedRegExes.add(RejectExpressionUtil.rejectDealStart("price"));
+                bannedRegExes.add(RejectExpressionUtil.rejectDealStart("shopping"));
+                bannedRegExes.add(RejectExpressionUtil.rejectDealStart("ebay"));
+                bannedRegExes.add(RejectExpressionUtil.rejectDealStart("best"));
+                bannedRegExes.add(RejectExpressionUtil.rejectDealStart("£"));
+
+                bannedRegExes.add(RejectExpressionUtil.rejectDealEnd("of the day"));
+                bannedRegExes.add(RejectExpressionUtil.rejectDealEnd("discount"));
+
+                bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("sale"));
+                bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("amazon"));
+                bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("\\$"));
+                bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("today"));
+            }
             final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
                 // win
-                ".*\\bwin(ner|ning)?\\b.*\\$.*", ".*\\$.*\\bwin(ner|ning)?\\b.*" 
-                ,".*\\bwin(ner|ning)?\\b.*€.*", ".*€.*\\bwin(ner|ning)?\\b.*" 
-                
-                ,".*\\bwin(ner|ning)?\\b.*chance\\b.*"
-                , ".*\\bprize.*\\bwin\\.*" 
-                
-                , ".*ticket.*\\bwin(ner|ning)?\\b.*"
-                , ".*\\bcheck.*\\bwin(ner|ning)?\\b.*" 
-                , ".*free\\b.*\\bwin(ner|ning)?\\b.*"
-                , ".*enter to\\b.*\\bwin\\b.*"
-
-                ,".*\\bwin(ner|ning)?\\b.*some.*" 
-                ,".*you could.*\\bwin(ner|ning)?\\b.*"
+                 ".*\\bprize.*\\bwin\\.*" 
 
                 //deal
                 ,".*\\bdeal.*\\% off.*"
-                ,".*\\bdeal.*free\\b.*" 
-                ,".*\\bdeal.*special.*"
-                , ".*special.*\\bdeal.*"
-                , ".*discount.*\\bdeal.*"
-                
-                ,".*\\bdeal.*gift.*", ".*gift.*\\bdeal.*"
-                ,".*\\bdeal.*check.*", ".*check.*\\bdeal.*"
-                ,".*\\bdeal.*ebay.*"
-                
-                ,".*\\bdeal.*buy.*", ".*buy.*\\bdeal.*" 
-                ,".*\\bdeal.*voucher.*", ".*voucher.*\\bdeal.*"
-                ,".*\\bdeal.*coupon.*", ".*coupon.*\\bdeal.*"
-                ,".*\\bdeal.*bundle.*", ".*bundle.*\\bdeal.*"
-                ,".*\\bdeal.*price\\b.*"
-                ,".*\\bdeal.*code.*", ".*code.*\\bdeal.*"
-                ,".*\\bdeal.*best.*"
-                ,".*\\bdeal.*daily.*"
-                ,".*\\bdeal.*only.*", ".*only.*\\bdeal.*"
-                ,".*\\bdeal.*shopping.*"
-                , ".*daily.*\\bdeal.*"
-                
-                ,".*\\bdeal.*€.*"
-                , ".*€.*\\bdeal.*"
-                ,".*\\bdeal.*£.*"
             ); // @formatter:on
             static {
-                // bannedRegExesMaybe.addAll(rejectStrictWin("discount"));
-                // bannedRegExesMaybe.addAll(rejectStrictWin("copy"));
+                // win
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinStart("you could"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinStart("ticket"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinStart("check"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinStart("free"));
+
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinEnd("some"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinEnd("chance"));
+
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("\\$"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("€"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("discount"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("copy"));
-
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("gift"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("vote"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("voucher"));
@@ -303,6 +284,38 @@ public final class TwitterUtil {
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("promo"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("coupon"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("bundle"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("cash"));
+
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("enter to")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("entered")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("competition")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("supply")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("want to")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectStrictWin("from @")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectStrictWin("tix")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectStrictWin("click")); // new
+
+                // deal
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealStart("discount"));
+
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealEnd("free"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealEnd("price"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealEnd("best"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealEnd("shopping"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealEnd("ebay"));
+                bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealEnd("£"));
+
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("special"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("daily"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("check"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("gift"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("code"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("only"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("bundle"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("coupon"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("voucher"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("buy"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("€"));
             }
         }
 
