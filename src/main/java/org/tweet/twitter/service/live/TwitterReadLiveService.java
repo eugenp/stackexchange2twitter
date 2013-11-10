@@ -164,7 +164,7 @@ public class TwitterReadLiveService {
         if (howManyPages <= 1) {
             return listTweetsOfAccountRawInternal(twitterAccount, 200);
         }
-        if (howManyPages > 20) {
+        if (howManyPages > 30) {
             throw new IllegalStateException();
         }
 
@@ -216,7 +216,7 @@ public class TwitterReadLiveService {
         if (howManyPages == 1) {
             return listTweetsByHashtag(hashtag);
         }
-        if (howManyPages > 20) {
+        if (howManyPages > 30) {
             throw new IllegalStateException();
         }
 

@@ -98,7 +98,7 @@ public class UserLiveService {
         if (howManyPages <= 1) {
             return searchForUsers(keyword);
         }
-        if (howManyPages > 20) {
+        if (howManyPages > 30) {
             throw new IllegalStateException();
         }
 
