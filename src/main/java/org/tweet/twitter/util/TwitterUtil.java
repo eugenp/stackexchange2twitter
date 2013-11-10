@@ -247,35 +247,17 @@ public final class TwitterUtil {
                 // win
                 ".*\\bwin(ner|ning)?\\b.*\\$.*", ".*\\$.*\\bwin(ner|ning)?\\b.*" 
                 ,".*\\bwin(ner|ning)?\\b.*€.*", ".*€.*\\bwin(ner|ning)?\\b.*" 
+                
                 ,".*\\bwin(ner|ning)?\\b.*chance\\b.*"
                 , ".*\\bprize.*\\bwin\\.*" 
                 
-                ,".*\\bwin(ner|ning)?\\b.*sale.*", ".*sale.*\\bwin(ner|ning)?\\b.*" // 
-                ,".*\\bwin(ner|ning)?\\b.*swag\\b.*", ".*swag\\b.*\\bwin(ner|ning)?\\b.*" 
-                ,".*\\bwin(ner|ning)?\\b.*giveaway.*", ".*giveaway.*\\bwin(ner|ning)?\\b.*" 
-                ,".*\\bwin(ner|ning)?\\b.*give-away.*", ".*give-away.*\\bwin(ner|ning)?\\b.*"
-                ,".*\\bwin(ner|ning)?\\b.*promo.*", ".*promo\\b.*\\bwin(ner|ning)?\\b.*"
-                
                 , ".*ticket.*\\bwin(ner|ning)?\\b.*"
                 , ".*\\bcheck.*\\bwin(ner|ning)?\\b.*" 
-                ,".*\\bwin(ner|ning)?\\b.*discount.*"
-                , ".*discount.*\\bwin(ner|ning)?\\b.*"
-                ,".*\\bwin(ner|ning)?\\b.*voucher.*"
-                , ".*voucher.*\\bwin(ner|ning)?\\b.*"
-                ,".*\\bwin(ner|ning)?\\b.*coupon.*"
-                , ".*coupon.*\\bwin(ner|ning)?\\b.*"
                 , ".*free\\b.*\\bwin(ner|ning)?\\b.*"
                 , ".*enter to\\b.*\\bwin\\b.*"
 
-                ,".*\\bwin(ner|ning)?\\b.*gift.*", ".*gift.*\\bwin(ner|ning)?\\b.*"
-                ,".*\\bwin(ner|ning)?\\b.*\\bvote\\b.*"
-                , ".*\\bvote\\b.*\\bwin(ner|ning)?\\b.*" 
-                ,".*\\bwin(ner|ning)?\\b.*submit.*"
-                , ".*submit.*\\bwin(ner|ning)?\\b.*"
                 ,".*\\bwin(ner|ning)?\\b.*some.*" 
                 ,".*you could.*\\bwin(ner|ning)?\\b.*"
-                ,".*\\bwin(ner|ning)?\\b.*bundle.*"
-                , ".*bundle.*\\bwin.*" 
 
                 //deal
                 ,".*\\bdeal.*\\% off.*"
@@ -304,7 +286,24 @@ public final class TwitterUtil {
                 , ".*€.*\\bdeal.*"
                 ,".*\\bdeal.*£.*"
             ); // @formatter:on
+            static {
+                // bannedRegExesMaybe.addAll(rejectStrictWin("discount"));
+                // bannedRegExesMaybe.addAll(rejectStrictWin("copy"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("discount"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("copy"));
 
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("gift"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("vote"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("voucher"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("submit"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("sale"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("swag"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("giveaway"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("give-away"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("promo"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("coupon"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("bundle"));
+            }
         }
 
     }

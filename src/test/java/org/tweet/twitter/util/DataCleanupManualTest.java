@@ -24,12 +24,12 @@ public class DataCleanupManualTest {
     private static final String INTERNAL_PATH = "/notes/test/";
     private static final String EXTERNAL_PATH = "/opt/sandbox/";
 
-    static final String WIN_FILE1 = "win-toreject.txt";
-    static final String WIN_FILE2 = "win-toaccept.txt";
-    static final String DEAL_FILE1 = "deal-toreject.txt";
-    static final String DEAL_FILE2 = "deal-toaccept.txt";
-    static final String DEALS_FILE1 = "deals-toreject.txt";
-    static final String DEALS_FILE2 = "deals-toaccept.txt";
+    static final String WIN_REJECT = "win-toreject.txt";
+    static final String WIN_ACCEPT = "win-toaccept.txt";
+    static final String DEAL_REJECT = "deal-toreject.txt";
+    static final String DEAL_ACCEPT = "deal-toaccept.txt";
+    static final String DEALS_REJECT = "deals-toreject.txt";
+    static final String DEALS_ACCEPT = "deals-toaccept.txt";
 
     private final class BannedByCommercialAnalysis implements Predicate<String> {
         @Override
@@ -56,19 +56,21 @@ public class DataCleanupManualTest {
 
     @Test
     public final void givenCommercialData_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        final String fileToClean = WIN_FILE1;
-        final Set<String> uniqueLines = lines(fileToRead(fileToClean));
+        final List<String> filesToClean = Lists.newArrayList(WIN_REJECT, WIN_ACCEPT, DEAL_REJECT, DEAL_ACCEPT, DEALS_REJECT, DEALS_ACCEPT);
+        for (final String fileToClean : filesToClean) {
+            final Set<String> uniqueLines = lines(fileToRead(fileToClean));
 
-        final List<String> uniqueLinesCleanWithEmpty = Lists.newArrayList(Iterables.transform(uniqueLines, new CleanupStringFunction()));
-        final List<String> uniqueLinesCleanNoEmpty = Lists.newArrayList(Iterables.filter(uniqueLinesCleanWithEmpty, new IsNotEmpty()));
-        final List<String> uniqueLinesClean = Lists.newArrayList(Iterables.filter(uniqueLinesCleanNoEmpty, new IsNotComment()));
-        final List<String> banned = Lists.newArrayList(Iterables.filter(uniqueLinesClean, new BannedByCommercialAnalysis()));
-        uniqueLinesClean.removeAll(banned);
-        uniqueLinesClean.add("\n");
-        uniqueLinesClean.addAll(banned);
+            final List<String> uniqueLinesCleanWithEmpty = Lists.newArrayList(Iterables.transform(uniqueLines, new CleanupStringFunction()));
+            final List<String> uniqueLinesCleanNoEmpty = Lists.newArrayList(Iterables.filter(uniqueLinesCleanWithEmpty, new IsNotEmpty()));
+            final List<String> uniqueLinesClean = Lists.newArrayList(Iterables.filter(uniqueLinesCleanNoEmpty, new IsNotComment()));
+            final List<String> banned = Lists.newArrayList(Iterables.filter(uniqueLinesClean, new BannedByCommercialAnalysis()));
+            uniqueLinesClean.removeAll(banned);
+            uniqueLinesClean.add("\n");
+            uniqueLinesClean.addAll(banned);
 
-        // write to file
-        write(uniqueLinesClean, fileToWrite(fileToClean));
+            // write to file
+            write(uniqueLinesClean, fileToWrite(fileToClean));
+        }
     }
 
     // util
