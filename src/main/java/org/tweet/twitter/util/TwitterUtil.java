@@ -235,6 +235,10 @@ public final class TwitterUtil {
                 bannedRegExes.addAll(RejectExpressionUtil.rejectWin("giving away"));
 
                 bannedRegExes.addAll(RejectExpressionUtil.rejectWin("follow")); // new
+                bannedRegExes.addAll(RejectExpressionUtil.rejectWin("enter to")); // new
+                bannedRegExes.addAll(RejectExpressionUtil.rejectWin("entered")); // new
+
+                bannedRegExes.addAll(RejectExpressionUtil.rejectStrictWin("click")); // new
 
                 // deal
                 bannedRegExes.add(RejectExpressionUtil.rejectDealStart("free"));
@@ -251,6 +255,7 @@ public final class TwitterUtil {
                 bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("amazon"));
                 bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("\\$"));
                 bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("today"));
+                bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("daily"));
             }
             final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
                 // win
@@ -286,14 +291,11 @@ public final class TwitterUtil {
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("bundle"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("cash"));
 
-                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("enter to")); // new
-                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("entered")); // new
-                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("competition")); // new
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("supply")); // new
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("want to")); // new
-                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectStrictWin("from @")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("competition")); // new
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectStrictWin("tix")); // new
-                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectStrictWin("click")); // new
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectStrictWin("from @")); // new
 
                 // deal
                 bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealStart("discount"));
@@ -306,7 +308,6 @@ public final class TwitterUtil {
                 bannedRegExesMaybe.add(RejectExpressionUtil.rejectDealEnd("£"));
 
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("special"));
-                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("daily"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("check"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("gift"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("code"));
