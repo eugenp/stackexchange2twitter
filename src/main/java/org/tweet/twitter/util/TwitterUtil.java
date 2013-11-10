@@ -230,7 +230,7 @@ public final class TwitterUtil {
                 ,".*deal.*sale\\b.*" 
                 ,".*sale\\b.*deal.*"
                 ,".*price.*deal.*"
-                ,".*best.*deal.*"
+                ,".*best.*deal(s)?\\b.*"
                 ,".*shopping.*deal.*"
                 ,".*£.*deal.*"
                 ,".*deal.*\\$.*"
@@ -258,11 +258,11 @@ public final class TwitterUtil {
                 ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
                 ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1 +1 +1 +1
                 ,".*win.*give-away.*", ".*give-away.*win.*"
-                ,".*win.*promo.*", ".*promo.*win.*"
+                ,".*win.*promo.*", ".*promo\\b.*win.*"
                 
                 , ".*ticket.*win.*"
                 
-                , ".*check.*win\\b.*" // +1 +1
+                , ".*\\bcheck.*win\\b.*" // +1 +1
                 
                 ,".*win.*discount.*", ".*discount.*win.*"
                 
@@ -372,6 +372,10 @@ public final class TwitterUtil {
         // by expression
         final String textLowerCase = originalTweet.toLowerCase();
 
+        if (isTweetBannedForCommercialAnalysis(originalTweet)) {
+            return true;
+        }
+
         for (final String bannedExpressionMaybe : ForAnalysis.bannedExpressionsMaybe) {
             if (textLowerCase.contains(bannedExpressionMaybe)) {
                 logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, textLowerCase);
@@ -380,12 +384,6 @@ public final class TwitterUtil {
         }
 
         for (final String bannedExpression : ForAnalysis.bannedExpressions) {
-            if (textLowerCase.contains(bannedExpression)) {
-                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
-                return true;
-            }
-        }
-        for (final String bannedExpression : ForAnalysis.Commercial.bannedExpressions) {
             if (textLowerCase.contains(bannedExpression)) {
                 logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
                 return true;
@@ -405,10 +403,6 @@ public final class TwitterUtil {
                 logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
                 return true;
             }
-            if (ForAnalysis.Commercial.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
-                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
-                return true;
-            }
         }
 
         // by starts with keyword
@@ -418,6 +412,49 @@ public final class TwitterUtil {
                 return true;
             }
         }
+
+        // by regex
+        if (isRejectedByBannedRegexExpressionsForAnalysis(originalTweet)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isTweetBannedForCommercialAnalysis(final String originalTweet) {
+        // by expression
+        final String textLowerCase = originalTweet.toLowerCase();
+
+        for (final String bannedExpressionMaybe : ForAnalysis.Commercial.bannedExpressionsMaybe) {
+            if (textLowerCase.contains(bannedExpressionMaybe)) {
+                logger.error("1 - Rejecting the following tweet because a token matches the maybe banned expression={}; tweet=\n{}", bannedExpressionMaybe, textLowerCase);
+                return true;
+            }
+        }
+
+        for (final String bannedExpression : ForAnalysis.Commercial.bannedExpressions) {
+            if (textLowerCase.contains(bannedExpression)) {
+                logger.debug("Rejecting the following tweet because a token matches the banned expression={}; tweet=\n{}", bannedExpression, originalTweet);
+                return true;
+            }
+        }
+
+        // by contains keyword - maybe
+
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(textLowerCase));
+        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
+            return true;
+        }
+
+        // by contains keyword
+        for (final String tweetToken : tweetTokens) {
+            if (ForAnalysis.Commercial.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
+                logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
+                return true;
+            }
+        }
+
+        // by starts with keyword
         for (final String bannedStartsWith : ForAnalysis.Commercial.bannedStartsWithExprs) {
             if (textLowerCase.startsWith(bannedStartsWith)) {
                 logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
@@ -426,7 +463,7 @@ public final class TwitterUtil {
         }
 
         // by regex
-        if (isRejectedByBannedRegexExpressionsForAnalysis(originalTweet)) {
+        if (isRejectedByBannedRegexExpressionsForCommercialAnalysis(originalTweet)) {
             return true;
         }
 
@@ -550,23 +587,10 @@ public final class TwitterUtil {
                 return false;
             }
         }
-        for (final String hardAcceptedRegEx : ForAnalysis.Commercial.acceptedRegExes) {
-            if (textLowerCase.matches(hardAcceptedRegEx)) {
-                // was error - is OK now - moving down - move back up when something is added into the accept list
-                logger.info("(analysis-commercial) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + originalTweet);
-                return false;
-            }
-        }
 
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
             if (textLowerCase.matches(bannedRegExMaybe)) {
                 logger.error("(analysis-generic) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
-                return true;
-            }
-        }
-        for (final String bannedRegExMaybe : ForAnalysis.Commercial.bannedRegExesMaybe) {
-            if (textLowerCase.matches(bannedRegExMaybe)) {
-                logger.error("(analysis-commercial) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
                 return true;
             }
         }
@@ -576,6 +600,31 @@ public final class TwitterUtil {
                 return true;
             }
         }
+
+        return false;
+    }
+
+    /**
+     * - <b>local</b> <br/>
+     */
+    public static boolean isRejectedByBannedRegexExpressionsForCommercialAnalysis(final String originalTweet) {
+        final String textLowerCase = originalTweet.toLowerCase();
+
+        for (final String hardAcceptedRegEx : ForAnalysis.Commercial.acceptedRegExes) {
+            if (textLowerCase.matches(hardAcceptedRegEx)) {
+                // was error - is OK now - moving down - move back up when something is added into the accept list
+                logger.info("(analysis-commercial) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + originalTweet);
+                return false;
+            }
+        }
+
+        for (final String bannedRegExMaybe : ForAnalysis.Commercial.bannedRegExesMaybe) {
+            if (textLowerCase.matches(bannedRegExMaybe)) {
+                logger.error("(analysis-commercial) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
+                return true;
+            }
+        }
+
         for (final String bannedRegEx : ForAnalysis.Commercial.bannedRegExes) {
             if (textLowerCase.matches(bannedRegEx)) {
                 return true;

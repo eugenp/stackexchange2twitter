@@ -1,6 +1,6 @@
-package org.tweet.twitter.util.specific;
+package org.tweet.twitter.util.generic;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,18 +24,18 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @RunWith(Parameterized.class)
-public final class RejectTweetsByWordDealManualTest {
+public final class AcceptTweetsByWordSandboxManualTest {
 
     private String tweet;
 
-    public RejectTweetsByWordDealManualTest(final String tweet) {
+    public AcceptTweetsByWordSandboxManualTest(final String tweet) {
         super();
         this.tweet = tweet;
     }
 
     @Parameters
     public static List<String[]> invalidWords() throws IOException {
-        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/deal-toreject.txt");
+        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/sandbox-toaccept.txt");
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         final List<String> tweetsFiltered = Lists.newArrayList(Iterables.filter(tweets, new Predicate<String>() {
             @Override
@@ -62,7 +62,7 @@ public final class RejectTweetsByWordDealManualTest {
 
     @Test
     public void whenTweetIsAnalyzed_thenRejected() {
-        assertTrue(tweet.toLowerCase(), TwitterUtil.isTweetBannedForAnalysis(tweet.toLowerCase()));
+        assertFalse(tweet.toLowerCase(), TwitterUtil.isTweetBannedForAnalysis(tweet.toLowerCase()));
     }
 
 }

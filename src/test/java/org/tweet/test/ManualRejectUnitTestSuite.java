@@ -3,10 +3,11 @@ package org.tweet.test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-import org.tweet.twitter.util.specific.RejectTweetsByWordDealManualTest;
-import org.tweet.twitter.util.specific.RejectTweetsByWordDealsManualTest;
-import org.tweet.twitter.util.specific.RejectTweetsByWordGenericManualTest;
-import org.tweet.twitter.util.specific.RejectTweetsByWordWinManualTest;
+import org.tweet.twitter.util.commercial.RejectTweetsByWordCommercialGenericManualTest;
+import org.tweet.twitter.util.commercial.RejectTweetsByWordDealManualTest;
+import org.tweet.twitter.util.commercial.RejectTweetsByWordDealsManualTest;
+import org.tweet.twitter.util.commercial.RejectTweetsByWordWinManualTest;
+import org.tweet.twitter.util.generic.RejectTweetsByWordGenericManualTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({//@formatter:off
@@ -17,10 +18,11 @@ import org.tweet.twitter.util.specific.RejectTweetsByWordWinManualTest;
     RejectTweetsByWordWinManualTest.class,
     
     RejectTweetsByWordGenericManualTest.class,
+    RejectTweetsByWordCommercialGenericManualTest.class,
     
     RejectTweetsByWordDealManualTest.class, 
     RejectTweetsByWordDealsManualTest.class, 
 }) //@formatter:off
-public final class ManualRejectUnitTestSuite { // 11 / 1351
+public final class ManualRejectUnitTestSuite { // 16 / 1351
     //
 }

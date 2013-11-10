@@ -1,4 +1,4 @@
-package org.tweet.twitter.util.specific;
+package org.tweet.twitter.util.generic;
 
 import static org.junit.Assert.assertFalse;
 
@@ -24,18 +24,18 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @RunWith(Parameterized.class)
-public final class AcceptTweetsByWordWinManualTest {
+public final class AcceptTweetsByWordGenericManualTest {
 
     private String tweet;
 
-    public AcceptTweetsByWordWinManualTest(final String tweet) {
+    public AcceptTweetsByWordGenericManualTest(final String tweet) {
         super();
         this.tweet = tweet;
     }
 
     @Parameters
     public static List<String[]> invalidWords() throws IOException {
-        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/win-toaccept.txt");
+        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/generic-toaccept.txt");
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         final List<String> tweetsFiltered = Lists.newArrayList(Iterables.filter(tweets, new Predicate<String>() {
             @Override
