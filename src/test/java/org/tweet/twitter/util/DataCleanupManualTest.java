@@ -56,7 +56,7 @@ public class DataCleanupManualTest {
 
     @Test
     public final void givenCommercialData_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        final String fileToClean = DEALS_FILE2;
+        final String fileToClean = WIN_FILE1;
         final Set<String> uniqueLines = lines(fileToRead(fileToClean));
 
         final List<String> uniqueLinesCleanWithEmpty = Lists.newArrayList(Iterables.transform(uniqueLines, new CleanupStringFunction()));

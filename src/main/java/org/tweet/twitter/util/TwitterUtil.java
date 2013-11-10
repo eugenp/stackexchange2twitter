@@ -168,8 +168,8 @@ public final class TwitterUtil {
             );// @formatter:on
             final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
                 // "buy", // was here, I'm sufficiently convinced that it's not good 
-                "#deal", "#deals" // new - including this with the hashcode here - all of them should be validly rejected - if they are - move to the bannedContainsKeywords
-                ,"cheep" // trying it out
+                // "#deal", "#deals" // makes no difference with my testing data - so commenting them out
+                 "cheep" // trying it out
                 ,"lucky" 
                 // ,"deals" // working on it
                 // ,"deal" // working on it
@@ -194,10 +194,7 @@ public final class TwitterUtil {
             // by expression
 
             final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
-                 "for sale" 
-                // ,"win a " // now that there are regexes covering this - this should go
-                // ,"to win" // now that there are regexes covering this - this should go 
-                ,"win one" 
+                // 
             ); // @formatter:on
 
             final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
@@ -219,10 +216,10 @@ public final class TwitterUtil {
                 ".*win.*£.*", ".*£.*win.*"
                 ,".*win.*contest.*", ".*contest.*win.*"
                 ,".*win.*giving away.*", ".*giving away.*win.*"
-                , ".*chance\\b.*win\\b.*"
+                , ".*chance\\b.*win(ner|ning)?\\b.*"
                 ,".*\\bwin.*ticket.*"
-                ,".*\\bwin\\b.*check.*"
-                ,".*\\bwin\\b.*free\\b.*"
+                ,".*\\bwin(ner|ning)?\\b.*check.*"
+                ,".*\\bwin(ner|ning)?\\b.*free\\b.*"
                 
                 // deal - commercial stuff
                 ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
@@ -244,41 +241,40 @@ public final class TwitterUtil {
             ); // @formatter:on
 
             final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-                ".*win.*\\$.*", ".*\\$.*win.*" // +1 +1 +1 
-                // counterexample:  $(document).ready vs. $(window).load « 4 Lines of Code http://t.co/cEd6Huyh #soudev #soufront
-                // counter, counter example: DOWNLOAD MY SINGLE FOR ONLY $0.50 ♫  Dboy Swagg -  Various Artists. Listen @cdbaby http://t.co/7JfpQOqJrO @nwdragonwing @Pro2colRecords
-                ,".*win.*€.*", ".*€.*win.*" // +1 +1
+                ".*\\bwin.*\\$.*", ".*\\$.*\\bwin.*" 
+                ,".*\\bwin.*€.*", ".*€.*\\bwin.*" 
                 
-                ,".*win\\b.*chance\\b.*"
+                ,".*\\bwin(ner|ning)?\\b.*chance\\b.*"
                 
                 ,".*\\bwin.*\\bprize.*"
-                , ".*\\bprize.*win\\.*" // -1 +1 -1
+                , ".*\\bprize.*\\bwin\\.*" 
                 
-                ,".*win.*sale.*", ".*sale.*win.*" // 
-                ,".*win.*swag\\b.*", ".*swag\\b.*win.*" 
-                ,".*win.*giveaway.*", ".*giveaway.*win.*" // +1 +1 +1 +1 +1
-                ,".*win.*give-away.*", ".*give-away.*win.*"
-                ,".*win.*promo.*", ".*promo\\b.*win.*"
+                ,".*\\bwin.*sale.*", ".*sale.*\\bwin.*" // 
+                ,".*\\bwin.*swag\\b.*", ".*swag\\b.*\\bwin.*" 
+                ,".*\\bwin.*giveaway.*", ".*giveaway.*\\bwin.*" 
+                ,".*\\bwin.*give-away.*", ".*give-away.*\\bwin.*"
+                ,".*\\bwin.*promo.*", ".*promo\\b.*\\bwin.*"
                 
-                , ".*ticket.*win.*"
+                , ".*ticket.*\\bwin.*"
                 
-                , ".*\\bcheck.*win\\b.*" // +1 +1
+                , ".*\\bcheck.*\\bwin(ner|ning)?\\b.*" 
                 
-                ,".*win.*discount.*", ".*discount.*win.*"
+                ,".*\\bwin.*discount.*", ".*discount.*\\bwin.*"
                 
-                ,".*win.*voucher.*"
-                , ".*voucher.*win.*"
+                ,".*\\bwin.*voucher.*"
+                , ".*voucher.*\\bwin.*"
                 
-                ,".*win.*coupon.*", ".*coupon.*win.*"
+                ,".*\\bwin.*coupon.*", ".*coupon.*\\bwin.*"
                 
-                , ".*free\\b.*win\\b.*"
+                , ".*free\\b.*\\bwin(ner|ning)?\\b.*"
                 
-                ,".*win.*gift.*", ".*gift.*win.*"
-                ,".*win.*\\bvote\\b.*", ".*\\bvote\\b.*win.*" // -1
-                ,".*win.*submit.*", ".*submit.*win.*"
-                ,".*win\\b.*some.*" 
-                ,".*you could.*win.*"
-                
+                ,".*\\bwin.*gift.*", ".*gift.*\\bwin.*"
+                ,".*\\bwin.*\\bvote\\b.*", ".*\\bvote\\b.*\\bwin.*" 
+                ,".*\\bwin.*submit.*", ".*submit.*\\bwin.*"
+                ,".*\\bwin(ner|ning)?\\b.*some.*" 
+                ,".*you could.*\\bwin.*"
+                ,".*\\bwin.*bundle.*", ".*bundle.*\\bwin.*" 
+
                 //deal
                 ,".*deal.*\\% off.*"
                 , ".*\\% off.*deal.*" // +1 +1 
@@ -294,7 +290,7 @@ public final class TwitterUtil {
                 
                 ,".*deal.*ebay.*"
                 
-                ,".*deal.*buy.*", ".*buy.*deal.*" // 
+                ,".*deal.*buy.*", ".*buy.*deal.*" 
                 ,".*deal.*voucher.*", ".*voucher.*deal.*"
                 ,".*deal.*coupon.*", ".*coupon.*deal.*"
                 ,".*deal.*bundle.*", ".*bundle.*deal.*" // +1
