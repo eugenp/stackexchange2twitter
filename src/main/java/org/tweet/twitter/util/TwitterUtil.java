@@ -161,7 +161,7 @@ public final class TwitterUtil {
 
             final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
                 "buy" 
-                // ,"discount" // temp 
+                ,"discount" // newly reactivated (10.11) - I don't think there are to many false positive for this word 
                 // ,"gift" // more fine grained stuff in use now
                 ,"promo" // newly moved (02.11)
                 ,"free trial" // identified from the trial keyword - all selling something
@@ -174,6 +174,7 @@ public final class TwitterUtil {
                 // ,"deals" // working on it
                 // ,"deal" // working on it
                 ,"priced" // new
+                ,"giveaway" // new (10.11)
                 ,"$3.99", "$2.99", "$1.99", "$0.99" 
             );// @formatter:on
 
@@ -206,7 +207,7 @@ public final class TwitterUtil {
             // note: move the logging of this back up to error if something new is added
             /** if this matches, the banned expressions are no longer evaluated */
             final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
-                 ".*\\bdeal with.*"
+                 ".*\\bdeal\\b with.*"
                 ,".*deal.*merger.*", ".*merger.*deal.*"
                 ,".*win.*merger.*", ".*merger.*win.*"
             ); // @formatter:on
@@ -220,6 +221,7 @@ public final class TwitterUtil {
                 ,".*\\bwin.*ticket.*"
                 ,".*\\bwin(ner|ning)?\\b.*check.*"
                 ,".*\\bwin(ner|ning)?\\b.*free\\b.*"
+                ,".*\\bwin(ner|ning)?\\b.*\\bprize.*"
                 
                 // deal - commercial stuff
                 ,".*deal(s)?\\b.*today.*", ".*\\btoday\\b.*\\bdeal(s)?\\b.*"
@@ -235,77 +237,72 @@ public final class TwitterUtil {
                 ,".*deal.*of the day.*"
                 ,".*deal.*discount.*"
                 , ".*ebay.*deal.*"
+                , ".*\\% \\boff\\b.*\\bdeal.*"
                 
                 // other: 
                 
             ); // @formatter:on
 
             final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-                ".*\\bwin.*\\$.*", ".*\\$.*\\bwin.*" 
-                ,".*\\bwin.*€.*", ".*€.*\\bwin.*" 
-                
+                // win
+                ".*\\bwin(ner|ning)?\\b.*\\$.*", ".*\\$.*\\bwin(ner|ning)?\\b.*" 
+                ,".*\\bwin(ner|ning)?\\b.*€.*", ".*€.*\\bwin(ner|ning)?\\b.*" 
                 ,".*\\bwin(ner|ning)?\\b.*chance\\b.*"
-                
-                ,".*\\bwin.*\\bprize.*"
                 , ".*\\bprize.*\\bwin\\.*" 
                 
-                ,".*\\bwin.*sale.*", ".*sale.*\\bwin.*" // 
-                ,".*\\bwin.*swag\\b.*", ".*swag\\b.*\\bwin.*" 
-                ,".*\\bwin.*giveaway.*", ".*giveaway.*\\bwin.*" 
-                ,".*\\bwin.*give-away.*", ".*give-away.*\\bwin.*"
-                ,".*\\bwin.*promo.*", ".*promo\\b.*\\bwin.*"
+                ,".*\\bwin(ner|ning)?\\b.*sale.*", ".*sale.*\\bwin(ner|ning)?\\b.*" // 
+                ,".*\\bwin(ner|ning)?\\b.*swag\\b.*", ".*swag\\b.*\\bwin(ner|ning)?\\b.*" 
+                ,".*\\bwin(ner|ning)?\\b.*giveaway.*", ".*giveaway.*\\bwin(ner|ning)?\\b.*" 
+                ,".*\\bwin(ner|ning)?\\b.*give-away.*", ".*give-away.*\\bwin(ner|ning)?\\b.*"
+                ,".*\\bwin(ner|ning)?\\b.*promo.*", ".*promo\\b.*\\bwin(ner|ning)?\\b.*"
                 
-                , ".*ticket.*\\bwin.*"
-                
+                , ".*ticket.*\\bwin(ner|ning)?\\b.*"
                 , ".*\\bcheck.*\\bwin(ner|ning)?\\b.*" 
-                
-                ,".*\\bwin.*discount.*", ".*discount.*\\bwin.*"
-                
-                ,".*\\bwin.*voucher.*"
-                , ".*voucher.*\\bwin.*"
-                
-                ,".*\\bwin.*coupon.*", ".*coupon.*\\bwin.*"
-                
+                ,".*\\bwin(ner|ning)?\\b.*discount.*"
+                , ".*discount.*\\bwin(ner|ning)?\\b.*"
+                ,".*\\bwin(ner|ning)?\\b.*voucher.*"
+                , ".*voucher.*\\bwin(ner|ning)?\\b.*"
+                ,".*\\bwin(ner|ning)?\\b.*coupon.*"
+                , ".*coupon.*\\bwin(ner|ning)?\\b.*"
                 , ".*free\\b.*\\bwin(ner|ning)?\\b.*"
-                
-                ,".*\\bwin.*gift.*", ".*gift.*\\bwin.*"
-                ,".*\\bwin.*\\bvote\\b.*", ".*\\bvote\\b.*\\bwin.*" 
-                ,".*\\bwin.*submit.*", ".*submit.*\\bwin.*"
+                , ".*enter to\\b.*\\bwin\\b.*"
+
+                ,".*\\bwin(ner|ning)?\\b.*gift.*", ".*gift.*\\bwin(ner|ning)?\\b.*"
+                ,".*\\bwin(ner|ning)?\\b.*\\bvote\\b.*"
+                , ".*\\bvote\\b.*\\bwin(ner|ning)?\\b.*" 
+                ,".*\\bwin(ner|ning)?\\b.*submit.*"
+                , ".*submit.*\\bwin(ner|ning)?\\b.*"
                 ,".*\\bwin(ner|ning)?\\b.*some.*" 
-                ,".*you could.*\\bwin.*"
-                ,".*\\bwin.*bundle.*", ".*bundle.*\\bwin.*" 
+                ,".*you could.*\\bwin(ner|ning)?\\b.*"
+                ,".*\\bwin(ner|ning)?\\b.*bundle.*"
+                , ".*bundle.*\\bwin.*" 
 
                 //deal
-                ,".*deal.*\\% off.*"
-                , ".*\\% off.*deal.*" // +1 +1 
+                ,".*\\bdeal.*\\% off.*"
+                ,".*\\bdeal.*free\\b.*" 
+                ,".*\\bdeal.*special.*"
+                , ".*special.*\\bdeal.*"
+                , ".*discount.*\\bdeal.*"
                 
-                ,".*deal.*free\\b.*" 
+                ,".*\\bdeal.*gift.*", ".*gift.*\\bdeal.*"
+                ,".*\\bdeal.*check.*", ".*check.*\\bdeal.*"
+                ,".*\\bdeal.*ebay.*"
                 
-                ,".*deal.*special.*", ".*special.*deal.*" // +1 +1
+                ,".*\\bdeal.*buy.*", ".*buy.*\\bdeal.*" 
+                ,".*\\bdeal.*voucher.*", ".*voucher.*\\bdeal.*"
+                ,".*\\bdeal.*coupon.*", ".*coupon.*\\bdeal.*"
+                ,".*\\bdeal.*bundle.*", ".*bundle.*\\bdeal.*"
+                ,".*\\bdeal.*price\\b.*"
+                ,".*\\bdeal.*code.*", ".*code.*\\bdeal.*"
+                ,".*\\bdeal.*best.*"
+                ,".*\\bdeal.*daily.*"
+                ,".*\\bdeal.*only.*", ".*only.*\\bdeal.*"
+                ,".*\\bdeal.*shopping.*"
+                , ".*daily.*\\bdeal.*"
                 
-                , ".*discount.*deal.*"
-                
-                ,".*deal.*gift.*", ".*gift.*deal.*" // +1
-                ,".*deal.*check.*", ".*check.*deal.*"
-                
-                ,".*deal.*ebay.*"
-                
-                ,".*deal.*buy.*", ".*buy.*deal.*" 
-                ,".*deal.*voucher.*", ".*voucher.*deal.*"
-                ,".*deal.*coupon.*", ".*coupon.*deal.*"
-                ,".*deal.*bundle.*", ".*bundle.*deal.*" // +1
-                ,".*deal.*price\\b.*"
-                ,".*deal.*code.*", ".*code.*deal.*"
-                
-                ,".*deal.*best.*"
-                
-                ,".*deal.*daily.*"
-                , ".*daily.*deal.*"
-                ,".*deal.*only.*", ".*only.*deal.*" // +1 +1 +1
-                ,".*deal.*shopping.*"
-                
-                ,".*deal.*€.*", ".*€.*deal.*"
-                ,".*deal.*£.*"
+                ,".*\\bdeal.*€.*"
+                , ".*€.*\\bdeal.*"
+                ,".*\\bdeal.*£.*"
             ); // @formatter:on
 
         }
