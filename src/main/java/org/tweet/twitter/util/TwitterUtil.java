@@ -442,7 +442,7 @@ public final class TwitterUtil {
         // by contains keyword - maybe
 
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(textLowerCase));
-        if (isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet)) {
+        if (isRejectedByContainsKeywordMaybeForCommercialAnalysis(tweetTokens, originalTweet)) {
             return true;
         }
 
@@ -554,9 +554,33 @@ public final class TwitterUtil {
         final String textLowerCase = originalTweet.toLowerCase();
 
         for (final String tweetToken : tweetTokens) {
-            if (ForAnalysis.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase()) || ForAnalysis.Commercial.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
+            if (ForAnalysis.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
                 // first - check if there are any overrides
                 if (overrideFoundForContainsKeywordsForAnalysis(textLowerCase)) {
+                    continue;
+                }
+
+                // try catch to at least get the stack
+                try {
+                    throw new IllegalStateException("I need the full stack - maybe keywords rejection");
+                } catch (final Exception ex) {
+                    logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
+                    logger.debug("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                }
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static boolean isRejectedByContainsKeywordMaybeForCommercialAnalysis(final List<String> tweetTokens, final String originalTweet) {
+        final String textLowerCase = originalTweet.toLowerCase();
+
+        for (final String tweetToken : tweetTokens) {
+            if (ForAnalysis.Commercial.bannedContainsKeywordsMaybe.contains(tweetToken.toLowerCase())) {
+                // first - check if there are any overrides
+                if (overrideFoundForContainsKeywordsForCommercialAnalysis(textLowerCase)) {
                     continue;
                 }
 
@@ -700,9 +724,14 @@ public final class TwitterUtil {
 
     private static boolean overrideFoundForContainsKeywordsForAnalysis(final String originalTweet) {
         final boolean overrideFoundForContainsKeywords = overrideFoundForContainsKeywords(originalTweet, ForAnalysis.acceptedContainsKeywordsOverrides);
+
+        return overrideFoundForContainsKeywords;
+    }
+
+    private static boolean overrideFoundForContainsKeywordsForCommercialAnalysis(final String originalTweet) {
         final boolean overrideFoundForContainsCommercialKeywords = overrideFoundForContainsKeywords(originalTweet, ForAnalysis.Commercial.acceptedContainsKeywordsOverrides);
 
-        return overrideFoundForContainsKeywords || overrideFoundForContainsCommercialKeywords;
+        return overrideFoundForContainsCommercialKeywords;
     }
 
     private static boolean overrideFoundForContainsKeywordsForTweeting(final String originalTweet) {
