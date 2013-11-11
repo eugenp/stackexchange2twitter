@@ -166,14 +166,12 @@ public final class TwitterUtil {
                 ,"promo" // newly moved (02.11)
                 ,"free trial" // identified from the trial keyword - all selling something
                 ,"giveaway" // verified - moved (11.11)
+                ,"lucky" // moved - it's OK to skip these
             );// @formatter:on
             final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
                 // "buy", // was here, I'm sufficiently convinced that it's not good 
                 // "#deal", "#deals" // makes no difference with my testing data - so commenting them out
                  "cheep" // trying it out
-                ,"lucky" 
-                // ,"deals" // working on it
-                // ,"deal" // working on it
                 ,"priced" // new
                 ,"$3.99", "$2.99", "$1.99", "$0.99" 
             );// @formatter:on
