@@ -11,5 +11,4 @@ encoding//src/main/resources/notes/test/deal-toreject.txt=UTF-8
 encoding//src/main/resources/notes/test/win-toreject.txt=UTF-8
 encoding//src/test/java/org/common/text/LinkUtilUnitTest.java=UTF-8
 encoding//src/test/java/org/common/text/TextUtilsUnitTest.java=UTF-8
-encoding/<project>=UTF-8
 separateDerivedEncodings=true
