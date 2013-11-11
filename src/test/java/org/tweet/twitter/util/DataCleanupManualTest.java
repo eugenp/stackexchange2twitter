@@ -59,7 +59,8 @@ public class DataCleanupManualTest {
 
     @Test
     public final void givenCommercialDataFile1_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        cleanAndOrganizeFile("/notes/todo-wife.txt", fileToWrite("todo-wife.txt"));
+        final String file = "rejected-remix.txt";
+        cleanAndOrganizeFile("/notes/" + file, fileToWrite(file));
     }
 
     // util

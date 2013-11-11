@@ -26,7 +26,7 @@ public final class TwitterUtil {
         // by contains
 
         final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
-            // 
+            "wife" // it's OK to skip these
         );// @formatter:on
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
             "dance"// it's OK for analysis, but not for tweeting - leaving it in the maybe pile for a bit, then move up (06.10)
@@ -87,11 +87,10 @@ public final class TwitterUtil {
             ,"islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew"
             ,"snake" // python snake...yes, it happened
             ,"followback"
-            ,"wife" // it's OK to skip these
+            ,"remix"
         );// @formatter:on
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-             "remix"  
-            ,"fpl" // fantasy player league
+             "fpl" // fantasy player league
             ,"kurd", "kurds", "afganistan", "palestinians" // other political stuff
             ,"hindus" // new (13.10)
             ,"thugs" // new
