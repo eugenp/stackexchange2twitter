@@ -165,6 +165,7 @@ public final class TwitterUtil {
                 // ,"gift" // more fine grained stuff in use now
                 ,"promo" // newly moved (02.11)
                 ,"free trial" // identified from the trial keyword - all selling something
+                ,"giveaway" // verified - moved (11.11)
             );// @formatter:on
             final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
                 // "buy", // was here, I'm sufficiently convinced that it's not good 
@@ -174,7 +175,6 @@ public final class TwitterUtil {
                 // ,"deals" // working on it
                 // ,"deal" // working on it
                 ,"priced" // new
-                ,"giveaway" // new (10.11)
                 ,"$3.99", "$2.99", "$1.99", "$0.99" 
             );// @formatter:on
 
