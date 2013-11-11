@@ -87,10 +87,10 @@ public final class TwitterUtil {
             ,"islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew"
             ,"snake" // python snake...yes, it happened
             ,"followback"
+            ,"wife" // it's OK to skip these
         );// @formatter:on
         final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-             "wife"
-            ,"remix"  
+             "remix"  
             ,"fpl" // fantasy player league
             ,"kurd", "kurds", "afganistan", "palestinians" // other political stuff
             ,"hindus" // new (13.10)

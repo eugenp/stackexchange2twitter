@@ -59,7 +59,7 @@ public class DataCleanupManualTest {
 
     @Test
     public final void givenCommercialDataFile1_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        cleanAndOrganizeFile("/notes/lucky.txt", fileToWrite("lucky.txt"));
+        cleanAndOrganizeFile("/notes/todo-wife.txt", fileToWrite("todo-wife.txt"));
     }
 
     // util
