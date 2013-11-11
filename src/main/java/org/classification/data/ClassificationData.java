@@ -25,6 +25,12 @@ public final class ClassificationData {
 
     public static final class Commercial {
 
+        private static final String BASE_PATH = "/notes/test/commercial/";
+
+        public static String path(final String fileName) {
+            return Commercial.BASE_PATH + fileName;
+        }
+
         public static final class Training {
             public static final String NONCOMMERCIAL = "/classification/commercial/noncommercial.classif";
             public static final String COMMERCIAL = "/classification/commercial/commercial.classif";
@@ -36,17 +42,28 @@ public final class ClassificationData {
         }
 
         public static final class Accept {
-            public static final String WIN = "/notes/test/commercial/win-toaccept.txt";
-            public static final String DEAL = "/notes/test/commercial/deal-toaccept.txt";
-            public static final String DEALS = "/notes/test/commercial/deals-toaccept.txt";
-            public static final String GENERIC_COMMERCIAL = "/notes/test/commercial/generic-commercial-toaccept.txt";
+            public static final String FILE_GENERIC_COMMERCIAL = "generic-commercial-toaccept.txt";
+            public static final String FILE_DEALS = "deals-toaccept.txt";
+            public static final String FILE_DEAL = "deal-toaccept.txt";
+            public static final String FILE_WIN = "win-toaccept.txt";
+
+            public static final String WIN = path(FILE_WIN);
+            public static final String DEAL = path(FILE_DEAL);
+            public static final String DEALS = path(FILE_DEALS);
+            public static final String GENERIC_COMMERCIAL = path(FILE_GENERIC_COMMERCIAL);
+
         }
 
         public static final class Reject {
-            public static final String WIN = "/notes/test/commercial/win-toreject.txt";
-            public static final String DEAL = "/notes/test/commercial/deal-toreject.txt";
-            public static final String DEALS = "/notes/test/commercial/deals-toreject.txt";
-            public static final String GENERIC_COMMERCIAL = "/notes/test/commercial/generic-commercial-toreject.txt";
+            public static final String FILE_GENERIC_COMMERCIAL = "generic-commercial-toreject.txt";
+            public static final String FILE_DEALS = "deals-toreject.txt";
+            public static final String FILE_DEAL = "deal-toreject.txt";
+            public static final String FILE_WIN = "win-toreject.txt";
+
+            public static final String WIN = path(FILE_WIN);
+            public static final String DEAL = path(FILE_DEAL);
+            public static final String DEALS = path(FILE_DEALS);
+            public static final String GENERIC_COMMERCIAL = path(FILE_GENERIC_COMMERCIAL);
         }
 
     }

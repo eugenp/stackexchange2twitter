@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.classification.data.ClassificationData.Commercial;
 import org.classification.data.ClassificationData.Commercial.Accept;
 import org.classification.data.ClassificationData.Commercial.Reject;
 import org.classification.data.GenericClassificationDataUtil;
@@ -50,21 +51,21 @@ public class DataCleanupManualTest {
 
     @Test
     public final void givenCommercialData_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        final List<String> filesToClean = Lists.newArrayList(Reject.WIN, Accept.WIN, Reject.DEAL, Accept.DEAL, Reject.DEALS, Accept.DEALS);
+        final List<String> filesToClean = Lists.newArrayList(Reject.FILE_WIN, Accept.FILE_WIN, Reject.FILE_DEAL, Accept.FILE_DEAL, Reject.FILE_DEALS, Accept.FILE_DEALS);
         for (final String fileToClean : filesToClean) {
-            cleanAndOrganizeFile(fileToClean);
+            cleanAndOrganizeFile(Commercial.path(fileToClean), fileToWrite(fileToClean));
         }
     }
 
     @Test
     public final void givenCommercialDataFile1_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        cleanAndOrganizeFile(Reject.WIN);
+        cleanAndOrganizeFile("/notes/lucky.txt", fileToWrite("lucky.txt"));
     }
 
     // util
 
-    private final void cleanAndOrganizeFile(final String fileToClean) throws IOException {
-        final Set<String> uniqueLines = lines(fileToClean);
+    private final void cleanAndOrganizeFile(final String inputFile, final String outputFile) throws IOException {
+        final Set<String> uniqueLines = lines(inputFile);
 
         final List<String> uniqueLinesCleanWithEmpty = Lists.newArrayList(Iterables.transform(uniqueLines, new CleanupStringFunction()));
         final List<String> uniqueLinesCleanNoEmpty = Lists.newArrayList(Iterables.filter(uniqueLinesCleanWithEmpty, new IsNotEmpty()));
@@ -75,7 +76,7 @@ public class DataCleanupManualTest {
         uniqueLinesClean.addAll(banned);
 
         // write to file
-        write(uniqueLinesClean, fileToWrite(fileToClean));
+        write(uniqueLinesClean, outputFile);
     }
 
     private final void write(final List<String> lines, final String path) throws IOException {
