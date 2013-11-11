@@ -445,6 +445,12 @@ public final class TwitterUtil {
             }
         }
 
+        // by regex // moved before the contains logic (11.11)
+
+        if (isRejectedByBannedRegexExpressionsForCommercialAnalysis(originalTweet)) {
+            return true;
+        }
+
         // by contains keyword - maybe
 
         final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(textLowerCase));
@@ -453,6 +459,7 @@ public final class TwitterUtil {
         }
 
         // by contains keyword
+
         for (final String tweetToken : tweetTokens) {
             if (ForAnalysis.Commercial.bannedContainsKeywords.contains(tweetToken.toLowerCase())) {
                 logger.debug("Rejecting the following tweet because a token matches one of the banned keywords: token= {}; tweet= \n{}", tweetToken, originalTweet);
@@ -466,11 +473,6 @@ public final class TwitterUtil {
                 logger.debug("Rejecting the following tweet because it starts with= {}; tweet= \n{}", bannedStartsWith, originalTweet);
                 return true;
             }
-        }
-
-        // by regex
-        if (isRejectedByBannedRegexExpressionsForCommercialAnalysis(originalTweet)) {
-            return true;
         }
 
         return false;
@@ -594,8 +596,8 @@ public final class TwitterUtil {
                 try {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
-                    logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
-                    logger.debug("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                    logger.error("21 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
+                    logger.debug("21 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
                 }
                 return true;
             }
