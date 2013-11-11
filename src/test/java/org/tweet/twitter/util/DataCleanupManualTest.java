@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
+import org.classification.data.ClassificationData.Commercial.Accept;
+import org.classification.data.ClassificationData.Commercial.Reject;
 import org.classification.data.GenericClassificationDataUtil;
 import org.junit.Test;
 import org.stackexchange.gather.CleanupStringFunction;
@@ -21,15 +23,7 @@ import com.google.common.collect.Sets;
 
 public class DataCleanupManualTest {
 
-    private static final String INTERNAL_PATH = "/notes/test/";
     private static final String EXTERNAL_PATH = "/opt/sandbox/";
-
-    static final String WIN_REJECT = "win-toreject.txt";
-    static final String WIN_ACCEPT = "win-toaccept.txt";
-    static final String DEAL_REJECT = "deal-toreject.txt";
-    static final String DEAL_ACCEPT = "deal-toaccept.txt";
-    static final String DEALS_REJECT = "deals-toreject.txt";
-    static final String DEALS_ACCEPT = "deals-toaccept.txt";
 
     private final class BannedByCommercialAnalysis implements Predicate<String> {
         @Override
@@ -56,24 +50,33 @@ public class DataCleanupManualTest {
 
     @Test
     public final void givenCommercialData_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        final List<String> filesToClean = Lists.newArrayList(WIN_REJECT, WIN_ACCEPT, DEAL_REJECT, DEAL_ACCEPT, DEALS_REJECT, DEALS_ACCEPT);
+        final List<String> filesToClean = Lists.newArrayList(Reject.WIN, Accept.WIN, Reject.DEAL, Accept.DEAL, Reject.DEALS, Accept.DEALS);
         for (final String fileToClean : filesToClean) {
-            final Set<String> uniqueLines = lines(fileToRead(fileToClean));
-
-            final List<String> uniqueLinesCleanWithEmpty = Lists.newArrayList(Iterables.transform(uniqueLines, new CleanupStringFunction()));
-            final List<String> uniqueLinesCleanNoEmpty = Lists.newArrayList(Iterables.filter(uniqueLinesCleanWithEmpty, new IsNotEmpty()));
-            final List<String> uniqueLinesClean = Lists.newArrayList(Iterables.filter(uniqueLinesCleanNoEmpty, new IsNotComment()));
-            final List<String> banned = Lists.newArrayList(Iterables.filter(uniqueLinesClean, new BannedByCommercialAnalysis()));
-            uniqueLinesClean.removeAll(banned);
-            uniqueLinesClean.add("\n");
-            uniqueLinesClean.addAll(banned);
-
-            // write to file
-            write(uniqueLinesClean, fileToWrite(fileToClean));
+            cleanAndOrganizeFile(fileToClean);
         }
     }
 
+    @Test
+    public final void givenCommercialDataFile1_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
+        cleanAndOrganizeFile(Reject.WIN);
+    }
+
     // util
+
+    private final void cleanAndOrganizeFile(final String fileToClean) throws IOException {
+        final Set<String> uniqueLines = lines(fileToClean);
+
+        final List<String> uniqueLinesCleanWithEmpty = Lists.newArrayList(Iterables.transform(uniqueLines, new CleanupStringFunction()));
+        final List<String> uniqueLinesCleanNoEmpty = Lists.newArrayList(Iterables.filter(uniqueLinesCleanWithEmpty, new IsNotEmpty()));
+        final List<String> uniqueLinesClean = Lists.newArrayList(Iterables.filter(uniqueLinesCleanNoEmpty, new IsNotComment()));
+        final List<String> banned = Lists.newArrayList(Iterables.filter(uniqueLinesClean, new BannedByCommercialAnalysis()));
+        uniqueLinesClean.removeAll(banned);
+        uniqueLinesClean.add("\n");
+        uniqueLinesClean.addAll(banned);
+
+        // write to file
+        write(uniqueLinesClean, fileToWrite(fileToClean));
+    }
 
     private final void write(final List<String> lines, final String path) throws IOException {
         final File file = new File(path);
@@ -88,12 +91,6 @@ public class DataCleanupManualTest {
         final List<String> lines = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         final Set<String> uniqueLines = Sets.newHashSet(lines);
         return uniqueLines;
-    }
-
-    // util
-
-    private static String fileToRead(final String fileName) {
-        return INTERNAL_PATH + fileName;
     }
 
     private static String fileToWrite(final String fileName) {

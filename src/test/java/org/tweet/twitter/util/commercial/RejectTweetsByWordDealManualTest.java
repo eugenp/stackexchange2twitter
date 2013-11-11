@@ -11,6 +11,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import org.apache.commons.io.IOUtils;
+import org.classification.data.ClassificationData.Commercial.Reject;
 import org.classification.data.GenericClassificationDataUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +36,7 @@ public final class RejectTweetsByWordDealManualTest {
 
     @Parameters
     public static List<String[]> invalidWords() throws IOException {
-        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream("/notes/test/deal-toreject.txt");
+        final InputStream is = GenericClassificationDataUtil.class.getResourceAsStream(Reject.DEAL);
         final List<String> tweets = IOUtils.readLines(new BufferedReader(new InputStreamReader(is)));
         final List<String> tweetsFiltered = Lists.newArrayList(Iterables.filter(tweets, new Predicate<String>() {
             @Override

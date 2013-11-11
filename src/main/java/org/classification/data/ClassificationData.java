@@ -39,12 +39,18 @@ public final class ClassificationData {
             public static final String WIN = "/notes/test/win-toaccept.txt";
             public static final String DEAL = "/notes/test/deal-toaccept.txt";
             public static final String DEALS = "/notes/test/deals-toaccept.txt";
+            public static final String GENERIC_COMMERCIAL = "/notes/test/generic-commercial-toaccept.txt";
+            public static final String GENERIC = "/notes/test/generic-toaccept.txt";
+            public static final String SANDBOX = "/notes/test/sandbox-toaccept.txt";
         }
 
         public static final class Reject {
             public static final String WIN = "/notes/test/win-toreject.txt";
             public static final String DEAL = "/notes/test/deal-toreject.txt";
             public static final String DEALS = "/notes/test/deals-toreject.txt";
+            public static final String GENERIC_COMMERCIAL = "/notes/test/generic-commercial-toreject.txt";
+            public static final String GENERIC = "/notes/test/generic-toreject.txt";
+            public static final String SANDBOX = "/notes/test/sandbox-toreject.txt";
         }
 
     }
