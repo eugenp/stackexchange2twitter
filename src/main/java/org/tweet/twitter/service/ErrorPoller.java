@@ -13,7 +13,7 @@ import org.tweet.twitter.util.TwitterUtil;
 public class ErrorPoller {
     final static Logger logger = LoggerFactory.getLogger(ErrorPoller.class);
 
-    @Scheduled(cron = "0 0 */1 * * *")
+    @Scheduled(cron = "0 0 */3 * * *")
     public void pollForErrors() {
         logger.info("Starting to poll for errors");
 
