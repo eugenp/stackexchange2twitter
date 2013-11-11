@@ -152,7 +152,7 @@ public class TweetMetaScheduler {
 
         // 5
         service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.aws.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
+        service.retweetAnyByWord(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name()); // newly moved to by word (11.11)
         service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html5.name());
 

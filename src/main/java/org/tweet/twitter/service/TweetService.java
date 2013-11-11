@@ -374,7 +374,7 @@ public class TweetService {
 
         final boolean isUpperCase = processedTweet.matches("[A-Z ->.]+");
         if (processedTweet.length() < 25 && isUpperCase) {
-            logger.error("temp (26.10) - new heuristic for structurally invalid tweets: " + tweetText);
+            logger.debug("Rejecting structurally invalid tweet: " + tweetText);
             return false;
         }
 
