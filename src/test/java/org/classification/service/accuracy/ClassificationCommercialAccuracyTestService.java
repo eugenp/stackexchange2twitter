@@ -14,7 +14,6 @@ import org.apache.mahout.math.NamedVector;
 import org.classification.data.ClassificationData.CommercialDataApi;
 import org.classification.data.ClassificationTestData;
 import org.classification.service.ClassificationService;
-import org.classification.util.ClassificationSettings;
 import org.classification.util.Classifiers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,6 @@ public class ClassificationCommercialAccuracyTestService {
     // util
 
     private final double calculateCommercialClassifierAccuracy(final List<NamedVector> trainingData, final List<ImmutablePair<String, String>> testData, final int runs, final int probes, final int features) throws IOException {
-        System.out.println("Current tokenizer: " + ClassificationSettings.TWEET_TOKENIZER);
         final long start = System.nanoTime() / (1000 * 1000 * 1000);
         final List<Double> results = Lists.newArrayList();
         for (int i = 0; i < runs; i++) {

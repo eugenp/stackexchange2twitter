@@ -16,6 +16,7 @@ import org.classification.data.ClassificationData.Commercial.Reject;
 import org.classification.data.GenericClassificationDataUtil;
 import org.junit.Test;
 import org.stackexchange.gather.CleanupStringFunction;
+import org.stackexchange.gather.ContainsKeywordPredicate;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -61,6 +62,25 @@ public class DataCleanupManualTest {
     public final void givenCommercialDataFile1_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
         final String file = "rejected-remix.txt";
         cleanAndOrganizeFile("/notes/" + file, fileToWrite(file));
+    }
+
+    // note: do not run this for accept files - these should actually contain non-exact matches of the keyword
+    @Test
+    public final void givenProcessingWin_whenSeparatingExamplesBasedOnIfTheyActuallyContainTheKeyword_thenOK() throws IOException {
+        final Set<String> uniqueLines = lines(Reject.WIN);
+        final List<String> doContainTheRightKeyword = Lists.newArrayList(Iterables.filter(uniqueLines, new ContainsKeywordPredicate(Lists.newArrayList("win", "winwin", "win-win", "wins", "winner", "winners", "winning", "wining"))));
+        uniqueLines.removeAll(doContainTheRightKeyword);
+        System.out.println("Not OK" + uniqueLines);
+        write(doContainTheRightKeyword, EXTERNAL_PATH + "withKeyword_" + Reject.FILE_WIN);
+    }
+
+    @Test
+    public final void givenProcessingDeal_whenSeparatingExamplesBasedOnIfTheyActuallyContainTheKeyword_thenOK() throws IOException {
+        final Set<String> uniqueLines = lines(Reject.DEAL);
+        final List<String> doContainTheRightKeyword = Lists.newArrayList(Iterables.filter(uniqueLines, new ContainsKeywordPredicate(Lists.newArrayList("deal", "deals"))));
+        uniqueLines.removeAll(doContainTheRightKeyword);
+        System.out.println("Not OK" + uniqueLines);
+        write(doContainTheRightKeyword, EXTERNAL_PATH + "withKeyword_" + Reject.FILE_DEAL);
     }
 
     // util

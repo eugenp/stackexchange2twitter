@@ -23,6 +23,6 @@ import org.tweet.twitter.util.generic.RejectTweetsByWordGenericManualTest;
     RejectTweetsByWordDealManualTest.class, 
     RejectTweetsByWordDealsManualTest.class, 
 }) //@formatter:off
-public final class ManualRejectUnitTestSuite { // 319 / 2885
+public final class ManualRejectUnitTestSuite { // 289 / 2870
     //
 }

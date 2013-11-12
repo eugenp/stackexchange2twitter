@@ -239,8 +239,9 @@ public final class TwitterUtil {
                 bannedRegExes.addAll(RejectExpressionUtil.rejectWin("follow")); // new
                 bannedRegExes.addAll(RejectExpressionUtil.rejectWin("enter to")); // new
                 bannedRegExes.addAll(RejectExpressionUtil.rejectWin("entered")); // new
-
+                bannedRegExes.addAll(RejectExpressionUtil.rejectStrictWin("enter")); // new
                 bannedRegExes.addAll(RejectExpressionUtil.rejectStrictWin("click")); // new
+                bannedRegExes.addAll(RejectExpressionUtil.rejectStrictWin("rt")); // new
 
                 // deal
                 bannedRegExes.add(RejectExpressionUtil.rejectDealStart("free"));
@@ -284,6 +285,7 @@ public final class TwitterUtil {
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("vote"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("voucher"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("submit"));
+                bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("sale"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("sale"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("swag"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectWin("giveaway"));
