@@ -624,7 +624,8 @@ public final class TwitterUtil {
 
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
             if (textLowerCase.matches(bannedRegExMaybe)) {
-                logger.error("(analysis-generic) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
+                // logger.error("(analysis-generic) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
+                registerRegExError(bannedRegExesMaybeErrors, bannedRegExMaybe, originalTweet);
                 return true;
             }
         }
@@ -654,7 +655,7 @@ public final class TwitterUtil {
 
         for (final String bannedRegExMaybe : ForAnalysis.Commercial.bannedRegExesMaybe) {
             if (textLowerCase.matches(bannedRegExMaybe)) {
-                logger.error("(analysis-commercial) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
+                // logger.error("(analysis-commercial) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
                 registerRegExError(bannedRegExesMaybeErrors, bannedRegExMaybe, originalTweet);
                 return true;
             }

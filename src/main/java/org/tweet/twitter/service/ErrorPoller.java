@@ -13,13 +13,16 @@ import org.tweet.twitter.util.TwitterUtil;
 public class ErrorPoller {
     final static Logger logger = LoggerFactory.getLogger(ErrorPoller.class);
 
-    @Scheduled(cron = "0 0 */1 * * *")
+    @Scheduled(cron = "0 0 */3 * * *")
     public void pollForErrors() {
         logger.info("Starting to poll for errors");
 
         for (final Map.Entry<String, Set<String>> entry : TwitterUtil.bannedRegExesMaybeErrors.entrySet()) {
             final String expression = entry.getKey();
             final Set<String> errors = entry.getValue();
+            if (errors.isEmpty()) {
+                continue;
+            }
 
             final StringBuilder errorBatch = new StringBuilder();
             for (final String error : errors) {
@@ -27,6 +30,7 @@ public class ErrorPoller {
                 errorBatch.append("\n");
             }
             logger.error("(new-analysis-commercial) - Rejecting by regular expression (maybe)=  " + expression + "; errors= \n" + errorBatch.toString());
+            errors.clear();
         }
 
         logger.info("Done polling for errors");
