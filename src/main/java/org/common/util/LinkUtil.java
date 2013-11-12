@@ -31,13 +31,13 @@ public final class LinkUtil {
     );// @formatter:on
 
     public final static List<String> bannedDomainsByContains = Lists.newArrayList(// @formatter:off
-        "instagram.com", 
-        "youtube.com", 
-        "webdevers.com" // jobs
+         "instagram.com" 
+        ,"youtube.com" 
+        ,"webdevers.com" // jobs
+        ,"plus.google.com" // making this decision - it's OK
     );// @formatter:on
     public final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
-        "pic.twitter.com",
-        "plus.google.com" // valid ban: | semi-valid ban: +1 +1 | invalid ban: +1
+        "pic.twitter.com"
     );// @formatter:on
 
     final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off
@@ -84,7 +84,6 @@ public final class LinkUtil {
         }
         for (final String bannedDomainByContainsMaybe : bannedDomainsByContainsMaybe) {
             if (urlString.contains(bannedDomainByContainsMaybe)) {
-                // still error - reasons to move down: +1,
                 logger.error("1 - For url: {} banned domain: {}", urlString, bannedDomainByContainsMaybe);
                 return true;
             }
