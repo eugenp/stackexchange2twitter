@@ -7,11 +7,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.tweet.twitter.util.TwitterUtil;
+import org.tweet.twitter.util.ErrorUtil;
 
 @Component
-public class ErrorPoller {
+public final class ErrorPoller {
     final static Logger logger = LoggerFactory.getLogger(ErrorPoller.class);
+
+    public ErrorPoller() {
+        super();
+    }
+
+    // API
 
     @Scheduled(cron = "0 0 */6 * * *")
     public void pollForErrors() {
@@ -21,11 +27,15 @@ public class ErrorPoller {
         logBannedCommercialContainsMaybeErrors();
         logBannedContainsMaybeErrors();
 
+        logRejectedByClassifierJobErrors();
+
         logger.info("Done polling for errors");
     }
 
+    // UTIL
+
     private final void logBannedRegExesMaybeErrors() {
-        for (final Map.Entry<String, Set<String>> entry : TwitterUtil.bannedRegExesMaybeErrors.entrySet()) {
+        for (final Map.Entry<String, Set<String>> entry : ErrorUtil.bannedRegExesMaybeErrors.entrySet()) {
             final Set<String> errors = entry.getValue();
             if (errors.isEmpty()) {
                 continue;
@@ -39,7 +49,7 @@ public class ErrorPoller {
     }
 
     private final void logBannedCommercialContainsMaybeErrors() {
-        for (final Map.Entry<String, Set<String>> entry : TwitterUtil.bannedCommercialContainsMaybeErrors.entrySet()) {
+        for (final Map.Entry<String, Set<String>> entry : ErrorUtil.bannedCommercialContainsMaybeErrors.entrySet()) {
             final Set<String> errors = entry.getValue();
             if (errors.isEmpty()) {
                 continue;
@@ -54,7 +64,7 @@ public class ErrorPoller {
     }
 
     private final void logBannedContainsMaybeErrors() {
-        for (final Map.Entry<String, Set<String>> entry : TwitterUtil.bannedContainsMaybeErrors.entrySet()) {
+        for (final Map.Entry<String, Set<String>> entry : ErrorUtil.bannedContainsMaybeErrors.entrySet()) {
             final Set<String> errors = entry.getValue();
             if (errors.isEmpty()) {
                 continue;
@@ -66,6 +76,18 @@ public class ErrorPoller {
 
             errors.clear();
         }
+    }
+
+    private final void logRejectedByClassifierJobErrors() {
+        final Set<String> errors = ErrorUtil.rejectedByClassifierJob;
+        if (errors.isEmpty()) {
+            return;
+        }
+        final String finalErrorsAsString = asString(errors);
+
+        logger.error("(new-classif) - Rejected by the classifier - jobs; errors= \n" + finalErrorsAsString);
+
+        errors.clear();
     }
 
     private final String asString(final Set<String> errors) {

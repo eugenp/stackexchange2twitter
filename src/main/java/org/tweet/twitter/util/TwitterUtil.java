@@ -1,7 +1,6 @@
 package org.tweet.twitter.util;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -15,18 +14,12 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 public final class TwitterUtil {
     final static Logger logger = LoggerFactory.getLogger(TwitterUtil.class);
 
     public final static Splitter splitter = Splitter.on(' ').omitEmptyStrings().trimResults(); // if this would include more chars, then recreating the tweet would not be exact
     public final static Joiner joiner = Joiner.on(' ');
-
-    public static final Map<String, Set<String>> bannedRegExesMaybeErrors = Maps.newConcurrentMap();
-    public static final Map<String, Set<String>> bannedCommercialContainsMaybeErrors = Maps.newConcurrentMap();
-    public static final Map<String, Set<String>> bannedContainsMaybeErrors = Maps.newConcurrentMap();
 
     public static final class ForTweeting {
 
@@ -579,7 +572,7 @@ public final class TwitterUtil {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
                     logger.debug("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
-                    registerRegExError(bannedContainsMaybeErrors, tweetToken, originalTweet);
+                    ErrorUtil.registerError(ErrorUtil.bannedContainsMaybeErrors, tweetToken, originalTweet);
                 }
                 return true;
             }
@@ -603,7 +596,7 @@ public final class TwitterUtil {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
                     logger.debug("21 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
-                    registerRegExError(bannedCommercialContainsMaybeErrors, tweetToken, originalTweet);
+                    ErrorUtil.registerError(ErrorUtil.bannedCommercialContainsMaybeErrors, tweetToken, originalTweet);
                 }
                 return true;
             }
@@ -629,7 +622,7 @@ public final class TwitterUtil {
         for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
             if (textLowerCase.matches(bannedRegExMaybe)) {
                 // logger.error("(analysis-generic) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
-                registerRegExError(bannedRegExesMaybeErrors, bannedRegExMaybe, originalTweet);
+                ErrorUtil.registerError(ErrorUtil.bannedRegExesMaybeErrors, bannedRegExMaybe, originalTweet);
                 return true;
             }
         }
@@ -660,7 +653,7 @@ public final class TwitterUtil {
         for (final String bannedRegExMaybe : ForAnalysis.Commercial.bannedRegExesMaybe) {
             if (textLowerCase.matches(bannedRegExMaybe)) {
                 // logger.error("(analysis-commercial) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
-                registerRegExError(bannedRegExesMaybeErrors, bannedRegExMaybe, originalTweet);
+                ErrorUtil.registerError(ErrorUtil.bannedRegExesMaybeErrors, bannedRegExMaybe, originalTweet);
                 return true;
             }
         }
@@ -672,15 +665,6 @@ public final class TwitterUtil {
         }
 
         return false;
-    }
-
-    private static final void registerRegExError(final Map<String, Set<String>> collector, final String key, final String error) {
-        Set<String> existingListForRegex = collector.get(key);
-        if (existingListForRegex == null) {
-            existingListForRegex = Sets.newConcurrentHashSet();
-            collector.put(key, existingListForRegex);
-        }
-        existingListForRegex.add(error);
     }
 
     // utils - for tweeting

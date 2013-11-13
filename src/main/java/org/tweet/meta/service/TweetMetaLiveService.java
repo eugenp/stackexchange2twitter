@@ -34,6 +34,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.component.MinRtRetriever;
 import org.tweet.twitter.service.TagRetrieverService;
 import org.tweet.twitter.service.TweetMentionService;
+import org.tweet.twitter.util.ErrorUtil;
 import org.tweet.twitter.util.TweetUtil;
 import org.tweet.twitter.util.TwitterInteraction;
 import org.tweet.twitter.util.TwitterInteractionWithValue;
@@ -447,7 +448,8 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         // is the tweet rejected by some classifier?
         if (isTweetRejectedByClassifier(fullTweetProcessed)) {
-            logger.error("Tweet rejected by a classifier on twitterAccount= {}\n--tweet text= \n{}", twitterAccount, fullTweetProcessed);
+            ErrorUtil.registerError(ErrorUtil.rejectedByClassifierJob, "Tweet rejected by a classifier on twitterAccount= " + twitterAccount + "\n--tweet text= \n" + fullTweetProcessed);
+            // logger.error("Tweet rejected by a classifier on twitterAccount= " + twitterAccount + "\n--tweet text= \n" + fullTweetProcessed);
             return false;
         }
 
