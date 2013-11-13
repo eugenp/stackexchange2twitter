@@ -25,6 +25,8 @@ public final class TwitterUtil {
     public final static Joiner joiner = Joiner.on(' ');
 
     public static final Map<String, Set<String>> bannedRegExesMaybeErrors = Maps.newConcurrentMap();
+    public static final Map<String, Set<String>> bannedCommercialContainsMaybeErrors = Maps.newConcurrentMap();
+    public static final Map<String, Set<String>> bannedContainsMaybeErrors = Maps.newConcurrentMap();
 
     public static final class ForTweeting {
 
@@ -576,8 +578,8 @@ public final class TwitterUtil {
                 try {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
-                    logger.error("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
                     logger.debug("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                    registerRegExError(bannedContainsMaybeErrors, tweetToken, originalTweet);
                 }
                 return true;
             }
@@ -600,8 +602,8 @@ public final class TwitterUtil {
                 try {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
-                    logger.error("21 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
                     logger.debug("21 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                    registerRegExError(bannedCommercialContainsMaybeErrors, tweetToken, originalTweet);
                 }
                 return true;
             }
