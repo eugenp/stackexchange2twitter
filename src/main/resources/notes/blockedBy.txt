@@ -3,3 +3,5 @@
  
 https://twitter.com/RainerJoswig
 https://twitter.com/danielwertheim
+
+TODO: soon, try to get the details, put them into the logged error and then clearly make error a warn - nothing I can do about it

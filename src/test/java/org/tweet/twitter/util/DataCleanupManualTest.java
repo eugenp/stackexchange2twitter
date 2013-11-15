@@ -59,9 +59,11 @@ public class DataCleanupManualTest {
     }
 
     @Test
-    public final void givenCommercialDataFile1_whenCleaningUpDuplicatesInFile_thenFileIsCleaned() throws IOException {
-        final String file = "rejected-remix.txt";
-        cleanAndOrganizeFile("/notes/" + file, fileToWrite(file));
+    public final void whenCleaningUpToSortFiles_thenFileIsCleaned() throws IOException {
+        final List<String> filesToClean = Lists.newArrayList("win-tosort.txt", "deal-tosort.txt", "commercial-general-tosort.txt");
+        for (final String fileToClean : filesToClean) {
+            cleanAndOrganizeFile("/notes/test/undecided/" + fileToClean, fileToWrite(fileToClean));
+        }
     }
 
     // note: do not run this for accept files - these should actually contain non-exact matches of the keyword

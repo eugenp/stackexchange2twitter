@@ -19,13 +19,14 @@ public final class ErrorPoller {
 
     // API
 
-    @Scheduled(cron = "0 0 */6 * * *")
+    @Scheduled(cron = "0 0 */12 * * *")
     public void pollForErrors() {
         logger.info("Starting to poll for errors");
 
         logBannedRegExesMaybeErrors();
         logBannedCommercialContainsMaybeErrors();
-        logBannedContainsMaybeErrors();
+        logBannedContainsMaybeForAnalysisErrors();
+        logBannedContainsMaybeForTweetingErrors();
 
         logRejectedByClassifierJobErrors();
 
@@ -63,8 +64,8 @@ public final class ErrorPoller {
         }
     }
 
-    private final void logBannedContainsMaybeErrors() {
-        for (final Map.Entry<String, Set<String>> entry : ErrorUtil.bannedContainsMaybeErrors.entrySet()) {
+    private final void logBannedContainsMaybeForAnalysisErrors() {
+        for (final Map.Entry<String, Set<String>> entry : ErrorUtil.bannedContainsMaybeErrorsForAnalysis.entrySet()) {
             final Set<String> errors = entry.getValue();
             if (errors.isEmpty()) {
                 continue;
@@ -72,7 +73,22 @@ public final class ErrorPoller {
             final String finalErrorsAsString = asString(errors);
 
             final String token = entry.getKey();
-            logger.error("(new-analysis-2) - Rejecting by contains (maybe)= " + token + "; errors= \n" + finalErrorsAsString);
+            logger.error("(new-analysis-2) - Rejecting by contains for analysis (maybe)= " + token + "; errors= \n" + finalErrorsAsString);
+
+            errors.clear();
+        }
+    }
+
+    private final void logBannedContainsMaybeForTweetingErrors() {
+        for (final Map.Entry<String, Set<String>> entry : ErrorUtil.bannedContainsMaybeErrorsForTweeting.entrySet()) {
+            final Set<String> errors = entry.getValue();
+            if (errors.isEmpty()) {
+                continue;
+            }
+            final String finalErrorsAsString = asString(errors);
+
+            final String token = entry.getKey();
+            logger.error("(new-analysis-3) - Rejecting by contains for tweeting (maybe)= " + token + "; errors= \n" + finalErrorsAsString);
 
             errors.clear();
         }
@@ -100,7 +116,9 @@ public final class ErrorPoller {
             errorBatch.append(error);
             errorBatch.append("\n");
         }
+        errorBatch.append("\n");
         final String finalErrorsAsString = errorBatch.toString();
+
         return finalErrorsAsString;
     }
 

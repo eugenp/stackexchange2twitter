@@ -572,7 +572,7 @@ public final class TwitterUtil {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
                     logger.debug("2 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
-                    ErrorUtil.registerError(ErrorUtil.bannedContainsMaybeErrors, tweetToken, originalTweet);
+                    ErrorUtil.registerError(ErrorUtil.bannedContainsMaybeErrorsForAnalysis, tweetToken, originalTweet);
                 }
                 return true;
             }
@@ -685,8 +685,8 @@ public final class TwitterUtil {
                 try {
                     throw new IllegalStateException("I need the full stack - maybe keywords rejection");
                 } catch (final Exception ex) {
-                    logger.error("3 - Rejecting the following tweet because a token matches one of the banned maybe keywords: token= " + tweetToken + "; tweet= \n" + originalTweet);
                     logger.debug("3 - Rejecting the following tweet because a token matches one of the banned maybe keywords (go to debug for the whole stack): token= " + tweetToken + "; tweet= \n" + originalTweet, ex);
+                    ErrorUtil.registerError(ErrorUtil.bannedContainsMaybeErrorsForTweeting, tweetToken, originalTweet);
                 }
                 return true;
             }
