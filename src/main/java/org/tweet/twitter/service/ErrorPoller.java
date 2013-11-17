@@ -77,21 +77,6 @@ public final class ErrorPoller {
         logEach(temporaryEntrySet, "(new-analysis-1) - Rejecting by regular expression (maybe)=  ");
     }
 
-    private final void logAll(final List<Entry<String, Set<String>>> errorsToCompound, final String errorLogPrefix) {
-        final StringBuilder collector = new StringBuilder();
-        for (final Map.Entry<String, Set<String>> entry : errorsToCompound) {
-            final Set<String> errors = entry.getValue();
-            if (errors.isEmpty()) {
-                continue;
-            }
-            final String finalErrorsAsString = asString(errors);
-            collector.append(finalErrorsAsString);
-            collector.append("\n");
-            errors.clear();
-        }
-        logger.error(errorLogPrefix + collector.toString());
-    }
-
     final void logBannedCommercialRegExesMaybeErrors() {
         final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedCommercialRegExesMaybeErrors.entrySet());
 
@@ -114,6 +99,23 @@ public final class ErrorPoller {
         final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedContainsMaybeErrorsForTweeting.entrySet());
 
         logEach(temporaryEntrySet, "(new-analysis-3) - Rejecting by contains for tweeting (maybe)= ");
+    }
+
+    //
+
+    private final void logAll(final List<Entry<String, Set<String>>> errorsToCompound, final String errorLogPrefix) {
+        final StringBuilder collector = new StringBuilder();
+        for (final Map.Entry<String, Set<String>> entry : errorsToCompound) {
+            final Set<String> errors = entry.getValue();
+            if (errors.isEmpty()) {
+                continue;
+            }
+            final String finalErrorsAsString = asString(errors);
+            collector.append(finalErrorsAsString);
+            collector.append("\n");
+            errors.clear();
+        }
+        logger.error(errorLogPrefix + collector.toString());
     }
 
     private final void logEach(final Set<Entry<String, Set<String>>> temporaryEntrySet, final String errorLogPrefix) {

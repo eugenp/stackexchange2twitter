@@ -103,7 +103,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.BestNoSQL.name());
 
         // experimental
-        service.retweetAnyByHashtag(TwitterAccountEnum.HttpClient4.name());
+        service.retweetAnyByWord(TwitterAccountEnum.HttpClient4.name()); // newly moved to word
 
         // even newer and more experimental
         service.retweetAnyByWord(TwitterAccountEnum.BestMultithread.name());
