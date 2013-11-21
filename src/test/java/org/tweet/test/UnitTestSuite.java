@@ -9,6 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.stackexchange.component.StackExchangePageStrategyUnitTest;
 import org.tweet.meta.service.InteractionLiveServiceMockUnitTest;
 import org.tweet.meta.service.InteractionLiveServiceUnitTest;
+import org.tweet.meta.service.TweetContainsWordPredicateUnitTest;
 import org.tweet.twitter.service.TweetMentionServiceUnitTest;
 import org.tweet.twitter.service.TweetServiceUnitTest;
 import org.tweet.twitter.util.HashtagUnitTest;
@@ -36,6 +37,7 @@ import org.tweet.twitter.util.TwitterUtilUnitTest;
     // meta
     InteractionLiveServiceMockUnitTest.class,
     InteractionLiveServiceUnitTest.class,
+    TweetContainsWordPredicateUnitTest.class
     
 }) //@formatter:off
 public final class UnitTestSuite {

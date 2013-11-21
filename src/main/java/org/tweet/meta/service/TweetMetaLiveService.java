@@ -203,7 +203,8 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByWord(twitterAccount, word);
 
-        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, word, twitterAccount);
+        final Collection<Tweet> prunedTweetsLocal = pruneTweetsLocal(tweetsOfHashtag, word, twitterAccount);
+        final Collection<Tweet> prunedTweets = pruneTweets(prunedTweetsLocal, word, twitterAccount);
 
         return retweetAnyByWordInternal(twitterAccount, prunedTweets, word);
     }
@@ -219,7 +220,15 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         return retweetAnyByHashtagInternal(twitterAccount, prunedTweets, hashtag);
     }
 
-    private final Collection<Tweet> pruneTweets(final List<Tweet> tweetsOfHashtag, final String hashtag, final String twitterAccount) {
+    /**
+     * Note: this is only done when retweeting by word
+     */
+    private final Collection<Tweet> pruneTweetsLocal(final Collection<Tweet> tweets, final String word, final String twitterAccount) {
+        final Collection<Tweet> filtered = Collections2.filter(tweets, new TweetContainsWordPredicate(word));
+        return filtered;
+    }
+
+    private final Collection<Tweet> pruneTweets(final Collection<Tweet> tweetsOfHashtag, final String hashtag, final String twitterAccount) {
         final Set<Tweet> tweetsSet = Sets.newHashSet();
         for (final Tweet tweet : tweetsOfHashtag) {
             tweetsSet.add(TweetUtil.getTweet(tweet));

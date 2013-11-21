@@ -77,22 +77,26 @@ public class TweetMentionService {
 
     // construct mention
 
-    public final String addMention(final String authorUserToMention, final String textWithoutMentionOfAuthor) {
+    public final String addMention(final String authorUserToMention, final String textPotentiallyWithoutMentionOfAuthor) {
         Preconditions.checkNotNull(authorUserToMention);
-        Preconditions.checkNotNull(textWithoutMentionOfAuthor);
+        Preconditions.checkNotNull(textPotentiallyWithoutMentionOfAuthor);
+
+        if (textPotentiallyWithoutMentionOfAuthor.toLowerCase().contains("@" + authorUserToMention.toLowerCase())) {
+            return textPotentiallyWithoutMentionOfAuthor;
+        }
 
         final String mentionOption = GenericUtil.pickOneGeneric(TweetUtil.goodSingleMentionVariants);
-        String withMention = textWithoutMentionOfAuthor + mentionOption + authorUserToMention;
+        String withMention = textPotentiallyWithoutMentionOfAuthor + mentionOption + authorUserToMention;
         if (withMention.length() < 141) {
             return withMention;
         }
 
-        withMention = textWithoutMentionOfAuthor + " (@" + authorUserToMention + ")";
+        withMention = textPotentiallyWithoutMentionOfAuthor + " (@" + authorUserToMention + ")";
         if (withMention.length() < 141) {
             return withMention;
         }
 
-        return textWithoutMentionOfAuthor;
+        return textPotentiallyWithoutMentionOfAuthor;
     }
 
     // util

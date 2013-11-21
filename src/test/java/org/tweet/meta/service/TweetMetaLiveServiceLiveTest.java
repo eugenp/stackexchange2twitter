@@ -614,8 +614,14 @@ public class TweetMetaLiveServiceLiveTest {
     // S
 
     @Test
-    public final void whenTweetingAboutScala_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingAboutScalaByHashtag_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingAboutScalaByWord_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
         assertTrue(success);
     }
 
