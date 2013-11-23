@@ -61,14 +61,13 @@ public class HttpLiveServiceLiveTest {
 
     @Test
     public final void whenStandardUriIsUnshortednedBySingleLevelScenario1_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String url = "http://www.yahoo.com";
+        final String url = "http://www.bing.com";
         final String unshortenedUrl = httpService.expandSingleLevel(url).getRight();
         assertNotNull(unshortenedUrl);
         assertThat(unshortenedUrl, equalTo(url));
     }
 
     @Test
-    @Ignore("not sure why it's failing")
     public final void whenStandardUriIsUnshortednedBySingleLevelScenario2_thenResultIsCorrect() throws ClientProtocolException, IOException {
         final String url = "http://lispm.dyndns.org/lisp/benchmarks.html";
         final String unshortenedUrl = httpService.expandSingleLevel(url).getRight();
