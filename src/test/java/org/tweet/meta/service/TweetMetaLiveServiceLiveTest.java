@@ -526,6 +526,12 @@ public class TweetMetaLiveServiceLiveTest {
     }
 
     @Test
+    public final void whenTweetingByHashtagAboutPerformance_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.PerformanceTip.name(), TwitterTag.performance_java.name());
+        assertTrue(success);
+    }
+
+    @Test
     public final void whenTweetingByWordAboutParsing_thenNoExceptions() throws JsonProcessingException, IOException {
         final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.ParsingDaily.name(), TwitterTag.parsing.name());
         assertTrue(success);

@@ -63,7 +63,10 @@ public final class TwitterUtil {
         // by regex
 
         final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-            // 
+             ".*\\bI made\\b.*"
+            ,".*\\bon my\\b.*"
+            ,".*\\bI just published\\b.*"
+            ,".*\\bI will be presenting\\b.*"
         ); // @formatter:on
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
             //
@@ -137,8 +140,7 @@ public final class TwitterUtil {
         ); // @formatter:on
 
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
-            "Get .* on Amazon.*" // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
-            ,"I'm broadcasting .* on .*" // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
+             "I'm broadcasting .* on .*" // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
             ,"Follow us on (Linkedin|Twitter|G+) .*" // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
             ,".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // 2 RTs
             ,".*(?i)FREE[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // Free ... RT
@@ -211,9 +213,10 @@ public final class TwitterUtil {
 
             final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
                 // win - commercial stuff
-                
+                 "Get .* on Amazon.*" // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
+                    
                 // deal - commercial stuff
-                 ".*\\% \\boff\\b.*\\bdeal.*"
+                ,".*\\% \\boff\\b.*\\bdeal.*"
                 
                 // other: 
                 

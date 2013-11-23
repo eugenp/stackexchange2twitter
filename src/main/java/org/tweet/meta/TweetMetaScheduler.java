@@ -35,7 +35,7 @@ public class TweetMetaScheduler {
 
     // API
 
-    @Scheduled(cron = "0 10 12,16,20 * * *")
+    @Scheduled(cron = "0 10 12,16,20,0 * * *")
     public void newScheduleThree() throws JsonProcessingException, IOException {
         logger.info("Starting new retweet schedule - three");
 
@@ -55,7 +55,7 @@ public class TweetMetaScheduler {
         logger.info("Finished new retweet schedule - three");
     }
 
-    @Scheduled(cron = "0 10 13,17,21 * * *")
+    @Scheduled(cron = "0 10 13,17,21,1 * * *")
     public void newScheduleFour() throws JsonProcessingException, IOException {
         logger.info("Starting new retweet schedule - four");
 
@@ -75,7 +75,7 @@ public class TweetMetaScheduler {
         service.retweetAnyByHashtag(TwitterAccountEnum.SpringTip.name());
 
         // new and very much experimental
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestJPA.name());
+        service.retweetAnyByWord(TwitterAccountEnum.BestJPA.name()); // new
         service.retweetAnyByHashtag(TwitterAccountEnum.PerformanceTip.name()); // new
 
         logger.info("Finished new retweet schedule - four");

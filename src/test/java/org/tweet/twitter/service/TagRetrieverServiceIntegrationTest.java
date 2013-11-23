@@ -16,7 +16,6 @@ import org.tweet.spring.TwitterConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CommonServiceConfig.class, TwitterConfig.class })
-// @ActiveProfiles(SpringProfileUtil.LIVE)
 public class TagRetrieverServiceIntegrationTest {
 
     @Autowired
@@ -36,8 +35,7 @@ public class TagRetrieverServiceIntegrationTest {
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
             final List<String> twitterTags = tagRetrieverService.twitterTags(twitterAccount.name());
             for (final String twitterTag : twitterTags) {
-                if (!twitterTag.isEmpty() && !twitterTag.contains("_")) {
-                    // ruby_rails and similar are skipped
+                if (!twitterTag.isEmpty()) {
                     assertNotNull(TwitterTag.valueOf(twitterTag));
                 }
             }
