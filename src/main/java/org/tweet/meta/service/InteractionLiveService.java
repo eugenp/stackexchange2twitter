@@ -10,6 +10,7 @@ import org.keyval.persistence.model.KeyVal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.tweet.meta.analysis.TweetPassesSet2ChecksPredicate;
 import org.tweet.meta.analysis.TweetPassesSet3ChecksPredicate;
 import org.tweet.meta.component.TwitterInteractionValuesRetriever;
 import org.tweet.meta.util.TweetIsRetweetPredicate;
+import org.tweet.spring.util.SpringProfileUtil;
 import org.tweet.twitter.component.DiscouragedExpressionRetriever;
 import org.tweet.twitter.service.TweetMentionService;
 import org.tweet.twitter.service.TweetService;
@@ -36,6 +38,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 @Service
+@Profile(SpringProfileUtil.LIVE)
 public class InteractionLiveService {
     Logger logger = LoggerFactory.getLogger(getClass());
 

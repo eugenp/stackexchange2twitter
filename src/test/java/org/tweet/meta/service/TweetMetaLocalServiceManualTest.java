@@ -1,6 +1,8 @@
 package org.tweet.meta.service;
 
+import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -39,7 +41,7 @@ import org.tweet.spring.util.SpringProfileUtil;
         TwitterMetaPersistenceJPAConfig.class, 
         TwitterMetaConfig.class 
 }) // @formatter:on
-@ActiveProfiles({ SpringProfileUtil.WRITE_PRODUCTION })
+@ActiveProfiles({ SpringProfileUtil.PERSISTENCE })
 public class TweetMetaLocalServiceManualTest {
 
     static {
@@ -125,6 +127,22 @@ public class TweetMetaLocalServiceManualTest {
     }
 
     @Test
+    public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario10_thenCorrectAnswer() {
+        final String text = "FRESH: Skillscast (film,code,slides) for @rstoya05's Intro to #WebSocket with #Spring4 is at http://ow.ly/qKhmG #springx #java #spring";
+        final List<Retweet> localCandidates = service.findLocalCandidatesRelaxed(text, TwitterAccountEnum.SpringTip.name());
+        assertThat(localCandidates, not(emptyIterable()));
+    }
+
+    @Test
+    public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario11_thenCorrectAnswer() {
+        final String text = "FRESH: Skillscast (film,code,slides) for @springjuergen's keynote talk on #Spring4 & #Java8 is available at http://ow.ly/qKgkH #springx";
+        final List<Retweet> localCandidates = service.findLocalCandidatesRelaxed(text, TwitterAccountEnum.SpringTip.name());
+        assertThat(localCandidates, not(emptyIterable()));
+    }
+
+    // other
+
+    @Test
     public final void whenRetrievingCorrespondingTweets1_thenCorrect() {
         final String tweet = "Announcing causatum 0.1.0, a #clojure library for generating event streams based on stochastic state machines. http://t.co.";
         final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());
@@ -134,7 +152,7 @@ public class TweetMetaLocalServiceManualTest {
     @Test
     public final void whenRetrievingCorrespondingTweets2_thenCorrect() {
         final String tweet = "Domo makes the JMP Securities \"Hot 100\" list again http://t.co/Fk4682UML8 #cloud #Saas";
-        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());
+        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestOfCloud.name());
         assertThat(correspondingLocalRetweets, hasSize(1));
     }
 

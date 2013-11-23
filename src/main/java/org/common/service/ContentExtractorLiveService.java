@@ -12,8 +12,8 @@ import net.htmlparser.jericho.Source;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.common.metrics.MetricsUtil;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class ContentExtractorLiveService implements InitializingBean {
     @Autowired
     private MetricRegistry metrics;
 
-    private DefaultHttpClient client;
+    private HttpClient client;
 
     public ContentExtractorLiveService() {
         super();

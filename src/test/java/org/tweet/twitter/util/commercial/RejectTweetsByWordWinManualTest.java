@@ -65,4 +65,5 @@ public final class RejectTweetsByWordWinManualTest {
     public void whenTweetIsAnalyzed_thenRejected() {
         assertTrue(tweet.toLowerCase(), TwitterUtil.isTweetBannedForCommercialAnalysis(tweet.toLowerCase()));
     }
+
 }

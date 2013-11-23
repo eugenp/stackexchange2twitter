@@ -1,7 +1,7 @@
 package org.stackexchange.spring;
 
+import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DecompressingHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -16,7 +16,7 @@ public class StackexchangeConfig {
 
     @Bean
     public QuestionsApi questionsApi() {
-        final DefaultHttpClient rawHttpClient = HttpFactory.httpClient(true);
+        final HttpClient rawHttpClient = HttpFactory.httpClient(true);
 
         final DecompressingHttpClient httpClient = new DecompressingHttpClient(rawHttpClient);
         return new QuestionsApi(httpClient);

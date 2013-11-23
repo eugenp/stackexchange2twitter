@@ -14,7 +14,7 @@ import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.common.metrics.MetricsUtil;
 import org.common.service.LinkService;
@@ -37,7 +37,7 @@ import com.google.common.net.HttpHeaders;
 public class HttpLiveService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private DefaultHttpClient client;
+    private CloseableHttpClient client;
 
     @Autowired
     private LinkService linkService;

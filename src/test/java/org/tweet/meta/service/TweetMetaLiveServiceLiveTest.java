@@ -716,7 +716,7 @@ public class TweetMetaLiveServiceLiveTest {
     public final void whenNewTypeOfDataIsSearched_thenCorrect() {
         // the goal here is to pick: https://twitter.com/csdhall/status/364424663704670208
         final String hashtag = "javascript";
-        final SearchParameters searchParameters = new SearchParameters("Join #" + hashtag).lang("en").count(100).includeEntities(false).resultType(ResultType.MIXED);
+        final SearchParameters searchParameters = new SearchParameters("Join #" + hashtag).lang("en").count(100).includeEntities(true).resultType(ResultType.MIXED);
         final SearchResults searchResults = twitterReadLiveService.readOnlyTwitterApi().searchOperations().search(searchParameters);
         // filter out the ones that do not have `Join @`
         // evaluate the rest based on interaction value and use the best
