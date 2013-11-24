@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.classification.service.ClassificationService;
@@ -45,7 +43,6 @@ import com.google.api.client.util.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -94,12 +91,15 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
     // API
 
-    /**any*/
     public final boolean retweetAnyByHashtag(final String twitterAccount) throws JsonProcessingException, IOException {
+        return retweetAnyByHashtag(twitterAccount, true);
+    }
+
+    public final boolean retweetAnyByHashtag(final String twitterAccount, final boolean technical) throws JsonProcessingException, IOException {
         String twitterTag = null;
         try {
             twitterTag = tagRetrieverService.pickTwitterTag(twitterAccount);
-            final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag);
+            final boolean success = retweetAnyByHashtagInternal(twitterAccount, twitterTag, technical);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, twitterTag);
             }
@@ -115,12 +115,15 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
-    /**any*/
     public final boolean retweetAnyByWord(final String twitterAccount) throws JsonProcessingException, IOException {
+        return retweetAnyByWord(twitterAccount, true);
+    }
+
+    public final boolean retweetAnyByWord(final String twitterAccount, final boolean technical) throws JsonProcessingException, IOException {
         String word = null;
         try {
             word = tagRetrieverService.pickTwitterTag(twitterAccount);
-            final boolean success = retweetAnyByWordInternal(twitterAccount, word);
+            final boolean success = retweetAnyByWordInternal(twitterAccount, word, technical);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, word);
             }
@@ -136,33 +139,13 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
-    /**any*/
-    public final boolean retweetAnyByHashtagOnlyFromPredefinedAccounts(final String twitterAccount) throws JsonProcessingException, IOException {
-        String twitterTag = null;
-        try {
-            twitterTag = tagRetrieverService.pickTwitterTag(twitterAccount);
-            final boolean success = retweetAnyByHashtagOnlyFromPredefinedAccountsInternal(twitterAccount, twitterTag);
-            if (!success) {
-                logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}, from predefined accounts", twitterAccount, twitterTag);
-            }
-            return success;
-        } catch (final RuntimeException runtimeEx) {
-            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag + ", from predefined accounts", runtimeEx);
-            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
-            return false;
-        } catch (final Exception ex) {
-            logger.error("Unexpected exception when trying to retweet on twitterAccount= " + twitterAccount + ", by twitterTag= " + twitterTag + ", from predefined accounts", ex);
-            metrics.counter(MetricsUtil.Meta.RETWEET_ANY_ERROR).inc();
-            return false;
-        }
+    public final boolean retweetAnyByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+        return retweetAnyByHashtag(twitterAccount, hashtag, true);
     }
 
-    // util - any
-
-    /**any*/
-    public final boolean retweetAnyByHashtag(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    public final boolean retweetAnyByHashtag(final String twitterAccount, final String hashtag, final boolean technical) throws JsonProcessingException, IOException {
         try {
-            final boolean success = retweetAnyByHashtagInternal(twitterAccount, hashtag);
+            final boolean success = retweetAnyByHashtagInternal(twitterAccount, hashtag, technical);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by twitterTag= {}", twitterAccount, hashtag);
             }
@@ -178,10 +161,13 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
-    /**any*/
     public final boolean retweetAnyByWord(final String twitterAccount, final String word) throws JsonProcessingException, IOException {
+        return retweetAnyByWord(twitterAccount, word, true);
+    }
+
+    public final boolean retweetAnyByWord(final String twitterAccount, final String word, final boolean technical) throws JsonProcessingException, IOException {
         try {
-            final boolean success = retweetAnyByWordInternal(twitterAccount, word);
+            final boolean success = retweetAnyByWordInternal(twitterAccount, word, technical);
             if (!success) {
                 logger.warn("Unable to retweet any tweet on twitterAccount= {}, by word= {}", twitterAccount, word);
             }
@@ -197,8 +183,10 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
     }
 
+    // util - any
+
     /**any*/
-    private final boolean retweetAnyByWordInternal(final String twitterAccount, final String word) throws JsonProcessingException, IOException {
+    private final boolean retweetAnyByWordInternal(final String twitterAccount, final String word, final boolean technical) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by word= {}", twitterAccount, word);
 
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByWord(twitterAccount, word);
@@ -210,7 +198,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     /**any*/
-    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
+    private final boolean retweetAnyByHashtagInternal(final String twitterAccount, final String hashtag, final boolean technical) throws JsonProcessingException, IOException {
         logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
 
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByHashtag(twitterAccount, hashtag);
@@ -303,29 +291,6 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         });
 
         return tweetsOrdered;
-    }
-
-    /**any*/
-    private final boolean retweetAnyByHashtagOnlyFromPredefinedAccountsInternal(final String twitterAccount, final String hashtag) throws JsonProcessingException, IOException {
-        logger.info("Begin trying to retweet on twitterAccount= {}, by hashtag= {}", twitterAccount, hashtag);
-
-        logger.trace("Trying to retweet on twitterAccount= {}", twitterAccount);
-        final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByHashtag(twitterAccount, hashtag);
-
-        // filter out tweets not on predefined accounts
-        final List<String> predefinedAccounts = predefinedAccountRetriever.predefinedAccount(twitterAccount);
-        final Iterable<Tweet> tweetsFromOnlyPredefinedAccountsRaw = Iterables.filter(tweetsOfHashtag, new Predicate<Tweet>() {
-            @Override
-            public final boolean apply(@Nullable final Tweet input) {
-                final String fromUser = input.getFromUser();
-                return predefinedAccounts.contains(fromUser);
-            }
-        });
-
-        final List<Tweet> tweetsFromOnlyPredefinedAccounts = Lists.newArrayList(tweetsFromOnlyPredefinedAccountsRaw);
-        pruneTweets(tweetsFromOnlyPredefinedAccounts, hashtag, twitterAccount);
-
-        return retweetAnyByHashtagInternal(twitterAccount, tweetsFromOnlyPredefinedAccounts, hashtag);
     }
 
     /**any*/

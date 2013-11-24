@@ -727,14 +727,6 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
-    // predefined account
-
-    @Test
-    public final void whenTweetingFromPredefinedAccountAboutEclipse_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtagOnlyFromPredefinedAccounts(TwitterAccountEnum.EclipseFacts.name());
-        assertTrue(success);
-    }
-
     // new type of search
 
     public final void whenNewTypeOfDataIsSearched_thenCorrect() {
