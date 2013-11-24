@@ -141,7 +141,11 @@ public enum TwitterTag {// @formatter:off
     
     visualstudio,
     
-    wpf;
+    wpf
+    
+    // non-technical
+    ,dogs 
+    ,puppy;
 
     private final boolean generateLogs; 
 
