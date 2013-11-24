@@ -585,6 +585,18 @@ public class TweetMetaLiveServiceLiveTest {
         assertTrue(success);
     }
 
+    @Test
+    public final void whenTweetingByHashtagAboutPuppy_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.thedogbreeds.name(), TwitterTag.puppy.name());
+        assertTrue(success);
+    }
+
+    @Test
+    public final void whenTweetingByWordAboutPuppy_thenNoExceptions() throws JsonProcessingException, IOException {
+        final boolean success = tweetMetaLiveService.retweetAnyByWord(TwitterAccountEnum.thedogbreeds.name(), TwitterTag.puppy.name());
+        assertTrue(success);
+    }
+
     // R
 
     @Test

@@ -34,8 +34,8 @@ public class NonTechnicalTweetMetaScheduler {
 
     // API
 
-    @Scheduled(cron = "0 10 12,14,16,18,20,22 * * *")
-    public void newScheduleSix() throws JsonProcessingException, IOException {
+    @Scheduled(cron = "0 10 13,14,15,16,17,18,19,20,21,22 * * *")
+    public void newScheduleTen() throws JsonProcessingException, IOException {
         logger.info("Starting new retweet schedule - six (non-tech)");
 
         if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
@@ -43,8 +43,8 @@ public class NonTechnicalTweetMetaScheduler {
             return;
         }
 
-        // 10
-        service.retweetAnyByHashtag(TwitterAccountEnum.thedogbreeds.name());
+        // 1
+        service.retweetAnyByWord(TwitterAccountEnum.thedogbreeds.name());
         // service.retweetAnyByWord(TwitterAccountEnum.HttpClient4.name());
 
         logger.info("Finished new retweet schedule - six (non-tech)");
