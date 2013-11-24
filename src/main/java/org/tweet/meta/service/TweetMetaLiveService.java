@@ -450,7 +450,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         // is this tweet pointing to something good?
-        if (!isTweetPointingToSomethingGood(fullTweetProcessed)) {
+        if (!isTweetPointingToSomethingGoodTechnical(fullTweetProcessed)) {
             logger.debug("Tweet not pointing to something good on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweetProcessed);
             return false;
         }
@@ -506,7 +506,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
      * - it points to a <b>homepage</b><br/>
      * - it points to a <b>banned domain</b><br/>
      */
-    final boolean isTweetPointingToSomethingGood(final String potentialTweet) {
+    final boolean isTweetPointingToSomethingGoodTechnical(final String potentialTweet) {
         final Set<String> extractedUrls = linkService.extractUrls(potentialTweet);
         if (extractedUrls.isEmpty()) {
             logger.trace("Tweet rejected because the it contains no urls\n- potentialTweet= {} ", potentialTweet);

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
 import org.common.service.live.LinkLiveService;
-import org.common.util.LinkUtil;
+import org.common.util.LinkUtil.Technical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +115,7 @@ class RemoveDuplicateRetweetsUpgrader implements ApplicationListener<AfterSetupE
 
     private final boolean removeDuplicateRetweetsInternal(final Tweet rawTweet, final String twitterAccount) {
         final String rawTweetText = TweetUtil.getText(rawTweet);
-        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweet, LinkUtil.seDomains) > 0;
+        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweet, Technical.seDomains) > 0;
         if (linkingToSe) {
             logger.debug("Tweet is linking to Stack Exchange - not a retweet= {}", rawTweetText);
             return false;

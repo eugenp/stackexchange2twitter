@@ -5,7 +5,7 @@ import java.util.List;
 import org.classification.spring.ClassificationConfig;
 import org.common.spring.CommonPersistenceJPAConfig;
 import org.common.spring.CommonServiceConfig;
-import org.common.util.LinkUtil;
+import org.common.util.LinkUtil.Technical;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.keyval.spring.KeyValPersistenceJPAConfig;
@@ -92,7 +92,7 @@ public class RetweetScoresTuningLiveTest {
         final List<String> latestTweetsOnAccount = twitterService.listTweetsOfInternalAccount(account, 20);
         numberOfTweetsRetrieved = latestTweetsOnAccount.size();
 
-        final int totalRelevantLinks = linkService.countLinksToAnyDomain(latestTweetsOnAccount, LinkUtil.seDomains);
+        final int totalRelevantLinks = linkService.countLinksToAnyDomain(latestTweetsOnAccount, Technical.seDomains);
         final int totalLinksNotToSo = numberOfTweetsRetrieved - totalRelevantLinks;
 
         if (totalLinksNotToSo <= 10) {

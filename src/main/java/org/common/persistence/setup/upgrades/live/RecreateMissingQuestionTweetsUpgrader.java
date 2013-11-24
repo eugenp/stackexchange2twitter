@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
 import org.common.service.live.LinkLiveService;
-import org.common.util.LinkUtil;
+import org.common.util.LinkUtil.Technical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +104,7 @@ public class RecreateMissingQuestionTweetsUpgrader implements ApplicationListene
 
     private final void processLiveTweetInternal(final Tweet rawTweet, final String twitterAccount, final Date when) {
         final String rawTweetText = TweetUtil.getText(rawTweet);
-        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweet, LinkUtil.seDomains) > 0;
+        final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(rawTweet, Technical.seDomains) > 0;
         if (!linkingToSe) {
             logger.debug("Tweet is not linking to Stack Exchange - not a retweet= {}", rawTweetText);
             return;
@@ -126,7 +126,7 @@ public class RecreateMissingQuestionTweetsUpgrader implements ApplicationListene
 
     @Override
     public final String extractQuestionIdFromTweet(final Tweet tweet) {
-        final List<String> linksToSe = linkLiveService.getLinksToAnyDomain(tweet, LinkUtil.seDomains);
+        final List<String> linksToSe = linkLiveService.getLinksToAnyDomain(tweet, Technical.seDomains);
         Preconditions.checkState(linksToSe.size() == 1);
         String linkToSe = linksToSe.get(0);
         final int start = linkToSe.indexOf("questions/") + 10;

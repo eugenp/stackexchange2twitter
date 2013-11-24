@@ -14,40 +14,59 @@ import com.google.common.collect.Sets;
 public final class LinkUtil {
     private static final Logger logger = LoggerFactory.getLogger(LinkUtil.class);
 
-    public final static List<String> seDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
+    public static class Common {
 
-    final static List<String> bannedDomainsStartsWith = Lists.newArrayList(// @formatter:off
-        "http://wp-plugin-archive.de",
-        "http://www.blogging-inside.de", 
-        "http://www.perun.net", 
-        "http://www.heyyou-app.com", 
-        "http://www.freelancer.com", "https://www.freelancer.com", "http://www.peopleperhour.com", 
-        "http://www.almasryalyoum.com/", // non English
-        "https://www.facebook.com" // verified - no false positive after about 2 weeks - accepting
-    );// @formatter:on
+        final static List<String> bannedDomainsStartsWith = Lists.newArrayList(// @formatter:off
+            "http://wp-plugin-archive.de",
+            "http://www.blogging-inside.de", 
+            "http://www.perun.net", 
+            "http://www.heyyou-app.com", 
+            "http://www.freelancer.com", "https://www.freelancer.com", "http://www.peopleperhour.com", 
+            "http://www.almasryalyoum.com/", // non English
+            "https://www.facebook.com" // verified - no false positive after about 2 weeks - accepting
+        );// @formatter:on
+        final static List<String> bannedDomainsEndsWith = Lists.newArrayList(// @formatter:off
+            ".git"
+        );// @formatter:on
+        final static List<String> bannedDomainsByContains = Lists.newArrayList(// @formatter:off
+             "youtube.com" 
+            ,"webdevers.com" // jobs
+            ,"plus.google.com" // making this decision - it's OK
+        );// @formatter:on
+        public final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
+            // 
+        );// @formatter:on
+        final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off
+            "http(s)?://(www.)?.*\\.de(\\z|/.*)" 
+        );// @formatter:on
+        final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
+            "http(s)?://(www.)?.*job.*\\.com(\\z|/.*)", 
+            "http(s)?://(www.)?.*\\.it(\\z|/.*)"
+        );// @formatter:on
+    }
 
-    public final static List<String> bannedDomainsEndsWith = Lists.newArrayList(// @formatter:off
-        ".git"
-    );// @formatter:on
+    public static class Technical {
+        public final static List<String> seDomains = Lists.newArrayList("http://stackoverflow.com/", "http://askubuntu.com/", "http://superuser.com/");
 
-    public final static List<String> bannedDomainsByContains = Lists.newArrayList(// @formatter:off
-         "instagram.com" 
-        ,"youtube.com" 
-        ,"webdevers.com" // jobs
-        ,"plus.google.com" // making this decision - it's OK
-    );// @formatter:on
-    public final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
-        "pic.twitter.com"
-    );// @formatter:on
-
-    final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off
-        "http(s)?://(www.)?.*\\.de(\\z|/.*)" 
-    );// @formatter:on
-    final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
-        "https://twitter.com/.*/photo/\\d+", 
-        "http(s)?://(www.)?.*job.*\\.com(\\z|/.*)", 
-        "http(s)?://(www.)?.*\\.it(\\z|/.*)"
-    );// @formatter:on
+        final static List<String> bannedDomainsStartsWith = Lists.newArrayList(// @formatter:off
+            //
+        );// @formatter:on
+        final static List<String> bannedDomainsEndsWith = Lists.newArrayList(// @formatter:off
+            // 
+        );// @formatter:on
+        final static List<String> bannedDomainsByContains = Lists.newArrayList(// @formatter:off
+             "instagram.com" 
+        );// @formatter:on
+        public final static List<String> bannedDomainsByContainsMaybe = Lists.newArrayList(// @formatter:off
+            "pic.twitter.com"
+        );// @formatter:on
+        final static List<String> bannedDomainsByRegex = Lists.newArrayList(// @formatter:off
+            //  
+        );// @formatter:on
+        final static List<String> bannedDomainsByRegexMaybe = Lists.newArrayList(// @formatter:off
+            "https://twitter.com/.*/photo/\\d+" 
+        );// @formatter:on
+    }
 
     private LinkUtil() {
         throw new AssertionError();
@@ -60,35 +79,86 @@ public final class LinkUtil {
      * - note: simplistic implementation to be improved when needed
      */
     public static boolean belongsToBannedDomain(final String urlString) {
-        for (final String bannedDomain : bannedDomainsStartsWith) {
+        if (belongsToBannedDomainCommon(urlString)) {
+            return true;
+        }
+        if (belongsToBannedDomainTechnicalOnly(urlString)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean belongsToBannedDomainCommon(final String urlString) {
+        for (final String bannedDomain : Common.bannedDomainsStartsWith) {
             if (urlString.startsWith(bannedDomain)) {
                 return true;
             }
         }
-        for (final String bannedDomain : bannedDomainsEndsWith) {
+        for (final String bannedDomain : Common.bannedDomainsEndsWith) {
             if (urlString.endsWith(bannedDomain)) {
                 return true;
             }
         }
 
-        for (final String bannedDomain : bannedDomainsByRegex) {
+        for (final String bannedDomain : Common.bannedDomainsByRegex) {
             if (urlString.matches(bannedDomain)) {
                 return true;
             }
         }
-        for (final String bannedDomainByContainsMaybe : bannedDomainsByContains) {
+        for (final String bannedDomainByContainsMaybe : Common.bannedDomainsByContains) {
             if (urlString.contains(bannedDomainByContainsMaybe)) {
                 logger.debug("For url: {} banned domain: {}", urlString, bannedDomainByContainsMaybe);
                 return true;
             }
         }
-        for (final String bannedDomainByContainsMaybe : bannedDomainsByContainsMaybe) {
+        for (final String bannedDomainByContainsMaybe : Common.bannedDomainsByContainsMaybe) {
             if (urlString.contains(bannedDomainByContainsMaybe)) {
                 logger.error("1 - For url: {} banned domain: {}", urlString, bannedDomainByContainsMaybe);
                 return true;
             }
         }
-        for (final String bannedDomainByRegexMaybe : bannedDomainsByRegexMaybe) {
+        for (final String bannedDomainByRegexMaybe : Common.bannedDomainsByRegexMaybe) {
+            if (urlString.matches(bannedDomainByRegexMaybe)) {
+                // was error - interesting, but confirmed - moving down now
+                logger.debug("2 - For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean belongsToBannedDomainTechnicalOnly(final String urlString) {
+        for (final String bannedDomain : Technical.bannedDomainsStartsWith) {
+            if (urlString.startsWith(bannedDomain)) {
+                return true;
+            }
+        }
+        for (final String bannedDomain : Technical.bannedDomainsEndsWith) {
+            if (urlString.endsWith(bannedDomain)) {
+                return true;
+            }
+        }
+
+        for (final String bannedDomain : Technical.bannedDomainsByRegex) {
+            if (urlString.matches(bannedDomain)) {
+                return true;
+            }
+        }
+        for (final String bannedDomainByContainsMaybe : Technical.bannedDomainsByContains) {
+            if (urlString.contains(bannedDomainByContainsMaybe)) {
+                logger.debug("For url: {} banned domain: {}", urlString, bannedDomainByContainsMaybe);
+                return true;
+            }
+        }
+        for (final String bannedDomainByContainsMaybe : Technical.bannedDomainsByContainsMaybe) {
+            if (urlString.contains(bannedDomainByContainsMaybe)) {
+                logger.error("1 - For url: {} banned domain: {}", urlString, bannedDomainByContainsMaybe);
+                return true;
+            }
+        }
+        for (final String bannedDomainByRegexMaybe : Technical.bannedDomainsByRegexMaybe) {
             if (urlString.matches(bannedDomainByRegexMaybe)) {
                 // was error - interesting, but confirmed - moving down now
                 logger.debug("2 - For url: {} banned domain by regex: {}", urlString, bannedDomainByRegexMaybe);

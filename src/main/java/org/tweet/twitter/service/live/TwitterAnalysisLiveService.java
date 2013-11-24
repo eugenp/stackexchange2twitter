@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.common.service.live.LinkLiveService;
-import org.common.util.LinkUtil;
+import org.common.util.LinkUtil.Technical;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.TimelineOperations;
@@ -69,7 +69,7 @@ public class TwitterAnalysisLiveService {
 
     public final int calculateAbsDifferenceBetweenLocalAndLiveRetweetsOnAccount(final String twitterAccount) {
         final List<Tweet> tweetsOnAccount = twitterReadLiveService.listTweetsOfInternalAccountRaw(twitterAccount, 3 * 200);
-        final int linkingToSo = linkLiveService.countLinksToAnyDomainRaw(tweetsOnAccount, LinkUtil.seDomains);
+        final int linkingToSo = linkLiveService.countLinksToAnyDomainRaw(tweetsOnAccount, Technical.seDomains);
 
         final int liveRetweetsOnAccount = tweetsOnAccount.size() - linkingToSo;
         final int localRetweetsOnAccount = (int) retweetLocalApi.countAllByTwitterAccount(twitterAccount);

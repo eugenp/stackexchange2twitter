@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.common.spring.CommonServiceConfig;
-import org.common.util.LinkUtil;
+import org.common.util.LinkUtil.Technical;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,20 +39,20 @@ public class LinkLiveServiceLiveTest {
 
     @Test
     public final void whenLinksToSeDomainsAreCounted_thenNoExceptions() {
-        linkLiveService.countLinksToAnyDomainRaw("@alexbowe No problem - 300GB to something that can be held in RAM is worth tweeting about :)", LinkUtil.seDomains);
+        linkLiveService.countLinksToAnyDomainRaw("@alexbowe No problem - 300GB to something that can be held in RAM is worth tweeting about :)", Technical.seDomains);
     }
 
     @Test
     @Ignore("tweet no longer exists")
     public final void whenCountingLinksToDomainInTweet1_thenFound() {
         final Tweet tweet = twitterReadLiveService.findOne(368703813277847552l);
-        final int found = linkLiveService.countLinksToAnyDomain(tweet, LinkUtil.seDomains);
+        final int found = linkLiveService.countLinksToAnyDomain(tweet, Technical.seDomains);
         assertThat(found, greaterThan(0));
     }
 
     @Test
     public final void whenCountingLinksToDomainInTweet2_thenFound() {
-        final boolean found = linkLiveService.hasLinksToAnyDomain("When should one use the following: #Amazon #EC2, Google App Engine, Microsoft Azure and http://t.co/44zGWFUyUd? - http://t.co/8o3C12Fruc", LinkUtil.seDomains);
+        final boolean found = linkLiveService.hasLinksToAnyDomain("When should one use the following: #Amazon #EC2, Google App Engine, Microsoft Azure and http://t.co/44zGWFUyUd? - http://t.co/8o3C12Fruc", Technical.seDomains);
         assertThat(found, is(true));
     }
 

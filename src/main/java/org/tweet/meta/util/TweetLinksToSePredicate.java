@@ -1,7 +1,7 @@
 package org.tweet.meta.util;
 
 import org.common.service.live.LinkLiveService;
-import org.common.util.LinkUtil;
+import org.common.util.LinkUtil.Technical;
 import org.springframework.social.twitter.api.Tweet;
 
 import com.google.api.client.util.Preconditions;
@@ -17,7 +17,7 @@ public final class TweetLinksToSePredicate implements Predicate<Tweet> {
 
     @Override
     public final boolean apply(final Tweet tweet) {
-        return linkLiveService.countLinksToAnyDomain(tweet, LinkUtil.seDomains) > 0;
+        return linkLiveService.countLinksToAnyDomain(tweet, Technical.seDomains) > 0;
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.common.util.LinkUtil;
+import org.common.util.LinkUtil.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -126,7 +127,7 @@ public class LinkService {
         final Collection<String> extractedUrlsWithoutBannedDomains = Collections2.filter(extractedUrls, new Predicate<String>() {
             @Override
             public final boolean apply(final String input) {
-                for (final String banned : LinkUtil.bannedDomainsByContainsMaybe) {
+                for (final String banned : Common.bannedDomainsByContainsMaybe) {
                     if (input.contains(banned)) {
                         return false;
                     }

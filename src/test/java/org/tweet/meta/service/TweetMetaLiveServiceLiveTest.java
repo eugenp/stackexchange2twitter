@@ -751,7 +751,7 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void givenTweetNotPointingToAnythingGood1_whenCheckingIfItIsPointingToSomethingGood_thenNo() {
-        final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGood("Going on #facebook for a bit :) http://www.facebook.com/realshamidrees");
+        final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGoodTechnical("Going on #facebook for a bit :) http://www.facebook.com/realshamidrees");
         assertThat(isIt, is(false));
     }
 
@@ -759,7 +759,7 @@ public class TweetMetaLiveServiceLiveTest {
     public final void givenTweetNotPointingToAnythingGood2_whenCheckingIfItIsPointingToSomethingGood_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(357461150910251008l);
         final String tweetText = TweetUtil.getText(tweet);
-        final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGood(tweetText);
+        final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGoodTechnical(tweetText);
         assertThat(isIt, is(false));
     }
 
@@ -767,7 +767,7 @@ public class TweetMetaLiveServiceLiveTest {
     public final void givenTweetNotPointingToAnythingGood3_whenCheckingIfItIsPointingToSomethingGood_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(350599636307812355l);
         final String tweetText = TweetUtil.getText(tweet);
-        final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGood(tweetText);
+        final boolean isIt = tweetMetaLiveService.isTweetPointingToSomethingGoodTechnical(tweetText);
         assertThat(isIt, is(false));
     }
 

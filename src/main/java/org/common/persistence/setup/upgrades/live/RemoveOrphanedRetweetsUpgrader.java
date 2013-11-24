@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.common.persistence.setup.AfterSetupEvent;
 import org.common.service.live.LinkLiveService;
-import org.common.util.LinkUtil;
+import org.common.util.LinkUtil.Technical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +89,7 @@ public class RemoveOrphanedRetweetsUpgrader implements ApplicationListener<After
 
     private final void removeOrphanedRetweetsOnAccount(final List<Tweet> allLiveTweetsOnAccount, final List<Retweet> allLocalReweetsOnAccount, final String twitterAccount) {
         for (final Tweet tweet : allLiveTweetsOnAccount) {
-            final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(tweet, LinkUtil.seDomains) > 0;
+            final boolean linkingToSe = linkLiveService.countLinksToAnyDomain(tweet, Technical.seDomains) > 0;
             if (linkingToSe) {
                 continue;
             }
@@ -106,7 +106,7 @@ public class RemoveOrphanedRetweetsUpgrader implements ApplicationListener<After
         Retweet retweetLeft;
         for (; iteratorOfLocalRetweets.hasNext();) {
             retweetLeft = iteratorOfLocalRetweets.next();
-            final boolean linkingToSe = linkLiveService.hasLinksToAnyDomain(retweetLeft.getText(), LinkUtil.seDomains);
+            final boolean linkingToSe = linkLiveService.hasLinksToAnyDomain(retweetLeft.getText(), Technical.seDomains);
             if (linkingToSe) {
                 iteratorOfLocalRetweets.remove();
             }
