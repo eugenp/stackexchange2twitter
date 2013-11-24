@@ -530,7 +530,45 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return false;
         }
 
-        if (LinkUtil.belongsToBannedDomain(singleMainUrl)) {
+        if (LinkUtil.belongsToBannedDomainTechnical(singleMainUrl)) {
+            logger.debug("potentialTweet= {} rejected because the it is pointing to a banned domain= {}", potentialTweet, singleMainUrl);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Tweet is <b>not</b> pointing to something good if: <br/>
+     * - it has <b>no url</b><br/>
+     * - it points to a <b>homepage</b><br/>
+     * - it points to a <b>banned domain</b><br/>
+     */
+    final boolean isTweetPointingToSomethingGoodNonTechnical(final String potentialTweet) {
+        final Set<String> extractedUrls = linkService.extractUrls(potentialTweet);
+        if (extractedUrls.isEmpty()) {
+            logger.trace("Tweet rejected because the it contains no urls\n- potentialTweet= {} ", potentialTweet);
+            return false;
+        }
+        String singleMainUrl = linkService.determineMainUrl(extractedUrls);
+        try {
+            singleMainUrl = httpLiveService.expand(singleMainUrl);
+        } catch (final RuntimeException ex) {
+            logger.error("Unexpected error from URL expansion: " + singleMainUrl, ex);
+            return false;
+        }
+        if (singleMainUrl == null) {
+            logger.trace("Tweet rejected because the main url couldn't be identified\n- potentialTweet= {} ", potentialTweet);
+            return false;
+        }
+
+        if (linkService.isHomepageUrl(singleMainUrl)) {
+            // note: this will experience high bursts when a popular tweet is returned (and analyzed) 20-30 times at once (do not set on error)
+            logger.trace("Tweet rejected because the it is pointing to a homepage= {}\n- potentialTweet= {} ", singleMainUrl, potentialTweet);
+            return false;
+        }
+
+        if (LinkUtil.belongsToBannedDomainCommon(singleMainUrl)) {
             logger.debug("potentialTweet= {} rejected because the it is pointing to a banned domain= {}", potentialTweet, singleMainUrl);
             return false;
         }

@@ -117,49 +117,49 @@ public class LinkUtilUnitTest {
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario1_thenNo() {
         final String url = "http://www.slideshare.net/pcalcado/from-a-monolithic-ruby-on-rails-app-to-the-jvm";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(false));
     }
 
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario2_thenNo() {
         final String url = "http://codepen.io/rdallaire/pen/zFjvG?utm_source=buffer&utm_campaign=Buffer&utm_content=buffer33478&utm_medium=twitter";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(false));
     }
 
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario3_thenNo() {
         final String url = "http://appleinsider.com/articles/13/08/19/iphone-5c-expected-to-replace-iphone-5-while-apples-iphone-4s-will-live-on";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(false));
     }
 
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario4_thenNo() {
         final String url = "http://hub.tutsplus.com/articles/a-web-designers-seo-checklist-including-portable-formats--webdesign-10740";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(false));
     }
 
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario5_thenNo() {
         final String url = "http://www.denbagus.net/10-best-j-query-plugins-that-support-e-commerce-website-development";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(false));
     }
 
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario6_thenNo() {
         final String url = "http://www.developerdrive.com/2013/08/introducing-css3-multiple-backgrounds/";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(false));
     }
 
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario7_thenNo() {
         final String url = "http://www.designdazzling.com/2013/08/perfect-wordpress-corporate-themes-for-website-project/";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(false));
     }
 
     @Test
     public final void givenUrlShouldNotBeBanned_whenCheckingIfItIsScenario8_thenNo() {
         final String url = "http://damonmiller.github.io/esapi4cf/";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(false));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(false));
     }
 
     // banned domain - yes
@@ -167,7 +167,7 @@ public class LinkUtilUnitTest {
     @Test
     public final void givenUrlShouldBeBanned_whenCheckingIfItIsScenario1_thenYes() {
         final String url = "http://www.fantasyfootball.de/blogpost1";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(true));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(true));
     }
 
     // domain containing `job`
@@ -175,7 +175,7 @@ public class LinkUtilUnitTest {
     @Test
     public final void givenUrlShouldBeBanned_whenCheckingIfItIsScenario2_thenYes() {
         final String url = "http://www.jobsforgood.com/Sr__Software_Engineer";
-        assertThat(LinkUtil.belongsToBannedDomain(url), equalTo(true));
+        assertThat(LinkUtil.belongsToBannedDomainTechnical(url), equalTo(true));
     }
 
 }

@@ -78,7 +78,7 @@ public final class LinkUtil {
      * - local <br/>
      * - note: simplistic implementation to be improved when needed
      */
-    public static boolean belongsToBannedDomain(final String urlString) {
+    public static boolean belongsToBannedDomainTechnical(final String urlString) {
         if (belongsToBannedDomainCommon(urlString)) {
             return true;
         }
