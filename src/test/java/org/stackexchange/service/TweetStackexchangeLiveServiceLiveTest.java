@@ -212,7 +212,7 @@ public class TweetStackexchangeLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenTweetingByDefaultTagOnBestBash_thenNoExceptions() throws JsonProcessingException, IOException {
+    public final void whenTweetingByDefaultTagOnAskUbuntuAndBash_thenNoExceptions() throws JsonProcessingException, IOException {
         instance.tweetAnyTopQuestionBySiteAndTag(StackSite.AskUbuntu, StackTag.bash.name(), TwitterAccountEnum.AskUbuntuFact.name());
     }
 

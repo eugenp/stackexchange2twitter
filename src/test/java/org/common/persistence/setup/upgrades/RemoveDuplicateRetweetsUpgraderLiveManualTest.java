@@ -54,7 +54,7 @@ public class RemoveDuplicateRetweetsUpgraderLiveManualTest {
     }
 
     // some unexpected additional logging messages:
-    // BestOfCloud, BestScala, GoogleDigest
+    // CloudDaily, ScalaFact, GoogleDigest
     // wrong results: GoogleDigest
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount1_thenNoExceptions() {

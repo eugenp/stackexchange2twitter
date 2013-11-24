@@ -193,6 +193,6 @@ public class FollowMetaScheduler {
         logger.info("Finished new retweet schedule - 3");
     }
 
-    // for accounts - not yet: BestBash,EclipseFacts,BestJPA,BestMaven,BestOfRuby,SpringTip,ServerFaultBest,JavaTopSO,RESTDaily,BestOfCocoa
+    // for accounts - not yet: BashWatch,EclipseFacts,BestJPA,MavenFact,BestOfRuby,SpringTip,ServerFaultFact,JavaTopSO,RESTDaily,BestOfCocoa
 
 }
