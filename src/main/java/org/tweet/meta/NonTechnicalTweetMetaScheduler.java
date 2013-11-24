@@ -44,7 +44,7 @@ public class NonTechnicalTweetMetaScheduler {
         }
 
         // 1
-        service.retweetAnyByWord(TwitterAccountEnum.thedogbreeds.name());
+        service.retweetAnyByWord(TwitterAccountEnum.thedogbreeds.name(), false);
         // service.retweetAnyByWord(TwitterAccountEnum.HttpClient4.name());
 
         logger.info("Finished new retweet schedule - six (non-tech)");
