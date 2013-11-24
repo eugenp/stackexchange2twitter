@@ -75,16 +75,27 @@ public enum TwitterAccountEnum {// @formatter:off
     ServerFaultFact(false),  // SO specific
     SpringTip(true),  
     
-    thedogbreeds(true);
+    thedogbreeds(true, false);
     
-    private final boolean rt; 
+    private final boolean rt;
+    private final boolean technical; 
+    
+    TwitterAccountEnum(final boolean rt, final boolean technical) {
+        this.rt = rt;
+        this.technical = technical;
+    }
     
     TwitterAccountEnum(final boolean rt) {
-        this.rt = rt;
+        this(rt, true);
     }
 
     public boolean isRt() {
         return rt;
     }
+
+    public boolean isTechnical() {
+        return technical;
+    }
+    
 }
 // @formatter:on

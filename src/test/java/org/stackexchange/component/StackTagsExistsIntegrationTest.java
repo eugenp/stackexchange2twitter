@@ -37,6 +37,9 @@ public class StackTagsExistsIntegrationTest {
     @Test
     public final void whenRetrievingMinScoresOfAllStackTags_thenFound() {
         for (final TwitterAccountEnum twitterAccount : TwitterAccountEnum.values()) {
+            if (!twitterAccount.isTechnical()) {
+                continue;
+            }
             final String stackTagsOfAccountRaw = env.getProperty(twitterAccount.name() + ".stack.tags");
             assertNotNull("No stack tags found for twitterAccount= " + twitterAccount, stackTagsOfAccountRaw);
 
