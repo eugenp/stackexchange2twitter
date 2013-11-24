@@ -45,10 +45,10 @@ public class FollowMetaScheduler {
         }
 
         // 6
-        service.followBestUser(TwitterAccountEnum.BestOfLinux.name(), TwitterTag.linux.name());
-        service.followBestUser(TwitterAccountEnum.BestOfCss.name(), TwitterTag.css.name());
+        service.followBestUser(TwitterAccountEnum.LinuxFact.name(), TwitterTag.linux.name());
+        service.followBestUser(TwitterAccountEnum.CssFact.name(), TwitterTag.css.name());
         service.followBestUser(TwitterAccountEnum.CryptoFact.name(), TwitterTag.cryptography.name());
-        service.followBestUser(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
+        service.followBestUser(TwitterAccountEnum.CloudDaily.name(), TwitterTag.ec2.name());
         // service.followBestUser(TwitterAccountEnum.PythonDaily.name());
         // service.followBestUser(TwitterAccountEnum.AspnetDaily.name(), TwitterTag.aspnet.name());
 
@@ -65,8 +65,8 @@ public class FollowMetaScheduler {
         }
 
         // 7
-        service.followBestUser(TwitterAccountEnum.BestOfJava.name(), TwitterTag.java.name());
-        service.followBestUser(TwitterAccountEnum.BestOfSecurity.name(), TwitterTag.security.name());
+        service.followBestUser(TwitterAccountEnum.JavaFact.name(), TwitterTag.java.name());
+        service.followBestUser(TwitterAccountEnum.SecurityFact.name(), TwitterTag.security.name());
         service.followBestUser(TwitterAccountEnum.BestOfHTML5.name(), TwitterTag.html5.name());
         // service.followBestUser(TwitterAccountEnum.GoogleDigest.name(), TwitterTag.google.name());
         service.followBestUser(TwitterAccountEnum.LandOfSeo.name(), TwitterTag.seo.name());
@@ -90,11 +90,11 @@ public class FollowMetaScheduler {
         }
 
         // 10
-        service.followBestUser(TwitterAccountEnum.BestRubyOnRails.name(), TwitterTag.rubyonrails.name());
-        service.followBestUser(TwitterAccountEnum.BestAlgorithms.name(), TwitterTag.algorithms.name());
-        service.followBestUser(TwitterAccountEnum.BestGit.name(), "git programming");
-        service.followBestUser(TwitterAccountEnum.BestClojure.name(), TwitterTag.clojure.name());
-        service.followBestUser(TwitterAccountEnum.BestJavaScript.name(), TwitterTag.javascript.name());
+        service.followBestUser(TwitterAccountEnum.RubyOnRailsFact.name(), TwitterTag.rubyonrails.name());
+        service.followBestUser(TwitterAccountEnum.AlgorithmsFact.name(), TwitterTag.algorithms.name());
+        service.followBestUser(TwitterAccountEnum.GitFact.name(), "git programming");
+        service.followBestUser(TwitterAccountEnum.ClojureFact.name(), TwitterTag.clojure.name());
+        service.followBestUser(TwitterAccountEnum.ThinkJavaScript.name(), TwitterTag.javascript.name());
         service.followBestUser(TwitterAccountEnum.BestJSON.name(), TwitterTag.json.name());
         service.followBestUser(TwitterAccountEnum.BestPHP.name(), TwitterTag.php.name());
         service.followBestUser(TwitterAccountEnum.DotNetFact.name(), TwitterTag.dotnet.name());
@@ -105,7 +105,7 @@ public class FollowMetaScheduler {
         // service.followBestUser(TwitterAccountEnum.HttpClient4.name(), TwitterTag.springsecurity.name());
 
         // even newer and more experimental
-        service.followBestUser(TwitterAccountEnum.BestMultithread.name(), TwitterTag.multithreading.name());
+        service.followBestUser(TwitterAccountEnum.MultithreadFact.name(), TwitterTag.multithreading.name());
         service.followBestUser(TwitterAccountEnum.ParsingDaily.name(), "parsing programming");
 
         logger.info("Finished new retweet schedule - five 1");
@@ -151,7 +151,7 @@ public class FollowMetaScheduler {
 
         // 5
         service.followBestUser(TwitterAccountEnum.BestAWS.name(), TwitterTag.aws.name());
-        service.followBestUser(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
+        service.followBestUser(TwitterAccountEnum.ScalaFact.name(), TwitterTag.scala.name());
         service.followBestUser(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
         service.followBestUser(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html5.name());
 
@@ -169,7 +169,7 @@ public class FollowMetaScheduler {
 
         // 5
         service.followBestUser(TwitterAccountEnum.BestAWS.name(), TwitterTag.ec2.name());
-        service.followBestUser(TwitterAccountEnum.BestScala.name(), TwitterTag.akka.name());
+        service.followBestUser(TwitterAccountEnum.ScalaFact.name(), TwitterTag.akka.name());
         service.followBestUser(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
         service.followBestUser(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
 

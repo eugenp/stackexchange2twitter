@@ -55,7 +55,7 @@ public class RecreateMissingRetweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount_thenNoExceptions() {
-        recreateMissingRetweetsUpgrader.recreateLocalRetweetsFromLiveTweetsOnAccount(TwitterAccountEnum.BestScala.name());
+        recreateMissingRetweetsUpgrader.recreateLocalRetweetsFromLiveTweetsOnAccount(TwitterAccountEnum.ScalaFact.name());
     }
 
     @Test

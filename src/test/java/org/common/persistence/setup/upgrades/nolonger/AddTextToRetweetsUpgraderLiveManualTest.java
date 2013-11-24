@@ -40,7 +40,7 @@ public class AddTextToRetweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenRecreatingTheTweetedQuestionsOnSpecificAccount_thenNoExceptions() {
-        addTextToRetweetsUpgrader.addTextOfRetweetsOnAccount(TwitterAccountEnum.BestScala.name());
+        addTextToRetweetsUpgrader.addTextOfRetweetsOnAccount(TwitterAccountEnum.ScalaFact.name());
     }
 
 }

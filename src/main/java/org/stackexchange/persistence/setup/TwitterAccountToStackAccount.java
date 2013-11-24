@@ -23,28 +23,28 @@ public final class TwitterAccountToStackAccount {
 
     public static List<StackSite> twitterAccountToStackSites(final TwitterAccountEnum twitterAccount) {
         switch (twitterAccount) {
-        case AskUbuntuBest:
+        case AskUbuntuFact:
             return Lists.newArrayList(StackSite.AskUbuntu);
         case AspnetDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
         case AndroidFact:
             return Lists.newArrayList(StackSite.StackOverflow);
 
-        case BestAlgorithms:
+        case AlgorithmsFact:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestAWS:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestBash:
+        case BashWatch:
             return Lists.newArrayList(StackSite.StackOverflow, StackSite.SuperUser); // StackSite.AskUbuntu - no more results
         case CryptoFact:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestClojure:
+        case ClojureFact:
             return Lists.newArrayList(StackSite.StackOverflow);
         case EclipseFacts:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestGit:
+        case GitFact:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestJavaScript:
+        case ThinkJavaScript:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestJSP:
             return Lists.newArrayList(StackSite.StackOverflow);
@@ -52,9 +52,9 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestJSON:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestMaven:
+        case MavenFact:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestMultithread:
+        case MultithreadFact:
             return Lists.newArrayList(StackSite.StackOverflow);
 
         case BestNoSQL:
@@ -62,25 +62,25 @@ public final class TwitterAccountToStackAccount {
 
         case BestOfCocoa:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfCss:
+        case CssFact:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfRuby:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfSecurity:
+        case SecurityFact:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfCloud:
+        case CloudDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfLinux:
+        case LinuxFact:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestOfJava:
+        case JavaFact:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestOfHTML5:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestPHP:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestRubyOnRails:
+        case RubyOnRailsFact:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BestScala:
+        case ScalaFact:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestSQL:
             return Lists.newArrayList(StackSite.StackOverflow);
@@ -146,7 +146,7 @@ public final class TwitterAccountToStackAccount {
         case RegexDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
 
-        case ServerFaultBest:
+        case ServerFaultFact:
             return Lists.newArrayList(StackSite.ServerFault);
         case SpringTip:
             return Lists.newArrayList(StackSite.StackOverflow);

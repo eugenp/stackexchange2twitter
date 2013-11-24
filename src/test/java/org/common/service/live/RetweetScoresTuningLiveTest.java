@@ -61,7 +61,7 @@ public class RetweetScoresTuningLiveTest {
     */
     @Test
     public final void whenOneAccountIsAnalyzed_thenScoreSuggestionsAreGiven() {
-        analyzeNumberOfTweetsFromSeForAccount(TwitterAccountEnum.BestAlgorithms.name());
+        analyzeNumberOfTweetsFromSeForAccount(TwitterAccountEnum.AlgorithmsFact.name());
     }
 
     @Test

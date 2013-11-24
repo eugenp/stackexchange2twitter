@@ -60,7 +60,7 @@ public class RemoveLocalDuplicateRetweetsUpgraderManualTest {
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount2_thenNoExceptions() {
-        removeDuplicateRetweetsUpgrader.removeLocalDuplicateRetweetsOnAccount(TwitterAccountEnum.BestClojure.name());
+        removeDuplicateRetweetsUpgrader.removeLocalDuplicateRetweetsOnAccount(TwitterAccountEnum.ClojureFact.name());
     }
 
     @Test

@@ -1,34 +1,35 @@
 package org.stackexchange.util;
 
 public enum TwitterAccountEnum {// @formatter:off
-    AskUbuntuBest(false), // SO specific
+    
+    AskUbuntuFact(false), // SO specific
     AspnetDaily(true), // new - only partially true (for some keywords)
     AndroidFact(true), // 18.08 - temporarily true - just to see what's what with #android
     
-    BestAlgorithms(true), 
+    AlgorithmsFact(true), 
     BestAWS(true), 
-    BestBash(false),  
-    BestClojure(true), 
+    BashWatch(false),  
+    ClojureFact(true), 
     EclipseFacts(false), // predefined some accounts
-    BestGit(true), // temp true
-    BestJavaScript(true),  
+    GitFact(true), // temp true
+    ThinkJavaScript(true),  
     BestJPA(true), 
     BestJSP(false), // predefined some accounts
     BestJSON(true), 
-    BestMaven(false),  
-    BestMultithread(true), 
+    MavenFact(false),  
+    MultithreadFact(true), 
     BestNoSQL(true), 
     BestPHP(true), 
-    BestOfCloud(true), 
+    CloudDaily(true), 
     BestOfCocoa(false), // newly false because cocoa has multiple meanings 
-    BestOfCss(true), 
-    BestOfJava(true), 
-    BestOfLinux(true), 
+    CssFact(true), 
+    JavaFact(true), 
+    LinuxFact(true), 
     BestOfRuby(false), 
-    BestOfSecurity(true), 
-    BestRubyOnRails(true), 
+    SecurityFact(true), 
+    RubyOnRailsFact(true), 
     BestSQL(true), 
-    BestScala(true), 
+    ScalaFact(true), 
     BestXML(true), 
     BestWPF(false), 
 
@@ -71,7 +72,7 @@ public enum TwitterAccountEnum {// @formatter:off
     RESTDaily(false), // 
     RegexDaily(true), 
     
-    ServerFaultBest(false),  // SO specific
+    ServerFaultFact(false),  // SO specific
     SpringTip(true); 
     
     private final boolean rt; 

@@ -43,7 +43,7 @@ public class FollowLiveService {
         final List<Pair<String, TwitterInteractionWithValue>> interactionValues = Lists.newArrayList();
 
         for (final TwitterProfile twitterProfile : newAccountsToFollowWithoutMyself) {
-            final TwitterInteractionWithValue interactionWithAuthor = interactionLiveService.determineBestInteractionWithAuthorLive(twitterProfile, twitterProfile.getScreenName(), TwitterAccountEnum.BestScala.name());
+            final TwitterInteractionWithValue interactionWithAuthor = interactionLiveService.determineBestInteractionWithAuthorLive(twitterProfile, twitterProfile.getScreenName(), TwitterAccountEnum.ScalaFact.name());
             interactionValues.add(new ImmutablePair<String, TwitterInteractionWithValue>(twitterProfile.getScreenName(), interactionWithAuthor));
         }
 

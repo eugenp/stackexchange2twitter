@@ -49,7 +49,7 @@ public class MetaPollerLiveManualTest {
 
     @Test
     public final void givenSingleAccount_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() {
-        metaPoller.checkRetweetsMatchOnAccount(TwitterAccountEnum.BestClojure.name());
+        metaPoller.checkRetweetsMatchOnAccount(TwitterAccountEnum.ClojureFact.name());
     }
 
     @Test

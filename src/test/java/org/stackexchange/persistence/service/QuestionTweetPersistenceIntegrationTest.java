@@ -37,7 +37,7 @@ public class QuestionTweetPersistenceIntegrationTest extends AbstractRawServiceP
 
     @Test
     /**/public void whenAllResourcesAreCountedByTwitterAccount_thenNoExceptions() {
-        final long countAllByTwitterAccount = getApi().countAllByTwitterAccount(TwitterAccountEnum.AskUbuntuBest.name());
+        final long countAllByTwitterAccount = getApi().countAllByTwitterAccount(TwitterAccountEnum.AskUbuntuFact.name());
         System.out.println(countAllByTwitterAccount);
     }
 

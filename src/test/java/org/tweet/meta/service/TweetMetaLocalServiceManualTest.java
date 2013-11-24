@@ -73,14 +73,14 @@ public class TweetMetaLocalServiceManualTest {
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario2_thenCorrectAnswer() {
         final String text = "Blogged: #Scala #Redis client goes non blocking : uses #Akka IO .. http://debasishg.blogspot.in/2013/07/scala-redis-client-goes-non-blocking.html �";
-        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestScala.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.ScalaFact.name());
         assertNotNull(existing);
     }
 
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario3_thenCorrectAnswer() {
         final String text = "Recipes for #Akka Dependency Injection - http://tmblr.co/ZlHOLwq7PxvL  by @typesafe";
-        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestScala.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.ScalaFact.name());
         assertNotNull(existing);
     }
 
@@ -101,7 +101,7 @@ public class TweetMetaLocalServiceManualTest {
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario6_thenCorrectAnswer() {
         final String text = "Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing";
-        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestOfCloud.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.CloudDaily.name());
         assertNotNull(existing);
     }
 
@@ -115,7 +115,7 @@ public class TweetMetaLocalServiceManualTest {
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario8_thenCorrectAnswer() {
         final String text = "Blogged: #Scala #Redis client goes non blocking : uses #Akka IO .. http://t.co/Q3pB4KPeqb";
-        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestScala.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.ScalaFact.name());
         assertNotNull(existing);
     }
 
@@ -145,14 +145,14 @@ public class TweetMetaLocalServiceManualTest {
     @Test
     public final void whenRetrievingCorrespondingTweets1_thenCorrect() {
         final String tweet = "Announcing causatum 0.1.0, a #clojure library for generating event streams based on stochastic state machines. http://t.co.";
-        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestClojure.name());
+        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.ClojureFact.name());
         assertThat(correspondingLocalRetweets, hasSize(1));
     }
 
     @Test
     public final void whenRetrievingCorrespondingTweets2_thenCorrect() {
         final String tweet = "Domo makes the JMP Securities \"Hot 100\" list again http://t.co/Fk4682UML8 #cloud #Saas";
-        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestOfCloud.name());
+        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.CloudDaily.name());
         assertThat(correspondingLocalRetweets, hasSize(1));
     }
 

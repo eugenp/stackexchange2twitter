@@ -49,7 +49,7 @@ public class TweetRssServiceLiveTest {
 
     @Test
     public final void whenTweetingFromRssFeed1_theenNoExceptions() throws IOException, IllegalArgumentException, FeedException {
-        tweetRssService.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.BestOfJava.name(), null);
+        tweetRssService.tweetFromRss("http://feeds.feedburner.com/FeedForMkyong", TwitterAccountEnum.JavaFact.name(), null);
     }
 
     @Test

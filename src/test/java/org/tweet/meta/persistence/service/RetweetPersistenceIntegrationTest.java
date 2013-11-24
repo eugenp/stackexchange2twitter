@@ -77,7 +77,7 @@ public class RetweetPersistenceIntegrationTest extends AbstractRawServicePersist
 
     @Test
     /**/public void whenAllResourcesAreCountedByTwitterAccount_thenNoExceptions() {
-        final long countAllByTwitterAccount = getApi().countAllByTwitterAccount(TwitterAccountEnum.AskUbuntuBest.name());
+        final long countAllByTwitterAccount = getApi().countAllByTwitterAccount(TwitterAccountEnum.AskUbuntuFact.name());
         System.out.println(countAllByTwitterAccount);
     }
 

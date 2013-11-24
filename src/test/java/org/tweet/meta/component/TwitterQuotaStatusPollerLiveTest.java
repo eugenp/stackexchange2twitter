@@ -53,7 +53,7 @@ public class TwitterQuotaStatusPollerLiveTest {
     @Test
     public final void givenSingleAccount_whenCheckingDifferenceBetweenLiveAccountAndLocalData_thenNoExceptions() {
         twitterQuotaStatusPoller.checkTwitterApiQuotaOnOneAccount(TwitterAccountEnum.PerlDaily.name());
-        twitterQuotaStatusPoller.checkTwitterApiQuotaOnOneAccount(TwitterAccountEnum.BestOfJava.name());
+        twitterQuotaStatusPoller.checkTwitterApiQuotaOnOneAccount(TwitterAccountEnum.JavaFact.name());
         twitterQuotaStatusPoller.checkTwitterApiQuotaOnOneAccount(TwitterAccountEnum.SpringTip.name());
     }
 

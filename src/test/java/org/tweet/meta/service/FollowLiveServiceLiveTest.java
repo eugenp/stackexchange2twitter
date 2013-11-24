@@ -50,12 +50,12 @@ public class FollowLiveServiceLiveTest {
 
     @Test
     public final void whenFollowingBestUser1_thenNoExceptions() {
-        followLiveService.followBestUser(TwitterAccountEnum.BestScala.name(), TwitterTag.scala.name());
+        followLiveService.followBestUser(TwitterAccountEnum.ScalaFact.name(), TwitterTag.scala.name());
     }
 
     @Test
     public final void whenFollowingBestUser2_thenNoExceptions() {
-        followLiveService.followBestUser(TwitterAccountEnum.BestGit.name(), "git programming");
+        followLiveService.followBestUser(TwitterAccountEnum.GitFact.name(), "git programming");
     }
 
 }

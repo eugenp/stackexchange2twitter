@@ -97,12 +97,12 @@ public class UserLiveServiceReadOnlyLiveTest {
 
     @Test
     public final void whenFriendIdsAreRetrievedForMyAccount_thenNoExceptions() {
-        instance.getIdsOfAccountsFollowedByMyAccount(TwitterAccountEnum.BestScala.name());
+        instance.getIdsOfAccountsFollowedByMyAccount(TwitterAccountEnum.ScalaFact.name());
     }
 
     @Test
     public final void whenFriendIdsAreRetrievedForMyAccount_thenCorrectNumberOfIds() {
-        final Set<Long> followedByMyAccount = instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.BestScala.name());
+        final Set<Long> followedByMyAccount = instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.ScalaFact.name());
         assertThat(followedByMyAccount, hasSize(greaterThan(200)));
     }
 
@@ -110,12 +110,12 @@ public class UserLiveServiceReadOnlyLiveTest {
 
     @Test
     public final void whenFollowerIdsAreRetrievedForMyAccount_thenNoExceptions() {
-        instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.BestScala.name());
+        instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.ScalaFact.name());
     }
 
     @Test
     public final void whenFollowerIdsAreRetrievedForAccount_thenCorrectNumberOfIds() {
-        final Set<Long> followerIdsOfMyAccount = instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.BestScala.name());
+        final Set<Long> followerIdsOfMyAccount = instance.getFollowerIdsOfMyAccount(TwitterAccountEnum.ScalaFact.name());
         assertThat(followerIdsOfMyAccount, hasSize(greaterThan(50)));
     }
 

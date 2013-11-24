@@ -58,7 +58,7 @@ public class RemoveDuplicateRetweetsUpgraderLiveManualTest {
     // wrong results: GoogleDigest
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount1_thenNoExceptions() {
-        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.BestOfCloud.name());
+        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.CloudDaily.name());
     }
 
     @Test
