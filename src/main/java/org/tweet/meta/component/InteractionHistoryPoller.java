@@ -56,7 +56,7 @@ public class InteractionHistoryPoller {
                 logger.info("Performing check and update of history for twitterAccount= " + twitterAccount.name());
                 checkAndUpdateHistoryOnAccount(twitterAccount.name());
                 logger.info("Done performing check and update of history for twitterAccount= " + twitterAccount.name() + "; sleeping for 5 secs...");
-                Thread.sleep(1000 * 5 * 1); // 5 sec
+                Thread.sleep(1000 * 30 * 1); // 30 sec
             }
         }
 
