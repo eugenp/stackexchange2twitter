@@ -11,10 +11,10 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NoHttpResponseException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.common.metrics.MetricsUtil;
 import org.common.service.LinkService;
@@ -37,7 +37,7 @@ import com.google.common.net.HttpHeaders;
 public class HttpLiveService implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private CloseableHttpClient client;
+    private HttpClient client;
 
     @Autowired
     private LinkService linkService;
@@ -168,7 +168,8 @@ public class HttpLiveService implements InitializingBean {
 
     @Override
     public final void afterPropertiesSet() {
-        client = HttpFactory.httpClient(false);
+        // client = HttpFactory.httpClient(false);
+        client = HttpFactory.httpClientOld(false);
     }
 
 }
