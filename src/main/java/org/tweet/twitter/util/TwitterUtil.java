@@ -68,6 +68,7 @@ public final class TwitterUtil {
             ,".*\\bon my\\b.*"
             ,".*\\bI just published\\b.*"
             ,".*\\bI will be presenting\\b.*"
+            ,".*\\bwith me\\b.*"
         ); // @formatter:on
         final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
             //
