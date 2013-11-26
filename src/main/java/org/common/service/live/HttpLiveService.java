@@ -147,11 +147,11 @@ public class HttpLiveService implements InitializingBean {
             metrics.counter(MetricsUtil.Meta.HTTP_ERR);
             throw new IllegalStateException(ex);
         } finally {
-            if (request != null) {
-                request.releaseConnection();
-            }
             if (httpEntity != null) {
                 EntityUtils.consume(httpEntity);
+            }
+            if (request != null) {
+                request.releaseConnection();
             }
         }
     }
@@ -168,8 +168,8 @@ public class HttpLiveService implements InitializingBean {
 
     @Override
     public final void afterPropertiesSet() {
-        // client = HttpFactory.httpClient(false);
-        client = HttpFactory.httpClientOld(false);
+        client = HttpFactory.httpClient(false);
+        // client = HttpFactory.httpClientOld(false);
     }
 
 }
