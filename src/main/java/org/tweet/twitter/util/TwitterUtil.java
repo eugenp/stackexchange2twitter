@@ -87,7 +87,7 @@ public final class TwitterUtil {
             // ,"dumb", "dumber" // were on maybe - didn't really find to many wrong tweets - for now - they're OK (06.10)
             ,"highheels"
             ,"djmix", "housemusic"
-            ,"escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding" 
+            ,"escort", "escorts", "xxx", "porn", "fuck", "boobs", "breastfeeding", "bitch", "whore", "slut", "cunt" 
             ,"killed"
             ,"islamic", "islam", "muslim", "muslims", "pakistan", "egypt", "syria", "jewish", "jew"
             ,"snake" // python snake...yes, it happened

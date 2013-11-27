@@ -209,6 +209,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
     }
 
     /**
+     * Verifies that the tweets contain the actual word - sometimes twitter matches on other weird things and this basically eliminates these invalid results <br/>
      * Note: this is only done when retweeting by word
      */
     private final Collection<Tweet> pruneTweetsLocal(final Collection<Tweet> tweets, final String word, final String twitterAccount) {
