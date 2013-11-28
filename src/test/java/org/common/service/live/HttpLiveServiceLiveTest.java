@@ -162,7 +162,13 @@ public class HttpLiveServiceLiveTest {
         assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
     }
 
-    //
+    @Test
+    public final void whenShortenedUriIsUnshortednedScenario11_thenResultIsCorrect() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expandInternal("http://t.co/FiJLghJT9d");
+        System.out.println(unshortenedUrl);
+        assertNotNull(unshortenedUrl);
+        assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
+    }
 
     // invalid urls
 
