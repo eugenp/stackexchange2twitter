@@ -11,6 +11,7 @@ import java.util.List;
 import org.classification.util.ClassificationSettings;
 import org.junit.Test;
 import org.tweet.twitter.service.TweetService;
+import org.tweet.twitter.service.TweetType;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -106,7 +107,7 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTweetContainsBannedExpression_whenCheckingScenario3_thenAccepted() {
-        assertFalse(TwitterUtil.isTweetBannedForTweeting("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery"));
+        assertFalse(TwitterUtil.isTweetBannedForTweeting("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery", TweetType.Standard));
     }
 
     // rt

@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.tweet.twitter.evaluator.ChainingEvaluator;
 import org.tweet.twitter.evaluator.impl.ForAnalysisEvaluator;
 import org.tweet.twitter.evaluator.impl.ForCommercialAnalysisEvaluator;
+import org.tweet.twitter.evaluator.impl.ForNonTechnicalEvaluator;
 import org.tweet.twitter.evaluator.impl.ForTweetingEvaluator;
+import org.tweet.twitter.service.TweetType;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -439,6 +441,8 @@ public final class TwitterUtil {
         return bannedTwitterUsers.contains(username);
     }
 
+    // tweet banned
+
     /**
      * - <b>local</b> <br/>
      * Tweet can be banned FOR ANALYSIS AND TWEETING by: <br/>
@@ -447,12 +451,20 @@ public final class TwitterUtil {
      * - single word - starts with <br/>
      * - regular expression - matches <br/>
     */
-    public static boolean isTweetBannedForTweeting(final String originalTweet) {
+    public static boolean isTweetBannedForTweeting(final String originalTweet, final TweetType tweetType) {
         if (isTweetBannedForAnalysis(originalTweet)) {
             return true;
         }
 
-        return new ForTweetingEvaluator().isTweetBanned(originalTweet);
+        if (new ForTweetingEvaluator().isTweetBanned(originalTweet)) {
+            return true;
+        }
+
+        if (tweetType == TweetType.NonTech && new ForNonTechnicalEvaluator().isTweetBanned(originalTweet)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

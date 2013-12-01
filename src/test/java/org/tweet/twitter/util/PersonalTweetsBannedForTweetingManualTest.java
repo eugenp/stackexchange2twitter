@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.tweet.twitter.service.TweetType;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -61,7 +62,7 @@ public final class PersonalTweetsBannedForTweetingManualTest {
 
     @Test
     public final void givenTweetContainsBannedKeywords_whenCheckingScenario_thenRejected() {
-        assertTrue(tweet, TwitterUtil.isTweetBannedForTweeting(tweet));
+        assertTrue(tweet, TwitterUtil.isTweetBannedForTweeting(tweet, TweetType.Standard));
     }
 
 }

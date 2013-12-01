@@ -49,6 +49,10 @@ public class TweetService {
 
     // checks
 
+    public final boolean isTweetWorthRetweetingByTextWithLink(final String tweetText) {
+        return isTweetWorthRetweetingByTextWithLink(tweetText, TweetType.Standard);
+    }
+
     /**
      * - <b>local</b> <br/>
      * Tweet is <b>not worth retweeting if</b>: <br/>
@@ -58,8 +62,8 @@ public class TweetService {
      * - is structurally valid<br/>
      * - <br/>
      */
-    public final boolean isTweetWorthRetweetingByTextWithLink(final String tweetText) {
-        if (!passesSetOfAdditionalChecksForTweeting(tweetText)) {
+    public final boolean isTweetWorthRetweetingByTextWithLink(final String tweetText, final TweetType tweetType) {
+        if (!passesSetOfAdditionalChecksForTweeting(tweetText, tweetType)) {
             return false;
         }
 
@@ -108,11 +112,11 @@ public class TweetService {
         return true;
     }
 
-    public final boolean passesSetOfAdditionalChecksForTweeting(final String tweetText) {
+    public final boolean passesSetOfAdditionalChecksForTweeting(final String tweetText, final TweetType tweetType) {
         if (!passesSet3OfChecksForAnalysis(tweetText)) {
             return false;
         }
-        if (TwitterUtil.isTweetBannedForTweeting(tweetText)) {
+        if (TwitterUtil.isTweetBannedForTweeting(tweetText, tweetType)) {
             // debug should be OK
             logger.debug("Rejecting tweet because it is banned: \ntweet= {}", tweetText);
             return false;
