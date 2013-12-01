@@ -6,7 +6,7 @@ import org.tweet.twitter.util.TwitterUtil.ForAnalysis;
 public class CommercialForAnalysisEvaluator extends AbstractEvaluator {
 
     public CommercialForAnalysisEvaluator() {
-        super(ForAnalysis.Commercial.acceptedRegExes, ForAnalysis.Commercial.bannedRegExesMaybe, ForAnalysis.Commercial.bannedRegExes, "commercial", ErrorUtil.bannedCommercialRegExesMaybeErrors);
+        super(ForAnalysis.Commercial.acceptedRegExes, ForAnalysis.Commercial.bannedRegExesMaybe, ForAnalysis.Commercial.bannedRegExes, "analysis-commercial", ErrorUtil.bannedCommercialRegExesMaybeErrors);
     }
 
 }

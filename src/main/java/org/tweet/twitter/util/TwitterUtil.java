@@ -9,8 +9,10 @@ import org.classification.util.ClassificationSettings;
 import org.common.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tweet.twitter.evaluator.CommercialEvaluator;
+import org.tweet.twitter.evaluator.ChainingEvaluator;
 import org.tweet.twitter.evaluator.CommercialForAnalysisEvaluator;
+import org.tweet.twitter.evaluator.ForAnalysisEvaluator;
+import org.tweet.twitter.evaluator.ForTweetingEvaluator;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -65,14 +67,19 @@ public final class TwitterUtil {
 
         // by regex
 
-        final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+        /** if this matches, the banned expressions are no longer evaluated */
+        public final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
+             // 
+        ); // @formatter:on
+
+        public final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
              ".*\\bI made\\b.*"
             ,".*\\bon my\\b.*"
             ,".*\\bI just published\\b.*"
             ,".*\\bI will be presenting\\b.*"
             ,".*\\bwith me\\b.*"
         ); // @formatter:on
-        final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+        public final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
             //
         ); // @formatter:on
 
@@ -678,7 +685,7 @@ public final class TwitterUtil {
      * - <b>local</b> <br/>
      */
     public static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String originalTweet) {
-        return new CommercialEvaluator().isRejectedByBannedRegexExpressions(originalTweet);
+        return new ForAnalysisEvaluator().isRejectedByBannedRegexExpressions(originalTweet);
     }
 
     /**
@@ -720,23 +727,7 @@ public final class TwitterUtil {
      * - <b>local</b> <br/>
      */
     static boolean isRejectedByBannedRegexExpressionsForTweeting(final String text) {
-        if (isRejectedByBannedRegexExpressionsForAnalysis(text)) {
-            return true;
-        }
-
-        for (final String bannedRegExMaybe : ForTweeting.bannedRegExesMaybe) {
-            if (text.matches(bannedRegExMaybe)) {
-                logger.error("(for tweeting) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + text);
-                return true;
-            }
-        }
-        for (final String bannedRegEx : ForTweeting.bannedRegExes) {
-            if (text.matches(bannedRegEx)) {
-                return true;
-            }
-        }
-
-        return false;
+        return new ChainingEvaluator(new ForAnalysisEvaluator(), new ForTweetingEvaluator()).isRejectedByBannedRegexExpressions(text);
     }
 
     // utils - other

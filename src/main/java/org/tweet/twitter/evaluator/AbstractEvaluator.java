@@ -10,7 +10,7 @@ import org.tweet.twitter.util.ErrorUtil;
 
 import com.google.api.client.util.Preconditions;
 
-public abstract class AbstractEvaluator {
+public abstract class AbstractEvaluator implements IEvaluator {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final List<String> acceptedRegExes;
@@ -34,13 +34,14 @@ public abstract class AbstractEvaluator {
 
     // API
 
+    @Override
     public boolean isRejectedByBannedRegexExpressions(final String tweet) {
         final String textLowerCase = tweet.toLowerCase();
 
         for (final String hardAcceptedRegEx : acceptedRegExes) {
             if (textLowerCase.matches(hardAcceptedRegEx)) {
                 // was error - is OK now - moving down - move back up when something is added into the accept list
-                logger.info("(analysis-" + tag + ") - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + tweet);
+                logger.info("(" + tag + ") - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + tweet);
                 return false;
             }
         }
