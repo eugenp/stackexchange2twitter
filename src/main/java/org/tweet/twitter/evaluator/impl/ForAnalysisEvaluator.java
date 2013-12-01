@@ -16,7 +16,7 @@ public class ForAnalysisEvaluator extends AbstractEvaluator {
 
     @Override
     public final boolean isRejectedByBannedRegexExpressions(final String tweet) {
-        configureForRegexExpression(ForAnalysis.acceptedRegExes, ForAnalysis.bannedRegExesMaybe, ForAnalysis.bannedRegExes, "analysis-generic", ErrorUtil.bannedRegExesMaybeErrors);
+        configureForRegexExpression(ForAnalysis.acceptedRegExes, ForAnalysis.bannedRegExesMaybe, ForAnalysis.bannedRegExes, "analysis-generic", ErrorUtil.bannedRegExesMaybeErrorsAnalysis);
         return super.isRejectedByBannedRegexExpressions(tweet);
     }
 

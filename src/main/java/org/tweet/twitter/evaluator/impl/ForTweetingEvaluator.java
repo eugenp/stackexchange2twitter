@@ -16,7 +16,7 @@ public class ForTweetingEvaluator extends AbstractEvaluator {
 
     @Override
     public final boolean isRejectedByBannedRegexExpressions(final String tweet) {
-        configureForRegexExpression(ForTweeting.acceptedRegExes, ForTweeting.bannedRegExesMaybe, ForTweeting.bannedRegExes, "tweeting-generic", ErrorUtil.bannedRegExesMaybeErrors);
+        configureForRegexExpression(ForTweeting.acceptedRegExes, ForTweeting.bannedRegExesMaybe, ForTweeting.bannedRegExes, "tweeting-generic", ErrorUtil.bannedRegExesMaybeErrorsTweeting);
         return super.isRejectedByBannedRegexExpressions(tweet);
     }
 

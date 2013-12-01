@@ -10,10 +10,13 @@ import com.google.common.collect.Sets;
 public final class ErrorUtil {
 
     public static final Map<String, Set<String>> bannedRegExesMaybeErrors = Maps.newConcurrentMap();
-    public static final Map<String, Set<String>> bannedCommercialRegExesMaybeErrors = Maps.newConcurrentMap();
 
-    public static final Map<String, Set<String>> bannedCommercialContainsMaybeErrors = Maps.newConcurrentMap();
+    public static final Map<String, Set<String>> bannedRegExesMaybeErrorsTweeting = Maps.newConcurrentMap();
+    public static final Map<String, Set<String>> bannedRegExesMaybeErrorsAnalysis = Maps.newConcurrentMap();
+    public static final Map<String, Set<String>> bannedRegExesMaybeErrorsAnalysisCommercial = Maps.newConcurrentMap();
+    public static final Map<String, Set<String>> bannedRegExesMaybeErrorsNonTech = Maps.newConcurrentMap();
 
+    public static final Map<String, Set<String>> bannedContainsMaybeErrorsForAnalysisCommercial = Maps.newConcurrentMap();
     public static final Map<String, Set<String>> bannedContainsMaybeErrorsForAnalysis = Maps.newConcurrentMap();
     public static final Map<String, Set<String>> bannedContainsMaybeErrorsForTweeting = Maps.newConcurrentMap();
     public static final Map<String, Set<String>> bannedContainsMaybeErrorsForNonTech = Maps.newConcurrentMap();

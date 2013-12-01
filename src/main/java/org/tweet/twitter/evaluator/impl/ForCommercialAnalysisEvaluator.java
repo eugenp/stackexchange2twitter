@@ -16,13 +16,13 @@ public class ForCommercialAnalysisEvaluator extends AbstractEvaluator {
 
     @Override
     public final boolean isRejectedByBannedRegexExpressions(final String tweet) {
-        configureForRegexExpression(ForAnalysis.Commercial.acceptedRegExes, ForAnalysis.Commercial.bannedRegExesMaybe, ForAnalysis.Commercial.bannedRegExes, "analysis-commercial", ErrorUtil.bannedCommercialRegExesMaybeErrors);
+        configureForRegexExpression(ForAnalysis.Commercial.acceptedRegExes, ForAnalysis.Commercial.bannedRegExesMaybe, ForAnalysis.Commercial.bannedRegExes, "analysis-commercial", ErrorUtil.bannedRegExesMaybeErrorsAnalysisCommercial);
         return super.isRejectedByBannedRegexExpressions(tweet);
     }
 
     @Override
     public final boolean isRejectedByContainsKeywordMaybe(final List<String> tweetTokens, final String tweet) {
-        configureForContainsKeyword(ForAnalysis.Commercial.bannedContainsKeywordsMaybe, ForAnalysis.Commercial.acceptedContainsKeywordsOverrides, ErrorUtil.bannedCommercialContainsMaybeErrors);
+        configureForContainsKeyword(ForAnalysis.Commercial.bannedContainsKeywordsMaybe, ForAnalysis.Commercial.acceptedContainsKeywordsOverrides, ErrorUtil.bannedContainsMaybeErrorsForAnalysisCommercial);
         return super.isRejectedByContainsKeywordMaybe(tweetTokens, tweet);
     }
 

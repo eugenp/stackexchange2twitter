@@ -16,7 +16,7 @@ public class ForNonTechnicalEvaluator extends AbstractEvaluator {
 
     @Override
     public final boolean isRejectedByBannedRegexExpressions(final String tweet) {
-        configureForRegexExpression(NonTechnicalOnly.acceptedRegExes, NonTechnicalOnly.bannedRegExesMaybe, NonTechnicalOnly.bannedRegExes, "analysis-non-tech", ErrorUtil.bannedRegExesMaybeErrors);
+        configureForRegexExpression(NonTechnicalOnly.acceptedRegExes, NonTechnicalOnly.bannedRegExesMaybe, NonTechnicalOnly.bannedRegExes, "analysis-non-tech", ErrorUtil.bannedRegExesMaybeErrorsNonTech);
         return super.isRejectedByBannedRegexExpressions(tweet);
     }
 

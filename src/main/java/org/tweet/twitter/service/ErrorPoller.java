@@ -49,14 +49,15 @@ public final class ErrorPoller {
         logger.info("Starting to poll for errors");
 
         logBannedRegExesMaybeErrors();
-        logBannedCommercialRegExesMaybeErrors();
+        logBannedRegExesMaybeErrorsAnalysis();
+        logBannedRegExesMaybeErrorsAnalysisCommercial();
+        logBannedRegExesMaybeErrorsAnalysisNonTech();
+        logBannedRegExesMaybeErrorsTweeting();
 
-        logBannedCommercialContainsMaybeErrors();
-
+        // contains
+        logBannedContainsMaybeErrorsAnalysisCommercial();
         logBannedContainsMaybeForAnalysisErrors();
-
         logBannedContainsMaybeForTweetingErrors();
-
         logBannedContainsMaybeForNonTechErrors();
 
         logRejectedByClassifierJobErrors();
@@ -79,34 +80,49 @@ public final class ErrorPoller {
         logEach(temporaryEntrySet, "(new-analysis-1) - Rejecting by regular expression (maybe)=  ");
     }
 
-    final void logBannedCommercialRegExesMaybeErrors() {
-        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedCommercialRegExesMaybeErrors.entrySet());
+    // regex
 
-        logEach(temporaryEntrySet, "(new-analysis-commercial-1) - Rejecting by regular expression (maybe)=  ");
+    final void logBannedRegExesMaybeErrorsAnalysisCommercial() {
+        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedRegExesMaybeErrorsAnalysisCommercial.entrySet());
+        logEach(temporaryEntrySet, "(analysis-commercial-1) - Rejecting by regular expression (maybe)=  ");
     }
 
-    final void logBannedCommercialContainsMaybeErrors() {
-        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedCommercialContainsMaybeErrors.entrySet());
+    final void logBannedRegExesMaybeErrorsAnalysis() {
+        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedRegExesMaybeErrorsAnalysis.entrySet());
+        logEach(temporaryEntrySet, "(analysis-generic-1) - Rejecting by regular expression (maybe)=  ");
+    }
 
-        logEach(temporaryEntrySet, "(new-analysis-commercial-2) - Rejecting by contains (maybe)= ");
+    final void logBannedRegExesMaybeErrorsAnalysisNonTech() {
+        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedRegExesMaybeErrorsNonTech.entrySet());
+        logEach(temporaryEntrySet, "(analysis-non-tech-1) - Rejecting by regular expression (maybe)=  ");
+    }
+
+    final void logBannedRegExesMaybeErrorsTweeting() {
+        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedRegExesMaybeErrorsTweeting.entrySet());
+
+        logEach(temporaryEntrySet, "(tweeting-1) - Rejecting by regular expression (maybe)=  ");
+    }
+
+    // contains
+
+    final void logBannedContainsMaybeErrorsAnalysisCommercial() {
+        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedContainsMaybeErrorsForAnalysisCommercial.entrySet());
+        logEach(temporaryEntrySet, "(analysis-commercial-2) - Rejecting by contains (maybe)= ");
     }
 
     final void logBannedContainsMaybeForAnalysisErrors() {
         final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedContainsMaybeErrorsForAnalysis.entrySet());
-
-        logEach(temporaryEntrySet, "(new-analysis-2) - Rejecting by contains for analysis (maybe)= ");
-    }
-
-    final void logBannedContainsMaybeForTweetingErrors() {
-        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedContainsMaybeErrorsForTweeting.entrySet());
-
-        logEach(temporaryEntrySet, "(new-analysis-3) - Rejecting by contains for tweeting (maybe)= ");
+        logEach(temporaryEntrySet, "(analysis-generic-2) - Rejecting by contains for analysis (maybe)= ");
     }
 
     final void logBannedContainsMaybeForNonTechErrors() {
         final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedContainsMaybeErrorsForNonTech.entrySet());
+        logEach(temporaryEntrySet, "(analysis-non-tech-2) - Rejecting by contains for non-tech (maybe)= ");
+    }
 
-        logEach(temporaryEntrySet, "(new-analysis-3) - Rejecting by contains for non-tech (maybe)= ");
+    final void logBannedContainsMaybeForTweetingErrors() {
+        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedContainsMaybeErrorsForTweeting.entrySet());
+        logEach(temporaryEntrySet, "(tweeting-2) - Rejecting by contains for tweeting (maybe)= ");
     }
 
     //
