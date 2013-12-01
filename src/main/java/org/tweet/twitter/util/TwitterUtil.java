@@ -43,8 +43,12 @@ public final class TwitterUtil {
             ,"meetup"
             ,"sponsored"
             ,"sorry" // new - OK? (25.11)
-            ,"retweets" // new - OK? (01.12)
-            ,"blackfriday" // new - OK? (01.12)
+            
+            // new - OK? (01.12)
+            ,"retweets" 
+            ,"blackfriday"
+            ,"mixtape"
+            ,"starving"
         );// @formatter:on
 
         public final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
@@ -64,7 +68,7 @@ public final class TwitterUtil {
         ); // @formatter:on
 
         public final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
-            // 
+             "our love"
         ); // @formatter:on
 
         // by regex

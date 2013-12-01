@@ -99,15 +99,20 @@ public final class TwitterUtilUnitTest {
     }
 
     @Test
-    public final void givenTweetContainsBannedExpression_whenCheckingScenario4_thenAccepted() { // free without the RT
+    public final void givenTweetContainsBannedExpression_whenCheckingScenario3_thenAccepted() { // free without the RT
         assertFalse(TwitterUtil.isRejectedByBannedRegexExpressionsForAnalysis("3 Words: FREE. #IPAD. MINI ----> http://bet.us/14agHXR"));
     }
 
     //
 
     @Test
-    public final void givenTweetContainsBannedExpression_whenCheckingScenario3_thenAccepted() {
+    public final void givenTweetContainsNoBannedExpression_whenCheckingScenario4_thenAccepted() {
         assertFalse(TwitterUtil.isTweetBannedForTweeting("25+ Best and Free jQuery Image Slider / Galleries - Pixaza http://t.co/OyHH4ZPm8B #jquery", TweetType.Standard));
+    }
+
+    @Test
+    public final void givenTweetContainsBannedExpression_whenCheckingScenario5_thenRejected() {
+        assertTrue(TwitterUtil.isTweetBannedForTweeting("Happy Birthday Park Chanyeol Our #Puppy Our Love Our Happy Virus #ChanyeolVirusDay pic.twitter.com/ry9YdkBUfO - via @EXOFIC_THAILAND", TweetType.Standard));
     }
 
     // rt
