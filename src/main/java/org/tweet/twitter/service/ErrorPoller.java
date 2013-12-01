@@ -57,6 +57,8 @@ public final class ErrorPoller {
 
         logBannedContainsMaybeForTweetingErrors();
 
+        logBannedContainsMaybeForNonTechErrors();
+
         logRejectedByClassifierJobErrors();
 
         logger.info("Done polling for errors");
@@ -99,6 +101,12 @@ public final class ErrorPoller {
         final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedContainsMaybeErrorsForTweeting.entrySet());
 
         logEach(temporaryEntrySet, "(new-analysis-3) - Rejecting by contains for tweeting (maybe)= ");
+    }
+
+    final void logBannedContainsMaybeForNonTechErrors() {
+        final Set<Entry<String, Set<String>>> temporaryEntrySet = Sets.newHashSet(ErrorUtil.bannedContainsMaybeErrorsForNonTech.entrySet());
+
+        logEach(temporaryEntrySet, "(new-analysis-3) - Rejecting by contains for non-tech (maybe)= ");
     }
 
     //

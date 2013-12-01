@@ -1,7 +1,8 @@
-package org.tweet.twitter.evaluator;
+package org.tweet.twitter.evaluator.impl;
 
 import java.util.List;
 
+import org.tweet.twitter.evaluator.AbstractEvaluator;
 import org.tweet.twitter.util.ErrorUtil;
 import org.tweet.twitter.util.TwitterUtil.ForTweeting;
 

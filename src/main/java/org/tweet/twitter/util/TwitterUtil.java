@@ -9,9 +9,9 @@ import org.common.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tweet.twitter.evaluator.ChainingEvaluator;
-import org.tweet.twitter.evaluator.ForAnalysisEvaluator;
-import org.tweet.twitter.evaluator.ForCommercialAnalysisEvaluator;
-import org.tweet.twitter.evaluator.ForTweetingEvaluator;
+import org.tweet.twitter.evaluator.impl.ForAnalysisEvaluator;
+import org.tweet.twitter.evaluator.impl.ForCommercialAnalysisEvaluator;
+import org.tweet.twitter.evaluator.impl.ForTweetingEvaluator;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -338,10 +338,10 @@ public final class TwitterUtil {
 
             // by contains
 
-            final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
                 // 
             );// @formatter:on
-            final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
                 // 
             );// @formatter:on
 
@@ -349,23 +349,23 @@ public final class TwitterUtil {
              * These are special cases that are OK <br/>
              * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
              */
-            final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
+            public final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
                 // 
             );// @formatter:on
 
             // by starts with
 
-            final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
                 // 
             );// @formatter:on
 
             // by expression
 
-            final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
                 // 
             ); // @formatter:on
 
-            final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
                 // 
             ); // @formatter:on
 
@@ -373,18 +373,18 @@ public final class TwitterUtil {
 
             // note: move the logging of this back up to error if something new is added
             /** if this matches, the banned expressions are no longer evaluated */
-            final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
+            public final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
                  // 
             ); // @formatter:on
 
-            final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
                 // 
             ); // @formatter:on
             static {
                 //
                 // bannedRegExes.add(RejectExpressionUtil.rejectWinStart("chance"));
             }
-            final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
                 //
             ); // @formatter:on
             static {

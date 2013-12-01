@@ -16,6 +16,7 @@ public final class ErrorUtil {
 
     public static final Map<String, Set<String>> bannedContainsMaybeErrorsForAnalysis = Maps.newConcurrentMap();
     public static final Map<String, Set<String>> bannedContainsMaybeErrorsForTweeting = Maps.newConcurrentMap();
+    public static final Map<String, Set<String>> bannedContainsMaybeErrorsForNonTech = Maps.newConcurrentMap();
 
     public static final Set<String> rejectedByClassifierJob = Sets.newConcurrentHashSet();
 
