@@ -43,6 +43,8 @@ public final class TwitterUtil {
             ,"meetup"
             ,"sponsored"
             ,"sorry" // new - OK? (25.11)
+            ,"retweets" // new - OK? (01.12)
+            ,"blackfriday" // new - OK? (01.12)
         );// @formatter:on
 
         public final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
@@ -82,6 +84,70 @@ public final class TwitterUtil {
         public final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
             //
         ); // @formatter:on
+
+        /**
+         * These are general checks that only apply for the non-technical accounts
+         */
+        public static final class NonTechnicalOnly {
+
+            // by contains
+
+            public final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
+                // 
+            );// @formatter:on
+            public final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
+                 "stolen" 
+                ,"cries"
+                ,"puppy love"
+            );// @formatter:on
+
+            /**
+             * These are special cases that are OK <br/>
+             * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
+             */
+            public final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
+                // 
+            );// @formatter:on
+
+            // by starts with
+
+            public final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
+                // 
+            );// @formatter:on
+
+            // by expression
+
+            public final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
+                // 
+            ); // @formatter:on
+
+            public final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
+                // 
+            ); // @formatter:on
+
+            // by regex
+
+            // note: move the logging of this back up to error if something new is added
+            /** if this matches, the banned expressions are no longer evaluated */
+            public final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
+                 // 
+            ); // @formatter:on
+
+            public final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+                // 
+            ); // @formatter:on
+            static {
+                //
+                // bannedRegExes.add(RejectExpressionUtil.rejectWinStart("chance"));
+            }
+            public final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+                //
+            ); // @formatter:on
+            static {
+                //
+                // bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinStart("you could"));
+            }
+        }
 
     }
 
@@ -330,68 +396,6 @@ public final class TwitterUtil {
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("voucher"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("buy"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("€"));
-            }
-        }
-
-        /**
-         * These are general checks that only apply for the non-technical accounts
-         */
-        public static final class NonTechnicalOnly {
-
-            // by contains
-
-            public final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
-                // 
-            );// @formatter:on
-            public final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
-                // 
-            );// @formatter:on
-
-            /**
-             * These are special cases that are OK <br/>
-             * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
-             */
-            public final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
-                // 
-            );// @formatter:on
-
-            // by starts with
-
-            public final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
-                // 
-            );// @formatter:on
-
-            // by expression
-
-            public final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
-                // 
-            ); // @formatter:on
-
-            public final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
-                // 
-            ); // @formatter:on
-
-            // by regex
-
-            // note: move the logging of this back up to error if something new is added
-            /** if this matches, the banned expressions are no longer evaluated */
-            public final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
-                 // 
-            ); // @formatter:on
-
-            public final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
-                // 
-            ); // @formatter:on
-            static {
-                //
-                // bannedRegExes.add(RejectExpressionUtil.rejectWinStart("chance"));
-            }
-            public final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
-                //
-            ); // @formatter:on
-            static {
-                //
-                // bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinStart("you could"));
             }
         }
 

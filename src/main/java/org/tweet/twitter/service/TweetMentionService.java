@@ -41,27 +41,6 @@ public class TweetMentionService {
 
     // checks
 
-    /**
-     * - example: <i>RT @someuser: Original Tweet Stuff</i>
-     */
-    public final boolean isRetweetMention(final String potentialTweet) {
-        final boolean startsWith = potentialTweet.startsWith("RT @");
-        if (startsWith) {
-            return true;
-        }
-        final boolean contains = potentialTweet.contains("RT @");
-        if (contains) {
-            return true;
-        }
-
-        final boolean containsRtInfo = potentialTweet.matches(".*RT.{0,3}@.*");
-        if (containsRtInfo) {
-            return true;
-        }
-
-        return false;
-    }
-
     public final List<String> extractMentions(final String tweet) {
         final List<String> result = new ArrayList<String>();
 

@@ -193,7 +193,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByWord(twitterAccount, word);
 
         final Collection<Tweet> prunedTweetsLocal = pruneTweetsLocal(tweetsOfHashtag, word, twitterAccount);
-        final Collection<Tweet> prunedTweets = pruneTweets(prunedTweetsLocal, word, twitterAccount);
+        final Collection<Tweet> prunedTweets = pruneTweets(prunedTweetsLocal, word, twitterAccount, tweetType);
 
         return retweetAnyByWordInternal(twitterAccount, prunedTweets, word, tweetType);
     }
@@ -204,7 +204,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
 
         final List<Tweet> tweetsOfHashtag = twitterReadLiveService.listTweetsByHashtag(twitterAccount, hashtag);
 
-        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, hashtag, twitterAccount);
+        final Collection<Tweet> prunedTweets = pruneTweets(tweetsOfHashtag, hashtag, twitterAccount, tweetType);
 
         return retweetAnyByHashtagInternal(twitterAccount, prunedTweets, hashtag, tweetType);
     }
@@ -218,7 +218,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         return filtered;
     }
 
-    private final Collection<Tweet> pruneTweets(final Collection<Tweet> tweetsOfHashtag, final String hashtag, final String twitterAccount) {
+    private final Collection<Tweet> pruneTweets(final Collection<Tweet> tweetsOfHashtag, final String hashtag, final String twitterAccount, final TweetType tweetType) {
         final Set<Tweet> tweetsSet = Sets.newHashSet();
         for (final Tweet tweet : tweetsOfHashtag) {
             tweetsSet.add(TweetUtil.getTweet(tweet));
@@ -234,7 +234,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
                 if (hasThisAlreadyBeenTweetedById(new Retweet(tweet.getId(), twitterAccount, null, null))) {
                     return false;
                 }
-                if (!tweetService.isTweetWorthRetweetingByTextWithLink(tweet.getText())) {
+                if (!tweetService.isTweetWorthRetweetingByTextWithLink(tweet.getText(), tweetType)) {
                     return false;
                 }
                 if (!tweetService.passesSet1OfChecks(tweet, hashtag)) {

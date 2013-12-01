@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.tweet.twitter.service.TweetType;
 import org.tweet.twitter.util.TwitterUtil;
 
 import com.google.common.base.Function;
@@ -63,7 +64,7 @@ public final class RejectTweetsByWordGenericManualTest {
 
     @Test
     public void whenTweetIsAnalyzed_thenRejected() {
-        assertTrue(tweet.toLowerCase(), TwitterUtil.isTweetBannedForAnalysis(tweet.toLowerCase()));
+        assertTrue(tweet.toLowerCase(), TwitterUtil.isTweetBannedForTweeting(tweet.toLowerCase(), TweetType.Standard));
     }
 
 }

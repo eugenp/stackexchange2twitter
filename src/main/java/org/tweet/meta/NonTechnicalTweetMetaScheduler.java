@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.service.TweetMetaLiveService;
 import org.tweet.spring.util.SpringProfileUtil;
+import org.tweet.twitter.service.TweetType;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -44,8 +45,7 @@ public class NonTechnicalTweetMetaScheduler {
         }
 
         // 1
-        // service.retweetAnyByWord(TwitterAccountEnum.thedogbreeds.name(), false);
-        service.retweetAnyByWord(TwitterAccountEnum.thedogbreeds.name());
+        service.retweetAnyByWord(TwitterAccountEnum.thedogbreeds.name(), TweetType.NonTech);
 
         logger.info("Finished new retweet schedule - six (non-tech)");
     }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.tweet.twitter.evaluator.AbstractEvaluator;
 import org.tweet.twitter.util.ErrorUtil;
-import org.tweet.twitter.util.TwitterUtil.ForAnalysis.NonTechnicalOnly;
+import org.tweet.twitter.util.TwitterUtil.ForTweeting.NonTechnicalOnly;
 
 public class ForNonTechnicalEvaluator extends AbstractEvaluator {
 
