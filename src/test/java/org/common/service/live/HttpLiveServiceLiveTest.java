@@ -15,7 +15,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.common.service.LinkService;
 import org.common.spring.CommonServiceConfig;
 import org.gplus.spring.GplusContextConfig;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,8 +201,25 @@ public class HttpLiveServiceLiveTest {
         assertNull(unshortenedUrl);
     }
 
+    // very weird ULR that basically - at some point - returns a 302 with a weird text Location header (not a valid URL)
+    @Test(expected = RuntimeException.class)
+    public final void givenInvalidUrl6_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expandInternal("http://t.co/7toHstWGql");
+        System.out.println(unshortenedUrl);
+        assertNotNull(unshortenedUrl);
+        assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
+    }
+
+    // very weird ULR that basically - at some point - returns a 302 with a weird text Location header (not a valid URL)
+    @Test(expected = RuntimeException.class)
+    public final void givenInvalidUrl7_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expandInternal("http://t.co/gCJDikXZsl");
+        System.out.println(unshortenedUrl);
+        assertNotNull(unshortenedUrl);
+        assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
+    }
+
     @Test
-    @Ignore("not sure why it's failing")
     public final void givenValidUrl1_whenUnshortening_thenOK() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expand("http://t.co/xybpyv83Gp");
         assertNotNull(unshortenedUrl);
