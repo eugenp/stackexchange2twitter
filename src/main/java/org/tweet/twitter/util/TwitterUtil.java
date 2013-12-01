@@ -9,6 +9,8 @@ import org.classification.util.ClassificationSettings;
 import org.common.service.LinkService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tweet.twitter.evaluator.CommercialEvaluator;
+import org.tweet.twitter.evaluator.CommercialForAnalysisEvaluator;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -137,11 +139,11 @@ public final class TwitterUtil {
 
         // note: move the logging of this back up to error if something new is added
         /** if this matches, the banned expressions are no longer evaluated */
-        final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
+        public final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
              // 
         ); // @formatter:on
 
-        final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+        public final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
              "I'm broadcasting .* on .*" // I'm broadcasting #LIVE on #HangWith for #iPhone! Come Hang w/souljaboy! http://bit.ly/hangwsocial
             ,"Follow us on (Linkedin|Twitter|G+) .*" // Follow us on Linkedin - http://linkd.in/V4Fxa5  #Android #iOS #PS3 #Xbox360 #Apps #GameDev #IDRTG #Video #Game #Developer
             ,".*R(T|t)[ .!@\\-].*R(T|t)([ .!@\\-]|\\Z).*" // 2 RTs
@@ -153,7 +155,7 @@ public final class TwitterUtil {
             ,"(?i).*follow @.*"
         ); // @formatter:on
 
-        final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+        public final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
             // other commercial
             ".*only\\b.*\\$.*" // +1 +1 +1 +1 -1 -1
         ); // @formatter:on
@@ -207,13 +209,13 @@ public final class TwitterUtil {
 
             // note: move the logging of this back up to error if something new is added
             /** if this matches, the banned expressions are no longer evaluated */
-            final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
+            public final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
                  ".*\\bdeal\\b with.*"
                 ,".*deal.*merger.*", ".*merger.*deal.*"
                 ,".*win.*merger.*", ".*merger.*win.*"
             ); // @formatter:on
 
-            final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
                 // win - commercial stuff
                  "Get .* on Amazon.*" // Get 42% off Secrets of the #JavaScript Ninja on Amazon http://amzn.to/12kkaUn @jeresig
                     
@@ -260,7 +262,7 @@ public final class TwitterUtil {
                 bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("today"));
                 bannedRegExes.addAll(RejectExpressionUtil.rejectDeal("daily"));
             }
-            final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+            public final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
                 // win
                  ".*\\bprize.*\\bwin\\.*" 
 
@@ -321,6 +323,68 @@ public final class TwitterUtil {
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("voucher"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("buy"));
                 bannedRegExesMaybe.addAll(RejectExpressionUtil.rejectDeal("€"));
+            }
+        }
+
+        /**
+         * These are general checks that only apply for the non-technical accounts
+         */
+        public static final class NonTechnicalOnly {
+
+            // by contains
+
+            final static List<String> bannedContainsKeywords = Lists.newArrayList(// @formatter:off
+                // 
+            );// @formatter:on
+            final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
+                // 
+            );// @formatter:on
+
+            /**
+             * These are special cases that are OK <br/>
+             * - <b>ex</b>: `killed it` is a special case for `killed` that is OK
+             */
+            final static List<String> acceptedContainsKeywordsOverrides = Lists.newArrayList(// @formatter:off
+                // 
+            );// @formatter:on
+
+            // by starts with
+
+            final static List<String> bannedStartsWithExprs = Lists.newArrayList(// @formatter:off
+                // 
+            );// @formatter:on
+
+            // by expression
+
+            final static List<String> bannedExpressions = Lists.newArrayList(// @formatter:off
+                // 
+            ); // @formatter:on
+
+            final static List<String> bannedExpressionsMaybe = Lists.newArrayList(// @formatter:off
+                // 
+            ); // @formatter:on
+
+            // by regex
+
+            // note: move the logging of this back up to error if something new is added
+            /** if this matches, the banned expressions are no longer evaluated */
+            final static List<String> acceptedRegExes = Lists.newArrayList(// @formatter:off
+                 // 
+            ); // @formatter:on
+
+            final static List<String> bannedRegExes = Lists.newArrayList(// @formatter:off
+                // 
+            ); // @formatter:on
+            static {
+                //
+                // bannedRegExes.add(RejectExpressionUtil.rejectWinStart("chance"));
+            }
+            final static List<String> bannedRegExesMaybe = Lists.newArrayList(// @formatter:off
+                //
+            ); // @formatter:on
+            static {
+                //
+                // bannedRegExesMaybe.add(RejectExpressionUtil.rejectWinStart("you could"));
             }
         }
 
@@ -614,62 +678,14 @@ public final class TwitterUtil {
      * - <b>local</b> <br/>
      */
     public static boolean isRejectedByBannedRegexExpressionsForAnalysis(final String originalTweet) {
-        final String textLowerCase = originalTweet.toLowerCase();
-
-        for (final String hardAcceptedRegEx : ForAnalysis.acceptedRegExes) {
-            if (textLowerCase.matches(hardAcceptedRegEx)) {
-                // was error - is OK now - moving down - move back up when something is added into the accept list
-                logger.info("(analysis-generic) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + originalTweet);
-                return false;
-            }
-        }
-
-        for (final String bannedRegExMaybe : ForAnalysis.bannedRegExesMaybe) {
-            if (textLowerCase.matches(bannedRegExMaybe)) {
-                // logger.error("(analysis-generic) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
-                ErrorUtil.registerError(ErrorUtil.bannedRegExesMaybeErrors, bannedRegExMaybe, originalTweet);
-                return true;
-            }
-        }
-
-        for (final String bannedRegEx : ForAnalysis.bannedRegExes) {
-            if (textLowerCase.matches(bannedRegEx)) {
-                return true;
-            }
-        }
-
-        return false;
+        return new CommercialEvaluator().isRejectedByBannedRegexExpressions(originalTweet);
     }
 
     /**
      * - <b>local</b> <br/>
      */
     public static boolean isRejectedByBannedRegexExpressionsForCommercialAnalysis(final String originalTweet) {
-        final String textLowerCase = originalTweet.toLowerCase();
-
-        for (final String hardAcceptedRegEx : ForAnalysis.Commercial.acceptedRegExes) {
-            if (textLowerCase.matches(hardAcceptedRegEx)) {
-                // was error - is OK now - moving down - move back up when something is added into the accept list
-                logger.info("(analysis-commercial) - Hard Accept by regular expression (maybe)=  " + hardAcceptedRegEx + "; text= \n" + originalTweet);
-                return false;
-            }
-        }
-
-        for (final String bannedRegExMaybe : ForAnalysis.Commercial.bannedRegExesMaybe) {
-            if (textLowerCase.matches(bannedRegExMaybe)) {
-                // logger.error("(analysis-commercial) - Rejecting by regular expression (maybe)=  " + bannedRegExMaybe + "; text= \n" + originalTweet);
-                ErrorUtil.registerError(ErrorUtil.bannedCommercialRegExesMaybeErrors, bannedRegExMaybe, originalTweet);
-                return true;
-            }
-        }
-
-        for (final String bannedRegEx : ForAnalysis.Commercial.bannedRegExes) {
-            if (textLowerCase.matches(bannedRegEx)) {
-                return true;
-            }
-        }
-
-        return false;
+        return new CommercialForAnalysisEvaluator().isRejectedByBannedRegexExpressions(originalTweet);
     }
 
     // utils - for tweeting
