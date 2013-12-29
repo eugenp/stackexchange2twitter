@@ -107,6 +107,11 @@ public final class TextUtil {
         cleanedText = StringUtils.replaceAll(cleanedText, "&uuml;", "ü");
         cleanedText = StringUtils.replaceAll(cleanedText, "&exist;", "∃");
         cleanedText = StringUtils.replaceAll(cleanedText, "&forall;", "∀");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&lambda;", "λ");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&mu;", "μ");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&eta;", "η");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&iota;", "ι");
+        cleanedText = StringUtils.replaceAll(cleanedText, "&tau;", "τ");
 
         return cleanedText;
     }

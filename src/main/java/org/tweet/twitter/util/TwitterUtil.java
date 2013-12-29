@@ -103,6 +103,8 @@ public final class TwitterUtil {
                  "stolen" 
                 ,"cries"
                 ,"puppy love"
+                ,"karma" // Justin Biebers dog 
+                ,"justin"
             );// @formatter:on
 
             /**
@@ -176,9 +178,11 @@ public final class TwitterUtil {
         public final static List<String> bannedContainsKeywordsMaybe = Lists.newArrayList(// @formatter:off
              "fpl" // fantasy player league
             ,"kurd", "kurds", "afganistan", "palestinians" // other political stuff
+            ,"iran", "irak", "bosnia", "boycott"
             ,"hindus" // new (13.10)
             ,"thugs" // new
             ,"racial"
+            ,"lips"
         );// @formatter:on
 
         /**
