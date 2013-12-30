@@ -104,7 +104,7 @@ public final class TwitterUtil {
                 ,"cries"
                 ,"puppy love"
                 ,"karma" // Justin Biebers dog 
-                ,"justin"
+                ,"justin", "justin's" ,"justins"
             );// @formatter:on
 
             /**
