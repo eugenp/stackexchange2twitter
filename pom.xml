@@ -208,12 +208,12 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-dbcp</artifactId>
-			<version>7.0.42</version>
+			<version>7.0.47</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
-			<version>7.0.42</version>
+			<version>7.0.47</version>
 		</dependency>
 
 		<!-- ops -->
@@ -371,15 +371,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<!-- other -->
-		<jackson.version>2.2.3</jackson.version>
+		<jackson.version>2.3.1</jackson.version>
 		<jackson.old.version>1.9.13</jackson.old.version>
 
 		<mail.version>1.4.7</mail.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
-		<guava.version>15.0</guava.version>
+		<guava.version>16.0-rc1</guava.version>
 
 		<!-- spring -->
-		<spring.version>3.2.4.RELEASE</spring.version>
+		<spring.version>4.0.0.RELEASE</spring.version>
 		<spring-social-twitter.version>1.1.0.BUILD-SNAPSHOT</spring-social-twitter.version> <!-- 1.0.5.RELEASE -->
 
 		<!-- persistence -->
