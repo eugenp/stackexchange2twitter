@@ -13,39 +13,35 @@
 			</pattern>
 		</encoder>
 	</appender>
-	
+
 	<!-- http://loggly.com/support/sending-data/logging-from/application-logs/java/ -->
 	<!-- https://github.com/chids/logback-loggly-appender -->
 	<!-- https://baeldung.loggly.com/inputs/49074 -->
-	<appender name="REMOTESYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
-		<syslogHost>logs.loggly.com</syslogHost>
-		<port>12345</port>
-		<facility>LOCAL1</facility>
-		<suffixPattern>[%thread] %logger %msg</suffixPattern>
-	</appender>
+	<!-- <appender name="REMOTESYSLOG" class="ch.qos.logback.classic.net.SyslogAppender"> -->
+	<!-- <syslogHost>logs.loggly.com</syslogHost> -->
+	<!-- <port>12345</port> -->
+	<!-- <facility>LOCAL1</facility> -->
+	<!-- <suffixPattern>[%thread] %logger %msg</suffixPattern> -->
+	<!-- </appender> -->
 
-	<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
-		<!-- deny all events with a level below ERROR -->
-		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>ERROR</level>
-		</filter>
-		<smtpHost>email-smtp.us-east-1.amazonaws.com</smtpHost>
-		<username>AKIAJIKXZAQFFJDXI4VQ</username>
-		<password>AjYQNjXVTalbpfRL37RYqyXEkyQAvmKFcUFQllfAsBLh</password>
-		<SSL>true</SSL>
-		<to>hanriseldon@gmail.com</to>
-		<from>hanriseldon@gmail.com</from>
-		<subject>stackexchange: %logger{20} - %m</subject>
-		<!-- <subject>${launchpad.origin}: %logger{20} - %m</subject> -->
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>stackexchange - %date [%thread] %-5level %logger{36} -
-				%message%n</pattern>
-			<!-- <pattern>sec - |${launchpad.origin}| %date [%thread] %-5level %logger{36} - %message%n</pattern> -->
-		</layout>
-		<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTrackerImpl">
-			<bufferSize>1000</bufferSize>
-		</cyclicBufferTracker>
-	</appender>
+	<!-- <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender"> -->
+	<!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter"> -->
+	<!-- <level>ERROR</level> -->
+	<!-- </filter> -->
+	<!-- <smtpHost>email-smtp.us-east-1.amazonaws.com</smtpHost> -->
+	<!-- <username>AKIAJIKXZAQFFJDXI4VQ</username> -->
+	<!-- <password>AjYQNjXVTalbpfRL37RYqyXEkyQAvmKFcUFQllfAsBLh</password> -->
+	<!-- <SSL>true</SSL> -->
+	<!-- <to>hanriseldon@gmail.com</to> -->
+	<!-- <from>hanriseldon@gmail.com</from> -->
+	<!-- <subject>stackexchange: %logger{20} - %m</subject> -->
+	<!-- <layout class="ch.qos.logback.classic.PatternLayout"> -->
+	<!-- <pattern>stackexchange - %date [%thread] %-5level %logger{36} - %message%n</pattern> -->
+	<!-- </layout> -->
+	<!-- <cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTrackerImpl"> -->
+	<!-- <bufferSize>1000</bufferSize> -->
+	<!-- </cyclicBufferTracker> -->
+	<!-- </appender> -->
 
 	<logger name="org.common" level="INFO" />
 	<logger name="org.tweet" level="INFO" />
@@ -59,7 +55,7 @@
 	<root level="WARN">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
-		<appender-ref ref="EMAIL" />
+		<!-- <appender-ref ref="EMAIL" /> -->
 		<!-- <appender-ref ref="REMOTESYSLOG" /> -->
 	</root>
 
