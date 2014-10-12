@@ -36,7 +36,7 @@ import org.tweet.spring.util.SpringProfileUtil;
     TwitterConfig.class, 
     TwitterLiveConfig.class
 })//@formatter:on
-@ActiveProfiles({ SpringProfileUtil.DEPLOYED, SpringProfileUtil.LIVE })
+@ActiveProfiles({ SpringProfileUtil.DEPLOYED, SpringProfileUtil.LIVE, SpringProfileUtil.PERSISTENCE })
 public class CleanTextOfRetweetsUpgraderManualTest {
 
     static {

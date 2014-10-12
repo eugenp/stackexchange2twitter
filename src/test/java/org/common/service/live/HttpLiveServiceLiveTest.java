@@ -67,14 +67,6 @@ public class HttpLiveServiceLiveTest {
     }
 
     @Test
-    public final void whenStandardUriIsUnshortednedBySingleLevelScenario2_thenResultIsCorrect() throws ClientProtocolException, IOException {
-        final String url = "http://lispm.dyndns.org/lisp/benchmarks.html";
-        final String unshortenedUrl = httpService.expandSingleLevel(url).getRight();
-        assertNotNull(unshortenedUrl);
-        assertThat(unshortenedUrl, equalTo(url));
-    }
-
-    @Test
     public final void givenUrlIsInvalid_whenExpanding_thenNoExceptions() throws IOException {
         httpService.expandInternal("http://www.marketwatch.com/enf/rss.asp?guid={3B615536-E289-11E2-ACAD-002128040CF6}");
     }

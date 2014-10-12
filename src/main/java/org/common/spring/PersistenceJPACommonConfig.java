@@ -36,7 +36,7 @@ public class PersistenceJPACommonConfig {
     // beans
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(mainDataSource());
         factoryBean.setPackagesToScan(new String[] { "org.common.persistence", "org.keyval.persistence", "org.tweet.meta.persistence", "org.rss.persistence", "org.stackexchange.persistence", "org.tweet.persistence", "org.gplus.persistence" });
@@ -65,7 +65,7 @@ public class PersistenceJPACommonConfig {
     @Bean
     public JpaTransactionManager transactionManager() {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
 
         return transactionManager;
     }
