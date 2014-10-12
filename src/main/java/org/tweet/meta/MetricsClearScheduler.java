@@ -28,7 +28,7 @@ public class MetricsClearScheduler {
     // API
 
     // git - not 100% sure that hashtag will only return relevant tweets - look into this further
-    // for accounts - not yet: BashWatch,EclipseFacts,GitFact,BestJPA,MavenFact,BestOfRuby,SpringTip,ServerFaultFact,JavaTopSO,RESTDaily
+    // for accounts - not yet: BashWatch,EclipseFacts,BestGit,BestJPA,MavenFact,BestOfRuby,SpringTip,ServerFaultFact,JavaTopSO,RESTDaily
 
     @Scheduled(cron = "0 59 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * *")
     public void tweetMeta1() throws JsonProcessingException, IOException {

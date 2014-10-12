@@ -37,13 +37,13 @@ package org.gplus.stackexchange;
 //
 //        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.EclipseFacts), Tag.eclipse.name(), SimpleTwitterAccount.EclipseFacts.name(), 1);
 //
-//        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.GitFact), Tag.git.name(), SimpleTwitterAccount.GitFact.name(), 1);
+//        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestGit), Tag.git.name(), SimpleTwitterAccount.BestGit.name(), 1);
 //
 //        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.MavenFact), Tag.maven.name(), SimpleTwitterAccount.MavenFact.name(), 1);
 //
 //        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestJPA), Tag.jpa.name(), SimpleTwitterAccount.BestJPA.name(), 1);
 //
-//        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.AlgorithmsFact), Tag.algorithm.name(), SimpleTwitterAccount.AlgorithmsFact.name(), 1);
+//        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.BestAlgorithms), Tag.algorithm.name(), SimpleTwitterAccount.BestAlgorithms.name(), 1);
 //
 //        final StackSite randomSite = StackexchangeUtil.pickOne(twitterAccountToStackSites(SimpleTwitterAccount.BashWatch));
 //        service.tweetTopQuestionBySiteAndTag(randomSite, Tag.bash.name(), SimpleTwitterAccount.BashWatch.name(), 1);
