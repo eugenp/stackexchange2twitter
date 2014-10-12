@@ -149,6 +149,6 @@ public class TweetMetaScheduler {
         logger.info("Finished new retweet schedule - small accounts 2");
     }
 
-    // for accounts - not yet: EclipseFacts,MavenFact,BestOfRuby,ServerFaultFact,JavaTopSO,RESTDaily,BestOfCocoa
+    // for accounts - not yet: EclipseFacts,MavenFact,BestOfRuby,ServerFaultBest,JavaTopSO,RESTDaily,BestOfCocoa
 
 }

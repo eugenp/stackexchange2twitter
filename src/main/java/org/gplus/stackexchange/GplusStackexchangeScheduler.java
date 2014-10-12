@@ -19,7 +19,7 @@ package org.gplus.stackexchange;
 //    public void tweetStackExchangeTopQuestion() throws JsonProcessingException, IOException {
 //        logger.info("Starting to execute scheduled tweet operations");
 //
-//        service.tweetTopQuestionBySite(twitterAccountToStackSite(SimpleTwitterAccount.ServerFaultFact), SimpleTwitterAccount.ServerFaultFact.name(), 1);
+//        service.tweetTopQuestionBySite(twitterAccountToStackSite(SimpleTwitterAccount.ServerFaultBest), SimpleTwitterAccount.ServerFaultBest.name(), 1);
 //
 //        service.tweetTopQuestionBySite(twitterAccountToStackSite(SimpleTwitterAccount.AskUbuntuBest), SimpleTwitterAccount.AskUbuntuBest.name(), 1);
 //
