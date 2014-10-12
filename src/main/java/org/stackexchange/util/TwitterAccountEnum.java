@@ -2,7 +2,7 @@ package org.stackexchange.util;
 
 public enum TwitterAccountEnum {// @formatter:off
 
-    AskUbuntuFact(false), // SO specific
+    AskUbuntuBest(false), // SO specific
     AspnetDaily(true), // new - only partially true (for some keywords)
     AndroidFact(true), // 18.08 - temporarily true - just to see what's what with #android
 

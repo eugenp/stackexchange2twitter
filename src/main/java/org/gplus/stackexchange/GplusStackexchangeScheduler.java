@@ -21,7 +21,7 @@ package org.gplus.stackexchange;
 //
 //        service.tweetTopQuestionBySite(twitterAccountToStackSite(SimpleTwitterAccount.ServerFaultFact), SimpleTwitterAccount.ServerFaultFact.name(), 1);
 //
-//        service.tweetTopQuestionBySite(twitterAccountToStackSite(SimpleTwitterAccount.AskUbuntuFact), SimpleTwitterAccount.AskUbuntuFact.name(), 1);
+//        service.tweetTopQuestionBySite(twitterAccountToStackSite(SimpleTwitterAccount.AskUbuntuBest), SimpleTwitterAccount.AskUbuntuBest.name(), 1);
 //
 //        service.tweetTopQuestionBySiteAndTag(twitterAccountToStackSite(SimpleTwitterAccount.SpringTip), Tag.spring.name(), SimpleTwitterAccount.SpringTip.name(), 1);
 //

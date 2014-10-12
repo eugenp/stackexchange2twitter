@@ -208,12 +208,12 @@ public class TweetStackexchangeLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingOnAskUbuntu_thenNoExceptions() throws JsonProcessingException, IOException {
-        instance.tweetAnyTopQuestionBySite(twitterAccountToStackSite(TwitterAccountEnum.AskUbuntuFact), TwitterAccountEnum.AskUbuntuFact.name(), 1);
+        instance.tweetAnyTopQuestionBySite(twitterAccountToStackSite(TwitterAccountEnum.AskUbuntuBest), TwitterAccountEnum.AskUbuntuBest.name(), 1);
     }
 
     @Test
     public final void whenTweetingByDefaultTagOnAskUbuntuAndBash_thenNoExceptions() throws JsonProcessingException, IOException {
-        instance.tweetAnyTopQuestionBySiteAndTag(StackSite.AskUbuntu, StackTag.bash.name(), TwitterAccountEnum.AskUbuntuFact.name());
+        instance.tweetAnyTopQuestionBySiteAndTag(StackSite.AskUbuntu, StackTag.bash.name(), TwitterAccountEnum.AskUbuntuBest.name());
     }
 
     // tweet individual SO question

@@ -23,7 +23,7 @@ public final class TwitterAccountToStackAccount {
 
     public static List<StackSite> twitterAccountToStackSites(final TwitterAccountEnum twitterAccount) {
         switch (twitterAccount) {
-        case AskUbuntuFact:
+        case AskUbuntuBest:
             return Lists.newArrayList(StackSite.AskUbuntu);
         case AspnetDaily:
             return Lists.newArrayList(StackSite.StackOverflow);
