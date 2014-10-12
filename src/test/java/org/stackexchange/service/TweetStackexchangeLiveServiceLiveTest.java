@@ -193,8 +193,8 @@ public class TweetStackexchangeLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingByRandomTag_thenNoExceptions() throws JsonProcessingException, IOException {
-        final StackSite randomSite = GenericUtil.pickOneGeneric(twitterAccountToStackSites(TwitterAccountEnum.BashWatch));
-        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(randomSite, StackTag.bash.name(), TwitterAccountEnum.BashWatch.name());
+        final StackSite randomSite = GenericUtil.pickOneGeneric(twitterAccountToStackSites(TwitterAccountEnum.BestBash));
+        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(randomSite, StackTag.bash.name(), TwitterAccountEnum.BestBash.name());
         assertTrue(success);
     }
 

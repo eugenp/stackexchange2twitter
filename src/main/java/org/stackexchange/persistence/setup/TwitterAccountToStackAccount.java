@@ -34,7 +34,7 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestAWS:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case BashWatch:
+        case BestBash:
             return Lists.newArrayList(StackSite.StackOverflow, StackSite.SuperUser); // StackSite.AskUbuntu - no more results
         case CryptoFact:
             return Lists.newArrayList(StackSite.StackOverflow);

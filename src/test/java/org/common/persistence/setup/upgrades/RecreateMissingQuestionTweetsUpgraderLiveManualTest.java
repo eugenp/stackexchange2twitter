@@ -72,7 +72,7 @@ public class RecreateMissingQuestionTweetsUpgraderLiveManualTest {
 
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount_thenNoExceptions() {
-        recreateMissingQuestionTweetsUpgrader.recreateLocalQuestionTweetsOnAccount(TwitterAccountEnum.BashWatch.name());
+        recreateMissingQuestionTweetsUpgrader.recreateLocalQuestionTweetsOnAccount(TwitterAccountEnum.BestBash.name());
     }
 
     @Test

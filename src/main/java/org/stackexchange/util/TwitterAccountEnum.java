@@ -8,7 +8,7 @@ public enum TwitterAccountEnum {// @formatter:off
 
     BestAlgorithms(true),
     BestAWS(true),
-    BashWatch(false),
+    BestBash(false),
     ClojureFact(true),
     EclipseFacts(false), // predefined some accounts
     BestGit(true), // temp true

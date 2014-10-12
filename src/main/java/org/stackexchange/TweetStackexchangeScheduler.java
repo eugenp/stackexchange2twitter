@@ -92,7 +92,7 @@ public class TweetStackexchangeScheduler {
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.DotNetFact), TwitterAccountEnum.DotNetFact.name());
         service.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.PerformanceTip), TwitterAccountEnum.PerformanceTip.name());
 
-        service.tweetAnyTopQuestionBySiteAndTag(StackSite.StackOverflow, TwitterAccountEnum.BashWatch.name());
+        service.tweetAnyTopQuestionBySiteAndTag(StackSite.StackOverflow, TwitterAccountEnum.BestBash.name());
 
         logger.info("Finished tweet schedule - 2");
     }

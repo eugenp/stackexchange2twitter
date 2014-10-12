@@ -33,7 +33,7 @@ public class ITwitterWriteLiveServiceLiveTest {
 
     @Test
     public final void whenTweeting_thenNoExceptions() {
-        twitterWriteLiveService.tweet(TwitterAccountEnum.BashWatch.name(), "What are Unity's keyboard and mouse shortcuts?");
+        twitterWriteLiveService.tweet(TwitterAccountEnum.BestBash.name(), "What are Unity's keyboard and mouse shortcuts?");
     }
 
 }
