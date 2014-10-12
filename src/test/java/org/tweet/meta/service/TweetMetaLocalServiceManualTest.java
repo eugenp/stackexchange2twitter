@@ -101,7 +101,7 @@ public class TweetMetaLocalServiceManualTest {
     @Test
     public final void whenCheckingIfSomethingHasAlreadyBeenRetrweetedScenario6_thenCorrectAnswer() {
         final String text = "Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing";
-        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.CloudDaily.name());
+        final Retweet existing = service.findLocalCandidateAdvanced(text, TwitterAccountEnum.BestOfCloud.name());
         assertNotNull(existing);
     }
 
@@ -152,7 +152,7 @@ public class TweetMetaLocalServiceManualTest {
     @Test
     public final void whenRetrievingCorrespondingTweets2_thenCorrect() {
         final String tweet = "Domo makes the JMP Securities \"Hot 100\" list again http://t.co/Fk4682UML8 #cloud #Saas";
-        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.CloudDaily.name());
+        final List<Retweet> correspondingLocalRetweets = service.findLocalCandidatesStrict(tweet, TwitterAccountEnum.BestOfCloud.name());
         assertThat(correspondingLocalRetweets, hasSize(1));
     }
 

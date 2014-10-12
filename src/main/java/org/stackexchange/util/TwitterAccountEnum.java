@@ -20,7 +20,7 @@ public enum TwitterAccountEnum {// @formatter:off
     MultithreadFact(true),
     BestNoSQL(true),
     BestPHP(true),
-    CloudDaily(true),
+    BestOfCloud(true),
     BestOfCocoa(false), // newly false because cocoa has multiple meanings
     CssFact(true),
     JavaFact(true),

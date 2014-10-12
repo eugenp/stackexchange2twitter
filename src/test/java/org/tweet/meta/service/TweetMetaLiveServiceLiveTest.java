@@ -156,13 +156,13 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutAws_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.CloudDaily.name(), TwitterTag.aws.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.aws.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutAzure_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.CloudDaily.name(), TwitterTag.azure.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.azure.name());
         assertTrue(success);
     }
 
@@ -188,7 +188,7 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutCloud_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.CloudDaily.name(), TwitterTag.cloud.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.cloud.name());
         assertTrue(success);
     }
 
@@ -283,7 +283,7 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutEc2_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.CloudDaily.name(), TwitterTag.ec2.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
         assertTrue(success);
     }
 
@@ -305,7 +305,7 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutGae_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.CloudDaily.name(), TwitterTag.gae.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.gae.name());
         assertTrue(success);
     }
 
@@ -768,7 +768,7 @@ public class TweetMetaLiveServiceLiveTest {
     @Test
     @Ignore("not yet done")
     public final void whenTweetingSimilarToProductionScenario1_thenShouldNotTweet() {
-        final String twitterAccount = TwitterAccountEnum.CloudDaily.name();
+        final String twitterAccount = TwitterAccountEnum.BestOfCloud.name();
         tweetMetaLiveService.tryTweetOne("Five Tips to Improve Your #AWS Security by @Cloud_Optimize ▸ http://t.co/BAMMqlxNUc #Cloud #CloudComputing", null, twitterAccount, null);
     }
 

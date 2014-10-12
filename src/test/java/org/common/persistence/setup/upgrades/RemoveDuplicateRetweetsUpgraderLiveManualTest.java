@@ -21,18 +21,18 @@ import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {//@formatter:off
-    CommonServiceConfig.class, 
-    CommonPersistenceJPAConfig.class, 
-    
-    KeyValPersistenceJPAConfig.class, 
-    
-    StackexchangePersistenceJPAConfig.class, 
-    
-    TwitterMetaPersistenceJPAConfig.class,
-    TwitterMetaConfig.class,
-    
-    TwitterConfig.class, 
-    TwitterLiveConfig.class
+        CommonServiceConfig.class,
+        CommonPersistenceJPAConfig.class,
+
+        KeyValPersistenceJPAConfig.class,
+
+        StackexchangePersistenceJPAConfig.class,
+
+        TwitterMetaPersistenceJPAConfig.class,
+        TwitterMetaConfig.class,
+
+        TwitterConfig.class,
+        TwitterLiveConfig.class
 })//@formatter:on
 @ActiveProfiles({ SpringProfileUtil.DEPLOYED, SpringProfileUtil.LIVE })
 public class RemoveDuplicateRetweetsUpgraderLiveManualTest {
@@ -54,11 +54,11 @@ public class RemoveDuplicateRetweetsUpgraderLiveManualTest {
     }
 
     // some unexpected additional logging messages:
-    // CloudDaily, ScalaFact, GoogleDigest
+    // BestOfCloud, ScalaFact, GoogleDigest
     // wrong results: GoogleDigest
     @Test
     public final void whenRecreatingTheRetweetsOfSingleAccount1_thenNoExceptions() {
-        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.CloudDaily.name());
+        removeDuplicateRetweetsUpgrader.removeDuplicateRetweetsOnAccount(TwitterAccountEnum.BestOfCloud.name());
     }
 
     @Test

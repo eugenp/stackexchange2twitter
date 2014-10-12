@@ -68,7 +68,7 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case SecurityFact:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case CloudDaily:
+        case BestOfCloud:
             return Lists.newArrayList(StackSite.StackOverflow);
         case LinuxFact:
             return Lists.newArrayList(StackSite.StackOverflow);

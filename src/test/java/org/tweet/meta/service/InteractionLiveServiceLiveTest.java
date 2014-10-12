@@ -100,21 +100,21 @@ public final class InteractionLiveServiceLiveTest {
     @Test
     public final void whenDecidingBestInteractionWithTweet6_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(371618484087566336l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.CloudDaily.name()).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.BestOfCloud.name()).getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet7_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(372034273286443008l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.CloudDaily.name()).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.BestOfCloud.name()).getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.Mention));
     }
 
     @Test
     public final void whenDecidingBestInteractionWithTweet8_thenNone() {
         final Tweet tweet = twitterReadLiveService.findOne(373031256323522560l);
-        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.CloudDaily.name()).getTwitterInteraction();
+        final TwitterInteraction bestInteraction = interactionLiveService.determineBestInteraction(tweet, TwitterAccountEnum.BestOfCloud.name()).getTwitterInteraction();
         assertThat(bestInteraction, equalTo(TwitterInteraction.None));
     }
 
@@ -122,7 +122,7 @@ public final class InteractionLiveServiceLiveTest {
 
     @Test
     public final void whenDeterminngBestInteractionWithAuthor1_thenOK() {
-        interactionLiveService.determineBestInteractionWithAuthorLive("Passoker", TwitterAccountEnum.CloudDaily.name());
+        interactionLiveService.determineBestInteractionWithAuthorLive("Passoker", TwitterAccountEnum.BestOfCloud.name());
     }
 
     // no

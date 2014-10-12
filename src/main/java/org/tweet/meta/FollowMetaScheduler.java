@@ -47,7 +47,7 @@ public class FollowMetaScheduler {
         service.followBestUser(TwitterAccountEnum.LinuxFact.name(), TwitterTag.linux.name());
         service.followBestUser(TwitterAccountEnum.CssFact.name(), TwitterTag.css.name());
         service.followBestUser(TwitterAccountEnum.CryptoFact.name(), TwitterTag.cryptography.name());
-        service.followBestUser(TwitterAccountEnum.CloudDaily.name(), TwitterTag.ec2.name());
+        service.followBestUser(TwitterAccountEnum.BestOfCloud.name(), TwitterTag.ec2.name());
         // service.followBestUser(TwitterAccountEnum.PythonDaily.name());
         // service.followBestUser(TwitterAccountEnum.AspnetDaily.name(), TwitterTag.aspnet.name());
 

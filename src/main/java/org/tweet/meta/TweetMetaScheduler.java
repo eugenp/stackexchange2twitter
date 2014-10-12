@@ -99,7 +99,7 @@ public class TweetMetaScheduler {
 
         // 16
         service.retweetAnyByHashtag(TwitterAccountEnum.CssFact.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.CloudDaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestOfCloud.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.AspnetDaily.name(), TwitterTag.aspnet.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.SecurityFact.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.GoogleDigest.name());
