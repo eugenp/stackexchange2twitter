@@ -30,7 +30,7 @@ public final class TwitterAccountToStackAccount {
         case AndroidFact:
             return Lists.newArrayList(StackSite.StackOverflow);
 
-        case AlgorithmsFact:
+        case BestAlgorithms:
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestAWS:
             return Lists.newArrayList(StackSite.StackOverflow);
@@ -42,7 +42,7 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case EclipseFacts:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case GitFact:
+        case BestGit:
             return Lists.newArrayList(StackSite.StackOverflow);
         case ThinkJavaScript:
             return Lists.newArrayList(StackSite.StackOverflow);
@@ -78,7 +78,7 @@ public final class TwitterAccountToStackAccount {
             return Lists.newArrayList(StackSite.StackOverflow);
         case BestPHP:
             return Lists.newArrayList(StackSite.StackOverflow);
-        case RubyOnRailsFact:
+        case BestRubyOnRails:
             return Lists.newArrayList(StackSite.StackOverflow);
         case ScalaFact:
             return Lists.newArrayList(StackSite.StackOverflow);

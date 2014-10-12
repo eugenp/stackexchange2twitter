@@ -35,15 +35,15 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.api.client.util.Preconditions;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {// @formatter:off 
-    CommonServiceConfig.class,
-    
-    TwitterConfig.class, 
-    TwitterLiveConfig.class,
-    
-    StackexchangeContextConfig.class, 
-    StackexchangePersistenceJPAConfig.class, 
-    StackexchangeConfig.class 
+@ContextConfiguration(classes = {// @formatter:off
+        CommonServiceConfig.class,
+
+        TwitterConfig.class,
+        TwitterLiveConfig.class,
+
+        StackexchangeContextConfig.class,
+        StackexchangePersistenceJPAConfig.class,
+        StackexchangeConfig.class
 }) // @formatter:on
 @ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.WRITE_PRODUCTION, SpringProfileUtil.PERSISTENCE })
 public class TweetStackexchangeLiveServiceLiveTest {
@@ -95,7 +95,7 @@ public class TweetStackexchangeLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingByTagAlgorithm_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.AlgorithmsFact), StackTag.algorithm.name(), TwitterAccountEnum.AlgorithmsFact.name());
+        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestAlgorithms), StackTag.algorithm.name(), TwitterAccountEnum.BestAlgorithms.name());
         assertTrue(success);
     }
 
@@ -131,7 +131,7 @@ public class TweetStackexchangeLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingByTagGit_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.GitFact), StackTag.git.name(), TwitterAccountEnum.GitFact.name());
+        final boolean success = instance.tweetAnyTopQuestionBySiteAndTag(twitterAccountToStackSite(TwitterAccountEnum.BestGit), StackTag.git.name(), TwitterAccountEnum.BestGit.name());
         assertTrue(success);
     }
 

@@ -41,18 +41,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off
-    KeyValPersistenceJPAConfig.class, 
-    
-    CommonPersistenceJPAConfig.class, 
-    CommonServiceConfig.class, 
-    
-    ClassificationConfig.class,
-    
-    TwitterConfig.class, 
-    TwitterLiveConfig.class,
-    
-    TwitterMetaPersistenceJPAConfig.class, 
-    TwitterMetaConfig.class 
+        KeyValPersistenceJPAConfig.class,
+
+        CommonPersistenceJPAConfig.class,
+        CommonServiceConfig.class,
+
+        ClassificationConfig.class,
+
+        TwitterConfig.class,
+        TwitterLiveConfig.class,
+
+        TwitterMetaPersistenceJPAConfig.class,
+        TwitterMetaConfig.class
 }) // @formatter:on
 @ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.DEV, SpringProfileUtil.PERSISTENCE })
 public class TweetMetaLiveServiceLiveTest {
@@ -102,13 +102,13 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutAlgorithm_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.AlgorithmsFact.name(), TwitterTag.algorithm.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name(), TwitterTag.algorithm.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutAlgorithms_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.AlgorithmsFact.name(), TwitterTag.algorithms.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestAlgorithms.name(), TwitterTag.algorithms.name());
         assertTrue(success);
     }
 
@@ -311,7 +311,7 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutGit_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.GitFact.name(), TwitterTag.git.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestGit.name(), TwitterTag.git.name());
         assertTrue(success);
     }
 
@@ -601,19 +601,19 @@ public class TweetMetaLiveServiceLiveTest {
 
     @Test
     public final void whenTweetingAboutRubyOnRails_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.RubyOnRailsFact.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutRails_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.RubyOnRailsFact.name(), TwitterTag.rails.name());
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name(), TwitterTag.rails.name());
         assertTrue(success);
     }
 
     @Test
     public final void whenTweetingAboutRubyRails_thenNoExceptions() throws JsonProcessingException, IOException {
-        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.RubyOnRailsFact.name(), "ruby_rails");
+        final boolean success = tweetMetaLiveService.retweetAnyByHashtag(TwitterAccountEnum.BestRubyOnRails.name(), "ruby_rails");
         assertTrue(success);
     }
 

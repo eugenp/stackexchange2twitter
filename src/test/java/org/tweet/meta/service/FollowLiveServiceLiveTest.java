@@ -20,18 +20,18 @@ import org.tweet.spring.util.SpringProfileUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off
-    KeyValPersistenceJPAConfig.class, 
-    
-    CommonPersistenceJPAConfig.class, 
-    CommonServiceConfig.class, 
-    
-    ClassificationConfig.class,
-    
-    TwitterConfig.class, 
-    TwitterLiveConfig.class,
-    
-    TwitterMetaPersistenceJPAConfig.class, 
-    TwitterMetaConfig.class 
+        KeyValPersistenceJPAConfig.class,
+
+        CommonPersistenceJPAConfig.class,
+        CommonServiceConfig.class,
+
+        ClassificationConfig.class,
+
+        TwitterConfig.class,
+        TwitterLiveConfig.class,
+
+        TwitterMetaPersistenceJPAConfig.class,
+        TwitterMetaConfig.class
 }) // @formatter:on
 @ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.WRITE, SpringProfileUtil.DEV, SpringProfileUtil.PERSISTENCE })
 public class FollowLiveServiceLiveTest {
@@ -55,7 +55,7 @@ public class FollowLiveServiceLiveTest {
 
     @Test
     public final void whenFollowingBestUser2_thenNoExceptions() {
-        followLiveService.followBestUser(TwitterAccountEnum.GitFact.name(), "git programming");
+        followLiveService.followBestUser(TwitterAccountEnum.BestGit.name(), "git programming");
     }
 
 }

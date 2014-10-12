@@ -26,18 +26,18 @@ import org.tweet.twitter.service.live.TwitterReadLiveService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {// @formatter:off
-    KeyValPersistenceJPAConfig.class, 
-        
-    CommonPersistenceJPAConfig.class, 
-    CommonServiceConfig.class, 
-    
-    ClassificationConfig.class,
-    
-    TwitterConfig.class, 
-    TwitterLiveConfig.class,
-    TwitterMetaPersistenceJPAConfig.class, 
-        
-    TwitterMetaConfig.class 
+        KeyValPersistenceJPAConfig.class,
+
+        CommonPersistenceJPAConfig.class,
+        CommonServiceConfig.class,
+
+        ClassificationConfig.class,
+
+        TwitterConfig.class,
+        TwitterLiveConfig.class,
+        TwitterMetaPersistenceJPAConfig.class,
+
+        TwitterMetaConfig.class
 }) // @formatter:on
 @ActiveProfiles({ SpringProfileUtil.LIVE, SpringProfileUtil.PERSISTENCE })
 public class RetweetScoresTuningLiveTest {
@@ -58,10 +58,10 @@ public class RetweetScoresTuningLiveTest {
 
     /*
      * AspnetDaily - Twitter introduces a weird link to ASP.NET (which should not be a link)
-    */
+     */
     @Test
     public final void whenOneAccountIsAnalyzed_thenScoreSuggestionsAreGiven() {
-        analyzeNumberOfTweetsFromSeForAccount(TwitterAccountEnum.AlgorithmsFact.name());
+        analyzeNumberOfTweetsFromSeForAccount(TwitterAccountEnum.BestAlgorithms.name());
     }
 
     @Test

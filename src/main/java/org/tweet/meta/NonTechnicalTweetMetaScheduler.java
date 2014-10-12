@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.service.TweetMetaLiveService;
 import org.tweet.spring.util.SpringProfileUtil;
@@ -16,7 +15,7 @@ import org.tweet.twitter.service.TweetType;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-@Component
+//@Component
 @Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class NonTechnicalTweetMetaScheduler {
     private static final String MODE_MAINTAINANCE_KEY = "mode.maintainance.rt";

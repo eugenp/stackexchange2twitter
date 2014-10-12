@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.stackexchange.util.TwitterAccountEnum;
 import org.stackexchange.util.TwitterTag;
 import org.tweet.meta.service.FollowLiveService;
@@ -16,7 +15,7 @@ import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-@Component
+// @Component
 @Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class FollowMetaScheduler {
     private static final String MODE_MAINTAINANCE_KEY = "mode.maintainance.rt";
@@ -90,9 +89,9 @@ public class FollowMetaScheduler {
         }
 
         // 10
-        service.followBestUser(TwitterAccountEnum.RubyOnRailsFact.name(), TwitterTag.rubyonrails.name());
-        service.followBestUser(TwitterAccountEnum.AlgorithmsFact.name(), TwitterTag.algorithms.name());
-        service.followBestUser(TwitterAccountEnum.GitFact.name(), "git programming");
+        service.followBestUser(TwitterAccountEnum.BestRubyOnRails.name(), TwitterTag.rubyonrails.name());
+        service.followBestUser(TwitterAccountEnum.BestAlgorithms.name(), TwitterTag.algorithms.name());
+        service.followBestUser(TwitterAccountEnum.BestGit.name(), "git programming");
         service.followBestUser(TwitterAccountEnum.ClojureFact.name(), TwitterTag.clojure.name());
         service.followBestUser(TwitterAccountEnum.ThinkJavaScript.name(), TwitterTag.javascript.name());
         service.followBestUser(TwitterAccountEnum.BestJSON.name(), TwitterTag.json.name());
