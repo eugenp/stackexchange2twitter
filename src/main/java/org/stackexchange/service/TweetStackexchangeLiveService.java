@@ -245,11 +245,11 @@ public final class TweetStackexchangeLiveService extends BaseTweetFromSourceLive
         final String cleanTweetText = tweetService.processPreValidity(tweetTextRaw);
 
         // post-process
-        final String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
+        final String fullyCleanedTweetText = advancedTweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
 
         // construct full tweet
         final String shortUrl = bitlyService.shortenUrl(url);
-        final String fullTweet = tweetService.constructTweetSimple(fullyCleanedTweetText, shortUrl);
+        final String fullTweet = advancedTweetService.constructTweetSimple(fullyCleanedTweetText, shortUrl);
 
         // is it valid?
         if (!tweetService.isTweetFullValid(fullTweet)) {

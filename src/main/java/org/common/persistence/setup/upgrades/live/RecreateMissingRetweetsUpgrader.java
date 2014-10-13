@@ -21,7 +21,7 @@ import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.meta.service.TweetMetaLocalService;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TweetService;
+import org.tweet.twitter.service.AdvancedTweetService;
 import org.tweet.twitter.service.live.TwitterReadLiveService;
 import org.tweet.twitter.util.TweetUtil;
 
@@ -37,7 +37,7 @@ public class RecreateMissingRetweetsUpgrader implements ApplicationListener<Afte
     private IRetweetJpaDAO retweetDao;
 
     @Autowired
-    private TweetService tweetService;
+    private AdvancedTweetService tweetService;
 
     @Autowired
     private TweetMetaLocalService tweetMetaLocalService;

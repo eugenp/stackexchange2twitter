@@ -394,7 +394,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
         }
 
         // is it worth it by full tweet?
-        if (!tweetService.isTweetWorthRetweetingByRawTweet(potentialTweet, hashtag)) {
+        if (!advancedTweetService.isTweetWorthRetweetingByRawTweet(potentialTweet, hashtag)) {
             logger.debug("Tweet not worth retweeting (by full tweet) on twitterAccount= {}, tweet text= {}", twitterAccount, fullTweet);
             return false;
         }
@@ -408,7 +408,7 @@ public class TweetMetaLiveService extends BaseTweetFromSourceLiveService<Retweet
             return false;
         }
         // post-validity processing
-        final String fullTweetProcessed = tweetService.postValidityProcessTweetTextWithUrl(fullTweetProcessedPreValidity, twitterAccount);
+        final String fullTweetProcessed = advancedTweetService.postValidityProcessTweetTextWithUrl(fullTweetProcessedPreValidity, twitterAccount);
 
         // after text processing, check again if this has already been retweeted
         final Retweet alreadyExistingRetweetByText = hasThisAlreadyBeenTweetedByText(fullTweetProcessed, twitterAccount);

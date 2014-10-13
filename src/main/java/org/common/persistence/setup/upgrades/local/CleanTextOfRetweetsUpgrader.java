@@ -15,7 +15,7 @@ import org.stackexchange.util.TwitterAccountEnum;
 import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TweetService;
+import org.tweet.twitter.service.AdvancedTweetService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
@@ -29,7 +29,7 @@ class CleanTextOfRetweetsUpgrader implements ApplicationListener<AfterSetupEvent
     private IRetweetJpaDAO retweetDao;
 
     @Autowired
-    private TweetService tweetService;
+    private AdvancedTweetService tweetService;
 
     public CleanTextOfRetweetsUpgrader() {
         super();

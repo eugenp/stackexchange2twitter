@@ -16,7 +16,7 @@ import org.tweet.meta.persistence.dao.IRetweetJpaDAO;
 import org.tweet.meta.persistence.model.Retweet;
 import org.tweet.meta.service.TweetMetaLocalService;
 import org.tweet.spring.util.SpringProfileUtil;
-import org.tweet.twitter.service.TweetService;
+import org.tweet.twitter.service.AdvancedTweetService;
 
 @Component
 @Profile(SpringProfileUtil.DEPLOYED)
@@ -30,7 +30,7 @@ class RemoveLocalDuplicateRetweetsUpgrader implements ApplicationListener<AfterS
     private IRetweetJpaDAO retweetDao;
 
     @Autowired
-    private TweetService tweetService;
+    private AdvancedTweetService tweetService;
 
     @Autowired
     private TweetMetaLocalService tweetMetaLocalService;

@@ -8,9 +8,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.classification.util.ClassificationSettings;
+import org.classification.util.TweetSettings;
 import org.junit.Test;
-import org.tweet.twitter.service.TweetService;
+import org.tweet.twitter.service.AdvancedTweetService;
 import org.tweet.twitter.service.TweetType;
 
 import com.google.common.base.CharMatcher;
@@ -60,7 +60,7 @@ public final class TwitterUtilUnitTest {
     @Test
     public final void givenValidTweet1_whenCheckingIfTweetIsRejectedByKeywordMaybe_thenNo() {
         final String originalTweet = "@snipeyhead killed it at Ignite Food Camp “Failing Well: Managing Risk in High-Performance Applications”  https://t.co/9UjRq6hw1X";
-        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(TweetSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
 
         assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet));
     }
@@ -68,7 +68,7 @@ public final class TwitterUtilUnitTest {
     @Test
     public final void givenValidTweet2_whenCheckingIfTweetIsRejectedByKeywordMaybe_thenNo() {
         final String originalTweet = "Win-Win Mobility webcast today at 2PM EDT from IDG, IBM, Lenovo and Intel http://t.co/tk1g6Uz0cI … #IBMMobile";
-        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(TweetSettings.TWEET_TOKENIZER + "#")).split(originalTweet));
 
         assertFalse(TwitterUtil.isRejectedByContainsKeywordMaybeForAnalysis(tweetTokens, originalTweet));
     }
@@ -77,7 +77,7 @@ public final class TwitterUtilUnitTest {
 
     @Test
     public final void givenTextAndLink_whenPreparindTweet_thenNoExceptions() {
-        new TweetService().constructTweetSimple(randomAlphabetic(119), randomAlphabetic(19));
+        new AdvancedTweetService().constructTweetSimple(randomAlphabetic(119), randomAlphabetic(19));
     }
 
     // truncate

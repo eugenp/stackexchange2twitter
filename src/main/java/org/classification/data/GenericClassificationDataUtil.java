@@ -1,6 +1,5 @@
 package org.classification.data;
 
-import static org.classification.util.ClassificationSettings.TWEET_TOKENIZER;
 import static org.classification.util.GenericClassificationUtil.encodeWithTypeInfo;
 
 import java.io.BufferedReader;
@@ -15,6 +14,7 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.mahout.math.NamedVector;
+import org.classification.util.TweetSettings;
 import org.common.util.LinkUtil;
 
 import com.google.common.base.CharMatcher;
@@ -76,7 +76,7 @@ public final class GenericClassificationDataUtil {
             tweetInternal = tweetInternal.replaceAll(urlInTweet, "");
         }
 
-        final List<String> wordsOfTweet = Lists.newLinkedList(Splitter.on(CharMatcher.anyOf(TWEET_TOKENIZER)).split(tweetInternal));
+        final List<String> wordsOfTweet = Lists.newLinkedList(Splitter.on(CharMatcher.anyOf(TweetSettings.TWEET_TOKENIZER)).split(tweetInternal));
         final Iterator<String> it = wordsOfTweet.iterator();
         while (it.hasNext()) {
             final String next = it.next().trim();

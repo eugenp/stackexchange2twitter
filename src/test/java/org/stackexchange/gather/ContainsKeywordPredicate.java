@@ -2,7 +2,7 @@ package org.stackexchange.gather;
 
 import java.util.List;
 
-import org.classification.util.ClassificationSettings;
+import org.classification.util.TweetSettings;
 
 import com.google.api.client.util.Preconditions;
 import com.google.common.base.CharMatcher;
@@ -24,7 +24,7 @@ public class ContainsKeywordPredicate implements Predicate<String> {
     @Override
     public final boolean apply(final String input) {
         final String inputInternal = input.toLowerCase();
-        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(ClassificationSettings.TWEET_TOKENIZER + "#[]")).split(inputInternal));
+        final List<String> tweetTokens = Lists.newArrayList(Splitter.on(CharMatcher.anyOf(TweetSettings.TWEET_TOKENIZER + "#[]")).split(inputInternal));
         for (final String token : tweetTokens) {
             if (keywords.contains(token)) {
                 return true;

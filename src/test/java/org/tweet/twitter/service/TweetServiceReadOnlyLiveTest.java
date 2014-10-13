@@ -27,6 +27,9 @@ public class TweetServiceReadOnlyLiveTest {
     private TweetService instance;
 
     @Autowired
+    private AdvancedTweetService advancedTweetService;
+
+    @Autowired
     private TwitterReadLiveService twitterReadLiveService;
 
     // tests
@@ -48,7 +51,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario3_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(361230305383821312l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ipad.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ipad.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -56,7 +59,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario4_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(361259715596021760l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ipad.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ipad.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -64,7 +67,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario6_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(362449590617796608l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ios.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ios.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -72,7 +75,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario7_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(363035168212135937l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ios.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ios.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -80,7 +83,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario8_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(364362722223210497l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ios.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.ios.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -88,7 +91,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario9_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(365243842020114432l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.python.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.python.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -96,7 +99,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario10_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(365735944185319424l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.python.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.python.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -104,7 +107,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario11_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(333395066590736385l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.macbook.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.macbook.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -112,7 +115,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario12_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(366884798591021057l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -120,7 +123,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario13_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(352789708444663810l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -128,7 +131,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario15_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(379102287018213376l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -136,7 +139,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Test
     public final void givenTweetShouldNotBeRetweetedScenario16_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(388404682009640960l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.python.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.python.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }
@@ -147,7 +150,7 @@ public class TweetServiceReadOnlyLiveTest {
     @Ignore("non-technical - failing for now")
     public final void givenTweetFitsKeywordButIsNonTechnicalScenario01_whenChecking_thenNo() {
         final Tweet tweet = twitterReadLiveService.findOne(379689668885110784l);
-        final boolean should1 = instance.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
+        final boolean should1 = advancedTweetService.isTweetWorthRetweetingByRawTweet(tweet, TwitterTag.math.name());
         final boolean should2 = instance.isTweetWorthRetweetingByTextWithLink(TweetUtil.getText(tweet));
         assertFalse(should1 && should2);
     }

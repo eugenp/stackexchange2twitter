@@ -115,7 +115,7 @@ public final class TweetRssLiveService extends BaseTweetFromSourceLiveService<Rs
         final String cleanTweetText = tweetService.processPreValidity(textRaw);
 
         // post-process
-        String fullyCleanedTweetText = tweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
+        String fullyCleanedTweetText = advancedTweetService.postValidityProcessForTweetTextNoUrl(cleanTweetText, twitterAccount);
 
         // is it valid?
         if (!tweetService.isTweetTextValid(fullyCleanedTweetText)) {

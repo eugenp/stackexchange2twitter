@@ -1,7 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
-encoding//src/main/java/org/common/util/TextUtil.java=UTF-8
-encoding//src/main/java/org/tweet/twitter/util/TwitterUtil.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/classification=UTF-8
 encoding//src/main/resources/classification/jobs/jobs.classif=UTF-8
