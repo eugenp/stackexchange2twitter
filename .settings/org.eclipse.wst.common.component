@@ -7,6 +7,9 @@
         <dependent-module archiveName="stackexchange-0.6.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/java-stackexchange/java-stackexchange">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="tweet-value-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/tweet-value/tweet-value">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="stackexchange2twitter"/>
         <property name="java-output-path" value="/stackexchange2twitter/target/classes"/>
     </wb-module>
