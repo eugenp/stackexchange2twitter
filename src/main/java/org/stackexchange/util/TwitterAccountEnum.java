@@ -39,7 +39,7 @@ public enum TwitterAccountEnum {// @formatter:off
 
     DotNetFact(true),
 
-    FacebookDigest(true),
+    FacebookDigest(true), // abandoned
 
     GoogleDigest(true),
 
@@ -75,7 +75,7 @@ public enum TwitterAccountEnum {// @formatter:off
     ServerFaultBest(false),  // SO specific
     SpringTip(true),
 
-    thedogbreeds(true, false);
+    thedogbreeds(true, false); // abandoned
 
     private final boolean rt;
     private final boolean technical;

@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.stackexchange.util.TwitterAccountEnum;
-import org.stackexchange.util.TwitterTag;
+import org.springframework.stereotype.Component;
 import org.tweet.meta.service.FollowLiveService;
 import org.tweet.spring.util.SpringProfileUtil;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-// @Component
+@Component
 @Profile(SpringProfileUtil.WRITE_PRODUCTION)
 public class NonTechnicalFollowMetaScheduler {
     private static final String MODE_MAINTAINANCE_KEY = "mode.maintainance.rt";
@@ -43,8 +42,7 @@ public class NonTechnicalFollowMetaScheduler {
             return;
         }
 
-        // 1
-        service.followBestUser(TwitterAccountEnum.thedogbreeds.name(), TwitterTag.puppy.name());
+        // service.followBestUser(TwitterAccountEnum.thedogbreeds.name(), TwitterTag.puppy.name());
 
         logger.info("Finished new retweet schedule - five (non-tech)");
     }
