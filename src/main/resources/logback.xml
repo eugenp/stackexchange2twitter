@@ -14,16 +14,6 @@
 		</encoder>
 	</appender>
 
-	<!-- http://loggly.com/support/sending-data/logging-from/application-logs/java/ -->
-	<!-- https://github.com/chids/logback-loggly-appender -->
-	<!-- https://baeldung.loggly.com/inputs/49074 -->
-	<!-- <appender name="REMOTESYSLOG" class="ch.qos.logback.classic.net.SyslogAppender"> -->
-	<!-- <syslogHost>logs.loggly.com</syslogHost> -->
-	<!-- <port>12345</port> -->
-	<!-- <facility>LOCAL1</facility> -->
-	<!-- <suffixPattern>[%thread] %logger %msg</suffixPattern> -->
-	<!-- </appender> -->
-
 	<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>ERROR</level>
@@ -32,8 +22,8 @@
 		<username>AKIAJIKXZAQFFJDXI4VQ</username>
 		<password>AjYQNjXVTalbpfRL37RYqyXEkyQAvmKFcUFQllfAsBLh</password>
 		<SSL>true</SSL>
-		<to>hanriseldon@gmail.com</to>
-		<from>hanriseldon@gmail.com</from>
+		<to>javatotwitter@gmail.com</to>
+		<from>javatotwitter@gmail.com</from>
 		<subject>stackexchange: %logger{20} - %m</subject>
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<pattern>stackexchange - %date [%thread] %-5level %logger{36} - %message%n</pattern>
@@ -55,8 +45,7 @@
 	<root level="WARN">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
-		<!-- <appender-ref ref="EMAIL" /> -->
-		<!-- <appender-ref ref="REMOTESYSLOG" /> -->
+		<appender-ref ref="EMAIL" />
 	</root>
 
 </configuration>
