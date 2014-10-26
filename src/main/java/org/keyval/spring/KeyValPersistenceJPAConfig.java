@@ -15,8 +15,8 @@ import org.tweet.spring.util.SpringProfileUtil;
 @Profile(SpringProfileUtil.PERSISTENCE)
 public class KeyValPersistenceJPAConfig {
 
-	public KeyValPersistenceJPAConfig() {
-		super();
-	}
+    public KeyValPersistenceJPAConfig() {
+        super();
+    }
 
 }
