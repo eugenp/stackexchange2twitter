@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.social.twitter.api.TwitterProfile;
@@ -24,7 +26,7 @@ import com.google.common.primitives.Floats;
 @Service
 @Profile(SpringProfileUtil.WRITE)
 public class FollowLiveService {
-    // private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserLiveService userLiveService;
@@ -45,6 +47,11 @@ public class FollowLiveService {
         for (final TwitterProfile twitterProfile : newAccountsToFollowWithoutMyself) {
             final TwitterInteractionWithValue interactionWithAuthor = interactionLiveService.determineBestInteractionWithAuthorLive(twitterProfile, twitterProfile.getScreenName(), TwitterAccountEnum.ScalaFact.name());
             interactionValues.add(new ImmutablePair<String, TwitterInteractionWithValue>(twitterProfile.getScreenName(), interactionWithAuthor));
+        }
+
+        if (interactionValues.isEmpty()) {
+            logger.warn("Found no user to follow for account= {} and keyword= {}", myAccount, keyword);
+            return;
         }
 
         class OrderingByValue extends Ordering<Pair<String, TwitterInteractionWithValue>> {
