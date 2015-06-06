@@ -45,12 +45,10 @@ public class TweetMetaScheduler {
         }
 
         // large accounts - 8
+        service.retweetAnyByHashtag(TwitterAccountEnum.ScalaFact.name());
+
         service.retweetAnyByHashtag(TwitterAccountEnum.ThinkJavaScript.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.ClojureFact.name());
-
-        service.retweetAnyByWord(TwitterAccountEnum.ScalaFact.name(), TwitterTag.scala.name()); // newly moved to by word (11.11)
-        service.retweetAnyByHashtag(TwitterAccountEnum.ScalaFact.name(), TwitterTag.akka.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.ScalaFact.name());
 
         service.retweetAnyByHashtag(TwitterAccountEnum.JavaFact.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.PythonDaily.name());
@@ -85,8 +83,6 @@ public class TweetMetaScheduler {
 
         logger.info("Finished new retweet schedule - medium accounts");
     }
-
-    // TODO: SORT
 
     @Scheduled(cron = "0 10 9,13,17,21,1,5 * * *")
     public void processSmallAccounts1() throws JsonProcessingException, IOException {
@@ -128,20 +124,13 @@ public class TweetMetaScheduler {
             return;
         }
 
-        // 16
+        // 9
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
         service.retweetAnyByWord(TwitterAccountEnum.AndroidFact.name(), TwitterTag.android.name()); // already 2
         service.retweetAnyByWord(TwitterAccountEnum.PerlDaily.name()); // (26.10) before moving to byWord, I was getting emails about to few = 5
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.aws.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.facebook.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html5.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.ec2.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name(), TwitterTag.opengraph.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.FacebookDigest.name());
-        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name());
         service.retweetAnyByHashtag(TwitterAccountEnum.MathDaily.name());
         service.retweetAnyByWord(TwitterAccountEnum.BestJPA.name()); // new
         service.retweetAnyByHashtag(TwitterAccountEnum.PerformanceTip.name()); // new
@@ -149,6 +138,53 @@ public class TweetMetaScheduler {
         logger.info("Finished new retweet schedule - small accounts 2");
     }
 
+    // repeated
+
+    @Scheduled(cron = "0 50 3,7,11,15,19,23 * * *")
+    public void processAccountsRepeated1() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - repeated 1");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // large account
+        service.retweetAnyByHashtag(TwitterAccountEnum.ScalaFact.name(), TwitterTag.akka.name());
+
+        // medium account
+
+        // small account
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.ec2.name());
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html.name());
+
+        logger.info("Finished new retweet schedule - repeated 1");
+    }
+
+    @Scheduled(cron = "0 50 1,5,9,13,17,21 * * *")
+    public void processAccountsRepeated2() throws JsonProcessingException, IOException {
+        logger.info("Starting new retweet schedule - repeated 2");
+
+        if (env.getProperty(MODE_MAINTAINANCE_KEY, Boolean.class)) {
+            logger.warn("Maintainance Mode Active - skipping schedule");
+            return;
+        }
+
+        // large account
+        service.retweetAnyByWord(TwitterAccountEnum.ScalaFact.name(), TwitterTag.scala.name()); // newly moved to by word (11.11)
+
+        // medium account
+
+        // small account
+        service.retweetAnyByHashtag(TwitterAccountEnum.BestAWS.name(), TwitterTag.aws.name());
+
+        service.retweetAnyByHashtag(TwitterAccountEnum.HTMLdaily.name(), TwitterTag.html5.name());
+
+        logger.info("Finished new retweet schedule - repeated 2");
+    }
+
     // for accounts - not yet: EclipseFacts,MavenFact,BestOfRuby,ServerFaultBest,JavaTopSO,RESTDaily,BestOfCocoa
+    // abandoned: FacebookDigest
 
 }

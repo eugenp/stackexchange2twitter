@@ -58,4 +58,9 @@ public class FollowLiveServiceLiveTest {
         followLiveService.followBestUser(TwitterAccountEnum.BestGit.name(), "git programming");
     }
 
+    @Test
+    public final void whenFollowingBestUser3_thenNoExceptions() {
+        followLiveService.followBestUser(TwitterAccountEnum.MathDaily.name(), "math");
+    }
+
 }

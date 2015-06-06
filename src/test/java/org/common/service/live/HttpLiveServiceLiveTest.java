@@ -176,14 +176,14 @@ public class HttpLiveServiceLiveTest {
     }
 
     @Test
-    public final void givenInvalidUrl5_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+    public final void givenInvalidUrl3_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expand("http://t.co/nNijkvaccI");
         assertNull(unshortenedUrl);
     }
 
     // very weird ULR that basically - at some point - returns a 302 with a weird text Location header (not a valid URL)
     @Test(expected = RuntimeException.class)
-    public final void givenInvalidUrl6_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+    public final void givenInvalidUrl4_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expandInternal("http://t.co/7toHstWGql");
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
@@ -192,8 +192,16 @@ public class HttpLiveServiceLiveTest {
 
     // very weird ULR that basically - at some point - returns a 302 with a weird text Location header (not a valid URL)
     @Test(expected = RuntimeException.class)
-    public final void givenInvalidUrl7_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+    public final void givenInvalidUrl5_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
         final String unshortenedUrl = httpService.expandInternal("http://t.co/gCJDikXZsl");
+        System.out.println(unshortenedUrl);
+        assertNotNull(unshortenedUrl);
+        assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public final void givenInvalidUrl6_whenUnshortening_thenNotOK() throws ClientProtocolException, IOException {
+        final String unshortenedUrl = httpService.expand("http://goo.gl/GYq#WPj");
         System.out.println(unshortenedUrl);
         assertNotNull(unshortenedUrl);
         assertFalse(linkService.isKnownShortenedUrl(unshortenedUrl));
