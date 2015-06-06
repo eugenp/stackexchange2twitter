@@ -38,7 +38,7 @@ public class FollowLiveService {
         final List<TwitterProfile> usersByKeyword = userLiveService.searchForUsers(keyword);
         final Set<Long> alreadyFollowedAccounts = userLiveService.getIdsOfAccountsFollowedByMyAccount(myAccount);
         final Iterable<TwitterProfile> newAccountsToFollow = Iterables.filter(usersByKeyword, Predicates.not(new AlreadyFollowedByPredicate(alreadyFollowedAccounts)));
-        final Iterable<TwitterProfile> newAccountsToFollowWithoutMyself = Iterables.filter(usersByKeyword, Predicates.not(new IsMyselfPredicate(myAccount)));
+        final Iterable<TwitterProfile> newAccountsToFollowWithoutMyself = Iterables.filter(newAccountsToFollow, Predicates.not(new IsMyselfPredicate(myAccount)));
 
         final List<Pair<String, TwitterInteractionWithValue>> interactionValues = Lists.newArrayList();
 
