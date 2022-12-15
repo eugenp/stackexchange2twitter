@@ -13,7 +13,12 @@
 		<module>java-stackexchange</module>
 		<module>java-stackexchange2twitter</module>
 		<module>tweet-value</module>
-
 	</modules>
+
+	<issueManagement>
+		<url>https://github.com/eugenp/stackexchange2twitter/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+
 
 </project>
