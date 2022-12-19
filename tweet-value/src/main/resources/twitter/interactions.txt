@@ -1,0 +1,14 @@
+
+
+1. Deserves Freshness
+
+- call to join event
+DON'T MISS: Join @russmiles for a talk on #Clojure #Lisp & #Simplicity on THURSDAY @skillsmatter: http://ow.ly/nCZ5o  #london
+
+- possible signals: `don't miss`, `talk`, `@skillsmatter`, location (#london)
+
+
+
+2. Types of pre/post fixes: 
+Useful stuff.
+Very cool. 
