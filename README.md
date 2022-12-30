@@ -28,3 +28,4 @@
 
 ### Relevant Articles:
 - [Tweeting StackExchange Questions with Spring Social](http://www.baeldung.com/2013/02/25/tweeting-stackexchange-with-spring-social-part-1/)
+- [Spring Social Twitter Setup](https://www.baeldung.com/spring-social-twitter-setup)
